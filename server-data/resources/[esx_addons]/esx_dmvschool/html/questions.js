@@ -1,24 +1,24 @@
 var tableauQuestion = [
 	{
-		question: "If you're going 80 km/h, and you're approaching a residential area you must:",
-		propositionA: "You accelerate",
-		propositionB: "You keep your speed, if you do not pass other vehicles",
-		propositionC: "You slow down",
-		propositionD: "You keep your speed",
+		question: "Se stai andando a 80 km/h, e ti stai avvicinando a una zona residenziale devi::",
+		propositionA: "Accellerare",
+		propositionB: "Mantieni la velocità, se non sorpassi altri veicoli",
+		propositionC: "Ralenti",
+		propositionD: "Mantieni la velocità",
 		reponse: "C"
 	},
 
 	{
-		question: "If you're turning right at a traffic light, but see a pedestrian crossing what do you do:",
-		propositionA: "You pass the pedestrian",
-		propositionB: "You check that there is no other vehicles around",
-		propositionC: "You wait until the pedestrian has crossed",
-		propositionD: "You shoot the pedestrian and continue to drive",
+		question: "Se al semaforo stai svoltaando a destra, ma vedi un pedone cosa fai:",
+		propositionA: "Superi il pedone",
+		propositionB: "Controlli che non ci siano altri veicoli in giro",
+		propositionC: "Aspetti che il pedone abbia attraversato",
+		propositionD: "Spari al pedone e continui a guidare",
 		reponse: "C"
 	},
 
 	{
-		question: "Without any prior indication, the speed in a residential area is: __ km/h",
+		question: "Senza alcuna indicazione preventiva, la velocità in una zona residenziale è: __ km/h",
 		propositionA: "30 km/h",
 		propositionB: "50 km/h",
 		propositionC: "40 km/h",
@@ -27,16 +27,16 @@ var tableauQuestion = [
 	},
 
 	{
-		question: "Before every lane change you must:",
-		propositionA: "Check your mirrors",
-		propositionB: "Check your blind spots",
-		propositionC: "Signal your intentions",
-		propositionD: "All of the above",
+		question: "Prima di ogni cambio si corsia devi:",
+		propositionA: "Controllare gli specchietti",
+		propositionB: "Controllare i punti ciechi",
+		propositionC: "Segnalare le tue intenzioni",
+		propositionD: "Tutte le risposte sono esatte",
 		reponse: "D"
 	},
 
 	{
-		question: "What blood alcohol level is classified as driving while intoxicated?",
+		question: "Quale livello di alcol nel sangue è classificato come guida in stato di ebbrezza?",
 		propositionA: "0.05%",
 		propositionB: "0.18%",
 		propositionC: "0.08%",
@@ -45,34 +45,34 @@ var tableauQuestion = [
 	},
 
 	{
-		question: "When can you continue to drive at a traffic light?",
-		propositionA: "When it is green",
-		propositionB: "When there is nobody in the intersection",
-		propositionC: "You are in a school zone",
-		propositionD: "When it is green and / or red and you're turning right",
+		question: "Quando puoi continuare a guidare a un semaforo?",
+		propositionA: "Quando è verde",
+		propositionB: "Quando non c'è nessuno all'incrocio",
+		propositionC: "Quando sei in una zona scolastca",
+		propositionD: "Quando è verde e/o rosso e stai girando a destra",
 		reponse: "D"
 	},
 
 	{
-		question: "A pedestrian has a do not cross signal, what do you do?",
-		propositionA: "You let them pass",
-		propositionB: "You observe before continuing",
-		propositionC: "You wave to tell them to cross",
-		propositionD: "You continue because your traffic light is green",
+		question: "Un pedone ha un segnale di non attraversare, cosa fai?",
+		propositionA: "Li lasci passare",
+		propositionB: "Osservi prima di continuare",
+		propositionC: "Fai la mano per dire loro di attraversare",
+		propositionD: "Continui perchè il tuo semaforo è verde",
 		reponse: "D"
 	},
 
 	{
-		question: "What is allowed when passing another vehicle",
-		propositionA: "You follow it closely to pass it faster",
-		propositionB: "You pass it without leaving the roadway",
-		propositionC: "You drive on the opposite side of the road to pass",
-		propositionD: "You exceed the speed limit to pass them",
+		question: "Cosa è consentito quando si supera un'altro veicolo",
+		propositionA: "Lo segui da vicino per superarlo velocemente",
+		propositionB: "Lo passi senza lasciare la carreggiata",
+		propositionC: "Si guida sul lato opposto della strada per passare",
+		propositionD: "Si supera il limite di velocità per superarli",
 		reponse: "C"
 	},
 
 	{
-		question: "You are driving on a highway which indicates a maximum speed of 120 km/h. But most trafficers drive at 125 km/h, so you should not drive faster than:",
+		question: "Stai guidando su un'autostrada che indica una velocità massima di 120 km/h. Ma la maggior parte dei trafficanti guida a 125 km/h, quindi non dovresti guidare più veloce di:",
 		propositionA: "120 km/h",
 		propositionB: "125 km/h",
 		propositionC: "130 km/h",
@@ -81,11 +81,11 @@ var tableauQuestion = [
 	},
 
 	{
-		question: "When you are overtaken by another vehicle it is important NOT to:",
-		propositionA: "Slow Down",
-		propositionB: "Check your mirrors",
-		propositionC: "Watch other drivers",
-		propositionD: "Increase your speed",
+		question: "Quando vieni sorpassato da un altro veicolo è importane NON:",
+		propositionA: "Rallentare",
+		propositionB: "Controllare gli specchietti",
+		propositionC: "Guardare gli altri automobilisti",
+		propositionD: "Aumentare la tua velocità",
 		reponse: "D"
 	},
 ]
