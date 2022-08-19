@@ -1,4 +1,4 @@
 Config = {}
-Config.Locale = 'en'
+Config.Locale = 'it'
 
 Config.ToggleKey = "CAPITAL"
