@@ -7,7 +7,7 @@
 
 ### Features
 
-- Jobs: slaughterer, miner, fisherman, journalist, fueler, tailor
+- Jobs: slaughterer, miner, fisherman, journalist, fueler
 - Security deposit when renting a job vehicle (given back in case of crash, to the amount of damage the vehicle has already taken)
 - Easy system to create jobs (samples in jobs folder)
 - Item farming jobs
