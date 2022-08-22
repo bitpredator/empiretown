@@ -91,6 +91,30 @@ return {
 		consume = 0
 	},
 
+	['cotton'] = {
+		label = 'cotone',
+		weight = 50,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['cloth'] = {
+		label = 'stoffa',
+		weight = 50,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['clothes'] = {
+		label = 'abiti',
+		weight = 50,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
 	['identification'] = {
 		label = 'Identification',
 	},
