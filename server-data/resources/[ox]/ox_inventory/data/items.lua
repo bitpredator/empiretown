@@ -93,7 +93,7 @@ return {
 
 	['cotton'] = {
 		label = 'cotone',
-		weight = 50,
+		weight = 500,
 		stack = true,
 		close = false,
 		consume = 0
@@ -109,6 +109,14 @@ return {
 
 	['clothes'] = {
 		label = 'abiti',
+		weight = 50,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['cottonforbandages'] = {
+		label = 'cotone per bende',
 		weight = 50,
 		stack = true,
 		close = false,
