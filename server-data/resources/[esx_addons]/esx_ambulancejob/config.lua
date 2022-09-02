@@ -19,7 +19,7 @@ Config.DistressBlip = {
 Config.EarlyRespawnTimer          = 60000 * 1  -- time til respawn is available
 Config.BleedoutTimer              = 60000 * 10 -- time til the player bleeds out
 
-Config.EnablePlayerManagement     = false -- Enable society managing (If you are using esx_society).
+Config.EnablePlayerManagement     = true -- Enable society managing (If you are using esx_society).
 
 Config.RemoveWeaponsAfterRPDeath  = true
 Config.RemoveCashAfterRPDeath     = true
