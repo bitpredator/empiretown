@@ -6954,9 +6954,9 @@
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_DOOR_LOCK_STATUS">
             <summary>
-            enum VehicleLockStatus = {
+            ```lua
+            enum_VehicleLockStatus = {
                 None = 0,
-                Unlocked = 1,
                 Locked = 2,
                 LockedForPlayer = 3,
                 StickPlayerInside = 4, -- Doesn't allow players to exit the vehicle with the exit vehicle key.
@@ -6964,6 +6964,11 @@
                 CanBeBrokenIntoPersist = 8, -- Can be broken into persist
                 CannotBeTriedToEnter = 10, -- Cannot be tried to enter (Nothing happens when you press the vehicle enter key).
             }
+            ```
+            
+            It should be [noted](https://forum.cfx.re/t/4863241) that while the [client-side command](#\_0x25BC98A59C2EA962) and its
+            setter distinguish between states 0 (unset) and 1 (unlocked), the game will synchronize both as state 0, so the server-side
+            command will return only '0' if unlocked.
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_FLIGHT_NOZZLE_POSITION">
@@ -9133,7 +9138,7 @@
             The key to fetch
             </param>
             <returns>
-            A float that contains the value stored in the Kvp or nil/null if none.
+            The floating-point value stored under the specified key, or 0.0 if not found.
             </returns>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetResourceKvpInt(System.String)">
@@ -9144,7 +9149,7 @@
             The key to fetch
             </param>
             <returns>
-            A int that contains the value stored in the Kvp or nil/null if none.
+            The integer value stored under the specified key, or 0 if not found.
             </returns>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetResourceKvpString(System.String)">
@@ -9155,7 +9160,7 @@
             The key to fetch
             </param>
             <returns>
-            A string that contains the value stored in the Kvp or nil/null if none.
+            The string value stored under the specified key, or nil/null if not found.
             </returns>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetResourceMetadata(System.String,System.String,System.Int32)">
@@ -9216,9 +9221,9 @@
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetVehicleDoorLockStatus(System.Int32)">
             <summary>
-            enum VehicleLockStatus = {
+            ```lua
+            enum_VehicleLockStatus = {
             None = 0,
-            Unlocked = 1,
             Locked = 2,
             LockedForPlayer = 3,
             StickPlayerInside = 4, -- Doesn't allow players to exit the vehicle with the exit vehicle key.
@@ -9226,7 +9231,17 @@
             CanBeBrokenIntoPersist = 8, -- Can be broken into persist
             CannotBeTriedToEnter = 10, -- Cannot be tried to enter (Nothing happens when you press the vehicle enter key).
             }
+            ```
+            It should be [noted](https://forum.cfx.re/t/4863241) that while the [client-side command](#\_0x25BC98A59C2EA962) and its
+            setter distinguish between states 0 (unset) and 1 (unlocked), the game will synchronize both as state 0, so the server-side
+            command will return only '0' if unlocked.
             </summary>
+            <param name="vehicle">
+            A vehicle handle.
+            </param>
+            <returns>
+            The door lock status for the specified vehicle.
+            </returns>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetVehicleDoorsLockedForPlayer(System.Int32)">
             <summary>
