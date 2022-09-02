@@ -125,10 +125,8 @@ RegisterNetEvent('esx:setMaxWeight')
 AddEventHandler('esx:setMaxWeight', function(newMaxWeight) ESX.PlayerData.maxWeight = newMaxWeight end)
 
 local function onPlayerSpawn()
-	if ESX.PlayerLoaded then
 		ESX.SetPlayerData('ped', PlayerPedId())
 		ESX.SetPlayerData('dead', false)
-	end
 end
 
 AddEventHandler('playerSpawned', onPlayerSpawn)
