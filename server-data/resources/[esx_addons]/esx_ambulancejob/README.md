@@ -7,22 +7,44 @@ ESX Ambulance Job is an plugin for ESX with features:
 
 ## Requirements
 
-`Required`:
+* Auto mode
+   - [esx_skin](https://github.com/ESX-Org/esx_skin)
+   - [esx_vehicleshop](https://github.com/ESX-Org/esx_vehicleshop)
 
-- [esx_skin](https://github.com/esx-framework/esx-legacy/tree/main/%5Besx%5D/esx_skin)
-- [esx_vehicleshop](https://github.com/esx-framework/esx-legacy/tree/main/%5Besx_addons%5D/esx_vehicleshop)
+* Player management (boss actions)
+   - [esx_society](https://github.com/ESX-Org/esx_society)
 
-`Optional`:
+## Download & Installation
 
-- [esx_society](https://github.com/esx-framework/esx-legacy/tree/main/%5Besx_addons%5D/esx_society)
+### Using [fvm](https://github.com/qlaffont/fvm-installer)
+```
+fvm install --save --folder=esx esx-org/esx_ambulancejob
+```
 
-## Legal
+### Using Git
+```
+cd resources
+git clone https://github.com/ESX-Org/esx_ambulancejob [esx]/esx_ambulancejob
+```
 
+### Manually
+- Download https://github.com/ESX-Org/esx_ambulancejob/archive/master.zip
+- Put it in the `[esx]` directory
+
+## Installation
+- Import `esx_ambulancejob.sql` in your database
+- If you want player management you have to set `Config.EnablePlayerManagement` to `true` in `config.lua`
+- Add this in your `server.cfg`:
+
+```
+start esx_ambulancejob
+```
+
+# Legal
 ### License
-
 esx_ambulancejob - ambulance script for fivem
 
-Copyright (C) 2015-2022 Jérémie N'gadi
+Copyright (C) 2015-2020 Jérémie N'gadi
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 

@@ -13,7 +13,7 @@ function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
 	}}, function(data, menu)
 		if data.current.action == 'buy_vehicle' then
 			local shopElements = {}
-			local authorizedVehicles = Config.AuthorizedVehicles[type][ESX.PlayerData.job.grade_name] 	
+			local authorizedVehicles = Config.AuthorizedVehicles[type][ESX.PlayerData.job.grade_name]
 			local shopCoords = Config.Hospitals[hospital][part][partNum].InsideShop
 
 			if #authorizedVehicles > 0 then
@@ -109,17 +109,17 @@ function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
 end
 
 function StoreNearbyVehicle(playerCoords)
-	local vehicles, plates, index = ESX.Game.GetVehiclesInArea(playerCoords, 30.0), {}, {}
+	local vehicles, vehiclePlates = ESX.Game.GetVehiclesInArea(playerCoords, 30.0), {}
 
-	if next(vehicles) then
-		for i = 1, #vehicles do
-			local vehicle = vehicles[i]
-			
-			-- Make sure the vehicle we're saving is empty, or else it won't be deleted
-			if GetVehicleNumberOfPassengers(vehicle) == 0 and IsVehicleSeatFree(vehicle, -1) then
-				local plate = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle))
-				plates[#plates + 1] = plate
-				index[plate] = vehicle
+	if #vehicles > 0 then
+		for k,v in ipairs(vehicles) do
+
+			-- Make sure the vehicle we're saving is empty, or else it wont be deleted
+			if GetVehicleNumberOfPassengers(v) == 0 and IsVehicleSeatFree(v, -1) then
+				table.insert(vehiclePlates, {
+					vehicle = v,
+					plate = ESX.Math.Trim(GetVehicleNumberPlateText(v))
+				})
 			end
 		end
 	else
@@ -127,28 +127,23 @@ function StoreNearbyVehicle(playerCoords)
 		return
 	end
 
-	ESX.TriggerServerCallback('esx_ambulancejob:storeNearbyVehicle', function(plate)
-		if plate then
-			local vehicleId = index[plate]
+	ESX.TriggerServerCallback('esx_ambulancejob:storeNearbyVehicle', function(storeSuccess, foundNum)
+		if storeSuccess then
+			local vehicleId = vehiclePlates[foundNum]
 			local attempts = 0
-			ESX.Game.DeleteVehicle(vehicleId)
+			ESX.Game.DeleteVehicle(vehicleId.vehicle)
 			isBusy = true
 
-			CreateThread(function()
-				BeginTextCommandBusyspinnerOn('STRING')
-				AddTextComponentSubstringPlayerName(_U('garage_storing'))
-				EndTextCommandBusyspinnerOn(4)
-
+			Citizen.CreateThread(function()
 				while isBusy do
-					Wait(100)
+					Citizen.Wait(0)
+					drawLoadingText(_U('garage_storing'), 255, 255, 255, 255)
 				end
-
-				BusyspinnerOff()
 			end)
 
 			-- Workaround for vehicle not deleting when other players are near it.
-			while DoesEntityExist(vehicleId) do
-				Wait(500)
+			while DoesEntityExist(vehicleId.vehicle) do
+				Citizen.Wait(500)
 				attempts = attempts + 1
 
 				-- Give up
@@ -158,10 +153,9 @@ function StoreNearbyVehicle(playerCoords)
 
 				vehicles = ESX.Game.GetVehiclesInArea(playerCoords, 30.0)
 				if #vehicles > 0 then
-					for i = 1, #vehicles do
-						local vehicle = vehicles[i]
-						if ESX.Math.Trim(GetVehicleNumberPlateText(vehicle)) == plate then
-							ESX.Game.DeleteVehicle(vehicle)
+					for k,v in ipairs(vehicles) do
+						if ESX.Math.Trim(GetVehicleNumberPlateText(v)) == vehicleId.plate then
+							ESX.Game.DeleteVehicle(v)
 							break
 						end
 					end
@@ -173,7 +167,7 @@ function StoreNearbyVehicle(playerCoords)
 		else
 			ESX.ShowNotification(_U('garage_has_notstored'))
 		end
-	end, plates)
+	end, vehiclePlates)
 end
 
 function GetAvailableVehicleSpawnPoint(hospital, part, partNum)
@@ -278,16 +272,16 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 	end)
 end
 
-CreateThread(function()
+Citizen.CreateThread(function()
 	while true do
-		sleep = 1500
+		Citizen.Wait(0)
 
 		if isInShopMenu then
-			sleep = 0
 			DisableControlAction(0, 75, true)  -- Disable exit vehicle
 			DisableControlAction(27, 75, true) -- Disable exit vehicle
+		else
+			Citizen.Wait(500)
 		end
-		Wait(sleep)
 	end
 end)
 
@@ -300,7 +294,7 @@ function DeleteSpawnedVehicles()
 end
 
 function WaitForVehicleToLoad(modelHash)
-	modelHash = (type(modelHash) == 'number' and modelHash or joaat(modelHash))
+	modelHash = (type(modelHash) == 'number' and modelHash or GetHashKey(modelHash))
 
 	if not HasModelLoaded(modelHash) then
 		RequestModel(modelHash)
@@ -310,7 +304,7 @@ function WaitForVehicleToLoad(modelHash)
 		EndTextCommandBusyspinnerOn(4)
 
 		while not HasModelLoaded(modelHash) do
-			Wait(0)
+			Citizen.Wait(0)
 			DisableAllControlActions(0)
 		end
 
