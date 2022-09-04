@@ -302,55 +302,6 @@ ESX.RegisterServerCallback('esx_policejob:removeArmoryWeapon', function(source, 
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_policejob:buyWeapon', function(source, cb, weaponName, type, componentNum)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	local authorizedWeapons, selectedWeapon = Config.AuthorizedWeapons[xPlayer.job.grade_name]
-
-	for k,v in ipairs(authorizedWeapons) do
-		if v.weapon == weaponName then
-			selectedWeapon = v
-			break
-		end
-	end
-
-	if not selectedWeapon then
-		print(('esx_policejob: %s attempted to buy an invalid weapon.'):format(xPlayer.identifier))
-		cb(false)
-	else
-		-- Weapon
-		if type == 1 then
-			if xPlayer.getMoney() >= selectedWeapon.price then
-				xPlayer.removeMoney(selectedWeapon.price)
-				xPlayer.addWeapon(weaponName, 100)
-
-				cb(true)
-			else
-				cb(false)
-			end
-
-		-- Weapon Component
-		elseif type == 2 then
-			local price = selectedWeapon.components[componentNum]
-			local weaponNum, weapon = ESX.GetWeapon(weaponName)
-			local component = weapon.components[componentNum]
-
-			if component then
-				if xPlayer.getMoney() >= price then
-					xPlayer.removeMoney(price)
-					xPlayer.addWeaponComponent(weaponName, component.name)
-
-					cb(true)
-				else
-					cb(false)
-				end
-			else
-				print(('esx_policejob: %s attempted to buy an invalid weapon component.'):format(xPlayer.identifier))
-				cb(false)
-			end
-		end
-	end
-end)
-
 ESX.RegisterServerCallback('esx_policejob:buyJobVehicle', function(source, cb, vehicleProps, type)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local price = getPriceFromHash(vehicleProps.model, xPlayer.job.grade_name, type)
