@@ -106,7 +106,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer, isNew, skin)
 				if #DisabledComps > 0 then
 					Sleep = false
 					for i=1, #(DisabledComps) do
-								HideHudComponentThisFrame(i)
+					 HideHudComponentThisFrame(DisabledComps[i])
 					end
 				end
 				
@@ -325,7 +325,7 @@ AddEventHandler('esx:spawnVehicle', function(vehicle)
 						SetVehicleMod(vehicle, 16, 4, false) -- modArmor
 						ToggleVehicleMod(vehicle, 18, true) -- modTurbo
 						SetVehicleTurboPressure(vehicle, 100.0)
-						SetVehicleNumberPlateText(vehicle, "ESX KISS")
+						SetVehicleNumberPlateText(vehicle, "BPT EMP")
 						SetVehicleNumberPlateTextIndex(vehicle, 1)
 						SetVehicleNitroEnabled(vehicle, true)
 
