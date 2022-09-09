@@ -361,7 +361,7 @@ CreateThread(function()
 				ESX.ShowHelpNotification(v.Hint)
 				hintIsShowed = true
 				if IsControlJustReleased(0, 38) then
-					ESX.Game.Teleport(PlayerPedId(), position)
+					ESX.Game.Teleport(PlayerPedId(), v.Teleport)
 				end
 			end
 		end
@@ -495,6 +495,9 @@ if Config.RequestIPL then
 		RequestIpl("CS1_02_cf_onmission2")
 		RequestIpl("CS1_02_cf_onmission3")
 		RequestIpl("CS1_02_cf_onmission4")
+		-- Tailor
+		RequestIpl("id2_14_during_door")
+		RequestIpl("id2_14_during1")
 	end)
 end
 if ESX.PlayerLoaded then refreshBlips() end
