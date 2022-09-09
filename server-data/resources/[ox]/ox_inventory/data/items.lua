@@ -101,7 +101,15 @@ return {
 
 	['cloth'] = {
 		label = 'stoffa',
-		weight = 50,
+		weight = 5,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['stone'] = {
+		label = 'pietra grezza',
+		weight = 10,
 		stack = true,
 		close = false,
 		consume = 0
