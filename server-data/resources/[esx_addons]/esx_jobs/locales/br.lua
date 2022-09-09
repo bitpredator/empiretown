@@ -64,27 +64,6 @@ Locales['br'] = {
   ['f_deliver_gas'] = 'entregar Gasolina',
   ['f_deliver_gas_button'] = 'pressione ~INPUT_PICKUP~ para entregar a gasolina.',
 
-  -- Miner
-  ['m_miner_locker'] = 'vestiario Minerador',
-  ['m_rock'] = 'pedregulho',
-  ['m_pickrocks'] = 'pressione ~INPUT_PICKUP~ para obter pedras.',
-  ['m_washrock'] = 'pedras limpas ',
-  ['m_rock_button'] = 'pressione ~INPUT_PICKUP~ para lavar as pedras.',
-  ['m_rock_smelting'] = 'fundição',
-  ['m_copper'] = 'cobre',
-  ['m_sell_copper'] = 'vender cobre',
-  ['m_deliver_copper'] = 'pressione ~INPUT_PICKUP~ para entregar cobre.',
-  ['m_iron'] = 'ferro',
-  ['m_sell_iron'] = 'vender ferro',
-  ['m_deliver_iron'] = 'pressione ~INPUT_PICKUP~ para entregar ferro.',
-  ['m_gold'] = 'ouro',
-  ['m_sell_gold'] = 'vender ouro',
-  ['m_deliver_gold'] = 'pressione ~INPUT_PICKUP~ para entregar ouro.',
-  ['m_diamond'] = 'diamante',
-  ['m_sell_diamond'] = 'vender diamante',
-  ['m_deliver_diamond'] = 'pressione ~INPUT_PICKUP~ para entregar diamantes.',
-  ['m_melt_button'] = 'pressione ~INPUT_PICKUP~ para derreter as pedras.',
-
   -- Reporter
   ['reporter_name'] = 'globo News',
   ['reporter_garage'] = 'pressione ~INPUT_PICKUP~ para descer à garagem.',

@@ -68,27 +68,6 @@ Locales['si'] = {
   ['f_deliver_gas'] = 'dostavi plin',
   ['f_deliver_gas_button'] = 'pritisnite [E] za dostavo bencina.',
 
-  -- rudar
-  ['m_miner_locker'] = 'rudarjeva garderoba',
-  ['m_rock'] = 'kamen',
-  ['m_pickrocks'] = 'pritisnite [E] za dostavo kamenja.',
-  ['m_washrock'] = 'pranje kamenja',
-  ['m_rock_button'] = 'pritisnite [E], da operete skale.',
-  ['m_rock_smelting'] = 'taljenje kamenja',
-  ['m_copper'] = 'baker',
-  ['m_sell_copper'] = 'prodajalec bakra',
-  ['m_deliver_copper'] = 'pritisnite [E] za dostavo bakra.',
-  ['m_iron'] = 'železo',
-  ['m_sell_iron'] = 'prodajalec železa',
-  ['m_deliver_iron'] = 'pritisnite [E], da dostavite železo',
-  ['m_gold'] = 'zlato',
-  ['m_sell_gold'] = 'prodajalec zlata',
-  ['m_deliver_gold'] = 'pritisnite [E] za dostavo zlata',
-  ['m_diamond'] = 'diamant',
-  ['m_sell_diamond'] = 'prodajalec diamantov',
-  ['m_deliver_diamond'] = 'pritisnite [E] za dostavo diamantov',
-  ['m_melt_button'] = 'pritisnite [E] za taljenje kamnov.',
-
   -- Reporter
   ['ime_poročevalca'] = 'san Andreas Times',
   ['reporter_garage'] = 'pritisnite [E], da se spustite v garažo.',

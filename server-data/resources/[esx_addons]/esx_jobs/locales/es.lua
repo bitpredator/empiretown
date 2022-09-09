@@ -64,27 +64,6 @@ Locales['es'] = {
   ['f_deliver_gas'] = 'entregar gas',
   ['f_deliver_gas_button'] = 'presiona ~INPUT_PICKUP~ para entregar gasolina.',
 
-  -- Miner
-  ['m_miner_locker'] = 'guardarropas',
-  ['m_rock'] = 'roca',
-  ['m_pickrocks'] = 'presiona ~INPUT_PICKUP~ para agarrar rocas.',
-  ['m_washrock'] = 'lavado de rocas',
-  ['m_rock_button'] = 'presiona ~INPUT_PICKUP~ para lavar rocas.',
-  ['m_rock_smelting'] = 'derretir rocas',
-  ['m_copper'] = 'cobre',
-  ['m_sell_copper'] = 'vender cobre',
-  ['m_deliver_copper'] = 'presiona ~INPUT_PICKUP~ para entregar el cobre.',
-  ['m_iron'] = 'hierro',
-  ['m_sell_iron'] = 'vender hierro',
-  ['m_deliver_iron'] = 'presiona ~INPUT_PICKUP~ para entregar el hierro.',
-  ['m_gold'] = 'oro',
-  ['m_sell_gold'] = 'vender oro',
-  ['m_deliver_gold'] = 'presiona ~INPUT_PICKUP~ para entregar oro.',
-  ['m_diamond'] = 'diamantes',
-  ['m_sell_diamond'] = 'vender diamantes',
-  ['m_deliver_diamond'] = 'presiona ~INPUT_PICKUP~ para entregar los diamantes.',
-  ['m_melt_button'] = 'presiona ~INPUT_PICKUP~ para derretir rocas.',
-
   -- Reporter
   ['reporter_name'] = 'periódico San Andreas',
   ['reporter_garage'] = 'presiona ~INPUT_PICKUP~ para ir al garage.',

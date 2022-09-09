@@ -64,27 +64,6 @@ Locales['sv'] = {
   ['f_deliver_gas'] = 'leverera gas',
   ['f_deliver_gas_button'] = 'tryck ~INPUT_PICKUP~ för att sälja bensin.',
 
-  -- Miner
-  ['m_miner_locker'] = 'Gruvarbetarnas Omklädningsrum',
-  ['m_rock'] = 'sten',
-  ['m_pickrocks'] = 'tryck ~INPUT_PICKUP~ för att hämta sten.',
-  ['m_washrock'] = 'sten tvättning',
-  ['m_rock_button'] = 'tryck ~INPUT_PICKUP~ för att tvätta sten.',
-  ['m_rock_smelting'] = 'stensmältning',
-  ['m_copper'] = 'koppar',
-  ['m_sell_copper'] = 'kopparsäljare',
-  ['m_deliver_copper'] = 'tryck ~INPUT_PICKUP~ för att sälja koppar.',
-  ['m_iron'] = 'järn',
-  ['m_sell_iron'] = 'järnsäljare',
-  ['m_deliver_iron'] = 'tryck ~INPUT_PICKUP~ för att sälja järn.',
-  ['m_gold'] = 'guld',
-  ['m_sell_gold'] = 'guldsäljare',
-  ['m_deliver_gold'] = 'tryck ~INPUT_PICKUP~ för att sälja guld.',
-  ['m_diamond'] = 'diamant',
-  ['m_sell_diamond'] = 'diamantsäljare',
-  ['m_deliver_diamond'] = 'tryck ~INPUT_PICKUP~ för att sälja diamant.',
-  ['m_melt_button'] = 'tryck ~INPUT_PICKUP~ för att smälta sten.',
-
   -- Reporter
   ['reporter_name'] = 'aftonbladet',
   ['reporter_garage'] = 'tryck ~INPUT_PICKUP~ för att gå ner till garaget.',

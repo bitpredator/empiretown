@@ -64,27 +64,6 @@ Locales['cs'] = {
   ['f_deliver_gas'] = 'doruceni paliva',
   ['f_deliver_gas_button'] = 'stiskni ~INPUT_PICKUP~ pro doruceni paliva.',
 
-  -- Miner
-  ['m_miner_locker'] = 'hornikova satna',
-  ['m_rock'] = 'kamen',
-  ['m_pickrocks'] = 'stiskni ~INPUT_PICKUP~ pro ziskani kamenu.',
-  ['m_washrock'] = 'myti kamenu',
-  ['m_rock_button'] = 'stiskni ~INPUT_PICKUP~ pro myti kamenu.',
-  ['m_rock_smelting'] = 'drceni kamenu',
-  ['m_copper'] = 'med',
-  ['m_sell_copper'] = 'prodejce medi',
-  ['m_deliver_copper'] = 'stiskni ~INPUT_PICKUP~ pro doruceni medi.',
-  ['m_iron'] = 'zelezo',
-  ['m_sell_iron'] = 'prodejce zeleza',
-  ['m_deliver_iron'] = 'stiskni ~INPUT_PICKUP~ pro doruceni zeleza.',
-  ['m_gold'] = 'zlato',
-  ['m_sell_gold'] = 'zlaty prodejce',
-  ['m_deliver_gold'] = 'stiskni ~INPUT_PICKUP~ pro doruceni zlata.',
-  ['m_diamond'] = 'diamant',
-  ['m_sell_diamond'] = 'diamantovy prodejce',
-  ['m_deliver_diamond'] = 'stiskni ~INPUT_PICKUP~ pro doruceni diamantu.',
-  ['m_melt_button'] = 'stiskni ~INPUT_PICKUP~ pro drceni kamenu.',
-
   -- Reporter
   ['reporter_name'] = 'noviny San Andreas',
   ['reporter_garage'] = 'stiskni ~INPUT_PICKUP~ pro pristup do garaze.',

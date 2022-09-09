@@ -62,27 +62,6 @@ Locales['hu'] = {
   ['f_deliver_gas']             = 'gáz szállítás',
   ['f_deliver_gas_button']      = 'nyomj ~INPUT_PICKUP~ gombot hogy leszállítsd a gázt.',
 
-  -- Miner
-  ['m_miner_locker']            = 'bányász Öltözö szoba',
-  ['m_rock']                    = 'kő',
-  ['m_pickrocks']               = 'nyomj ~INPUT_PICKUP~ gombot hogy kiszedd a követ.',
-  ['m_washrock']                = 'kő mosás',
-  ['m_rock_button']             = 'nyomj ~INPUT_PICKUP~ gombot a kövek mosásához.',
-  ['m_rock_smelting']           = 'kő olvasztás',
-  ['m_copper']                  = 'réz',
-  ['m_sell_copper']             = 'réz eladás',
-  ['m_deliver_copper']          = 'nyomj ~INPUT_PICKUP~ gombot a réz eladásához.',
-  ['m_iron']                    = 'vas',
-  ['m_sell_iron']               = 'vas eladás',
-  ['m_deliver_iron']            = 'nyomj ~INPUT_PICKUP~ gombot hogy leszállítsd a vasat.',
-  ['m_gold']                    = 'arany',
-  ['m_sell_gold']               = 'arany eladás',
-  ['m_deliver_gold']            = 'nyomj ~INPUT_PICKUP~ gombot hogy leszállítsd az aranyat.',
-  ['m_diamond']                 = 'gyémánt',
-  ['m_sell_diamond']            = 'gyémánt eladás',
-  ['m_deliver_diamond']         = 'nyomj ~INPUT_PICKUP~ gombot hogy leszállítsd a gyémántot.',
-  ['m_melt_button']             = 'nyomj ~INPUT_PICKUP~ gombot a szikla olvasztáshoz.',
-
   -- Reporter
   ['reporter_name']             = 'Fivem hírek',
   ['reporter_garage']           = 'nyomj ~INPUT_PICKUP~ gombot a garázshoz.',

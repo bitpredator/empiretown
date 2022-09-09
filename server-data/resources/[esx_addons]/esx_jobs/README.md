@@ -7,7 +7,7 @@
 
 ### Features
 
-- Jobs: slaughterer, miner, fisherman, journalist, fueler
+- Jobs: slaughterer, fisherman, journalist, fueler
 - Security deposit when renting a job vehicle (given back in case of crash, to the amount of damage the vehicle has already taken)
 - Easy system to create jobs (samples in jobs folder)
 - Item farming jobs
@@ -16,20 +16,6 @@ This addon is an easy way to have farming jobs on your server, there is no playe
 ## iZone integreation (optional)
 
 - You can use iZone with esx_jobs by creating polynomial zones with iZone. When you finish the zone creation, take the zone name and set a Zone field on the job like so:
-
-```
-CloakRoom = {
-    Zone = "miner_room", -- HERE
-    Size = {x = 3.0, y = 3.0, z = 1.0},
-    Color = {r = 50, g = 200, b = 50},
-    Marker = 1,
-    Blip = true,
-    Name = _U("m_miner_locker"),
-    Type = "cloakroom",
-    Hint = _U("cloak_change"),
-    GPS = {x = 884.86, y = -2176.51, z = 29.51}
-}
-```
 
 - Note that this is just to have custom zone and avoid using radius.
 

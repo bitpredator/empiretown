@@ -63,27 +63,6 @@ Locales['nl'] = {
   ['f_deliver_gas_button']      = 'Druk op ~INPUT_PICKUP~ om de brandstof af te leveren',
   ['caution_afford']            = 'Je hebt onvoldoende Geld opzak om een voertuig te leasen!',
 
-  -- Miner
-  ['m_miner_locker']            = 'Kleedkamer',
-  ['m_rock']                    = 'Metaal erts',
-  ['m_pickrocks']               = 'Druk op ~INPUT_PICKUP~ om erts te verzamelen',
-  ['m_washrock']                = 'erts verwerken',
-  ['m_rock_button']             = 'Druk op ~INPUT_PICKUP~ om de erts te verwerken',
-  ['m_rock_smelting']           = 'erts omsmelten',
-  ['m_copper']                  = 'Koper',
-  ['m_sell_copper']             = 'Koper verkopen',
-  ['m_deliver_copper']          = 'druk op ~INPUT_PICKUP~ om Koper te verkopen',
-  ['m_iron']                    = 'Aluminium',
-  ['m_sell_iron']               = 'Aluminium verkoop',
-  ['m_deliver_iron']            = 'Drup op ~INPUT_PICKUP~ om Aluminium te verkopen',
-  ['m_gold']                    = 'Goud',
-  ['m_sell_gold']               = 'Goud verkopen',
-  ['m_deliver_gold']            = 'Druk op ~INPUT_PICKUP~ om Goud te verkopen',
-  ['m_diamond']                 = 'Diamant',
-  ['m_sell_diamond']            = 'Diamanten verkopen',
-  ['m_deliver_diamond']         = 'Druk op ~INPUT_PICKUP~ om Diamant te verkopen',
-  ['m_melt_button']             = 'Druk op ~INPUT_PICKUP~ om de erts om te smelten',
-
   -- Reporter
   ['reporter_locker']           = 'Kleedkamer',
   ['reporter_name']             = 'OmroepZeeland',

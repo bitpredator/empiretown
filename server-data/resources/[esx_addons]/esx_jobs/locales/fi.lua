@@ -64,27 +64,6 @@ Locales['fi'] = {
   ['f_deliver_gas'] = 'toimita polttoöljy',
   ['f_deliver_gas_button'] = 'paina ~INPUT_PICKUP~ myydäksesi Polttoöljyä',
 
-  -- Miner
-  ['m_miner_locker'] = 'kaivostyöläisen Pukulokero',
-  ['m_rock'] = 'kivi',
-  ['m_pickrocks'] = 'paina ~INPUT_PICKUP~ louhiaksesi kiviä.',
-  ['m_washrock'] = 'puhdistettu kivi',
-  ['m_rock_button'] = 'paina ~INPUT_PICKUP~ puhdistaaksesi kiviä',
-  ['m_rock_smelting'] = 'sulatus',
-  ['m_copper'] = 'kupari',
-  ['m_sell_copper'] = 'myy kupari',
-  ['m_deliver_copper'] = 'paina ~INPUT_PICKUP~ myydäksesi kuparit',
-  ['m_iron'] = 'metalli',
-  ['m_sell_iron'] = 'myy metalli',
-  ['m_deliver_iron'] = 'paina ~INPUT_PICKUP~ myydäksesi metallit',
-  ['m_gold'] = 'kulta',
-  ['m_sell_gold'] = 'myy kulta',
-  ['m_deliver_gold'] = 'paina ~INPUT_PICKUP~ myydäksesi kullat',
-  ['m_diamond'] = 'timantti',
-  ['m_sell_diamond'] = 'myy timantti',
-  ['m_deliver_diamond'] = 'paina ~INPUT_PICKUP~ myydäksesi timantit',
-  ['m_melt_button'] = 'paina ~INPUT_PICKUP~ sulattaaksesi kivet',
-
   -- Reporter
   ['reporter_name'] = 'san Andreas Times',
   ['reporter_garage'] = 'paina ~INPUT_PICKUP~ mennäksesi alas talliin',

@@ -64,27 +64,6 @@ Locales['fr'] = {
   ['f_deliver_gas'] = 'livraison d\'essence.',
   ['f_deliver_gas_button'] = 'appuyez sur ~INPUT_PICKUP~ pour livrer l\'essence.',
 
-  -- Miner
-  ['m_miner_locker'] = 'vestiaire du mineur',
-  ['m_rock'] = 'rocher',
-  ['m_pickrocks'] = 'appuyez sur ~INPUT_PICKUP~ pour récupérer des rochers.',
-  ['m_washrock'] = 'roche lavée',
-  ['m_rock_button'] = 'appuyez sur ~INPUT_PICKUP~ pour laver les roches.',
-  ['m_rock_smelting'] = 'fonderie',
-  ['m_copper'] = 'cuivre',
-  ['m_sell_copper'] = 'revente de cuivre',
-  ['m_deliver_copper'] = 'appuyez sur ~INPUT_PICKUP~ pour livrer le cuivre.',
-  ['m_iron'] = 'fer',
-  ['m_sell_iron'] = 'revente de fer',
-  ['m_deliver_iron'] = 'appuyez sur ~INPUT_PICKUP~ pour livrer le fer.',
-  ['m_gold'] = 'or',
-  ['m_sell_gold'] = 'revente d\'or',
-  ['m_deliver_gold'] = 'appuyez sur ~INPUT_PICKUP~ pour livrer l\'or\'.',
-  ['m_diamond'] = 'diamant',
-  ['m_sell_diamond'] = 'revente de diamants',
-  ['m_deliver_diamond'] = 'appuyez sur ~INPUT_PICKUP~ pour livrer les diamants.',
-  ['m_melt_button'] = 'appuyez sur ~INPUT_PICKUP~ pour fondre les roches.',
-
   -- Reporter
   ['reporter_name'] = 'le Maclerait Libéré',
   ['reporter_garage'] = 'appuyez sur ~INPUT_PICKUP~ pour descendre au garage.',

@@ -63,28 +63,6 @@ Locales['de'] = {
   ['f_fuel_mixture_button'] = 'Drücke ~INPUT_PICKUP~ um das Öl zu mixen.',
   ['f_deliver_gas'] = 'Benzin liefern',
   ['f_deliver_gas_button'] = 'Drücke ~INPUT_PICKUP~ um Benzin zu liefern.',
-
-  -- Miner
-  ['m_miner_locker'] = 'Umkleide',
-  ['m_rock'] = 'Stein',
-  ['m_pickrocks'] = 'Drücke ~INPUT_PICKUP~ um Stein abzubauen.',
-  ['m_washrock'] = 'Steine waschen',
-  ['m_rock_button'] = 'Drücke ~INPUT_PICKUP~ um die Steine zu waschen.',
-  ['m_rock_smelting'] = 'Steine schmelzen',
-  ['m_copper'] = 'Kupfer',
-  ['m_sell_copper'] = 'Kupfer Verkäufer',
-  ['m_deliver_copper'] = 'Drücke ~INPUT_PICKUP~ um Kupfer zu liefern.',
-  ['m_iron'] = 'Eisen',
-  ['m_sell_iron'] = 'Eisen Verkäufer',
-  ['m_deliver_iron'] = 'Drücke ~INPUT_PICKUP~ um Eisen zu liefern.',
-  ['m_gold'] = 'Gold',
-  ['m_sell_gold'] = 'Gold verkaufen',
-  ['m_deliver_gold'] = 'Drücke ~INPUT_PICKUP~ um Gold zu verkaufen.',
-  ['m_diamond'] = 'Diamant',
-  ['m_sell_diamond'] = 'Diamanten verkaufen',
-  ['m_deliver_diamond'] = 'Drücke ~INPUT_PICKUP~ um die Diamanten zu verkaufen.',
-  ['m_melt_button'] = 'Drücke ~INPUT_PICKUP~ um die Steine zu schmelzen.',
-
   -- Reporter
   ['reporter_name'] = 'san Andreas Times',
   ['reporter_garage'] = 'Drücke ~INPUT_PICKUP~ to go down to the garage.',

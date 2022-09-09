@@ -68,27 +68,6 @@ Locales['en'] = {
   ['f_deliver_gas'] = 'deliver Gas',
   ['f_deliver_gas_button'] = 'press [E] to deliver gasoline.',
 
-  -- Miner
-  ['m_miner_locker'] = 'miner\'s Locker Room',
-  ['m_rock'] = 'rock',
-  ['m_pickrocks'] = 'press [E] to retrieve rocks.',
-  ['m_washrock'] = 'rock Washing',
-  ['m_rock_button'] = 'press [E] to wash the rocks.',
-  ['m_rock_smelting'] = 'rock Smelting',
-  ['m_copper'] = 'copper',
-  ['m_sell_copper'] = 'copper Seller',
-  ['m_deliver_copper'] = 'press [E] to deliver the copper.',
-  ['m_iron'] = 'iron',
-  ['m_sell_iron'] = 'iron Seller',
-  ['m_deliver_iron'] = 'press [E] to deliver the iron.',
-  ['m_gold'] = 'gold',
-  ['m_sell_gold'] = 'gold Seller',
-  ['m_deliver_gold'] = 'press [E] to deliver the gold.',
-  ['m_diamond'] = 'diamond',
-  ['m_sell_diamond'] = 'diamond Seller',
-  ['m_deliver_diamond'] = 'press [E] to deliver the diamonds.',
-  ['m_melt_button'] = 'press [E] to melt the rocks.',
-
   -- Reporter
   ['reporter_name'] = 'san Andreas Times',
   ['reporter_garage'] = 'press [E] to go down to the garage.',
