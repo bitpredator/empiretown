@@ -18,7 +18,7 @@ AddEventHandler('esx_ambulancejob:revive', function(playerId)
 			if deadPlayers[playerId] then
 				if Config.ReviveReward > 0 then
 					xPlayer.showNotification(_U('revive_complete_award', xTarget.name, Config.ReviveReward))
-					xPlayer.addMoney(Config.ReviveReward)
+					xPlayer.addMoney(Config.ReviveReward, "Revive Reward")
 					xTarget.triggerEvent('esx_ambulancejob:revive')
 				else
 					xPlayer.showNotification(_U('revive_complete', xTarget.name))
@@ -90,11 +90,11 @@ ESX.RegisterServerCallback('esx_ambulancejob:removeItemsAfterRPDeath', function(
 
 	if Config.RemoveCashAfterRPDeath then
 		if xPlayer.getMoney() > 0 then
-			xPlayer.removeMoney(xPlayer.getMoney())
+			xPlayer.removeMoney(xPlayer.getMoney(), "Death")
 		end
 
 		if xPlayer.getAccount('black_money').money > 0 then
-			xPlayer.setAccountMoney('black_money', 0)
+			xPlayer.setAccountMoney('black_money', 0, "Death")
 		end
 	end
 
@@ -144,7 +144,7 @@ if Config.EarlyRespawnFine then
 		local fineAmount = Config.EarlyRespawnFineAmount
 
 		xPlayer.showNotification(_U('respawn_bleedout_fine_msg', ESX.Math.GroupDigits(fineAmount)))
-		xPlayer.removeAccountMoney('bank', fineAmount)
+		xPlayer.removeAccountMoney('bank', fineAmount, "Respawn Fine")
 	end)
 end
 
@@ -164,7 +164,7 @@ ESX.RegisterServerCallback('esx_ambulancejob:buyJobVehicle', function(source, cb
 		cb(false)
 	else
 		if xPlayer.getMoney() >= price then
-			xPlayer.removeMoney(price)
+			xPlayer.removeMoney(price, "Job Vehicle Purchase")
 
 			MySQL.Async.execute('INSERT INTO owned_vehicles (owner, vehicle, plate, type, job, `stored`) VALUES (@owner, @vehicle, @plate, @type, @job, @stored)', {
 				['@owner'] = xPlayer.identifier,
