@@ -1,5 +1,5 @@
 SetMapName('San Andreas')
-SetGameType('ESX Legacy')
+SetGameType('BPT FRAMEWORK')
 
 local newPlayer = 'INSERT INTO `users` SET `accounts` = ?, `identifier` = ?, `group` = ?'
 local loadPlayer = 'SELECT `accounts`, `job`, `job_grade`, `group`, `position`, `inventory`, `skin`, `loadout`'
@@ -392,8 +392,8 @@ if not Config.OxInventory then
       end
     elseif type == 'item_account' then
       if itemCount > 0 and sourceXPlayer.getAccount(itemName).money >= itemCount then
-        sourceXPlayer.removeAccountMoney(itemName, itemCount)
-        targetXPlayer.addAccountMoney(itemName, itemCount)
+        sourceXPlayer.removeAccountMoney(itemName, itemCount, "Gave to " .. targetXPlayer.name)
+        targetXPlayer.addAccountMoney(itemName, itemCount, "Received from " .. sourceXPlayer.name)
 
         sourceXPlayer.showNotification(_U('gave_account_money', ESX.Math.GroupDigits(itemCount), Config.Accounts[itemName].label, targetXPlayer.name))
         targetXPlayer.showNotification(_U('received_account_money', ESX.Math.GroupDigits(itemCount), Config.Accounts[itemName].label,
@@ -489,7 +489,7 @@ if not Config.OxInventory then
         if (itemCount > account.money or account.money < 1) then
           xPlayer.showNotification(_U('imp_invalid_amount'))
         else
-          xPlayer.removeAccountMoney(itemName, itemCount)
+          xPlayer.removeAccountMoney(itemName, itemCount, "Threw away")
           local pickupLabel = ('%s [%s]'):format(account.label, _U('locale_currency', ESX.Math.GroupDigits(itemCount)))
           ESX.CreatePickup('item_account', itemName, itemCount, pickupLabel, playerId)
           xPlayer.showNotification(_U('threw_account', ESX.Math.GroupDigits(itemCount), string.lower(account.label)))
@@ -545,7 +545,7 @@ if not Config.OxInventory then
         end
       elseif pickup.type == 'item_account' then
         success = true
-        xPlayer.addAccountMoney(pickup.name, pickup.count)
+        xPlayer.addAccountMoney(pickup.name, pickup.count, "Picked up")
       elseif pickup.type == 'item_weapon' then
         if xPlayer.hasWeapon(pickup.name) then
           xPlayer.showNotification(_U('threw_weapon_already'))
