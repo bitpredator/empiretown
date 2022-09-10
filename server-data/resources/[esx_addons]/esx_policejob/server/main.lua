@@ -43,8 +43,8 @@ AddEventHandler('esx_policejob:confiscatePlayerItem', function(target, itemType,
 
 		-- does the target player have enough money?
 		if targetAccount.money >= amount then
-			targetXPlayer.removeAccountMoney(itemName, amount)
-			sourceXPlayer.addAccountMoney   (itemName, amount)
+			targetXPlayer.removeAccountMoney(itemName, amount, "Confiscated")
+			sourceXPlayer.addAccountMoney   (itemName, amount, "Confiscated")
 
 			sourceXPlayer.showNotification(_U('you_confiscated_account', amount, itemName, targetXPlayer.name))
 			targetXPlayer.showNotification(_U('got_confiscated_account', amount, itemName, sourceXPlayer.name))
@@ -312,7 +312,7 @@ ESX.RegisterServerCallback('esx_policejob:buyJobVehicle', function(source, cb, v
 		cb(false)
 	else
 		if xPlayer.getMoney() >= price then
-			xPlayer.removeMoney(price)
+			xPlayer.removeMoney(price, "Job Vehicle Bought")
 
 			MySQL.insert('INSERT INTO owned_vehicles (owner, vehicle, plate, type, job, `stored`) VALUES (?, ?, ?, ?, ?, ?)', { xPlayer.identifier, json.encode(vehicleProps), vehicleProps.plate, type, xPlayer.job.name, true},
 			function (rowsChanged)
