@@ -57,8 +57,8 @@ INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(4, 'society_mechanic', 0, NULL),
 	(5, 'society_taxi', 0, NULL),
 	(9, 'society_banker', 0, NULL),
-	(12, 'bank_savings', 0, '(NULL)'),
-	(13, 'caution', 0, '(NULL)'),
+	(12, 'bank_savings', 0, ''),
+	(13, 'caution', 0, ''),
 	(14, 'society_import', 0, NULL),
 	(16, 'society_ambulance', 0, NULL);
 
@@ -95,10 +95,13 @@ CREATE TABLE IF NOT EXISTS `banking` (
   `identifier` varchar(46) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `amount` int(64) DEFAULT NULL,
-  `time` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `time` bigint(20) DEFAULT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `balance` int(11) DEFAULT 0,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.banking: ~4 rows (circa)
+-- Dump dei dati della tabella es_extended.banking: ~1 rows (circa)
 
 -- Dump della struttura di tabella es_extended.billing
 CREATE TABLE IF NOT EXISTS `billing` (
@@ -166,9 +169,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=162 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~149 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~161 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -318,7 +321,19 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(146, 'property', NULL, '{}'),
 	(147, 'property', NULL, '{}'),
 	(148, 'property', NULL, '{}'),
-	(149, 'property', NULL, '{}');
+	(149, 'property', NULL, '{}'),
+	(150, 'property', NULL, '{}'),
+	(151, 'property', NULL, '{}'),
+	(152, 'property', NULL, '{}'),
+	(153, 'property', NULL, '{}'),
+	(154, 'property', NULL, '{}'),
+	(155, 'property', NULL, '{}'),
+	(156, 'property', NULL, '{}'),
+	(157, 'property', NULL, '{}'),
+	(158, 'property', NULL, '{}'),
+	(159, 'property', NULL, '{}'),
+	(160, 'property', NULL, '{}'),
+	(161, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -577,6 +592,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `disabled` tinyint(1) DEFAULT 0,
   `last_property` varchar(255) DEFAULT NULL,
   `phone_number` int(11) DEFAULT NULL,
+  `pincode` int(11) DEFAULT NULL,
   PRIMARY KEY (`identifier`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `index_users_phone_number` (`phone_number`)
