@@ -106,18 +106,10 @@ return {
 		close = false,
 		consume = 0
 	},
-
-	['stone'] = {
-		label = 'pietra grezza',
-		weight = 10,
-		stack = true,
-		close = false,
-		consume = 0
-	},
-
+	
 	['clothes'] = {
 		label = 'abiti',
-		weight = 50,
+		weight = 10,
 		stack = true,
 		close = false,
 		consume = 0
@@ -125,7 +117,55 @@ return {
 
 	['cottonforbandages'] = {
 		label = 'cotone per bende',
-		weight = 50,
+		weight = 5,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['gold'] = {
+		label = 'Oro',
+		weight = 5,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['diamond'] = {
+		label = 'Diamante',
+		weight = 5,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['emerald'] = {
+		label = 'Smeraldo',
+		weight = 5,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['copper'] = {
+		label = 'Rame',
+		weight = 5,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['iron'] = {
+		label = 'Ferro',
+		weight = 5,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['steel'] = {
+		label = 'Acciaio',
+		weight = 5,
 		stack = true,
 		close = false,
 		consume = 0
@@ -228,6 +268,11 @@ return {
 
 	['clothing'] = {
 		label = 'Clothing',
+		consume = 0,
+	},
+
+	['pickaxe'] = {
+		label = 'Piccone',
 		consume = 0,
 	},
 }
