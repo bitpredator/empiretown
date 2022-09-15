@@ -32,6 +32,22 @@ return {
 		}
 	},
 
+	Import = {
+		name = 'Negozio import',
+		groups = {
+			['import'] = 0
+		},
+		blip = {
+			id = 403, colour = 69, scale = 0.8
+		}, inventory = {
+			{ name = 'pickaxe', price = 30 }
+		}, locations = {
+			vec3(1017.389038, -2405.736328, 30.122314)
+		}, targets = {
+
+		}
+	},
+
 	Liquor = {
 		name = 'Liquor Store',
 		blip = {
