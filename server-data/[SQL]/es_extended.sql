@@ -591,26 +591,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `disabled` tinyint(1) DEFAULT 0,
   `last_property` varchar(255) DEFAULT NULL,
-  `phone_number` int(11) DEFAULT NULL,
   `pincode` int(11) DEFAULT NULL,
   PRIMARY KEY (`identifier`),
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `index_users_phone_number` (`phone_number`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- Dump dei dati della tabella es_extended.users: ~1 rows (circa)
-
--- Dump della struttura di tabella es_extended.user_contacts
-CREATE TABLE IF NOT EXISTS `user_contacts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `identifier` varchar(46) DEFAULT NULL,
-  `name` varchar(100) NOT NULL,
-  `number` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `index_user_contacts_identifier_name_number` (`identifier`,`name`,`number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Dump dei dati della tabella es_extended.user_contacts: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.user_licenses
 CREATE TABLE IF NOT EXISTS `user_licenses` (
