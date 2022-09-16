@@ -1,7 +1,7 @@
 Config = {}
 
 -- Script locale (only .Lua)
-Config.Locale = 'en'
+Config.Locale = 'it'
 
 Config.FixePhone = {
   -- Mission Row
