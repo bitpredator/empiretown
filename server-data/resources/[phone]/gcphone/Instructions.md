@@ -25,17 +25,17 @@ ensure gcphone
 > 2. Change `288` to your desired keybind. Default is `F1`. See [FIveM Key Mapping](https://docs.fivem.net/docs/game-references/controls/ "FIveM Key Mapping") for reference.
 
 ## Configuration (Default Language)
-> 1. Navigate to `gcphone > html > static > config.json` and search for `"defaultLanguage": "en_US",`
+> 1. Navigate to `gcphone > html > static > config.json` and search for `"defaultLanguage": "it_IT",`
 > 2. Below that line, you'll see `"language": {` this is the location of current translations. If you don't see yours here you'll need to add your own translations. Current languages are as followed:
 ```
-en_US (English)
+it_IT (Italiano)
 fr_FR (Français)
 de_DE (Deutsch)
 pl_PL (Polish)
 es_ES (Spanish)
 cs_CZ (Čeština)
 ```
-> 3. Choosing one of the above previations, change `"defaultLanguage": "en_US",` to your desired one.
+> 3. Choosing one of the above previations, change `"defaultLanguage": "it_IT",` to your desired one.
 
 ## Configuration (Cell Provider)
 > 1. Navigate to `gcphone > html > static > config.json` and search for `"reseau": "ReIgnited Mobile",`
@@ -75,7 +75,7 @@ cs_CZ (Čeština)
       "name": "Bourse",
       "fr_FR__name": "Bourse",
       "cs_CZ__name": "Burza",
-      "en_US__name": "Stock Market",
+      "it_IT__name": "Stock Market",
       "de_DE__name": "Börse",
       "es_ES__name": "Bolsa",
       "icons": "/html/static/img/icons_app/bourse.png",
@@ -107,7 +107,7 @@ cs_CZ (Čeština)
 
 > `"defaultContacts": [{` Default contacts
 
-> `"defaultLanguage": "en_US",` Default Language
+> `"defaultLanguage": "it_IT",` Default Language
 
 ## Configuration (Adding Default Contact)
 > 1. Navigate to `gcphone > html > static > config > config.json`
