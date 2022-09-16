@@ -108,7 +108,7 @@ Locales['en'] = {
 		["wardrobe_desc"] = "Change Position of Property Wardrobe.",
 		["Furniture_title"] = "Furniture",
 		["Furniture_desc"] = "Change Position of Property Wardrobe.",
-		["enter_title"] = "enter the house",
+		["enter_title"] = "Enter",
 		["knock_title"] = "Knock On Door",
 		["buy_title"] = "Buy",
 		["buy_desc"] = "Buy This Property For $%s",
@@ -140,9 +140,9 @@ Locales['en'] = {
 
 		["exiting"] = "Exiting property...",
 		["entering"] = "Entering property...",
-		["shell_disabled"] ="This Interior Uses Shells, which are disabled!.",
+		["shell_disabled"] ="This Interior Uses Shells, which are disabled!",
 		["access_textui"] = "Press ~b~[E]~s~ to Access ~b~%s",
-		["raid_notify_error"] = "You need ~b~ %sx %s~s~  to be able to raid!.",
+		["raid_notify_error"] = "You need ~b~ %sx %s~s~  to be able to raid!",
 		["raid_notify_success"] = "Your Property is Currently Being ~b~Raided!",
 
 		--------------- Garage Strings --------------
@@ -169,7 +169,7 @@ Locales['en'] = {
 		["element_description4"] = "(Optional) Manage Garage Settings",
 		["element_title5"] = "CCTV",
 		["element_description5"] = "(Optional) Manage CCTV Settings",
-		["element_title6"] = "Entance",
+		["element_title6"] = "Entrance",
 		["element_description6"] = "Set The Property`s Entrance Location.",
 		["element_create_title"] = "Create Property",
 		["element_create_desc_1"] = "Please Fill Out all Required Inputs!",
@@ -194,4 +194,12 @@ Locales['en'] = {
 		["cctv_textui_3"] = "Press ~b~[E]~s~ to Set Max Left Roation",
 		["create_success"] = "Property created!",
 		["missing_data"] = "Please Fill Out all Required Inputs!",
+
+		-- Saving Translations
+		["server_restart"] = "Server Restarting",
+		["server_shutdown"] = "Server Shutdown",
+		["manual_save"] = "Manual Save (Requested By %s)",
+		["resource_stop"] = "Resource Stopping",
+		["force_save"] = "Force Save (Requested By %s)",
+		["interval_saving"] = "Interval Saving"
 	}
