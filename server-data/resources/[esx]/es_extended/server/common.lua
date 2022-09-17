@@ -91,7 +91,7 @@ MySQL.ready(function()
     ESX.Jobs = Jobs
   end
 
-  print('[^2INFO^7] ESX ^5Legacy^0 initialized')
+  print('[^2INFO^7] BPT ^5FRAMEWORK^0 INITIALIZED')
   StartDBSync()
   StartPayCheck()
 end)
