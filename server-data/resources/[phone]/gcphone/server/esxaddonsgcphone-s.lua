@@ -11,9 +11,7 @@ local PhoneNumbers        = {}
 --   }
 -- }
 
-TriggerEvent('esx:getSharedObject', function(obj)
-  ESX = obj
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 function notifyAlertSMS (number, alert, listSrc)
   if PhoneNumbers[number] ~= nil then
