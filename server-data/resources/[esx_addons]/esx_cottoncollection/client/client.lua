@@ -18,7 +18,7 @@ local playerPedId = nil
 local onAction = false
 
 Citizen.CreateThread(function()
-	while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(0) end
+	ESX = exports["es_extended"]:getSharedObject()
     while ESX.GetPlayerData().job == nil do Wait(0) end
     PlayerData = ESX.GetPlayerData()
 end)

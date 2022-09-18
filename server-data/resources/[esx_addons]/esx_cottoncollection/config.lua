@@ -12,5 +12,5 @@ Config = {
 	Blips = {
 		{x = 1582.0428, y = 2167.2873, z = 79.3093, type = 366, name = "raccolta cotone"},
 	},
-	item_name1 = "cotton"
+	item_name = "cotton"
 }
