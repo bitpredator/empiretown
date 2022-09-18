@@ -1,20 +1,3 @@
---[[
-      ESX Property - Properties Made Right!
-    Copyright (C) 2022 ESX-Framework
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-]] 
 function CCTV(PropertyID)
   DoScreenFadeOut(500)
   Wait(500)
@@ -231,7 +214,7 @@ function CCTV(PropertyID)
                   exports['screenshot-basic']:requestScreenshotUpload(hook, "files[]", function(data)
                     local image = json.decode(data)
                     print(ESX.DumpTable(image))
-                    ESX.ShowNotification("Picture Taken!", "success")
+                    ESX.ShowNotification(_U("picture_taken"), "success")
                     SendNUIMessage({link = image.attachments[1].proxy_url})
                     ESX.ShowNotification(_U("clipboard"), "success")
                     ShowButtons = true
