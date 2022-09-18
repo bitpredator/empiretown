@@ -1,6 +1,6 @@
 ESX = nil
 
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+ESX = exports["es_extended"]:getSharedObject()
 
 ESX.RegisterServerCallback('wasabi_mining:checkPick', function(source, cb, itemname)
     local xPlayer = ESX.GetPlayerFromId(source)

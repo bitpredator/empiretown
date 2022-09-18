@@ -28,3 +28,5 @@ server_scripts {
     'server/discordwebhook.lua',
     'config.lua'
 }
+
+shared_script '@es_extended/imports.lua'
