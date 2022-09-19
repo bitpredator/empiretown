@@ -56,7 +56,7 @@ Locales['it'] = {
 	-- Clothes Menu
 	['clothes_title'] = 'abbigliamento',
 	['clothes_torso'] = 'Torso',
-	['clothes_pants'] = 'Pants',
+	['clothes_pants'] = 'pantaloni',
 	['clothes_shoes'] = 'Scarpe',
 	['clothes_bag'] = 'Borsa',
 	['clothes_bproof'] = 'Giubbotto antiproiettile',
@@ -161,7 +161,6 @@ Locales['it'] = {
 	['animation_pegi_strip1'] = 'Esibizione Donna stript club 1',
 	['animation_pegi_strip2'] = 'Esibizione Donna stript club 2',
 	['animation_pegi_stripfloor'] = 'Danza Donna stript club per terra',
-
 	['animation_attitudes_title'] = 'Approccio',
 
 	-- Boss Management Menu
@@ -174,7 +173,7 @@ Locales['it'] = {
 	['bossmanagement_demote_button'] = 'Degrada',
 
 	-- Main Menu
-	['mainmenu_subtitle'] = 'INTERACTION MENU',
+	['mainmenu_subtitle'] = 'menu interazioni',
 	
 
 	-- Admin Menu
