@@ -6,7 +6,7 @@ author 'bitpredator'
 
 description 'bpt_teleport'
 
-version '1.0.0'
+version '0.0.2'
 
 client_scripts {
     '@es_extended/locale.lua',
