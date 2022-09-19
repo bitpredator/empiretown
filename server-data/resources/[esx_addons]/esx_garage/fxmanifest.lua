@@ -1,9 +1,9 @@
 fx_version 'cerulean'
 game 'gta5'
 
-author 'ESX-Framework'
-description 'Official ESX Garage System for ESX Legacy'
-version '1.0.0'
+author 'bitpredator'
+description 'BPT Garage System compatible with esx'
+version '0.0.2'
 lua54 'yes'
 
 shared_script '@es_extended/imports.lua'
