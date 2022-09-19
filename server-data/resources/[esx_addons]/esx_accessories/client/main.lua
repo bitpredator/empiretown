@@ -226,13 +226,3 @@ CreateThread(function()
 		Wait(Sleep)
 	end
 end)
-
-if Config.EnableControls then
-	RegisterCommand("accessory", function(src)
-		if not ESX.PlayerData.dead then
-			OpenAccessoryMenu()
-		end
-	end)
-
-	RegisterKeyMapping("accessory", "Open Accessory Menu", "keyboard", "k")
-end
