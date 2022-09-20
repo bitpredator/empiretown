@@ -1,5 +1,5 @@
 Config                            = {}
-Config.Locale                     = 'en'
+Config.Locale                     = 'it'
 
 Config.DrawDistance               = 10.0 -- How close you need to be in order for the markers to be drawn (in GTA units).
 Config.MaxInService               = -1
@@ -33,13 +33,6 @@ Config.Zones = {
 
 	Garage = {
 		Pos   = vector3(-97.5, 6496.1, 31.4 ),
-		Size  = { x = 1.0, y = 1.0, z = 1.0 },
-		Color = { r = 50, g = 200, b = 50 },
-		Type  = 21
-	},
-
-	Craft = {
-		Pos   = vector3( -323.140, -129.882, 38.999 ),
 		Size  = { x = 1.0, y = 1.0, z = 1.0 },
 		Color = { r = 50, g = 200, b = 50 },
 		Type  = 21
