@@ -2,9 +2,9 @@ fx_version 'adamant'
 
 game 'gta5'
 
-description 'esx_streetfight'
+description 'bpt_streetfight'
 
-version '1.0.2'
+version '0.0.2'
 
 server_script {
     'server.lua',

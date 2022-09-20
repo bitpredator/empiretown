@@ -15,13 +15,16 @@ local showWinner = false
 local winner = nil
 
 Citizen.CreateThread(function()
-    ESX = exports["es_extended"]:getSharedObject()
+    while ESX == nil do
+        ESX = exports["es_extended"]:getSharedObject()
+        Citizen.Wait(0)
+    end
     CreateBlip(Config.BLIP.coords, Config.BLIP.text, Config.BLIP.sprite, Config.BLIP.color, Config.BLIP.scale)
     RunThread()
 end)
 
-RegisterNetEvent('esx_streetfight:playerJoined')
-AddEventHandler('esx_streetfight:playerJoined', function(side, id)
+RegisterNetEvent('bpt_streetfight:playerJoined')
+AddEventHandler('bpt_streetfight:playerJoined', function(side, id)
 
         if side == 1 then
             blueJoined = true
@@ -38,8 +41,8 @@ AddEventHandler('esx_streetfight:playerJoined', function(side, id)
 
 end)
 
-RegisterNetEvent('esx_streetfight:startFight')
-AddEventHandler('esx_streetfight:startFight', function(fightData)
+RegisterNetEvent('bpt_streetfight:startFight')
+AddEventHandler('bpt_streetfight:startFight', function(fightData)
 
     for index,value in ipairs(fightData) do
         if(value.id ~= GetPlayerServerId(PlayerId())) then
@@ -55,8 +58,8 @@ AddEventHandler('esx_streetfight:startFight', function(fightData)
 
 end)
 
-RegisterNetEvent('esx_streetfight:playerLeaveFight')
-AddEventHandler('esx_streetfight:playerLeaveFight', function(id)
+RegisterNetEvent('bpt_streetfight:playerLeaveFight')
+AddEventHandler('bpt_streetfight:playerLeaveFight', function(id)
 
     if id == GetPlayerServerId(PlayerId()) then
         ESX.ShowNotification('Ti sei allontanato troppo, hai rinunciato a combattere')
@@ -64,7 +67,7 @@ AddEventHandler('esx_streetfight:playerLeaveFight', function(id)
         SetEntityHealth(PlayerPedId(), 200)
         removeGloves()
     elseif participando == true then
-        TriggerServerEvent('esx_streetfight:pay', betAmount)
+        TriggerServerEvent('bpt_streetfight:pay', betAmount)
         ESX.ShowNotification('Hai vinto ~r~' .. (betAmount * 2) .. '$')
         SetPedMaxHealth(PlayerPedId(), 200)
         SetEntityHealth(PlayerPedId(), 200)
@@ -74,17 +77,17 @@ AddEventHandler('esx_streetfight:playerLeaveFight', function(id)
 
 end)
 
-RegisterNetEvent('esx_streetfight:fightFinished')
-AddEventHandler('esx_streetfight:fightFinished', function(looser)
+RegisterNetEvent('bpt_streetfight:fightFinished')
+AddEventHandler('bpt_streetfight:fightFinished', function(looser)
 
     if participando == true then
         if(looser ~= GetPlayerServerId(PlayerId()) and looser ~= -2) then
-            TriggerServerEvent('esx_streetfight:pay', betAmount)
+            TriggerServerEvent('bpt_streetfight:pay', betAmount)
             ESX.ShowNotification('Hai vinto ~r~' .. (betAmount * 2) .. '$')
             SetPedMaxHealth(PlayerPedId(), 200)
             SetEntityHealth(PlayerPedId(), 200)
     
-            TriggerServerEvent('esx_streetfight:showWinner', GetPlayerServerId(PlayerId()))
+            TriggerServerEvent('bpt_streetfight:showWinner', GetPlayerServerId(PlayerId()))
         end
     
         if(looser == GetPlayerServerId(PlayerId()) and looser ~= -2) then
@@ -106,8 +109,8 @@ AddEventHandler('esx_streetfight:fightFinished', function(looser)
 
 end)
 
-RegisterNetEvent('esx_streetfight:raiseActualBet')
-AddEventHandler('esx_streetfight:raiseActualBet', function()
+RegisterNetEvent('bpt_streetfight:raiseActualBet')
+AddEventHandler('bpt_streetfight:raiseActualBet', function()
     betAmount = betAmount * 2
     if betAmount == 0 then
         betAmount = 2000
@@ -116,8 +119,8 @@ AddEventHandler('esx_streetfight:raiseActualBet', function()
     end
 end)
 
-RegisterNetEvent('esx_streetfight:winnerText')
-AddEventHandler('esx_streetfight:winnerText', function(id)
+RegisterNetEvent('bpt_streetfight:winnerText')
+AddEventHandler('bpt_streetfight:winnerText', function(id)
     showWinner = true
     winner = id
     Citizen.Wait(5000)
@@ -181,7 +184,7 @@ function spawnMarker(coords)
             if blueZone < Config.DISTANCE_INTERACTION then
                 ESX.ShowHelpNotification("premi ~INPUT_CONTEXT~ per unirsi al lato blu.")
                 if IsControlJustReleased(0, Config.E_KEY) and participando == false then
-                    TriggerServerEvent('esx_streetfight:join', betAmount, 0 )
+                    TriggerServerEvent('bpt_streetfight:join', betAmount, 0 )
                 end
             end
         end
@@ -191,7 +194,7 @@ function spawnMarker(coords)
             if redZone < Config.DISTANCE_INTERACTION then
                 ESX.ShowHelpNotification("premi ~INPUT_CONTEXT~ per unirsi al lato rosso.")
                 if IsControlJustReleased(0, Config.E_KEY) and participando == false then
-                    TriggerServerEvent('esx_streetfight:join', betAmount, 1)
+                    TriggerServerEvent('bpt_streetfight:join', betAmount, 1)
                 end
             end
         end
@@ -199,7 +202,7 @@ function spawnMarker(coords)
         if betZone < Config.DISTANCE_INTERACTION and fightStatus ~= STATUS_JOINED and fightStatus ~= STATUS_STARTED then
             ESX.ShowHelpNotification("premi ~INPUT_CONTEXT~ per cambiare la scommessa.")
             if IsControlJustReleased(0, Config.E_KEY) then
-                TriggerServerEvent('esx_streetfight:raiseBet', betAmount)
+                TriggerServerEvent('bpt_streetfight:raiseBet', betAmount)
             end
         end
 
@@ -285,9 +288,7 @@ Citizen.CreateThread(function()
             DrawText3D(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z + 1.5, 'La lotta inizia in: ' .. actualCount, 2.0)
         elseif showCountDown == false and fightStatus == STATUS_STARTED then
             if GetEntityHealth(PlayerPedId()) < 150 then
-                TriggerServerEvent('esx_streetfight:finishFight', GetPlayerServerId(PlayerId()))
-                -- Debug: metemos perdedor aleatorio para salir ganadores
-                -- TriggerServerEvent('esx_streetfight:finishFight', 20)
+                TriggerServerEvent('bpt_streetfight:finishFight', GetPlayerServerId(PlayerId()))
                 fightStatus = STATUS_INITIAL
             end
         end
@@ -295,7 +296,7 @@ Citizen.CreateThread(function()
         if participando == true then
             local coords = GetEntityCoords(GetPlayerPed(-1))
             if get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z,coords.x,coords.y,coords.z) > Config.LEAVE_FIGHT_DISTANCE then
-                TriggerServerEvent('esx_streetfight:leaveFight', GetPlayerServerId(PlayerId()))
+                TriggerServerEvent('bpt_streetfight:leaveFight', GetPlayerServerId(PlayerId()))
             end
         end
 
