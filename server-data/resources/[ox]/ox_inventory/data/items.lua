@@ -93,7 +93,7 @@ return {
 
 	['cotton'] = {
 		label = 'cotone',
-		weight = 500,
+		weight = 5,
 		stack = true,
 		close = false,
 		consume = 0
@@ -274,5 +274,23 @@ return {
 	['pickaxe'] = {
 		label = 'Piccone',
 		consume = 0,
+	},
+
+	-- Taglia legna
+
+	['legno'] = {
+		label = 'Legna',
+		weight = 5,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['legnatagliata'] = {
+		label = 'legno tagliato',
+		weight = 5,
+		stack = true,
+		close = false,
+		consume = 0
 	},
 }
