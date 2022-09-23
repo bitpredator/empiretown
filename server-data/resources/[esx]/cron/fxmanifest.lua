@@ -4,6 +4,6 @@ game 'gta5'
 author 'ESX-Framework'
 description 'cron'
 
-version '1.7.5'
+version '0.0.2'
 
 server_script 'server/main.lua'
