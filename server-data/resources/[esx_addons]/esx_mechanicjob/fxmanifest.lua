@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'ESX Mechanic Job'
 
-version '1.7.5'
+version '0.0.2'
 
 shared_script '@es_extended/imports.lua'
 
