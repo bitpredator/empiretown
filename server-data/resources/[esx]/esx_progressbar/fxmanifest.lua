@@ -1,8 +1,9 @@
 fx_version 'adamant'
 game 'gta5'
-author 'ESX-Framework'
+author 'BPT-Framework'
 lua54 'yes'
-description 'ESX Progressbar'
+description 'BPT Progressbar'
+version '0.0.2'
 
 client_scripts { 'Progress.lua' }
 shared_script '@es_extended/imports.lua'
