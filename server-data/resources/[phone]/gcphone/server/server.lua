@@ -552,8 +552,8 @@ AddEventHandler('gcPhone:acceptCall', function(infoCall, rtcAnswer)
        		TriggerClientEvent('gcPhone:acceptCall', AppelsEnCours[id].receiver_src, AppelsEnCours[id], false)
 	    end)
             saveAppels(AppelsEnCours[id])
-            exports['saltychat']:EstablishCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
-            exports['saltychat']:EstablishCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
+            exports['mumble-voip']:EstablishCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
+            exports['mumble-voip']:EstablishCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
         end
     end
 end)
@@ -569,13 +569,13 @@ AddEventHandler('gcPhone:rejectCall', function (infoCall)
         end
         if AppelsEnCours[id].transmitter_src ~= nil then
             TriggerClientEvent('gcPhone:rejectCall', AppelsEnCours[id].transmitter_src)
-            exports['saltychat']:EndCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
-			exports['saltychat']:EndCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
+            exports['mumble-voip']:EndCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
+			exports['mumble-voip']:EndCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
         end
         if AppelsEnCours[id].receiver_src ~= nil then
             TriggerClientEvent('gcPhone:rejectCall', AppelsEnCours[id].receiver_src)
-            exports['saltychat']:EndCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
-			exports['saltychat']:EndCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
+            exports['mumble-voip']:EndCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
+			exports['mumble-voip']:EndCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
         end
 
         if AppelsEnCours[id].is_accepts == false then 
