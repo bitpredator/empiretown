@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Locale = 'en'
+Config.Locale = 'it'
 
 Config.Components = {{
     label = _U('sex'),

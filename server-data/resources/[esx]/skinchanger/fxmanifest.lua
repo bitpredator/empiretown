@@ -4,9 +4,9 @@ game 'gta5'
 
 lua54 'yes'
 
-description 'Official ESX-Legacy resource for handling the Player`s Skin'
+description 'bpt skinchanger'
 
-version '1.7.5'
+version '0.0.2'
 
 client_scripts {
 	'@es_extended/locale.lua',
