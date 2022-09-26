@@ -80,9 +80,9 @@ return {
 	},
 
 	['garbage'] = {
-		label = 'Garbage',
+		label = 'rifiuti',
 	},
-
+	
 	['paperbag'] = {
 		label = 'Paper Bag',
 		weight = 1,
@@ -271,12 +271,16 @@ return {
 		consume = 0,
 	},
 
+	['ironsheet'] = {
+		label = 'lamiera di ferro',
+		stack = true,
+		weight = 1
+	},
+
 	['pickaxe'] = {
 		label = 'Piccone',
 		consume = 0,
 	},
-
-	-- Taglia legna
 
 	['legno'] = {
 		label = 'Legna',
