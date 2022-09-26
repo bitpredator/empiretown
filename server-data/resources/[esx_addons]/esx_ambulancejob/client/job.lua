@@ -328,10 +328,6 @@ AddEventHandler('esx_ambulancejob:hasEnteredMarker', function(hospital, part, pa
 		CurrentAction = part
 		CurrentActionMsg = _U('actions_prompt')
 		CurrentActionData = {}
-	elseif part == 'Pharmacy' then
-		CurrentAction = part
-		CurrentActionMsg = _U('open_pharmacy')
-		CurrentActionData = {}
 	elseif part == 'Vehicles' then
 		CurrentAction = part
 		CurrentActionMsg = _U('garage_prompt')
@@ -362,8 +358,6 @@ Citizen.CreateThread(function()
 			if IsControlJustReleased(0, 38) then
 				if CurrentAction == 'AmbulanceActions' then
 					OpenAmbulanceActionsMenu()
-				elseif CurrentAction == 'Pharmacy' then
-					OpenPharmacyMenu()
 				elseif CurrentAction == 'Vehicles' then
 					OpenVehicleSpawnerMenu('car', CurrentActionData.hospital, CurrentAction, CurrentActionData.partNum)
 				elseif CurrentAction == 'Helicopters' then
@@ -440,22 +434,6 @@ function OpenCloakroomMenu()
 		end
 
 		menu.close()
-	end, function(data, menu)
-		menu.close()
-	end)
-end
-
-function OpenPharmacyMenu()
-	ESX.UI.Menu.CloseAll()
-
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'pharmacy', {
-		title    = _U('pharmacy_menu_title'),
-		align    = 'top-left',
-		elements = {
-			{label = _U('pharmacy_take', _U('medikit')), item = 'medikit', type = 'slider', value = 1, min = 1, max = 100},
-			{label = _U('pharmacy_take', _U('bandage')), item = 'bandage', type = 'slider', value = 1, min = 1, max = 100}
-	}}, function(data, menu)
-		TriggerServerEvent('esx_ambulancejob:giveItem', data.current.item, data.current.value)
 	end, function(data, menu)
 		menu.close()
 	end)
