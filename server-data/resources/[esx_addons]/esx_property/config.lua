@@ -1,7 +1,7 @@
 Config = {}
 
 -------- Note: Can Cause quite abit of clutter ---------------
-Config.ForSaleBlips = false -- Add Blips to For Sale Properties
+Config.ForSaleBlips = true -- Add Blips to For Sale Properties
 Config.OwnedBlips = true -- Add blips for Owned Properties
 ---------------------------------------------------------------
 
