@@ -372,17 +372,17 @@ function GetNeons()
 		{label = "Navy Blue", 		r = 0, 		g = 0, 		b = 128},
 		{label = "Sky Blue", 		r = 135, 	g = 206, 	b = 235},
 		{label = "Turquoise", 		r = 0, 		g = 245, 	b = 255},
-		{label = "Mint Green", 	r = 50, 	g = 255, 	b = 155},
-		{label = "Lime Green", 	r = 0, 		g = 255, 	b = 0},
+		{label = "Mint Green",   	r = 50, 	g = 255, 	b = 155},
+		{label = "Lime Green",  	r = 0, 		g = 255, 	b = 0},
 		{label = "Olive", 			r = 128, 	g = 128, 	b = 0},
-		{label = _U('yellow'), 	r = 255, 	g = 255, 	b = 0},
+		{label = _U('yellow'),  	r = 255, 	g = 255, 	b = 0},
 		{label = _U('gold'), 		r = 255, 	g = 215, 	b = 0},
-		{label = _U('orange'), 	r = 255, 	g = 165, 	b = 0},
+		{label = _U('orange'), 	    r = 255, 	g = 165, 	b = 0},
 		{label = _U('wheat'), 		r = 245, 	g = 222, 	b = 179},
 		{label = _U('red'), 		r = 255, 	g = 0, 		b = 0},
 		{label = _U('pink'), 		r = 255, 	g = 161, 	b = 211},
 		{label = _U('brightpink'),	r = 255, 	g = 0, 		b = 255},
-		{label = _U('purple'), 	r = 153, 	g = 0, 		b = 153},
+		{label = _U('purple'), 	    r = 153, 	g = 0, 		b = 153},
 		{label = "Ivory", 			r = 41, 	g = 36, 	b = 33}
 	}
 
