@@ -27,10 +27,10 @@ Config.EnableDefaultInventory   = false -- Display the default Inventory ( F2 )
 Config.EnableWantedLevel    	= false -- Use Normal GTA wanted Level?
 Config.EnablePVP                = true -- Allow Player to player combat
 
-Config.Multichar                = true -- Enable support for esx_multicharacter
-Config.Identity                 = true -- Select a characters identity data before they have loaded in (this happens by default with multichar)
-Config.DistanceGive 			= 4.0 -- Max distance when giving items, weapons etc.
-Config.DisableHealthRegen         = false -- Player will no longer regenerate health
+Config.Multichar                  = true -- Enable support for esx_multicharacter
+Config.Identity                   = true -- Select a characters identity data before they have loaded in (this happens by default with multichar)
+Config.DistanceGive 			  = 4.0 -- Max distance when giving items, weapons etc.
+Config.DisableHealthRegeneration  = false -- Player will no longer regenerate health
 Config.DisableVehicleRewards      = false -- Disables Player Recieving weapons from vehicles
 Config.DisableNPCDrops            = false -- stops NPCs from dropping weapons on death
 Config.DisableWeaponWheel         = false -- Disables default weapon wheel
