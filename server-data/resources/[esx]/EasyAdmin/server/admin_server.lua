@@ -141,7 +141,7 @@ RegisterServerEvent("EasyAdmin:GetInfinityPlayerList", function()
 					for i, v in pairs(cached.identifiers) do
 						if v == "discord:178889658128793600" then 
 							pData.developer = true
-						elseif v == "discord:736521574383091722" --[[ Jaccosf ]] or v == "discord:1001065851790839828" --[[ robbybaseplate ]] or v == "discord:840695262460641311" --[[ Knight ]] or v == "discord:270731163822325770" --[[ Skypo ]] then
+						elseif v == "discord:736521574383091722" --[[ Jaccosf ]] or v == "discord:1001065851790839828" --[[ robbybaseplate ]] or v == "discord:840695262460641311" --[[ Knight ]] or v == "discord:270731163822325770" --[[ Skypo ]] or v == "discord:186980021850734592" --[[ coleminer0112 ]] then
 							pData.contributor = true
 						end
 					end
@@ -929,6 +929,15 @@ Citizen.CreateThread(function()
 		end
 		
 		if GetConvar("ea_enableAllowlist", "false") == "true" then
+			deferrals.update(GetLocalisedText("checkingallowlist"))
+			local allowlistAttempts = 0
+			local allowlisted = false
+			repeat
+				allowlisted = DoesPlayerHavePermission(player, "player.allowlist")
+				allowlistAttempts = allowlistAttempts+1
+				Wait(100)
+			until (allowlistAttempts >= 15 or allowlisted == true)
+			
 			if DoesPlayerHavePermission(player, "player.allowlist") then
 				deferrals.done()
 			else
