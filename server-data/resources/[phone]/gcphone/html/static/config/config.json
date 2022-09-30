@@ -129,6 +129,19 @@
       }]
     },
     {
+      "display": "Taxi",
+      "icon": "/html/static/img/icons_app/taxi.png",
+      "subMenu": [{
+        "action": "sendMessage",
+        "title": "Send Message",
+        "icons": "fa-comments",
+        "eventName": "esx_addons_gcphone:call",
+        "type": {
+          "number": "taxi"
+        }
+      }]
+    },
+    {
       "display": "Servizio Sanitario",
       "icon": "/html/static/img/icons_app/ems.png",
       "subMenu": [{
@@ -140,23 +153,6 @@
           "number": "ambulance"
         }
       }]
-    }
-  ],
-
-  "defaultContacts": [{
-      "number": "ambulance",
-      "display": "Ambulance",
-      "icon": "/html/static/img/icons_app/ems.png"
-    },
-    {
-      "number": "mechanic",
-      "display": "Meccanico",
-      "icon": "/html/static/img/icons_app/mechanic.png"
-    },
-    {
-      "number": "police",
-      "display": "Polizia",
-      "icon": "/html/static/img/icons_app/police.png"
     }
   ],
 
