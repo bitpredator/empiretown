@@ -9,8 +9,6 @@ This program is a project for the fivem community, you have legal permission to 
 ATTENTION:
 You are not authorized to change the name of the resource and the resources within it.
 
-If you want to contribute you can open a pull request (attention read this wiki: https://github.com/bitpredator/empiretown/wiki/pull-request-rules).
-
 Server installation procedure: https://github.com/bitpredator/empiretown/wiki/Procedure-for-installing-the-server
 
 You are not authorized to sell this software (this is a free project).
