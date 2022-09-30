@@ -9,12 +9,12 @@ if cfg.voice.enabled then
   CreateThread(function()
     while true do
       if nuiReady then
-        if service == 'pma-voice' then
+        if service == 'mumble-voip' then
           voiceCon = MumbleIsConnected()
           isTalking = NetworkIsPlayerTalking(playerId)
         end
 
-        if service == 'pma-voice' and voiceCon 
+        if service == 'mumble-voip' and voiceCon 
         or service == 'saltychat' and voiceCon and voiceCon > 0 
         then
           if isTalking then
@@ -36,8 +36,8 @@ if cfg.voice.enabled then
     end
   end)
   
-  if service == 'pma-voice' then
-    AddEventHandler('pma-voice:setTalkingMode', function(mode)
+  if service == 'mumble-voip' then
+    AddEventHandler('mumble-voip:setTalkingMode', function(mode)
       SendMessage('setVoiceRange', mode)
     end)
   elseif service == 'saltychat' then

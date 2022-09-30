@@ -8,14 +8,14 @@
   "serverLogo": false,
   "voice": {
     "enabled": false,
-    "service": "pma-voice"
+    "service": "mumble-voip"
   },
   "seatbelt": {
-    "enabled": false,
+    "enabled": true,
     "key": "B"
   },
   "menu": {
-    "enabled": false,
+    "enabled": true,
     "key": "F10"
   },
   "refreshRates": {

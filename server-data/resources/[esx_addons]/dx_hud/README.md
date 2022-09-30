@@ -14,6 +14,7 @@ You can change the voice service the HUD will be using in the config file.
 Currently supported options are:
 - pma-voice
 - saltychat
+- mumble-voip
 
 ## Download & Installation
 
