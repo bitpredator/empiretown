@@ -93,7 +93,7 @@ return {
 
 	['cotton'] = {
 		label = 'cotone',
-		weight = 5,
+		weight = 1,
 		stack = true,
 		close = false,
 		consume = 0
@@ -101,7 +101,7 @@ return {
 
 	['cloth'] = {
 		label = 'stoffa',
-		weight = 5,
+		weight = 1,
 		stack = true,
 		close = false,
 		consume = 0
@@ -109,7 +109,7 @@ return {
 	
 	['clothes'] = {
 		label = 'abiti',
-		weight = 10,
+		weight = 1,
 		stack = true,
 		close = false,
 		consume = 0
@@ -117,7 +117,7 @@ return {
 
 	['cottonforbandages'] = {
 		label = 'cotone per bende',
-		weight = 5,
+		weight = 1,
 		stack = true,
 		close = false,
 		consume = 0
@@ -125,7 +125,7 @@ return {
 
 	['gold'] = {
 		label = 'Oro',
-		weight = 5,
+		weight = 1,
 		stack = true,
 		close = false,
 		consume = 0
@@ -133,7 +133,7 @@ return {
 
 	['diamond'] = {
 		label = 'Diamante',
-		weight = 5,
+		weight = 1,
 		stack = true,
 		close = false,
 		consume = 0
@@ -141,7 +141,7 @@ return {
 
 	['emerald'] = {
 		label = 'Smeraldo',
-		weight = 5,
+		weight = 1,
 		stack = true,
 		close = false,
 		consume = 0
@@ -149,7 +149,7 @@ return {
 
 	['copper'] = {
 		label = 'Rame',
-		weight = 5,
+		weight = 1,
 		stack = true,
 		close = false,
 		consume = 0
@@ -157,7 +157,7 @@ return {
 
 	['iron'] = {
 		label = 'Ferro',
-		weight = 5,
+		weight = 1,
 		stack = true,
 		close = false,
 		consume = 0
@@ -284,7 +284,7 @@ return {
 
 	['legno'] = {
 		label = 'Legna',
-		weight = 5,
+		weight = 100,
 		stack = true,
 		close = false,
 		consume = 0
@@ -292,9 +292,19 @@ return {
 
 	['legnatagliata'] = {
 		label = 'legno tagliato',
-		weight = 5,
+		weight = 100,
 		stack = true,
 		close = false,
 		consume = 0
+	},
+
+	['hammer'] = {
+		label = 'martello',
+		consume = 0,
+	},
+
+	['fixkit'] = {
+		label = 'kit di riparazione',
+		consume = 0,
 	},
 }

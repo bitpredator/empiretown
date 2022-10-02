@@ -36,4 +36,23 @@ return {
 		weight = 70000,
 		groups = {['ambulance'] = 0}
 	},
+
+	{
+		coords = vec3(810.026367, -2159.353760, 29.616821),
+		target = {
+			loc = vec3(810.026367, -2159.353760, 29.616821),
+			length = 0.6,
+			width = 1.8,
+			heading = 340,
+			minZ = 43.34,
+			maxZ = 44.74,
+			label = 'Open personal locker'
+		},
+		name = 'ammulocker',
+		label = 'Personal Locker',
+		owner = true,
+		slots = 70,
+		weight = 70000,
+		groups = {['ammu'] = 0}
+	},
 }
