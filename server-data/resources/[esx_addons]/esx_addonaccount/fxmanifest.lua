@@ -2,10 +2,10 @@ fx_version 'adamant'
 
 game 'gta5'
 
-author 'ESX-Framework'
+author 'bitpredaator'
 description 'ESX Addon Account'
 
-version '1.7.5'
+version '0.0.3'
 
 server_scripts {
 	'@es_extended/imports.lua',
