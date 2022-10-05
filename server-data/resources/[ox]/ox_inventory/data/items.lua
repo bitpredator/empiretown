@@ -307,4 +307,29 @@ return {
 		label = 'kit di riparazione',
 		consume = 0,
 	},
+
+	['almonds'] = {
+		label = 'mandorla',
+		weight = 100,
+		stack = true,
+	},
+
+	['ice'] = {
+		label = 'Ghiaccio',
+		weight = 100,
+		stack = true,
+	},
+
+	['almondmilk'] = {
+		label = 'Latte di mandorla',
+		weight = 500,
+		client = {
+			status = { thirst = 200000 },
+			anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle' },
+			prop = { model = `prop_ld_flow_bottle`, pos = vec3(0.03, 0.03, 0.02), rot = vec3(0.0, 0.0, -1.5) },
+			usetime = 2500,
+			cancel = true,
+			notification = 'hai bevuto una bibita fresca'
+		}
+	},
 }

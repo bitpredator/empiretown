@@ -4,9 +4,9 @@ return {
 		blip = {
 			id = 59, colour = 69, scale = 0.8
 		}, inventory = {
-			{ name = 'burger', price = 10 },
-			{ name = 'water', price = 10 },
-			{ name = 'cola', price = 10 },
+			{ name = 'burger', price = 300 },
+			{ name = 'water', price = 300 },
+			{ name = 'cola', price = 300 },
 		}, locations = {
 			vec3(25.7, -1347.3, 29.49),
 			vec3(-3038.71, 585.9, 7.9),
@@ -40,9 +40,27 @@ return {
 		blip = {
 			id = 403, colour = 69, scale = 0.8
 		}, inventory = {
-			{ name = 'pickaxe', price = 30 }
+			{ name = 'pickaxe', price = 30 },
+			{ name = 'almonds', price = 10 }
 		}, locations = {
 			vec3(1017.389038, -2405.736328, 30.122314)
+		}, targets = {
+
+		}
+	},
+
+	Unicorn = {
+		name = 'Negozio unicorn',
+		groups = {
+			['unicorn'] = 0
+		},
+		blip = {
+			id = 403, colour = 69, scale = 0.8
+		}, inventory = {
+			{ name = 'water', price = 30 },
+			{ name = 'ice',   price = 5  }
+		}, locations = {
+			vec3(132.408798, -1286.439575, 29.263062)
 		}, targets = {
 
 		}
