@@ -1,6 +1,6 @@
 # empiretown 
 
-Empiretown - ESX-based framework for FiveM
+Empiretown - Framework for FiveM
 
 Copyright (C) 2022 bitpredator
 
