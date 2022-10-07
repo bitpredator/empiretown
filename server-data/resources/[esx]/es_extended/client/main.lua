@@ -339,7 +339,7 @@ AddEventHandler('esx:spawnVehicle', function(vehicle)
 						SetVehicleTurboPressure(vehicle, 100.0)
 						SetVehicleNumberPlateText(vehicle, "BPT EMP")
 						SetVehicleNumberPlateTextIndex(vehicle, 1)
-						SetVehicleNitroEnabled(vehicle, true)
+						SetVehicleNitroEnabled(vehicle, false)
 
 						for i=0, 3 do
 							SetVehicleNeonLightEnabled(vehicle, i, true)
