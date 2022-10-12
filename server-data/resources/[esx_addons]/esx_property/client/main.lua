@@ -936,6 +936,9 @@ RegisterNetEvent("esx_property:CreateProperty", function()
       local Pcoords = GetEntityCoords(ESX.PlayerData.ped)
       local StreetHash = GetStreetNameAtCoord(Pcoords.x, Pcoords.y, Pcoords.z)
       local StreetName = GetStreetNameFromHashKey(StreetHash)
+      local Zone = GetZoneAtCoords(Pcoords.x, Pcoords.y, Pcoords.z)
+      local ZoneScum = GetZoneScumminess(Zone)
+      local SuggestedPrice = Config.ZonePriceOptions.Enabled and Config.ZonePriceOptions.Default * Config.ZonePrices[ZoneScum] or nil
       HouseData = {}
       local Property = {{unselectable = true, icon = "fas fa-plus", title = _U("menu_title")},
                         {value = 0, title = _U("element_title1"), icon = "fas fa-list-ol", description = _U("element_description1"), input = true,
