@@ -319,6 +319,18 @@ return {
 		weight = 100,
 		stack = true,
 	},
+	
+	['cannabis'] = {
+		label = 'cannabis',
+		weight = 100,
+		stack = true,
+	},
+   
+    ['marijuana'] = {
+	    label = 'marijuana',
+	    weight = 100,
+	    stack = true,
+    },
 
 	['almondmilk'] = {
 		label = 'Latte di mandorla',
