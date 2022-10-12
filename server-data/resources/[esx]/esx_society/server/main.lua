@@ -58,6 +58,21 @@ AddEventHandler('esx_society:getSociety', function(name, cb)
 	cb(GetSociety(name))
 end)
 
+RegisterServerEvent('esx_society:checkSocietyBalance')
+AddEventHandler('esx_society:checkSocietyBalance', function(society)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local society = GetSociety(society)
+
+	if xPlayer.job.name ~= society.name then
+		print(('esx_society: %s attempted to call checkSocietyBalance!'):format(xPlayer.identifier))
+		return
+	end
+
+	TriggerEvent('esx_addonaccount:getSharedAccount', society.account, function(account)
+		TriggerClientEvent("esx:showNotification", xPlayer.source, _U('check_balance', ESX.Math.GroupDigits(account.money)))
+	end)
+end)
+
 RegisterServerEvent('esx_society:withdrawMoney')
 AddEventHandler('esx_society:withdrawMoney', function(societyName, amount)
 	local source = source
@@ -275,7 +290,7 @@ end)
 ESX.RegisterServerCallback('esx_society:setJob', function(source, cb, identifier, job, grade, type)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local isBoss = xPlayer.job.grade_name == 'boss'
-    local xTarget = ESX.GetPlayerFromIdentifier(identifier)
+	local xTarget = ESX.GetPlayerFromIdentifier(identifier)
 
 	if isBoss then
 
@@ -290,7 +305,7 @@ ESX.RegisterServerCallback('esx_society:setJob', function(source, cb, identifier
 				xPlayer.showNotification(_U("you_have_promoted", xTarget.getName()))
 			elseif type == 'fire' then
 				xTarget.showNotification(_U('you_have_been_fired', xTarget.getJob().label))
-			    xPlayer.showNotification(_U("you_have_fired", xTarget.getName()))
+				xPlayer.showNotification(_U("you_have_fired", xTarget.getName()))
 			end
 
 			cb()
@@ -305,6 +320,7 @@ ESX.RegisterServerCallback('esx_society:setJob', function(source, cb, identifier
 		cb()
 	end
 end)
+
 
 ESX.RegisterServerCallback('esx_society:setJobSalary', function(source, cb, job, grade, salary)
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -334,7 +350,6 @@ ESX.RegisterServerCallback('esx_society:setJobSalary', function(source, cb, job,
 		cb()
 	end
 end)
-
 
 ESX.RegisterServerCallback('esx_society:setJobLabel', function(source, cb, job, grade, label)
 	local xPlayer = ESX.GetPlayerFromId(source)
