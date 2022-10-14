@@ -1,5 +1,5 @@
 Config = {}
-Config.Locale = "it"
+Config.Locale  = 'it'
 
 Config.DrawDistance = 10.0
 
