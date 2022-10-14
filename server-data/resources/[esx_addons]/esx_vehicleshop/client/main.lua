@@ -236,7 +236,7 @@ function OpenShopMenu()
 						else
 							ESX.ShowNotification(_U('not_enough_money'))
 						end
-					end, vehicleData.model, generatedPlate, IsThisModelACar(vehicleData.model))
+					end, vehicleData.model, generatedPlate)
 				end
 			else
 				menu2.close()
