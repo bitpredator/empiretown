@@ -9,7 +9,7 @@ Config.MaxInService               = -1 -- How much people can be in service at o
 Config.EnablePlayerManagement     = true -- Enable society managing.
 Config.EnableSocietyOwnedVehicles = false
 
-Config.Locale                     = 'it'
+Config.Locale                     = GetConvar('esx:locale', 'it')
 
 Config.OxInventory                = ESX.GetConfig().OxInventory
 
