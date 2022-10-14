@@ -6481,7 +6481,8 @@
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.ADD_BLIP_FOR_ENTITY">
             <summary>
-            Create a blip that for default is red (enemy), you can use the [SET_BLIP_AS_FRIENDLY](#\_0xC6F43D0E) to make it blue (friend)
+            Create a blip that by default is red (enemy), you can use [SET_BLIP_AS_FRIENDLY](#\_0xC6F43D0E) to make it blue (friend).\
+            Can be used for objects, vehicles and peds.
             
             Example of enemy:
             ![enemy](https://i.imgur.com/fl78svv.png)
@@ -6625,6 +6626,14 @@
             ```
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.CREATE_VEHICLE_SERVER_SETTER">
+            <summary>
+            Equivalent to CREATE_VEHICLE, but it uses 'server setter' logic (like the former CREATE_AUTOMOBILE) as a workaround for
+            reliability concerns regarding entity creation RPC.
+            
+            Unlike CREATE_AUTOMOBILE, this supports other vehicle types as well.
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.DELETE_ENTITY">
             <summary>
             Deletes the specified entity.
@@ -6697,6 +6706,16 @@
             Returns the current console output buffer.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_CONVAR">
+            <summary>
+            Can be used to get a console variable of type `char*`, for example a string.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_CONVAR_INT">
+            <summary>
+            Can be used to get a console variable casted back to `int` (an integer value).
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_CURRENT_RESOURCE_NAME">
             <summary>
             Returns the name of the currently executing resource.
@@ -6746,6 +6765,38 @@
             ```
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_TYPE">
+            <summary>
+            Gets the entity type (as an integer), which can be one of the following defined down below:
+            
+            **The following entities will return type `2`:**
+            
+            *   Automobile
+            *   Bike
+            *   Boat
+            *   Heli
+            *   Plane
+            *   Submarine
+            *   Trailer
+            *   Train
+            *   DraftVeh (Red Dead Redemption 2)
+            
+            **The following entities will return type `1`:**
+            
+            *   Ped
+            *   Player
+            *   Animal (Red Dead Redemption 2)
+            *   Horse (Red Dead Redemption 2)
+            
+            **The following entities will return type `3`:**
+            
+            *   Object
+            *   Door
+            *   Pickup
+            
+            Otherwise, a value of `0` will be returned.
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_GAME_BUILD_NUMBER">
             <summary>
             Returns the internal build number of the current game being executed.
@@ -6759,10 +6810,12 @@
                 *   2372
                 *   2545
                 *   2612
+                *   2699
             *   RedM
                 *   1311
                 *   1355
                 *   1436
+                *   1491
             *   LibertyM
                 *   43
             *   FXServer
@@ -7152,7 +7205,8 @@
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.REMOVE_ALL_PED_WEAPONS">
             <summary>
-            setting the last params to false it does that same so I would suggest its not a toggle
+            Parameter `p1` does not seem to be used or referenced in game binaries.\
+            **Note:** When called for networked entities, a `CRemoveAllWeaponsEvent` will be created per request.
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.REMOVE_BLIP">
@@ -7205,6 +7259,11 @@
             Sets the displayed sprite for a specific blip.
             
             There's a [list of sprites](https://docs.fivem.net/game-references/blips/) on the FiveM documentation site.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_CONVAR_REPLICATED">
+            <summary>
+            Used to replicate a server variable onto clients.
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.SET_ENTITY_COORDS">
@@ -8319,7 +8378,8 @@
         </member>
         <member name="M:CitizenFX.Core.Native.API.AddBlipForEntity(System.Int32)">
             <summary>
-            Create a blip that for default is red (enemy), you can use the [SET_BLIP_AS_FRIENDLY](#\_0xC6F43D0E) to make it blue (friend)
+            Create a blip that by default is red (enemy), you can use [SET_BLIP_AS_FRIENDLY](#\_0xC6F43D0E) to make it blue (friend).\
+            Can be used for objects, vehicles and peds.
             Example of enemy:
             ![enemy](https://i.imgur.com/fl78svv.png)
             Example of friend:
@@ -8539,7 +8599,7 @@
             False to create a door archetype (archetype flag bit 26 set) as a door. Required to be set to true to create door models in network mode.
             </param>
             <returns>
-            A script handle for the object, or `0` if the object failed to be created.
+            A script handle (fwScriptGuid index) for the object, or `0` if the object failed to be created.
             </returns>
         </member>
         <member name="M:CitizenFX.Core.Native.API.CreateObjectNoOffset(System.UInt32,System.Single,System.Single,System.Single,System.Boolean,System.Boolean,System.Boolean)">
@@ -8637,6 +8697,34 @@
             </param>
             <returns>
             A script handle (fwScriptGuid index) for the vehicle, or `0` if the vehicle failed to be created.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.CreateVehicleServerSetter(System.UInt32,System.String,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Equivalent to CREATE_VEHICLE, but it uses 'server setter' logic (like the former CREATE_AUTOMOBILE) as a workaround for
+            reliability concerns regarding entity creation RPC.
+            Unlike CREATE_AUTOMOBILE, this supports other vehicle types as well.
+            </summary>
+            <param name="modelHash">
+            The model of vehicle to spawn.
+            </param>
+            <param name="type">
+            The appropriate vehicle type for the model info. Can be one of `automobile`, `bike`, `boat`, `heli`, `plane`, `submarine`, `trailer`, and (potentially), `train`. This should be the same type as the `type` field in `vehicles.meta`.
+            </param>
+            <param name="x">
+            Spawn coordinate X component.
+            </param>
+            <param name="y">
+            Spawn coordinate Y component.
+            </param>
+            <param name="z">
+            Spawn coordinate Z component.
+            </param>
+            <param name="heading">
+            Heading to face towards, in degrees.
+            </param>
+            <returns>
+            A script handle for the vehicle.
             </returns>
         </member>
         <member name="M:CitizenFX.Core.Native.API.DeleteEntity(System.Int32)">
@@ -8749,6 +8837,34 @@
             The most recent game console output, as a string.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetConvar(System.String,System.String)">
+            <summary>
+            Can be used to get a console variable of type `char*`, for example a string.
+            </summary>
+            <param name="varName">
+            The console variable to look up.
+            </param>
+            <param name="default_">
+            The default value to set if none is found.
+            </param>
+            <returns>
+            Returns the convar value if it can be found, otherwise it returns the assigned `default`.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetConvarInt(System.String,System.Int32)">
+            <summary>
+            Can be used to get a console variable casted back to `int` (an integer value).
+            </summary>
+            <param name="varName">
+            The console variable to look up.
+            </param>
+            <param name="default_">
+            The default value to set if none is found (variable not set using [SET_CONVAR](#\_0x341B16D2), or not accessible).
+            </param>
+            <returns>
+            Returns the convar value if it can be found, otherwise it returns the assigned `default`.
+            </returns>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetCurrentResourceName">
             <summary>
             Returns the name of the currently executing resource.
@@ -8843,6 +8959,37 @@
             The speed of the entity in meters per second
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetEntityType(System.Int32)">
+            <summary>
+            Gets the entity type (as an integer), which can be one of the following defined down below:
+            **The following entities will return type `2`:**
+            *   Automobile
+            *   Bike
+            *   Boat
+            *   Heli
+            *   Plane
+            *   Submarine
+            *   Trailer
+            *   Train
+            *   DraftVeh (Red Dead Redemption 2)
+            **The following entities will return type `1`:**
+            *   Ped
+            *   Player
+            *   Animal (Red Dead Redemption 2)
+            *   Horse (Red Dead Redemption 2)
+            **The following entities will return type `3`:**
+            *   Object
+            *   Door
+            *   Pickup
+            Otherwise, a value of `0` will be returned.
+            </summary>
+            <param name="entity">
+            The entity to get the type of.
+            </param>
+            <returns>
+            The entity type returned as an integer value.
+            </returns>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetGameBuildNumber">
             <summary>
             Returns the internal build number of the current game being executed.
@@ -8854,10 +9001,12 @@
             *   2372
             *   2545
             *   2612
+            *   2699
             *   RedM
             *   1311
             *   1355
             *   1436
+            *   1491
             *   LibertyM
             *   43
             *   FXServer
@@ -9560,8 +9709,12 @@
         </member>
         <member name="M:CitizenFX.Core.Native.API.RemoveAllPedWeapons(System.Int32,System.Boolean)">
             <summary>
-            setting the last params to false it does that same so I would suggest its not a toggle
+            Parameter `p1` does not seem to be used or referenced in game binaries.\
+            **Note:** When called for networked entities, a `CRemoveAllWeaponsEvent` will be created per request.
             </summary>
+            <param name="ped">
+            The ped entity
+            </param>
         </member>
         <member name="M:CitizenFX.Core.Native.API.RemoveBlip(System.Int32@)">
             <summary>
@@ -9646,6 +9799,17 @@
             </param>
             <param name="spriteId">
             The sprite ID to set.
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetConvarReplicated(System.String,System.String)">
+            <summary>
+            Used to replicate a server variable onto clients.
+            </summary>
+            <param name="varName">
+            The console variable name.
+            </param>
+            <param name="_value">
+            The value to set for the given console variable.
             </param>
         </member>
         <member name="M:CitizenFX.Core.Native.API.SetEntityCoords(System.Int32,System.Single,System.Single,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">

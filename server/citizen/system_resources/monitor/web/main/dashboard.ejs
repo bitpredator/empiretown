@@ -116,21 +116,29 @@
 <% if (txaOutdated) { %>
     <div class="row justify-content-md-center">
         <div class="col-md-6 text-center">
-            <div class="alert alert-<%= txaOutdated.color %> border-<%= txaOutdated.color %>" role="alert">
+            <div class="alert alert-<%= txaOutdated.color %>" role="alert">
                 <h5 style="margin-bottom: 0px;">
                     <svg class="alert-title-icon" width="22" height="22">
                         <use href="img/coreui_icons.svg#cil-cloud-download"></use>
                     </svg>
-                    This version of txAdmin is outdated.
+                    <% if (txaOutdated.semverDiff === 'patch') { %>
+                        A patch (bug fix) update is available for txAdmin.
+                    <% } else{ %> 
+                        This version of txAdmin is outdated.
+                    <% } %>
                 </h5>
-                txAdmin v<%= txaOutdated.latest %> has been released.
-                Please update now, it is <i>very</i> easy!
-                <div class="event-footer">
-                    Support Discord:
-                    <a href="https://discord.gg/uAmsGa2" target="_blank" >
-                        <img src="https://discordapp.com/api/guilds/577993482761928734/widget.png?style=shield"></img>
-                    </a>
-                </div>
+                <% if (txaOutdated.semverDiff === 'patch') { %>
+                    If you are experiencing any kind of issue, please update now.
+                <% } else{ %> 
+                    Version <%= txaOutdated.latest %> has been released bringing new features, bug fixes and improvements. <br>
+                    <div class="event-footer">
+                        Please update now. Support Discord:
+                        <a href="https://discord.gg/uAmsGa2" target="_blank" >
+                            <img src="https://discordapp.com/api/guilds/577993482761928734/widget.png?style=shield"></img>
+                        </a>
+                    </div>
+                <% } %>
+                
             </div>
         </div>
     </div>
@@ -212,12 +220,12 @@
                     <%= perms.controls %>>STOP</button>
                 <br />
 
-                <% if (isWebInterface) { %>
                 <button onclick="controlCommand('admin_broadcast')" class="btn btn-outline-dark btn-md mx-auto m-2"
-                    type="button" id="ctrl-announce" <%= perms.commandMessage %>>Announcement</button> &nbsp;
+                    type="button" id="ctrl-announce" <%= perms.commandMessage %>>Announcement</button>
                 <button onclick="controlCommand('kick_all')" class="btn btn-outline-dark btn-md mx-auto m-2"
                     type="button" id="ctrl-kick-all" <%= perms.commandKick %>>Kick All Players</button>
-                <% } %>
+                <button class="btn btn-outline-dark btn-md mx-auto m-2"
+                    type="button" id="ctrl-schedule-restart" <%= perms.controls %>>Schedule Restart</button>
             </div>
         </div>
     </div>
@@ -229,10 +237,19 @@
                 <h5 class="d-inline">Status Info</h5>
             </div>
             <div class="card-body" id="status-card">
-                <br>
-                <div class="text-center">
-                    Loading...
-                </div>
+                Discord Bot Status:
+                    <span class="badge badge-light" id="status-discord"> ?? </span> <br />
+                Server Status: 
+                    <span class="badge badge-light" id="status-server"> ?? </span>
+                    <span class="badge badge-light" id="status-serverProcess"> ?? </span> <br />
+                Next Restart:
+                    <span class="font-weight-light text-warnings" id="status-nextRestartTime"> not scheduled </span>
+                    <button class="btn btn-inline btn-warning d-none" type="button" id="status-nextRestartBtnCancel">
+                        Cancel
+                    </button>
+                    <button class="btn btn-inline btn-dark d-none" type="button" id="status-nextRestartBtnEnable">
+                        Enable
+                    </button>
             </div>
         </div>
     </div>
@@ -400,5 +417,53 @@
                 notify.update('message', message);
             }
         });
+    }
+
+    //============================================== Scheduler Stuff
+    const schedulerApiCall = (action, parameter) => {
+        const notify = $.notify({ message: 'Executing Command...' }, {});
+        txAdminAPI({
+            type: "POST",
+            url: '/fxserver/schedule',
+            data: {action, parameter},
+            success: function (data) {
+                notify.update('progress', 0);
+                notify.update('type', data.type);
+                notify.update('message', data.message);
+            },
+            error: function (xmlhttprequest, textstatus, message) {
+                notify.update('progress', 0);
+                notify.update('type', 'danger');
+                notify.update('message', message);
+            }
+        });
+    }
+    statusCard.nextRestartBtnCancel.onclick = () => {
+        schedulerApiCall('setNextSkip', true);
+        statusCard.nextRestartBtnCancel.classList.add('d-none');
+    }
+    statusCard.nextRestartBtnEnable.onclick = () => {
+        schedulerApiCall('setNextSkip', false);
+        statusCard.nextRestartBtnEnable.classList.add('d-none');
+    }
+    document.getElementById('ctrl-schedule-restart').onclick = async () => {
+        const input = await txAdminPrompt({
+            modalColor: 'orange',
+            confirmBtnClass: 'btn-orange',
+            title: 'Schedule Restart',
+            description: 'Type in the time for the server to restart in the 24-hour format <code>HH:MM</code>.<br>\n<strong>Note:</strong> Make sure your schedule matches your server time and not your local time.', 
+            placeholder: '16:15'
+        });
+
+        const [hours, minutes] = input.split(':', 2).map(x => parseInt(x));
+        if (
+            typeof hours === 'undefined' || isNaN(hours) || hours < 0 || hours > 23
+            || typeof minutes === 'undefined' || isNaN(minutes) || minutes < 0 || minutes > 59
+        ){
+            $.notify({ message: 'invalid hours:minutes'}, {type: 'danger'});
+            return;
+        }
+
+        schedulerApiCall('setNextTempSchedule', input);
     }
 </script>

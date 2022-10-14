@@ -1,24 +1,70 @@
 # TODO:
-v4.17.0:
-- [x] reorganize folders
-- [x] migrate core to esbuild
-- [x] migrate menu to vite
-- [x] docs: new structure, building, developing
-- [x] convert txAdmin to ESM
-- [x] add option to set the resource load max time
-- [x] add player id view permission + logging
-- [x] ask bubble to rm the cicd cache or add a `rm -rf` to the target folder
+v4.18.0:
+- [x] fix fxserver settings save issue
+- [x] clarify better the update notifications (path vs minor)
+- [x] fix(core): getOsDistro powershell detection + error handling
+- [x] fix: fixed pidusage and enabled process stats in diagnostics page
+- [x] scheduler should deny scheduled restarts in the same minute
+
+
+- [ ] `cfg cyclical 'exec' command detected to file` should be blocking instead of warning
+
+https://media.discordapp.net/attachments/589106731376836608/1018227573420990564/unknown.png
+
+
+
+events for dynamic scheduled restarts
+
+teste:
+    remover meu admin do sv zap
+    dar join
+    apertar f1 e ver se aparece a mensagem de perms
+
+```js
+//Resource didn't finish starting (if res boot still active)
+`resource "${starting.startingResName}" failed to start within the [120~600]s time limit`
+
+//Resources started, but no heartbeat whithin limit after that
+`server failed to start within time limit - 30s after last resource started`
+
+//No resource started starting, hb over limit
+`server failed to start within time limit - ${this.hardConfigs.heartBeat.failLimit}s, no onResourceStarting received`
+
+//Server started, but some time after it stopped replying http requests
+//elapsedHealthCheck > this.hardConfigs.healthCheck.failLimit
+'server partial hang detected'
+
+//else
+'server hang detected'
+```
+
+https://cs.github.com/?scopeName=All+repos&scope=&q=repo%3Avercel%2Fnext.js+%40next%2Fenv
+https://github.com/vercel/next.js/blob/canary/packages/next-env/index.ts
+
+
 
 Optional:
+- [ ] fix cfx.re login match by admin id
+- [ ] fix diagnostics page pidtree/pidusage
 - [ ] add actionRevoked event (rewrite PR #612)
-- [ ] rewrite the GET /status endpoint (close PR #440)
-- [ ] add option to skip or add time to schedules restart
-- [ ] add option to schedule a restart (single shot, non persistent)
-- [ ] stats: add recipe name + if ptero + random collisions
+- [ ] stats: add recipe name + if ptero + random collisions + how many scheduled restart times + drop zap/discord as login methods
 - [ ] stats: jwe
 - [ ] playerlist remove rtl characters
-- [ ] create beta release action
+- [ ] set nui/vite.config.ts > target > chrome103
 
+The Big Things before ts+react rewrite:
+- in-core playerlist state tracking
+- in-core resource state tracking
+- new proxy console util
+- new config (prepared for multiserver)
+- multiserver tx instance (backend only)
+
+
+### Console Rewrite
+- [ ] Rewrite console logger module to be proxied to node:console
+- [ ] Move verbose to be part of the console (after the functional-ish change)
+- [ ] Remove the GlobalData from a bunch of files which include it just because of verbosity
+- [ ] Upgrade chalk, drop the chalk.keyword thing
 
 ```js
 console.log('aaa', {àa:true});
@@ -43,16 +89,10 @@ const console = consoleFactory(modulename)
 
 process.exit();
 ```
-remover lodash dep e ficar só com lodash-es?
 
-Move verbose to be part of the console (after the functional-ish change)
-and then remove the GlobalData from a bunch of files which include it just because of verbosity
 
-NOTE:
 
-https://medium.com/slackernoon/use-typescript-aliases-to-clean-up-your-import-statements-7210b7ec2af1
-nice ESM guide https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
-https://github.com/sindresorhus/typescript-definition-style-guide
+NOTE: https://github.com/sindresorhus/typescript-definition-style-guide
 
 ## Client game print issue
 https://github.com/citizenfx/fivem/commit/cafd87148a9a47eb267c24c00ec15f96103d4257
@@ -65,11 +105,10 @@ Up next-ish:
     - [ ] Use `dotenv` or something to read FXServer's path from
     - [ ] Adapt `main-builder.js` to accept txAdmin convars
     - [ ] Update `development.md`
-- 'txaLogger:menuEvent' outros resources conseguem chamar?
+- [ ] checar se outros resources conseguem chamar 'txaLogger:menuEvent'?
 - [ ] add ram usage to perf chart?
 - [ ] dm via snackbar
 - [ ] wav for announcements
-- [ ] update `README.md`
 - [ ] replace `txaDropIdentifiers` with `txAdmin:events:playerBanned` hook
 - [ ] Migrate console log to new logger
 - [ ] Migrate all log routes
@@ -100,7 +139,20 @@ FIXME: quando o menu abrir, deveria voltar os list item pro default deles
 - começar a ler o ui_label dos manifests e usar na página de resources
 
 
+### Server Insights page ideas:
+- resource load times
+- resource streamed assets
+- http requests (grouped by resource, grouped by root domain or both?)
+- performance chart with ram usage
+- player count (loger window, maybe with some other data)
+- top players? 
+- map heatmap?!
+- something with server log events like chat messages, kills, leave reasons, etc?
 
+
+https://www.npmjs.com/search?q=effective%20domain
+https://www.npmjs.com/package/parse-domain
+https://www.npmjs.com/package/tldts
 
 ### txAdminAPI interface in base.js:
 - Create prop `pendingMessage` to replace `const notify = $.notify({ message: 'xxxxxx' }, {});`
@@ -144,6 +196,11 @@ tentar usar vite
 react-query usar 100%
 procurar alternativas pro react-router (wouter)
 https://auto-animate.formkit.com
+https://tanstack.com/virtual/v3
+
+For the tx ingame menu, replace actions grid with flexbox
+https://youtu.be/3elGSZSWTbM
+around 12:00
 
 
 ### Update Event + Rollout strategy
@@ -282,7 +339,6 @@ To check of admin perm, just do `IsPlayerAceAllowed(src, 'txadmin.xxxxxx')`
 
 
 ### recipe engine todo:
-- checksum for downloaded files
 - remove_path accept array?
 - every X download_github wait some time - maybe check if ref or not, to be smarter
 - https://github.com/isomorphic-git/isomorphic-git
