@@ -6,7 +6,6 @@ ESX = exports["es_extended"]:getSharedObject()
 RegisterServerEvent('bpt_taglialegna:sellLegno')
 AddEventHandler('bpt_taglialegna:sellLegno', function(itemName, amount)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	local price = Config.LegnoDealerItems[itemName]
 	local xItem = xPlayer.getInventoryItem(itemName)
 
 	if not price then

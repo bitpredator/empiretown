@@ -19,5 +19,4 @@ Locales ['it'] = {
   -- blips
   ['blip_legnofield'] = 'bosco',
   ['blip_legnoprocessing'] = 'lavorazione legno',
-  ['blip_sellwood'] = 'Vendita Legno',
 }
