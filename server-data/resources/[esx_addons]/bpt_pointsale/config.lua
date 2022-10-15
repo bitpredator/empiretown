@@ -27,5 +27,5 @@ Config.ShopDraw3DText = "Premi ~g~[E]~s~ per ~y~vendere~s~"					-- set your desi
 -- Pawn Shop Item List:
 Config.ItemsInPointSale = {
 	{ itemName = 'garbage', label = 'rifiuti', BuyInPointSale = false, BuyPrice = 1, SellInPointSale = true, SellPrice = 1 },
+    { itemName = 'legnatagliata', label = 'legna tagliata', BuyInPointSale = false, BuyPrice = 1, SellInPointSale = true, SellPrice = 1 },
 }
-
