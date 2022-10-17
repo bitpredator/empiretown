@@ -1,20 +1,20 @@
 local lastPlayerSuccess = {}
 
 if Config.MaxInService ~= -1 then
-    TriggerEvent('esx_service:activateService', 'import', Config.MaxInService)
+    TriggerEvent('esx_service:activateService', 'dustman', Config.MaxInService)
 end
 
-TriggerEvent('esx_phone:registerNumber', 'import', _U('import_client'), true, true)
-TriggerEvent('esx_society:registerSociety', 'import', 'Import', 'society_import', 'society_import', 'society_import', {
+TriggerEvent('esx_phone:registerNumber', 'dustman', _U('dustman_client'), true, true)
+TriggerEvent('esx_society:registerSociety', 'dustman', 'Dustman', 'society_dustman', 'society_dustman', 'society_dustman', {
     type = 'public'
 })
 
-RegisterNetEvent('bpt_importjob:success')
-AddEventHandler('bpt_importjob:success', function()
+RegisterNetEvent('bpt_dustmanjob:success')
+AddEventHandler('bpt_dustmanjob:success', function()
     local xPlayer = ESX.GetPlayerFromId(source)
     local timeNow = os.clock()
 
-    if xPlayer.job.name == 'import' then
+    if xPlayer.job.name == 'dustman' then
         if not lastPlayerSuccess[source] or timeNow - lastPlayerSuccess[source] > 5 then
             lastPlayerSuccess[source] = timeNow
 
@@ -25,30 +25,30 @@ AddEventHandler('bpt_importjob:success', function()
                 total = total * 2
             end
 
-            TriggerEvent('esx_addonaccount:getSharedAccount', 'society_import', function(account)
+            TriggerEvent('esx_addonaccount:getSharedAccount', 'society_dustman', function(account)
                 if account then
                     local playerMoney = ESX.Math.Round(total / 100 * 30)
                     local societyMoney = ESX.Math.Round(total / 100 * 70)
 
-                    xPlayer.addMoney(playerMoney, "Import Fair")
+                    xPlayer.addMoney(playerMoney, "Dustman Fair")
                     account.addMoney(societyMoney)
 
                     xPlayer.showNotification(_U('comp_earned', societyMoney, playerMoney))
                 else
-                    xPlayer.addMoney(total, "Import Fair")
+                    xPlayer.addMoney(total, "Dustman Fair")
                     xPlayer.showNotification(_U('have_earned', total))
                 end
             end)
         end
     else
-        print(('[^3WARNING^7] Player ^5%s^7 attempted to ^5bpt_importjob:success^7 (cheating)'):format(source))
+        print(('[^3WARNING^7] Player ^5%s^7 attempted to ^5bpt_dustmanjob:success^7 (cheating)'):format(source))
     end
 end)
 
-ESX.RegisterServerCallback("bpt_importjob:SpawnVehicle", function(source, cb, model , props)
+ESX.RegisterServerCallback("bpt_dustmanjob:SpawnVehicle", function(source, cb, model , props)
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.job.name ~= "import" then 
+    if xPlayer.job.name ~= "dustman" then 
         print(('[^3WARNING^7] Player ^5%s^7 attempted to Exploit Vehicle Spawing!!'):format(source))
         return
     end
@@ -63,12 +63,12 @@ ESX.RegisterServerCallback("bpt_importjob:SpawnVehicle", function(source, cb, mo
     cb()
 end)
 
-RegisterNetEvent('bpt_importjob:getStockItem')
-AddEventHandler('bpt_importjob:getStockItem', function(itemName, count)
+RegisterNetEvent('bpt_dustmanjob:getStockItem')
+AddEventHandler('bpt_dustmanjob:getStockItem', function(itemName, count)
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.job.name == 'import' then
-        TriggerEvent('esx_addoninventory:getSharedInventory', 'society_import', function(inventory)
+    if xPlayer.job.name == 'dustman' then
+        TriggerEvent('esx_addoninventory:getSharedInventory', 'society_dustman', function(inventory)
             local item = inventory.getItem(itemName)
 
             -- is there enough in the society?
@@ -86,22 +86,22 @@ AddEventHandler('bpt_importjob:getStockItem', function(itemName, count)
             end
         end)
     else
-        print(('[^3WARNING^7] Player ^5%s^7 attempted ^5bpt_importjob:getStockItem^7 (cheating)'):format(source))
+        print(('[^3WARNING^7] Player ^5%s^7 attempted ^5bpt_dustmanjob:getStockItem^7 (cheating)'):format(source))
     end
 end)
 
-ESX.RegisterServerCallback('bpt_importjob:getStockItems', function(source, cb)
-    TriggerEvent('esx_addoninventory:getSharedInventory', 'society_import', function(inventory)
+ESX.RegisterServerCallback('bpt_dustmanjob:getStockItems', function(source, cb)
+    TriggerEvent('esx_addoninventory:getSharedInventory', 'society_dustman', function(inventory)
         cb(inventory.items)
     end)
 end)
 
-RegisterNetEvent('bpt_importjob:putStockItems')
-AddEventHandler('bpt_importjob:putStockItems', function(itemName, count)
+RegisterNetEvent('bpt_dustmanjob:putStockItems')
+AddEventHandler('bpt_dustmanjob:putStockItems', function(itemName, count)
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.job.name == 'import' then
-        TriggerEvent('esx_addoninventory:getSharedInventory', 'society_import', function(inventory)
+    if xPlayer.job.name == 'dustman' then
+        TriggerEvent('esx_addoninventory:getSharedInventory', 'society_dustman', function(inventory)
             local item = inventory.getItem(itemName)
 
             if item.count > 0 then
@@ -113,11 +113,11 @@ AddEventHandler('bpt_importjob:putStockItems', function(itemName, count)
             end
         end)
     else
-        print(('[^3WARNING^7] Player ^5%s^7 attempted ^5bpt_importjob:putStockItems^7 (cheating)'):format(source))
+        print(('[^3WARNING^7] Player ^5%s^7 attempted ^5bpt_dustmanjob:putStockItems^7 (cheating)'):format(source))
     end
 end)
 
-ESX.RegisterServerCallback('bpt_importjob:getPlayerInventory', function(source, cb)
+ESX.RegisterServerCallback('bpt_dustmanjob:getPlayerInventory', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     local items = xPlayer.inventory
 
