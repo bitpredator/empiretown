@@ -332,6 +332,24 @@ return {
 	    stack = true,
     },
 
+	['apple'] = {
+	    label = 'Mele',
+	    weight = 100,
+	    stack = true,
+    },
+
+	['milk'] = {
+	    label = 'latte',
+	    weight = 100,
+	    stack = true,
+    },
+
+	['potato'] = {
+	    label = 'Patate',
+	    weight = 100,
+	    stack = true,
+    },
+
 	['almondmilk'] = {
 		label = 'Latte di mandorla',
 		weight = 500,
