@@ -16,7 +16,7 @@ end
 
 local function loadLocale(locale)
 	local resourceName = GetCurrentResourceName()
-	local JSON = LoadResourceFile(resourceName, ('locales/%s.json'):format(locale)) or LoadResourceFile(resourceName, ('locales/en.json'):format(locale))
+	local JSON = LoadResourceFile(resourceName, ('locales/%s.json'):format(locale)) or LoadResourceFile(resourceName, ('locales/it.json'):format(locale))
 	dict = JSON and json.decode(JSON) or {}
 end
 

@@ -26,4 +26,4 @@ function lib.versionCheck(repository)
 	end)
 end
 
-lib.versionCheck('overextended/ox_lib')
+lib.versionCheck('bitpredator/ox_lib')

@@ -21449,7 +21449,7 @@ var init_update = __esm({
     if (GetConvar("mysql_versioncheck", "true") === "true") {
       setTimeout(async () => {
         try {
-          const response = await fetch(`https://api.github.com/repos/overextended/oxmysql/releases/latest`);
+          const response = await fetch(`https://api.github.com/repos/bitpredator/oxmysql/releases/latest`);
           if (response.status !== 200)
             return;
           const release = await response.json();

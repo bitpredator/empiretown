@@ -3,7 +3,7 @@ local userLocale = GetResourceKvpString('locale') or default[GetCurrentLanguage(
 
 local function loadLocale(locale, cb)
 	if cb then cb(1) end
-	local JSON = LoadResourceFile('ox_lib', ('locales/%s.json'):format(locale)) or LoadResourceFile('ox_lib', ('locales/en.json'):format(locale))
+	local JSON = LoadResourceFile('ox_lib', ('locales/%s.json'):format(locale)) or LoadResourceFile('ox_lib', ('locales/it.json'):format(locale))
 
 	SendNUIMessage({
 		action = 'setLocale',

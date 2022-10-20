@@ -1,4 +1,4 @@
--- ox_lib <https://github.com/overextended/ox_lib>
+-- ox_lib <https://github.com/bitpredator/ox_lib>
 -- Copyright (C) 2021 Linden <https://github.com/thelindat>
 -- LGPL-3.0-or-later <https://www.gnu.org/licenses/lgpl-3.0.en.html>
 
