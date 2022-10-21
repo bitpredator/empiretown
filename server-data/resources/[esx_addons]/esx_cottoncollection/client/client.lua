@@ -82,7 +82,7 @@ Citizen.CreateThread(function()
 								end)
 							else
 								onAction = false
-								exports['mythic_notify']:DoHudText('error', 'Hai annullato la raccolta del cotone!')
+							 exports["esx_notify"]:Notify("info", 3000, "Hai annullato la raccolta del cotone")
 							end
 						end)
 					end

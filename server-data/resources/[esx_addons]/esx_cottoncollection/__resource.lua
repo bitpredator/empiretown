@@ -11,6 +11,6 @@ server_scripts{
 }
 
 dependencies {
-    'mythic_notify',
+    'esx_notify',
     'mythic_progressbar'
 }
