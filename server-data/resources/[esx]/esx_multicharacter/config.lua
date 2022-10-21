@@ -1,5 +1,5 @@
 Config = {}
-Config.Locale = 'it'
+Config.Locale  = 'it'
 
 -- Allows players to delete their characters
 Config.CanDelete = true
