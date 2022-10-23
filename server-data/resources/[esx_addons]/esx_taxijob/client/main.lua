@@ -220,13 +220,8 @@ function DeleteJobVehicle()
 end
 
 function OpenTaxiActionsMenu()
-    local elements = {{
-        label = _U('deposit_stock'),
-        value = 'put_stock'
-    }, {
-        label = _U('take_stock'),
-        value = 'get_stock'
-    }}
+    local elements = {
+    }
 
     if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
         table.insert(elements, {
