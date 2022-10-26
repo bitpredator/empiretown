@@ -28,13 +28,10 @@ end)
 
 RegisterNUICallback('spawnVehicle', function(data, cb)
     local spawnCoords = vector3(data.spawnPoint.x, data.spawnPoint.y, data.spawnPoint.z)
-
     if thisGarage then
 
         if ESX.Game.IsSpawnPointClear(spawnCoords, 2.5) then
-
             thisGarage = nil
-
             TriggerServerEvent('esx_garage:updateOwnedVehicle', false, nil, nil, data, spawnCoords)
             TriggerEvent('esx_garage:closemenu')
 
@@ -348,12 +345,11 @@ CreateThread(function()
                         if IsControlJustReleased(0, 38) then
                             local vehicle = GetVehiclePedIsIn(playerPed, false)
                             local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
-
                             ESX.TriggerServerCallback('esx_garage:checkVehicleOwner', function(owner)
                                 if owner then
                                     ESX.Game.DeleteVehicle(vehicle)
                                     TriggerServerEvent('esx_garage:updateOwnedVehicle', true, currentMarker, nil,
-                                    {vehicleProps = vehicleProps})
+                                        {vehicleProps = vehicleProps})
                                 else
                                     ESX.ShowNotification(_U('not_owning_veh'), 'error')
                                 end
@@ -372,9 +368,7 @@ CreateThread(function()
                     currentPart = 'GetOutPoint'
 
                     if IsControlJustReleased(0, 38) and not menuIsShowed then
-            
                         ESX.TriggerServerCallback('esx_garage:getVehiclesInPound', function(vehicles)
-                            
                             if next(vehicles) then
                                 menuIsShowed = true
 

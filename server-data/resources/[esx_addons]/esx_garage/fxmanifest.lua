@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'bitpredator'
 description 'BPT Garage System compatible with esx'
-version '0.0.2'
+version '0.0.3'
 lua54 'yes'
 
 shared_script '@es_extended/imports.lua'
