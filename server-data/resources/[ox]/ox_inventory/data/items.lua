@@ -350,6 +350,19 @@ return {
 	    stack = true,
     },
 
+	['chips'] = {
+	    label = 'Patatine fritte',
+	    weight = 100,
+	    stack = true, 
+    },
+    
+	['slicedchips'] = {
+	    label = 'Patate affettate',
+	    weight = 100,
+	    stack = true,
+    },
+
+
 	['almondmilk'] = {
 		label = 'Latte di mandorla',
 		weight = 500,
