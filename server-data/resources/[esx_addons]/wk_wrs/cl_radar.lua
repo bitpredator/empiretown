@@ -70,7 +70,7 @@ end
 --[[------------------------------------------------------------------------
     Police Vehicle Radar 
 ------------------------------------------------------------------------]]--
-local radarEnabled = false 
+local radarEnabled = false
 local hidden = false 
 local radarInfo = 
 { 
@@ -115,9 +115,9 @@ AddEventHandler( 'wk:toggleRadar', function()
             radarEnabled = not radarEnabled
 
             if ( radarEnabled ) then
-                exports["esx_notify"]:Notify("info", 3000, "Radar Enabled")
+                exports["esx_notify"]:Notify("info", 3000, "Radar ON")
             else 
-                exports["esx_notify"]:Notify("info", 3000, "Radar Disabled")
+                exports["esx_notify"]:Notify("info", 3000, "Radar OFF")
             end 
 
             ResetFrontAntenna()
@@ -131,10 +131,10 @@ AddEventHandler( 'wk:toggleRadar', function()
                 bwdmode = radarInfo.bwdMode
             })
         else 
-            exports["esx_notify"]:Notify("info", 3000, "You are not a police vehicle dumbass")
+            exports["esx_notify"]:Notify("info", 3000, "non sei nell'auto di servizio")
         end 
     else 
-        exports["esx_notify"]:Notify("info", 3000, "Trying to use a radar without vehicle")
+        exports["esx_notify"]:Notify("info", 3000, "stai cercando di usare un veicolo senza radar")
     end 
 end )
 
@@ -232,10 +232,10 @@ end
 function ToggleSpeedType()
     if ( radarInfo.speedType == "mph" ) then 
         radarInfo.speedType = "kmh"
-        exports["esx_notify"]:Notify("info", 3000, "Speed in Km/h ?")
+        exports["esx_notify"]:Notify("info", 3000, "velocità in mph ?")
     else 
         radarInfo.speedType = "mph"
-            exports["esx_notify"]:Notify("info", 3000, "Nice you are checking speed in MPH ?")
+            exports["esx_notify"]:Notify("info", 3000, "stai controllando la velocità MPH ?")
     end
 end 
 
