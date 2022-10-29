@@ -362,6 +362,17 @@ return {
 	    stack = true,
     },
 
+	['opium'] = {
+	    label = 'oppio',
+	    weight = 100,
+	    stack = true,
+    },
+
+	['seed_opium'] = {
+	    label = 'seme di oppio',
+	    weight = 100,
+	    stack = true,
+    },
 
 	['almondmilk'] = {
 		label = 'Latte di mandorla',
