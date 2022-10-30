@@ -107,9 +107,9 @@ CREATE TABLE IF NOT EXISTS `banking` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `balance` int(11) DEFAULT 0,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.banking: ~2 rows (circa)
+-- Dump dei dati della tabella es_extended.banking: ~8 rows (circa)
 
 -- Dump della struttura di tabella es_extended.billing
 CREATE TABLE IF NOT EXISTS `billing` (
@@ -194,9 +194,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=432 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=455 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~431 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~454 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -628,7 +628,30 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(428, 'property', NULL, '{}'),
 	(429, 'property', NULL, '{}'),
 	(430, 'property', NULL, '{}'),
-	(431, 'property', NULL, '{}');
+	(431, 'property', NULL, '{}'),
+	(432, 'property', NULL, '{}'),
+	(433, 'property', NULL, '{}'),
+	(434, 'property', NULL, '{}'),
+	(435, 'property', NULL, '{}'),
+	(436, 'property', NULL, '{}'),
+	(437, 'property', NULL, '{}'),
+	(438, 'property', NULL, '{}'),
+	(439, 'property', NULL, '{}'),
+	(440, 'property', NULL, '{}'),
+	(441, 'property', NULL, '{}'),
+	(442, 'property', NULL, '{}'),
+	(443, 'property', NULL, '{}'),
+	(444, 'property', NULL, '{}'),
+	(445, 'property', NULL, '{}'),
+	(446, 'property', NULL, '{}'),
+	(447, 'property', NULL, '{}'),
+	(448, 'property', NULL, '{}'),
+	(449, 'property', NULL, '{}'),
+	(450, 'property', NULL, '{}'),
+	(451, 'property', NULL, '{}'),
+	(452, 'property', NULL, '{}'),
+	(453, 'property', NULL, '{}'),
+	(454, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -843,6 +866,7 @@ CREATE TABLE IF NOT EXISTS `owned_vehicles` (
   `pound` varchar(60) DEFAULT NULL,
   `trunk` longtext DEFAULT NULL,
   `glovebox` longtext DEFAULT NULL,
+  `peopleWithKeys` longtext DEFAULT '[]',
   PRIMARY KEY (`plate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -874,8 +898,8 @@ CREATE TABLE IF NOT EXISTS `phone_app_chat` (
 CREATE TABLE IF NOT EXISTS `phone_calls` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner` varchar(46) DEFAULT NULL,
-  `num` varchar(10) NOT NULL COMMENT 'Num refÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©rence du contact',
-  `incoming` int(11) NOT NULL COMMENT 'DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©fini si on est ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  l''origine de l''appels',
+  `num` varchar(10) NOT NULL COMMENT 'Num refÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©rence du contact',
+  `incoming` int(11) NOT NULL COMMENT 'DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©fini si on est ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  l''origine de l''appels',
   `time` timestamp NOT NULL DEFAULT current_timestamp(),
   `accepts` int(11) NOT NULL COMMENT 'Appels accepter ou pas',
   PRIMARY KEY (`id`)
@@ -948,7 +972,6 @@ CREATE TABLE IF NOT EXISTS `twitter_accounts` (
 
 -- Dump dei dati della tabella es_extended.twitter_accounts: ~1 rows (circa)
 INSERT INTO `twitter_accounts` (`id`, `username`, `password`, `avatar_url`) VALUES
-	(38, 'dev.Bit', 'patata', '/html/static/img/twitter/default_profile.png');
 
 -- Dump della struttura di tabella es_extended.twitter_likes
 CREATE TABLE IF NOT EXISTS `twitter_likes` (
@@ -1018,6 +1041,21 @@ CREATE TABLE IF NOT EXISTS `user_licenses` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- Dump dei dati della tabella es_extended.user_licenses: ~3 rows (circa)
+
+-- Dump della struttura di tabella es_extended.uteknark2
+CREATE TABLE IF NOT EXISTS `uteknark2` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `stage` int(3) unsigned NOT NULL DEFAULT 1,
+  `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `x` float NOT NULL,
+  `y` float NOT NULL,
+  `z` float NOT NULL,
+  `soil` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `stage` (`stage`,`time`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+-- Dump dei dati della tabella es_extended.uteknark2: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.vehicles
 CREATE TABLE IF NOT EXISTS `vehicles` (
