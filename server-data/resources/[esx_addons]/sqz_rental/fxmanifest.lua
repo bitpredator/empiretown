@@ -8,12 +8,10 @@ version '1.0.0'
 client_scripts {
     'warmenu.lua',
     'config.lua',
-    'locales/*',
     'client.lua'
 }
 
 server_scripts {
     'config.lua',
-    'locales/*',
     'server.lua'
 }
