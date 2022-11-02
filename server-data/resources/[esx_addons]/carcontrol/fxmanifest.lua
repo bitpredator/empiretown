@@ -1,5 +1,6 @@
-resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
-version'0.0.2'
+fx_version 'adamant'
+game'gta5'
+version'0.0.3'
 
 ui_page 'html/carcontrol.html'
 
@@ -36,6 +37,6 @@ server_scripts {
   'utils.lua',
   'server/server.net.dll',
   'server/Server.lua',
+  '@mysql-async/lib/MySQL.lua',
+  '@mysql-async/lib/MySQL.lua',
 }
-
-server_scripts { '@mysql-async/lib/MySQL.lua' }server_scripts { '@mysql-async/lib/MySQL.lua' }
