@@ -67,6 +67,23 @@ Config.Garages = {
 		Colour = 3,
 		ImpoundedName = "LosSantos",
 	},
+	SouthShambles = {
+		EntryPoint = {
+			x = 1017.982422,
+			y = -2312.109863,
+			z = 30.493042,
+		},
+		SpawnPoint = {
+			x = 1017.982422,
+			y = -2312.109863,
+			z = 30.493042,
+			heading = 338.8,
+		},
+		Sprite = 357,
+		Scale = 0.8,
+		Colour = 3,
+		ImpoundedName = "LosSantos",
+	},
 }
 
 Config.Impounds = {
