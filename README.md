@@ -7,7 +7,7 @@ Copyright (C) 2022 bitpredator
 This program is a project for the fivem community, you have legal permission to distribute and / or modify it only if you have forked this repository, if it is not a fork repository, the version will be removed from the DMCA request.
 
 ATTENTION:
-You are not authorized to change the name of the resource and the resources within it.
+ATTENTION: You are not authorized to change the name of the resources present within it.
 
 Server installation procedure: https://github.com/bitpredator/empiretown/wiki/Procedure-for-installing-the-server
 
