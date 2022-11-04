@@ -69,7 +69,7 @@ Citizen.CreateThread(function()
 	end)
 
 	RMenu.Add('personal', 'admin', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('admin_title')), function()
-		if Player.group ~= nil and (Player.group == 'mod' or Player.group == 'admin' or Player.group == '_dev') then
+		if Player.group ~= nil and (Player.group == 'mod' or Player.group == 'admin') then
 			return true
 		end
 
@@ -187,62 +187,6 @@ function startAnimAction(lib, anim)
 	ESX.Streaming.RequestAnimDict(lib, function()
 		TaskPlayAnim(plyPed, lib, anim, 8.0, 1.0, -1, 49, 0, false, false, false)
 		RemoveAnimDict(lib)
-	end)
-end
-
-function setUniform(value, plyPed)
-	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-		TriggerEvent('skinchanger:getSkin', function(skina)
-			if value == 'torso' then
-				startAnimAction('clothingtie', 'try_tie_neutral_a')
-				Citizen.Wait(1000)
-				Player.handsup, Player.pointing = false, false
-				ClearPedTasks(plyPed)
-
-				if skin.torso_1 ~= skina.torso_1 then
-					TriggerEvent('skinchanger:loadClothes', skina, {['torso_1'] = skin.torso_1, ['torso_2'] = skin.torso_2, ['tshirt_1'] = skin.tshirt_1, ['tshirt_2'] = skin.tshirt_2, ['arms'] = skin.arms})
-				else
-					TriggerEvent('skinchanger:loadClothes', skina, {['torso_1'] = 15, ['torso_2'] = 0, ['tshirt_1'] = 15, ['tshirt_2'] = 0, ['arms'] = 15})
-				end
-			elseif value == 'pants' then
-				if skin.pants_1 ~= skina.pants_1 then
-					TriggerEvent('skinchanger:loadClothes', skina, {['pants_1'] = skin.pants_1, ['pants_2'] = skin.pants_2})
-				else
-					if skin.sex == 0 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['pants_1'] = 61, ['pants_2'] = 1})
-					else
-						TriggerEvent('skinchanger:loadClothes', skina, {['pants_1'] = 15, ['pants_2'] = 0})
-					end
-				end
-			elseif value == 'shoes' then
-				if skin.shoes_1 ~= skina.shoes_1 then
-					TriggerEvent('skinchanger:loadClothes', skina, {['shoes_1'] = skin.shoes_1, ['shoes_2'] = skin.shoes_2})
-				else
-					if skin.sex == 0 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['shoes_1'] = 34, ['shoes_2'] = 0})
-					else
-						TriggerEvent('skinchanger:loadClothes', skina, {['shoes_1'] = 35, ['shoes_2'] = 0})
-					end
-				end
-			elseif value == 'bag' then
-				if skin.bags_1 ~= skina.bags_1 then
-					TriggerEvent('skinchanger:loadClothes', skina, {['bags_1'] = skin.bags_1, ['bags_2'] = skin.bags_2})
-				else
-					TriggerEvent('skinchanger:loadClothes', skina, {['bags_1'] = 0, ['bags_2'] = 0})
-				end
-			elseif value == 'bproof' then
-				startAnimAction('clothingtie', 'try_tie_neutral_a')
-				Citizen.Wait(1000)
-				Player.handsup, Player.pointing = false, false
-				ClearPedTasks(plyPed)
-
-				if skin.bproof_1 ~= skina.bproof_1 then
-					TriggerEvent('skinchanger:loadClothes', skina, {['bproof_1'] = skin.bproof_1, ['bproof_2'] = skin.bproof_2})
-				else
-					TriggerEvent('skinchanger:loadClothes', skina, {['bproof_1'] = 0, ['bproof_2'] = 0})
-				end
-			end
-		end)
 	end)
 end
 
@@ -405,18 +349,6 @@ function RenderBillingMenu()
 					ESX.TriggerServerCallback('esx_billing:payBill', function()
 						ESX.TriggerServerCallback('bpt_menu:Bill_getBills', function(bills) PersonalMenu.BillData = bills end)
 					end, PersonalMenu.BillData[i].id)
-				end
-			end)
-		end
-	end)
-end
-
-function RenderClothesMenu()
-	RageUI.DrawContent({header = true, instructionalButton = true}, function()
-		for i = 1, #PersonalMenu.ClothesButtons, 1 do
-			RageUI.Button(_U(('clothes_%s'):format(PersonalMenu.ClothesButtons[i])), nil, {RightBadge = RageUI.BadgeStyle.Clothes}, true, function(Hovered, Active, Selected)
-				if (Selected) then
-					setUniform(PersonalMenu.ClothesButtons[i], plyPed)
 				end
 			end)
 		end
@@ -604,13 +536,6 @@ Citizen.CreateThread(function()
 			RenderAnimationMenu()
 		end
 
-		if RageUI.Visible(RMenu.Get('personal', 'vehicle')) then
-			if not RMenu.Settings('personal', 'vehicle', 'Restriction')() then
-				RageUI.GoBack()
-			end
-			RenderVehicleMenu()
-		end
-
 		if RageUI.Visible(RMenu.Get('personal', 'boss')) then
 			if not RMenu.Settings('personal', 'boss', 'Restriction')() then
 				RageUI.GoBack()
@@ -652,11 +577,11 @@ Citizen.CreateThread(function()
 			local camCoords = getCamDirection()
 			SetEntityVelocity(plyPed, 0.01, 0.01, 0.01)
 
-			if IsControlPressed(0, 32) then
+			if IsControlPressed(0, 32) then -- W
 				plyCoords = plyCoords + (Config.NoclipSpeed * camCoords)
 			end
 
-			if IsControlPressed(0, 269) then
+			if IsControlPressed(0, 269) then -- S
 				plyCoords = plyCoords - (Config.NoclipSpeed * camCoords)
 			end
 

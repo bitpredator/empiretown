@@ -5,7 +5,7 @@ lua54 'yes'
 
 author 'bitpredator'
 description 'bpt_menu developed for fivem, compatible with esx'
-version '0.0.2'
+version '0.0.3'
 
 dependency 'es_extended'
 
