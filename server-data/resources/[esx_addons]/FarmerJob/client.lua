@@ -19,8 +19,6 @@ end)
 local blip = nil
 local blipapple = nil
 local apple = true
-local blippotato = nil
-local potato = true
 
 CreateThread(function()
 	while true do
@@ -46,17 +44,6 @@ CreateThread(function()
                 BeginTextCommandSetBlipName('blip')
                 EndTextCommandSetBlipName(blipapple)
             end
-            if blippotato == nil then
-                blippotato = AddBlipForCoord(cfg.blip['blippotato'])
-                AddTextEntry('blip', cfg.blip['blippotatoname'])
-                SetBlipSprite(blippotato, 267)
-                SetBlipColour(blippotato, 81)
-                SetBlipDisplay(blippotato, 4)
-                SetBlipScale(blippotato, 1.0)
-                SetBlipAsShortRange(blippotato, true)
-                BeginTextCommandSetBlipName('blip')
-                EndTextCommandSetBlipName(blippotato)
-            end
 
         else
             if blip ~= nil then
@@ -66,10 +53,6 @@ CreateThread(function()
 			if blipapple ~= nil then
                 RemoveBlip(blipapple)
                 blipapple = nil
-            end
-            if blippotato ~= nil then
-                RemoveBlip(blippotato)
-                blippotato = nil
             end
         end
     end
@@ -92,36 +75,6 @@ CreateThread(function()
                         if IsControlJustPressed(0, 38) then
                             apple = true
                             TriggerServerEvent("apple:getapple")
-							TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
-							Wait(5000)
-							ClearPedTasks(playerPed)
-
-                        end
-                    end
-                end
-            end
-        end
-        Wait(cas)
-	end
-end)
-
-CreateThread(function()
-	while true do
-        cas = 1000
-		local playerPed = PlayerPedId()
-        local Coords = GetEntityCoords(PlayerPedId())
-        local pos = (cfg.marker['potato'])
-		local dist = #(Coords - pos)
-        if dist < 10 then
-            if ESX.PlayerData.job and ESX.PlayerData.job.name == cfg.job['job'] then
-                if potato then
-                    potato = true
-                    if potato == true then
-                        cas = 5
-                        ShowFloatingHelpNotification(cfg.translation['potato'], pos)
-                        if IsControlJustPressed(0, 38) then
-                            potato = true
-                            TriggerServerEvent("potato:getpotato")
 							TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
 							Wait(5000)
 							ClearPedTasks(playerPed)

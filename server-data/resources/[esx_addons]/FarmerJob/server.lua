@@ -13,15 +13,3 @@ AddEventHandler("apple:getapple", function()
         TriggerClientEvent('esx:showNotification', source, cfg.translation['limit'])
     end
 end)
-
-RegisterNetEvent("potato:getpotato")
-AddEventHandler("potato:getpotato", function()
-    local _source = source
-    local xPlayer = ESX.GetPlayerFromId(_source)
-    if xPlayer.canCarryItem("potato", 1) then
-        xPlayer.addInventoryItem("potato", 1)
-    else
-        TriggerClientEvent('esx:showNotification', source, cfg.translation['limit'])
-
-    end
-end)
