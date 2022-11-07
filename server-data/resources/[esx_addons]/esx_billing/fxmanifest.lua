@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'ESX Billing'
 
-version '1.7.5'
+version '0.0.3'
 
 shared_script '@es_extended/imports.lua'
 
