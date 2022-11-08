@@ -36,3 +36,21 @@ AddEventHandler('farmer:raccoltacotton', function()
         end
     end
 end)
+
+-- Raccolta apple
+RegisterServerEvent('farmer:raccoltaapple') 
+AddEventHandler('farmer:raccoltaapple', function()
+	local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    local apple = xPlayer.getInventoryItem('apple').count
+    if apple < 50 then
+        if xPlayer.job then
+            TriggerClientEvent('farmer:anim', _source)
+            Citizen.Wait(5000)
+            local countapple = math.random(1,1)
+            xPlayer.addInventoryItem('apple', countapple)
+            TriggerClientEvent('farmer:unfreeze', _source)
+            TriggerClientEvent('esx:showNotification', _source, 'Hai raccolto '.. ESX.Math.Round(countapple) .. ' delle mele')
+        end
+    end
+end)
