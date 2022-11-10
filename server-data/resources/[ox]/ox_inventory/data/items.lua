@@ -386,4 +386,14 @@ return {
 			notification = 'hai bevuto una bibita fresca'
 		}
 	},
+
+	['backpack'] = {
+		label = 'Backpack',
+		weight = 220,
+		stack = false,
+		consume = 0,
+		client = {
+			export = 'wasabi_backpack.openBackpack'
+		}
+	},
 }
