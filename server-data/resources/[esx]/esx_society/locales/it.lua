@@ -37,5 +37,7 @@ Locales['it'] = {
   ['you_have_fired']         = 'hai licenziato %s',
   ['you_have_been_fired']    = 'sei stato licenziato da %s',
   ['you_have_promoted']      = 'hai promosso %s come %s',
-  ['you_have_been_promoted'] = 'hai avuto una promozione!',
+  ['you_have_been_promoted'] = 'hai avuto una promozione!',  
+  ['invalid_value']          = 'valore non valido',  
+  ['invalid_value_nochanges']= 'valore non valido, nessuna modifica applicata',
 }
