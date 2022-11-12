@@ -373,6 +373,42 @@ return {
 	    weight = 100,
 	    stack = true,
     },
+	--
+	['fishingrod'] = {
+	    label = 'canna da pesca',
+	    weight = 100,
+	    stack = true,
+    },
+
+	['fishbait'] = {
+	    label = 'esca per pesci',
+	    weight = 100,
+	    stack = true,
+    },
+
+	['anchovy'] = {
+	    label = 'acciuga',
+	    weight = 100,
+	    stack = true,
+    },
+
+	['trout'] = {
+	    label = 'trota',
+	    weight = 100,
+	    stack = true,
+    },
+
+	['salmon'] = {
+	    label = 'salmone',
+	    weight = 100,
+	    stack = true,
+    },
+
+	['tuna'] = {
+	    label = 'tonno',
+	    weight = 100,
+	    stack = true,
+    },
 
 	['almondmilk'] = {
 		label = 'Latte di mandorla',
