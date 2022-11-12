@@ -1,10 +1,16 @@
+--[[
+	This module was experimental and won't be worked on or used further.
+	May be removed in the future.
+]]
+
 local Core = {
 	Ox = 'ox_core',
 	QB = 'qb-core',
 	ESX = 'es_extended',
 }
 
-return function()
+---@deprecated
+function lib.getCore()
 	local result
 
 	Citizen.CreateThreadNow(function()
@@ -25,10 +31,10 @@ return function()
 		local resource
 
 		if framework == Core.Ox then
-			import = ('imports/%s.lua'):format(lib.service)
+			import = ('imports/%s.lua'):format(lib.context)
 			resource = Core.Ox
 		else
-			import = ('imports/getCore/%s/%s.lua'):format(framework, lib.service)
+			import = ('imports/getCore/%s/%s.lua'):format(framework, lib.context)
 			resource = lib.name
 		end
 
@@ -53,6 +59,7 @@ return function()
 		if not success then error(result) end
 
 		if framework == Core.Ox then
+			---@diagnostic disable-next-line: undefined-global
 			result = Ox
 		end
 
@@ -67,3 +74,6 @@ return function()
 
 	return result
 end
+
+---@diagnostic disable-next-line: deprecated
+return lib.getCore

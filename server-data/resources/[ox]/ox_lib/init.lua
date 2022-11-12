@@ -1,4 +1,4 @@
--- ox_lib <https://github.com/bitpredator/ox_lib>
+-- ox_lib <https://github.com/overextended/ox_lib>
 -- Copyright (C) 2021 Linden <https://github.com/thelindat>
 -- LGPL-3.0-or-later <https://www.gnu.org/licenses/lgpl-3.0.en.html>
 
@@ -7,21 +7,27 @@ if not _VERSION:find('5.4') then
 end
 
 local ox_lib = 'ox_lib'
+local export = exports[ox_lib]
 
 if not GetResourceState(ox_lib):find('start') then
-	error('^1ox_lib should be started before this resource^0', 2)
+	error('^1ox_lib should be started before this resource.^0', 2)
 end
+
+local status = export.hasLoaded()
+
+if status ~= true then error(status, 2) end
 
 -----------------------------------------------------------------------------------------------
 -- Module
 -----------------------------------------------------------------------------------------------
 
 local LoadResourceFile = LoadResourceFile
-local service = IsDuplicityVersion() and 'server' or 'client'
+local context = IsDuplicityVersion() and 'server' or 'client'
+local function noop() end
 
 local function loadModule(self, module)
 	local dir = ('imports/%s'):format(module)
-	local chunk = LoadResourceFile(ox_lib, ('%s/%s.lua'):format(dir, service))
+	local chunk = LoadResourceFile(ox_lib, ('%s/%s.lua'):format(dir, context))
 	local shared = LoadResourceFile(ox_lib, ('%s/shared.lua'):format(dir))
 
 	if shared then
@@ -29,15 +35,15 @@ local function loadModule(self, module)
 	end
 
 	if chunk then
-		local err
-		chunk, err = load(chunk, ('@@ox_lib/%s/%s.lua'):format(module, service))
-		if err then
-			error(('\n^1Error importing module (%s): %s^0'):format(dir, err), 3)
-		else
-			local result = chunk() or function() end
-			rawset(self, module, result)
-			return self[module]
-		end
+		local fn, err = load(chunk, ('@@ox_lib/%s/%s.lua'):format(module, context))
+
+		if not fn or err then
+			return error(('\n^1Error importing module (%s): %s^0'):format(dir, err), 3)
+        end
+
+        local result = fn()
+        self[module] = result or noop
+        return self[module]
 	end
 end
 
@@ -45,11 +51,11 @@ end
 -- API
 -----------------------------------------------------------------------------------------------
 
-local export = exports[ox_lib]
-
 local function call(self, index, ...)
 	local module = rawget(self, index)
+
 	if not module then
+        self[index] = noop
 		module = loadModule(self, index)
 
 		if not module then
@@ -58,7 +64,7 @@ local function call(self, index, ...)
 			end
 
 			if not ... then
-				rawset(self, index, method)
+				self[index] = method
 			end
 
 			return method
@@ -70,7 +76,9 @@ end
 
 lib = setmetatable({
 	name = ox_lib,
-	service = service,
+    ---@deprecated
+	service = context,
+	context = context,
 	exports = {},
 	onCache = function(key, cb)
 		AddEventHandler(('ox_lib:cache:%s'):format(key), cb)
@@ -82,12 +90,16 @@ lib = setmetatable({
 
 local intervals = {}
 --- Dream of a world where this PR gets accepted.
----@param callback function
+---@param callback function | number
 ---@param interval? number
 ---@param ... any
 function SetInterval(callback, interval, ...)
 	interval = interval or 0
-	assert(type(interval) == 'number', ('Interval must be a number. Received %s'):format(json.encode(interval)))
+
+    if type(interval) ~= 'number' then
+        return error(('Interval must be a number. Received %s'):format(json.encode(interval --[[@as unknown]])))
+    end
+
 	local cbType = type(callback)
 
 	if cbType == 'number' and intervals[callback] then
@@ -95,9 +107,11 @@ function SetInterval(callback, interval, ...)
 		return
 	end
 
-	assert(cbType == 'function', ('Callback must be a function. Received %s'):format(tostring(cbType)))
-	local id
-	local args = { ... }
+    if cbType ~= 'function' then
+        return error(('Callback must be a function. Received %s'):format(cbType))
+    end
+
+	local args, id = { ... }
 
 	Citizen.CreateThreadNow(function(ref)
 		id = ref
@@ -113,9 +127,16 @@ function SetInterval(callback, interval, ...)
 	return id
 end
 
+---@param id number
 function ClearInterval(id)
-	assert(type(id) == 'number', ('Interval id must be a number. Received %s'):format(json.encode(id)))
-	assert(intervals[id], ('No interval exists with id %s'):format(id))
+    if type(id) ~= 'number' then
+        return error(('Interval id must be a number. Received %s'):format(json.encode(id --[[@as unknown]])))
+	end
+
+    if not intervals[id] then
+        return error(('No interval exists with id %s'):format(id))
+	end
+
 	intervals[id] = -1
 end
 
@@ -125,7 +146,7 @@ end
 
 cache = { resource = GetCurrentResourceName() }
 
-if service == 'client' then
+if context == 'client' then
 	setmetatable(cache, {
 		__index = function(self, key)
 			AddEventHandler(('ox_lib:cache:%s'):format(key), function(value)

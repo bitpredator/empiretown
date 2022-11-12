@@ -1,5 +1,8 @@
 local dict
 
+---@param str string
+---@param ... string | number
+---@return string
 function locale(str, ...)
 	local lstr = dict[str]
 
@@ -14,15 +17,14 @@ function locale(str, ...)
 	return ("Translation for '%s' does not exist"):format(str)
 end
 
-local function loadLocale(locale)
-	local resourceName = GetCurrentResourceName()
-	local JSON = LoadResourceFile(resourceName, ('locales/%s.json'):format(locale)) or LoadResourceFile(resourceName, ('locales/it.json'):format(locale))
+---@return { [string]: string }
+function lib.getLocales()
+    return dict
+end
+
+function lib.loadLocale()
+	local JSON = LoadResourceFile(cache.resource, ('locales/%s.json'):format(GetConvar('ox:locale', 'en'))) or LoadResourceFile(cache.resource, 'locales/en.json')
 	dict = JSON and json.decode(JSON) or {}
 end
 
-AddEventHandler('ox_lib:setLocale', loadLocale)
-
-return function()
-	local lang = lib.service == 'server' and lib.getServerLocale() or GetExternalKvpString('ox_lib', 'locale') or 'en'
-	loadLocale(lang)
-end
+return lib.loadLocale

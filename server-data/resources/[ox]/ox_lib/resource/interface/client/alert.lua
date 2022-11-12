@@ -1,5 +1,13 @@
 local alert = nil
 
+---@class AlertDialogProps
+---@field header string;
+---@field content string;
+---@field centered? boolean?;
+---@field cancel? boolean?;
+
+---@param data AlertDialogProps
+---@return 'cancel' | 'confirm' | nil
 function lib.alertDialog(data)
     if alert then return end
     alert = promise.new()
@@ -12,6 +20,17 @@ function lib.alertDialog(data)
 
     return Citizen.Await(alert)
 end
+
+function lib.closeAlertDialog()
+    if not alert then return end
+    alert:resolve(nil)
+    alert = nil
+    SetNuiFocus(false, false)
+    SendNUIMessage({
+        action = 'closeAlertDialog'
+    })
+end
+
 
 RegisterNUICallback('closeAlert', function(data, cb)
     cb(1)

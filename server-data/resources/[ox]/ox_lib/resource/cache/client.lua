@@ -1,4 +1,4 @@
-local cache = {}
+local cache = _ENV.cache
 cache.playerId = PlayerId()
 cache.serverId = GetPlayerServerId(cache.playerId)
 
@@ -10,7 +10,7 @@ function cache:set(key, value)
 	end
 end
 
-local GetVehiclePedIsUsing = GetVehiclePedIsUsing
+local GetVehiclePedIsIn = GetVehiclePedIsIn
 local GetPedInVehicleSeat = GetPedInVehicleSeat
 local GetVehicleMaxNumberOfPassengers = GetVehicleMaxNumberOfPassengers
 
@@ -19,7 +19,7 @@ CreateThread(function()
 		local ped = PlayerPedId()
 		cache:set('ped', ped)
 
-		local vehicle = GetVehiclePedIsUsing(ped)
+		local vehicle = GetVehiclePedIsIn(ped, false)
 
 		if vehicle > 0 then
 			cache:set('vehicle', vehicle)
@@ -44,5 +44,3 @@ end)
 function lib.cache(key)
 	return cache[key]
 end
-
-_ENV.cache = cache

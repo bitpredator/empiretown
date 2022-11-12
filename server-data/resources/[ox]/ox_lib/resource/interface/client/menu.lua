@@ -1,97 +1,198 @@
+---@type { [string]: MenuProps }
 local registeredMenus = {}
+---@type MenuProps | nil
 local openMenu = nil
+local keepInput = IsNuiFocusKeepingInput()
 
+---@alias MenuPosition 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+---@alias MenuChangeFunction fun(selected: number, scrollIndex?: number, args?: any, checked?: boolean)
+
+---@class MenuOptions
+---@field label string
+---@field icon? string
+---@field checked? boolean
+---@field values? Array<string | { label: string, description: string }>
+---@field description? string
+---@field defaultIndex? number
+---@field args? {[any]: any}
+---@field close? boolean
+
+---@class MenuProps
+---@field id string
+---@field title string
+---@field options MenuOptions[]
+---@field position? MenuPosition
+---@field disableInput? boolean
+---@field canClose? boolean
+---@field onClose? fun(keyPressed?: 'Escape' | 'Backspace')
+---@field onSelected? MenuChangeFunction
+---@field onSideScroll? MenuChangeFunction
+---@field onCheck? MenuChangeFunction
+---@field cb? MenuChangeFunction
+
+---@param data MenuProps
+---@param cb? MenuChangeFunction
 function lib.registerMenu(data, cb)
-    if not data.id then return error('No menu id was provided.') end
-    if not data.title then return error('No menu title was provided.') end
-    if not data.options then return error('No menu options were provided.') end
+    if not data.id then error('No menu id was provided.') end
+    if not data.title then error('No menu title was provided.') end
+    if not data.options then error('No menu options were provided.') end
     data.cb = cb
     registeredMenus[data.id] = data
 end
 
-function lib.showMenu(id)
-    if not registeredMenus[id] then return error('No menu of such id found.') end
-    local data = registeredMenus[id]
-    openMenu = id
+---@param id string
+---@param startIndex? number
+function lib.showMenu(id, startIndex)
+    local menu = registeredMenus[id]
+
+    if not menu then
+        error(('No menu with id %s was found'):format(id))
+    end
+
+    if not openMenu then
+        CreateThread(function()
+            while openMenu do
+                if openMenu.disableInput == nil or openMenu.disableInput then
+                    DisablePlayerFiring(cache.playerId, true)
+                    HudWeaponWheelIgnoreSelection()
+                    DisableControlAction(0, 140, true)
+                end
+
+                Wait(0)
+            end
+        end)
+    end
+
+    openMenu = menu
+    keepInput = IsNuiFocusKeepingInput()
+
+    if not menu.disableInput then
+        SetNuiFocusKeepInput(true)
+    end
+
     SetNuiFocus(true, false)
     SendNUIMessage({
         action = 'setMenu',
         data = {
-            position = data.position,
-            title = data.title,
-            items = data.options
+            position = menu.position,
+            canClose = menu.canClose,
+            title = menu.title,
+            items = menu.options,
+            startItemIndex = startIndex and startIndex - 1 or 0
         }
     })
 end
 
+local function resetFocus()
+    SetNuiFocus(false, false)
+    SetNuiFocusKeepInput(keepInput)
+end
+
+---@param onExit boolean?
 function lib.hideMenu(onExit)
-	if onExit and registeredMenus[openMenu].onClose then
-		registeredMenus[openMenu].onClose()
-	end
+    local menu = openMenu
+    openMenu = nil
 
-	SetNuiFocus(false, false)
-	SendNUIMessage({
-		action = 'closeMenu'
-	})
+    if onExit and menu.onClose then
+        menu.onClose()
+    end
+
+    resetFocus()
+    SendNUIMessage({
+        action = 'closeMenu'
+    })
 end
 
+---@param id string
+---@param options MenuOptions | MenuOptions[]
+---@param index? number
 function lib.setMenuOptions(id, options, index)
-	if index then
-		registeredMenus[id].options[index] = options
-	else
-		registeredMenus[id].options = options
- 	end
+    if index then
+        registeredMenus[id].options[index] = options
+    else
+        if not options[1] then error('Invalid override format used, expected table of options.') end
+        registeredMenus[id].options = options
+    end
 end
 
-function lib.getOpenMenu() return openMenu end
+---@return string?
+function lib.getOpenMenu() return openMenu?.id end
 
 RegisterNUICallback('confirmSelected', function(data, cb)
     cb(1)
-	data[1] += 1 -- selected
+    data[1] += 1 -- selected
 
-	if data[2] then
-		data[2] += 1 -- scrollIndex
-	end
+    if data[2] then
+        data[2] += 1 -- scrollIndex
+    end
 
-    local menu = registeredMenus[openMenu]
+    local menu = openMenu
 
     if menu.options[data[1]].close ~= false then
-		SetNuiFocus(false, false)
-	end
+        resetFocus()
+        openMenu = nil
+    end
 
-	return menu.cb and menu.cb(data[1], data[2], menu.options[data[1]].args)
+    if menu.cb then
+        menu.cb(data[1], data[2], menu.options[data[1]].args, data[3])
+    end
 end)
 
 RegisterNUICallback('changeIndex', function(data, cb)
-	cb(1)
-	local menu = registeredMenus[openMenu]
-	if not menu.onSideScroll then return end
+    cb(1)
+    if not openMenu?.onSideScroll then return end
 
-	data[1] += 1 -- selected
+    data[1] += 1 -- selected
 
-	if data[2] then
-		data[2] += 1 -- scrollIndex
-	end
+    if data[2] then
+        data[2] += 1 -- scrollIndex
+    end
 
-	menu.onSideScroll(data[1], data[2], menu.options[data[1]].args)
+    openMenu.onSideScroll(data[1], data[2], openMenu.options[data[1]].args)
 end)
 
 RegisterNUICallback('changeSelected', function(data, cb)
     cb(1)
-	local menu = registeredMenus[openMenu]
-    if not menu.onSelected then return end
+    if not openMenu?.onSelected then return end
 
-	data[1] += 1 -- selected
+    data[1] += 1 -- selected
 
-	if data[2] then
-		data[2] += 1 -- scrollIndex
-	end
 
-	menu.onSelected(data[1], data[2], menu.options[data[1]].args)
+    local args = openMenu.options[data[1]].args
+
+    if args and type(args) ~= 'table' then
+        return error("Menu args must be passed as a table")
+    end
+
+    if not args then args = {} end
+    print(data[2], data[3])
+    if data[2] then args[data[3]] = true end
+    print(args.isScroll, args.isCheck)
+
+    if data[2] and not args.isCheck then
+        data[2] += 1 -- scrollIndex
+    end
+
+    openMenu.onSelected(data[1], data[2], args)
+end)
+
+RegisterNUICallback('changeChecked', function(data, cb)
+    cb(1)
+    if not openMenu?.onCheck then return end
+
+    data[1] += 1 -- selected
+
+    openMenu.onCheck(data[1], data[2], openMenu.options[data[1]].args)
 end)
 
 RegisterNUICallback('closeMenu', function(data, cb)
     cb(1)
-    SetNuiFocus(false, false)
-    if registeredMenus[openMenu].onClose then return registeredMenus[openMenu].onClose() end
+    resetFocus()
+
+    local menu = openMenu
+    openMenu = nil
+
+    if menu.onClose then
+        menu.onClose(data --[[@as 'Escape' | 'Backspace' | nil]])
+    end
 end)

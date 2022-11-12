@@ -1,19 +1,42 @@
+---@class CPoint
+---@field id number
+---@field coords vector3
+---@field distance number
+---@field currentDistance number
+---@field isClosest? boolean
+---@field remove fun()
+---@field onEnter? fun(self: CPoint)
+---@field onExit? fun(self: CPoint)
+---@field nearby? fun(self: CPoint)
+---@field [string] any
+
 local points = {}
+local nearbyPoints = {}
+local nearbyCount = 0
+local closestPoint
+local tick
 
 local function removePoint(self)
+    if closestPoint?.id == self.id then
+        closestPoint = nil
+    end
+
 	points[self.id] = nil
 end
 
-local nearby = {}
-local closest
-local tick
-
 CreateThread(function()
 	while true do
+        if nearbyCount ~= 0 then
+			table.wipe(nearbyPoints)
+			nearbyCount = 0
+		end
+
 		local coords = GetEntityCoords(cache.ped)
-		Wait(300)
-		closest = nil
-		table.wipe(nearby)
+		cache.coords = coords
+
+        if closestPoint and #(coords - closestPoint.coords) > closestPoint.distance then
+            closestPoint = nil
+        end
 
 		for _, point in pairs(points) do
 			local distance = #(coords - point.coords)
@@ -21,12 +44,20 @@ CreateThread(function()
 			if distance <= point.distance then
 				point.currentDistance = distance
 
-				if distance < (closest?.currentDistance or point.distance) then
-					closest = point
-				end
+                if closestPoint then
+                    if distance < closestPoint.currentDistance then
+                        closestPoint.isClosest = nil
+                        point.isClosest = true
+                        closestPoint = point
+                    end
+                elseif distance < point.distance then
+                    point.isClosest = true
+                    closestPoint = point
+                end
 
 				if point.nearby then
-					nearby[#nearby + 1] = point
+                    nearbyCount += 1
+					nearbyPoints[nearbyCount] = point
 				end
 
 				if point.onEnter and not point.inside then
@@ -41,20 +72,23 @@ CreateThread(function()
 		end
 
 		if not tick then
-			if #nearby > 0 then
+			if nearbyCount ~= 0 then
 				tick = SetInterval(function()
-					for i = 1, #nearby do
-						nearby[i]:nearby()
+					for i = 1, nearbyCount do
+						nearbyPoints[i]:nearby()
 					end
 				end)
 			end
-		elseif #nearby == 0 then
+		elseif nearbyCount == 0 then
 			tick = ClearInterval(tick)
 		end
+
+		Wait(300)
 	end
 end)
 
-return {
+lib.points = {
+    ---@return CPoint
 	new = function(...)
 		local args = {...}
 		local id = #points + 1
@@ -88,7 +122,10 @@ return {
 		return self
 	end,
 
+    ---@return CPoint
 	closest = function()
-		return closest
+		return closestPoint
 	end
 }
+
+return lib.points

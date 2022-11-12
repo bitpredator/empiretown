@@ -7,9 +7,9 @@ game         'gta5'
 --[[ Resource Information ]]--
 name         'ox_lib'
 author       'Linden'
-version      '2.9.0'
+version      '2.15.1'
 license      'LGPL-3.0-or-later'
-repository   'https://github.com/bitpredator/ox_lib'
+repository   'https://github.com/overextended/ox_lib'
 description  'A library of shared functions to utilise in other resources.'
 
 --[[ Manifest ]]--
@@ -37,11 +37,13 @@ shared_scripts {
 }
 
 client_scripts {
+	'imports/callback/client.lua',
     'resource/**/client.lua',
     'resource/**/client/*.lua'
 }
 
 server_scripts {
+	'imports/callback/server.lua',
     'resource/**/server.lua',
     'resource/**/server/*.lua'
 }
