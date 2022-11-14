@@ -348,9 +348,5 @@ Locales['nl'] = {
     ['tint_lspd'] = 'blauwe huid',
     ['tint_orange'] = 'oranje huid',
     ['tint_platinum'] = 'platina huid',
-    
-    -- Duty related
-    ['stopped_duty'] = 'Je hebt je dienst stopgezet.',
-    ['started_duty'] = 'Je bent met je dienst begonnen.',
 }
   

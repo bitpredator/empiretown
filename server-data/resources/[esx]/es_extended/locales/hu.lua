@@ -353,8 +353,4 @@ Locales["hu"] = {
 	["tint_lspd"] = "blue skin",
 	["tint_orange"] = "orange skin",
 	["tint_platinum"] = "platinum skin",
-
-	-- Duty related
-	["stopped_duty"] = "Leadtad a szolgálatot.",
-	["started_duty"] = "Szolgálatba álltál.",
 }

@@ -348,8 +348,4 @@ Locales['es'] = {
   ['tint_lspd'] = 'Skin Azul',
   ['tint_orange'] = 'Skin Naranja',
   ['tint_platinum'] = 'Skin Plata',
-  
-  -- Duty related
-  ['stopped_duty'] = 'Has salido de servicio.',
-  ['started_duty'] = 'Has entrado de servicio.',
 }
