@@ -1156,7 +1156,7 @@ end)
 exports("GetPlayerProperties", function(identifier)
   local PlayerProperties = {}
   for i=1, #Properties do
-    if Properties[i].Owned and Properties[i].owner == identifier then
+    if Properties[i].Owned and Properties[i].Owner == identifier then
       PlayerProperties[#PlayerProperties + 1] = Properties[i]
     end
   end
