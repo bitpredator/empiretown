@@ -24,15 +24,12 @@ Items.containers = {
 
 -- Possible metadata when creating garbage
 local trash = {
-	{description = 'An old rolled up newspaper.', weight = 200, image = 'trash_newspaper'},
-	{description = 'A discarded burger shot carton.', weight = 50, image = 'trash_burgershot'},
-	{description = 'An empty soda can.', weight = 20, image = 'trash_can'},
-	{description = 'A mouldy piece of bread.', weight = 70, image = 'trash_bread'},
-	{description = 'An empty ciggarette carton.', weight = 10, image = 'trash_fags'},
-	{description = 'A slightly used pair of panties.', weight = 20, image = 'panties'},
-	{description = 'An empty coffee cup.', weight = 20, image = 'trash_coffee'},
-	{description = 'A crumpled up piece of paper.', weight = 5, image = 'trash_paper'},
-	{description = 'An empty chips bag.', weight = 5, image = 'trash_chips'},
+	{description = 'giornale rovinato.', weight = 200, image = 'newspaper'},
+	{description = 'scatola di burgershot usata.', weight = 50, image = 'trash_burgershot'},
+	{description = 'lattina usata.', weight = 20, image = 'trash_can'},
+	{description = 'pacchetto di sigarette usato.', weight = 10, image = 'fags'},
+	{description = 'pezzo di carta accartocciato.', weight = 5, image = 'paper'},
+	{description = 'busta di patatine usata.', weight = 5, image = 'trash_chips'},
 }
 
 local function GetItem(item)

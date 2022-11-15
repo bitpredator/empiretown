@@ -78,15 +78,55 @@ return {
 			usetime = 1500
 		}
 	},
+	
+	['paper'] = {
+		label = 'carta',
+		weight = 100,
+		stack = true,
+		consume = 0
+	},
 
-	['garbage'] = {
-		label = 'rifiuti',
+	['fags'] = {
+		label = 'pacchetto di sigarette usato',
+		weight = 100,
+		stack = true,
+		consume = 0
+	},
+
+	['newspaper'] = {
+		label = 'giornale rovinato',
+		weight = 100,
+		stack = true,
+		consume = 0
+	},
+
+	['trash_burgershot'] = {
+		label = 'scatola di burgershot usata',
+		weight = 100,
+		stack = true,
+		consume = 0
 	},
 	
 	['paperbag'] = {
 		label = 'Paper Bag',
 		weight = 1,
-		stack = false,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['trash_can'] = {
+		label = 'lattina usata',
+		weight = 100,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
+	['trash_chips'] = {
+		label = 'busta di patatine usata',
+		weight = 100,
+		stack = true,
 		close = false,
 		consume = 0
 	},
@@ -373,7 +413,7 @@ return {
 	    weight = 100,
 	    stack = true,
     },
-	--
+	
 	['fishingrod'] = {
 	    label = 'canna da pesca',
 	    weight = 100,
