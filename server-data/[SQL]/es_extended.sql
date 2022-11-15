@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `addon_account_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_addon_account_data_account_name_owner` (`account_name`,`owner`),
   KEY `index_addon_account_data_account_name` (`account_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
 
 -- Dump dei dati della tabella es_extended.addon_account_data: ~12 rows (circa)
 INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
@@ -149,7 +149,8 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('almonds', 'mandorle'),
 	('chips', 'patatine fritte'),
 	('slicedchips', 'patate affettate'),
-	('potato', 'patate');
+	('potato', 'patate'),
+	('trash_can', 'lattina usata');
 
 -- Dump della struttura di tabella es_extended.cardealer_vehicles
 CREATE TABLE IF NOT EXISTS `cardealer_vehicles` (
@@ -194,9 +195,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=507 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=532 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~455 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~450 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -703,7 +704,27 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(503, 'property', NULL, '{}'),
 	(504, 'property', NULL, '{}'),
 	(505, 'property', NULL, '{}'),
-	(506, 'property', NULL, '{}');
+	(506, 'property', NULL, '{}'),
+	(507, 'property', NULL, '{}'),
+	(513, 'property', NULL, '{}'),
+	(514, 'property', NULL, '{}'),
+	(515, 'property', NULL, '{}'),
+	(516, 'property', NULL, '{}'),
+	(517, 'property', NULL, '{}'),
+	(518, 'property', NULL, '{}'),
+	(519, 'property', NULL, '{}'),
+	(520, 'property', NULL, '{}'),
+	(521, 'property', NULL, '{}'),
+	(522, 'property', NULL, '{}'),
+	(523, 'property', NULL, '{}'),
+	(524, 'property', NULL, '{}'),
+	(525, 'property', NULL, '{}'),
+	(526, 'property', NULL, '{}'),
+	(527, 'property', NULL, '{}'),
+	(528, 'property', NULL, '{}'),
+	(529, 'property', NULL, '{}'),
+	(530, 'property', NULL, '{}'),
+	(531, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -795,7 +816,7 @@ INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 	('ammu', 'Armeria', 1),
 	('banker', 'Banquier', 1),
 	('cardealer', 'Cardealer', 1),
-	('dustman', 'Dustman', 0),
+	('dustman', 'Dustman', 1),
 	('import', 'Import', 1),
 	('mechanic', 'Mechanic', 1),
 	('police', 'LSPD', 1),
@@ -1065,7 +1086,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `phone_number` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`identifier`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- Dump dei dati della tabella es_extended.users: ~0 rows (circa)
 
