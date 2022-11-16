@@ -115,6 +115,14 @@ return {
 		consume = 0
 	},
 
+	['recycled_paper'] = {
+		label = 'carta riciclata',
+		weight = 1,
+		stack = true,
+		close = false,
+		consume = 0
+	},
+
 	['trash_can'] = {
 		label = 'lattina usata',
 		weight = 100,
@@ -464,7 +472,7 @@ return {
 	},
 
 	['backpack'] = {
-		label = 'Backpack',
+		label = 'zainetto',
 		weight = 220,
 		stack = false,
 		consume = 0,

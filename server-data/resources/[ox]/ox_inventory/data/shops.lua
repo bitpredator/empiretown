@@ -6,7 +6,8 @@ return {
 		}, inventory = {
 			{ name = 'burger', price = 300 },
 			{ name = 'water', price = 300 },
-			{ name = 'cola', price = 300 }
+			{ name = 'cola', price = 300 },
+			{ name = 'backpack', price = 600}
 		}, locations = {
 			vec3(25.7, -1347.3, 29.49),
 			vec3(-3038.71, 585.9, 7.9),
@@ -43,7 +44,8 @@ return {
 			{ name = 'pickaxe', price = 30 },
 			{ name = 'almonds', price = 10 },
 			{ name = 'fishingrod', price = 100},
-			{ name = 'fishbait', price = 80}
+			{ name = 'fishbait', price = 80},
+			{ name = 'backpack', price = 180}
 		}, locations = {
 			vec3(1017.389038, -2405.736328, 30.122314)
 		}, targets = {
