@@ -1,0 +1,20 @@
+Locales['it'] = {
+  ['amount_invalid'] = 'importo non valido',
+  ['press_to_open'] = 'premi [E] per accedere al menu',
+  ['billing'] = 'fattura',
+  ['billing_sent'] = 'il conto è stato registrato!',
+  ['invoice_amount'] = 'importo della fattura',
+  ['no_players_near'] = 'nessun giocatore nelle vicinanze',
+  ['deposit_stock'] = 'deposito',
+  ['take_stock'] = 'deposito',
+  ['boss_actions'] = 'Azioni del boss',
+  ['quantity'] = 'quantità',
+  ['quantity_invalid'] = 'quantità non valida!',
+  ['inventory'] = 'inventario',
+  ['have_withdrawn'] = 'hai prelevato x%s %s',
+  ['have_deposited'] = 'hai depositato x%s %s',
+  ['player_cannot_hold'] = 'non hai ~r~abbastanza spazio nel tuo inventario!',
+  ['blip_ballas'] = 'ballas',
+  ['ballas'] = 'ballas',
+  ['ballas_stock'] = 'ballas Stock'
+}
