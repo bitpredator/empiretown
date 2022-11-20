@@ -40,41 +40,35 @@ function ShowLoadingPromt(msg, time, type)
 end
 
 function OpenBallasActionsMenu()
-    local elements = {{
-        label = _U('take_stock'),
-        value = 'get_stock'
-    }}
+    local elements = { 
+        {icon = "fas fa-box", title = _U('take_stock'), value = 'get_stock'}
+    }
 
     if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
-        table.insert(elements, {
-            label = _U('boss_actions'),
-            value = 'boss_actions'
-        })
+        elements[#elements+1] = {
+            icon = "fas fa-wallet",
+            title = _U('boss_actions'),
+            value = "boss_actions"
+        }
     end
 
     ESX.UI.Menu.CloseAll()
 
-    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'ballas_actions', {
-        title = _U('ballas'),
-        align = 'top-left',
-        elements = elements
-    }, function(data, menu)
-
-        if Config.OxInventory and (data.current.value == 'put_stock' or data.current.value == 'get_stock') then
+    ESX.OpenContext("right", elements, function(menu,element)
+        if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
             exports.ox_inventory:openInventory('stash', 'society_ballas')
-            return ESX.UI.Menu.CloseAll()
-        elseif data.current.value == 'put_stock' then
+            return ESX.CloseContext()
+        elseif element.value == 'put_stock' then
             OpenPutStocksMenu()
-        elseif data.current.value == 'get_stock' then
+        elseif element.value == 'get_stock' then
             OpenGetStocksMenu()
-        elseif data.current.value == 'boss_actions' then
+        elseif element.value == 'boss_actions' then
             TriggerEvent('esx_society:openBossMenu', 'ballas', function(data, menu)
                 menu.close()
             end)
         end
 
-    end, function(data, menu)
-        menu.close()
+    end, function(menu)
 
         CurrentAction = 'ballas_actions_menu'
         CurrentActionMsg = _U('press_to_open')
@@ -83,17 +77,13 @@ function OpenBallasActionsMenu()
 end
 
 function OpenMobileBallasActionsMenu()
-    ESX.UI.Menu.CloseAll()
-
-    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'mobile_ballas_actions', {
-        title = _U('ballas'),
-        align = 'top-left',
-        elements = {{
-            label = _U('billing'),
-            value = 'billing'
-        }}
-    }, function(data, menu)
-        if data.current.value == 'billing' then
+    local elements = {
+        {unselectable = true, icon = "fas fa-taxi", title = _U('taxi')},
+        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"},
+    }
+    
+    ESX.OpenContext("right", elements, function(menu,element)
+        if element.value == "billing" then
 
             ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
                 title = _U('invoice_amount')
