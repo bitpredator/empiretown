@@ -16,7 +16,7 @@ Categories = {
 	Jobs = {'ammu'}
 },
 ['medical'] = {
-	Label = 'MEDICAL',
+	Label = 'Ospedale',
 	Image = 'bandage',
 	Jobs = {'ambulance'}
 },
@@ -44,6 +44,11 @@ Categories = {
 	Label = 'Dustman',
 	Image = 'dustman',
 	Jobs = {'dustman'}
+},
+['ballas'] = {
+	Label = 'Ballas',
+	Image = 'ballas',
+	Jobs = {'ballas'}
 }
 
 
@@ -245,6 +250,21 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
 	}
 },
 
+['cigarette_paper'] = {
+	Level = 0,
+	Category = 'ballas', 
+	isGun = false, 
+	Jobs = {'ballas'}, 
+	JobGrades = {}, 
+	Amount = 1, 
+	SuccessRate = 100, 
+	requireBlueprint = false, 
+	Time = 10, 
+	Ingredients = { 
+		['recycled_paper'] = 1
+	}
+},
+
 
 
 },
@@ -257,6 +277,7 @@ Workbenches = { -- Every workbench location, leave {} for jobs if you want every
 	{coords = vector3(809.090088, -2172.923096, 29.616821), jobs = {'ammu'}, blip = false, recipes = {'WEAPON_APPISTOL'}, radius = 1.0 },
 	{coords = vector3(129.217590, -1283.802246, 29.263062), jobs = {'unicorn'}, blip = false, recipes = {'almondmilk','slicedchips'}, radius = 1.0 },
     {coords = vector3(-416.993408, -1683.468140, 19.018311), jobs = {'dustman'}, blip = false, recipes = {'ironsheet','recycled_paper','paper'}, radius = 1.0 },
+	{coords = vector3(83.156044, -1960.259277, 18.041016), jobs = {'ballas'}, blip = false, recipes = {'cigarette_paper'}, radius = 1.0 },
 },
  
 
