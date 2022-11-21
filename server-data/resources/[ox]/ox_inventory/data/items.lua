@@ -458,6 +458,12 @@ return {
 	    stack = true,
     },
 
+	['cigarette_paper'] = {
+	    label = 'cartina per sigarette',
+	    weight = 100,
+	    stack = true,
+    },
+
 	['almondmilk'] = {
 		label = 'Latte di mandorla',
 		weight = 500,
