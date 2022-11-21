@@ -223,10 +223,10 @@ CreateThread(function()
     local blip = AddBlipForCoord(Config.Zones.BallasActions.Pos.x, Config.Zones.BallasActions.Pos.y,
         Config.Zones.BallasActions.Pos.z)
 
-        SetBlipSprite(blip, 478)
+        SetBlipSprite(blip, 106)
         SetBlipDisplay(blip, 4)
         SetBlipScale(blip, 1.0)
-        SetBlipColour(blip, 21)
+        SetBlipColour(blip, 27)
         SetBlipAsShortRange(blip, true)
 
     BeginTextCommandSetBlipName('STRING')
