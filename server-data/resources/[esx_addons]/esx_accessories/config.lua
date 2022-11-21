@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Locale = 'it'
+Config.Locale = GetConvar('esx:locale', 'it')
 
 Config.Price = 100
 
@@ -15,24 +15,13 @@ Config.Type   = 1
 -- If you have esx_clothesshop you should not fill this
 -- more than it's already filled.
 Config.ShopsBlips = {
-	-- Ears = {
-	-- 	Pos = nil,
-	-- 	Blip = nil
-	-- },
 	Mask = {
 		Pos = { 
 			vector3(-1338.1, -1278.2, 3.8),
 		},
 		Blip = {sprite = 362, color = 2}
 	},
-	-- Helmet = {
-	-- 	Pos = nil,
-	-- 	Blip = nil
-	-- },
-	-- Glasses = {
-	-- 	Pos = nil,
-	-- 	Blip = nil
-	-- }
+
 }
 
 Config.Zones = {

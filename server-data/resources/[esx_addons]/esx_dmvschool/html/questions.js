@@ -3,13 +3,13 @@ var tableauQuestion = [
 		question: "Se stai andando a 80 km/h, e ti stai avvicinando a una zona residenziale devi::",
 		propositionA: "Accellerare",
 		propositionB: "Mantieni la velocità, se non sorpassi altri veicoli",
-		propositionC: "Ralenti",
+		propositionC: "Rallenti",
 		propositionD: "Mantieni la velocità",
 		reponse: "C"
 	},
 
 	{
-		question: "Se al semaforo stai svoltaando a destra, ma vedi un pedone cosa fai:",
+		question: "Se al semaforo stai svoltando a destra, ma vedi un pedone cosa fai:",
 		propositionA: "Superi il pedone",
 		propositionB: "Controlli che non ci siano altri veicoli in giro",
 		propositionC: "Aspetti che il pedone abbia attraversato",
