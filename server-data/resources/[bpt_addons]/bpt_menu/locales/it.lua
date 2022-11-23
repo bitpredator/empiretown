@@ -188,5 +188,7 @@ Locales['it'] = {
 	['admin_repairveh_button'] = 'Ripara il veicolo',
 	['admin_flipveh_button'] = 'Rimetti il veicolo in posizione',
 	['admin_givebank_button'] = 'Dai del denaro in banca',
-	['admin_showname_button'] = 'Mostra/Nascondi i nomi dei giocatori'
+	['admin_showname_button'] = 'Mostra/Nascondi i nomi dei giocatori',
+	['admin_changeskin_button'] = 'Cambia aspetto',
+	['admin_saveskin_button'] = 'Salva aspetto'
 }

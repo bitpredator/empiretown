@@ -18,7 +18,7 @@ Config.Locale = 'it'
 -- GENERAL --
 Config.MenuTitle = 'EmpireTown' -- change it to you're server name
 Config.NoclipSpeed = 1.0 -- change it to change the speed in noclip
-Config.JSFourIDCard = true -- enable if you're using jsfour-idcard
+Config.JSFourIDCard = false -- enable if you're using jsfour-idcard
 
 -- CONTROLS --
 Config.Controls = {
@@ -186,7 +186,7 @@ Config.Admin = {
 	{
 		name = 'goto',
 		label = _U('admin_goto_button'),
-		groups = {'admin', 'mod'},
+		groups = {'_dev', 'admin', 'mod'},
 		command = function()
 			local plyId = KeyboardInput('BPT_BOX_ID', _U('dialogbox_playerid'), '', 8)
 
@@ -204,7 +204,7 @@ Config.Admin = {
 	{
 		name = 'bring',
 		label = _U('admin_bring_button'),
-		groups = {'admin', 'mod'},
+		groups = {'_dev', 'admin', 'mod'},
 		command = function()
 			local plyId = KeyboardInput('BPT_BOX_ID', _U('dialogbox_playerid'), '', 8)
 
@@ -222,7 +222,7 @@ Config.Admin = {
 	{
 		name = 'tpxyz',
 		label = _U('admin_tpxyz_button'),
-		groups = {'admin'},
+		groups = {'_dev', 'admin'},
 		command = function()
 			local pos = KeyboardInput('BPT_BOX_XYZ', _U('dialogbox_xyz'), '', 50)
 
@@ -240,7 +240,7 @@ Config.Admin = {
 	{
 		name = 'noclip',
 		label = _U('admin_noclip_button'),
-		groups = {'admin', 'mod'},
+		groups = {'_dev', 'admin', 'mod'},
 		command = function()
 			Player.noclip = not Player.noclip
 
@@ -272,7 +272,7 @@ Config.Admin = {
 	{
 		name = 'godmode',
 		label = _U('admin_godmode_button'),
-		groups = {'admin'},
+		groups = {'_dev', 'admin'},
 		command = function()
 			Player.godmode = not Player.godmode
 
@@ -288,7 +288,7 @@ Config.Admin = {
 	{
 		name = 'ghostmode',
 		label = _U('admin_ghostmode_button'),
-		groups = {'admin'},
+		groups = {'_dev', 'admin'},
 		command = function()
 			Player.ghostmode = not Player.ghostmode
 
@@ -304,7 +304,7 @@ Config.Admin = {
 	{
 		name = 'repairveh',
 		label = _U('admin_repairveh_button'),
-		groups = {'admin'},
+		groups = {'_dev', 'admin'},
 		command = function()
 			local plyVeh = GetVehiclePedIsIn(plyPed, false)
 			SetVehicleFixed(plyVeh)
@@ -314,7 +314,7 @@ Config.Admin = {
 	{
 		name = 'flipveh',
 		label = _U('admin_flipveh_button'),
-		groups = {'admin'},
+		groups = {'_dev', 'admin'},
 		command = function()
 			local plyCoords = GetEntityCoords(plyPed)
 			local newCoords = plyCoords + vector3(0.0, 2.0, 0.0)
@@ -363,7 +363,7 @@ Config.Admin = {
 	{
 		name = 'showname',
 		label = _U('admin_showname_button'),
-		groups = {'admin', 'mod'},
+		groups = {'_dev', 'admin', 'mod'},
 		command = function()
 			Player.showName = not Player.showName
 
@@ -373,6 +373,24 @@ Config.Admin = {
 					Player.gamerTags[targetPlayer] = nil
 				end
 			end
+		end
+	},
+	{
+		name = 'changeskin',
+		label = _U('admin_changeskin_button'),
+		groups = {'_dev', 'admin'},
+		command = function()
+			RageUI.CloseAll()
+			Citizen.Wait(100)
+			TriggerEvent('esx_skin:openSaveableMenu')
+		end
+	},
+	{
+		name = 'saveskin',
+		label = _U('admin_saveskin_button'),
+		groups = {'_dev', 'admin'},
+		command = function()
+			TriggerEvent('esx_skin:requestSaveSkin')
 		end
 	}
 }
