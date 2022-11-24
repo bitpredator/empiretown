@@ -25,7 +25,7 @@
 			statusDiv.find('.status_val')
 				.css({
 					'background-color': status[i].color,
-					'width': (status[i].percent) + '%'
+					'width': (status[i].val / 10000) + '%'
 				})
 				;
 

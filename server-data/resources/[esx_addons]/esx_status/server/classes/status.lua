@@ -11,23 +11,23 @@ function CreateStatus(xPlayer, name, default, color, visible, tickCallback, clie
 	self.tickCallback = tickCallback
 	self.clientAction = clientAction
 
-	function self._set(k, v)
+	self._set = function(k, v)
 		self[k] = v
 	end
 
-	function self._get(k)
+	self._get = function(k)
 		return self[k]
 	end
 
-	function self.onTick()
+	self.onTick = function()
 		self.tickCallback(self)
 	end
 
-	function self.set(val)
+	self.set = function(val)
 		self.val = val
 	end
 
-	function self.add(val)
+	self.add = function(val)
 		if self.val + val > Config.StatusMax then
 			self.val = Config.StatusMax
 		else
@@ -35,7 +35,7 @@ function CreateStatus(xPlayer, name, default, color, visible, tickCallback, clie
 		end
 	end
 
-	function self.remove(val)
+	self.remove = function(val)
 		if self.val - val < 0 then
 			self.val = 0
 		else
@@ -43,11 +43,11 @@ function CreateStatus(xPlayer, name, default, color, visible, tickCallback, clie
 		end
 	end
 
-	function self.getPercent()
+	self.getPercent = function()
 		return (self.val / Config.StatusMax) * 100
 	end
 
-	function self.updateClient()
+	self.updateClient = function()
 		TriggerEvent('esx_status:updateClient', self.xPlayer.source)
 	end
 

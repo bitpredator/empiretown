@@ -1,4 +1,5 @@
 #status_list {
+	visibility:hidden;
 	position: absolute;
 	left   : 23;
 	bottom : 21%;

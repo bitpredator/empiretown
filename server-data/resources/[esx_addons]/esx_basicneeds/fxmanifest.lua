@@ -4,9 +4,7 @@ game 'gta5'
 
 description 'ESX Basic Needs'
 
-version '1.7.5'
-
-shared_script '@es_extended/imports.lua'
+version '0.0.3'
 
 server_scripts {
     '@es_extended/locale.lua',

@@ -4,14 +4,10 @@ game 'gta5'
 
 description 'ESX Status'
 
-version '0.0.2'
-
-lua54 'yes'
-
-shared_script '@es_extended/imports.lua'
+version '0.0.3'
 
 server_scripts {
-	'@oxmysql/lib/MySQL.lua',
+	'@mysql-async/lib/MySQL.lua',
 	'config.lua',
 	'server/main.lua'
 }
@@ -29,5 +25,3 @@ files {
 	'html/css/app.css',
 	'html/scripts/app.js'
 }
-
-dependency 'es_extended'
