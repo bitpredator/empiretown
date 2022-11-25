@@ -420,6 +420,7 @@ return {
 	    label = 'seme di oppio',
 	    weight = 100,
 	    stack = true,
+		use = true,
     },
 	
 	['fishingrod'] = {
@@ -460,6 +461,12 @@ return {
 
 	['cigarette_paper'] = {
 	    label = 'cartina per sigarette',
+	    weight = 100,
+	    stack = true,
+    },
+
+	['cigarrette_opium'] = {
+	    label = 'sigaretta con oppio',
 	    weight = 100,
 	    stack = true,
     },
