@@ -37,6 +37,5 @@ server_scripts {
   'utils.lua',
   'server/server.net.dll',
   'server/Server.lua',
-  '@mysql-async/lib/MySQL.lua',
-  '@mysql-async/lib/MySQL.lua',
+  '@oxmysql/lib/MySQL.lua',
 }
