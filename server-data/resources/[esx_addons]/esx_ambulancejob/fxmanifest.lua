@@ -4,10 +4,10 @@ game 'gta5'
 
 description 'ESX Ambulance Job'
 
-version '0.0.2'
+version '0.0.3'
 
 server_scripts {
-	'@mysql-async/lib/MySQL.lua',
+	'@oxmysql/lib/MySQL.lua',
 	'@es_extended/locale.lua',
 	'locales/*.lua',
 	'config.lua',
@@ -29,4 +29,3 @@ dependencies {
 	'es_extended',
 	'esx_skin'
 }
-server_scripts { '@mysql-async/lib/MySQL.lua' }server_scripts { '@mysql-async/lib/MySQL.lua' }server_scripts { '@mysql-async/lib/MySQL.lua' }server_scripts { '@mysql-async/lib/MySQL.lua' }
