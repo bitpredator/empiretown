@@ -64,7 +64,7 @@ client_script {
 server_script {
     '@es_extended/locale.lua',
     'locales/*.lua',
-	'@mysql-async/lib/MySQL.lua',
+	'@oxmysql/lib/MySQL.lua',
 	"server/esxaddonsgcphone-s.lua",
 	"config.lua",
 	"server/server.lua",
