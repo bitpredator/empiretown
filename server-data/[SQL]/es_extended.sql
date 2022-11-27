@@ -110,9 +110,9 @@ CREATE TABLE IF NOT EXISTS `banking` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `balance` int(11) DEFAULT 0,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.banking: ~0 rows (circa)
+-- Dump dei dati della tabella es_extended.banking: ~9 rows (circa)
 
 -- Dump della struttura di tabella es_extended.billing
 CREATE TABLE IF NOT EXISTS `billing` (
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `bpt_items` (
   `label` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.bpt_items: ~23 rows (circa)
+-- Dump dei dati della tabella es_extended.bpt_items: ~25 rows (circa)
 INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('bandage', 'benda'),
 	('cottonforbandages', 'cotone per bende'),
@@ -158,7 +158,9 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('paper', 'carta'),
 	('newspaper', 'giornale rovinato'),
 	('trash_burgershot', 'scatola di burgershot usata'),
-	('cigarette_paper', 'cartina per sigarette');
+	('cigarette_paper', 'cartina'),
+	('cigarrette_opium', 'sigaretta con oppio'),
+	('opium', 'oppio');
 
 -- Dump della struttura di tabella es_extended.cardealer_vehicles
 CREATE TABLE IF NOT EXISTS `cardealer_vehicles` (
@@ -204,9 +206,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=565 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=619 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~564 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~618 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -761,7 +763,61 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(561, 'property', NULL, '{}'),
 	(562, 'property', NULL, '{}'),
 	(563, 'property', NULL, '{}'),
-	(564, 'property', NULL, '{}');
+	(564, 'property', NULL, '{}'),
+	(565, 'property', NULL, '{}'),
+	(566, 'property', NULL, '{}'),
+	(567, 'property', NULL, '{}'),
+	(568, 'property', NULL, '{}'),
+	(569, 'property', NULL, '{}'),
+	(570, 'property', NULL, '{}'),
+	(571, 'property', NULL, '{}'),
+	(572, 'property', NULL, '{}'),
+	(573, 'property', NULL, '{}'),
+	(574, 'property', NULL, '{}'),
+	(575, 'property', NULL, '{}'),
+	(576, 'property', NULL, '{}'),
+	(577, 'property', NULL, '{}'),
+	(578, 'property', NULL, '{}'),
+	(579, 'property', NULL, '{}'),
+	(580, 'property', NULL, '{}'),
+	(581, 'property', NULL, '{}'),
+	(582, 'property', NULL, '{}'),
+	(583, 'property', NULL, '{}'),
+	(584, 'property', NULL, '{}'),
+	(585, 'property', NULL, '{}'),
+	(586, 'property', NULL, '{}'),
+	(587, 'property', NULL, '{}'),
+	(588, 'property', NULL, '{}'),
+	(589, 'property', NULL, '{}'),
+	(590, 'property', NULL, '{}'),
+	(591, 'property', NULL, '{}'),
+	(592, 'property', NULL, '{}'),
+	(593, 'property', NULL, '{}'),
+	(594, 'property', NULL, '{}'),
+	(595, 'property', NULL, '{}'),
+	(596, 'property', NULL, '{}'),
+	(597, 'property', NULL, '{}'),
+	(598, 'property', NULL, '{}'),
+	(599, 'property', NULL, '{}'),
+	(600, 'property', NULL, '{}'),
+	(601, 'property', NULL, '{}'),
+	(602, 'property', NULL, '{}'),
+	(603, 'property', NULL, '{}'),
+	(604, 'property', NULL, '{}'),
+	(605, 'property', NULL, '{}'),
+	(606, 'property', NULL, '{}'),
+	(607, 'property', NULL, '{}'),
+	(608, 'property', NULL, '{}'),
+	(609, 'property', NULL, '{}'),
+	(610, 'property', NULL, '{}'),
+	(611, 'property', NULL, '{}'),
+	(612, 'property', NULL, '{}'),
+	(613, 'property', NULL, '{}'),
+	(614, 'property', NULL, '{}'),
+	(615, 'property', NULL, '{}'),
+	(616, 'property', NULL, '{}'),
+	(617, 'property', NULL, '{}'),
+	(618, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -851,7 +907,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
 INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 	('ambulance', 'EMS', 1),
 	('ammu', 'Armeria', 1),
-	('ballas', 'Ballas', 0),
+	('ballas', 'Ballas', 1),
 	('banker', 'Banquier', 1),
 	('cardealer', 'Cardealer', 1),
 	('dustman', 'Dustman', 1),
@@ -983,7 +1039,7 @@ CREATE TABLE IF NOT EXISTS `ox_inventory` (
   UNIQUE KEY `owner` (`owner`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.ox_inventory: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.ox_inventory: ~2 rows (circa)
 
 -- Dump della struttura di tabella es_extended.phone_app_chat
 CREATE TABLE IF NOT EXISTS `phone_app_chat` (
@@ -1154,9 +1210,9 @@ CREATE TABLE IF NOT EXISTS `uteknark2` (
   `soil` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `stage` (`stage`,`time`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.uteknark2: ~4 rows (circa)
+-- Dump dei dati della tabella es_extended.uteknark2: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.vehicles
 CREATE TABLE IF NOT EXISTS `vehicles` (
