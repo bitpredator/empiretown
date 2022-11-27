@@ -15,4 +15,6 @@ Locales['it'] = {
   ['boss_actions']                      = 'azioni boss',
   ['phone_receive']                     = 'cliente bancario',
   ['phone_label']                       = 'banca',
+  ['have_deposited']                    = 'hai depositato del denaro nel conto del cliente',
+  ['have_withdraw']                     = 'hai prelevato del denaro dal conto del cliente',
 }

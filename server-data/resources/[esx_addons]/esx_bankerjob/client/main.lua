@@ -82,7 +82,7 @@ function OpenCustomersMenu()
 						else
 							menu2.close()
 							TriggerServerEvent('esx_bankerjob:customerDeposit', customer.source, amount)
-							ESX.ShowNotification("You have deposited $"..amount.." into "..element.title.."s account.")
+						    ESX.ShowNotification(_U('have_deposited'))
 							OpenCustomersMenu()
 						end
 					end, function(data2, menu2)
@@ -100,7 +100,7 @@ function OpenCustomersMenu()
 						else
 							menu2.close()
 							TriggerServerEvent('esx_bankerjob:customerWithdraw', customer.source, amount)
-							ESX.ShowNotification("You have withdrawn $"..amount.." from "..element.title.."s account.")
+						    ESX.ShowNotification(_U('have_withdraw'))
 							OpenCustomersMenu()
 						end
 					end, function(data2, menu2)
