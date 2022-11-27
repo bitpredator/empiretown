@@ -1,7 +1,7 @@
 resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 description 'ESX UteKnark by DemmyDemon'
 
-dependencies {'es_extended','mysql-async'}
+dependencies {'es_extended','oxmysql'}
 
 shared_scripts {
     '@es_extended/locale.lua',
@@ -16,6 +16,6 @@ client_scripts {
     'cl_uteknark.lua',
 }
 server_scripts {
-    '@mysql-async/lib/MySQL.lua',
+    '@oxmysql/lib/MySQL.lua',
     'sv_uteknark.lua',
 }

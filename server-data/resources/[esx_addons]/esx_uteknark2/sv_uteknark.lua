@@ -263,7 +263,7 @@ Citizen.CreateThread(function()
     local databaseReady = false
     while not databaseReady do
         Citizen.Wait(500)
-        local state = GetResourceState('mysql-async')
+        local state = GetResourceState('oxmysql')
         if state == "started" then
             Citizen.Wait(500)
             cropstate:load(function(plantCount)

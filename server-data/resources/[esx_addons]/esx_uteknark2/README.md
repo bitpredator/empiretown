@@ -34,7 +34,7 @@ At any point during this process, anyone can come along and destroy your plant, 
 - What do I need?
 
   - [es_extended](https://github.com/ESX-Org/es_extended)
-  - [mysql-async](https://github.com/brouznouf/fivem-mysql-async)
+  - [oxmysql](https://github.com/overextended/oxmysql)
   - Already existing ways to obtain seeds and sell the weed you harvest.
   - The items you want to use for seeds and harvested weed *already in your database!*
 
