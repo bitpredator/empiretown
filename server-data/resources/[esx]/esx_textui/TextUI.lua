@@ -1,12 +1,12 @@
 Debug = ESX.GetConfig().EnableDebug
 
----@param message any
----@param type string
-local function TextUI(message, type)
+---@param message string
+---@param typ string
+local function TextUI(message, typ)
     SendNUIMessage({
         action = 'show',
-        message = message or 'ESX-TextUI',
-        type = type or 'info'
+        message = message and message or 'ESX-TextUI',
+        type = type(typ) == "string" and typ or 'info'
     })
 end
 

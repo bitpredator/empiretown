@@ -48,7 +48,7 @@ end)
 ESX.RegisterServerCallback("esx_taxijob:SpawnVehicle", function(source, cb, model , props)
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.job.name ~= "taxi" then 
+    if xPlayer.job.name ~= "taxi" then
         print(('[^3WARNING^7] Player ^5%s^7 attempted to Exploit Vehicle Spawing!!'):format(source))
         return
     end
@@ -102,9 +102,14 @@ AddEventHandler('esx_taxijob:putStockItems', function(itemName, count)
 
     if xPlayer.job.name == 'taxi' then
         TriggerEvent('esx_addoninventory:getSharedInventory', 'society_taxi', function(inventory)
-            local item = inventory.getItem(itemName)
+            local item = xPlayer.getInventoryItem(itemName)
 
-            if item.count > 0 then
+			if item == nil then
+				print("ERROR: Player get inventory item is value nil! Current item name: "..itemName)
+				return
+			end
+
+            if item.count >= count then
                 xPlayer.removeInventoryItem(itemName, count)
                 inventory.addItem(itemName, count)
                 xPlayer.showNotification(_U('have_deposited', count, item.label))
@@ -120,8 +125,6 @@ end)
 ESX.RegisterServerCallback('esx_taxijob:getPlayerInventory', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     local items = xPlayer.inventory
-
-    cb({
-        items = items
-    })
+	local minItems = xPlayer.getInventory(true)
+	cb(next(minItems) ~= nil and items or false)
 end)

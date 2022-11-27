@@ -12,6 +12,7 @@ Locales['en'] = {
   ['spawn_veh'] = 'spawn vehicle',
   ['spawnpoint_blocked'] = 'there is a vehicle blocking the spawnpoint!',
   ['only_taxi'] = 'you can only store taxis.',
+  ['empty_garage'] = 'No vehicle in the garage!',
 
   ['taking_service'] = 'taking service: Taxi/Uber',
   ['full_service'] = 'full service: ',
@@ -35,6 +36,8 @@ Locales['en'] = {
   ['not_in_taxi'] = 'You left the taxi while on mission!',
   ['have_earned'] = 'you have earned $%s',
   ['comp_earned'] = '- your company has earned $%s\n- you have earned $%s',
+  ['empty_stock'] = 'Empty stock!',
+  ['empty_your_inventory'] = 'Empty your inventory!',
   ['boss_actions'] = 'boss Actions',
   ['mission_complete'] = 'mission Completed',
   ['quantity'] = 'quantity',
@@ -47,5 +50,6 @@ Locales['en'] = {
   ['blip_taxi'] = 'downtown Cab Co.',
   ['phone_taxi'] = 'downtown Cab Co.',
   ['taxi'] = 'taxi',
-  ['taxi_stock'] = 'taxi Stock'
+  ['taxi_stock'] = 'taxi Stock',
+  ['menu_return'] = 'Return'
 }

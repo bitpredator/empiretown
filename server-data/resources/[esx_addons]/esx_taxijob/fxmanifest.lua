@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'ESX Taxi Job'
 lua54 'yes'
-version '0.0.2'
+version '0.0.3'
 
 shared_script '@es_extended/imports.lua'
 
