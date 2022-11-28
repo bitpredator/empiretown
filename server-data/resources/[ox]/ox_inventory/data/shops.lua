@@ -6,8 +6,7 @@ return {
 		}, inventory = {
 			{ name = 'burger', price = 300 },
 			{ name = 'water', price = 300 },
-			{ name = 'cola', price = 300 },
-			{ name = 'backpack', price = 600}
+			{ name = 'cola', price = 300 }
 		}, locations = {
 			vec3(25.7, -1347.3, 29.49),
 			vec3(-3038.71, 585.9, 7.9),
@@ -44,8 +43,7 @@ return {
 			{ name = 'pickaxe', price = 30 },
 			{ name = 'almonds', price = 10 },
 			{ name = 'fishingrod', price = 100},
-			{ name = 'fishbait', price = 80},
-			{ name = 'backpack', price = 180}
+			{ name = 'fishbait', price = 80}
 		}, locations = {
 			vec3(1017.389038, -2405.736328, 30.122314)
 		}, targets = {
@@ -95,5 +93,31 @@ return {
 		model = {
 			`prop_vend_soda_02`, `prop_vend_fridge01`, `prop_vend_water_01`, `prop_vend_soda_01`
 		}
-	}
+	},
+
+	DigitalStore = {
+		name = 'Digital Store',
+		blip = {
+			id = 59, colour = 69, scale = 0.8
+		}, inventory = {
+			{ name = 'phone',   price = 3000 }
+		}, locations = {
+			vec3(385.885712, -826.523071, 29.296753)
+		}, targets = {
+
+		}
+	},
+
+	Backpacks = {
+		name = 'Backpacks',
+		blip = {
+			id = 59, colour = 69, scale = 0.8
+		}, inventory = {
+			{ name = 'backpack',   price = 800 }
+		}, locations = {
+			vec3(-1131.481323, -1635.652710, 4.359009)
+		}, targets = {
+
+		}
+	},
 }
