@@ -391,22 +391,6 @@ Config.Components = {{
     camOffset = 0.15,
     textureof = 'bracelets_1'
 }, {
-    label = _U('bag'),
-    name = 'bags_1',
-    value = 0,
-    min = 0,
-    zoomOffset = 0.75,
-    camOffset = 0.15,
-    componentId = 5
-}, {
-    label = _U('bag_color'),
-    name = 'bags_2',
-    value = 0,
-    min = 0,
-    zoomOffset = 0.75,
-    camOffset = 0.15,
-    textureof = 'bags_1'
-}, {
     label = _U('eye_color'),
     name = 'eye_color',
     value = 0,
