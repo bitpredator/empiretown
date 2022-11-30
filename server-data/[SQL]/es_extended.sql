@@ -60,7 +60,7 @@ INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(2, 'society_police', 0, NULL),
 	(4, 'society_mechanic', 0, NULL),
 	(5, 'society_taxi', 0, NULL),
-	(9, 'society_banker', 0, NULL),
+	(9, 'society_banker', 50, NULL),
 	(14, 'society_import', 0, NULL),
 	(16, 'society_ambulance', 0, NULL),
 	(17, 'society_ammu', 0, NULL),
@@ -206,9 +206,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=619 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=629 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~618 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~623 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -817,7 +817,17 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(615, 'property', NULL, '{}'),
 	(616, 'property', NULL, '{}'),
 	(617, 'property', NULL, '{}'),
-	(618, 'property', NULL, '{}');
+	(618, 'property', NULL, '{}'),
+	(619, 'property', NULL, '{}'),
+	(620, 'property', NULL, '{}'),
+	(621, 'property', NULL, '{}'),
+	(622, 'property', NULL, '{}'),
+	(623, 'property', NULL, '{}'),
+	(624, 'property', NULL, '{}'),
+	(625, 'property', NULL, '{}'),
+	(626, 'property', NULL, '{}'),
+	(627, 'property', NULL, '{}'),
+	(628, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -1029,6 +1039,78 @@ CREATE TABLE IF NOT EXISTS `owned_vehicles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Dump dei dati della tabella es_extended.owned_vehicles: ~1 rows (circa)
+
+-- Dump della struttura di tabella es_extended.ox_doorlock
+CREATE TABLE IF NOT EXISTS `ox_doorlock` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4;
+
+-- Dump dei dati della tabella es_extended.ox_doorlock: ~61 rows (circa)
+INSERT INTO `ox_doorlock` (`id`, `name`, `data`) VALUES
+	(1, 'community_mrpd 1', '{"coords":{"x":434.7478942871094,"y":-981.916748046875,"z":30.83926963806152},"groups":{"police":0,"offpolice":0},"maxDistance":2.5,"state":0,"doors":[{"coords":{"x":434.7478942871094,"y":-980.618408203125,"z":30.83926963806152},"model":-1215222675,"heading":270},{"coords":{"x":434.7478942871094,"y":-983.215087890625,"z":30.83926963806152},"model":320433149,"heading":270}],"hideUi":false}'),
+	(2, 'community_mrpd 2', '{"coords":{"x":468.6697998046875,"y":-1014.4520263671875,"z":26.53623962402343},"groups":{"police":0},"maxDistance":2.5,"state":1,"doors":[{"coords":{"x":469.9679870605469,"y":-1014.4520263671875,"z":26.53623962402343},"model":-2023754432,"heading":180},{"coords":{"x":467.3716125488281,"y":-1014.4520263671875,"z":26.53623962402343},"model":-2023754432,"heading":0}],"hideUi":false}'),
+	(3, 'community_mrpd 3', '{"coords":{"x":463.4783020019531,"y":-1003.5380249023438,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(4, 'community_mrpd 4', '{"coords":{"x":488.8948059082031,"y":-1017.2100219726563,"z":27.14863014221191},"auto":true,"lockSound":"button-remote","groups":{"police":0},"heading":90,"maxDistance":5,"state":1,"model":-1603817716,"hideUi":false}'),
+	(5, 'community_mrpd 5', '{"coords":{"x":431.4056091308594,"y":-1001.1690063476563,"z":26.71261024475097},"auto":true,"lockSound":"button-remote","groups":{"police":0},"heading":0,"maxDistance":5,"state":1,"model":-190780785,"hideUi":false}'),
+	(6, 'community_mrpd 6', '{"coords":{"x":436.223388671875,"y":-1001.1690063476563,"z":26.71261024475097},"auto":true,"lockSound":"button-remote","groups":{"police":0},"heading":0,"maxDistance":5,"state":1,"model":-190780785,"hideUi":false}'),
+	(7, 'community_mrpd 7', '{"coords":{"x":450.10418701171877,"y":-985.7384033203125,"z":30.83930969238281},"model":1557126584,"groups":{"police":0,"offpolice":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
+	(8, 'community_mrpd 8', '{"coords":{"x":464.15838623046877,"y":-1011.260009765625,"z":33.01121139526367},"model":507213820,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(9, 'community_mrpd 9', '{"coords":{"x":461.2864990234375,"y":-985.3206176757813,"z":30.83926963806152},"model":749848321,"groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
+	(10, 'community_mrpd 10', '{"coords":{"x":446.57281494140627,"y":-980.0106201171875,"z":30.83930969238281},"model":-1320876379,"groups":{"police":0},"heading":180,"maxDistance":2,"state":1,"hideUi":false}'),
+	(11, 'community_mrpd 11', '{"coords":{"x":453.09381103515627,"y":-983.2293701171875,"z":30.83926963806152},"model":-1033001619,"groups":{"police":0},"heading":91,"maxDistance":2,"state":1,"hideUi":false}'),
+	(12, 'community_mrpd 12', '{"coords":{"x":464.36138916015627,"y":-984.677978515625,"z":43.83443832397461},"model":-340230128,"groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
+	(13, 'community_mrpd 13', '{"coords":{"x":442.6625061035156,"y":-988.2412719726563,"z":26.81977081298828},"model":-131296141,"groups":{"police":0},"heading":179,"maxDistance":2,"state":1,"hideUi":false}'),
+	(14, 'community_mrpd 14', '{"coords":{"x":471.3153991699219,"y":-986.1090698242188,"z":25.05794906616211},"model":-131296141,"groups":{"police":0},"heading":270,"maxDistance":2,"state":1,"hideUi":false}'),
+	(15, 'community_mrpd 15', '{"coords":{"x":467.5935974121094,"y":-977.9932861328125,"z":25.05794906616211},"model":-131296141,"groups":{"police":0},"heading":180,"maxDistance":2,"state":1,"hideUi":false}'),
+	(16, 'community_mrpd 16', '{"coords":{"x":463.6145935058594,"y":-980.5814208984375,"z":25.05794906616211},"model":-131296141,"groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
+	(17, 'community_mrpd 17', '{"coords":{"x":464.5701904296875,"y":-992.6641235351563,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
+	(18, 'community_mrpd 18', '{"coords":{"x":461.8064880371094,"y":-994.4086303710938,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":270,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
+	(19, 'community_mrpd 19', '{"coords":{"x":461.8064880371094,"y":-997.6583862304688,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
+	(20, 'community_mrpd 20', '{"coords":{"x":461.8064880371094,"y":-1001.302001953125,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
+	(21, 'community_mrpd 21', '{"coords":{"x":467.19219970703127,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(22, 'community_mrpd 22', '{"coords":{"x":471.4754943847656,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(23, 'community_mrpd 23', '{"coords":{"x":475.7543029785156,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(24, 'community_mrpd 24', '{"coords":{"x":480.03009033203127,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(25, 'community_mrpd 25', '{"coords":{"x":468.4872131347656,"y":-1003.5479736328125,"z":25.01313972473144},"model":-1033001619,"groups":{"police":0},"heading":180,"maxDistance":2,"state":1,"hideUi":false}'),
+	(26, 'community_mrpd 26', '{"coords":{"x":471.4747009277344,"y":-1003.5380249023438,"z":25.01222991943359},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(27, 'community_mrpd 27', '{"coords":{"x":477.0495910644531,"y":-1003.552001953125,"z":25.01203918457031},"auto":false,"groups":{"police":0},"heading":179,"lockpick":false,"maxDistance":2,"state":1,"model":-1033001619,"hideUi":false}'),
+	(28, 'community_mrpd 28', '{"coords":{"x":480.03009033203127,"y":-1003.5380249023438,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(29, 'community_mrpd 29', '{"coords":{"x":444.7078857421875,"y":-989.4453735351563,"z":30.83930969238281},"groups":{"police":0},"maxDistance":2.5,"state":1,"doors":[{"coords":{"x":443.4078063964844,"y":-989.4453735351563,"z":30.83930969238281},"model":185711165,"heading":180},{"coords":{"x":446.00799560546877,"y":-989.4453735351563,"z":30.83930969238281},"model":185711165,"heading":0}],"hideUi":false}'),
+	(30, 'community_mrpd 30', '{"coords":{"x":445.9197998046875,"y":-999.0016479492188,"z":30.7890396118164},"groups":{"police":0},"maxDistance":2.5,"state":1,"doors":[{"coords":{"x":447.2184143066406,"y":-999.0023193359375,"z":30.78941917419433},"model":-1033001619,"heading":180},{"coords":{"x":444.6211853027344,"y":-999.0009765625,"z":30.78866004943847},"model":-1033001619,"heading":0}],"hideUi":false}'),
+	(31, 'community_mrpd 31', '{"coords":{"x":445.9298400878906,"y":-997.044677734375,"z":30.84351921081543},"groups":{"police":0},"maxDistance":2.5,"state":0,"doors":[{"coords":{"x":444.62939453125,"y":-997.044677734375,"z":30.84351921081543},"model":-2023754432,"heading":0},{"coords":{"x":447.23028564453127,"y":-997.044677734375,"z":30.84351921081543},"model":-2023754432,"heading":180}],"hideUi":false}'),
+	(33, 'gabz_mrpd 2', '{"maxDistance":2,"state":1,"groups":{"police":0,"offpolice":0},"doors":[{"heading":180,"coords":{"x":458.2087097167969,"y":-972.2542724609375,"z":30.81529998779297},"model":-1547307588},{"heading":0,"coords":{"x":455.8861999511719,"y":-972.2542724609375,"z":30.81529998779297},"model":-1547307588}],"coords":{"x":457.0474548339844,"y":-972.2542724609375,"z":30.81529998779297},"hideUi":false}'),
+	(34, 'gabz_mrpd 3', '{"maxDistance":2,"state":1,"groups":{"police":0,"offpolice":0},"doors":[{"heading":0,"coords":{"x":440.73919677734377,"y":-998.7462158203125,"z":30.81529998779297},"model":-1547307588},{"heading":180,"coords":{"x":443.0617980957031,"y":-998.7462158203125,"z":30.81529998779297},"model":-1547307588}],"coords":{"x":441.9005126953125,"y":-998.7462158203125,"z":30.81529998779297},"hideUi":false}'),
+	(35, 'gabz_mrpd 4', '{"coords":{"x":441.1300048828125,"y":-977.9299926757813,"z":30.82319068908691},"state":1,"model":-1406685646,"heading":0,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(36, 'gabz_mrpd 5', '{"coords":{"x":440.5201110839844,"y":-986.2335205078125,"z":30.82319068908691},"state":1,"model":-96679321,"heading":180,"groups":{"police":0,"offpolice":0},"maxDistance":2,"hideUi":false}'),
+	(37, 'gabz_mrpd 6', '{"coords":{"x":464.1590881347656,"y":-974.6655883789063,"z":26.37070083618164},"state":1,"model":1830360419,"heading":270,"groups":{"police":0,"offpolice":0},"maxDistance":2,"hideUi":false}'),
+	(38, 'gabz_mrpd 7', '{"coords":{"x":464.1565856933594,"y":-997.50927734375,"z":26.37070083618164},"state":1,"model":1830360419,"heading":90,"groups":{"police":0,"offpolice":0},"maxDistance":2,"hideUi":false}'),
+	(39, 'gabz_mrpd 8', '{"coords":{"x":431.4118957519531,"y":-1000.77197265625,"z":26.69660949707031},"state":1,"model":2130672747,"heading":0,"groups":{"police":0,"offpolice":0},"auto":true,"lockSound":"button-remote","maxDistance":6,"hideUi":false}'),
+	(40, 'gabz_mrpd 9', '{"coords":{"x":452.3005065917969,"y":-1000.77197265625,"z":26.69660949707031},"state":1,"model":2130672747,"heading":0,"groups":{"police":0,"offpolice":0},"auto":true,"lockSound":"button-remote","maxDistance":6,"hideUi":false}'),
+	(41, 'gabz_mrpd 10', '{"coords":{"x":488.8948059082031,"y":-1017.2119750976563,"z":27.14934921264648},"state":1,"model":-1603817716,"heading":90,"groups":{"police":0,"offpolice":0},"auto":true,"lockSound":"button-remote","maxDistance":6,"hideUi":false}'),
+	(42, 'gabz_mrpd 11', '{"maxDistance":2,"state":1,"groups":{"police":0,"offpolice":0},"doors":[{"heading":0,"coords":{"x":467.36859130859377,"y":-1014.406005859375,"z":26.48381996154785},"model":-692649124},{"heading":180,"coords":{"x":469.7742919921875,"y":-1014.406005859375,"z":26.48381996154785},"model":-692649124}],"coords":{"x":468.5714416503906,"y":-1014.406005859375,"z":26.48381996154785},"hideUi":false}'),
+	(43, 'gabz_mrpd 12', '{"coords":{"x":475.9538879394531,"y":-1010.8189697265625,"z":26.40638923645019},"state":1,"model":-1406685646,"heading":180,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(44, 'gabz_mrpd 13', '{"coords":{"x":476.6156921386719,"y":-1008.875,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":270,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
+	(45, 'gabz_mrpd 14', '{"coords":{"x":481.0083923339844,"y":-1004.1179809570313,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":180,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
+	(46, 'gabz_mrpd 15', '{"coords":{"x":477.91259765625,"y":-1012.1890258789063,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":0,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
+	(47, 'gabz_mrpd 16', '{"coords":{"x":480.9128112792969,"y":-1012.1890258789063,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":0,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
+	(48, 'gabz_mrpd 17', '{"coords":{"x":483.9126892089844,"y":-1012.1890258789063,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":0,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
+	(49, 'gabz_mrpd 18', '{"coords":{"x":486.9130859375,"y":-1012.1890258789063,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":0,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
+	(50, 'gabz_mrpd 19', '{"coords":{"x":484.1763916015625,"y":-1007.7340087890625,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":180,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
+	(51, 'gabz_mrpd 20', '{"coords":{"x":479.05999755859377,"y":-1003.1729736328125,"z":26.4064998626709},"state":1,"model":-288803980,"heading":90,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(52, 'gabz_mrpd 21', '{"coords":{"x":482.6694030761719,"y":-983.98681640625,"z":26.40547943115234},"state":1,"model":-1406685646,"heading":270,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(53, 'gabz_mrpd 22', '{"coords":{"x":482.67010498046877,"y":-987.5792236328125,"z":26.40547943115234},"state":1,"model":-1406685646,"heading":270,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(54, 'gabz_mrpd 23', '{"coords":{"x":482.6698913574219,"y":-992.299072265625,"z":26.40547943115234},"state":1,"model":-1406685646,"heading":270,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(55, 'gabz_mrpd 24', '{"coords":{"x":482.6702880859375,"y":-995.728515625,"z":26.40547943115234},"state":1,"model":-1406685646,"heading":270,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(56, 'gabz_mrpd 25', '{"coords":{"x":475.8323059082031,"y":-990.48388671875,"z":26.40547943115234},"state":1,"model":-692649124,"heading":135,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(57, 'gabz_mrpd 26', '{"coords":{"x":479.7507019042969,"y":-999.6290283203125,"z":30.78927040100097},"state":1,"model":-692649124,"heading":90,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(58, 'gabz_mrpd 27', '{"coords":{"x":487.43780517578127,"y":-1000.1890258789063,"z":30.7869701385498},"state":1,"model":-692649124,"heading":181,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
+	(59, 'gabz_mrpd 28', '{"maxDistance":2,"state":1,"groups":{"police":0},"doors":[{"heading":0,"coords":{"x":485.6133117675781,"y":-1002.9019775390625,"z":30.7869701385498},"model":-692649124},{"heading":180,"coords":{"x":488.0184020996094,"y":-1002.9019775390625,"z":30.7869701385498},"model":-692649124}],"coords":{"x":486.81585693359377,"y":-1002.9019775390625,"z":30.7869701385498},"hideUi":false}'),
+	(60, 'gabz_mrpd 29', '{"coords":{"x":464.30859375,"y":-984.5283813476563,"z":43.771240234375},"state":1,"model":-692649124,"heading":90,"groups":{"police":0},"auto":false,"maxDistance":2,"lockpick":false,"hideUi":false}'),
+	(61, 'gabz_mrpd 30', '{"coords":{"x":410.0257873535156,"y":-1024.219970703125,"z":29.22019958496093},"state":1,"model":-1635161509,"heading":270,"groups":{"police":0},"lockSound":"button-remote","auto":true,"maxDistance":6,"lockpick":false,"hideUi":false}'),
+	(62, 'gabz_mrpd 31', '{"coords":{"x":410.0257873535156,"y":-1024.2259521484376,"z":29.2202205657959},"state":1,"model":-1868050792,"heading":270,"groups":{"police":0},"lockSound":"button-remote","auto":true,"maxDistance":6,"lockpick":false,"hideUi":false}');
 
 -- Dump della struttura di tabella es_extended.ox_inventory
 CREATE TABLE IF NOT EXISTS `ox_inventory` (
