@@ -493,4 +493,35 @@ return {
 			export = 'wasabi_backpack.openBackpack'
 		}
 	},
+	-- 
+	['boar_meat'] = {
+	    label = 'carne di cinghiale',
+	    weight = 3000,
+	    stack = true,
+    },
+
+	['pelt_mtnlion'] = {
+	    label = 'Pelle di leone di montagna',
+	    weight = 3000,
+	    stack = true,
+    },
+
+	['deer_meat'] = {
+	    label = 'carne di cervo',
+	    weight = 3000,
+	    stack = true,
+    },
+
+	['pelt_coyote'] = {
+	    label = 'Pelle di coyote',
+	    weight = 3000,
+	    stack = true,
+    },
+
+	['rabbit_meat'] = {
+	    label = 'carne di coniglio',
+	    weight = 3000,
+	    stack = true,
+    },
+
 }
