@@ -72,40 +72,54 @@ function OpenCustomersMenu()
 			ESX.OpenContext("right", elements2, function(menu2,element2)
 				local customer = element.data
 				if element2.value == "deposit" then
-					ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'customer_deposit_amount', {
-						title = _U('amount')
-					}, function(data2, menu2)
-						local amount = tonumber(data2.value)
+					local elements = {
+						{unselectable = true, icon = "fas fa-scroll", title = _U('amount')},
+						{title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = "Amount to bill.."},
+						{icon = "fas fa-check-double", title = "Confirm", val = "confirm"}
+					}
 
-						if amount == nil then
-							ESX.ShowNotification(_U('invalid_amount'))
-						else
-							menu2.close()
-							TriggerServerEvent('esx_bankerjob:customerDeposit', customer.source, amount)
-						    ESX.ShowNotification(_U('have_deposited'))
-							OpenCustomersMenu()
+					ESX.OpenContext("right", elements, function(menu,element)
+						if element.val == "confirm" then
+							local amount = tonumber(menu.eles[2].inputValue)
+
+							if amount == nil then
+								ESX.ShowNotification(_U('invalid_amount'))
+							else
+								ESX.CloseContext()
+								TriggerServerEvent('esx_bankerjob:customerDeposit', customer.source, amount)
+								ESX.ShowNotification("You have deposited $"..amount.." into "..element.title.."s account.")
+								OpenCustomersMenu()
+							end
 						end
-					end, function(data2, menu2)
-						menu2.close()
-						OpenCustomersMenu()
+					end, function(menu)
+						CurrentAction     = 'bank_actions_menu'
+						CurrentActionMsg  = _U('press_input_context_to_open_menu')
+						CurrentActionData = {}
 					end)
 				elseif element2.value == "withdraw" then
-					ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'customer_withdraw_amount', {
-						title = _U('amount')
-					}, function(data2, menu2)
-						local amount = tonumber(data2.value)
+					local elements = {
+						{unselectable = true, icon = "fas fa-scroll", title = _U('amount')},
+						{title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = "Amount to bill.."},
+						{icon = "fas fa-check-double", title = "Confirm", val = "confirm"}
+					}
 
-						if amount == nil then
-							ESX.ShowNotification(_U('invalid_amount'))
-						else
-							menu2.close()
-							TriggerServerEvent('esx_bankerjob:customerWithdraw', customer.source, amount)
-						    ESX.ShowNotification(_U('have_withdraw'))
-							OpenCustomersMenu()
+					ESX.OpenContext("right", elements, function(menu,element)
+						if element.val == "confirm" then
+							local amount = tonumber(menu.eles[2].inputValue)
+
+							if amount == nil then
+								ESX.ShowNotification(_U('invalid_amount'))
+							else
+								ESX.CloseContext()
+								TriggerServerEvent('esx_bankerjob:customerWithdraw', customer.source, amount)
+								ESX.ShowNotification("You have withdrawn $"..amount.." from "..element.title.."s account.")
+								OpenCustomersMenu()
+							end
 						end
-					end, function(data2, menu2)
-						menu2.close()
-						OpenCustomersMenu()
+					end, function(menu)
+						CurrentAction     = 'bank_actions_menu'
+						CurrentActionMsg  = _U('press_input_context_to_open_menu')
+						CurrentActionData = {}
 					end)
 				end
 			end, function(menu)	
@@ -122,26 +136,34 @@ function OpenCustomersMenu()
 end
 
 function CreateBillingDialog()
-	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
-		title = _U('bill_amount')
-	}, function(data, menu)
-		local amount = tonumber(data.value)
+	local elements = {
+		{unselectable = true, icon = "fas fa-scroll", title = _U('bill_amount')},
+		{title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = "Amount to bill.."},
+		{icon = "fas fa-check-double", title = "Confirm", val = "confirm"}
+	}
 
-		if amount == nil then
-			ESX.ShowNotification(_U('invalid_amount'))
-		else
-			menu.close()
+	ESX.OpenContext("right", elements, function(menu,element)
+		if element.val == "confirm" then
+			local amount = tonumber(menu.eles[2].inputValue)
 
-			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
-			if closestPlayer == -1 or closestDistance > 5.0 then
-				ESX.ShowNotification(_U('no_player_nearby'))
+			if amount == nil then
+				ESX.ShowNotification(_U('invalid_amount'))
 			else
-				TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_banker', 'Bank', amount)
+				ESX.CloseContext()
+
+				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+
+				if closestPlayer == -1 or closestDistance > 5.0 then
+					ESX.ShowNotification(_U('no_player_nearby'))
+				else
+					TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_banker', 'Bank', amount)
+				end
 			end
 		end
-	end, function(data, menu)
-		menu.close()
+	end, function(menu)
+		CurrentAction     = 'bank_actions_menu'
+		CurrentActionMsg  = _U('press_input_context_to_open_menu')
+		CurrentActionData = {}
 	end)
 end
 
