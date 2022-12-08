@@ -60,7 +60,7 @@ INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(2, 'society_police', 0, NULL),
 	(4, 'society_mechanic', 0, NULL),
 	(5, 'society_taxi', 0, NULL),
-	(9, 'society_banker', 50, NULL),
+	(9, 'society_banker', 35, NULL),
 	(14, 'society_import', 0, NULL),
 	(16, 'society_ambulance', 0, NULL),
 	(17, 'society_ammu', 0, NULL),
@@ -206,9 +206,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=629 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=674 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~623 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~668 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -827,7 +827,52 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(625, 'property', NULL, '{}'),
 	(626, 'property', NULL, '{}'),
 	(627, 'property', NULL, '{}'),
-	(628, 'property', NULL, '{}');
+	(628, 'property', NULL, '{}'),
+	(629, 'property', NULL, '{}'),
+	(630, 'property', NULL, '{}'),
+	(631, 'property', NULL, '{}'),
+	(632, 'property', NULL, '{}'),
+	(633, 'property', NULL, '{}'),
+	(634, 'property', NULL, '{}'),
+	(635, 'property', NULL, '{}'),
+	(636, 'property', NULL, '{}'),
+	(637, 'property', NULL, '{}'),
+	(638, 'property', NULL, '{}'),
+	(639, 'property', NULL, '{}'),
+	(640, 'property', NULL, '{}'),
+	(641, 'property', NULL, '{}'),
+	(642, 'property', NULL, '{}'),
+	(643, 'property', NULL, '{}'),
+	(644, 'property', NULL, '{}'),
+	(645, 'property', NULL, '{}'),
+	(646, 'property', NULL, '{}'),
+	(647, 'property', NULL, '{}'),
+	(648, 'property', NULL, '{}'),
+	(649, 'property', NULL, '{}'),
+	(650, 'property', NULL, '{}'),
+	(651, 'property', NULL, '{}'),
+	(652, 'property', NULL, '{}'),
+	(653, 'property', NULL, '{}'),
+	(654, 'property', NULL, '{}'),
+	(655, 'property', NULL, '{}'),
+	(656, 'property', NULL, '{}'),
+	(657, 'property', NULL, '{}'),
+	(658, 'property', NULL, '{}'),
+	(659, 'property', NULL, '{}'),
+	(660, 'property', NULL, '{}'),
+	(661, 'property', NULL, '{}'),
+	(662, 'property', NULL, '{}'),
+	(663, 'property', NULL, '{}'),
+	(664, 'property', NULL, '{}'),
+	(665, 'property', NULL, '{}'),
+	(666, 'property', NULL, '{}'),
+	(667, 'property', NULL, '{}'),
+	(668, 'property', NULL, '{}'),
+	(669, 'property', NULL, '{}'),
+	(670, 'property', NULL, '{}'),
+	(671, 'property', NULL, '{}'),
+	(672, 'property', NULL, '{}'),
+	(673, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -970,7 +1015,7 @@ INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, 
 	(37, 'banker', 1, 'banker', 'Banquier', 20, '{}', '{}'),
 	(38, 'banker', 2, 'business_banker', 'Banquier d\'affaire', 30, '{}', '{}'),
 	(39, 'banker', 3, 'trader', 'Trader', 40, '{}', '{}'),
-	(40, 'banker', 4, 'boss', 'Patron', 0, '{}', '{}'),
+	(40, 'banker', 4, 'boss', 'Patron', 1, '{}', '{}'),
 	(46, 'import', 0, 'ontrial', 'in prova', 1, '{"hair_2":0,"hair_color_2":0,"torso_1":32,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":31,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":0,"age_2":0,"glasses_2":0,"ears_2":0,"arms":27,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
 	(47, 'import', 1, 'employee', 'dipendente', 24, '{"hair_2":0,"hair_color_2":0,"torso_1":32,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":31,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":0,"age_2":0,"glasses_2":0,"ears_2":0,"arms":27,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
 	(48, 'import', 2, 'driver', 'autista', 36, '{"hair_2":0,"hair_color_2":0,"torso_1":26,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":57,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":4,"age_2":0,"glasses_2":0,"ears_2":0,"arms":11,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":0,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
@@ -1004,8 +1049,9 @@ CREATE TABLE IF NOT EXISTS `licenses` (
   PRIMARY KEY (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.licenses: ~5 rows (circa)
+-- Dump dei dati della tabella es_extended.licenses: ~6 rows (circa)
 INSERT INTO `licenses` (`type`, `label`) VALUES
+	('boat', 'Boat License'),
 	('dmv', 'Driving Permit'),
 	('drive', 'Drivers License'),
 	('drive_bike', 'Motorcycle License'),
@@ -1121,7 +1167,7 @@ CREATE TABLE IF NOT EXISTS `ox_inventory` (
   UNIQUE KEY `owner` (`owner`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.ox_inventory: ~2 rows (circa)
+-- Dump dei dati della tabella es_extended.ox_inventory: ~3 rows (circa)
 
 -- Dump della struttura di tabella es_extended.phone_app_chat
 CREATE TABLE IF NOT EXISTS `phone_app_chat` (
@@ -1265,6 +1311,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_property` varchar(255) DEFAULT NULL,
   `pincode` int(11) DEFAULT NULL,
   `phone_number` varchar(10) DEFAULT NULL,
+  `tattoos` longtext DEFAULT NULL,
   PRIMARY KEY (`identifier`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
@@ -1277,9 +1324,9 @@ CREATE TABLE IF NOT EXISTS `user_licenses` (
   `type` varchar(60) NOT NULL,
   `owner` varchar(46) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.user_licenses: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.user_licenses: ~2 rows (circa)
 
 -- Dump della struttura di tabella es_extended.uteknark2
 CREATE TABLE IF NOT EXISTS `uteknark2` (
