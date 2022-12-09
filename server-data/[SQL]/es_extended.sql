@@ -60,7 +60,7 @@ INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(2, 'society_police', 0, NULL),
 	(4, 'society_mechanic', 0, NULL),
 	(5, 'society_taxi', 0, NULL),
-	(9, 'society_banker', 35, NULL),
+	(9, 'society_banker', 0, NULL),
 	(14, 'society_import', 0, NULL),
 	(16, 'society_ambulance', 0, NULL),
 	(17, 'society_ammu', 0, NULL),
@@ -81,7 +81,6 @@ CREATE TABLE IF NOT EXISTS `addon_inventory` (
 -- Dump dei dati della tabella es_extended.addon_inventory: ~5 rows (circa)
 INSERT INTO `addon_inventory` (`name`, `label`, `shared`) VALUES
 	('society_ambulance', 'Ambulance', 1),
-	('society_ammu', 'Ammu', 1),
 	('society_ballas', 'Ballas', 1),
 	('society_dustman', 'Dustman', 1),
 	('society_import', 'Import', 1);
@@ -112,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `banking` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.banking: ~9 rows (circa)
+-- Dump dei dati della tabella es_extended.banking: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.billing
 CREATE TABLE IF NOT EXISTS `billing` (
@@ -134,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `bpt_items` (
   `label` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.bpt_items: ~25 rows (circa)
+-- Dump dei dati della tabella es_extended.bpt_items: ~26 rows (circa)
 INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('bandage', 'benda'),
 	('cottonforbandages', 'cotone per bende'),
@@ -160,7 +159,8 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('trash_burgershot', 'scatola di burgershot usata'),
 	('cigarette_paper', 'cartina'),
 	('cigarrette_opium', 'sigaretta con oppio'),
-	('opium', 'oppio');
+	('opium', 'oppio'),
+	('copper', 'Rame');
 
 -- Dump della struttura di tabella es_extended.cardealer_vehicles
 CREATE TABLE IF NOT EXISTS `cardealer_vehicles` (
@@ -206,9 +206,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=674 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=684 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~668 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~666 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -872,7 +872,17 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(670, 'property', NULL, '{}'),
 	(671, 'property', NULL, '{}'),
 	(672, 'property', NULL, '{}'),
-	(673, 'property', NULL, '{}');
+	(673, 'property', NULL, '{}'),
+	(674, 'property', NULL, '{}'),
+	(675, 'property', NULL, '{}'),
+	(676, 'property', NULL, '{}'),
+	(677, 'property', NULL, '{}'),
+	(678, 'property', NULL, '{}'),
+	(679, 'property', NULL, '{}'),
+	(680, 'property', NULL, '{}'),
+	(681, 'property', NULL, '{}'),
+	(682, 'property', NULL, '{}'),
+	(683, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -1084,7 +1094,7 @@ CREATE TABLE IF NOT EXISTS `owned_vehicles` (
   PRIMARY KEY (`plate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.owned_vehicles: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.owned_vehicles: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.ox_doorlock
 CREATE TABLE IF NOT EXISTS `ox_doorlock` (
@@ -1167,7 +1177,7 @@ CREATE TABLE IF NOT EXISTS `ox_inventory` (
   UNIQUE KEY `owner` (`owner`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.ox_inventory: ~3 rows (circa)
+-- Dump dei dati della tabella es_extended.ox_inventory: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.phone_app_chat
 CREATE TABLE IF NOT EXISTS `phone_app_chat` (
@@ -1316,7 +1326,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.users: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.users: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.user_licenses
 CREATE TABLE IF NOT EXISTS `user_licenses` (
@@ -1326,7 +1336,7 @@ CREATE TABLE IF NOT EXISTS `user_licenses` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.user_licenses: ~2 rows (circa)
+-- Dump dei dati della tabella es_extended.user_licenses: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.uteknark2
 CREATE TABLE IF NOT EXISTS `uteknark2` (
