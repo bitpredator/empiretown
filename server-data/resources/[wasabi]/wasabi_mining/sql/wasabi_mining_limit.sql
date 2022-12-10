@@ -4,5 +4,6 @@ INSERT INTO `items` (`name`, `label`, `limit`) VALUES
 	('diamond', 'Diamond', 20),
 	('copper', 'Copper', 10),
 	('iron', 'Iron', 10),
-	('steel', 'Steel', 10)
+	('steel', 'Steel', 10),
+	('gunpowder', 'gunpowder' 10)
 ;

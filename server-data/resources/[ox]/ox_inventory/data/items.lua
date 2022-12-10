@@ -520,7 +520,13 @@ return {
 
 	['rabbit_meat'] = {
 	    label = 'carne di coniglio',
-	    weight = 3000,
+	    weight = 1000,
+	    stack = true,
+    },
+
+	['gunpowder'] = {
+	    label = 'polvere da sparo',
+	    weight = 500,
 	    stack = true,
     },
 

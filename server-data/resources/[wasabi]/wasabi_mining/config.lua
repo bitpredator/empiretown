@@ -14,7 +14,8 @@ Config.Rocks = { -- Items obtained from mining rocks
     'diamond',
     'copper',
     'iron',
-    'steel'
+    'steel',
+    'gunpowder'
 }
 
 Config.MiningAreas = {

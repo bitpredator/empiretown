@@ -5,4 +5,5 @@ INSERT INTO `items` (`name`, `label`, `weight`) VALUES
 	('copper', 'Copper', 10),
 	('iron', 'Iron', 10),
 	('steel', 'Steel', 10)
+	('gunpowder', 'gunpowder' 10)
 ;
