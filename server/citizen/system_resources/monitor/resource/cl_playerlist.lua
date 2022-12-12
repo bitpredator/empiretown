@@ -32,7 +32,7 @@ function sendReactPlayerlist()
     for pids, playerData in pairs(LOCAL_PLAYERLIST) do
         upload[#upload + 1] = {
             id = tonumber(pids),
-            name = playerData.name,
+            name = playerData.name or "unknown",
             health = playerData.health,
             dist = playerData.dist,
             vType = playerData.vType,
@@ -84,9 +84,9 @@ RegisterNetEvent('txcl:setDetailedPlayerlist', function(players, admins)
     for _, playerData in pairs(players) do
         local pid = playerData[1]
         local pids = tostring(playerData[1])
-        local admin = LOCAL_PLAYERLIST[pids]
+        local localPlayer = LOCAL_PLAYERLIST[pids]
         -- Set inbound data
-        if admin == nil then
+        if localPlayer == nil then
             debugPrint("Playerlist: received detailed info for player "..pids.." not present in local playerlist")
             LOCAL_PLAYERLIST[pids] = {
                 name = "unknown",
