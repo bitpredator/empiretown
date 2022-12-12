@@ -13,5 +13,5 @@ client_script {
 
 server_scripts {
     'server/main.lua',
-    '@mysql-async/lib/MySQL.lua'
+    '@oxmysql/lib/MySQL.lua'
 }

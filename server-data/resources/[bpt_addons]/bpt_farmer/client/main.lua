@@ -123,12 +123,38 @@ Citizen.CreateThread(function()
     end
 end)
 
+-- raccolta grain
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+		local coords = GetEntityCoords(PlayerPedId())
+        if (GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 10.0) then
+            DrawText3D(2607.942871, 4399.490234, 40.973633, 'Premi ~b~[E] per raccogliere il grano', 0.4)
+			local coords      = GetEntityCoords(PlayerPedId())
+			local isInMarker  = false
+            local currentZone = nil
+            local playerPed   = PlayerPedId()
+            if ESX.GetPlayerData().job.name then
+                if (GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 5.0) then
+                    if IsControlJustReleased(0, Keys['E']) then
+                        if incollect == false then
+                            raccoltagrain()
+                        else
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
 
 local blips = {
     {title="Raccolta patate", colour=0, id=398, x = 2233.21, y = 5081.3, z = 48.08},
     {title="Raccolta cotone", colour=0, id=398, x = 1582.035156, y = 2167.279053, z = 79.307007},
-    {title="Raccolta mele", colour=0, id=398, x = 2343.850586, y = 4756.087891, z = 34.806641}
-}  
+    {title="Raccolta mele", colour=0, id=398, x = 2343.850586, y = 4756.087891, z = 34.806641},
+    {titlr="Raccolta grano", colour=0, id=398, x = 2607.942871, y = 4399.490234, z = 40.973633}
+}
 
 Citizen.CreateThread(function()
 
@@ -168,6 +194,15 @@ end
 function raccoltaapple()
     TriggerServerEvent('farmer:raccoltaapple')
     exports["esx_notify"]:Notify("info", 3000, "Raccolta mele in corso")
+    incollect = true
+    Citizen.Wait(6000)
+    incollect = false
+end
+
+-- grain
+function raccoltagrain()
+    TriggerServerEvent('farmer:raccoltagrain')
+    exports["esx_notify"]:Notify("info", 3000, "Raccolta grano in corso")
     incollect = true
     Citizen.Wait(6000)
     incollect = false

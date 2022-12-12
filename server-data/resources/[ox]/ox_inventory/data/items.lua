@@ -530,4 +530,10 @@ return {
 	    stack = true,
     },
 
+	['grain'] = {
+	    label = 'grano',
+	    weight = 100,
+	    stack = true,
+    },
+
 }
