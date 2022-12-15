@@ -75,7 +75,7 @@ function setUniform(job, playerPed)
       else
         ESX.ShowNotification(_U('no_outfit'))
       end
-      if job ~= 'citizen_wear' and job ~= 'barman_outfit' then
+      if job ~= 'wear_citizen' and job ~= 'barman_outfit' then
         setClipset(playerPed, "MOVE_M@POSH@")
       end
     else
@@ -84,26 +84,20 @@ function setUniform(job, playerPed)
       else
         ESX.ShowNotification(_U('no_outfit'))
       end
-      if job ~= 'citizen_wear' and job ~= 'barman_outfit' then
+      if job ~= 'wear_citizen' and job ~= 'barman_outfit' then
         setClipset(playerPed, "MOVE_F@POSH@")
       end
     end
   end)
 end
 
-function OpenCloakroomMenu()
+function OpenCloakroom()
   local playerPed = GetPlayerPed(-1)
 
   local elements = {
-    {label = _U('citizen_wear'), value = 'citizen_wear'},
+    {label = _U('wear_citizen'), value = 'wear_citizen'},
     {label = _U('barman_outfit'), value = 'barman_outfit'},
     {label = _U('dancer_outfit_1'), value = 'dancer_outfit_1'},
-    {label = _U('dancer_outfit_2'), value = 'dancer_outfit_2'},
-    {label = _U('dancer_outfit_3'), value = 'dancer_outfit_3'},
-    {label = _U('dancer_outfit_4'), value = 'dancer_outfit_4'},
-    {label = _U('dancer_outfit_5'), value = 'dancer_outfit_5'},
-    {label = _U('dancer_outfit_6'), value = 'dancer_outfit_6'},
-    {label = _U('dancer_outfit_7'), value = 'dancer_outfit_7'},
   }
 
   ESX.UI.Menu.CloseAll()
@@ -117,7 +111,7 @@ function OpenCloakroomMenu()
       isBarman = false
       cleanPlayer(playerPed)
 
-      if data.current.value == 'citizen_wear' then
+      if data.current.value == 'wear_citizen' then
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
           TriggerEvent('skinchanger:loadSkin', skin)
         end)
@@ -129,13 +123,7 @@ function OpenCloakroomMenu()
       end
 
       if
-        data.current.value == 'dancer_outfit_1' or
-        data.current.value == 'dancer_outfit_2' or
-        data.current.value == 'dancer_outfit_3' or
-        data.current.value == 'dancer_outfit_4' or
-        data.current.value == 'dancer_outfit_5' or
-        data.current.value == 'dancer_outfit_6' or
-        data.current.value == 'dancer_outfit_7'
+        data.current.value == 'dancer_outfit_1'
       then
         setUniform(data.current.value, playerPed)
       end
@@ -556,7 +544,7 @@ Citizen.CreateThread(function()
       if IsControlJustReleased(0,  38) and IsJobTrue() then
 
         if CurrentAction == 'menu_cloakroom' then
-            OpenCloakroomMenu()
+          OpenCloakroom ()
         end
         
         if CurrentAction == 'menu_vehicle_spawner' then

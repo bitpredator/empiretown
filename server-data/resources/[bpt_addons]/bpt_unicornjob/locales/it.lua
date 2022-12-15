@@ -1,15 +1,9 @@
 Locales['it'] = {
   -- Cloakroom
   ['cloakroom'] = 'guardaroba',
-  ['citizen_wear'] = 'abiti civili',
+  ['wear_citizen'] = 'abiti civili',
   ['barman_outfit'] = 'completo da barista',
-  ['dancer_outfit_1'] = 'abito da ballo 1',
-  ['dancer_outfit_2'] = 'abito da ballo 2',
-  ['dancer_outfit_3'] = 'abito da ballo 3',
-  ['dancer_outfit_4'] = 'abito da ballo 4',
-  ['dancer_outfit_5'] = 'abito da ballo 5',
-  ['dancer_outfit_6'] = 'abito da ballo 6',
-  ['dancer_outfit_7'] = 'abito da ballo 7',
+  ['dancer_outfit_1'] = 'abito da ballo',
   ['no_outfit'] = 'nessuna uniforme adatta...',
   ['open_cloackroom'] = 'premi ~INPUT_CONTEXT~ per cambiare',
   
