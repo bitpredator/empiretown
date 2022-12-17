@@ -60,7 +60,7 @@ function OpenCloakroom()
                 end
             end)
         end
-		ESX.CloseContext()
+        ESX.CloseContext()
     end, function(menu)
         CurrentAction = 'cloakroom'
         CurrentActionMsg = _U('cloakroom_prompt')
@@ -76,7 +76,7 @@ function OpenVehicleSpawnerMenu()
     if Config.EnableSocietyOwnedVehicles then
         ESX.TriggerServerCallback('esx_society:getVehiclesInGarage', function(vehicles)
 
-			if #vehicles == 0 then
+            if #vehicles == 0 then
 				ESX.ShowNotification(_U('empty_garage'))
 				return
 			end
@@ -95,7 +95,7 @@ function OpenVehicleSpawnerMenu()
                     return
                 end
 
-				if element.value == nil then
+                if element.value == nil then
 					print("ERROR: Context menu clicked item value is nil!")
 					return
 				end
@@ -112,8 +112,7 @@ function OpenVehicleSpawnerMenu()
             end)
         end, 'import')
     else -- not society vehicles
-
-		if #Config.AuthorizedVehicles == 0 then
+        if #Config.AuthorizedVehicles == 0 then
 			ESX.ShowNotification(_U('empty_garage'))
 			return
 		end
@@ -131,15 +130,13 @@ function OpenVehicleSpawnerMenu()
                 ESX.ShowNotification(_U('spawnpoint_blocked'))
                 return
             end
-
-			if element.value == nil then
+            if element.value == nil then
 				print("ERROR: Context menu clicked item value is nil!")
 				return
 			end
-
             ESX.TriggerServerCallback("bpt_importjob:SpawnVehicle", function()
                 ESX.ShowNotification(_U('vehicle_spawned'), "success")
-            end, element.value, {plate = "BPT IMPORT"})
+            end, element.value, {plate = "IMPO JOB"})
 			ESX.CloseContext()
         end, function(menu)
             CurrentAction = 'vehicle_spawner'
@@ -150,6 +147,7 @@ function OpenVehicleSpawnerMenu()
 end
 
 function DeleteJobVehicle()
+
     if Config.EnableSocietyOwnedVehicles then
         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
         TriggerServerEvent('esx_society:putVehicleInGarage', 'import', vehicleProps)
@@ -169,9 +167,7 @@ end
 
 function OpenImportActionsMenu()
     local elements = {
-        {unselectable = true, icon = "fas fa-import", title = _U('import')},
-        {icon = "fas fa-box",title = _U('deposit_stock'),value = 'put_stock'},
-        {icon = "fas fa-box", title = _U('take_stock'), value = 'get_stock'}
+        {unselectable = true, icon = "fas fa-import", title = _U('import')}
     }
 
     if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
@@ -210,15 +206,18 @@ function OpenMobileImportActionsMenu()
 
     ESX.OpenContext("right", elements, function(menu,element)
         if element.value == "billing" then
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
-                title = _U('invoice_amount')
-            }, function(data, menu)
+            local elements2 = {
+                {unselectable = true, icon = "fas fa-import", title = element.title},
+                {title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = "Amount to bill.."},
+                {icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+            }
 
-                local amount = tonumber(data.value)
+            ESX.OpenContext("right", elements2, function(menu2,element2)
+                local amount = tonumber(menu2.eles[2].inputValue)
                 if amount == nil then
                     ESX.ShowNotification(_U('amount_invalid'))
                 else
-                    menu.close()
+                    ESX.CloseContext()
                     local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
                     if closestPlayer == -1 or closestDistance > 3.0 then
                         ESX.ShowNotification(_U('no_players_near'))
@@ -228,8 +227,6 @@ function OpenMobileImportActionsMenu()
                         ESX.ShowNotification(_U('billing_sent'))
                     end
                 end
-            end, function(data, menu)
-                menu.close()
             end)
         end
     end)
@@ -254,7 +251,7 @@ function OpenGetStocksMenu()
             {unselectable = true, icon = "fas fa-box", title = _U('import_stock')}
         }
 
-		if #items == 0 then
+        if #items == 0 then
 			ESX.ShowNotification(_U('empty_stock'))
 			return
 		end
@@ -266,42 +263,39 @@ function OpenGetStocksMenu()
                 value = items[i].name
             }
         end
-
-		elements[#elements+1] = {icon = "fas fa-arrow-left", title = _U('menu_return'), value = "return"}
+        elements[#elements+1] = {icon = "fas fa-arrow-left", title = _U('menu_return'), value = "return"}
 
         ESX.OpenContext("right", elements, function(menu,element)
-
-			if element.value == "return" then
+            if element.value == "return" then
 				OpenImportActionsMenu()
 				return
 			end
-
             local itemName = element.value
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count', {
-                title = _U('quantity')
-            }, function(data2, menu2)
-                local count = tonumber(data2.value)
+            local elements2 = {
+                {unselectable = true, icon = "fas fa-box", title = element.title},
+                {title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = "Amount to withdraw.."},
+                {icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+            }
+
+            ESX.OpenContext("right", elements2, function(menu2,element2)
+                local count = tonumber(menu2.eles[2].inputValue)
 
                 if count == nil then
                     ESX.ShowNotification(_U('quantity_invalid'))
                 else
-                    menu2.close()
                     ESX.CloseContext()
-
-                    -- todo: refresh on callback
                     TriggerServerEvent('bpt_importjob:getStockItem', itemName, count)
+
                     Wait(1000)
                     OpenGetStocksMenu()
                 end
-            end, function(data2, menu2)
-                menu2.close()
             end)
         end)
     end, function(menu)
         CurrentAction = 'import_actions_menu'
         CurrentActionMsg = _U('press_to_open')
         CurrentActionData = {}
-    end)
+    end)    
 end
 
 function OpenPutStocksMenu()
@@ -310,14 +304,14 @@ function OpenPutStocksMenu()
             {unselectable = true, icon = "fas fa-box", title = _U('inventory')}
         }
 
-		if not inventory then
+        if not inventory then
 			ESX.ShowNotification(_U('empty_your_inventory'))
 			return
 		end
 
         for i = 1, #inventory, 1 do
             local item = inventory[i]
-            if item.count > 0 then
+            if item.count >= count then
                 elements[#elements+1] = {
                     icon = "fas fa-box",
                     title = item.label .. ' x' .. item.count,
@@ -327,41 +321,41 @@ function OpenPutStocksMenu()
             end
         end
 
-		elements[#elements+1] = {icon = "fas fa-arrow-left", title = _U('menu_return'), value = "return"}
-
+        elements[#elements+1] = {icon = "fas fa-arrow-left", title = _U('menu_return'), value = "return"}
         ESX.OpenContext("right", elements, function(menu,element)
 
-			if element.value == "return" then
+            if element.value == "return" then
 				OpenImportActionsMenu()
 				return
 			end
 
             local itemName = element.value
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count', {
-                title = _U('quantity')
-            }, function(data2, menu2)
-                local count = tonumber(data2.value)
+
+            local elements2 = {
+                {unselectable = true, icon = "fas fa-box", title = element.title},
+                {title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = "Amount to deposit.."},
+                {icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+            }
+
+            ESX.OpenContext("right", elements2, function(menu2,element2)
+                local count = tonumber(menu2.eles[2].inputValue)
 
                 if count == nil then
                     ESX.ShowNotification(_U('quantity_invalid'))
-                else
-                    menu2.close()
+                else                    
                     ESX.CloseContext()
-
                     -- todo: refresh on callback
                     TriggerServerEvent('bpt_importjob:putStockItems', itemName, count)
                     Wait(1000)
                     OpenPutStocksMenu()
                 end
-            end, function(data2, menu2)
-                menu2.close()
             end)
         end)
     end, function(menu)
         CurrentAction = 'import_actions_menu'
         CurrentActionMsg = _U('press_to_open')
         CurrentActionData = {}
-    end)
+    end)  
 end
 
 AddEventHandler('bpt_importjob:hasEnteredMarker', function(zone)
@@ -413,11 +407,11 @@ CreateThread(function()
     local blip = AddBlipForCoord(Config.Zones.ImportActions.Pos.x, Config.Zones.ImportActions.Pos.y,
         Config.Zones.ImportActions.Pos.z)
 
-        SetBlipSprite(blip, 478)
-        SetBlipDisplay(blip, 4)
-        SetBlipScale(blip, 1.0)
-        SetBlipColour(blip, 21)
-        SetBlipAsShortRange(blip, true)
+    SetBlipSprite(blip, 198)
+    SetBlipDisplay(blip, 4)
+    SetBlipScale(blip, 1.0)
+    SetBlipColour(blip, 5)
+    SetBlipAsShortRange(blip, true)
 
     BeginTextCommandSetBlipName('STRING')
     AddTextComponentSubstringPlayerName(_U('blip_import'))
@@ -432,7 +426,7 @@ CreateThread(function()
 
             local coords = GetEntityCoords(PlayerPedId())
             local isInMarker, currentZone = false
-			local inVeh = IsPedInAnyVehicle(PlayerPedId())
+            local inVeh = IsPedInAnyVehicle(PlayerPedId())
 
             for k, v in pairs(Config.Zones) do
                 local zonePos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
@@ -440,7 +434,7 @@ CreateThread(function()
 
                 if v.Type ~= -1 and distance < Config.DrawDistance then
                     sleep = 0
-					if k == "VehicleDeleter" then
+                    if k == "VehicleDeleter" then
 						if inVeh then
 							DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
 								v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
@@ -449,7 +443,6 @@ CreateThread(function()
 						DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
 							v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
 					end
-
                 end
 
                 if distance < v.Size.x then

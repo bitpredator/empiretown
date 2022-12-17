@@ -12,7 +12,7 @@ TriggerEvent('esx_society:registerSociety', 'import', 'Import', 'society_import'
 ESX.RegisterServerCallback("bpt_importjob:SpawnVehicle", function(source, cb, model , props)
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.job.name ~= "import" then
+    if xPlayer.job.name ~= "import" then 
         print(('[^3WARNING^7] Player ^5%s^7 attempted to Exploit Vehicle Spawing!!'):format(source))
         return
     end
@@ -33,7 +33,10 @@ AddEventHandler('bpt_importjob:getStockItem', function(itemName, count)
 
     if xPlayer.job.name == 'import' then
         TriggerEvent('esx_addoninventory:getSharedInventory', 'society_import', function(inventory)
-            local item = inventory.getItem(itemName)
+            if item == nil then
+				print("ERROR: Player get inventory item is value nil! Current item name: "..itemName)
+				return
+			end
 
             -- is there enough in the society?
             if count > 0 and item.count >= count then
@@ -63,12 +66,13 @@ end)
 RegisterNetEvent('bpt_importjob:putStockItems')
 AddEventHandler('bpt_importjob:putStockItems', function(itemName, count)
     local xPlayer = ESX.GetPlayerFromId(source)
-
+	local sourceItem = xPlayer.getInventoryItem(itemName)
+		
     if xPlayer.job.name == 'import' then
         TriggerEvent('esx_addoninventory:getSharedInventory', 'society_import', function(inventory)
             local item = inventory.getItem(itemName)
 
-            if item.count > 0 then
+            if sourceItem.count >= count and count > 0 then
                 xPlayer.removeInventoryItem(itemName, count)
                 inventory.addItem(itemName, count)
                 xPlayer.showNotification(_U('have_deposited', count, item.label))
@@ -85,7 +89,6 @@ ESX.RegisterServerCallback('bpt_importjob:getPlayerInventory', function(source, 
     local xPlayer = ESX.GetPlayerFromId(source)
     local items = xPlayer.inventory
 
-    cb({
-        items = items
-    })
+    local minItems = xPlayer.getInventory(true)
+	cb(next(minItems) ~= nil and items or false)
 end)
