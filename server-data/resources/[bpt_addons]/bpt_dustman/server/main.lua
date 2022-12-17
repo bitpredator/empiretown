@@ -9,42 +9,6 @@ TriggerEvent('esx_society:registerSociety', 'dustman', 'Dustman', 'society_dustm
     type = 'public'
 })
 
-RegisterNetEvent('bpt_dustmanjob:success')
-AddEventHandler('bpt_dustmanjob:success', function()
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local timeNow = os.clock()
-
-    if xPlayer.job.name == 'dustman' then
-        if not lastPlayerSuccess[source] or timeNow - lastPlayerSuccess[source] > 5 then
-            lastPlayerSuccess[source] = timeNow
-
-            math.randomseed(os.time())
-            local total = math.random(Config.NPCJobEarnings.min, Config.NPCJobEarnings.max)
-
-            if xPlayer.job.grade >= 3 then
-                total = total * 2
-            end
-
-            TriggerEvent('esx_addonaccount:getSharedAccount', 'society_dustman', function(account)
-                if account then
-                    local playerMoney = ESX.Math.Round(total / 100 * 30)
-                    local societyMoney = ESX.Math.Round(total / 100 * 70)
-
-                    xPlayer.addMoney(playerMoney, "Dustman Fair")
-                    account.addMoney(societyMoney)
-
-                    xPlayer.showNotification(_U('comp_earned', societyMoney, playerMoney))
-                else
-                    xPlayer.addMoney(total, "Dustman Fair")
-                    xPlayer.showNotification(_U('have_earned', total))
-                end
-            end)
-        end
-    else
-        print(('[^3WARNING^7] Player ^5%s^7 attempted to ^5bpt_dustmanjob:success^7 (cheating)'):format(source))
-    end
-end)
-
 ESX.RegisterServerCallback("bpt_dustmanjob:SpawnVehicle", function(source, cb, model , props)
     local xPlayer = ESX.GetPlayerFromId(source)
 
@@ -69,7 +33,10 @@ AddEventHandler('bpt_dustmanjob:getStockItem', function(itemName, count)
 
     if xPlayer.job.name == 'dustman' then
         TriggerEvent('esx_addoninventory:getSharedInventory', 'society_dustman', function(inventory)
-            local item = inventory.getItem(itemName)
+            if item == nil then
+				print("ERROR: Player get inventory item is value nil! Current item name: "..itemName)
+				return
+			end
 
             -- is there enough in the society?
             if count > 0 and item.count >= count then
@@ -99,12 +66,13 @@ end)
 RegisterNetEvent('bpt_dustmanjob:putStockItems')
 AddEventHandler('bpt_dustmanjob:putStockItems', function(itemName, count)
     local xPlayer = ESX.GetPlayerFromId(source)
-
+	local sourceItem = xPlayer.getInventoryItem(itemName)
+		
     if xPlayer.job.name == 'dustman' then
         TriggerEvent('esx_addoninventory:getSharedInventory', 'society_dustman', function(inventory)
             local item = inventory.getItem(itemName)
 
-            if item.count > 0 then
+            if sourceItem.count >= count and count > 0 then
                 xPlayer.removeInventoryItem(itemName, count)
                 inventory.addItem(itemName, count)
                 xPlayer.showNotification(_U('have_deposited', count, item.label))
@@ -121,7 +89,6 @@ ESX.RegisterServerCallback('bpt_dustmanjob:getPlayerInventory', function(source,
     local xPlayer = ESX.GetPlayerFromId(source)
     local items = xPlayer.inventory
 
-    cb({
-        items = items
-    })
+    local minItems = xPlayer.getInventory(true)
+	cb(next(minItems) ~= nil and items or false)
 end)
