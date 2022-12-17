@@ -407,11 +407,11 @@ CreateThread(function()
     local blip = AddBlipForCoord(Config.Zones.DustmanActions.Pos.x, Config.Zones.DustmanActions.Pos.y,
         Config.Zones.DustmanActions.Pos.z)
 
-    SetBlipSprite(blip, 198)
-    SetBlipDisplay(blip, 4)
-    SetBlipScale(blip, 1.0)
-    SetBlipColour(blip, 5)
-    SetBlipAsShortRange(blip, true)
+        SetBlipSprite(blip, 67)
+        SetBlipDisplay(blip, 4)
+        SetBlipScale(blip, 1.0)
+        SetBlipColour(blip, 21)
+        SetBlipAsShortRange(blip, true)
 
     BeginTextCommandSetBlipName('STRING')
     AddTextComponentSubstringPlayerName(_U('blip_dustman'))
