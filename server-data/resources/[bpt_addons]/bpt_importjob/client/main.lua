@@ -407,11 +407,11 @@ CreateThread(function()
     local blip = AddBlipForCoord(Config.Zones.ImportActions.Pos.x, Config.Zones.ImportActions.Pos.y,
         Config.Zones.ImportActions.Pos.z)
 
-    SetBlipSprite(blip, 198)
-    SetBlipDisplay(blip, 4)
-    SetBlipScale(blip, 1.0)
-    SetBlipColour(blip, 5)
-    SetBlipAsShortRange(blip, true)
+        SetBlipSprite(blip, 478)
+        SetBlipDisplay(blip, 4)
+        SetBlipScale(blip, 1.0)
+        SetBlipColour(blip, 21)
+        SetBlipAsShortRange(blip, true)
 
     BeginTextCommandSetBlipName('STRING')
     AddTextComponentSubstringPlayerName(_U('blip_import'))
