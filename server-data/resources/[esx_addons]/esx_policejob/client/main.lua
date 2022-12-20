@@ -50,30 +50,38 @@ function OpenCloakroomMenu()
 	local grade = ESX.PlayerData.job.grade_name
 
 	local elements = {
-		{label = _U('citizen_wear'), value = 'citizen_wear'},
-		{label = _U('bullet_wear'), uniform = 'bullet_wear'},
-		{label = _U('gilet_wear'), uniform = 'gilet_wear'},
-		{label = _U('police_wear'), uniform = grade}
+		{unselectable = true, icon = "fas fa-shirt", title = _U("cloakroom")},
+		{icon = "fas fa-shirt", title = _U('citizen_wear'), value = 'citizen_wear'},
+		{icon = "fas fa-shirt", title = _U('bullet_wear'), uniform = 'bullet_wear'},
+		{icon = "fas fa-shirt", title = _U('gilet_wear'), uniform = 'gilet_wear'},
+		{icon = "fas fa-shirt", title = _U('police_wear'), uniform = grade}
 	}
 
 	if Config.EnableCustomPeds then
 		for k,v in ipairs(Config.CustomPeds.shared) do
-			table.insert(elements, {label = v.label, value = 'freemode_ped', maleModel = v.maleModel, femaleModel = v.femaleModel})
+			elements[#elements+1] = {
+				icon = "fas fa-shirt",
+				title = v.label, 
+				value = 'freemode_ped', 
+				maleModel = v.maleModel, 
+				femaleModel = v.femaleModel
+			}
 		end
 
 		for k,v in ipairs(Config.CustomPeds[grade]) do
-			table.insert(elements, {label = v.label, value = 'freemode_ped', maleModel = v.maleModel, femaleModel = v.femaleModel})
+			elements[#elements+1] = {
+				icon = "fas fa-shirt",
+				title = v.label, 
+				value = 'freemode_ped', 
+				maleModel = v.maleModel, 
+				femaleModel = v.femaleModel
+			}
 		end
 	end
 
-	ESX.UI.Menu.CloseAll()
-
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'cloakroom', {
-		title    = _U('cloakroom'),
-		align    = 'top-left',
-		elements = elements
-	}, function(data, menu)
+	ESX.OpenContext("right", elements, function(menu,element)
 		cleanPlayer(playerPed)
+		local data = {current = element}
 
 		if data.current.value == 'citizen_wear' then
 			if Config.EnableCustomPeds then
@@ -194,9 +202,7 @@ function OpenCloakroomMenu()
 				end)
 			end)
 		end
-	end, function(data, menu)
-		menu.close()
-
+	end, function(menu)
 		CurrentAction     = 'menu_cloakroom'
 		CurrentActionMsg  = _U('open_cloackroom')
 		CurrentActionData = {}
@@ -207,28 +213,24 @@ function OpenArmoryMenu(station)
 	local elements
 	if Config.OxInventory then
 		exports.ox_inventory:openInventory('stash', {id = 'society_police', owner = station})
-		return ESX.UI.Menu.CloseAll()
+		return ESX.CloseContext()
 	else
 		elements = {
-			{label = _U('buy_weapons'), value = 'buy_weapons'}
+			{unselectable = true, icon = "fas fa-gun", title = _U('armory')},
+			{icon = "fas fa-gun", title = _U('buy_weapons'), value = 'buy_weapons'}
+			
 		}
 
 		if Config.EnableArmoryManagement then
-			table.insert(elements, {label = _U('get_weapon'),     value = 'get_weapon'})
-			table.insert(elements, {label = _U('put_weapon'),     value = 'put_weapon'})
-			table.insert(elements, {label = _U('remove_object'),  value = 'get_stock'})
-			table.insert(elements, {label = _U('deposit_object'), value = 'put_stock'})
+			table.insert(elements, {icon = "fas fa-gun", title = _U('get_weapon'),     value = 'get_weapon'})
+			table.insert(elements, {icon = "fas fa-gun", title = _U('put_weapon'),     value = 'put_weapon'})
+			table.insert(elements, {icon = "fas fa-box", title = _U('remove_object'),  value = 'get_stock'})
+			table.insert(elements, {icon = "fas fa-box", title = _U('deposit_object'), value = 'put_stock'})
 		end
 	end
 
-	ESX.UI.Menu.CloseAll()
-
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
-		title    = _U('armory'),
-		align    = 'top-left',
-		elements = elements
-	}, function(data, menu)
-
+	ESX.OpenContext("right", elements, function(menu,element)
+		local data = {current = element}
 		if data.current.value == 'get_weapon' then
 			OpenGetWeaponMenu()
 		elseif data.current.value == 'put_weapon' then
@@ -240,10 +242,7 @@ function OpenArmoryMenu(station)
 		elseif data.current.value == 'get_stock' then
 			OpenGetStocksMenu()
 		end
-
-	end, function(data, menu)
-		menu.close()
-
+	end, function(menu)
 		CurrentAction     = 'menu_armory'
 		CurrentActionMsg  = _U('open_armory')
 		CurrentActionData = {station = station}
@@ -251,39 +250,41 @@ function OpenArmoryMenu(station)
 end
 
 function OpenPoliceActionsMenu()
-	ESX.UI.Menu.CloseAll()
+	local elements = {
+		{unselectable = true, icon = "fas fa-police", title = "Police"},
+		{icon = "fas fa-user", title = _U('citizen_interaction'), value = 'citizen_interaction'},
+		{icon = "fas fa-car", title = _U('vehicle_interaction'), value = 'vehicle_interaction'},
+		{icon = "fas fa-object", title = _U('object_spawner'), value = 'object_spawner'}
+	}
 
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'police_actions', {
-		title    = 'Police',
-		align    = 'top-left',
-		elements = {
-			{label = _U('citizen_interaction'), value = 'citizen_interaction'},
-			{label = _U('vehicle_interaction'), value = 'vehicle_interaction'},
-			{label = _U('object_spawner'), value = 'object_spawner'}
-	}}, function(data, menu)
+	ESX.OpenContext("right", elements, function(menu,element)
+		local data = {current = element}
+
 		if data.current.value == 'citizen_interaction' then
-			local elements = {
-				{label = _U('id_card'), value = 'identity_card'},
-				{label = _U('search'), value = 'search'},
-				{label = _U('handcuff'), value = 'handcuff'},
-				{label = _U('drag'), value = 'drag'},
-				{label = _U('put_in_vehicle'), value = 'put_in_vehicle'},
-				{label = _U('out_the_vehicle'), value = 'out_the_vehicle'},
-				{label = _U('fine'), value = 'fine'},
-				{label = _U('unpaid_bills'), value = 'unpaid_bills'}
+			local elements2 = {
+				{unselectable = true, icon = "fas fa-user", title = element.title},
+				{icon = "fas fa-idkyet", title = _U('id_card'), value = 'identity_card'},
+				{icon = "fas fa-idkyet", title = _U('search'), value = 'search'},
+				{icon = "fas fa-idkyet", title = _U('handcuff'), value = 'handcuff'},
+				{icon = "fas fa-idkyet", title = _U('drag'), value = 'drag'},
+				{icon = "fas fa-idkyet", title = _U('put_in_vehicle'), value = 'put_in_vehicle'},
+				{icon = "fas fa-idkyet", title = _U('out_the_vehicle'), value = 'out_the_vehicle'},
+				{icon = "fas fa-idkyet", title = _U('fine'), value = 'fine'},
+				{icon = "fas fa-idkyet", title = _U('unpaid_bills'), value = 'unpaid_bills'}
 			}
 
 			if Config.EnableLicenses then
-				table.insert(elements, {label = _U('license_check'), value = 'license'})
+				elements2[#elements2+1] = {
+					icon = "fas fa-scroll",
+					title = _U('license_check'),
+					value = 'license'
+				}
 			end
 
-			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
-				title    = _U('citizen_interaction'),
-				align    = 'top-left',
-				elements = elements
-			}, function(data2, menu2)
+			ESX.OpenContext("right", elements2, function(menu2,element2)
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
+					local data2 = {current = element2}
 					local action = data2.current.value
 
 					if action == 'identity_card' then
@@ -308,33 +309,36 @@ function OpenPoliceActionsMenu()
 				else
 					ESX.ShowNotification(_U('no_players_nearby'))
 				end
-			end, function(data2, menu2)
-				menu2.close()
+			end, function(menu)
+				OpenPoliceActionsMenu()
 			end)
 		elseif data.current.value == 'vehicle_interaction' then
-			local elements  = {}
+			local elements3  = {
+				{unselectable = true, icon = "fas fa-car", title = element.title}
+			}
 			local playerPed = PlayerPedId()
 			local vehicle = ESX.Game.GetVehicleInDirection()
 
 			if DoesEntityExist(vehicle) then
-				table.insert(elements, {label = _U('vehicle_info'), value = 'vehicle_infos'})
-				table.insert(elements, {label = _U('pick_lock'), value = 'hijack_vehicle'})
-				table.insert(elements, {label = _U('impound'), value = 'impound'})
+				elements3[#elements3+1] = {icon = "fas fa-car", title = _U('vehicle_info'), value = 'vehicle_infos'}
+				elements3[#elements3+1] = {icon = "fas fa-car", title = _U('pick_lock'), value = 'hijack_vehicle'}
+				elements3[#elements3+1] = {icon = "fas fa-car", title = _U('impound'), value = 'impound'}
 			end
 
-			table.insert(elements, {label = _U('search_database'), value = 'search_database'})
-
-			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_interaction', {
-				title    = _U('vehicle_interaction'),
-				align    = 'top-left',
-				elements = elements
-			}, function(data2, menu2)
+			elements3[#elements3+1] = {
+				icon = "fas fa-scroll",
+				title = _U('search_database'), 
+				value = 'search_database'
+			}
+			
+			ESX.OpenContext("right", elements3, function(menu3,element3)
+				local data2 = {current = element3}
 				local coords  = GetEntityCoords(playerPed)
 				vehicle = ESX.Game.GetVehicleInDirection()
 				action  = data2.current.value
 
 				if action == 'search_database' then
-					LookupVehicle()
+					LookupVehicle(element3)
 				elseif DoesEntityExist(vehicle) then
 					if action == 'vehicle_infos' then
 						local vehicleData = ESX.Game.GetVehicleProperties(vehicle)
@@ -350,7 +354,6 @@ function OpenPoliceActionsMenu()
 							ESX.ShowNotification(_U('vehicle_unlocked'))
 						end
 					elseif action == 'impound' then
-						-- is the script busy?
 						if currentTask.busy then
 							return
 						end
@@ -362,10 +365,9 @@ function OpenPoliceActionsMenu()
 						currentTask.task = ESX.SetTimeout(10000, function()
 							ClearPedTasks(playerPed)
 							ImpoundVehicle(vehicle)
-							Wait(100) -- sleep the entire script to let stuff sink back to reality
+							Wait(100)
 						end)
 
-						-- keep track of that vehicle!
 						CreateThread(function()
 							while currentTask.busy do
 								Wait(1000)
@@ -384,21 +386,21 @@ function OpenPoliceActionsMenu()
 				else
 					ESX.ShowNotification(_U('no_vehicles_nearby'))
 				end
-
-			end, function(data2, menu2)
-				menu2.close()
+			end, function(menu)
+				OpenPoliceActionsMenu()
 			end)
-		elseif data.current.value == 'object_spawner' then
-			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
-				title    = _U('traffic_interaction'),
-				align    = 'top-left',
-				elements = {
-					{label = _U('cone'), model = 'prop_roadcone02a'},
-					{label = _U('barrier'), model = 'prop_barrier_work05'},
-					{label = _U('spikestrips'), model = 'p_ld_stinger_s'},
-					{label = _U('box'), model = 'prop_boxpile_07d'},
-					{label = _U('cash'), model = 'hei_prop_cash_crate_half_full'}
-			}}, function(data2, menu2)
+		elseif data.current.value == "object_spawner" then
+			local elements4 = {
+				{unselectable = true, icon = "fas fa-object", title = element.title},
+				{icon = "fas fa-cone", title = _U('cone'), model = 'prop_roadcone02a'},
+				{icon = "fas fa-cone", title = _U('barrier'), model = 'prop_barrier_work05'},
+				{icon = "fas fa-cone", title = _U('spikestrips'), model = 'p_ld_stinger_s'},
+				{icon = "fas fa-cone", title = _U('box'), model = 'prop_boxpile_07d'},
+				{icon = "fas fa-cone", title = _U('cash'), model = 'hei_prop_cash_crate_half_full'}
+			}
+
+			ESX.OpenContext("right", elements4, function(menu4,element4)
+				local data2 = {current = element4}
 				local playerPed = PlayerPedId()
 				local coords, forward = GetEntityCoords(playerPed), GetEntityForwardVector(playerPed)
 				local objectCoords = (coords + forward * 1.0)
@@ -407,46 +409,40 @@ function OpenPoliceActionsMenu()
 					SetEntityHeading(obj, GetEntityHeading(playerPed))
 					PlaceObjectOnGroundProperly(obj)
 				end)
-			end, function(data2, menu2)
-				menu2.close()
+			end, function(menu)
+				OpenPoliceActionsMenu()
 			end)
 		end
-	end, function(data, menu)
-		menu.close()
 	end)
 end
 
 function OpenIdentityCardMenu(player)
 	ESX.TriggerServerCallback('esx_policejob:getOtherPlayerData', function(data)
 		local elements = {
-			{label = _U('name', data.name)},
-			{label = _U('job', ('%s - %s'):format(data.job, data.grade))}
+			{icon = "fas fa-user", title = _U('name', data.name)},
+			{icon = "fas fa-user", title = _U('job', ('%s - %s'):format(data.job, data.grade))}
 		}
 
 		if Config.EnableESXIdentity then
-			table.insert(elements, {label = _U('sex', _U(data.sex))})
-			table.insert(elements, {label = _U('dob', data.dob)})
-			table.insert(elements, {label = _U('height', data.height)})
+			elements[#elements+1] = {icon = "fas fa-user", title = _U('sex', _U(data.sex))}
+			elements[#elements+1] = {icon = "fas fa-user", title = _U('sex', _U(data.sex))}
+			elements[#elements+1] = {icon = "fas fa-user", title = _U('height', data.height)}
 		end
 
 		if Config.EnableESXOptionalneeds and data.drunk then
-			table.insert(elements, {label = _U('bac', data.drunk)})
+			elements[#elements+1] = {title = _U('bac', data.drunk)}
 		end
 
 		if data.licenses then
-			table.insert(elements, {label = _U('license_label')})
+			elements[#elements+1] = {title = _U('license_label')}
 
 			for i=1, #data.licenses, 1 do
-				table.insert(elements, {label = data.licenses[i].label})
+				elements[#elements+1] = {title = data.licenses[i].label}
 			end
 		end
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
-			title    = _U('citizen_interaction'),
-			align    = 'top-left',
-			elements = elements
-		}, nil, function(data, menu)
-			menu.close()
+		ESX.OpenContext("right", elements, nil, function(menu)
+			OpenPoliceActionsMenu()	
 		end)
 	end, GetPlayerServerId(player))
 end
@@ -454,21 +450,23 @@ end
 function OpenBodySearchMenu(player)
 	if Config.OxInventory then
 		exports.ox_inventory:openInventory('player', GetPlayerServerId(player))
-		return ESX.UI.Menu.CloseAll()
+		return ESX.CloseContext()
 	end
 
 	ESX.TriggerServerCallback('esx_policejob:getOtherPlayerData', function(data)
-		local elements = {}
+		local elements = {
+			{unselectable = true, icon = "fas fa-user", title = _U('search')}
+		}
 
 		for i=1, #data.accounts, 1 do
 			if data.accounts[i].name == 'black_money' and data.accounts[i].money > 0 then
-				table.insert(elements, {
-					label    = _U('confiscate_dirty', ESX.Math.Round(data.accounts[i].money)),
+				elements[#elements+1] = {
+					icon = "fas fa-money",
+					title    = _U('confiscate_dirty', ESX.Math.Round(data.accounts[i].money)),
 					value    = 'black_money',
 					itemType = 'item_account',
 					amount   = data.accounts[i].money
-				})
-
+				}
 				break
 			end
 		end
@@ -476,78 +474,72 @@ function OpenBodySearchMenu(player)
 		table.insert(elements, {label = _U('guns_label')})
 
 		for i=1, #data.weapons, 1 do
-			table.insert(elements, {
-				label    = _U('confiscate_weapon', ESX.GetWeaponLabel(data.weapons[i].name), data.weapons[i].ammo),
+			elements[#elements+1] = {
+				icon = "fas fa-gun",
+				title    = _U('confiscate_weapon', ESX.GetWeaponLabel(data.weapons[i].name), data.weapons[i].ammo),
 				value    = data.weapons[i].name,
 				itemType = 'item_weapon',
 				amount   = data.weapons[i].ammo
-			})
+			}
 		end
 
-		table.insert(elements, {label = _U('inventory_label')})
+		elements[#elements+1] = {title = _U('inventory_label')}
 
 		for i=1, #data.inventory, 1 do
 			if data.inventory[i].count > 0 then
-				table.insert(elements, {
-					label    = _U('confiscate_inv', data.inventory[i].count, data.inventory[i].label),
+				elements[#elements+1] = {
+					icon = "fas fa-box",
+					title    = _U('confiscate_inv', data.inventory[i].count, data.inventory[i].label),
 					value    = data.inventory[i].name,
 					itemType = 'item_standard',
 					amount   = data.inventory[i].count
-				})
+				}
 			end
 		end
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'body_search', {
-			title    = _U('search'),
-			align    = 'top-left',
-			elements = elements
-		}, function(data, menu)
+		ESX.OpenContext("right", elements, function(menu,element)
+			local data = {current = element}
 			if data.current.value then
 				TriggerServerEvent('esx_policejob:confiscatePlayerItem', GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
 				OpenBodySearchMenu(player)
 			end
-		end, function(data, menu)
-			menu.close()
 		end)
 	end, GetPlayerServerId(player))
 end
 
 function OpenFineMenu(player)
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'fine', {
-		title    = _U('fine'),
-		align    = 'top-left',
-		elements = {
-			{label = _U('traffic_offense'), value = 0},
-			{label = _U('minor_offense'),   value = 1},
-			{label = _U('average_offense'), value = 2},
-			{label = _U('major_offense'),   value = 3}
-	}}, function(data, menu)
+	local elements = {
+		{unselectable = true, icon = "fas fa-scroll", title = _U('fine')},
+		{icon = "fas fa-scroll", title = _U('traffic_offense'), value = 0},
+		{icon = "fas fa-scroll", title = _U('minor_offense'),   value = 1},
+		{icon = "fas fa-scroll", title = _U('average_offense'), value = 2},
+		{icon = "fas fa-scroll", title = _U('major_offense'),   value = 3}
+	}
+
+	ESX.OpenContext("right", elements, function(menu,element)
+		local data = {current = element}
 		OpenFineCategoryMenu(player, data.current.value)
-	end, function(data, menu)
-		menu.close()
 	end)
 end
 
 function OpenFineCategoryMenu(player, category)
 	ESX.TriggerServerCallback('esx_policejob:getFineList', function(fines)
-		local elements = {}
+		local elements = {
+			{unselectable = true, icon = "fas fa-scroll", title = _U('fine')}
+		}
 
 		for k,fine in ipairs(fines) do
-			table.insert(elements, {
-				label     = ('%s <span style="color:green;">%s</span>'):format(fine.label, _U('armory_item', ESX.Math.GroupDigits(fine.amount))),
+			elements[#elements+1] = {
+				icon = "fas fa-scroll",
+				title     = ('%s <span style="color:green;">%s</span>'):format(fine.label, _U('armory_item', ESX.Math.GroupDigits(fine.amount))),
 				value     = fine.id,
 				amount    = fine.amount,
 				fineLabel = fine.label
-			})
+			}
 		end
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'fine_category', {
-			title    = _U('fine'),
-			align    = 'top-left',
-			elements = elements
-		}, function(data, menu)
-			menu.close()
-
+		ESX.OpenContext("right", elements, function(menu,element)
+			local data = {current = element}
 			if Config.EnablePlayerManagement then
 				TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), 'society_police', _U('fine_total', data.current.fineLabel), data.current.amount)
 			else
@@ -557,65 +549,63 @@ function OpenFineCategoryMenu(player, category)
 			ESX.SetTimeout(300, function()
 				OpenFineCategoryMenu(player, category)
 			end)
-		end, function(data, menu)
-			menu.close()
 		end)
 	end, category)
 end
 
-function LookupVehicle()
-	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'lookup_vehicle', {
-		title = _U('search_database_title'),
-	}, function(data, menu)
+function LookupVehicle(elementF)
+	local elements = {
+		{unselectable = true, icon = "fas fa-car", title = elementF.title},
+		{title = "Enter Plate", input = true, inputType = "text", inputPlaceholder = "ABC 123"},
+		{icon = "fas fa-check-double", title = "Lookup Plate", value = "lookup"}
+	}
+
+	ESX.OpenContext("right", elements, function(menu,element)
+		local data = {value = menu.eles[2].inputValue}
 		local length = string.len(data.value)
 		if not data.value or length < 2 or length > 8 then
 			ESX.ShowNotification(_U('search_database_error_invalid'))
 		else
 			ESX.TriggerServerCallback('esx_policejob:getVehicleInfos', function(retrivedInfo)
-				local elements = {{label = _U('plate', retrivedInfo.plate)}}
-				menu.close()
+				local elements = {
+					{unselectable = true, icon = "fas fa-car", title = element.title},
+					{unselectable = true, icon = "fas fa-car", title = _U('plate', retrivedInfo.plate)}			
+				}
 
 				if not retrivedInfo.owner then
-					table.insert(elements, {label = _U('owner_unknown')})
+					elements[#elements+1] = {unselectable = true, icon = "fas fa-user", title = _U('owner_unknown')}
 				else
-					table.insert(elements, {label = _U('owner', retrivedInfo.owner)})
+					elements[#elements+1] = {unselectable = true, icon = "fas fa-user", title = _U('owner', retrivedInfo.owner)}
 				end
 
-				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_infos', {
-					title    = _U('vehicle_info'),
-					align    = 'top-left',
-					elements = elements
-				}, nil, function(data2, menu2)
-					menu2.close()
+				ESX.OpenContext("right", elements, nil, function(menu)
+					OpenPoliceActionsMenu()
 				end)
 			end, data.value)
-
 		end
-	end, function(data, menu)
-		menu.close()
 	end)
 end
 
 function ShowPlayerLicense(player)
-	local elements = {}
+	local elements = {
+		{unselectable = true, icon = "fas fa-scroll", title = _U('license_revoke')}
+	}
 
 	ESX.TriggerServerCallback('esx_policejob:getOtherPlayerData', function(playerData)
 		if playerData.licenses then
 			for i=1, #playerData.licenses, 1 do
 				if playerData.licenses[i].label and playerData.licenses[i].type then
-					table.insert(elements, {
-						label = playerData.licenses[i].label,
+					elements[#elements+1] = {
+						icon = "fas fa-scroll",
+						title = playerData.licenses[i].label,
 						type = playerData.licenses[i].type
-					})
+					}
 				end
 			end
 		end
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'manage_license', {
-			title    = _U('license_revoke'),
-			align    = 'top-left',
-			elements = elements,
-		}, function(data, menu)
+		ESX.OpenContext("right", elements, function(menu,element)
+			local data = {current = element}
 			ESX.ShowNotification(_U('licence_you_revoked', data.current.label, playerData.name))
 			TriggerServerEvent('esx_policejob:message', GetPlayerServerId(player), _U('license_revoked', data.current.label))
 
@@ -624,85 +614,77 @@ function ShowPlayerLicense(player)
 			ESX.SetTimeout(300, function()
 				ShowPlayerLicense(player)
 			end)
-		end, function(data, menu)
-			menu.close()
 		end)
-
 	end, GetPlayerServerId(player))
 end
 
 function OpenUnpaidBillsMenu(player)
-	local elements = {}
+	local elements = {
+		{unselectable = true, icon = "fas fa-scroll", title = _U('unpaid_bills')}
+	}
 
 	ESX.TriggerServerCallback('esx_billing:getTargetBills', function(bills)
 		for k,bill in ipairs(bills) do
-			table.insert(elements, {
-				label = ('%s - <span style="color:red;">%s</span>'):format(bill.label, _U('armory_item', ESX.Math.GroupDigits(bill.amount))),
+			elements[#elements+1] = {
+				unselectable = true,
+				icon = "fas fa-scroll",
+				title = ('%s - <span style="color:red;">%s</span>'):format(bill.label, _U('armory_item', ESX.Math.GroupDigits(bill.amount))),
 				billId = bill.id
-			})
+			}
 		end
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'billing', {
-			title    = _U('unpaid_bills'),
-			align    = 'top-left',
-			elements = elements
-		}, nil, function(data, menu)
-			menu.close()
-		end)
+		ESX.OpenContext("right", elements, nil, nil)
 	end, GetPlayerServerId(player))
 end
 
 function OpenVehicleInfosMenu(vehicleData)
 	ESX.TriggerServerCallback('esx_policejob:getVehicleInfos', function(retrivedInfo)
-		local elements = {{label = _U('plate', retrivedInfo.plate)}}
+		local elements = {
+			{unselectable = true, icon = "fas fa-car", title = _U('vehicle_info')},
+			{icon = "fas fa-car", title = _U('plate', retrivedInfo.plate)}
+			
+		}
 
 		if not retrivedInfo.owner then
-			table.insert(elements, {label = _U('owner_unknown')})
+			elements[#elements+1] = {unselectable = true, icon = "fas fa-user", title = _U('owner_unknown')}
 		else
-			table.insert(elements, {label = _U('owner', retrivedInfo.owner)})
+			elements[#elements+1] = {unselectable = true, icon = "fas fa-user", title = _U('owner', retrivedInfo.owner)}
 		end
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_infos', {
-			title    = _U('vehicle_info'),
-			align    = 'top-left',
-			elements = elements
-		}, nil, function(data, menu)
-			menu.close()
-		end)
+		ESX.OpenContext("right", elements, nil, nil)
 	end, vehicleData.plate)
 end
 
 function OpenGetWeaponMenu()
 	ESX.TriggerServerCallback('esx_policejob:getArmoryWeapons', function(weapons)
-		local elements = {}
+		local elements = {
+			{unselectable = true, icon = "fas fa-gun", title = _U('get_weapon_menu')}
+		}
 
 		for i=1, #weapons, 1 do
 			if weapons[i].count > 0 then
-				table.insert(elements, {
-					label = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
+				elements[#elements+1] = {
+					icon = "fas fa-gun",
+					title = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
 					value = weapons[i].name
-				})
+				}
 			end
 		end
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_get_weapon', {
-			title    = _U('get_weapon_menu'),
-			align    = 'top-left',
-			elements = elements
-		}, function(data, menu)
-			menu.close()
-
+		ESX.OpenContext("right", elements, function(menu,element)
+			local data = {current = element}
 			ESX.TriggerServerCallback('esx_policejob:removeArmoryWeapon', function()
+				ESX.CloseContext()
 				OpenGetWeaponMenu()
 			end, data.current.value)
-		end, function(data, menu)
-			menu.close()
 		end)
 	end)
 end
 
 function OpenPutWeaponMenu()
-	local elements   = {}
+	local elements   = {
+		{unselectable = true, icon = "fas fa-gun", title = _U('put_weapon_menu')}
+	}
 	local playerPed  = PlayerPedId()
 	local weaponList = ESX.GetWeaponList()
 
@@ -710,34 +692,114 @@ function OpenPutWeaponMenu()
 		local weaponHash = joaat(weaponList[i].name)
 
 		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
-			table.insert(elements, {
-				label = weaponList[i].label,
+			elements[#elements+1] = {
+				icon = "fas fa-gun",
+				title = weaponList[i].label,
 				value = weaponList[i].name
-			})
+			}
 		end
 	end
 
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_put_weapon', {
-		title    = _U('put_weapon_menu'),
-		align    = 'top-left',
-		elements = elements
-	}, function(data, menu)
-		menu.close()
-
+	ESX.OpenContext("right", elements, function(menu,element)
+		local data = {current = element}
 		ESX.TriggerServerCallback('esx_policejob:addArmoryWeapon', function()
+			ESX.CloseContext()
 			OpenPutWeaponMenu()
 		end, data.current.value, true)
-	end, function(data, menu)
-		menu.close()
+	end)
+end
+
+function OpenBuyWeaponsMenu()
+	local elements = {
+		{unselectable = true, icon = "fas fa-gun", title = _U('armory_weapontitle')}
+	}
+	local playerPed = PlayerPedId()
+
+	for k,v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
+		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
+		local components, label = {}
+		local hasWeapon = HasPedGotWeapon(playerPed, joaat(v.weapon), false)
+
+		if v.components then
+			for i=1, #v.components do
+				if v.components[i] then
+					local component = weapon.components[i]
+					local hasComponent = HasPedGotWeaponComponent(playerPed, joaat(v.weapon), component.hash)
+
+					if hasComponent then
+						label = ('%s: <span style="color:green;">%s</span>'):format(component.label, _U('armory_owned'))
+					else
+						if v.components[i] > 0 then
+							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, _U('armory_item', ESX.Math.GroupDigits(v.components[i])))
+						else
+							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, _U('armory_free'))
+						end
+					end
+
+					components[#components+1] = {
+						icon = "fas fa-gun",
+						title = label,
+						componentLabel = component.label,
+						hash = component.hash,
+						name = component.name,
+						price = v.components[i],
+						hasComponent = hasComponent,
+						componentNum = i
+					}
+				end
+			end
+		end
+
+		if hasWeapon and v.components then
+			label = ('%s: <span style="color:green;">></span>'):format(weapon.label)
+		elseif hasWeapon and not v.components then
+			label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, _U('armory_owned'))
+		else
+			if v.price > 0 then
+				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, _U('armory_item', ESX.Math.GroupDigits(v.price)))
+			else
+				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, _U('armory_free'))
+			end
+		end
+
+		elements[#elements+1] = {
+			icon = "fas fa-gun",
+			title = label,
+			weaponLabel = weapon.label,
+			name = weapon.name,
+			components = components,
+			price = v.price,
+			hasWeapon = hasWeapon
+		}
+	end
+
+	ESX.OpenContext("right", elements, function(menu,element)
+		local data = {current = element}
+		if data.current.hasWeapon then
+			if #data.current.components > 0 then
+				OpenWeaponComponentShop(data.current.components, data.current.name, menu)
+			end
+		else
+			ESX.TriggerServerCallback('esx_policejob:buyWeapon', function(bought)
+				if bought then
+					if data.current.price > 0 then
+						ESX.ShowNotification(_U('armory_bought', data.current.weaponLabel, ESX.Math.GroupDigits(data.current.price)))
+					end
+
+					menu.close()
+					OpenBuyWeaponsMenu()
+				else
+					ESX.ShowNotification(_U('armory_money'))
+				end
+			end, data.current.name, 1)
+		end
 	end)
 end
 
 function OpenWeaponComponentShop(components, weaponName, parentShop)
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons_components', {
-		title    = _U('armory_componenttitle'),
-		align    = 'top-left',
-		elements = components
-	}, function(data, menu)
+
+	ESX.OpenContext("right", components, function(menu,element)
+		local data = {current = element}
 		if data.current.hasComponent then
 			ESX.ShowNotification(_U('armory_hascomponent'))
 		else
@@ -755,96 +817,94 @@ function OpenWeaponComponentShop(components, weaponName, parentShop)
 				end
 			end, weaponName, 2, data.current.componentNum)
 		end
-	end, function(data, menu)
-		menu.close()
 	end)
 end
 
 function OpenGetStocksMenu()
 	ESX.TriggerServerCallback('esx_policejob:getStockItems', function(items)
-		local elements = {}
+		local elements = {
+			{unselectable = true, icon = "fas fa-box", title = _U('police_stock')}
+		}
 
 		for i=1, #items, 1 do
-			table.insert(elements, {
-				label = 'x' .. items[i].count .. ' ' .. items[i].label,
+			elements[#elements+1] = {
+				icon = "fas fa-box",
+				title = 'x' .. items[i].count .. ' ' .. items[i].label,
 				value = items[i].name
-			})
+			}
 		end
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
-			title    = _U('police_stock'),
-			align    = 'top-left',
-			elements = elements
-		}, function(data, menu)
+		ESX.OpenContext("right", elements, function(menu,element)
+			local data = {current = element}
 			local itemName = data.current.value
 
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count', {
-				title = _U('quantity')
-			}, function(data2, menu2)
+			local elements2 = {
+				{unselectable = true, icon = "fas fa-box", title = element.title},
+				{title = _U('quantity'), input = true, inputType = "number", inputMin = 1, inputMax = 150, inputPlaceholder = "Amount to withdraw.."},
+				{icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+			}
+
+			ESX.OpenContext("right", elements2, function(menu2,element2)
+				local data2 = {value = menu2.eles[2].inputValue}
 				local count = tonumber(data2.value)
 
 				if not count then
 					ESX.ShowNotification(_U('quantity_invalid'))
 				else
-					menu2.close()
-					menu.close()
+					ESX.CloseContext()
 					TriggerServerEvent('esx_policejob:getStockItem', itemName, count)
 
 					Wait(300)
 					OpenGetStocksMenu()
 				end
-			end, function(data2, menu2)
-				menu2.close()
 			end)
-		end, function(data, menu)
-			menu.close()
 		end)
 	end)
 end
 
 function OpenPutStocksMenu()
 	ESX.TriggerServerCallback('esx_policejob:getPlayerInventory', function(inventory)
-		local elements = {}
+		local elements = {
+			{unselectable = true, icon = "fas fa-box", title = _U('inventory')}
+		}
 
 		for i=1, #inventory.items, 1 do
 			local item = inventory.items[i]
 
 			if item.count > 0 then
-				table.insert(elements, {
-					label = item.label .. ' x' .. item.count,
+				elements[#elements+1] = {
+					icon = "fas fa-box",
+					title = item.label .. ' x' .. item.count,
 					type = 'item_standard',
 					value = item.name
-				})
+				}
 			end
 		end
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
-			title    = _U('inventory'),
-			align    = 'top-left',
-			elements = elements
-		}, function(data, menu)
+		ESX.OpenContext("right", elements, function(menu,element)
+			local data = {current = element}
 			local itemName = data.current.value
 
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count', {
-				title = _U('quantity')
-			}, function(data2, menu2)
+			local elements2 = {
+				{unselectable = true, icon = "fas fa-box", title = element.title},
+				{title = _U('quantity'), input = true, inputType = "number", inputMin = 1, inputMax = 150, inputPlaceholder = "Amount to withdraw.."},
+				{icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+			}
+
+			ESX.OpenContext("right", elements2, function(menu2,element2)
+				local data2 = {value = menu2.eles[2].inputValue}
 				local count = tonumber(data2.value)
 
 				if not count then
 					ESX.ShowNotification(_U('quantity_invalid'))
 				else
-					menu2.close()
-					menu.close()
+					ESX.CloseContext()
 					TriggerServerEvent('esx_policejob:putStockItems', itemName, count)
 
 					Wait(300)
 					OpenPutStocksMenu()
 				end
-			end, function(data2, menu2)
-				menu2.close()
 			end)
-		end, function(data, menu)
-			menu.close()
 		end)
 	end)
 end
@@ -905,7 +965,7 @@ end)
 
 AddEventHandler('esx_policejob:hasExitedMarker', function(station, part, partNum)
 	if not isInShopMenu then
-		ESX.UI.Menu.CloseAll()
+		ESX.CloseContext()
 	end
 
 	CurrentAction = nil
@@ -1336,7 +1396,7 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) Interact", "keyboard", "E"
 	elseif CurrentAction == 'delete_vehicle' then
 		ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
 	elseif CurrentAction == 'menu_boss_actions' then
-		ESX.UI.Menu.CloseAll()
+		ESX.CloseContext()
 		TriggerEvent('esx_society:openBossMenu', 'police', function(data, menu)
 			menu.close()
 
