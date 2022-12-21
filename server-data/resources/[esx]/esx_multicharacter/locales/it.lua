@@ -23,4 +23,8 @@ Locales['it'] = {
 	['charenabled'] = "Hai abilitato il %s° personaggio di %s",
 	['chardisabled'] = "Hai disabilitato il %s° personaggio di %s",
 	['charnotfound'] = "Il personaggio %s di %s non esiste",
+	['return_description'] ="Ritorna alla selezione dei personaggi" ,
+	['char_play_description'] ="continua a giocare con questo personaggio",
+	['char_delete_description'] = "elimina il personaggio selezionato",
+	['return'] = "ritorna indietro",
 }
