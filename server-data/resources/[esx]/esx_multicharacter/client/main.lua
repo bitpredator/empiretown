@@ -35,6 +35,7 @@ if ESX.GetConfig().Multichar then
 		RenderScriptCams(true, false, 1, true, true)
 		SetCamCoord(cam, offset.x, offset.y, offset.z)
 		PointCamAtCoord(cam, Config.Spawn.x, Config.Spawn.y, Config.Spawn.z + 1.3)
+		ESX.UI.Menu.CloseAll()
 		ESX.UI.HUD.SetDisplay(0.0)
 		StartLoop()
 		ShutdownLoadingScreen()
@@ -109,7 +110,7 @@ if ESX.GetConfig().Multichar then
 				if Characters[index] then
 					local skin = Characters[index].skin or Config.Default
 					if not Characters[index].model then
-						if Characters[index].sex == _('female') then skin.sex = 1 else skin.sex = 0 end
+						if Characters[index].sex == _U('female') then skin.sex = 1 else skin.sex = 0 end
 					end
 					TriggerEvent('skinchanger:loadSkin', skin)
 				end
@@ -141,14 +142,14 @@ if ESX.GetConfig().Multichar then
 	end
 
 	function CharacterOptions(Characters, slots, SelectedCharacter)
-		local elements = {{title = "Character: ".. Characters[SelectedCharacter.value].firstname .. " ".. Characters[SelectedCharacter.value].lastname,icon = "fa-regular fa-user", unselectable = true}, 
-		{title = "Return", unselectable = false,icon = "fa-solid fa-arrow-left",description ="Return To Character Selection.", action = "return"}}
+		local elements = {{title = _U('character', Characters[SelectedCharacter.value].firstname .. " ".. Characters[SelectedCharacter.value].lastname),icon = "fa-regular fa-user", unselectable = true}, 
+		{title = _U('return'), unselectable = false,icon = "fa-solid fa-arrow-left",description = _U('return_description'), action = "return"}}
 		if not Characters[SelectedCharacter.value].disabled then 
-			elements[3] = {title = _('char_play'), description ="Continue Into The City.", icon ="fa-solid fa-play",action = 'play', value = SelectedCharacter.value}
+			elements[3] = {title = _U('char_play'), description = _U('char_play_description'), icon ="fa-solid fa-play",action = 'play', value = SelectedCharacter.value}
 		else
-			elements[3] = {title = _('char_disabled'), value = SelectedCharacter.value, icon ="fa-solid fa-xmark", description ="This Character Is Unusable.",}
+			elements[3] = {title = _U('char_disabled'), value = SelectedCharacter.value, icon ="fa-solid fa-xmark", description = _U('char_disabled_description'),}
 		end
-		if Config.CanDelete then elements[4] = {title = _('char_delete'),icon ="fa-solid fa-xmark",description ="Permanently Remove This Character.", action = 'delete', value = SelectedCharacter.value} end
+		if Config.CanDelete then elements[4] = {title = _U('char_delete'),icon ="fa-solid fa-xmark",description = _U('char_delete_description'), action = 'delete', value = SelectedCharacter.value} end
 		ESX.OpenContext("left", elements, function(element, Action)
 			if Action.action == "play" then
 				SendNUIMessage({
@@ -163,12 +164,12 @@ if ESX.GetConfig().Multichar then
 			elseif Action.action == "return" then
 				SelectCharacterMenu(Characters, slots)
 			end
-		end, nil, true)
+		end, nil, false)
 	end
 
 	function SelectCharacterMenu(Characters, slots)
 		local Character = next(Characters)
-		local elements = {{title = _('select_char') , icon = "fa-solid fa-users", description =  _('select_char_description') , unselectable = true}}
+		local elements = {{title = _U('select_char') , icon = "fa-solid fa-users", description =  _U('select_char_description') , unselectable = true}}
 		for k,v in pairs(Characters) do
 			if not v.model and v.skin then
 				if v.skin.model then v.model = v.skin.model elseif v.skin.sex == 1 then v.model = mp_f_freemode_01 else v.model = mp_m_freemode_01 end
@@ -182,7 +183,7 @@ if ESX.GetConfig().Multichar then
 			end
 		end
 		if #elements - 1 < slots then
-			elements[#elements+1] = {title = _('create_char'), icon = "fa-solid fa-plus", value = (#elements+1), new = true}
+			elements[#elements+1] = {title = _U('create_char'), icon = "fa-solid fa-plus", value = (#elements+1), new = true}
 		end
 
 		ESX.OpenContext("left", elements, function(menu, SelectedCharacter)
@@ -211,7 +212,7 @@ if ESX.GetConfig().Multichar then
 				SetPedAoBlobRendering(playerPed, true)
 				ResetEntityAlpha(playerPed)
 			end
-		end, nil, true)
+		end, nil, false)
 	end
 	RegisterNetEvent('esx_multicharacter:SetupUI')
 	AddEventHandler('esx_multicharacter:SetupUI', function(data, slots)
