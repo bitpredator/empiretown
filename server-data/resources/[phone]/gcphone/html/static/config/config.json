@@ -92,28 +92,19 @@
     "value": "crystallize.ogg"
   },
 
-  "serviceCall": [{
+  "serviceCall": [
+    {
       "display": "Polizia",
       "icon": "/html/static/img/icons_app/police.png",
       "subMenu": [{
-          "title": "Send Message",
-          "action": "sendMessage",
-          "eventName": "esx_addons_gcphone:call",
-          "icons": "fa-comments",
-          "type": {
-            "number": "police"
-          }
-        },
-        {
-          "title": "Call Police Station",
-          "action": "call",
-          "eventName": "gcphone:autoCallNumber",
-          "icons": "fa-phone",
-          "type": {
-            "number": "911"
-          }
+        "action": "sendMessage",
+        "title": "Send Message",
+        "icons": "fa-comments",
+        "eventName": "esx_addons_gcphone:call",
+        "type": {
+          "number": "police"
         }
-      ]
+      }]
     },
     {
       "display": "Meccanico",
@@ -262,7 +253,7 @@
       "enabled": true
     }
   ],
-  "defaultLanguage": "it_IT",
+  "defaultLanguage": "fr_FR",
   "language": {
      "fr_FR": {
       "NAME": "Français",
@@ -326,11 +317,6 @@
       "APP_MESSAGE_CONTACT_TITLE": "Contacts",
       "APP_MESSAGE_CONTRACT_ENTER_NUMBER": "Enter un numero",
       "APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE": "Envoyer un message",
-      "APP_DARKTCHAT_TITLE": "Dark Tchat",
-      "APP_DARKTCHAT_NEW_CHANNEL": "Ajouter un channel",
-      "APP_DARKTCHAT_DELETE_CHANNEL": "Effacer le channel",
-      "APP_DARKTCHAT_CANCEL": "Annuler",
-      "APP_DARKTCHAT_PLACEHOLDER_ENTER_MESSAGE": "Entrer un message",
       "APP_TWITTER_NAME": "Twitter",
       "APP_TWITTER_VIEW_TWITTER": "Twitter",
       "APP_TWITTER_VIEW_TOP_TWEETS": "Top Tweets",
@@ -377,8 +363,6 @@
       "APP_BANK_TITLE_ENTER_MONEY": "Numéro de compte",
       "APP_BANK_BUTTON_TRANSFER": "Transfert",
       "APP_BANK_BUTTON_CANCEL": "Annuler",
-      "APP_DARKTCHAT_NEW_NOTE": "Ajouter une note",
-      "APP_DARKTCHAT_DELETE_NOTE": "Supprimer une note",
 
 
       "TIMEAGO": [
@@ -454,11 +438,6 @@
       "APP_MESSAGE_MESS_CALL": "Chiamata",
       "APP_MESSAGE_MESS_COPY": "Copia",
       "APP_MESSAGE_SEND_PHOTO": "Invia foto",
-      "APP_DARKTCHAT_TITLE": "Dark Chat",
-      "APP_DARKTCHAT_NEW_CHANNEL": "Aggiungi un canale",
-      "APP_DARKTCHAT_DELETE_CHANNEL": "Elimina il canale",
-      "APP_DARKTCHAT_CANCEL": "Annulla",
-      "APP_DARKTCHAT_PLACEHOLDER_ENTER_MESSAGE": "Inserisci il testo",
       "APP_TWITTER_NAME": "Twitter",
       "APP_TWITTER_VIEW_TWITTER": "Twitter",
       "APP_TWITTER_VIEW_TOP_TWEETS": "Top Tweets",
@@ -506,8 +485,7 @@
       "APP_BANK_TITLE_ENTER_MONEY": "Inserisci quantità",
       "APP_BANK_BUTTON_TRANSFER": "trasferimenti",
       "APP_BANK_BUTTON_CANCEL": "Annulla",
-      "APP_DARKTCHAT_NEW_NOTE": "Nuova nota",
-      "APP_DARKTCHAT_DELETE_NOTE": "Cancella nota",
+      "APP_MESSAGE_MESS_NUMBER": "Numero ",
 
       "TIMEAGO": [
         "Just Now",
@@ -580,11 +558,6 @@
       "APP_MESSAGE_CONTACT_TITLE": "Kontakte",
       "APP_MESSAGE_CONTRACT_ENTER_NUMBER": "Eine Nummer eingeben",
       "APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE": "Nachricht eingeben",
-      "APP_DARKTCHAT_TITLE": "Anonymer Chat",
-      "APP_DARKTCHAT_NEW_CHANNEL": "Neuen Channel erstellen",
-      "APP_DARKTCHAT_DELETE_CHANNEL": "Channel löschen",
-      "APP_DARKTCHAT_CANCEL": "Abbrechen",
-      "APP_DARKTCHAT_PLACEHOLDER_ENTER_MESSAGE": "Nachricht eingeben",
       "APP_TWITTER_NAME": "Twitter",
       "APP_TWITTER_VIEW_TWITTER": "Twitter",
       "APP_TWITTER_VIEW_TOP_TWEETS": "Top Tweets",
@@ -631,8 +604,6 @@
       "APP_BANK_TITLE_ENTER_MONEY": "Kontonummer",
       "APP_BANK_BUTTON_TRANSFER": "Übertragen",
       "APP_BANK_BUTTON_CANCEL": "Abbrechen",
-      "APP_DARKTCHAT_NEW_NOTE": "Neue Notiz",
-      "APP_DARKTCHAT_DELETE_NOTE": "Löschen Sie die Notiz",
 
       "TIMEAGO": [
         "jetzt gerade",
@@ -701,11 +672,6 @@
       "APP_MESSAGE_CONTACT_TITLE": "Kontakty",
       "APP_MESSAGE_CONTRACT_ENTER_NUMBER": "Wprowadź numer",
       "APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE": "Wyślij wiadomość",
-      "APP_DARKTCHAT_TITLE": "DarkChat",
-      "APP_DARKTCHAT_NEW_CHANNEL": "Dodaj kanał",
-      "APP_DARKTCHAT_DELETE_CHANNEL": "Usuń kanał",
-      "APP_DARKTCHAT_CANCEL": "przerwać",
-      "APP_DARKTCHAT_PLACEHOLDER_ENTER_MESSAGE": "Wprowadź wiadomość",
       "APP_TWITTER_NAME": "Twitter",
       "APP_TWITTER_VIEW_TWITTER": "Twitter",
       "APP_TWITTER_VIEW_TOP_TWEETS": "Top Tweety",
@@ -752,8 +718,6 @@
       "APP_BANK_TITLE_ENTER_MONEY": "Numer konta",
       "APP_BANK_BUTTON_TRANSFER": "Przelej",
       "APP_BANK_BUTTON_CANCEL": "Anuluj",
-      "APP_DARKTCHAT_NEW_NOTE": "Dodaj notatkę",
-      "APP_DARKTCHAT_DELETE_NOTE": "Usuń notatkę",
 
       "TIMEAGO": [
         "tylko teraz",
@@ -823,13 +787,6 @@
       "APP_MESSAGE_CONTACT_TITLE": "Contactos",
       "APP_MESSAGE_CONTRACT_ENTER_NUMBER": "Introduzca un número",
       "APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE": "Enviar un mensaje",
-      "APP_DARKTCHAT_TITLE": "Chat Oscuro",
-      "APP_DARKTCHAT_NEW_CHANNEL": "Añadir un canal",
-      "APP_DARKTCHAT_DELETE_CHANNEL": "Borrar el canal",
-      "APP_DARKTCHAT_NEW_NOTE": "Añadir un nota",
-      "APP_DARKTCHAT_DELETE_NOTE": "Borrar la nota",
-      "APP_DARKTCHAT_CANCEL": "Cancelar",
-      "APP_DARKTCHAT_PLACEHOLDER_ENTER_MESSAGE": "Escriba un mensaje",
       "APP_TWITTER_NAME": "Twitter",
       "APP_TWITTER_VIEW_TWITTER": "Twitter",
       "APP_TWITTER_VIEW_TOP_TWEETS": "Mejores tweets",
@@ -956,11 +913,6 @@
       "APP_MESSAGE_MESS_CALL": "Chamar",
       "APP_MESSAGE_MESS_COPY": "Copiar",
       "APP_MESSAGE_SEND_PHOTO": "Enviar Foto",
-      "APP_DARKTCHAT_TITLE": "Chat Anônimo",
-      "APP_DARKTCHAT_NEW_CHANNEL": "Adicionar Canal",
-      "APP_DARKTCHAT_DELETE_CHANNEL": "Eliminar Canal",
-      "APP_DARKTCHAT_CANCEL": "Cancelar",
-      "APP_DARKTCHAT_PLACEHOLDER_ENTER_MESSAGE": "Escrever Mensagem",
       "APP_TWITTER_NAME": "Twitter",
       "APP_TWITTER_VIEW_TWITTER": "Twitter",
       "APP_TWITTER_VIEW_TOP_TWEETS": "Top Tweets",
@@ -1007,8 +959,6 @@
       "APP_BANK_TITLE_ENTER_MONEY": "Inserir Quantidade",
       "APP_BANK_BUTTON_TRANSFER": "Transferir",
       "APP_BANK_BUTTON_CANCEL": "Cancelar",
-      "APP_DARKTCHAT_NEW_NOTE": "Nova Nota",
-      "APP_DARKTCHAT_DELETE_NOTE": "Eliminar Nota",
 
       "TIMEAGO": [
         "Agora mesmo",
@@ -1070,11 +1020,6 @@
       "APP_MESSAGE_CONTACT_TITLE": "kontakty",
       "APP_MESSAGE_CONTRACT_ENTER_NUMBER": "Zadej číslo",
       "APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE": "Odeslat zprávu",
-      "APP_DARKTCHAT_TITLE": "Dark Chat",
-      "APP_DARKTCHAT_NEW_CHANNEL": "Přidat kanál",
-      "APP_DARKTCHAT_DELETE_CHANNEL": "Delete the channel",
-      "APP_DARKTCHAT_CANCEL": "zrušit",
-      "APP_DARKTCHAT_PLACEHOLDER_ENTER_MESSAGE": "Zadej zprávu",
       "APP_TWITTER_NAME": "Twitter",
       "APP_TWITTER_VIEW_REPLY": "Reagovat",
       "APP_TWITTER_VIEW_TWITTER": "Twitter",
@@ -1117,8 +1062,6 @@
       "APP_TWITTER_NOTIF_NEW_PASSWORD_ERROR": "Oops.... Tvé heslo nemohlo být změněno.",
       "APP_TWITTER_NOTIF_NEW_PASSWORD_MISS_MATCH": "Hesla se neshodují",
       "APP_TWITTER_NOTIF_NEW_PASSWORD_LENGTH_ERROR": "Heslo je příliš krátké",
-      "APP_DARKTCHAT_NEW_NOTE": "Nová poznámka",
-      "APP_DARKTCHAT_DELETE_NOTE": "Smažte poznámku",
       "APP_BANK_TITLE_BALANCE": "Dostupné prostředky",
       "APP_BANK_TITLE_ENTER_MONEY": "Vložte sumu",
       "APP_BANK_BUTTON_TRANSFER": "Převést",
