@@ -8,23 +8,11 @@ Locales['tr'] = {
 	['no_outfit'] = '  üniforma yok!',
 	['open_cloackroom'] = 'Kıyafetinizi değiştirmek için [E] tuşuna basın. ',
 	-- Armory
-	['remove_object'] = 'obje Al',
-	['deposit_object'] = 'obje Koy',
-	['get_weapon'] = 'cephanelikten silah al',
-	['put_weapon'] = 'cephaneliğe silah koy',
-	['buy_weapons'] = 'silah satın al',
 	['armory'] = 'cephanelik',
-	['open_armory'] = 'Cephaneliğe erişmek için [E] tuşuna basın.',
 	['armory_owned'] = 'sahipsin',
 	['armory_free'] = 'bedava',
 	['armory_item'] = '%s TL',
-	['armory_weapontitle'] = 'cephanelik - Silah al',
-	['armory_componenttitle'] = 'cephanelik - Silah eklentileri',
-	['armory_bought'] = ' %s Lira Karşılığında %s  satın aldın',
-	['armory_money'] = 'yeteri kadar paran yok.',
 	['armory_hascomponent'] = 'bu eklentiye zaten sahipsin !',
-	['get_weapon_menu'] = 'cephanelik - Silah al',
-	['put_weapon_menu'] = 'cephanelik - Silah koy',
 	-- Vehicles
 	['vehicle_menu'] = 'araç',
 	['vehicle_blocked'] = 'tüm Spawn Noktaları Bloke Edilmiş!',
@@ -82,8 +70,6 @@ Locales['tr'] = {
 	['being_searched'] = 'üstün searched - Polis tarafından aranıyor',
 	-- Vehicle interaction
 	['vehicle_info'] = 'araç Bilgisi',
-	['pick_lock'] = 'aracın kilidini aç',
-	['vehicle_unlocked'] = 'araç açıldı',
 	['no_vehicles_nearby'] = 'yakınlarda araç yok',
 	['impound'] = 'araca el koy',
 	['impound_prompt'] = 'el konulan aracı geri bırakmak için [E] tuşuna basın',
@@ -98,8 +84,6 @@ Locales['tr'] = {
 	['cone'] = 'koni',
 	['barrier'] = 'bariyer',
 	['spikestrips'] = 'emniyet şeridi',
-	['box'] = 'kutu',
-	['cash'] = 'para kurusu',
 	-- ID Card Menu
 	['name'] = 'isim: %s',
 	['job'] = 'meslek: %s',
@@ -144,8 +128,7 @@ Locales['tr'] = {
 	-- Misc
 	['remove_prop'] = 'objeyi silmek için [E] tuşuna basın',
 	['map_blip'] = 'polis Karakolu',
-	['unrestrained_timer'] = 'ellerinin yavaşça çözüldüğünü hissediyorsun.',
 	-- Notifications
 	['alert_police'] = 'polis Acil Durum',
 	['phone_police'] = 'polis',
-  }
+}

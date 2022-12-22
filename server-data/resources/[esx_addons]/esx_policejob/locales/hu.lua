@@ -8,23 +8,11 @@ Locales['hu'] = {
   ['no_outfit'] = 'there\'s no uniform that fits you!',
   ['open_cloackroom'] = 'Nyomj [E] betüt, hogy átöltözz.',
   -- Armory
-  ['remove_object'] = 'Tárgy kivétele',
-  ['deposit_object'] = 'Tárgy berakás',
-  ['get_weapon'] = 'Fegyver kivétele',
-  ['put_weapon'] = 'Fegyver berakás',
-  ['buy_weapons'] = 'Fegyver vásárlás',
   ['armory'] = 'Fegyvertár',
-  ['open_armory'] = 'Nyomj [E] betüt, hogy hozzáférj: Armory.',
   ['armory_owned'] = 'saját',
   ['armory_free'] = 'ingyenes',
   ['armory_item'] = '%s Ft',
-  ['armory_weapontitle'] = 'fegyvertár - vásárlás',
-  ['armory_componenttitle'] = 'fegyvertár - kiegészitöks',
-  ['armory_bought'] = 'vásároltál: %s ennyiért: ~r~%s Ft',
-  ['armory_money'] = 'Ez számodra nem engedélyezett',
   ['armory_hascomponent'] = 'kiegészitö felvéve!',
-  ['get_weapon_menu'] = 'Fegyvertár - fegyver kivétele',
-  ['put_weapon_menu'] = 'Fegyvertár - fegyver berakása',
   -- Vehicles
   ['vehicle_menu'] = 'jármü',
   ['vehicle_blocked'] = 'Lerakási hely blokkolva!',
@@ -82,8 +70,6 @@ Locales['hu'] = {
   ['being_searched'] = 'Téged éppen megmotoztak!',
   -- Vehicle interaction
   ['vehicle_info'] = 'Jármü infó',
-  ['pick_lock'] = 'Jármü feltörése',
-  ['vehicle_unlocked'] = 'Jármü feltörve feltörve',
   ['no_vehicles_nearby'] = 'nincs jármü a közelben',
   ['impound'] = 'jármü lefoglalása',
   ['impound_prompt'] = 'nyomj [E] hogy megszakítsd',
@@ -98,8 +84,6 @@ Locales['hu'] = {
   ['cone'] = 'bólya',
   ['barrier'] = 'útakadály',
   ['spikestrips'] = 'szögesdrót',
-  ['box'] = 'doboz',
-  ['cash'] = 'pénzesdoboz',
   -- ID Card Menu
   ['name'] = 'név: %s',
   ['job'] = 'munka: %s',
@@ -145,7 +129,6 @@ Locales['hu'] = {
   -- Misc
   ['remove_prop'] = 'Nyomj [E] gombot az objektum törléséhez',
   ['map_blip'] = 'LSPD',
-  ['unrestrained_timer'] = '...',
   -- Notifications
   ['alert_police'] = 'riasztás',
   ['phone_police'] = 'rendörség',

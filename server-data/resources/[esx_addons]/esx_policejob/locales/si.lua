@@ -8,23 +8,11 @@ Locales['si'] = {
   ['no_outfit'] = 'ni uniforme, ki bi ti ustrezala!',
   ['open_cloackroom'] = 'pritisnite [E], da zamenjate oblačila',
   -- orožarna
-  ['remove_object'] = 'umakni predmet',
-  ['deposit_object'] = 'položi predmet',
-  ['get_weapon'] = 'umakni orožje iz orožarne',
-  ['put_weapon'] = 'shrani orožje v orožarno',
-  ['buy_weapons'] = 'kupi orožje',
   ["armory"] = "armory",
-  ['open_armory'] = "pritisnite [E] za dostop do Armory.",
   ['armory_owned'] = 'v lasti',
   ['armory_free'] = 'free',
   ['armory_item'] = '$%s',
-  ['armory_weapontitle'] = 'armory - Buy weapon',
-  ['armory_componenttitle'] = 'armory - Weapon attatchments',
-  ['armory_bought'] = 'kupil si %s za $%s',
-  ['armory_money'] = 'tega orožja si ne moreš privoščiti',
   ['armory_hascomponent'] = 'imaš ta pripomoček opremljen!',
-  ['get_weapon_menu'] = 'armory - Withdraw Weapon',
-  ['put_weapon_menu'] = 'armory - Store Weapon',
   -- Vozila
   ['vehicle_menu'] = 'vehicle',
   ['vehicle_blocked'] = 'vse razpoložljive točke za razmnoževanje so trenutno blokirane!',
@@ -82,8 +70,6 @@ Locales['si'] = {
   ['being_searched'] = 'searched vas išče Policija',
   -- interakcija z vozilom
   ['vehicle_info'] = 'informacije o vozilu',
-  ['pick_lock'] = 'zaklepanje vozila',
-  ['vehicle_unlocked'] = 'vozilo Unlocked',
   ['no_vehicles_nearby'] = 'v bližini ni vozil',
   ['impound'] = 'zapleniti vozilo',
   ['impound_prompt'] = 'pritisnite [E], da prekličete impound',
@@ -93,14 +79,11 @@ Locales['si'] = {
   ['search_database'] = 'informacije o vozilu',
   ['search_database_title'] = 'vehicle information - search with registration number',
   ['search_database_error_invalid'] = "to je ~r~not a valid a registration number",
-  -- Traffic interaction
 -- Prometna interakcija
 ['traffic_interaction'] = 'interakcijski promet',
 ['storže'] = 'stožec',
 ['barrier'] = 'pregrada',
 ['spikestrips'] = 'spikestrips',
-['box'] = 'box',
-['cash'] = 'škatla z gotovino',
 -- Meni osebne izkaznice
 ['name'] = 'ime: %s',
 ['job'] = 'opravilo: %s',
@@ -145,7 +128,6 @@ Locales['si'] = {
 -- Razno
 ['remove_prop'] = 'pritisnite [E], da izbrišete predmet',
 ['map_blip'] = 'policijska postaja',
-['unrestrained_timer'] = 'čutiš, kako se ti izgubljaš oprijem in kako se ti razblinjajo okovi.',
 -- obvestila
 ['alert_police'] = 'policijski alarm',
 ['phone_police'] = 'policija',

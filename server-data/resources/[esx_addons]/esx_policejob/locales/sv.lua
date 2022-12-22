@@ -8,23 +8,11 @@ Locales['sv'] = {
   ['no_outfit'] = 'det finns ingen uniform som passar dig!',
   ['open_cloackroom'] = 'tryck [E] för att välja kläder.',
   -- Armory
-  ['remove_object'] = 'ta ut objekt',
-  ['deposit_object'] = 'lägg in objekt',
-  ['get_weapon'] = 'ta ut vapen',
-  ['put_weapon'] = 'lägg in vapen',
-  ['buy_weapons'] = 'köp vapen',
   ['armory'] = 'vapenförråd',
-  ['open_armory'] = 'tryck [E] för att komma åt vapenförrådet.',
   ['armory_owned'] = 'ägd',
   ['armory_free'] = 'gratis',
   ['armory_item'] = '%s SEK',
-  ['armory_weapontitle'] = 'vapenförråd - Köp vapen',
-  ['armory_componenttitle'] = 'vapenförråd - Vapen tillbehör',
-  ['armory_bought'] = 'du köpte %s för %s SEK',
-  ['armory_money'] = 'du har inte råd med det vapnet',
   ['armory_hascomponent'] = 'du har redan det tillbehöret!',
-  ['get_weapon_menu'] = 'vapenförråd - Ta ut vapen',
-  ['put_weapon_menu'] = 'vapenförråd - Spara vapen',
   -- Vehicles
   ['vehicle_menu'] = 'fordon',
   ['vehicle_blocked'] = 'det finns ingen tillgänglig plats att ställa ut fordonet på!',
@@ -82,8 +70,6 @@ Locales['sv'] = {
   ['being_searched'] = 'du blir visiterad av Polisen',
   -- Vehicle interaction
   ['vehicle_info'] = 'fordon',
-  ['pick_lock'] = 'bryt upp fordon',
-  ['vehicle_unlocked'] = 'fordonet har låsts upp',
   ['no_vehicles_nearby'] = 'inga fordon i närheten',
   ['impound'] = 'bärga fordonet',
   ['impound_prompt'] = 'tryck [E] för att avbryta bärgningen',
@@ -98,8 +84,6 @@ Locales['sv'] = {
   ['cone'] = 'kon',
   ['barrier'] = 'barriär',
   ['spikestrips'] = 'spikmatta',
-  ['box'] = 'låda',
-  ['cash'] = 'låda med pengar',
   -- ID Card Menu
   ['name'] = 'namn: %s',
   ['job'] = 'jobb: %s',
@@ -144,7 +128,6 @@ Locales['sv'] = {
   -- Misc
   ['remove_prop'] = 'tryck [E] för att ta bort objektet',
   ['map_blip'] = 'polisstation',
-  ['unrestrained_timer'] = 'dina handklovar har försvunnit',
   -- Notifications
   ['alert_police'] = 'meddela polisen',
   ['phone_police'] = 'polisen',
