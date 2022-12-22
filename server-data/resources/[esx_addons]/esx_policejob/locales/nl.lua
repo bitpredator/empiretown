@@ -8,23 +8,11 @@ Locales['nl'] = {
     ['no_outfit'] = 'Er zijn geen passende uniformen voor jou!',
     ['open_cloackroom'] = 'Druk op [E] om je kleding aan te passen.',
     -- Wapenkamer
-    ['remove_object'] = 'Haal item uit kluis',
-    ['deposit_object'] = 'Leg item in kluis',
-    ['get_weapon'] = 'Haal wapen uit wapenkamer',
-    ['put_weapon'] = 'Leg wapen in wapenkamer',
-    ['buy_weapons'] = 'Koop wapens',
     ['armory'] = 'Wapenkamer',
-    ['open_armory'] = 'Druk op [E] om de Wapenkamer te openen.',
     ['armory_owned'] = 'In Bezit',
     ['armory_free'] = 'Gratis',
-    ['armory_item'] = '€%s',
-    ['armory_weapontitle'] = 'Wapenkamer - Koop wapen',
-    ['armory_componenttitle'] = 'Wapenkamer - Weapon attachments',
-    ['armory_bought'] = 'Je hebt een %s gekocht voor €%s.',
-    ['armory_money'] = 'Je kan dit wap niet betalen.',
+    ['armory_item'] = '$%s',
     ['armory_hascomponent'] = 'je hebt dit weapon attachment al!',
-    ['get_weapon_menu'] = 'Wapenkamer - Pak wapen',
-    ['put_weapon_menu'] = 'Wapenkamer - Leg wapen weg',
     -- Vehicles
     ['vehicle_menu'] = 'Voertuig',
     ['vehicle_blocked'] = 'Alle spawnpunten zijn geblokkeerd!',
@@ -82,8 +70,6 @@ Locales['nl'] = {
     ['being_searched'] = 'Je wordt gefouilleerd door de Politie',
     -- Voertuig Interactie
     ['vehicle_info'] = 'Voertuig Informatie',
-    ['pick_lock'] = 'Breek voertuig open',
-    ['vehicle_unlocked'] = 'Voertuig ontgrendeld.',
     ['no_vehicles_nearby'] = 'Er zijn geen voertuigen in de buurt gevonden.',
     ['impound'] = 'Neem voertuig in beslag',
     ['impound_prompt'] = 'Druk op [E] om de inbeslagname te annuleren.',
@@ -97,9 +83,7 @@ Locales['nl'] = {
     ['traffic_interaction'] = 'Verkeers Interacties',
     ['cone'] = 'Pion',
     ['barrier'] = 'Barriere',
-    ['box'] = 'Box',
     ['fence'] = 'PD Hek',
-    ['cash'] = 'Pallet met geld',
     -- ID Menu
     ['name'] = 'Naam: %s',
     ['job'] = 'Werk: %s',
@@ -144,7 +128,6 @@ Locales['nl'] = {
     -- Misc
     ['remove_prop'] = 'Druk op [E] om dit object te verwijderen.',
     ['map_blip'] = 'Politiebureau',
-    ['unrestrained_timer'] = 'Je voelt je handboeien langzaam wegglijden.',
     -- Notifications
     ['alert_police'] = 'politie alert',
     ['phone_police'] = 'politie',

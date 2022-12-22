@@ -8,23 +8,11 @@ Locales['br'] = {
   ['no_outfit'] = 'there\'s no uniform that fits you!',
   ['open_cloackroom'] = 'Pressione [E] para se trocar',
   -- Armory
-  ['remove_object'] = 'take object',
-  ['deposit_object'] = 'deposit object',
-  ['get_weapon'] = 'Pegar arma',
-  ['put_weapon'] = 'Entregar arma',
-  ['buy_weapons'] = 'Comprar armas',
   ['armory'] = 'Arsenal',
-  ['open_armory'] = 'Pressione [E] para acessar o arsenal',
   ['armory_owned'] = 'owned',
   ['armory_free'] = 'free',
   ['armory_item'] = '$%s',
-  ['armory_weapontitle'] = 'armory - Buy weapon',
-  ['armory_componenttitle'] = 'armory - Weapon attatchments',
-  ['armory_bought'] = 'you bought an %s for $%s',
-  ['armory_money'] = 'you cannot afford that weapon',
   ['armory_hascomponent'] = 'you have that attatchment equiped!',
-  ['get_weapon_menu'] = 'armory - Withdraw Weapon',
-  ['put_weapon_menu'] = 'armory - Store Weapon',
   -- Vehicles
   ['vehicle_menu'] = 'vehicle',
   ['vehicle_blocked'] = 'all available spawn points are currently blocked!',
@@ -82,8 +70,6 @@ Locales['br'] = {
   ['being_searched'] = 'you are being searched by the Police',
   -- Vehicle interaction
   ['vehicle_info'] = 'Informações',
-  ['pick_lock'] = 'Trancar veículo',
-  ['vehicle_unlocked'] = 'Veículo destravado',
   ['no_vehicles_nearby'] = 'Nenhum veículo nas proximidades',
   ['impound'] = 'apreender carro',
   ['impound_prompt'] = 'Pressione [E] para cancelar a apreender',
@@ -98,8 +84,6 @@ Locales['br'] = {
   ['cone'] = 'Cones',
   ['barrier'] = 'Barreira',
   ['spikestrips'] = 'Fita de pregos',
-  ['box'] = 'Caixa',
-  ['cash'] = 'Caixa de dinheiro',
   -- ID Card Menu
   ['name'] = 'name: %s',
   ['job'] = 'job: %s',
@@ -144,7 +128,6 @@ Locales['br'] = {
   -- Misc
   ['remove_prop'] = 'Pressione [E] para remover o objeto',
   ['map_blip'] = 'Departamento de Polícia',
-  ['unrestrained_timer'] = 'you feel your handcuffs slowly losing grip and fading away.',
   -- Notifications
   ['alert_police'] = 'Alerta da Polícia',
   ['phone_police'] = 'police',

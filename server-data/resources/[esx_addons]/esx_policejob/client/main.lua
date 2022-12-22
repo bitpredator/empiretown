@@ -209,46 +209,6 @@ function OpenCloakroomMenu()
 	end)
 end
 
-function OpenArmoryMenu(station)
-	local elements
-	if Config.OxInventory then
-		exports.ox_inventory:openInventory('stash', {id = 'society_police', owner = station})
-		return ESX.CloseContext()
-	else
-		elements = {
-			{unselectable = true, icon = "fas fa-gun", title = _U('armory')},
-			{icon = "fas fa-gun", title = _U('buy_weapons'), value = 'buy_weapons'}
-			
-		}
-
-		if Config.EnableArmoryManagement then
-			table.insert(elements, {icon = "fas fa-gun", title = _U('get_weapon'),     value = 'get_weapon'})
-			table.insert(elements, {icon = "fas fa-gun", title = _U('put_weapon'),     value = 'put_weapon'})
-			table.insert(elements, {icon = "fas fa-box", title = _U('remove_object'),  value = 'get_stock'})
-			table.insert(elements, {icon = "fas fa-box", title = _U('deposit_object'), value = 'put_stock'})
-		end
-	end
-
-	ESX.OpenContext("right", elements, function(menu,element)
-		local data = {current = element}
-		if data.current.value == 'get_weapon' then
-			OpenGetWeaponMenu()
-		elseif data.current.value == 'put_weapon' then
-			OpenPutWeaponMenu()
-		elseif data.current.value == 'buy_weapons' then
-			OpenBuyWeaponsMenu()
-		elseif data.current.value == 'put_stock' then
-			OpenPutStocksMenu()
-		elseif data.current.value == 'get_stock' then
-			OpenGetStocksMenu()
-		end
-	end, function(menu)
-		CurrentAction     = 'menu_armory'
-		CurrentActionMsg  = _U('open_armory')
-		CurrentActionData = {station = station}
-	end)
-end
-
 function OpenPoliceActionsMenu()
 	local elements = {
 		{unselectable = true, icon = "fas fa-police", title = "Police"},
@@ -321,7 +281,6 @@ function OpenPoliceActionsMenu()
 
 			if DoesEntityExist(vehicle) then
 				elements3[#elements3+1] = {icon = "fas fa-car", title = _U('vehicle_info'), value = 'vehicle_infos'}
-				elements3[#elements3+1] = {icon = "fas fa-car", title = _U('pick_lock'), value = 'hijack_vehicle'}
 				elements3[#elements3+1] = {icon = "fas fa-car", title = _U('impound'), value = 'impound'}
 			end
 
@@ -343,16 +302,6 @@ function OpenPoliceActionsMenu()
 					if action == 'vehicle_infos' then
 						local vehicleData = ESX.Game.GetVehicleProperties(vehicle)
 						OpenVehicleInfosMenu(vehicleData)
-					elseif action == 'hijack_vehicle' then
-						if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 3.0) then
-							TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_WELDING', 0, true)
-							Wait(20000)
-							ClearPedTasksImmediately(playerPed)
-
-							SetVehicleDoorsLocked(vehicle, 1)
-							SetVehicleDoorsLockedForAllPlayers(vehicle, false)
-							ESX.ShowNotification(_U('vehicle_unlocked'))
-						end
 					elseif action == 'impound' then
 						if currentTask.busy then
 							return
@@ -394,9 +343,7 @@ function OpenPoliceActionsMenu()
 				{unselectable = true, icon = "fas fa-object", title = element.title},
 				{icon = "fas fa-cone", title = _U('cone'), model = 'prop_roadcone02a'},
 				{icon = "fas fa-cone", title = _U('barrier'), model = 'prop_barrier_work05'},
-				{icon = "fas fa-cone", title = _U('spikestrips'), model = 'p_ld_stinger_s'},
-				{icon = "fas fa-cone", title = _U('box'), model = 'prop_boxpile_07d'},
-				{icon = "fas fa-cone", title = _U('cash'), model = 'hei_prop_cash_crate_half_full'}
+				{icon = "fas fa-cone", title = _U('spikestrips'), model = 'p_ld_stinger_s'}
 			}
 
 			ESX.OpenContext("right", elements4, function(menu4,element4)
@@ -655,64 +602,8 @@ function OpenVehicleInfosMenu(vehicleData)
 	end, vehicleData.plate)
 end
 
-function OpenGetWeaponMenu()
-	ESX.TriggerServerCallback('esx_policejob:getArmoryWeapons', function(weapons)
-		local elements = {
-			{unselectable = true, icon = "fas fa-gun", title = _U('get_weapon_menu')}
-		}
-
-		for i=1, #weapons, 1 do
-			if weapons[i].count > 0 then
-				elements[#elements+1] = {
-					icon = "fas fa-gun",
-					title = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
-					value = weapons[i].name
-				}
-			end
-		end
-
-		ESX.OpenContext("right", elements, function(menu,element)
-			local data = {current = element}
-			ESX.TriggerServerCallback('esx_policejob:removeArmoryWeapon', function()
-				ESX.CloseContext()
-				OpenGetWeaponMenu()
-			end, data.current.value)
-		end)
-	end)
-end
-
-function OpenPutWeaponMenu()
-	local elements   = {
-		{unselectable = true, icon = "fas fa-gun", title = _U('put_weapon_menu')}
-	}
-	local playerPed  = PlayerPedId()
-	local weaponList = ESX.GetWeaponList()
-
-	for i=1, #weaponList, 1 do
-		local weaponHash = joaat(weaponList[i].name)
-
-		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
-			elements[#elements+1] = {
-				icon = "fas fa-gun",
-				title = weaponList[i].label,
-				value = weaponList[i].name
-			}
-		end
-	end
-
-	ESX.OpenContext("right", elements, function(menu,element)
-		local data = {current = element}
-		ESX.TriggerServerCallback('esx_policejob:addArmoryWeapon', function()
-			ESX.CloseContext()
-			OpenPutWeaponMenu()
-		end, data.current.value, true)
-	end)
-end
-
 function OpenBuyWeaponsMenu()
-	local elements = {
-		{unselectable = true, icon = "fas fa-gun", title = _U('armory_weapontitle')}
-	}
+
 	local playerPed = PlayerPedId()
 
 	for k,v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
@@ -772,52 +663,6 @@ function OpenBuyWeaponsMenu()
 			hasWeapon = hasWeapon
 		}
 	end
-
-	ESX.OpenContext("right", elements, function(menu,element)
-		local data = {current = element}
-		if data.current.hasWeapon then
-			if #data.current.components > 0 then
-				OpenWeaponComponentShop(data.current.components, data.current.name, menu)
-			end
-		else
-			ESX.TriggerServerCallback('esx_policejob:buyWeapon', function(bought)
-				if bought then
-					if data.current.price > 0 then
-						ESX.ShowNotification(_U('armory_bought', data.current.weaponLabel, ESX.Math.GroupDigits(data.current.price)))
-					end
-
-					menu.close()
-					OpenBuyWeaponsMenu()
-				else
-					ESX.ShowNotification(_U('armory_money'))
-				end
-			end, data.current.name, 1)
-		end
-	end)
-end
-
-function OpenWeaponComponentShop(components, weaponName, parentShop)
-
-	ESX.OpenContext("right", components, function(menu,element)
-		local data = {current = element}
-		if data.current.hasComponent then
-			ESX.ShowNotification(_U('armory_hascomponent'))
-		else
-			ESX.TriggerServerCallback('esx_policejob:buyWeapon', function(bought)
-				if bought then
-					if data.current.price > 0 then
-						ESX.ShowNotification(_U('armory_bought', data.current.componentLabel, ESX.Math.GroupDigits(data.current.price)))
-					end
-
-					menu.close()
-					parentShop.close()
-					OpenBuyWeaponsMenu()
-				else
-					ESX.ShowNotification(_U('armory_money'))
-				end
-			end, weaponName, 2, data.current.componentNum)
-		end
-	end)
 end
 
 function OpenGetStocksMenu()
@@ -946,7 +791,6 @@ AddEventHandler('esx_policejob:hasEnteredMarker', function(station, part, partNu
 		CurrentActionData = {}
 	elseif part == 'Armory' then
 		CurrentAction     = 'menu_armory'
-		CurrentActionMsg  = _U('open_armory')
 		CurrentActionData = {station = station}
 	elseif part == 'Vehicles' then
 		CurrentAction     = 'menu_vehicle_spawner'
@@ -1020,18 +864,7 @@ AddEventHandler('esx_policejob:handcuff', function()
 		SetPedCanPlayGestureAnims(playerPed, false)
 		FreezeEntityPosition(playerPed, true)
 		DisplayRadar(false)
-
-		if Config.EnableHandcuffTimer then
-			if handcuffTimer.active then
-				ESX.ClearTimeout(handcuffTimer.task)
-			end
-
-			StartHandcuffTimer()
-		end
 	else
-		if Config.EnableHandcuffTimer and handcuffTimer.active then
-			ESX.ClearTimeout(handcuffTimer.task)
-		end
 
 		ClearPedSecondaryTask(playerPed)
 		SetEnableHandcuffs(playerPed, false)
@@ -1054,11 +887,6 @@ AddEventHandler('esx_policejob:unrestrain', function()
 		SetPedCanPlayGestureAnims(playerPed, true)
 		FreezeEntityPosition(playerPed, false)
 		DisplayRadar(true)
-
-		-- end timer
-		if Config.EnableHandcuffTimer and handcuffTimer.active then
-			ESX.ClearTimeout(handcuffTimer.task)
-		end
 	end
 end)
 
@@ -1313,9 +1141,7 @@ CreateThread(function()
 	local trackedEntities = {
 		`prop_roadcone02a`,
 		`prop_barrier_work05`,
-		`p_ld_stinger_s`,
-		`prop_boxpile_07d`,
-		`hei_prop_cash_crate_half_full`
+		`p_ld_stinger_s`
 	}
 
 	while true do
@@ -1513,27 +1339,8 @@ AddEventHandler('onResourceStop', function(resource)
 		if Config.EnableESXService then
 			TriggerServerEvent('esx_service:disableService', 'police')
 		end
-
-		if Config.EnableHandcuffTimer and handcuffTimer.active then
-			ESX.ClearTimeout(handcuffTimer.task)
-		end
 	end
 end)
-
--- handcuff timer, unrestrain the player after an certain amount of time
-function StartHandcuffTimer()
-	if Config.EnableHandcuffTimer and handcuffTimer.active then
-		ESX.ClearTimeout(handcuffTimer.task)
-	end
-
-	handcuffTimer.active = true
-
-	handcuffTimer.task = ESX.SetTimeout(Config.HandcuffTimer, function()
-		ESX.ShowNotification(_U('unrestrained_timer'))
-		TriggerEvent('esx_policejob:unrestrain')
-		handcuffTimer.active = false
-	end)
-end
 
 -- TODO
 --   - return to garage if owned

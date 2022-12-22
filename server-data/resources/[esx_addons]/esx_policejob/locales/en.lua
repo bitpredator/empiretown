@@ -8,23 +8,11 @@ Locales['en'] = {
   ['no_outfit'] = 'there\'s no uniform that fits you!',
   ['open_cloackroom'] = 'press [E] to change clothes.',
   -- Armory
-  ['remove_object'] = 'withdraw object',
-  ['deposit_object'] = 'deposit object',
-  ['get_weapon'] = 'withdraw weapon from armory',
-  ['put_weapon'] = 'store weapon in armory',
-  ['buy_weapons'] = 'buy weapons',
   ['armory'] = 'armory',
-  ['open_armory'] = 'press [E] to access the Armory.',
   ['armory_owned'] = 'owned',
   ['armory_free'] = 'free',
   ['armory_item'] = '$%s',
-  ['armory_weapontitle'] = 'armory - Buy weapon',
-  ['armory_componenttitle'] = 'armory - Weapon attatchments',
-  ['armory_bought'] = 'you bought an %s for $%s',
-  ['armory_money'] = 'you cannot afford that weapon',
   ['armory_hascomponent'] = 'you have that attatchment equiped!',
-  ['get_weapon_menu'] = 'armory - Withdraw Weapon',
-  ['put_weapon_menu'] = 'armory - Store Weapon',
   -- Vehicles
   ['vehicle_menu'] = 'vehicle',
   ['vehicle_blocked'] = 'all available spawn points are currently blocked!',
@@ -82,8 +70,6 @@ Locales['en'] = {
   ['being_searched'] = 'you are being searched by the Police',
   -- Vehicle interaction
   ['vehicle_info'] = 'vehicle Info',
-  ['pick_lock'] = 'lockpick Vehicle',
-  ['vehicle_unlocked'] = 'vehicle Unlocked',
   ['no_vehicles_nearby'] = 'there is no vehicles nearby',
   ['impound'] = 'impound vehicle',
   ['impound_prompt'] = 'press [E] to cancel the impound',
@@ -98,8 +84,6 @@ Locales['en'] = {
   ['cone'] = 'cone',
   ['barrier'] = 'barrier',
   ['spikestrips'] = 'spikestrips',
-  ['box'] = 'box',
-  ['cash'] = 'box of cash',
   -- ID Card Menu
   ['name'] = 'name: %s',
   ['job'] = 'job: %s',
@@ -144,7 +128,6 @@ Locales['en'] = {
   -- Misc
   ['remove_prop'] = 'press [E] to delete the object',
   ['map_blip'] = 'police Station',
-  ['unrestrained_timer'] = 'you feel your handcuffs slowly losing grip and fading away.',
   -- Notifications
   ['alert_police'] = 'police alert',
   ['phone_police'] = 'police',

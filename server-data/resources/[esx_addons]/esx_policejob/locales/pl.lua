@@ -8,23 +8,11 @@ Locales['pl'] = {
   ['no_outfit'] = 'brak ubrania',
   ['open_cloackroom'] = 'naciśnij [E] aby zmienić ubranie.',
   -- Armory
-  ['remove_object'] = 'weź przedmiot',
-  ['deposit_object'] = 'zdeponuj przedmiot',
-  ['get_weapon'] = 'weź broń',
-  ['put_weapon'] = 'odłóż broń',
-  ['buy_weapons'] = 'kup Broń',
   ['armory'] = 'zbrojownia',
-  ['open_armory'] = 'naciśnij [E] żeby uzyskać dostęp do zbrojowni',
   ['armory_owned'] = 'owned',
   ['armory_free'] = 'free',
   ['armory_item'] = '$%s',
-  ['armory_weapontitle'] = 'armory - Buy weapon',
-  ['armory_componenttitle'] = 'armory - Weapon attatchments',
-  ['armory_bought'] = 'you bought an %s for $%s',
-  ['armory_money'] = 'you cannot afford that weapon',
   ['armory_hascomponent'] = 'you have that attatchment equiped!',
-  ['get_weapon_menu'] = 'armory - Withdraw Weapon',
-  ['put_weapon_menu'] = 'armory - Store Weapon',
   -- Vehicles
   ['vehicle_menu'] = 'vehicle',
   ['vehicle_blocked'] = 'all available spawn points are currently blocked!',
@@ -82,8 +70,6 @@ Locales['pl'] = {
   ['being_searched'] = 'you are being searched by the Police',
   -- Vehicle interaction
   ['vehicle_info'] = 'informacje o pojeździe',
-  ['pick_lock'] = 'odblokuj pojazd',
-  ['vehicle_unlocked'] = 'pojazd Odblokowany',
   ['no_vehicles_nearby'] = 'brak pojazdu w pobliżu',
   ['impound'] = 'zajmij pojazd',
   ['impound_prompt'] = 'naciśnij [E] żeby unieważnić zajęcie',
@@ -98,8 +84,6 @@ Locales['pl'] = {
   ['cone'] = 'pachołek',
   ['barrier'] = 'barierka',
   ['spikestrips'] = 'kolczatka',
-  ['box'] = 'pudła',
-  ['cash'] = 'paleta z pieniędzmi',
   -- ID Card Menu
   ['name'] = 'name: %s',
   ['job'] = 'praca: %s',
@@ -144,7 +128,6 @@ Locales['pl'] = {
   -- Misc
   ['remove_prop'] = 'naciśnij [E] aby usunąć ten obiekt',
   ['map_blip'] = 'komisariat Policji',
-  ['unrestrained_timer'] = 'czujesz, że twoje kajdanki powoli tracą przyczepność i znikają.',
   -- Notifications
   ['alert_police'] = 'ostrzeż policję',
   ['phone_police'] = 'police',

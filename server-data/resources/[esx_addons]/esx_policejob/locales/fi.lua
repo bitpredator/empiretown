@@ -8,23 +8,11 @@ Locales['fi'] = {
   ['no_outfit'] = 'täällä ei ole sinulle sopivaa asua',
   ['open_cloackroom'] = 'paina [E] vaihtaaksesi vaatteita.',
   -- Armory
-  ['remove_object'] = 'ota esine',
-  ['deposit_object'] = 'talleta esine',
-  ['get_weapon'] = 'ota ase',
-  ['put_weapon'] = 'laita ase pois',
-  ['buy_weapons'] = 'osta aseita',
   ['armory'] = 'asevarasto',
-  ['open_armory'] = 'paina [E] avataksesi asevarasto',
   ['armory_owned'] = 'owned',
   ['armory_free'] = 'free',
   ['armory_item'] = '$%s',
-  ['armory_weapontitle'] = 'armory - Buy weapon',
-  ['armory_componenttitle'] = 'armory - Weapon attatchments',
-  ['armory_bought'] = 'you bought an %s for $%s',
-  ['armory_money'] = 'you cannot afford that weapon',
   ['armory_hascomponent'] = 'you have that attatchment equiped!',
-  ['get_weapon_menu'] = 'armory - Withdraw Weapon',
-  ['put_weapon_menu'] = 'armory - Store Weapon',
   -- Vehicles
   ['vehicle_menu'] = 'vehicle',
   ['vehicle_blocked'] = 'all available spawn points are currently blocked!',
@@ -82,8 +70,6 @@ Locales['fi'] = {
   ['being_searched'] = 'you are being searched by the Police',
   -- Vehicle interaction
   ['vehicle_info'] = 'ajoneuvon tiedot',
-  ['pick_lock'] = 'tiirikoi ovet',
-  ['vehicle_unlocked'] = 'ajoneuvo Avattu',
   ['no_vehicles_nearby'] = 'ei ajoneuvoja lähettyvillä',
   ['impound'] = 'takavarikoi ajoneuvo',
   ['impound_prompt'] = 'paina [E] peruaksesi takavarikointi',
@@ -98,8 +84,6 @@ Locales['fi'] = {
   ['cone'] = 'kartio',
   ['barrier'] = 'este',
   ['spikestrips'] = 'piikkimatto',
-  ['box'] = 'laatikko',
-  ['cash'] = 'rahalaatikko',
   -- ID Card Menu
   ['name'] = 'nimi: %s',
   ['job'] = 'työ: %s',
@@ -144,7 +128,6 @@ Locales['fi'] = {
   -- Misc
   ['remove_prop'] = 'paina [E] poistaaksesi objektin',
   ['map_blip'] = 'poliisilaitos',
-  ['unrestrained_timer'] = 'tunnet kuinka hitaasti käsiraudat alkavat löystyä ja irtoavat',
   -- Notifications
   ['alert_police'] = 'hälyytys Poliisi',
   ['phone_police'] = 'poliisi',

@@ -8,23 +8,11 @@ Locales['ko'] = {
   ['no_outfit'] = '당신에게 맞는 유니폼이 없습니다!',
   ['open_cloackroom'] = '옷을 변경하려면 [E]를 누르십시오.',
   -- Armory
-  ['remove_object'] = '오브젝트를 빼다',
-  ['deposit_object'] = '오브젝트를 두다',
-  ['get_weapon'] = '병기고에서 무기를 빼다',
-  ['put_weapon'] = '병기고에 무기를 넣다',
-  ['buy_weapons'] = '무기 구매',
   ['armory'] = '병기고',
-  ['open_armory'] = '[E]를 눌러 병기고에 접근하십시오.',
   ['armory_owned'] = '소유',
   ['armory_free'] = '자유',
   ['armory_item'] = '$%s',
-  ['armory_weapontitle'] = '병기고 - 무기 구매',
-  ['armory_componenttitle'] = '병기고 - 무기 부착물',
-  ['armory_bought'] = '당신은 $%s에 %s를 구매했습니다',
-  ['armory_money'] = '당신은 이 무기를 살 수 없습니다',
   ['armory_hascomponent'] = '이 부착물이 장착되어 있습니다!',
-  ['get_weapon_menu'] = '병기고 - 무기 빼다',
-  ['put_weapon_menu'] = '병기고 - 무기 넣다',
   -- Vehicles
   ['vehicle_menu'] = '차량',
   ['vehicle_blocked'] = '모든 스폰 지점이 차단되었습니다!',
@@ -82,8 +70,6 @@ Locales['ko'] = {
   ['being_searched'] = '경찰이 당신을 수색',
   -- Vehicle interaction
   ['vehicle_info'] = '차량 정보',
-  ['pick_lock'] = '차량 락픽',
-  ['vehicle_unlocked'] = '차량 잠금 해제',
   ['no_vehicles_nearby'] = '근처에 차량이 없습니다',
   ['impound'] = '차량을 견인하다',
   ['impound_prompt'] = '견인을 취소하려면 [E]를 누릅니다',
@@ -98,8 +84,6 @@ Locales['ko'] = {
   ['cone'] = '원뿔',
   ['barrier'] = '장벽',
   ['spikestrips'] = '스파이크 스트립',
-  ['box'] = '상자',
-  ['cash'] = '현금 상자',
   -- ID Card Menu
   ['name'] = '이름: %s',
   ['job'] = '직업: %s',
@@ -144,7 +128,6 @@ Locales['ko'] = {
   -- Misc
   ['remove_prop'] = '[E]를 눌러 오브젝트를 삭제하십시오.',
   ['map_blip'] = '경찰서',
-  ['unrestrained_timer'] = '당신의 수갑이 천천히 풀리는 것을 느낍니다.',
   -- Notifications
   ['alert_police'] = '경찰 경보',
   ['phone_police'] = '경찰',

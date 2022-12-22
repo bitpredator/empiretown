@@ -8,23 +8,11 @@ Locales['es'] = {
   ['no_outfit'] = '¡No hay ningún uniforme disponible para ti!',
   ['open_cloackroom'] = 'Presionar [E] para abrir su taquilla',
   -- Armory
-  ['remove_object'] = 'Coger objeto',
-  ['deposit_object'] = 'Depositar objeto',
-  ['get_weapon'] = 'Coger arma',
-  ['put_weapon'] = 'Depositar arma',
-  ['buy_weapons'] = 'Comprar armas',
   ['armory'] = 'Armeria',
-  ['open_armory'] = 'Presionar [E] para acceder a la armeria',
   ['armory_owned'] = 'Comprada',
   ['armory_free'] = 'Gratis',
   ['armory_item'] = '$%s',
-  ['armory_weapontitle'] = 'Armeria - Comprar arma',
-  ['armory_componenttitle'] = 'Armeria - Complementos del arma',
-  ['armory_bought'] = 'compraste una %s por $%s',
-  ['armory_money'] = 'No dispones de suficiente dinero para comprar esta arma',
   ['armory_hascomponent'] = '¡Ya dispones de ese complemento!',
-  ['get_weapon_menu'] = 'Armeria - Retirar arma',
-  ['put_weapon_menu'] = 'Armeria - Guardar arma',
   -- Vehicles
   ['vehicle_menu'] = 'Vehículos',
   ['vehicle_blocked'] = '¡Todos los puntos de aparición de vehículos están ocupados!',
@@ -82,8 +70,6 @@ Locales['es'] = {
   ['being_searched'] = 'you are being searched by the Police',
   -- Vehicle interaction
   ['vehicle_info'] = 'Información del vehículo',
-  ['pick_lock'] = 'Forzar coche',
-  ['vehicle_unlocked'] = 'Vehículo desbloqueado',
   ['no_vehicles_nearby'] = 'No hay vehículos cerca',
   ['impound'] = 'Confiscar vehículo',
   ['impound_prompt'] = 'Presione [E] para cancelar impound',
@@ -98,8 +84,6 @@ Locales['es'] = {
   ['cone'] = 'Cono',
   ['barrier'] = 'Barrera',
   ['spikestrips'] = 'Grada',
-  ['box'] = 'Caja',
-  ['cash'] = 'Dinero',
   -- ID Card Menu
   ['name'] = 'Nombre: %s',
   ['job'] = 'Trabajo: %s',
@@ -144,7 +128,6 @@ Locales['es'] = {
   -- Misc
   ['remove_prop'] = 'presionar [E] para eliminar el objeto',
   ['map_blip'] = 'comisaría de policía',
-  ['unrestrained_timer'] = 'you feel your handcuffs slowly losing grip and fading away.',
   -- Notifications
   ['alert_police'] = 'alerta policia',
   ['phone_police'] = 'policia',

@@ -8,23 +8,11 @@ Locales['cs'] = {
   ['no_outfit'] = 'není zde žádná uniforma, která by ti sedla!',
   ['open_cloackroom'] = 'stiskni [E] pro změnu oblečení.',
   -- Armory
-  ['remove_object'] = 'vzít objekt',
-  ['deposit_object'] = 'odevzdat objekt',
-  ['get_weapon'] = 'vzít zbraň ze zbrojnice',
-  ['put_weapon'] = 'uchovat zbraň ve zbrojnici',
-  ['buy_weapons'] = 'koupit zbraně',
   ['armory'] = 'zbrojnice',
-  ['open_armory'] = 'stiskni [E] pro přístup do zbrojnice.',
   ['armory_owned'] = 'vlastněno',
   ['armory_free'] = 'zdarma',
   ['armory_item'] = '$%s',
-  ['armory_weapontitle'] = 'zbrojnice',
-  ['armory_componenttitle'] = 'zbrojnice - Příslušenství ke zbraním',
-  ['armory_bought'] = 'zakoupil jsi %s za $%s',
-  ['armory_money'] = 'nemáš dostatek peněz na tuto zbraň',
   ['armory_hascomponent'] = 'toto příslušenství máš již nainstalováno!',
-  ['get_weapon_menu'] = 'zbrojnice - Vzít zbraň',
-  ['put_weapon_menu'] = 'zbrojnice - Uchovat zbraň',
   -- Vehicles
   ['vehicle_menu'] = 'vozidlo',
   ['vehicle_blocked'] = 'vsechny dostupne spawn pointy jsou blokovany!',
@@ -82,8 +70,6 @@ Locales['cs'] = {
   ['being_searched'] = 'prave jsi prohledavan policii',
   -- Vehicle interaction
   ['vehicle_info'] = 'informace o vozidle',
-  ['pick_lock'] = 'vypáčit vozidlo',
-  ['vehicle_unlocked'] = 'vozidlo je Odemčeno',
   ['no_vehicles_nearby'] = 'there is no vehicles nearby',
   ['impound'] = 'odtahnout vozidlo',
   ['impound_prompt'] = 'zmackni [E] pro zruseni odtahnuti',
@@ -98,8 +84,6 @@ Locales['cs'] = {
   ['cone'] = 'kuzel',
   ['barrier'] = 'bariera',
   ['spikestrips'] = 'ostnaty pas',
-  ['box'] = 'box',
-  ['cash'] = 'box penez',
   -- ID Card Menu
   ['name'] = 'jméno: %s',
   ['job'] = 'práce: %s',
@@ -144,7 +128,6 @@ Locales['cs'] = {
   -- Misc
   ['remove_prop'] = 'stiskni [E] pro odstranění předmětu',
   ['map_blip'] = 'policejní stanice',
-  ['unrestrained_timer'] = 'cítíš, že tvé pouta pomalu ztrácejí přilnavost a padají.',
   -- Notifications
   ['alert_police'] = 'policejní poplach',
   ['phone_police'] = 'policie',
