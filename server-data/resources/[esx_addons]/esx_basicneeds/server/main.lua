@@ -2,15 +2,6 @@ ESX = nil
 
 ESX = exports["es_extended"]:getSharedObject()
 
-ESX.RegisterUsableItem('bread', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('bread', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'hunger', 200000)
-	TriggerClientEvent('esx_basicneeds:onEat', source)
-	xPlayer.showNotification(_U('used_bread'))
-end)
-
 ESX.RegisterUsableItem('water', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	xPlayer.removeInventoryItem('water', 1)

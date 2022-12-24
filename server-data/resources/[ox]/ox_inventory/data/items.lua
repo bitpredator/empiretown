@@ -49,7 +49,7 @@ return {
 		label = 'Burger',
 		weight = 220,
 		client = {
-			status = { hunger = 200000 },
+			status = { hunger = 2000 },
 			anim = 'eating',
 			prop = 'burger',
 			usetime = 2500,
@@ -535,5 +535,18 @@ return {
 	    weight = 100,
 	    stack = true,
     },
+
+	['bread'] = {
+		label = 'panino vuoto',
+		weight = 100,
+		stack = true,
+		consume = 0,
+	},
+
+	['flour'] = {
+		label = 'farina',
+		weight = 100,
+		stack = true,
+	},
 
 }

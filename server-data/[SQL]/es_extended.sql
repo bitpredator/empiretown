@@ -27,12 +27,13 @@ CREATE TABLE IF NOT EXISTS `addon_account` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.addon_account: ~12 rows (circa)
+-- Dump dei dati della tabella es_extended.addon_account: ~14 rows (circa)
 INSERT INTO `addon_account` (`name`, `label`, `shared`) VALUES
 	('bank_savings', 'Livret Bleu', 0),
 	('caution', 'caution', 0),
 	('society_ambulance', 'Ambulance', 1),
 	('society_ammu', 'Ammu', 1),
+	('society_baker', 'Baker', 1),
 	('society_ballas', 'Ballas', 1),
 	('society_banker', 'Banque', 1),
 	('society_cardealer', 'Cardealer', 1),
@@ -52,15 +53,15 @@ CREATE TABLE IF NOT EXISTS `addon_account_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_addon_account_data_account_name_owner` (`account_name`,`owner`),
   KEY `index_addon_account_data_account_name` (`account_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.addon_account_data: ~12 rows (circa)
+-- Dump dei dati della tabella es_extended.addon_account_data: ~14 rows (circa)
 INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(1, 'society_cardealer', 0, NULL),
 	(2, 'society_police', 0, NULL),
 	(4, 'society_mechanic', 0, NULL),
 	(5, 'society_taxi', 0, NULL),
-	(9, 'society_banker', 0, NULL),
+	(9, 'society_banker', 33, NULL),
 	(14, 'society_import', 0, NULL),
 	(16, 'society_ambulance', 0, NULL),
 	(17, 'society_ammu', 0, NULL),
@@ -68,7 +69,8 @@ INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(20, 'caution', 0, ''),
 	(21, 'bank_savings', 0, ''),
 	(22, 'society_ballas', 0, NULL),
-	(26, 'society_unicorn', 0, NULL);
+	(26, 'society_unicorn', 0, NULL),
+	(27, 'society_baker', 0, NULL);
 
 -- Dump della struttura di tabella es_extended.addon_inventory
 CREATE TABLE IF NOT EXISTS `addon_inventory` (
@@ -78,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `addon_inventory` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.addon_inventory: ~0 rows (circa)
+-- Dump dei dati della tabella es_extended.addon_inventory: ~1 rows (circa)
 
 -- Dump della struttura di tabella es_extended.addon_inventory_items
 CREATE TABLE IF NOT EXISTS `addon_inventory_items` (
@@ -128,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `bpt_items` (
   `label` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.bpt_items: ~29 rows (circa)
+-- Dump dei dati della tabella es_extended.bpt_items: ~32 rows (circa)
 INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('bandage', 'benda'),
 	('cottonforbandages', 'cotone per bende'),
@@ -158,7 +160,10 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('copper', 'Rame'),
 	('gold', 'oro'),
 	('gunpowder', 'polvere da sparo'),
-	('ammo-sniper', '7.62 NATO');
+	('ammo-sniper', '7.62 NATO'),
+	('grain', 'grano'),
+	('flour', 'farina'),
+	('bread', 'panino vuoto');
 
 -- Dump della struttura di tabella es_extended.cardealer_vehicles
 CREATE TABLE IF NOT EXISTS `cardealer_vehicles` (
@@ -178,11 +183,12 @@ CREATE TABLE IF NOT EXISTS `datastore` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.datastore: ~13 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore: ~15 rows (circa)
 INSERT INTO `datastore` (`name`, `label`, `shared`) VALUES
 	('property', 'Property', 0),
 	('society_ambulance', 'Ambulance', 1),
 	('society_ammu', 'Ammu', 1),
+	('society_baker', 'Baker', 1),
 	('society_ballas', 'Ballas', 1),
 	('society_dustman', 'Dustman', 1),
 	('society_import', 'Import', 1),
@@ -204,9 +210,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=757 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=775 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~683 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~767 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -951,7 +957,25 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(753, 'property', NULL, '{}'),
 	(754, 'property', NULL, '{}'),
 	(755, 'property', NULL, '{}'),
-	(756, 'property', NULL, '{}');
+	(756, 'property', NULL, '{}'),
+	(757, 'property', NULL, '{}'),
+	(758, 'property', NULL, '{}'),
+	(759, 'property', NULL, '{}'),
+	(760, 'property', NULL, '{}'),
+	(761, 'property', NULL, '{}'),
+	(762, 'property', NULL, '{}'),
+	(763, 'property', NULL, '{}'),
+	(764, 'property', NULL, '{}'),
+	(765, 'society_baker', NULL, '\'{}\''),
+	(766, 'property', NULL, '{}'),
+	(767, 'property', NULL, '{}'),
+	(768, 'property', NULL, '{}'),
+	(769, 'property', NULL, '{}'),
+	(770, 'property', NULL, '{}'),
+	(771, 'property', NULL, '{}'),
+	(772, 'property', NULL, '{}'),
+	(773, 'property', NULL, '{}'),
+	(774, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -1037,10 +1061,11 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.jobs: ~11 rows (circa)
+-- Dump dei dati della tabella es_extended.jobs: ~13 rows (circa)
 INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 	('ambulance', 'EMS', 1),
 	('ammu', 'Armeria', 1),
+	('baker', 'Panettiere', 1),
 	('ballas', 'Ballas', 1),
 	('banker', 'Banquier', 1),
 	('cardealer', 'Cardealer', 1),
@@ -1063,9 +1088,9 @@ CREATE TABLE IF NOT EXISTS `job_grades` (
   `skin_male` longtext NOT NULL,
   `skin_female` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.job_grades: ~53 rows (circa)
+-- Dump dei dati della tabella es_extended.job_grades: ~58 rows (circa)
 INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, `skin_male`, `skin_female`) VALUES
 	(2, 'police', 0, 'recruit', 'Recrue', 20, '{}', '{}'),
 	(3, 'police', 1, 'officer', 'Officier', 40, '{}', '{}'),
@@ -1119,7 +1144,12 @@ INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, 
 	(78, 'unicorn', 0, 'barman', 'Barman', 300, '{}', '{}'),
 	(79, 'unicorn', 1, 'dancer', 'Ballerino/a', 300, '{}', '{}'),
 	(80, 'unicorn', 2, 'viceboss', 'Vice direttore', 500, '{}', '{}'),
-	(81, 'unicorn', 3, 'boss', 'Direttore', 600, '{}', '{}');
+	(81, 'unicorn', 3, 'boss', 'Direttore', 600, '{}', '{}'),
+	(82, 'baker', 0, 'apprentice', 'Apprendista', 20, '{}', '{}'),
+	(83, 'baker', 1, 'gunsmith', 'Panettiere', 40, '{}', '{}'),
+	(84, 'baker', 2, 'armorychief', 'Capo', 60, '{}', '{}'),
+	(85, 'baker', 3, 'deputydirector', 'Vice direttore', 85, '{}', '{}'),
+	(86, 'baker', 4, 'boss', 'Direttore', 100, '{}', '{}');
 
 -- Dump della struttura di tabella es_extended.licenses
 CREATE TABLE IF NOT EXISTS `licenses` (
@@ -1268,9 +1298,9 @@ CREATE TABLE IF NOT EXISTS `phone_calls` (
   `time` timestamp NOT NULL DEFAULT current_timestamp(),
   `accepts` int(11) NOT NULL COMMENT 'Appels accepter ou pas',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
 
--- Dump dei dati della tabella es_extended.phone_calls: ~0 rows (circa)
+-- Dump dei dati della tabella es_extended.phone_calls: ~1 rows (circa)
 
 -- Dump della struttura di tabella es_extended.phone_messages
 CREATE TABLE IF NOT EXISTS `phone_messages` (
@@ -1282,9 +1312,9 @@ CREATE TABLE IF NOT EXISTS `phone_messages` (
   `isRead` int(11) NOT NULL DEFAULT 0,
   `owner` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
 
--- Dump dei dati della tabella es_extended.phone_messages: 0 rows
+-- Dump dei dati della tabella es_extended.phone_messages: 7 rows
 /*!40000 ALTER TABLE `phone_messages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `phone_messages` ENABLE KEYS */;
 
@@ -1295,7 +1325,7 @@ CREATE TABLE IF NOT EXISTS `phone_users_contacts` (
   `number` varchar(10) CHARACTER SET utf8mb4 DEFAULT NULL,
   `display` varchar(64) CHARACTER SET utf8mb4 NOT NULL DEFAULT '-1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Dump dei dati della tabella es_extended.phone_users_contacts: 0 rows
 /*!40000 ALTER TABLE `phone_users_contacts` DISABLE KEYS */;
@@ -1395,7 +1425,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
--- Dump dei dati della tabella es_extended.users: ~0 rows (circa)
+-- Dump dei dati della tabella es_extended.users: ~1 rows (circa)
 
 -- Dump della struttura di tabella es_extended.user_licenses
 CREATE TABLE IF NOT EXISTS `user_licenses` (
