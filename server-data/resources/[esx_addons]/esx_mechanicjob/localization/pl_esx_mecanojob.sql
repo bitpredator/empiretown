@@ -25,10 +25,5 @@ INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_
 ;
 
 INSERT INTO `items` (name, label, weight) VALUES
-	('gazbottle', 'Butelka z gazem', 2),
-	('fixtool', 'Zestaw do naprawy', 2),
-	('carotool', 'Częsci naprawcze', 2),
-	('blowpipe', 'Palnik', 2),
-	('fixkit', 'Narzedzia naprawcze', 3),
-	('carokit', 'Części blacharskie', 3)
+	('fixkit', 'Narzedzia naprawcze', 3)
 ;
