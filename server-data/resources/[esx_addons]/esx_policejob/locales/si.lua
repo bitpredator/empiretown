@@ -128,7 +128,4 @@ Locales['si'] = {
 -- Razno
 ['remove_prop'] = 'pritisnite [E], da izbrišete predmet',
 ['map_blip'] = 'policijska postaja',
--- obvestila
-['alert_police'] = 'policijski alarm',
-['phone_police'] = 'policija',
 }

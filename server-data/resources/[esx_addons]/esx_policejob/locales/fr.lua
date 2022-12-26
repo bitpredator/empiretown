@@ -128,7 +128,4 @@ Locales['fr'] = {
   -- Misc
   ['remove_prop'] = 'appuyez sur [E] pour enlever l\'objet',
   ['map_blip'] = 'Commissariat',
-  -- Notifications
-  ['alert_police'] = 'alerte police',
-  ['phone_police'] = 'police',
 }

@@ -3,8 +3,6 @@ local playersHealing, deadPlayers = {}, {}
 
 ESX = exports["es_extended"]:getSharedObject()
 
-TriggerEvent('esx_phone:registerNumber', 'ambulance', _U('alert_ambulance'), true, true)
-
 TriggerEvent('esx_society:registerSociety', 'ambulance', 'Ambulance', 'society_ambulance', 'society_ambulance', 'society_ambulance', {type = 'public'})
 
 RegisterNetEvent('esx_ambulancejob:revive')

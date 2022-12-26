@@ -49,7 +49,6 @@ Locales['fi'] = {
   ['quantity_invalid']        = 'virheellinen määrä',
   ['inventory']               = 'reppu',
   ['dealership']              = 'autokauppa',
-  ['dealer_customers']        = 'autokaupan asiakas',
   ['have_withdrawn']          = 'sinä otit x%s %s',
   ['have_deposited']          = 'sinä talletit x%s %s',
   ['boss_actions']            = 'Pomo toiminnot',

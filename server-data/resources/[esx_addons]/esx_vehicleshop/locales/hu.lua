@@ -51,7 +51,6 @@ Locales['hu'] = {
   ['quantity_invalid']        = 'ez érvénytelen mennyiség',
   ['inventory']               = 'leltár',
   ['dealership']              = 'Autókereskedő',
-  ['dealer_customers']        = 'kereskedő ügyfelek',
   ['have_withdrawn']          = 'kivettél x%s %s',
   ['have_deposited']          = 'betettél x%s %s',
   ['boss_actions']            = 'fönök müveletek',

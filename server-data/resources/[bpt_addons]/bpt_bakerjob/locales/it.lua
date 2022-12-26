@@ -4,7 +4,6 @@ Locales['it'] = {
     ['cloakroom_prompt'] = 'premi [E] per accedere al guardaroba.',
     ['wear_citizen'] = 'abbigliamento civile',
     ['wear_work'] = 'abiti da lavoro',
-  
     -- garage
     ['spawner_prompt'] = 'premi [E] per accedere al garage.',
     ["vehicle_spawned"] = "veicolo generato con successo!",
@@ -13,7 +12,6 @@ Locales['it'] = {
     ['spawnpoint_blocked'] = 'un veicolo blocca lo spawnpoint!',
     ['only_baker'] = 'puoi depositare solo veicoli aziendali.',
     ['empty_garage'] = 'nessun veicolo nel garage!',
-  
     ['taking_service'] = 'prendi servizio: Armaiolo',
     ['full_service'] = 'servizio completo: ',
     ['amount_invalid'] = 'importo non valido',
@@ -30,7 +28,6 @@ Locales['it'] = {
     ['quantity' ] =  'quantità',
     ['quantity_invalid'] =  'questa quantità non è valida!',
     ['inventory'] =  'inventario',
-    ['baker_client'] =  'cliente baker',
     ['have_withdrawn'] =  'hai prelevato x%s %s',
     ['have_deposited'] =  'hai depositato x%s %s',
     ['player_cannot_hold'] =  '~r~non hai abbastanza spazio libero nel tuo inventario!',

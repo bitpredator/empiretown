@@ -13,6 +13,5 @@ Locales['fi'] = {
   ['press_input_context_to_open_menu']  = 'Paina [E] avataksesi valikon',
   ['withdraw']                          = 'nosta',
   ['boss_actions']                      = 'pomo valinnat',
-  ['phone_receive']                     = 'pankin asiakas',
   ['phone_label']                       = 'bank',
 }

@@ -39,7 +39,6 @@ Locales['sv'] = {
   ['quantity'] = 'mängd',
   ['quantity_invalid'] = 'det är en ogiltig mängd',
   ['inventory'] = 'inventory',
-  ['taxi_client'] = 'taxi klient',
   ['have_withdrawn'] = 'du har tagit ut x%s %s',
   ['have_deposited'] = 'du har lagrat x%s %s',
   ['player_cannot_hold'] = 'du har ~r~inte tillräckligt med utrymme för att hålla det!',

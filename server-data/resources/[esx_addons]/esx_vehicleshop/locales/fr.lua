@@ -49,7 +49,6 @@ Locales['fr'] = {
   ['quantity_invalid']                = 'quantité invalide',
   ['inventory']                       = 'inventaire',
   ['dealership']                      = 'concession',
-  ['dealer_customers']                = 'client concession',
   ['have_withdrawn']                  = 'vous avez retiré x%s %s',
   ['have_deposited']                  = 'vous avez deposé x%s %s',
   ['boss_actions']                    = 'actions du chef',

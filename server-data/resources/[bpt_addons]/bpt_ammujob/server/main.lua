@@ -4,7 +4,6 @@ if Config.MaxInService ~= -1 then
     TriggerEvent('esx_service:activateService', 'ammu', Config.MaxInService)
 end
 
-TriggerEvent('esx_phone:registerNumber', 'ammu', _U('ammu_client'), true, true)
 TriggerEvent('esx_society:registerSociety', 'ammu', 'Ammu', 'society_ammu', 'society_ammu', 'society_ammu', {
     type = 'public'
 })

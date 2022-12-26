@@ -1,4 +1,3 @@
-TriggerEvent('esx_phone:registerNumber', 'banker', _('phone_receive'), false, false)
 TriggerEvent('esx_society:registerSociety', 'banker', _U('phone_label'), 'society_banker', 'society_banker', 'society_banker', {type = 'public'})
 
 RegisterServerEvent('esx_bankerjob:customerDeposit')

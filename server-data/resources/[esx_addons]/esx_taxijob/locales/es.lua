@@ -41,7 +41,6 @@ Locales['es'] = {
   ['quantity'] = 'Cantidad',
   ['quantity_invalid'] = '¡Esa es una cantidad inválida!',
   ['inventory'] = 'Inventario',
-  ['taxi_client'] = 'Cliente taxi',
   ['have_withdrawn'] = 'Has retirado x%s %s',
   ['have_deposited'] = 'Has depositado x%s %s',
   ['player_cannot_hold'] = '!Tu ~r~no tienes suficiente espacio libre en tu inventario!',

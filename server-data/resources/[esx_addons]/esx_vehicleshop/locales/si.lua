@@ -49,7 +49,6 @@ Locales['si'] = {
   ['quantity_invalid'] = 'to je neveljavna količina',
   ['inventory'] = 'zaloga',
   ['dealership'] = 'prodajalec avtomobilov',
-  ['dealer_customers'] = 'stranke trgovca',
   ['have_withdrawn'] = 'umaknili ste x%s %s',
   ['have_deposited'] = 'ste deponirali x%s %s',
   ['boss_actions'] = 'dejanja šefa',

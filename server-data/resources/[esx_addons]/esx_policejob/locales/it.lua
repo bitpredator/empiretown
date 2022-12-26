@@ -128,7 +128,4 @@ Locales['it'] = {
   -- Misc
   ['remove_prop'] = 'premi [E] per eliminare',
   ['map_blip'] = 'polizia',
-  -- Notifications
-  ['alert_police'] = 'chiamata polizia',
-  ['phone_police'] = 'polizia',
 }

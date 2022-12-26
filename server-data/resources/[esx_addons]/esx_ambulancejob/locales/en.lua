@@ -62,8 +62,6 @@ Locales['en'] = {
   ['billing'] = 'billing',
   ['invoice_amount'] = 'invoice amount',
   ['no_players_near'] = 'no players nearby',
-  -- Phone
-  ['alert_ambulance'] = 'alert Ambulance',
   -- Death
   ['respawn_available_in'] = 'respawn available in ~b~%s minutes %s seconds~s~',
   ['respawn_bleedout_in'] = 'you will bleed out in ~b~%s minutes %s seconds~s~\n',

@@ -38,7 +38,6 @@ Locales['hu'] = {
   ['quantity'] = 'Mennyiség',
   ['quantity_invalid'] = 'érvénytelen összeg!',
   ['inventory'] = 'leltár',
-  ['taxi_client'] = 'taxi ügyfél',
   ['have_withdrawn'] = 'kivettél x%s %s',
   ['have_deposited'] = 'betettél x%s %s',
   ['player_cannot_hold'] = '~r~nincs elég üres helyed a leltárban!',

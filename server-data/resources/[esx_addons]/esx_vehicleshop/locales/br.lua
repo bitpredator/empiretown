@@ -49,12 +49,10 @@ Locales['br'] = {
   ['quantity_invalid']        = 'quantidade inválida',
   ['inventory']               = 'Inventário',
   ['dealership']              = 'Concessionária',
-  ['dealer_customers']        = 'clientes revendedores',
   ['have_withdrawn']          = 'você retirou x%s %s',
   ['have_deposited']          = 'você depositou x%s %s',
   ['boss_actions']            = 'ações do chefe',
   ['invalid_vehicle']         = 'Veículo inválido',
-
   -- sold vehicles
   ['boss_sold']               = 'lista de veículos vendidos',
   ['customer_client']         = 'nome do cliente',

@@ -49,7 +49,6 @@ Locales['sv'] = {
   ['quantity_invalid']        = 'ogiltig mängd',
   ['inventory']               = 'förråd',
   ['dealership']              = 'bilförsäljare',
-  ['dealer_customers']        = 'kund',
   ['have_withdrawn']          = 'du har tagit ut x%s %s',
   ['have_deposited']          = 'du har lagt in x%s %s',
   ['boss_actions']            = 'chef handlingar',

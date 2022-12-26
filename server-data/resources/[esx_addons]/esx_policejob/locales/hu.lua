@@ -129,7 +129,4 @@ Locales['hu'] = {
   -- Misc
   ['remove_prop'] = 'Nyomj [E] gombot az objektum törléséhez',
   ['map_blip'] = 'LSPD',
-  -- Notifications
-  ['alert_police'] = 'riasztás',
-  ['phone_police'] = 'rendörség',
 }
