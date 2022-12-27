@@ -1,6 +1,5 @@
 local lastPlayerSuccess = {}
 
-TriggerEvent('esx_phone:registerNumber', 'baker', _U('baker_client'), true, true)
 TriggerEvent('esx_society:registerSociety', 'baker', 'Baker', 'society_baker', 'society_baker', 'society_baker', {
     type = 'public'
 })

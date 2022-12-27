@@ -39,7 +39,6 @@ Locales['fi'] = {
   ['quantity'] = 'määrä',
   ['quantity_invalid'] = 'virheellinen Määrä',
   ['inventory'] = 'reppu',
-  ['taxi_client'] = 'taxi Asiakas',
   ['have_withdrawn'] = 'sinä nostit x%s %s',
   ['have_deposited'] = 'sinä talletit x%s %s',
   ['player_cannot_hold'] = 'sinulla ~r~ei ole enempää vapaata tilaa repussasi!',

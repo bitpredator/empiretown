@@ -13,6 +13,5 @@ Locales['de'] = {
   ['press_input_context_to_open_menu']  = 'Drücke [E] um das Menü zu öffnen',
   ['withdraw']                          = 'Abheben',
   ['boss_actions']                      = 'boss Actions',
-  ['phone_receive']                     = 'Bankkunde',
   ['phone_label']                       = 'bank',
 }

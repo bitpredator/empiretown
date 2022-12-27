@@ -4,7 +4,6 @@ if Config.MaxInService ~= -1 then
     TriggerEvent('esx_service:activateService', 'dustman', Config.MaxInService)
 end
 
-TriggerEvent('esx_phone:registerNumber', 'dustman', _U('dustman_client'), true, true)
 TriggerEvent('esx_society:registerSociety', 'dustman', 'Dustman', 'society_dustman', 'society_dustman', 'society_dustman', {
     type = 'public'
 })

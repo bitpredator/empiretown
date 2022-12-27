@@ -4,7 +4,6 @@ Locales['it'] = {
   ['cloakroom_prompt'] = 'premi [E] per accedere al guardaroba.',
   ['wear_citizen'] = 'abiti civili',
   ['wear_work'] = 'abiti da lavoro',
-
   -- garage
   ['spawner_prompt'] = 'premi [E] per accedere al Garage.',
   ["vehicle_spawned"] = "Veicolo ritirato con successo!",
@@ -12,7 +11,6 @@ Locales['it'] = {
   ['spawn_veh'] = 'spawn veicolo',
   ['spawnpoint_blocked'] = 'lo spawnpoint è bloccato !',
   ['only_dustman'] = 'puoi solo memorizzare dustman.',
-
   ['taking_service'] = 'prendi servizio: dustman',
   ['full_service'] = 'servizio completo: ',
   ['amount_invalid'] = 'importo non valido',
@@ -27,7 +25,6 @@ Locales['it'] = {
   ['quantity'] = 'quantità',
   ['quantity_invalid'] = 'quantità non valida!',
   ['inventory'] = 'inventario',
-  ['dustman_client'] = 'Clienti dustman',
   ['have_withdrawn'] = 'hai prelevato x%s %s',
   ['have_deposited'] = 'hai depositato x%s %s',
   ['player_cannot_hold'] = 'non hai ~r~abbastanza spazio nel tuo inventario!',

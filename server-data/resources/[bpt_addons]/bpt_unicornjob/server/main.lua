@@ -6,7 +6,6 @@ if Config.MaxInService ~= -1 then
   TriggerEvent('esx_service:activateService', 'unicorn', Config.MaxInService)
 end
 
-TriggerEvent('esx_phone:registerNumber', 'unicorn', _U('unicorn_customer'), true, true)
 TriggerEvent('esx_society:registerSociety', 'unicorn', 'Unicorn', 'society_unicorn', 'society_unicorn', 'society_unicorn', {type = 'private'})
 
 RegisterServerEvent('bpt_unicornjob:getStockItem')

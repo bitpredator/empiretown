@@ -6,7 +6,6 @@ Locales['en'] = {
   ['dancer_outfit_1'] = 'dance outfit',
   ['no_outfit'] = 'there\'s no uniform to fit you...',
   ['open_cloackroom'] = 'press ~INPUT_CONTEXT~ to change',
-  
   -- Vehicles  
   ['vehicle_menu'] = 'vehicle',
   ['vehicle_out'] = 'there is already a vehicle outside',
@@ -14,7 +13,6 @@ Locales['en'] = {
   ['store_vehicle'] = 'press ~INPUT_CONTEXT~ to store the vehicle',
   ['service_max'] = 'full service: ',
   ['spawn_point_busy'] = 'a vehicle is near the exit point',
-  
   -- Boss Menu  
   ['take_company_money'] = 'remove money company',
   ['deposit_money'] = 'deposit money',
@@ -28,21 +26,14 @@ Locales['en'] = {
   ['quantity'] = 'amount',
   ['inventory'] = 'inventory',
   ['unicorn_stock'] = 'stock of Vanilla Unicorn',
-  
   -- Billing Menu  
   ['billing'] = 'bill',
   ['no_players_nearby'] = 'no players nearby',
   ['billing_amount'] = 'invoice amount',
   ['amount_invalid'] = 'invalid amount',
-  
   -- Misc  
   ['map_blip'] = 'vanilla Unicorn',
   ['unicorn'] = 'vanilla Unicorn',
-  
-  -- Phone  
-  ['unicorn_phone'] = 'unicorn',
-  ['unicorn_customer'] = 'citizen',
-  
   -- Teleporters
   ['e_to_enter_1'] = 'press ~INPUT_PICKUP~ to go behind the bar',
   ['e_to_exit_1'] = 'press ~INPUT_PICKUP~ to go in front off the bar',

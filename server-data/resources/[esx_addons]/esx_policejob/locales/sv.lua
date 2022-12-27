@@ -128,7 +128,4 @@ Locales['sv'] = {
   -- Misc
   ['remove_prop'] = 'tryck [E] för att ta bort objektet',
   ['map_blip'] = 'polisstation',
-  -- Notifications
-  ['alert_police'] = 'meddela polisen',
-  ['phone_police'] = 'polisen',
 }

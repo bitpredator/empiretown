@@ -13,7 +13,6 @@ Locales['en'] = {
   ['press_input_context_to_open_menu']  = 'press [E] to open the Bank Menu.',
   ['withdraw']                          = 'withdraw',
   ['boss_actions']                      = 'boss Actions',
-  ['phone_receive']                     = 'bank Customer',
   ['phone_label']                       = 'bank',
   ['have_deposited']                    = 'you have deposited money in the client\'s account',
   ['have_withdraw']                     = 'you have withdrawn money from the customer\'s account',

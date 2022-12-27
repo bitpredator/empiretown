@@ -27,7 +27,6 @@ Locales['it'] = {
   ['quantity'] = 'quantità',
   ['quantity_invalid'] = 'quantità non valida!',
   ['inventory'] = 'inventario',
-  ['import_client'] = 'Clienti import',
   ['have_withdrawn'] = 'hai prelevato x%s %s',
   ['have_deposited'] = 'hai depositato x%s %s',
   ['player_cannot_hold'] = 'non hai ~r~abbastanza spazio nel tuo inventario!',

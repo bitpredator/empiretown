@@ -38,7 +38,6 @@ Locales['si'] = {
   ['quantity'] = 'količina',
   ['quantity_invalid'] = 'to je neveljavna količina!',
   ['inventory'] = 'inventar',
-  ['taxi_client'] = 'taxi Client',
   ['have_withdrawn'] = 'umaknili ste x%s %s',
   ['have_deposited'] = 'ste deponirali x%s %s',
   ['player_cannot_hold'] = 'v svojem inventarju nimaš dovolj prostora!',

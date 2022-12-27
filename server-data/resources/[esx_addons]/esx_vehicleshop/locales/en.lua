@@ -49,7 +49,6 @@ Locales['en'] = {
   ['quantity_invalid']        = 'that\'s an invalid quantity',
   ['inventory']               = 'inventory',
   ['dealership']              = 'car Dealer',
-  ['dealer_customers']        = 'dealer customers',
   ['have_withdrawn']          = 'you have withdrawn x%s %s',
   ['have_deposited']          = 'you have deposited x%s %s',
   ['boss_actions']            = 'boss actions',

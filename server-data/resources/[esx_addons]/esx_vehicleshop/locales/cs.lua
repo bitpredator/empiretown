@@ -49,7 +49,6 @@ Locales['cs'] = {
   ['quantity_invalid']        = 'to je neplatne mnozstvi',
   ['inventory']               = 'inventar',
   ['dealership']              = 'autodealer',
-  ['dealer_customers']        = 'zakaznici dealera',
   ['have_withdrawn']          = 'vybral jsi x%s %s',
   ['have_deposited']          = 'vlozil jsi x%s %s',
   ['boss_actions']            = 'akce šéfa',

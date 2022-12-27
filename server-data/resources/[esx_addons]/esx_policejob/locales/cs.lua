@@ -128,7 +128,4 @@ Locales['cs'] = {
   -- Misc
   ['remove_prop'] = 'stiskni [E] pro odstranění předmětu',
   ['map_blip'] = 'policejní stanice',
-  -- Notifications
-  ['alert_police'] = 'policejní poplach',
-  ['phone_police'] = 'policie',
 }

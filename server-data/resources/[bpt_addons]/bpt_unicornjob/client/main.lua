@@ -456,15 +456,6 @@ AddEventHandler('bpt_unicornjob:hasExitedMarker', function(zone)
     ESX.UI.Menu.CloseAll()
 end)
 
-RegisterNetEvent('esx_phone:loaded')
-AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
-  local specialContact = {
-    name       = _U('unicorn_phone'),
-    number     = 'unicorn',
-  }
-  TriggerEvent('esx_phone:addSpecialContact', specialContact.name, specialContact.number, specialContact.base64Icon)
-end)
-
 -- Create blips
 Citizen.CreateThread(function()
     local blipMarker = Config.Blips.Blip

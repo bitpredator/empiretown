@@ -4,7 +4,6 @@ if Config.EnableESXService then
 	end
 end
 
-TriggerEvent('esx_phone:registerNumber', 'police', _U('alert_police'), true, true)
 TriggerEvent('esx_society:registerSociety', 'police', 'Police', 'society_police', 'society_police', 'society_police', {type = 'public'})
 
 RegisterNetEvent('esx_policejob:confiscatePlayerItem')
@@ -405,11 +404,5 @@ AddEventHandler('onResourceStart', function(resource)
 		for _, xPlayer in pairs(ESX.GetExtendedPlayers('job', 'police')) do
 			TriggerClientEvent('esx_policejob:updateBlip', xPlayer.source)
 		end
-	end
-end)
-
-AddEventHandler('onResourceStop', function(resource)
-	if resource == GetCurrentResourceName() then
-		TriggerEvent('esx_phone:removeNumber', 'police')
 	end
 end)

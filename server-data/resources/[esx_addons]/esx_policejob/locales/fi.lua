@@ -128,7 +128,4 @@ Locales['fi'] = {
   -- Misc
   ['remove_prop'] = 'paina [E] poistaaksesi objektin',
   ['map_blip'] = 'poliisilaitos',
-  -- Notifications
-  ['alert_police'] = 'hälyytys Poliisi',
-  ['phone_police'] = 'poliisi',
 }

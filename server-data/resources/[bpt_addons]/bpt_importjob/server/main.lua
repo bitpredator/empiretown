@@ -4,7 +4,6 @@ if Config.MaxInService ~= -1 then
     TriggerEvent('esx_service:activateService', 'import', Config.MaxInService)
 end
 
-TriggerEvent('esx_phone:registerNumber', 'import', _U('import_client'), true, true)
 TriggerEvent('esx_society:registerSociety', 'import', 'Import', 'society_import', 'society_import', 'society_import', {
     type = 'public'
 })

@@ -128,7 +128,4 @@ Locales['nl'] = {
     -- Misc
     ['remove_prop'] = 'Druk op [E] om dit object te verwijderen.',
     ['map_blip'] = 'Politiebureau',
-    -- Notifications
-    ['alert_police'] = 'politie alert',
-    ['phone_police'] = 'politie',
-  }
+}
