@@ -59,7 +59,6 @@ Citizen.CreateThread(function()
     SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.032, -0.04, 0.18, 0.22)
     ThefeedSpsExtendWidescreenOn()
     SetRadarBigmapEnabled(true, false)
-    Wait(150)
     SetRadarBigmapEnabled(false, false)
 end)
 
