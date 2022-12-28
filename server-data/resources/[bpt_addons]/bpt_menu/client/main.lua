@@ -53,21 +53,11 @@ Citizen.CreateThread(function()
 	RefreshMoney()
 
 	RMenu.Add('rageui', 'personal', RageUI.CreateMenu(Config.MenuTitle, _U('mainmenu_subtitle'), 0, 0, 'commonmenu', 'interaction_bgd', 255, 255, 255, 255))
-
 	RMenu.Add('personal', 'wallet', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('wallet_title')))
 	RMenu.Add('personal', 'billing', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('bills_title')))
 	RMenu.Add('personal', 'clothes', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('clothes_title')))
 	RMenu.Add('personal', 'accessories', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('accessories_title')))
 	RMenu.Add('personal', 'animation', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('animation_title')))
-
-	RMenu.Add('personal', 'boss', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('bossmanagement_title')), function()
-		if ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
-			return true
-		end
-
-		return false
-	end)
-
 	RMenu.Add('personal', 'admin', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('admin_title')), function()
 		if Player.group ~= nil and (Player.group == 'mod' or Player.group == 'admin' or Player.group == '_dev') then
 			return true
@@ -462,78 +452,6 @@ function RenderAnimationsSubMenu(menu)
 				end
 			end
 		end
-	end)
-end
-
-function RenderBossMenu()
-	RageUI.DrawContent({header = true, instructionalButton = true}, function()
-		if societymoney ~= nil then
-			RageUI.Button(_U('bossmanagement_chest_button'), nil, {RightLabel = '$' .. societymoney}, true, function() end)
-		end
-
-		RageUI.Button(_U('bossmanagement_hire_button'), nil, {}, true, function(Hovered, Active, Selected)
-			if (Selected) then
-				if ESX.PlayerData.job.grade_name == 'boss' then
-					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
-					if closestPlayer == -1 or closestDistance > 3.0 then
-						ESX.ShowNotification(_U('players_nearby'))
-					else
-						TriggerServerEvent('bpt_menu:Boss_recruterplayer', GetPlayerServerId(closestPlayer))
-					end
-				else
-					ESX.ShowNotification(_U('missing_rights'))
-				end
-			end
-		end)
-
-		RageUI.Button(_U('bossmanagement_fire_button'), nil, {}, true, function(Hovered, Active, Selected)
-			if (Selected) then
-				if ESX.PlayerData.job.grade_name == 'boss' then
-					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
-					if closestPlayer == -1 or closestDistance > 3.0 then
-						ESX.ShowNotification(_U('players_nearby'))
-					else
-						TriggerServerEvent('bpt_menu:Boss_fireplayer', GetPlayerServerId(closestPlayer))
-					end
-				else
-					ESX.ShowNotification(_U('missing_rights'))
-				end
-			end
-		end)
-
-		RageUI.Button(_U('bossmanagement_promote_button'), nil, {}, true, function(Hovered, Active, Selected)
-			if (Selected) then
-				if ESX.PlayerData.job.grade_name == 'boss' then
-					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
-					if closestPlayer == -1 or closestDistance > 3.0 then
-						ESX.ShowNotification(_U('players_nearby'))
-					else
-						TriggerServerEvent('bpt_menu:Boss_promoteplayer', GetPlayerServerId(closestPlayer))
-					end
-				else
-					ESX.ShowNotification(_U('missing_rights'))
-				end
-			end
-		end)
-
-		RageUI.Button(_U('bossmanagement_demote_button'), nil, {}, true, function(Hovered, Active, Selected)
-			if (Selected) then
-				if ESX.PlayerData.job.grade_name == 'boss' then
-					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
-					if closestPlayer == -1 or closestDistance > 3.0 then
-						ESX.ShowNotification(_U('players_nearby'))
-					else
-						TriggerServerEvent('bpt_menu:Boss_fireplayer', GetPlayerServerId(closestPlayer))
-					end
-				else
-					ESX.ShowNotification(_U('missing_rights'))
-				end
-			end
-		end)
 	end)
 end
 
