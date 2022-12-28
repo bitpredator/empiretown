@@ -1,5 +1,4 @@
 local pickups = {}
-
 CreateThread(function()
 	while not Config.Multichar do
 		Wait(0)
@@ -114,23 +113,6 @@ AddEventHandler('esx:playerLoaded', function(xPlayer, isNew, skin)
 			Wait(Sleep and 1500 or 0)
 			end
 		end)
-
-	if Config.EnableHud then
-		for i=1, #(ESX.PlayerData.accounts) do
-			local accountTpl = '<div><img src="img/accounts/' .. ESX.PlayerData.accounts[i].name .. '.png"/>&nbsp;{{money}}</div>'
-			ESX.UI.HUD.RegisterElement('account_' .. ESX.PlayerData.accounts[i].name, i, 0, accountTpl, {money = ESX.Math.GroupDigits(ESX.PlayerData.accounts[i].money)})
-		end
-
-		local jobTpl = '<div>{{job_label}}{{grade_label}}</div>'
-
-		local gradeLabel = ESX.PlayerData.job.grade_label ~= ESX.PlayerData.job.label and ESX.PlayerData.job.grade_label or ''
-		if gradeLabel ~= '' then gradeLabel = ' - '..gradeLabel end
-
-		ESX.UI.HUD.RegisterElement('job', #ESX.PlayerData.accounts, 0, jobTpl, {
-			job_label = ESX.PlayerData.job.label,
-			grade_label = gradeLabel
-		})
-	end
 
 	SetDefaultVehicleNumberPlateTextPattern(-1, Config.CustomAIPlates)
 	StartServerSyncLoops()
@@ -724,6 +706,7 @@ local DoNotUse = {
 	'fivem-map-hipster',
 	'qb-core',
 	'default_spawnpoint',
+	'ox_core',
 }
 
 for i=1, #DoNotUse do
