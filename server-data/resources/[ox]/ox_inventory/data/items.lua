@@ -57,6 +57,18 @@ return {
 		},
 	},
 
+	['bread_deer'] = {
+		label = 'panino con carne di cervo',
+		weight = 220,
+		client = {
+			status = { hunger = 200000 },
+			anim = 'eating',
+			prop = 'burger',
+			usetime = 2500,
+			notification = 'Hai mangiato un panino con carne di cervo'
+		},
+	},
+
 	['cola'] = {
 		label = 'eCola',
 		weight = 350,
@@ -545,6 +557,12 @@ return {
 
 	['flour'] = {
 		label = 'farina',
+		weight = 100,
+		stack = true,
+	},
+
+	['fry_oil'] = {
+		label = 'olio per friggere',
 		weight = 100,
 		stack = true,
 	},

@@ -60,7 +60,8 @@ return {
 			id = 403, colour = 69, scale = 0.8
 		}, inventory = {
 			{ name = 'water', price = 30 },
-			{ name = 'ice',   price = 5  }
+			{ name = 'ice',   price = 5  },
+			{ name = 'fry_oil', price = 60 }
 		}, locations = {
 			vec3(132.408798, -1286.439575, 29.263062)
 		}, targets = {
