@@ -6,7 +6,7 @@ lua54 'yes'
 
 description 'bpt skinchanger'
 
-version '0.0.2'
+version '0.0.3'
 
 client_scripts {
 	'@es_extended/locale.lua',
