@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'ESX Menu Dialog'
 
-version '0.0.2'
+version '0.0.3'
 
 client_scripts {
 	'@es_extended/imports.lua',

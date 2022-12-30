@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 author 'ESX-Framework - Linden - KASH'
 description 'Official Multicharacter System For ESX Legacy'
-version '0.0.2'
+version '0.0.3'
 lua54 'yes'
 
 dependencies {'es_extended', 'esx_menu_default', 'esx_identity', 'esx_skin'}
