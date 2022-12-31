@@ -42,8 +42,6 @@ Locales['si'] = {
   ['vehicle_set_rented'] = 'vozilo %s je bilo izposojeno %s',
   ['vehicle_sold_for'] = 'vozilo %s je bilo sold za $%s',
   ['vehicle_sold_to'] = 'vozilo s tablico %s je bilo prodano %s',
-  ['deposit_stock'] = 'zaloga za depozit',
-  ['take_stock'] = 'umakni zalogo',
   ['dealership_stock'] = 'zaloga trgovca',
   ['amount'] = 'znesek',
   ['quantity_invalid'] = 'to je neveljavna količina',
@@ -53,7 +51,6 @@ Locales['si'] = {
   ['have_deposited'] = 'ste deponirali x%s %s',
   ['boss_actions'] = 'dejanja šefa',
   ['invalid_vehicle'] = 'Neveljavno vozilo',
-
   -- prodana vozila
   ['boss_sold'] = 'seznam prodanih vozil',
   ['customer_client'] = 'ime stranke',

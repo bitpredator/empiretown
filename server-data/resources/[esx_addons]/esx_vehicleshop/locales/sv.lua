@@ -42,8 +42,6 @@ Locales['sv'] = {
   ['vehicle_set_rented']      = 'fordonet %s har hyrts ut till %s',
   ['vehicle_sold_for']        = '%s har sålts för %s SEK',
   ['vehicle_sold_to']         = '%s har sålts till %s',
-  ['deposit_stock']           = 'lägg in i förråd',
-  ['take_stock']              = 'ta ut ur förråd',
   ['dealership_stock']        = 'bilförsäljares förråd',
   ['amount']                  = 'mängd',
   ['quantity_invalid']        = 'ogiltig mängd',
@@ -53,7 +51,6 @@ Locales['sv'] = {
   ['have_deposited']          = 'du har lagt in x%s %s',
   ['boss_actions']            = 'chef handlingar',
   ['invalid_vehicle']         = 'ogiltigt fordon',
-
   -- sold vehicles
   ['boss_sold']               = 'lista av sålda fordon',
   ['customer_client']         = 'kund',
