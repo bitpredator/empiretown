@@ -1,42 +1,28 @@
 local HasAlreadyEnteredMarker, IsInShopMenu = false, false
 local CurrentAction, CurrentActionMsg, LastZone, currentDisplayVehicle, CurrentVehicleData
 local CurrentActionData, Vehicles, Categories = {}, {}, {}
+local VehiclesByModel = {}
+local vehiclesByCategory = {}
 
 function getVehicleFromModel(model)
-	for i = 1, #Vehicles do
-		local vehicle = Vehicles[i]
-		if vehicle.model == model then
-			return vehicle
-		end
-	end
+	return VehiclesByModel[model]
 end
-
-function getVehicles()
-	ESX.TriggerServerCallback('esx_vehicleshop:getCategories', function(categories)
-		Categories = categories
-	end)
-
-	ESX.TriggerServerCallback('esx_vehicleshop:getVehicles', function(vehicles)
-		Vehicles = vehicles
-	end)
-end
-
-AddEventHandler("onResourceStart", getVehicles)
 
 function PlayerManagement()
-	if Config.EnablePlayerManagement then
-		if ESX.PlayerData.job.name == 'cardealer' then
-			Config.Zones.ShopEntering.Type = 1
+	if not Config.EnablePlayerManagement then
+		return
+	end
 
-			if ESX.PlayerData.job.grade_name == 'boss' then
-				Config.Zones.BossActions.Type = 1
-			end
+	if ESX.PlayerData.job.name ~= 'cardealer' then
+		Config.Zones.ShopEntering.Type = -1
+		Config.Zones.BossActions.Type  = -1
+		Config.Zones.ResellVehicle.Type = -1
+		return
+	end
+	Config.Zones.ShopEntering.Type = 1
 
-		else
-			Config.Zones.ShopEntering.Type = -1
-			Config.Zones.BossActions.Type  = -1
-			Config.Zones.ResellVehicle.Type = -1
-		end
+	if ESX.PlayerData.job.grade_name == 'boss' then
+		Config.Zones.BossActions.Type = 1
 	end
 end
 
@@ -45,21 +31,35 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 	ESX.PlayerData = xPlayer
 
 	PlayerManagement()
-	getVehicles()
+	TriggerServerEvent("esx_vehicleshop:getVehiclesAndCategories")
 end)
 
-RegisterNetEvent('esx_vehicleshop:sendCategories')
-AddEventHandler('esx_vehicleshop:sendCategories', function(categories)
-	Categories = categories
-end)
-
-RegisterNetEvent('esx_vehicleshop:sendVehicles')
-AddEventHandler('esx_vehicleshop:sendVehicles', function(vehicles)
+RegisterNetEvent('esx_vehicleshop:updateVehiclesAndCategories', function(vehicles, categories, vehiclesByModel)
 	Vehicles = vehicles
+	Categories = categories
+
+	VehiclesByModel = vehiclesByModel
+
+	table.sort(Vehicles, function(a, b)
+		return a.name < b.name
+	end)
+
+	for _, vehicle in ipairs(Vehicles) do
+		if IsModelInCdimage(joaat(vehicle.model)) then
+			local category = vehicle.category
+
+			if not vehiclesByCategory[category] then
+				vehiclesByCategory[category] = {}
+			end
+
+			table.insert(vehiclesByCategory[category], vehicle)
+		else
+			print(('[^3WARNING^7] Ignoring vehicle ^5%s^7 due to invalid Model'):format(vehicle.model))
+		end
+	end
 end)
 
-
-RegisterNetEvent('esx:setJob') AddEventHandler('esx:setJob', PlayerManagement)
+RegisterNetEvent('esx:setJob', PlayerManagement)
 
 function DeleteDisplayVehicleInsideShop()
 	local attempt = 0
@@ -81,7 +81,7 @@ function ReturnVehicleProvider()
 	ESX.TriggerServerCallback('esx_vehicleshop:getCommercialVehicles', function(vehicles)
 		local elements = {}
 
-		for k,v in ipairs(vehicles) do
+		for k, v in ipairs(vehicles) do
 			local returnPrice = ESX.Math.Round(v.price * 0.75)
 			local vehicleLabel = getVehicleFromModel(v.vehicle).label
 
@@ -135,27 +135,8 @@ function OpenShopMenu()
 	SetEntityVisible(playerPed, false)
 	SetEntityCoords(playerPed, Config.Zones.ShopInside.Pos)
 
-	local vehiclesByCategory = {}
 	local elements           = {}
 	local firstVehicleData   = nil
-
-	for i=1, #Categories, 1 do
-		vehiclesByCategory[Categories[i].name] = {}
-	end
-
-	for i=1, #Vehicles, 1 do
-		if IsModelInCdimage(joaat(Vehicles[i].model)) then
-			table.insert(vehiclesByCategory[Vehicles[i].category], Vehicles[i])
-		else
-			print(('[^3WARNING^7] Ignoring vehicle ^5%s^7 due to invalid Model'):format(Vehicles[i].model))
-		end
-	end
-
-	for k,v in pairs(vehiclesByCategory) do
-		table.sort(v, function(a, b)
-			return a.name < b.name
-		end)
-	end
 
 	for i=1, #Categories, 1 do
 		local category         = Categories[i]
@@ -230,7 +211,6 @@ function OpenShopMenu()
 							menu2.close()
 							menu.close()
 							DeleteDisplayVehicleInsideShop()
-
 							FreezeEntityPosition(playerPed, false)
 							SetEntityVisible(playerPed, true)
 						else
@@ -317,9 +297,7 @@ function OpenResellerMenu()
 			{label = _U('create_bill'),                    value = 'create_bill'},
 			{label = _U('get_rented_vehicles'),            value = 'get_rented_vehicles'},
 			{label = _U('set_vehicle_owner_sell'),         value = 'set_vehicle_owner_sell'},
-			{label = _U('set_vehicle_owner_rent'),         value = 'set_vehicle_owner_rent'},
-			{label = _U('deposit_stock'),                  value = 'put_stock'},
-			{label = _U('take_stock'),                     value = 'get_stock'}
+			{label = _U('set_vehicle_owner_rent'),         value = 'set_vehicle_owner_rent'}
 	}}, function(data, menu)
 		local action = data.current.value
 
@@ -327,10 +305,6 @@ function OpenResellerMenu()
 			exports.ox_inventory:openInventory('stash', 'society_cardealer')
 		elseif action == 'buy_vehicle' then
 			OpenShopMenu()
-		elseif action == 'put_stock' then
-			OpenPutStocksMenu()
-		elseif action == 'get_stock' then
-			OpenGetStocksMenu()
 		elseif action == 'pop_vehicle' then
 			OpenPopVehicleMenu()
 		elseif action == 'depop_vehicle' then
@@ -440,7 +414,7 @@ function OpenPopVehicleMenu()
 			local vehicleLabel = getVehicleFromModel(v.vehicle).label
 
 			table.insert(elements, {
-				label = ('%s [MSRP <span style="color:green;">%s</span>]'):format(vehicleLabel, _U('generic_shopitem', ESX.Math.GroupDigits(v.price))),
+				label = ('%s [<span style="color:green;">%s</span>]'):format(vehicleLabel, _U('generic_shopitem', ESX.Math.GroupDigits(v.price))),
 				value = v.vehicle
 			})
 		end
@@ -544,108 +518,18 @@ function OpenBossActionsMenu()
 	end)
 end
 
-function OpenGetStocksMenu()
-	ESX.TriggerServerCallback('esx_vehicleshop:getStockItems', function(items)
-		local elements = {}
-
-		for i=1, #items, 1 do
-			if items[i].count > 0 then
-				table.insert(elements, {
-					label = 'x' .. items[i].count .. ' ' .. items[i].label,
-					value = items[i].name
-				})
-			end
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
-			title    = _U('dealership_stock'),
-			align    = 'top-left',
-			elements = elements
-		}, function(data, menu)
-			local itemName = data.current.value
-
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count', {
-				title = _U('amount')
-			}, function(data2, menu2)
-				local count = tonumber(data2.value)
-
-				if count == nil then
-					ESX.ShowNotification(_U('quantity_invalid'))
-				else
-					TriggerServerEvent('esx_vehicleshop:getStockItem', itemName, count)
-					menu2.close()
-					menu.close()
-					OpenGetStocksMenu()
-				end
-			end, function(data2, menu2)
-				menu2.close()
-			end)
-		end, function(data, menu)
-			menu.close()
-		end)
-	end)
-end
-
-function OpenPutStocksMenu()
-	ESX.TriggerServerCallback('esx_vehicleshop:getPlayerInventory', function(inventory)
-		local elements = {}
-
-		for i=1, #inventory.items, 1 do
-			local item = inventory.items[i]
-
-			if item.count > 0 then
-				table.insert(elements, {
-					label = item.label .. ' x' .. item.count,
-					type = 'item_standard',
-					value = item.name
-				})
-			end
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
-			title    = _U('inventory'),
-			align    = 'top-left',
-			elements = elements
-		}, function(data, menu)
-			local itemName = data.current.value
-
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count', {
-				title = _U('amount')
-			}, function(data2, menu2)
-				local count = tonumber(data2.value)
-
-				if count == nil then
-					ESX.ShowNotification(_U('quantity_invalid'))
-				else
-					TriggerServerEvent('esx_vehicleshop:putStockItems', itemName, count)
-					menu2.close()
-					menu.close()
-					OpenPutStocksMenu()
-				end
-			end, function(data2, menu2)
-				menu2.close()
-			end)
-		end, function(data, menu)
-			menu.close()
-		end)
-	end)
-end
-
-AddEventHandler('esx_vehicleshop:hasEnteredMarker', function(zone)
+function hasEnteredMarker(zone)
 	if zone == 'ShopEntering' then
-
-		if Config.EnablePlayerManagement then
-			if ESX.PlayerData.job ~= nil and ESX.PlayerData.job.name == 'cardealer' then
-				CurrentAction     = 'reseller_menu'
-				CurrentActionMsg  = _U('shop_menu')
-				CurrentActionData = {}
-			end
-		else
+		if not Config.EnablePlayerManagement then
 			CurrentAction     = 'shop_menu'
 			CurrentActionMsg  = _U('shop_menu')
 			CurrentActionData = {}
 		end
-
+		if ESX.PlayerData.job ~= nil and ESX.PlayerData.job.name == 'cardealer' then
+			CurrentAction     = 'reseller_menu'
+			CurrentActionMsg  = _U('shop_menu')
+			CurrentActionData = {}
+		end
 	elseif zone == 'GiveBackVehicle' and Config.EnablePlayerManagement then
 		local playerPed = PlayerPedId()
 
@@ -697,15 +581,15 @@ AddEventHandler('esx_vehicleshop:hasEnteredMarker', function(zone)
 		CurrentActionMsg  = _U('shop_menu')
 		CurrentActionData = {}
 	end
-end)
+end
 
-AddEventHandler('esx_vehicleshop:hasExitedMarker', function(zone)
+function hasExitedMarker(zone)
 	if not IsInShopMenu then
 		ESX.UI.Menu.CloseAll()
 	end
 	ESX.HideUI()
 	CurrentAction = nil
-end)
+end
 
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
@@ -724,8 +608,8 @@ AddEventHandler('onResourceStop', function(resource)
 end)
 
 -- Create Blips
-CreateThread(function()
-	if Config.Blip.show then
+if Config.Blip.show then
+	CreateThread(function()
 		local blip = AddBlipForCoord(Config.Zones.ShopEntering.Pos)
 
 		SetBlipSprite (blip, Config.Blip.Sprite)
@@ -736,8 +620,8 @@ CreateThread(function()
 		BeginTextCommandSetBlipName('STRING')
 		AddTextComponentSubstringPlayerName(_U('car_dealer'))
 		EndTextCommandSetBlipName(blip)
-	end
-end)
+	end)
+end
 
 -- Enter / Exit marker events & Draw Markers
 CreateThread(function()
@@ -765,12 +649,12 @@ CreateThread(function()
 		if (isInMarker and not HasAlreadyEnteredMarker) or (isInMarker and LastZone ~= currentZone) then
 			HasAlreadyEnteredMarker, LastZone = true, currentZone
 			LastZone = currentZone
-			TriggerEvent('esx_vehicleshop:hasEnteredMarker', currentZone)
+			hasEnteredMarker(currentZone)
 		end
 
 		if not isInMarker and HasAlreadyEnteredMarker then
 			HasAlreadyEnteredMarker = false
-			TriggerEvent('esx_vehicleshop:hasExitedMarker', LastZone)
+			hasExitedMarker(LastZone)
 		end
 
 		if letSleep then

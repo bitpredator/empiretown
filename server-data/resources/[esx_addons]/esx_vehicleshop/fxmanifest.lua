@@ -1,12 +1,9 @@
 fx_version 'adamant'
-
 game 'gta5'
-
 lua54 'yes'
-
 description 'ESX Vehicle Shop'
 
-version '0.0.3'
+version '0.0.4'
 
 shared_script '@es_extended/imports.lua'
 

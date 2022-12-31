@@ -44,8 +44,6 @@ Locales['hu'] = {
   ['vehicle_set_rented']      = 'jármü %s kibérelve ennyiért: %s',
   ['vehicle_sold_for']        = 'A %s jármü eladva ennyiért %s NP',
   ['vehicle_sold_to']         = 'a jármü rendszámmal %s eladva neki: %s',
-  ['deposit_stock']           = 'beteszek a készletbe',
-  ['take_stock']              = 'kiveszek a készletböl',
   ['dealership_stock']        = 'kereskedés készlet',
   ['amount']                  = 'összeg',
   ['quantity_invalid']        = 'ez érvénytelen mennyiség',
@@ -54,7 +52,6 @@ Locales['hu'] = {
   ['have_withdrawn']          = 'kivettél x%s %s',
   ['have_deposited']          = 'betettél x%s %s',
   ['boss_actions']            = 'fönök müveletek',
-
   -- sold vehicles
   ['boss_sold']               = 'Az eladott járművek listája',
   ['customer_client']         = 'Ügyfél neve',

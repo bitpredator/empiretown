@@ -42,8 +42,6 @@ Locales['cs'] = {
   ['vehicle_set_rented']      = 'vozidlo %s bylo pujceno za %s',
   ['vehicle_sold_for']        = '%s bylo prodano za $%s',
   ['vehicle_sold_to']         = 'vozidlo se znackou %s bylo prodano za %s',
-  ['deposit_stock']           = 'vlozit do skladu',
-  ['take_stock']              = 'vybraz ze skladu',
   ['dealership_stock']        = 'sklad Autosalonu',
   ['amount']                  = 'castka',
   ['quantity_invalid']        = 'to je neplatne mnozstvi',
@@ -53,7 +51,6 @@ Locales['cs'] = {
   ['have_deposited']          = 'vlozil jsi x%s %s',
   ['boss_actions']            = 'akce šéfa',
   ['invalid_vehicle']         = 'neplatné vozidlo',
-
   -- sold vehicles
   ['boss_sold']               = 'seznam prodaných  vozidel',
   ['customer_client']         = 'jméno zákazníka',
