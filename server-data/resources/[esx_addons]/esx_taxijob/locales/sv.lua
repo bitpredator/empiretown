@@ -36,14 +36,6 @@ Locales['sv'] = {
   ['comp_earned'] = '- ditt företag har tjärnat %s SEK\n- du har tjärnat %s SEK',
   ['boss_actions'] = 'chefmeny',
   ['mission_complete'] = 'uppdraget har slutförts!',
-  ['quantity'] = 'mängd',
-  ['quantity_invalid'] = 'det är en ogiltig mängd',
-  ['inventory'] = 'inventory',
-  ['have_withdrawn'] = 'du har tagit ut x%s %s',
-  ['have_deposited'] = 'du har lagrat x%s %s',
-  ['player_cannot_hold'] = 'du har ~r~inte tillräckligt med utrymme för att hålla det!',
   ['blip_taxi'] = 'taxifirman',
-  ['phone_taxi'] = 'taxi',
-  ['taxi'] = 'taxi',
-  ['taxi_stock'] = 'taxi Stock'
+  ['taxi'] = 'taxi'
 }

@@ -241,10 +241,6 @@ function OpenTaxiActionsMenu()
         if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
             exports.ox_inventory:openInventory('stash', 'society_taxi')
             return ESX.CloseContext()
-        elseif element.value == 'put_stock' then
-            OpenPutStocksMenu()
-        elseif element.value == 'get_stock' then
-            OpenGetStocksMenu()
         elseif element.value == 'boss_actions' then
             TriggerEvent('esx_society:openBossMenu', 'taxi', function(data, menu)
                 menu.close()
@@ -332,122 +328,6 @@ function IsInAuthorizedVehicle()
     end
 
     return false
-end
-
-function OpenGetStocksMenu()
-    ESX.TriggerServerCallback('esx_taxijob:getStockItems', function(items)
-        local elements = {
-            {unselectable = true, icon = "fas fa-box", title = _U('taxi_stock')}
-        }
-
-		if #items == 0 then
-			ESX.ShowNotification(_U('empty_stock'))
-			return
-		end
-
-        for i = 1, #items, 1 do
-            elements[#elements+1] = {
-                icon = "fas fa-box",
-                title = 'x' .. items[i].count .. ' ' .. items[i].label,
-                value = items[i].name
-            }
-        end
-
-		elements[#elements+1] = {icon = "fas fa-arrow-left", title = _U('menu_return'), value = "return"}
-
-        ESX.OpenContext("right", elements, function(menu,element)
-
-			if element.value == "return" then
-				OpenTaxiActionsMenu()
-				return
-			end
-
-            local itemName = element.value
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count', {
-                title = _U('quantity')
-            }, function(data2, menu2)
-                local count = tonumber(data2.value)
-
-                if count == nil then
-                    ESX.ShowNotification(_U('quantity_invalid'))
-                else
-                    menu2.close()
-                    ESX.CloseContext()
-
-                    -- todo: refresh on callback
-                    TriggerServerEvent('esx_taxijob:getStockItem', itemName, count)
-                    Wait(1000)
-                    OpenGetStocksMenu()
-                end
-            end, function(data2, menu2)
-                menu2.close()
-            end)
-        end)
-    end, function(menu)
-        CurrentAction = 'taxi_actions_menu'
-        CurrentActionMsg = _U('press_to_open')
-        CurrentActionData = {}
-    end)
-end
-
-function OpenPutStocksMenu()
-    ESX.TriggerServerCallback('esx_taxijob:getPlayerInventory', function(inventory)
-        local elements = {
-            {unselectable = true, icon = "fas fa-box", title = _U('inventory')}
-        }
-
-		if not inventory then
-			ESX.ShowNotification(_U('empty_your_inventory'))
-			return
-		end
-
-        for i = 1, #inventory, 1 do
-            local item = inventory[i]
-            if item.count > 0 then
-                elements[#elements+1] = {
-                    icon = "fas fa-box",
-                    title = item.label .. ' x' .. item.count,
-                    type = 'item_standard',
-                    value = item.name
-                }
-            end
-        end
-
-		elements[#elements+1] = {icon = "fas fa-arrow-left", title = _U('menu_return'), value = "return"}
-
-        ESX.OpenContext("right", elements, function(menu,element)
-
-			if element.value == "return" then
-				OpenTaxiActionsMenu()
-				return
-			end
-
-            local itemName = element.value
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count', {
-                title = _U('quantity')
-            }, function(data2, menu2)
-                local count = tonumber(data2.value)
-
-                if count == nil then
-                    ESX.ShowNotification(_U('quantity_invalid'))
-                else
-                    menu2.close()
-                    ESX.CloseContext()
-
-                    -- todo: refresh on callback
-                    TriggerServerEvent('esx_taxijob:putStockItems', itemName, count)
-                    Wait(1000)
-                    OpenPutStocksMenu()
-                end
-            end, function(data2, menu2)
-                menu2.close()
-            end)
-        end)
-    end, function(menu)
-        CurrentAction = 'taxi_actions_menu'
-        CurrentActionMsg = _U('press_to_open')
-        CurrentActionData = {}
-    end)
 end
 
 AddEventHandler('esx_taxijob:hasEnteredMarker', function(zone)

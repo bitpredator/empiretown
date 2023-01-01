@@ -35,14 +35,6 @@ Locales['hu'] = {
   ['comp_earned'] = '- a vállalkozása keresett: $%s\n- te kerestél: $%s',
   ['boss_actions'] = 'főnök müveletek',
   ['mission_complete'] = 'sikeres küldetés!',
-  ['quantity'] = 'Mennyiség',
-  ['quantity_invalid'] = 'érvénytelen összeg!',
-  ['inventory'] = 'leltár',
-  ['have_withdrawn'] = 'kivettél x%s %s',
-  ['have_deposited'] = 'betettél x%s %s',
-  ['player_cannot_hold'] = '~r~nincs elég üres helyed a leltárban!',
   ['blip_taxi'] = 'Taxitársaság',
-  ['phone_taxi'] = 'Taxi Hívás.',
-  ['taxi'] = 'taxi',
-  ['taxi_stock'] = 'taxi készlet'
+  ['taxi'] = 'taxi'
 }

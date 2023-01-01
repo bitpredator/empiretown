@@ -4,7 +4,6 @@ Locales['it'] = {
     ['cloakroom_prompt'] = 'premi [E] per accedere al guardaroba.',
     ['wear_citizen'] = 'abbigliamento cittadino',
     ['wear_work'] = 'abiti da lavoro',
-  
     -- garage
     ['spawner_prompt'] = 'premi [E] per accedere al garage.',
     ["vehicle_spawned"] = "generato con successo un ~b~Taxi!",
@@ -13,7 +12,6 @@ Locales['it'] = {
     ['spawnpoint_blocked'] = 'un veicolo blocca lo spawnpoint!',
     ['only_taxi'] = 'puoi depositare solo taxi.',
     ['empty_garage'] = 'nessun veicolo nel garage!',
-  
     ['taking_service'] = 'prendi servizio: Taxi/Uber',
     ['full_service'] = 'servizio completo: ',
     ['amount_invalid'] = 'importo non valido',
@@ -36,19 +34,9 @@ Locales['it'] = {
     ['not_in_taxi'] =  'Hai lasciato il taxi mentre eri in missione!',
     ['have_earned'] =  'hai guadagnato $%s',
     ['comp_earned'] =  '- la tua azienda ha guadagnato $%s \n - hai guadagnato $%s',
-    ['empty_stock'] =  'deposito vuoto!',
-    ['empty_your_inventory'] =  'Svuota il tuo inventario!' ,
     ['boss_actions'] =  'Azioni del capo',
     ['mission_complete'] =  'missione completata',
-    ['quantity' ] =  'quantità',
-    ['quantity_invalid'] =  'questa quantità non è valida!',
-    ['inventory'] =  'inventario',
-    ['have_withdrawn'] =  'hai prelevato x%s %s',
-    ['have_deposited'] =  'hai depositato x%s %s',
-    ['player_cannot_hold'] =  '~r~non hai abbastanza spazio libero nel tuo inventario!',
     ['blip_taxi'] =  'Downtown Cab Co.',
-    ['phone_taxi' ] =  ' downtown Cab Co.',
     ['taxi' ] =  'taxi',
-    ['taxi_stock'] =  'deposito dei taxi',
     ['menu_return'] =  'Ritorno'
 }

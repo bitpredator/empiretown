@@ -36,14 +36,6 @@ Locales['fr'] = {
   ['comp_earned'] = '- Votre société a gagné $%s\n- Vous avez gagné $%s',
   ['boss_actions'] = 'action Patron',
   ['mission_complete'] = 'Mission terminée',
-  ['quantity'] = 'Quantité',
-  ['quantity_invalid'] = 'Quantité invalide',
-  ['inventory'] = 'Inventaire',
-  ['have_withdrawn'] = 'vous avez pris x%s %s',
-  ['have_deposited'] = 'vous avez déposé x%s %s',
-  ['player_cannot_hold'] = 'vous n\'avez pas assez de place dans votre inventaire!',
   ['blip_taxi'] = 'taxi',
-  ['phone_taxi'] = 'taxi',
-  ['taxi'] = 'taxi',
-  ['taxi_stock'] = 'taxi Stock'
+  ['taxi'] = 'taxi'
 }
