@@ -38,14 +38,6 @@ Locales['es'] = {
   ['comp_earned'] = '- Tu empresa se ha ganado $%s\n- usted ha ganado $%s',
   ['boss_actions'] = 'Acciones del jefe',
   ['mission_complete'] = 'Misión completada',
-  ['quantity'] = 'Cantidad',
-  ['quantity_invalid'] = '¡Esa es una cantidad inválida!',
-  ['inventory'] = 'Inventario',
-  ['have_withdrawn'] = 'Has retirado x%s %s',
-  ['have_deposited'] = 'Has depositado x%s %s',
-  ['player_cannot_hold'] = '!Tu ~r~no tienes suficiente espacio libre en tu inventario!',
   ['blip_taxi'] = 'Downtown Cab Co.',
-  ['phone_taxi'] = 'Downtown Cab Co.',
-  ['taxi'] = 'Taxi',
-  ['taxi_stock'] = 'Taxi Stock'
+  ['taxi'] = 'Taxi'
 }

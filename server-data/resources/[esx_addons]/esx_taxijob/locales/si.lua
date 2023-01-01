@@ -35,14 +35,6 @@ Locales['si'] = {
   ['comp_earned'] = '- vaše podjetje je zaslužilo $%s\n- zaslužili ste $%s',
   ['boss_actions'] = 'dejanja šefa',
   ['mission_complete'] = 'misija končana',
-  ['quantity'] = 'količina',
-  ['quantity_invalid'] = 'to je neveljavna količina!',
-  ['inventory'] = 'inventar',
-  ['have_withdrawn'] = 'umaknili ste x%s %s',
-  ['have_deposited'] = 'ste deponirali x%s %s',
-  ['player_cannot_hold'] = 'v svojem inventarju nimaš dovolj prostora!',
   ['blip_taxi'] = 'podjetje downtown Cab Co.',
-  ['phone_taxi'] = 'downtown Cab Co.',
-  ['taxi'] = 'taxi',
-  ['taxi_stock'] = 'taxi Stock'
+  ['taxi'] = 'taxi'
 }

@@ -36,14 +36,6 @@ Locales['fi'] = {
   ['comp_earned'] = '- Yrityksesi tienasi €%s\n- Sinä tienasit €%s',
   ['boss_actions'] = 'pomon toiminnot',
   ['mission_complete'] = 'tehtävä suoritettu',
-  ['quantity'] = 'määrä',
-  ['quantity_invalid'] = 'virheellinen Määrä',
-  ['inventory'] = 'reppu',
-  ['have_withdrawn'] = 'sinä nostit x%s %s',
-  ['have_deposited'] = 'sinä talletit x%s %s',
-  ['player_cannot_hold'] = 'sinulla ~r~ei ole enempää vapaata tilaa repussasi!',
   ['blip_taxi'] = 'taxi',
-  ['phone_taxi'] = 'taxi',
-  ['taxi'] = 'taxi',
-  ['taxi_stock'] = 'taxi Stock'
+  ['taxi'] = 'taxi'
 }

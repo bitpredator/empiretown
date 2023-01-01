@@ -36,14 +36,6 @@ Locales['de'] = {
   ['comp_earned'] = '- Die Firma verdient $\n- Verdient $%s',
   ['boss_actions'] = 'boss Actions',
   ['mission_complete'] = 'mission Completed',
-  ['quantity'] = 'quantity',
-  ['quantity_invalid'] = 'that is an invalid quantity!',
-  ['inventory'] = 'inventory',
-  ['have_withdrawn'] = 'you have withdrawn x%s %s',
-  ['have_deposited'] = 'you have deposited x%s %s',
-  ['player_cannot_hold'] = 'you do ~r~not have enough free space in your inventory!',
   ['blip_taxi'] = 'taxi',
-  ['phone_taxi'] = 'taxi',
-  ['taxi'] = 'taxi',
-  ['taxi_stock'] = 'taxi Stock'
+  ['taxi'] = 'taxi'
 }
