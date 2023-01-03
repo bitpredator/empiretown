@@ -1,6 +1,6 @@
-local HasAlreadyEnteredMarker, OnJob, IsNearCustomer, CustomerIsEnteringVehicle, CustomerEnteredVehicle,
+local HasAlreadyEnteredMarker,  
     CurrentActionData = false, false, false, false, false, {}
-local CurrentCustomer, CurrentCustomerBlip, DestinationBlip, targetCoords, LastZone, CurrentAction, CurrentActionMsg
+local LastZone, CurrentAction, CurrentActionMsg
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
@@ -40,8 +40,7 @@ function ShowLoadingPromt(msg, time, type)
 end
 
 function OpenBallasActionsMenu()
-    local elements = { 
-        {icon = "fas fa-box", title = _U('take_stock'), value = 'get_stock'}
+    local elements = {
     }
 
     if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
@@ -55,14 +54,7 @@ function OpenBallasActionsMenu()
     ESX.UI.Menu.CloseAll()
 
     ESX.OpenContext("right", elements, function(menu,element)
-        if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
-            exports.ox_inventory:openInventory('stash', 'society_ballas')
-            return ESX.CloseContext()
-        elseif element.value == 'put_stock' then
-            OpenPutStocksMenu()
-        elseif element.value == 'get_stock' then
-            OpenGetStocksMenu()
-        elseif element.value == 'boss_actions' then
+        if element.value == 'boss_actions' then
             TriggerEvent('esx_society:openBossMenu', 'ballas', function(data, menu)
                 menu.close()
             end)
@@ -78,13 +70,12 @@ end
 
 function OpenMobileBallasActionsMenu()
     local elements = {
-        {unselectable = true, icon = "fas fa-taxi", title = _U('taxi')},
-        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"},
+        {unselectable = true, icon = "fas fa-ballas", title = _U('ballas')},
+        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"}
     }
-    
+
     ESX.OpenContext("right", elements, function(menu,element)
         if element.value == "billing" then
-
             ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
                 title = _U('invoice_amount')
             }, function(data, menu)
@@ -99,109 +90,14 @@ function OpenMobileBallasActionsMenu()
                         ESX.ShowNotification(_U('no_players_near'))
                     else
                         TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_ballas',
-                            'ballas', amount)
+                            'Ballas', amount)
                         ESX.ShowNotification(_U('billing_sent'))
                     end
-
                 end
-
             end, function(data, menu)
                 menu.close()
             end)
         end
-    end, function(data, menu)
-        menu.close()
-    end)
-end
-
-function OpenGetStocksMenu()
-    ESX.TriggerServerCallback('bpt_ballasjob:getStockItems', function(items)
-        local elements = {}
-
-        for i = 1, #items, 1 do
-            table.insert(elements, {
-                label = 'x' .. items[i].count .. ' ' .. items[i].label,
-                value = items[i].name
-            })
-        end
-
-        ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
-            title = _U('ballas_stock'),
-            align = 'top-left',
-            elements = elements
-        }, function(data, menu)
-            local itemName = data.current.value
-
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count', {
-                title = _U('quantity')
-            }, function(data2, menu2)
-                local count = tonumber(data2.value)
-
-                if count == nil then
-                    ESX.ShowNotification(_U('quantity_invalid'))
-                else
-                    menu2.close()
-                    menu.close()
-
-                    -- todo: refresh on callback
-                    TriggerServerEvent('bpt_ballasjob:getStockItem', itemName, count)
-                    Wait(1000)
-                    OpenGetStocksMenu()
-                end
-            end, function(data2, menu2)
-                menu2.close()
-            end)
-        end, function(data, menu)
-            menu.close()
-        end)
-    end)
-end
-
-function OpenPutStocksMenu()
-    ESX.TriggerServerCallback('bpt_ballasjob:getPlayerInventory', function(inventory)
-        local elements = {}
-
-        for i = 1, #inventory.items, 1 do
-            local item = inventory.items[i]
-
-            if item.count > 0 then
-                table.insert(elements, {
-                    label = item.label .. ' x' .. item.count,
-                    type = 'item_standard',
-                    value = item.name
-                })
-            end
-        end
-
-        ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
-            title = _U('inventory'),
-            align = 'top-left',
-            elements = elements
-        }, function(data, menu)
-            local itemName = data.current.value
-
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count', {
-                title = _U('quantity')
-            }, function(data2, menu2)
-                local count = tonumber(data2.value)
-
-                if count == nil then
-                    ESX.ShowNotification(_U('quantity_invalid'))
-                else
-                    menu2.close()
-                    menu.close()
-
-                    -- todo: refresh on callback
-                    TriggerServerEvent('bpt_ballasjob:putStockItems', itemName, count)
-                    Wait(1000)
-                    OpenPutStocksMenu()
-                end
-            end, function(data2, menu2)
-                menu2.close()
-            end)
-        end, function(data, menu)
-            menu.close()
-        end)
     end)
 end
 
