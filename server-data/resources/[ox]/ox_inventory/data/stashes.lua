@@ -207,4 +207,23 @@ return {
 		weight = 70000,
 		groups = {['cardealer'] = 0}
 	},
+
+	{
+		coords = vec3(2347.964844, 3139.292236, 48.202148),
+		target = {
+			loc = vec3(2347.964844, 3139.292236, 48.202148),
+			length = 0.6,
+			width = 1.8,
+			heading = 340,
+			minZ = 43.34,
+			maxZ = 44.74,
+			label = 'Storage'
+		},
+		name = 'bakerlocker',
+		label = 'Baker',
+		owner = false,
+		slots = 70,
+		weight = 70000,
+		groups = {['baker'] = 0}
+	},
 }
