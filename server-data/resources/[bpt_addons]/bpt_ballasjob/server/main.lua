@@ -1,5 +1,3 @@
-local lastPlayerSuccess = {}
-
 TriggerEvent('esx_society:registerSociety', 'ballas', 'ballas', 'society_ballas', 'society_ballas', 'society_ballas', {
     type = 'public'
 })
