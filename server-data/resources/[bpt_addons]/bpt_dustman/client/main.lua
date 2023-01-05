@@ -179,14 +179,7 @@ function OpenDustmanActionsMenu()
     end
 
     ESX.OpenContext("right", elements, function(menu,element)
-        if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
-            exports.ox_inventory:openInventory('stash', 'society_dustman')
-            return ESX.CloseContext()
-        elseif element.value == 'put_stock' then
-            OpenPutStocksMenu()
-        elseif element.value == 'get_stock' then
-            OpenGetStocksMenu()
-        elseif element.value == 'boss_actions' then
+        if element.value == 'boss_actions' then
             TriggerEvent('esx_society:openBossMenu', 'dustman', function(data, menu)
                 menu.close()
             end)
@@ -243,119 +236,6 @@ function IsInAuthorizedVehicle()
     end
 
     return false
-end
-
-function OpenGetStocksMenu()
-    ESX.TriggerServerCallback('bpt_dustmanjob:getStockItems', function(items)
-        local elements = {
-            {unselectable = true, icon = "fas fa-box", title = _U('dustman_stock')}
-        }
-
-        if #items == 0 then
-			ESX.ShowNotification(_U('empty_stock'))
-			return
-		end
-
-        for i = 1, #items, 1 do
-            elements[#elements+1] = {
-                icon = "fas fa-box",
-                title = 'x' .. items[i].count .. ' ' .. items[i].label,
-                value = items[i].name
-            }
-        end
-        elements[#elements+1] = {icon = "fas fa-arrow-left", title = _U('menu_return'), value = "return"}
-
-        ESX.OpenContext("right", elements, function(menu,element)
-            if element.value == "return" then
-				OpenDustmanActionsMenu()
-				return
-			end
-            local itemName = element.value
-            local elements2 = {
-                {unselectable = true, icon = "fas fa-box", title = element.title},
-                {title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = "Amount to withdraw.."},
-                {icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
-            }
-
-            ESX.OpenContext("right", elements2, function(menu2,element2)
-                local count = tonumber(menu2.eles[2].inputValue)
-
-                if count == nil then
-                    ESX.ShowNotification(_U('quantity_invalid'))
-                else
-                    ESX.CloseContext()
-                    TriggerServerEvent('bpt_dustmanjob:getStockItem', itemName, count)
-
-                    Wait(1000)
-                    OpenGetStocksMenu()
-                end
-            end)
-        end)
-    end, function(menu)
-        CurrentAction = 'dustman_actions_menu'
-        CurrentActionMsg = _U('press_to_open')
-        CurrentActionData = {}
-    end)    
-end
-
-function OpenPutStocksMenu()
-    ESX.TriggerServerCallback('bpt_dustmanjob:getPlayerInventory', function(inventory)
-        local elements = {
-            {unselectable = true, icon = "fas fa-box", title = _U('inventory')}
-        }
-
-        if not inventory then
-			ESX.ShowNotification(_U('empty_your_inventory'))
-			return
-		end
-
-        for i = 1, #inventory, 1 do
-            local item = inventory[i]
-            if item.count >= count then
-                elements[#elements+1] = {
-                    icon = "fas fa-box",
-                    title = item.label .. ' x' .. item.count,
-                    type = 'item_standard',
-                    value = item.name
-                }
-            end
-        end
-
-        elements[#elements+1] = {icon = "fas fa-arrow-left", title = _U('menu_return'), value = "return"}
-        ESX.OpenContext("right", elements, function(menu,element)
-
-            if element.value == "return" then
-				OpenDustmanActionsMenu()
-				return
-			end
-
-            local itemName = element.value
-
-            local elements2 = {
-                {unselectable = true, icon = "fas fa-box", title = element.title},
-                {title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = "Amount to deposit.."},
-                {icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
-            }
-
-            ESX.OpenContext("right", elements2, function(menu2,element2)
-                local count = tonumber(menu2.eles[2].inputValue)
-
-                if count == nil then
-                    ESX.ShowNotification(_U('quantity_invalid'))
-                else                    
-                    ESX.CloseContext()
-                    -- todo: refresh on callback
-                    TriggerServerEvent('bpt_dustmanjob:putStockItems', itemName, count)
-                    Wait(1000)
-                    OpenPutStocksMenu()
-                end
-            end)
-        end)
-    end, function(menu)
-        CurrentAction = 'dustman_actions_menu'
-        CurrentActionMsg = _U('press_to_open')
-        CurrentActionData = {}
-    end)  
 end
 
 AddEventHandler('bpt_dustmanjob:hasEnteredMarker', function(zone)
