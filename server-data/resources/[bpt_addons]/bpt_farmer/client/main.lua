@@ -14,10 +14,6 @@ ESX                             = nil
 local PlayerData                = {}
 local GUI                       = {}
 GUI.Time                        = 0
-local LastZone                  = nil
-local CurrentAction             = nil
-local CurrentActionMsg          = ''
-local CurrentActionData         = {}
 local incollect                 = false
 
 RegisterNetEvent('esx:playerLoaded')
@@ -56,8 +52,6 @@ Citizen.CreateThread(function()
         if (GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 10.0) then
             DrawText3D(2233.21, 5081.3, 48.08, 'Premi ~b~[E] per raccogliere delle patate', 0.4)
 			local coords      = GetEntityCoords(PlayerPedId())
-			local isInMarker  = false
-            local currentZone = nil
             local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 5.0) then
@@ -81,8 +75,6 @@ Citizen.CreateThread(function()
         if (GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 10.0) then
             DrawText3D(1582.035156, 2167.279053, 79.307007, 'Premi ~b~[E] per raccogliere del cotone', 0.4)
 			local coords      = GetEntityCoords(PlayerPedId())
-			local isInMarker  = false
-            local currentZone = nil
             local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 5.0) then
@@ -106,8 +98,6 @@ Citizen.CreateThread(function()
         if (GetDistanceBetweenCoords(coords, 2343.850586, 4756.087891, 34.806641, true) < 10.0) then
             DrawText3D(2343.850586, 4756.087891, 34.806641, 'Premi ~b~[E] per raccogliere delle mele', 0.4)
 			local coords      = GetEntityCoords(PlayerPedId())
-			local isInMarker  = false
-            local currentZone = nil
             local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2343.850586, 4756.087891, 34.806641, true) < 5.0) then
@@ -131,8 +121,6 @@ Citizen.CreateThread(function()
         if (GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 10.0) then
             DrawText3D(2607.942871, 4399.490234, 40.973633, 'Premi ~b~[E] per raccogliere il grano', 0.4)
 			local coords      = GetEntityCoords(PlayerPedId())
-			local isInMarker  = false
-            local currentZone = nil
             local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 5.0) then
@@ -153,7 +141,7 @@ local blips = {
     {title="Raccolta patate", colour=0, id=398, x = 2233.21, y = 5081.3, z = 48.08},
     {title="Raccolta cotone", colour=0, id=398, x = 1582.035156, y = 2167.279053, z = 79.307007},
     {title="Raccolta mele", colour=0, id=398, x = 2343.850586, y = 4756.087891, z = 34.806641},
-    {titlr="Raccolta grano", colour=0, id=398, x = 2607.942871, y = 4399.490234, z = 40.973633}
+    {title="Raccolta grano", colour=0, id=398, x = 2607.942871, y = 4399.490234, z = 40.973633}
 }
 
 Citizen.CreateThread(function()
@@ -184,7 +172,7 @@ end
 -- cotton
 function raccoltacotton()
     TriggerServerEvent('farmer:raccoltacotton')
-    exports["esx_notify"]:Notify("info", 3000, "Raccolta patate in corso")
+    exports["esx_notify"]:Notify("info", 3000, "Raccolta cotone in corso")
     incollect = true
     Citizen.Wait(6000)
     incollect = false
