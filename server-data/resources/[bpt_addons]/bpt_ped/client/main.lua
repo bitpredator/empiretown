@@ -1,5 +1,6 @@
 Citizen.CreateThread(function() -- Example
-    
+
+  local ped_info  
   local ped_hash = 0x5B3BD90D -- Ped Hash
   local ped_coords = { x = 383.762634, y = -826.681335, z = 28.300000, h = 260.0 } -- Ped Coords
  
