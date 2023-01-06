@@ -59,7 +59,7 @@ Citizen.CreateThread(function()
 	RMenu.Add('personal', 'accessories', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('accessories_title')))
 	RMenu.Add('personal', 'animation', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('animation_title')))
 	RMenu.Add('personal', 'admin', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('admin_title')), function()
-		if Player.group ~= nil and (Player.group == 'mod' or Player.group == 'admin' or Player.group == '_dev') then
+		if Player.group ~= nil and (Player.group == 'mod' or Player.group == 'admin') then
 			return true
 		end
 
@@ -527,13 +527,6 @@ Citizen.CreateThread(function()
 				RageUI.GoBack()
 			end
 			RenderVehicleMenu()
-		end
-
-		if RageUI.Visible(RMenu.Get('personal', 'boss')) then
-			if not RMenu.Settings('personal', 'boss', 'Restriction')() then
-				RageUI.GoBack()
-			end
-			RenderBossMenu()
 		end
 
 		if RageUI.Visible(RMenu.Get('personal', 'admin')) then

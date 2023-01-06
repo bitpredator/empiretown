@@ -56,18 +56,6 @@ do
 	end
 end
 
-function getMaximumGrade(jobName)
-	local p = promise.new()
-
-	MySQL.Async.fetchScalar('SELECT grade FROM job_grades WHERE job_name = @job_name ORDER BY `grade` DESC', { ['@job_name'] = jobName }, function(result)
-		p:resolve(result)
-	end)
-
-	local queryResult = Citizen.Await(p)
-
-	return tonumber(queryResult)
-end
-
 function getAdminCommand(name)
 	for i = 1, #Config.Admin do
 		if Config.Admin[i].name == name then
