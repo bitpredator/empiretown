@@ -1,14 +1,3 @@
-------------------------------------------
---	iEnsomatic RealisticVehicleFailure  --
-------------------------------------------
---
---	Created by Jens Sandalgaard
---
---	This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
---
---	https://github.com/iEns/RealisticVehicleFailure
---
-
 local pedInSameVehicleLast=false
 local vehicle
 local lastVehicle
@@ -19,19 +8,16 @@ local fEngineDamageMult = 0.0
 local fBrakeForce = 1.0
 local isBrakingForward = false
 local isBrakingReverse = false
-
 local healthEngineLast = 1000.0
 local healthEngineCurrent = 1000.0
 local healthEngineNew = 1000.0
 local healthEngineDelta = 0.0
 local healthEngineDeltaScaled = 0.0
-
 local healthBodyLast = 1000.0
 local healthBodyCurrent = 1000.0
 local healthBodyNew = 1000.0
 local healthBodyDelta = 0.0
 local healthBodyDeltaScaled = 0.0
-
 local healthPetrolTankLast = 1000.0
 local healthPetrolTankCurrent = 1000.0
 local healthPetrolTankNew = 1000.0
@@ -41,14 +27,8 @@ local tireBurstLuckyNumber
 
 math.randomseed(GetGameTimer());
 
-local tireBurstMaxNumber = Config.randomTireBurstInterval * 1200; 										-- the tire burst lottery runs roughly 1200 times per minute
+local tireBurstMaxNumber = Config.randomTireBurstInterval * 1200; -- the tire burst lottery runs roughly 1200 times per minute
 if Config.randomTireBurstInterval ~= 0 then tireBurstLuckyNumber = math.random(tireBurstMaxNumber) end	-- If we hit this number again randomly, a tire will burst.
-
-local function notification(msg)
-	SetNotificationTextEntry("STRING")
-	AddTextComponentString(msg)
-	DrawNotification(false, false)
-end
 
 local function isPedDrivingAVehicle()
 	local ped = PlayerPedId()
@@ -112,8 +92,6 @@ local function fscale(inputValue, originalMin, originalMax, newBegin, newEnd, cu
 
 	return rangedValue
 end
-
-
 
 local function tireBurstLottery()
 	local tireBurstNumber = math.random(tireBurstMaxNumber)
@@ -287,15 +265,7 @@ Citizen.CreateThread(function()
 						healthEngineCombinedDelta = healthEngineCurrent - (Config.cascadingFailureThreshold / 5)
 					end
 
-
-					------- Calculate new value
-
 					healthEngineNew = healthEngineLast - healthEngineCombinedDelta
-
-
-					------- Sanity Check on new values and further manipulations
-
-					-- If somewhat damaged, slowly degrade until slightly before cascading failure sets in, then stop
 
 					if healthEngineNew > (Config.cascadingFailureThreshold + 5) and healthEngineNew < Config.degradingFailureThreshold then
 						healthEngineNew = healthEngineNew-(0.038 * Config.degradingHealthSpeedFactor)
@@ -322,7 +292,6 @@ Citizen.CreateThread(function()
 					end
 				end
 			else
-				-- Just got in the vehicle. Damage can not be multiplied this round
 				-- Set vehicle handling data
 				fDeformationDamageMult = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fDeformationDamageMult')
 				fBrakeForce = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fBrakeForce')
