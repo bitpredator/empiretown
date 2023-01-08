@@ -12,7 +12,6 @@ Keys = {
 
 ESX = nil
 local menuOpen = false
-local wasOpen = false
 
 Citizen.CreateThread(function()
 	ESX = exports["es_extended"]:getSharedObject()
