@@ -4,15 +4,15 @@ game 'gta5'
 
 description 'bpt_streetfight'
 
-version '0.0.3'
+version '0.0.4'
 
 server_script {
-    'server.lua',
+    'server/server.lua',
     'config.lua'
 }
 
 client_script {
-    'client.lua',
+    'client/client.lua',
     'config.lua'
 }
 
