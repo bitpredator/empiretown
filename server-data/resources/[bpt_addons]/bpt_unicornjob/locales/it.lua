@@ -1,42 +1,25 @@
 Locales['it'] = {
-  -- Cloakroom
-  ['cloakroom'] = 'guardaroba',
+  -- cloakroom
+  ['cloakroom_menu'] = 'guardaroba',
+  ['cloakroom_prompt'] = 'premi [E] per accedere al guardaroba.',
   ['wear_citizen'] = 'abiti civili',
-  ['barman_outfit'] = 'completo da barista',
-  ['dancer_outfit_1'] = 'abito da ballo',
-  ['no_outfit'] = 'nessuna uniforme adatta...',
-  ['open_cloackroom'] = 'premi ~INPUT_CONTEXT~ per cambiare',
-  -- Vehicles  
-  ['vehicle_menu'] = 'veicolo',
-  ['vehicle_out'] = 'un veicolo è fuori',
-  ['vehicle_spawner'] = 'premi ~INPUT_CONTEXT~ per prelevare il veicolo',
-  ['store_vehicle'] = 'premi ~INPUT_CONTEXT~ per depositare il veeicolo',
-  ['service_max'] = 'servizio completo: ',
-  ['spawn_point_busy'] = 'un veicolo è vicino al punto di ritiro',
-  -- Boss Menu  
-  ['take_company_money'] = 'rimuovi denaro dalla società',
-  ['deposit_money'] = 'deposita denaro',
-  ['amount_of_withdrawal'] = 'importo da prelevare',
-  ['invalid_amount'] = 'importo non valido',
-  ['amount_of_deposit'] = 'importo da depositare',
-  ['open_bossmenu'] = 'premi ~INPUT_CONTEXT~ per aprire il menu',
-  ['invalid_quantity'] = 'quantità non valida',
-  ['you_removed'] = 'hai rimosso x',
-  ['you_added'] = 'hai aggiunto x',
-  ['quantity'] = 'quantità',
-  ['inventory'] = 'inventario',
-  ['unicorn_stock'] = 'deposito Vanilla',
-  -- Billing Menu  
-  ['billing'] = 'fattura',
-  ['no_players_nearby'] = 'nessun giocatore nelle vicinaze',
-  ['billing_amount'] = 'importo della fattura',
+  ['wear_work'] = 'abiti da lavoro',
+  -- garage
+  ['spawner_prompt'] = 'premi [E] per accedere al Garage.',
+  ["vehicle_spawned"] = "Veicolo ritirato con successo!",
+  ['store_veh'] = 'premi [E] per depositare il veicolo',
+  ['spawn_veh'] = 'spawn veicolo',
+  ['spawnpoint_blocked'] = 'lo spawnpoint è bloccato !',
+  ['only_unicorn'] = 'puoi solo depositare veicoli aziendali.',
+  ['taking_service'] = 'prendi servizio: unicorn',
+  ['full_service'] = 'servizio completo: ',
   ['amount_invalid'] = 'importo non valido',
-  -- Misc  
-  ['map_blip'] = 'vanilla Unicorn',
-  ['unicorn'] = 'vanilla Unicorn',
-  -- Teleporters
-  ['e_to_enter_1'] = 'premi ~INPUT_PICKUP~ per andare dietro al bar',
-  ['e_to_exit_1'] = 'premi ~INPUT_PICKUP~ per andare davanti al bar',
-  ['e_to_enter_2'] = 'premi ~INPUT_PICKUP~ per salire sul tetto.',
-  ['e_to_exit_2'] = 'premi ~INPUT_PICKUP~ per scendere negli uffici.',
+  ['press_to_open'] = 'premi [E] per accedere al menu',
+  ['billing'] = 'fattura',
+  ['billing_sent'] = 'la fattura è stata registrata!',
+  ['invoice_amount'] = 'importo della fattura',
+  ['no_players_near'] = 'nessun giocatore nelle vicinanze',
+  ['boss_actions'] = 'Azioni del boss',
+  ['blip_unicorn'] = 'unicorn',
+  ['unicorn'] = 'unicorn'
 }

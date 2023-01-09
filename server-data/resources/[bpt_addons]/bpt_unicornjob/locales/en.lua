@@ -20,12 +20,6 @@ Locales['en'] = {
   ['invalid_amount'] = 'invalid amount',
   ['amount_of_deposit'] = 'deposit amount',
   ['open_bossmenu'] = 'press ~INPUT_CONTEXT~ to open the menu',
-  ['invalid_quantity'] = 'invalid quantity',
-  ['you_removed'] = 'you have removed x',
-  ['you_added'] = 'you added x',
-  ['quantity'] = 'amount',
-  ['inventory'] = 'inventory',
-  ['unicorn_stock'] = 'stock of Vanilla Unicorn',
   -- Billing Menu  
   ['billing'] = 'bill',
   ['no_players_nearby'] = 'no players nearby',
