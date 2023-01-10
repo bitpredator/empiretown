@@ -187,13 +187,6 @@ setInterval(function(){
     }
 }, 100);
 
-window.addEventListener('message', function(e)
-{
-    (handlers[e.data.eventName] || function() {})(e.data);
-});
-
-
-
 if (!window.invokeNative)
 {
     const newType = name => () => handlers.startInitFunction({type: name});
