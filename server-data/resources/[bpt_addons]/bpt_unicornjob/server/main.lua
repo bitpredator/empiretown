@@ -1,13 +1,6 @@
-local lastPlayerSuccess = {}
-
-if Config.MaxInService ~= -1 then
-    TriggerEvent('esx_service:activateService', 'unicorn', Config.MaxInService)
-end
-
 TriggerEvent('esx_society:registerSociety', 'unicorn', 'Unicorn', 'society_unicorn', 'society_unicorn', 'society_unicorn', {
     type = 'public'
 })
-
 ESX.RegisterServerCallback("bpt_unicornjob:SpawnVehicle", function(source, cb, model , props)
     local xPlayer = ESX.GetPlayerFromId(source)
 
@@ -25,3 +18,6 @@ ESX.RegisterServerCallback("bpt_unicornjob:SpawnVehicle", function(source, cb, m
     end)
     cb()
 end)
+if Config.MaxInService ~= -1 then
+    TriggerEvent('esx_service:activateService', 'unicorn', Config.MaxInService)
+end
