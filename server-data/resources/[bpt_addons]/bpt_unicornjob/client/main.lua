@@ -276,10 +276,10 @@ CreateThread(function()
     local blip = AddBlipForCoord(Config.Zones.UnicornActions.Pos.x, Config.Zones.UnicornActions.Pos.y,
         Config.Zones.UnicornActions.Pos.z)
 
-        SetBlipSprite(blip, 478)
+        SetBlipSprite(blip, 121)
         SetBlipDisplay(blip, 4)
         SetBlipScale(blip, 1.0)
-        SetBlipColour(blip, 21)
+        SetBlipColour(blip, 27)
         SetBlipAsShortRange(blip, true)
 
     BeginTextCommandSetBlipName('STRING')
