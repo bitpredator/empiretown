@@ -1,9 +1,7 @@
 [{
-    "translator": "Feared, Robi321",
     "language": "fr",
     "on": "Activer",
     "off": "Éteins",
-
     "spectatingUser": "Vous regardez ~b~<C>%s</C>.",
     "stoppedSpectating": "Vous avez arrêté de regarder un joueur.",
     "hour": "Heure",
