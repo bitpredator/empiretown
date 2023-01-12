@@ -1,7 +1,5 @@
 Locales['fi'] = {
   -- Inventory
-  ['inventory'] = 'reppu %s / %s',
-  ['use'] = 'käytä',
   ['give'] = 'anna',
   ['remove'] = 'poista',
   ['return'] = 'takaisin',

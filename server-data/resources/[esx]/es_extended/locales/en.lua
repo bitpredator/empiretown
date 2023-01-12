@@ -1,7 +1,5 @@
 Locales['en'] = {
   -- Inventory
-  ['inventory'] = 'Inventory ( Weight %s / %s )',
-  ['use'] = 'Use',
   ['give'] = 'Give',
   ['remove'] = 'Throw',
   ['return'] = 'Return',
@@ -36,10 +34,8 @@ Locales['en'] = {
   ['threw_weapon_already'] = 'You already have this weapon',
   ['threw_cannot_pickup'] = 'Inventory is full, Cannot Pickup!',
   ['threw_pickup_prompt'] = 'Press E to Pickup',
-
   -- Key mapping
   ['keymap_showinventory'] = 'Show Inventory',
-
   -- Salary related
   ['received_salary'] = 'You have been paid: $%s',
   ['received_help'] = 'You have been paid your welfare check: $%s',
@@ -49,10 +45,8 @@ Locales['en'] = {
   ['account_bank'] = 'Bank',
   ['account_black_money'] = 'Dirty Money',
   ['account_money'] = 'Cash',
-
   ['act_imp'] = 'Cannot Perform Action',
   ['in_vehicle'] = 'Cannot Perform Action, Player is in a vehicle',
-
   -- Commands
   ['command_bring'] = 'Bring player to you',
   ['command_car'] = 'Spawn a vehicle',
@@ -105,13 +99,9 @@ Locales['en'] = {
   ['commanderror_invalidcommand'] = 'Invalid Command - /%s',
   ['commanderror_invalidplayerid'] = 'Specified Player is not online',
   ['commandgeneric_playerid'] = 'Player`s Server Id',
-
   -- Locale settings
   ['locale_digit_grouping_symbol'] = ',',
   ['locale_currency'] = '£%s',
-
-  -- Weapons
-
   -- Melee
   ['weapon_dagger'] = 'Dagger',
   ['weapon_bat'] = 'Bat',
@@ -130,7 +120,6 @@ Locales['en'] = {
   ['weapon_poolcue'] = 'Pool Cue',
   ['weapon_stone_hatchet'] = 'Stone Hatchet',
   ['weapon_switchblade'] = 'Switchblade',
-
   -- Handguns
   ['weapon_appistol'] = 'AP Pistol',
   ['weapon_ceramicpistol'] = 'Ceramic Pistol',
@@ -151,7 +140,6 @@ Locales['en'] = {
   ['weapon_stungun'] = 'Taser',
   ['weapon_raypistol'] = 'Up-N-Atomizer',
   ['weapon_vintagepistol'] = 'Vintage Pistol',
-
   -- Shotguns
   ['weapon_assaultshotgun'] = 'Assault Shotgun',
   ['weapon_autoshotgun'] = 'Auto Shotgun',
@@ -163,7 +151,6 @@ Locales['en'] = {
   ['weapon_pumpshotgun'] = 'Pump Shotgun',
   ['weapon_pumpshotgun_mk2'] = 'Pump Shotgun MK2',
   ['weapon_sawnoffshotgun'] = 'Sawed Off Shotgun',
-
   -- SMG & LMG
   ['weapon_assaultsmg'] = 'Assault SMG',
   ['weapon_combatmg'] = 'Combat MG',
@@ -177,7 +164,6 @@ Locales['en'] = {
   ['weapon_smg'] = 'SMG',
   ['weapon_smg_mk2'] = 'SMG MK2',
   ['weapon_raycarbine'] = 'Unholy Hellbringer',
-
   -- Rifles
   ['weapon_advancedrifle'] = 'Advanced Rifle',
   ['weapon_assaultrifle'] = 'Assault Rifle',
@@ -190,14 +176,12 @@ Locales['en'] = {
   ['weapon_militaryrifle'] = 'Military Rifle',
   ['weapon_specialcarbine'] = 'Special Carbine',
   ['weapon_specialcarbine_mk2'] = 'Special Carbine MK2',
-
   -- Sniper
   ['weapon_heavysniper'] = 'Heavy Sniper',
   ['weapon_heavysniper_mk2'] = 'Heavy Sniper MK2',
   ['weapon_marksmanrifle'] = 'Marksman Rifle',
   ['weapon_marksmanrifle_mk2'] = 'Marksman Rifle MK2',
   ['weapon_sniperrifle'] = 'Sniper Rifle',
-
   -- Heavy / Launchers
   ['weapon_compactlauncher'] = 'Compact Launcher',
   ['weapon_firework'] = 'Firework Launcher',
@@ -207,12 +191,10 @@ Locales['en'] = {
   ['weapon_railgun'] = 'Railgun',
   ['weapon_rpg'] = 'Rocket Launcher',
   ['weapon_rayminigun'] = 'Widowmaker',
-
   -- Criminal Enterprises DLC
   ['weapon_metaldetector'] = 'Metal Detector',
   ['weapon_precisionrifle'] = 'Precision Rifle',
   ['weapon_tactilerifle'] = 'Service Carbine',
-
   -- Thrown
   ['weapon_ball'] = 'Baseball',
   ['weapon_bzgas'] = 'BZ Gas',
@@ -226,7 +208,6 @@ Locales['en'] = {
   ['weapon_snowball'] = 'Snowball',
   ['weapon_stickybomb'] = 'Sticky Bomb',
   ['weapon_smokegrenade'] = 'Tear Gas',
-
   -- Special
   ['weapon_fireextinguisher'] = 'Fire Extinguisher',
   ['weapon_digiscanner'] = 'Digital Scanner',
@@ -234,7 +215,6 @@ Locales['en'] = {
   ['weapon_handcuffs'] = 'Handcuffs',
   ['gadget_nightvision'] = 'Night Vision',
   ['gadget_parachute'] = 'parachute',
-
   -- Weapon Components
   ['component_knuckle_base'] = 'base Model',
   ['component_knuckle_pimp'] = 'the Pimp',
@@ -246,16 +226,12 @@ Locales['en'] = {
   ['component_knuckle_player'] = 'the Player',
   ['component_knuckle_king'] = 'the King',
   ['component_knuckle_vagos'] = 'the Vagos',
-
   ['component_luxary_finish'] = 'luxary Weapon Finish',
-
   ['component_handle_default'] = 'default Handle',
   ['component_handle_vip'] = 'vIP Handle',
   ['component_handle_bodyguard'] = 'bodyguard Handle',
-
   ['component_vip_finish'] = 'vIP Finish',
   ['component_bodyguard_finish'] = 'bodyguard Finish',
-
   ['component_camo_finish'] = 'digital Camo',
   ['component_camo_finish2'] = 'brushstroke Camo',
   ['component_camo_finish3'] = 'woodland Camo',
@@ -267,7 +243,6 @@ Locales['en'] = {
   ['component_camo_finish9'] = 'geometric Camo',
   ['component_camo_finish10'] = 'boom Camo',
   ['component_camo_finish11'] = 'patriotic Camo',
-
   ['component_camo_slide_finish'] = 'digital Slide Camo',
   ['component_camo_slide_finish2'] = 'brushstroke Slide Camo',
   ['component_camo_slide_finish3'] = 'woodland Slide Camo',
@@ -279,12 +254,10 @@ Locales['en'] = {
   ['component_camo_slide_finish9'] = 'geometric Slide Camo',
   ['component_camo_slide_finish10'] = 'boom Slide Camo',
   ['component_camo_slide_finish11'] = 'patriotic Slide Camo',
-
   ['component_clip_default'] = 'default Magazine',
   ['component_clip_extended'] = 'extended Magazine',
   ['component_clip_drum'] = 'drum Magazine',
   ['component_clip_box'] = 'box Magazine',
-
   ['component_scope_holo'] = 'holographic Scope',
   ['component_scope_small'] = 'small Scope',
   ['component_scope_medium'] = 'medium Scope',
@@ -292,10 +265,8 @@ Locales['en'] = {
   ['component_scope'] = 'mounted Scope',
   ['component_scope_advanced'] = 'advanced Scope',
   ['component_ironsights'] = 'ironsights',
-
   ['component_suppressor'] = 'suppressor',
   ['component_compensator'] = 'compensator',
-
   ['component_muzzle_flat'] = 'flat Muzzle Brake',
   ['component_muzzle_tactical'] = 'tactical Muzzle Brake',
   ['component_muzzle_fat'] = 'fat-End Muzzle Brake',
@@ -304,26 +275,21 @@ Locales['en'] = {
   ['component_muzzle_slanted'] = 'slanted Muzzle Brake',
   ['component_muzzle_split'] = 'split-End Muzzle Brake',
   ['component_muzzle_squared'] = 'squared Muzzle Brake',
-
   ['component_flashlight'] = 'flashlight',
   ['component_grip'] = 'grip',
-
   ['component_barrel_default'] = 'default Barrel',
   ['component_barrel_heavy'] = 'heavy Barrel',
-
   ['component_ammo_tracer'] = 'tracer Ammo',
   ['component_ammo_incendiary'] = 'incendiary Ammo',
   ['component_ammo_hollowpoint'] = 'hollowpoint Ammo',
   ['component_ammo_fmj'] = 'fMJ Ammo',
   ['component_ammo_armor'] = 'armor Piercing Ammo',
   ['component_ammo_explosive'] = 'armor Piercing Incendiary Ammo',
-
   ['component_shells_default'] = 'default Shells',
   ['component_shells_incendiary'] = 'dragons Breath Shells',
   ['component_shells_armor'] = 'steel Buckshot Shells',
   ['component_shells_hollowpoint'] = 'flechette Shells',
   ['component_shells_explosive'] = 'explosive Slug Shells',
-
   -- Weapon Ammo
   ['ammo_rounds'] = 'round(s)',
   ['ammo_shells'] = 'shell(s)',
@@ -343,7 +309,6 @@ Locales['en'] = {
   ['ammo_snowball'] = 'snowball(s)',
   ['ammo_flare'] = 'flare(s)',
   ['ammo_flaregun'] = 'flare(s)',
-
   -- Weapon Tints
   ['tint_default'] = 'default skin',
   ['tint_green'] = 'green skin',

@@ -1,7 +1,5 @@
 Locales['tc'] = {
-  -- Inventory
-  ['inventory'] = '背包 %s / %s',
-  ['use'] = '使用',
+  -- Inventory,
   ['give'] = '給',
   ['remove'] = '丟棄',
   ['return'] = '返回',

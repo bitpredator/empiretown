@@ -1,7 +1,5 @@
 Locales['sv'] = {
   -- Inventory
-  ['inventory'] = 'Förråd ( Vikt %s / %s )',
-  ['use'] = 'Använd',
   ['give'] = 'Ge',
   ['remove'] = 'Kasta',
   ['return'] = 'Gå tillbaka',
