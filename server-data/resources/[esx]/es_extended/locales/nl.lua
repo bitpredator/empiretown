@@ -80,7 +80,6 @@ Locales['nl'] = {
     ['command_giveweaponcomponent_hasalready'] = 'Speler heeft deze wapencomponent al',
     ['command_giveweaponcomponent_missingweapon'] = 'Speler heeft dit wapen niet',
     ['command_goto'] = 'Teleporteer jezelf naar een speler',
-    ['command_kill'] = 'Dood een speler',
     ['command_save'] = 'Geforceerd opslaan van spelersgegevens',
     ['command_saveall'] = 'Forceer alle spelersgegevens opslaan',
     ['command_setaccountmoney'] = 'Stel het geld in op een gespecificeerde rekening',
