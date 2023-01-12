@@ -12,11 +12,6 @@ ESX.RegisterCommand('setjob', 'admin', function(xPlayer, args, showError)
 	else
 		showError(_U('command_setjob_invalid'))
 	end
-	ESX.DiscordLogFields("UserActions", "/setjob Triggered", "pink", {
-		{name = "Player", value = xPlayer.name, inline = true},
-		{name = "Job", value = args.job, inline = true},
-    {name = "Grade", value = args.grade, inline = true}
-	})
 end, true, {help = _U('command_setjob'), validate = true, arguments = {
 	{name = 'playerId', help = _U('commandgeneric_playerid'), type = 'player'},
 	{name = 'job', help = _U('command_setjob_job'), type = 'string'},
@@ -26,11 +21,6 @@ end, true, {help = _U('command_setjob'), validate = true, arguments = {
 ESX.RegisterCommand('car', 'admin', function(xPlayer, args, showError)
 	local GameBuild = tonumber(GetConvar("sv_enforceGameBuild", 1604))
 	if not args.car then args.car = GameBuild >= 2699 and "draugur" or "prototipo" end
-	ESX.DiscordLogFields("UserActions", "/car Triggered", "pink", {
-		{name = "Player", value = xPlayer.name, inline = true},
-		{name = "ID", value = xPlayer.source, inline = true},
-    {name = "Vehicle", value = args.car, inline = true}
-	})
 	local upgrades = Config.MaxAdminVehicles and {
 		plate = "BPT EMP", 
 		modEngine = 3,
@@ -208,7 +198,6 @@ ESX.RegisterCommand('coords', "admin", function(xPlayer, args, showError)
 	local coords = GetEntityCoords(ped, false)
 	local heading = GetEntityHeading(ped)
 	print("Coords - Vector3: ^5".. vector3(coords.x,coords.y,coords.z).. "^0")
-	print("Coords - Vector4: ^5".. vector4(coords.x, coords.y, coords.z, heading) .. "^0")
 end, true)
 
 ESX.RegisterCommand('tpm', "admin", function(xPlayer, args, showError)
@@ -229,12 +218,6 @@ end, true, {help = _U('command_bring'), validate = true, arguments = {
 	{name = 'playerId', help = _U('commandgeneric_playerid'), type = 'player'}
 }})
 
-ESX.RegisterCommand('kill', "admin", function(xPlayer, args, showError)
-	args.playerId.triggerEvent("esx:killPlayer")
-end, true, {help = _U('command_kill'), validate = true, arguments = {
-	{name = 'playerId', help = _U('commandgeneric_playerid'), type = 'player'}
-}})
-
 ESX.RegisterCommand('freeze', "admin", function(xPlayer, args, showError)
 	args.playerId.triggerEvent('esx:freezePlayer', "freeze")
 end, true, {help = _U('command_freeze'), validate = true, arguments = {
@@ -246,10 +229,6 @@ ESX.RegisterCommand('unfreeze', "admin", function(xPlayer, args, showError)
 end, true, {help = _U('command_unfreeze'), validate = true, arguments = {
 	{name = 'playerId', help = _U('commandgeneric_playerid'), type = 'player'}
 }})
-
-ESX.RegisterCommand("noclip", 'admin', function(xPlayer, args, showError)
-	xPlayer.triggerEvent('esx:noclip')
-end, false)
 
 ESX.RegisterCommand('players', "admin", function(xPlayer, args, showError)
 	local xPlayers = ESX.GetExtendedPlayers() -- Returns all xPlayers
