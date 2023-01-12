@@ -1188,8 +1188,6 @@ function ESX.ShowInventory()
         if element.usable then
             elements2[#elements2+1] = {
                 icon = "fas fa-utensils",
-                title = _U('use'),
-                action = 'use',
                 type = element.type,
                 value = element.value
             }

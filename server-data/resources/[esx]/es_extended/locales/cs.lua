@@ -1,7 +1,5 @@
 Locales['cs'] = {
   -- Inventory
-  ['inventory'] = 'inventář %s / %s',
-  ['use'] = 'použít',
   ['give'] = 'dát',
   ['remove'] = 'zahodit',
   ['return'] = 'zpět',

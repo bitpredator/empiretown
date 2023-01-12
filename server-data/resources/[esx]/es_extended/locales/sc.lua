@@ -1,7 +1,5 @@
 Locales['sc'] = {
   -- Inventory
-  ['inventory'] = '库存 %s / %s',
-  ['use'] = '使用',
   ['give'] = '赠送',
   ['remove'] = '丢弃',
   ['return'] = '返回',

@@ -121,7 +121,6 @@ end)
 RegisterNetEvent('esx:onPlayerLogout')
 AddEventHandler('esx:onPlayerLogout', function()
 	ESX.PlayerLoaded = false
-	if Config.EnableHud then ESX.UI.HUD.Reset() end
 end)
 
 RegisterNetEvent('esx:setMaxWeight')
@@ -206,12 +205,6 @@ AddEventHandler('esx:setAccountMoney', function(account)
 	end
 
 	ESX.SetPlayerData('accounts', ESX.PlayerData.accounts)
-
-	if Config.EnableHud then
-		ESX.UI.HUD.UpdateElement('account_' .. account.name, {
-			money = ESX.Math.GroupDigits(account.money)
-		})
-	end
 end)
 
 if not Config.OxInventory then
@@ -229,7 +222,7 @@ if not Config.OxInventory then
 			ESX.UI.ShowInventoryItemNotification(true, item, count)
 		end
 
-		if ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
+		if ESX.UI.Menu.IsOpen('default', 'es_extended') then
 			ESX.ShowInventory()
 		end
 	end)
@@ -248,7 +241,7 @@ if not Config.OxInventory then
 			ESX.UI.ShowInventoryItemNotification(false, item, count)
 		end
 
-		if ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
+		if ESX.UI.Menu.IsOpen('default', 'es_extended') then
 			ESX.ShowInventory()
 		end
 	end)
@@ -290,14 +283,6 @@ end
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(Job)
-	if Config.EnableHud then
-		local gradeLabel = Job.grade_label ~= Job.label and Job.grade_label or ''
-		if gradeLabel ~= '' then gradeLabel = ' - '..gradeLabel end
-		ESX.UI.HUD.UpdateElement('job', {
-			job_label = Job.label,
-			grade_label = gradeLabel
-		})
-	end
 	ESX.SetPlayerData('job', Job)
 end)
 
@@ -362,32 +347,6 @@ if not Config.OxInventory then
 	end)
 end
 
--- Pause menu disables HUD display
-if Config.EnableHud then
-	CreateThread(function()
-		local isPaused = false
-		
-		while true do
-			local time = 500
-			Wait(time)
-
-			if IsPauseMenuActive() and not isPaused then
-				time = 100
-				isPaused = true
-				ESX.UI.HUD.SetDisplay(0.0)
-			elseif not IsPauseMenuActive() and isPaused then
-				time = 100
-				isPaused = false
-				ESX.UI.HUD.SetDisplay(1.0)
-			end
-		end
-	end)
-
-	AddEventHandler('esx:loadingScreenOff', function()
-		ESX.UI.HUD.SetDisplay(1.0)
-	end)
-end
-
 function StartServerSyncLoops()
 	if not Config.OxInventory then
 			-- keep track of ammo
@@ -421,7 +380,7 @@ end
 
 if not Config.OxInventory and Config.EnableDefaultInventory then
 	RegisterCommand('showinv', function()
-		if not ESX.PlayerData.dead and not ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
+		if not ESX.PlayerData.dead and not ESX.UI.Menu.IsOpen('default', 'es_extended') then
 			ESX.ShowInventory()
 		end
 	end)
