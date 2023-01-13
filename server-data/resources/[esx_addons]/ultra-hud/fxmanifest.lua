@@ -2,8 +2,8 @@ fx_version 'adamant'
 
 game 'gta5'
 
-description 'Trew HUD UI'
-
+description 'bitpredator HUD UI'
+version '0.0.4'
 
 ui_page 'html/ui.html'
 files {
@@ -19,4 +19,7 @@ files {
 }
 
 
-client_scripts {'cl.lua'}
+client_scripts {
+    'cl.lua',
+	'client/carhud.lua' 
+}
