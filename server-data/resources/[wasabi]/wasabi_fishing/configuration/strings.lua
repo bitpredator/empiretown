@@ -1,6 +1,3 @@
------------------For support, scripts, and more----------------
---------------- https://discord.gg/wasabiscripts  -------------
----------------------------------------------------------------
 Strings = {
     intro_instruction = 'Press ~INPUT_ATTACK~ to cast line, ~INPUT_FRONTEND_RRIGHT~ to cancel.',
     rod_broke = 'Rod Snapped',
@@ -17,7 +14,6 @@ Strings = {
     bait_lost_desc = 'Fishing bait was lost.',
     fish_success = 'Caught Fish',
     fish_success_desc = 'You caught a %s!',
-    sell_shop_blip = 'Fish Market',
     sell_fish = '[E] - Sell Fish',
     kicked = 'Nice try, please do not attempt to exploit!',
     sold_for = 'Sold Fish',

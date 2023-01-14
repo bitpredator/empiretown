@@ -1,11 +1,6 @@
------------------For support, scripts, and more----------------
---------------- https://discord.gg/wasabiscripts  -------------
----------------------------------------------------------------
-
 local seconds, minutes = 1000, 60000
 Config = {}
 
-Config.checkForUpdates = true -- Check for updates?
 Config.oldESX = false -- Using ESX 1.1 or older put true
 
 Config.sellShop = {
