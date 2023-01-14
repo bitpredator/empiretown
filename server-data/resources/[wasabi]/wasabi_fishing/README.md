@@ -39,3 +39,4 @@ This resource was created as a free interactive fishing script for ESX servers.
 
 ## Preview
 https://www.youtube.com/watch?v=kLLPGJIK3Q0
+

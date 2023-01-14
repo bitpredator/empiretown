@@ -1,54 +1,5 @@
------------------For support, scripts, and more----------------
---------------- https://discord.gg/wasabiscripts  -------------
----------------------------------------------------------------
-
 ESX = exports['es_extended']:getSharedObject()
 local fishing = false
-
-if Config.sellShop.enabled then
-    CreateThread(function()
-        createBlip(Config.sellShop.coords, 356, 1, Strings.sell_shop_blip, 0.80)
-        local ped, pedSpawned
-        local textUI
-        while true do
-            local sleep = 1500
-            local playerPed = cache.ped
-            local coords = GetEntityCoords(playerPed)
-            local dist = #(coords - Config.sellShop.coords)
-            if dist <= 30 and not pedSpawned then
-                lib.requestAnimDict('mini@strip_club@idles@bouncer@base', 100)
-                lib.requestModel(Config.sellShop.ped, 100)
-                ped = CreatePed(28, Config.sellShop.ped, Config.sellShop.coords.x, Config.sellShop.coords.y, Config.sellShop.coords.z, Config.sellShop.heading, false, false)
-                FreezeEntityPosition(ped, true)
-                SetEntityInvincible(ped, true)
-                SetBlockingOfNonTemporaryEvents(ped, true)
-                TaskPlayAnim(ped, 'mini@strip_club@idles@bouncer@base', 'base', 8.0, 0.0, -1, 1, 0, 0, 0, 0)
-                pedSpawned = true
-            elseif dist <= 1.8 and pedSpawned then
-                sleep = 0
-                if not textUI then
-                    lib.showTextUI(Strings.sell_fish)
-                    textUI = true
-                end
-                if IsControlJustReleased(0, 38) then
-                    FishingSellItems(dist)
-                end
-            elseif dist >= 1.9 and textUI then
-                sleep = 0
-                lib.hideTextUI()
-                textUI = nil
-            elseif dist >= 31 and pedSpawned then
-                local model = GetEntityModel(ped)
-                SetModelAsNoLongerNeeded(model)
-                DeletePed(ped)
-                SetPedAsNoLongerNeeded(ped)
-                RemoveAnimDict('mini@strip_club@idles@bouncer@base')
-                pedSpawned = nil
-            end
-            Wait(sleep)
-        end
-    end)
-end
 
 RegisterNetEvent('wasabi_fishing:startFishing')
 AddEventHandler('wasabi_fishing:startFishing', function()
