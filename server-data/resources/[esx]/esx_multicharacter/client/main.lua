@@ -36,7 +36,6 @@ if ESX.GetConfig().Multichar then
 		SetCamCoord(cam, offset.x, offset.y, offset.z)
 		PointCamAtCoord(cam, Config.Spawn.x, Config.Spawn.y, Config.Spawn.z + 1.3)
 		ESX.UI.Menu.CloseAll()
-		ESX.UI.HUD.SetDisplay(0.0)
 		StartLoop()
 		ShutdownLoadingScreen()
 		ShutdownLoadingScreenNui()
