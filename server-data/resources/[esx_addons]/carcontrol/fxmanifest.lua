@@ -1,6 +1,6 @@
 fx_version 'adamant'
 game'gta5'
-version'0.0.3'
+version'0.0.4'
 
 ui_page 'html/carcontrol.html'
 
