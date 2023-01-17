@@ -4,21 +4,10 @@ ESX = exports["es_extended"]:getSharedObject()
 
 ESX.RegisterUsableItem('water', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('water', 1)
 
 	TriggerClientEvent('esx_status:add', source, 'thirst', 200000)
 	TriggerClientEvent('esx_basicneeds:cigarrette_opium', source)
-	TriggerClientEvent('stress:remove', source, 500000)
-	xPlayer.showNotification(_U('used_water'))
-end)
-
-ESX.RegisterUsableItem('water', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('water', 1)
-
-	TriggerClientEvent('esx_status:add', source, 'thirst', 200000)
-	TriggerClientEvent('esx_basicneeds:onDrink', source)
-	xPlayer.showNotification(_U('used_water'))
+	TriggerClientEvent('stress:remove', source, 5000000)
 end)
 
 ESX.RegisterCommand('heal', 'admin', function(xPlayer, args, showError)
@@ -29,7 +18,7 @@ end, true, {help = 'Heal a player, or yourself - restores thirst, hunger and hea
 }})
 
 ESX.RegisterUsableItem('cigarrette_opium', function(source)
-		local xPlayer = ESX.GetPlayerFromId(source)
-    	xPlayer.removeInventoryItem('cigarrette_opium', 1)
-		TriggerClientEvent('esx_basicneeds:smoke', source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+    xPlayer.removeInventoryItem('cigarrette_opium', 1)
+	TriggerClientEvent('esx_basicneeds:smoke', source)
 end)
