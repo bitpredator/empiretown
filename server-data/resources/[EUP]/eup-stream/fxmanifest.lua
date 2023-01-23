@@ -1,3 +1,11 @@
-fx_version 'cerulean'
+fx_version 'adamant'
 game 'gta5'
-version '0.0.3'
+description 'ESX Boilerplate'
+author 'bitpredator'
+version '0.0.4'
+
+client_script {
+    "client/NativeUI.lua",
+    "client/eup_ui.lua",
+    "NativeUI.lua"
+}
