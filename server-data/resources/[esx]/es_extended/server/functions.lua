@@ -239,16 +239,7 @@ function Core.SavePlayers(cb)
   )
 end
 
-function ESX.GetPlayers()
-  local sources = {}
-
-  for k, v in pairs(ESX.Players) do
-    sources[#sources + 1] = k
-  end
-
-  return sources
-end
-
+ESX.GetPlayers = GetPlayers
 function ESX.GetExtendedPlayers(key, val)
   local xPlayers = {}
   for k, v in pairs(ESX.Players) do

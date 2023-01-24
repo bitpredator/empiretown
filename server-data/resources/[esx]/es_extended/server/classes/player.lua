@@ -25,6 +25,13 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	if Config.Multichar then self.license = 'license'.. identifier:sub(identifier:find(':'), identifier:len()) else self.license = 'license:'..identifier end
 
 	ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.license, self.group))
+	
+	local stateBag = Player(self.source).state
+	stateBag:set("identifier", self.identifier, true)
+	stateBag:set("license", self.license, true)
+	stateBag:set("job", self.job, true)
+	stateBag:set("group", self.group, true)
+	stateBag:set("name", self.name, true)
 
 	function self.triggerEvent(eventName, ...)
 		TriggerClientEvent(eventName, self.source, ...)
@@ -96,6 +103,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	function self.setGroup(newGroup)
 		ExecuteCommand(('remove_principal identifier.%s group.%s'):format(self.license, self.group))
 		self.group = newGroup
+		Player(self.source).state:set("group", self.group, true)
 		ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.license, self.group))
 	end
 
@@ -105,6 +113,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 	function self.set(k, v)
 		self.variables[k] = v
+		Player(self.source).state:set(k, v, true)
 	end
 
 	function self.get(k)
@@ -112,17 +121,17 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	function self.getAccounts(minimal)
-		if minimal then
-			local minimalAccounts = {}
-
-			for i=1, #self.accounts do
-				minimalAccounts[self.accounts[i].name] = self.accounts[i].money
-			end
-
-			return minimalAccounts
-		else
+		if not minimal then
 			return self.accounts
 		end
+
+		local minimalAccounts = {}
+
+		for i=1, #self.accounts do
+			minimalAccounts[self.accounts[i].name] = self.accounts[i].money
+		end
+
+		return minimalAccounts
 	end
 
 	function self.getAccount(account)
@@ -154,32 +163,31 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	function self.getLoadout(minimal)
-		if minimal then
-			local minimalLoadout = {}
-
-			for k,v in ipairs(self.loadout) do
-				minimalLoadout[v.name] = {ammo = v.ammo}
-				if v.tintIndex > 0 then minimalLoadout[v.name].tintIndex = v.tintIndex end
-
-				if #v.components > 0 then
-					local components = {}
-
-					for k2,component in ipairs(v.components) do
-						if component ~= 'clip_default' then
-							components[#components + 1] = component
-						end
-					end
-
-					if #components > 0 then
-						minimalLoadout[v.name].components = components
-					end
-				end
-			end
-
-			return minimalLoadout
-		else
+		if not minimal then
 			return self.loadout
 		end
+		local minimalLoadout = {}
+
+		for k,v in ipairs(self.loadout) do
+			minimalLoadout[v.name] = {ammo = v.ammo}
+			if v.tintIndex > 0 then minimalLoadout[v.name].tintIndex = v.tintIndex end
+
+			if #v.components > 0 then
+				local components = {}
+
+				for k2,component in ipairs(v.components) do
+					if component ~= 'clip_default' then
+						components[#components + 1] = component
+					end
+				end
+
+				if #components > 0 then
+					minimalLoadout[v.name].components = components
+				end
+			end
+		end
+
+		return minimalLoadout
 	end
 
 	function self.getName()
@@ -188,6 +196,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 	function self.setName(newName)
 		self.name = newName
+		Player(self.source).state:set("name", self.name, true)
 	end
 
 	function self.setAccountMoney(accountName, money, reason)
@@ -319,7 +328,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	function self.canCarryItem(name, count, metadata)
-		if ESX.Items[name] then
+        if ESX.Items[name] then
             local currentWeight, itemWeight = self.weight, ESX.Items[name].weight
             local newWeight = currentWeight + (itemWeight * count)
 
@@ -377,7 +386,8 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			end
 
 			TriggerEvent('esx:setJob', self.source, self.job, lastJob)
-			self.triggerEvent('esx:setJob', self.job)
+			self.triggerEvent('esx:setJob', self.job, lastJob)
+			Player(self.source).state:set("job", self.job, true)
 		else
 			print(('[es_extended] [^3WARNING^7] Ignoring invalid ^5.setJob()^7 usage for ID: ^5%s^7, Job: ^5%s^7'):format(self.source, job))
 		end
@@ -430,9 +440,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		local loadoutNum, weapon = self.getWeapon(weaponName)
 
 		if weapon then
-			if ammoCount < weapon.ammo then
-				weapon.ammo = ammoCount
-			end
+			weapon.ammo = ammoCount
 		end
 	end
 
