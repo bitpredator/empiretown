@@ -1,10 +1,16 @@
-lib.locale()
 local Entity = Entity
 
 local function getDoorFromEntity(data)
-	local entity = type(data) == 'number' and data or data.entity
-	local state = Entity(entity).state
-	local door = doors[state.doorId]
+	local entity = type(data) == 'table' and data.entity or data
+
+	if not entity then return end
+
+	local state = Entity(entity)?.state
+	local doorId = state?.doorId
+
+	if not doorId then return end
+
+	local door = doors[doorId]
 
 	if not door then
 		state.doorId = nil
@@ -21,19 +27,26 @@ end
 local pickingLock
 
 local function canPickLock(entity)
-	return not pickingLock and getDoorFromEntity(entity)?.lockpick
+	if pickingLock then return false end
+
+	local door = getDoorFromEntity(entity)
+
+	return door and door.lockpick and (Config.CanPickUnlockedDoors or door.state == 1)
 end
 
 local function pickLock(entity)
-	pickingLock = true
 	local door = getDoorFromEntity(entity)
+
+	if not door then return end
+
+	pickingLock = true
 
 	TaskTurnPedToFaceCoord(cache.ped, door.coords.x, door.coords.y, door.coords.z, 4000)
 	Wait(500)
 	lib.requestAnimDict('mp_common_heist')
 	TaskPlayAnim(cache.ped, 'mp_common_heist', 'pick_door', 3.0, 1.0, -1, 49, 0, true, true, true)
 
-	local success = lib.skillCheck(Config.LockDifficulty)
+	local success = lib.skillCheck(door.lockpickDifficulty or Config.LockDifficulty)
 	local rand = math.random(1, success and 100 or 5)
 
 	if rand == 1 then
@@ -45,11 +58,62 @@ local function pickLock(entity)
 		TriggerServerEvent('ox_doorlock:setState', door.id, door.state == 1 and 0 or 1, true)
 	end
 
-	pickingLock = false
 	StopEntityAnim(cache.ped, 'pick_door', 'mp_common_heist', 0)
+
+	pickingLock = false
 end
 
 local target
+
+do
+	if GetResourceState('ox_target'):find('start') then
+		target = {
+			ox = true,
+			exp = exports.ox_target
+		}
+	elseif GetResourceState('qb-target'):find('start') then
+		target = {
+			qb = true,
+			exp = exports['qb-target']
+		}
+	elseif GetResourceState('qtarget'):find('start') then
+		target = {
+			qt = true,
+			exp = exports.qtarget
+		}
+	end
+
+	if target.ox then
+		target.exp:addGlobalObject({
+			{
+				name = 'pickDoorlock',
+				label = locale('pick_lock'),
+				icon = 'fas fa-user-lock',
+				onSelect = pickLock,
+				canInteract = canPickLock,
+				items = 'lockpick',
+				distance = 1
+			}
+		})
+	else
+		local options = {
+			{
+				label = locale('pick_lock'),
+				icon = 'fas fa-user-lock',
+				action = pickLock,
+				canInteract = canPickLock,
+				item = 'lockpick',
+				distance = 1
+			}
+		}
+
+		if target.qt then
+			target.exp:Object({ options = options })
+		elseif target.qb then
+			target.exp:AddGlobalObject({ options = options })
+		end
+	end
+end
 
 local tempData = {}
 
@@ -90,6 +154,10 @@ RegisterNUICallback('createDoor', function(data, cb)
 
 	if data.characters and not next(data.characters) then
 		data.characters = nil
+	end
+
+	if data.lockpickDifficulty and not next(data.lockpickDifficulty) then
+		data.lockpickDifficulty = nil
 	end
 
 	if data.groups and not next(data.groups) then
@@ -212,3 +280,17 @@ end
 RegisterNetEvent('ox_doorlock:triggeredCommand', function(closest)
 	openUi(closest and ClosestDoor?.id or nil)
 end)
+
+if not target.ox then
+	AddEventHandler('onResourceStop', function(resource)
+		if resource == 'ox_doorlock' then
+			local options = { locale('add_lock'), locale('pick_lock') }
+
+			if target.qt then
+				target.exp:RemoveObject(options)
+			elseif target.qb then
+				target.exp:RemoveGlobalObject(options)
+			end
+		end
+	end)
+end
