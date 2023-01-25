@@ -20,5 +20,8 @@ Config.CommandPrincipal = 'group.admin'
 -- Allow players with 'command.doorlock' permission to open any doors.
 Config.PlayerAceAuthorised = false
 
--- Set the difficulty of the skillcheck when picking a lock.
+-- Default skill check difficulty when no fields are defined in the Lockpick tab.
 Config.LockDifficulty = { 'easy', 'easy', 'medium' }
+
+-- Allow lockpicks to be used to lock an already unlocked door.
+Config.CanPickUnlockedDoors = false
