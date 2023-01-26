@@ -2,9 +2,9 @@ fx_version 'adamant'
 
 game 'gta5'
 
-description 'ESX Barber Shop'
+description 'Barber Shop'
 
-version '1.7.5'
+version '0.0.4'
 
 shared_script '@es_extended/imports.lua'
 
