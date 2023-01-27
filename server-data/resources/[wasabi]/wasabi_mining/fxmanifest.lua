@@ -1,31 +1,15 @@
 fx_version 'cerulean'
-
 game 'gta5'
+lua54 'yes'
 
-version '1.1.1'
-
+version '2.0.2'
 author 'wasabirobby#5110'
-
 description 'A simple yet smooth ESX based mining script'
 
-ui_page 'ui/index.html'
+shared_scripts { '@ox_lib/init.lua', 'configuration/*.lua' }
 
-files {
-    'ui/index.html',
-    'ui/style.css',
-    'ui/main.js'
-}
+client_scripts { 'bridge/**/client.lua', 'client/*.lua' }
 
-client_scripts {
-    'client/client.lua',
-    'client/functions.lua',
-    'client/skillbar.lua',
-    'config.lua'
-}
+server_scripts { 'bridge/**/server.lua', 'server/*.lua' }
 
-server_scripts {
-    'server/server.lua',
-    'config.lua'
-}
-
-shared_script '@es_extended/imports.lua'
+dependencies { 'ox_lib' }
