@@ -63,58 +63,6 @@ local function pickLock(entity)
 	pickingLock = false
 end
 
-local target
-
-do
-	if GetResourceState('ox_target'):find('start') then
-		target = {
-			ox = true,
-			exp = exports.ox_target
-		}
-	elseif GetResourceState('qb-target'):find('start') then
-		target = {
-			qb = true,
-			exp = exports['qb-target']
-		}
-	elseif GetResourceState('qtarget'):find('start') then
-		target = {
-			qt = true,
-			exp = exports.qtarget
-		}
-	end
-
-	if target.ox then
-		target.exp:addGlobalObject({
-			{
-				name = 'pickDoorlock',
-				label = locale('pick_lock'),
-				icon = 'fas fa-user-lock',
-				onSelect = pickLock,
-				canInteract = canPickLock,
-				items = 'lockpick',
-				distance = 1
-			}
-		})
-	else
-		local options = {
-			{
-				label = locale('pick_lock'),
-				icon = 'fas fa-user-lock',
-				action = pickLock,
-				canInteract = canPickLock,
-				item = 'lockpick',
-				distance = 1
-			}
-		}
-
-		if target.qt then
-			target.exp:Object({ options = options })
-		elseif target.qb then
-			target.exp:AddGlobalObject({ options = options })
-		end
-	end
-end
-
 local tempData = {}
 
 local function addDoorlock(data)
@@ -167,35 +115,6 @@ RegisterNUICallback('createDoor', function(data, cb)
 	if not data.id then
 		isAddingDoorlock = true
 
-		if target.ox then
-			target.exp:addGlobalObject({
-				{
-					name = 'addDoorlock',
-					label = locale('add_lock'),
-					icon = 'fas fa-file-circle-plus',
-					onSelect = addDoorlock,
-					canInteract = entityIsNotDoor,
-					distance = 10
-				},
-			})
-		else
-			local options = {
-				{
-					label = locale('add_lock'),
-					icon = 'fas fa-file-circle-plus',
-					action = addDoorlock,
-					canInteract = entityIsNotDoor,
-					distance = 10
-				},
-			}
-
-			if target.qt then
-				target.exp:Object({ options = options })
-			elseif target.qb then
-				target.exp:AddGlobalObject({ options = options })
-			end
-		end
-
 		if data.doors then
 			repeat Wait(50) until tempData[2]
 			data.doors = tempData
@@ -220,20 +139,6 @@ RegisterNUICallback('createDoor', function(data, cb)
 		data.coords = vector3(data.coords.x, data.coords.y, data.coords.z)
 		data.distance = nil
 		data.zone = nil
-	end
-
-	if isAddingDoorlock then
-		if target.ox then
-			target.exp:removeGlobalObject('addDoorlock')
-		else
-			if target.qt then
-				target.exp:RemoveObject(locale('add_lock'))
-			elseif target.qb then
-				target.exp:RemoveGlobalObject(locale('add_lock'))
-			end
-		end
-
-		isAddingDoorlock = false
 	end
 
 	TriggerServerEvent('ox_doorlock:editDoorlock', data.id or false, data)
@@ -280,17 +185,3 @@ end
 RegisterNetEvent('ox_doorlock:triggeredCommand', function(closest)
 	openUi(closest and ClosestDoor?.id or nil)
 end)
-
-if not target.ox then
-	AddEventHandler('onResourceStop', function(resource)
-		if resource == 'ox_doorlock' then
-			local options = { locale('add_lock'), locale('pick_lock') }
-
-			if target.qt then
-				target.exp:RemoveObject(options)
-			elseif target.qb then
-				target.exp:RemoveGlobalObject(options)
-			end
-		end
-	end)
-end
