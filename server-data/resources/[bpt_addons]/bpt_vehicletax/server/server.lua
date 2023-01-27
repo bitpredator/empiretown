@@ -11,7 +11,7 @@ MySQL.ready(function()
         end
     end
     CreateThread(function()
-        TriggerEvent('esx:getSharedObject',  function(obj) ESX = obj end)
+        ESX = exports["es_extended"]:getSharedObject()
         while ESX == nil do
             Wait(100)
         end
