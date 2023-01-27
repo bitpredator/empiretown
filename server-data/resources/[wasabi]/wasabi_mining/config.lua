@@ -1,12 +1,7 @@
 Config = {}
-
-Config.DiscordMiningLogs = false --Set true to enable discord logs for mined ore. (Can set webhooks in wasabi_mining/server/discordwebhook.lua)
 Config.DiscordCheatLogs = true --Set true to enable possible cheater logs. (Can set webhooks in wasabi_mining/server/discordwebhook.lua)
-
 Config.OldESX = false --Getting 'canCarryItem' error? Set this to true if you're using limit system.
-
 Config.Axe = `prop_tool_pickaxe` --Default: `prop_tool_pickaxe`
-
 Config.AxeBreakPercent = 50 --When failing to mine rock, this is the percentage of a chance that your pickaxe will 'break'
 
 Config.Rocks = { -- Items obtained from mining rocks
@@ -29,21 +24,15 @@ Config.MiningAreas = {
 }
 
 Language = {
-    --Blips
     ['mining_blips'] = 'Miniere',
-    --Help Text
     ['intro_instruction'] = 'Premi ~INPUT_ATTACK~ per estrarre, ~INPUT_FRONTEND_RRIGHT~ per cancellare.',
-    --3D Text
     ['mine_rock'] = 'PREMI[~g~E~s~] PER MINARE',
-    --Notifications(Success)
-    ['rewarded'] = 'hai ricevuto 1x',
-    --Notifications(Failed)
+    ['rewarded'] = 'hai ricevuto 1',
     ['failed_mine'] = 'Non sei riuscito ad estrarre il minerale!',
     ['no_pickaxe'] = 'Non hai un piccone!',
     ['axe_broke'] = 'Hai colpito male la roccia e il piccone si è rotto!',
     ['cantcarry'] = 'Non c\'è più spazio per il trasporto 1x',
     ['possible_cheater'] = 'Sei stato segnalato allo staff del server.',
-    --Kicked Message
     ['kicked'] = 'Sei stato espulso e segnalato allo staff per possibile utilizzo di hack.'
 }
 
@@ -52,6 +41,4 @@ AddEventHandler('wasabi_mining:notify', function(message)
 	
 -- Place notification system info here, ex: exports['mythic_notify']:SendAlert('inform', message)
     ESX.ShowNotification(message)
-
-
 end)

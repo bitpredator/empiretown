@@ -1,10 +1,10 @@
 ESX = nil
 local mining = false
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while ESX == nil do
         ESX = exports["es_extended"]:getSharedObject()
-        Citizen.Wait(0)
+        Wait(0)
     end
     for i=1, #Config.MiningAreas, 1 do
         CreateBlip(Config.MiningAreas[i], 85, 5, Language['mining_blips'], 0.75)
@@ -12,7 +12,7 @@ Citizen.CreateThread(function()
 end)
 
 --Mining Functionality
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do 
         local Sleep = 1500
         local player = PlayerPedId()
@@ -75,8 +75,6 @@ Citizen.CreateThread(function()
         Wait(Sleep)
      end
  end)
-
- 
 
 RegisterNetEvent('wasabi_mining:alertStaff')
 AddEventHandler('wasabi_mining:alertStaff', function()

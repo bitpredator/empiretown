@@ -25,7 +25,6 @@ client_scripts {
 
 server_scripts {
     'server/server.lua',
-    'server/discordwebhook.lua',
     'config.lua'
 }
 
