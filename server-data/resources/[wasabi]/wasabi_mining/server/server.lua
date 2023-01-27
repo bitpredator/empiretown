@@ -24,9 +24,6 @@ AddEventHandler("wasabi_mining:mineRock", function(distance)
                 if limitItem.limit == -1 or (limitItem.count + 1) <= limitItem.limit then
                     xPlayer.addInventoryItem(awardItem, 1)
                     TriggerClientEvent('wasabi_mining:notify', source, Language['rewarded']..' '..awardItemLabel)
-                    if Config.DiscordMiningLogs then
-                        sendToDiscord("Wasabi Mining","**"..GetPlayerName(source).."** just mined rocks and was rewarded a "..awardItemLabel.."!\n**"..ESX.GetPlayerFromId(source).getIdentifier().."**", 3066993)
-                    end
                 else
                     TriggerClientEvent('wasabi_mining:notify', source, Language['cantcarry']..' '..awardItemLabel)
                 end
@@ -34,9 +31,6 @@ AddEventHandler("wasabi_mining:mineRock", function(distance)
                 if xPlayer.canCarryItem(awardItem, 1) then
                     xPlayer.addInventoryItem(awardItem, 1)
                     TriggerClientEvent('wasabi_mining:notify', source, Language['rewarded']..' '..awardItemLabel)
-                    if Config.DiscordMiningLogs then
-                        sendToDiscord("Wasabi Mining","**"..GetPlayerName(source).."** just mined rocks and was rewarded a "..awardItemLabel.."!\n**"..ESX.GetPlayerFromId(source).getIdentifier().."**", 3066993)
-                    end
                 else
                     TriggerClientEvent('wasabi_mining:notify', source, Language['cantcarry']..' '..awardItemLabel)
                 end
