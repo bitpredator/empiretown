@@ -1,11 +1,7 @@
--- Modifying or rewriting this resource for local use only is strongly discouraged.
--- Feel free to open an issue or pull request in our GitHub.
--- Official discord server: https://discord.gg/AFAAXzq
-
 author 'Tabarra'
 description 'Remotely Manage & Monitor your GTA5 FiveM Server'
 repository 'https://github.com/tabarra/txAdmin'
-version '5.0.1'
+version '5.2.0'
 ui_label 'txAdmin'
 
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
@@ -71,7 +67,4 @@ files {
     'web/public/js/bootstrap-notify.min.js',
     'web/public/js/jquery-confirm.min.js',
     'web/public/js/humanizeDuration.min.js',
-    'web/public/js/txadmin/base.js',
-    'web/public/js/txadmin/main.js',
-    'web/public/js/txadmin/players.js',
 }

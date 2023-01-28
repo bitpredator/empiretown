@@ -6830,6 +6830,7 @@
                 *   2545
                 *   2612
                 *   2699
+                *   2802
             *   RedM
                 *   1311
                 *   1355
@@ -6915,6 +6916,11 @@
         <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_FROM_STATE_BAG_NAME">
             <summary>
             On the server this will return the players source, on the client it will return the player handle.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_IDENTIFIER_BY_TYPE">
+            <summary>
+            Get an identifier from a player by the type of the identifier.
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_MELEE_WEAPON_DAMAGE_MODIFIER">
@@ -7267,6 +7273,12 @@
             <summary>
             Writes the specified data to a file in the specified resource.
             Using a length of `-1` will automatically detect the length assuming the data is a C string.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SCAN_RESOURCE_ROOT">
+            <summary>
+            Scans the resources in the specified resource root. This function is only available in the 'monitor mode' process and is
+            not available for user resources.
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.SCHEDULE_RESOURCE_TICK">
@@ -9039,6 +9051,7 @@
             *   2545
             *   2612
             *   2699
+            *   2802
             *   RedM
             *   1311
             *   1355
@@ -9196,6 +9209,20 @@
             </param>
             <returns>
             The player handle or 0 if the state bag name did not refer to a player, or the player does not exist.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerIdentifierByType(System.String,System.String)">
+            <summary>
+            Get an identifier from a player by the type of the identifier.
+            </summary>
+            <param name="playerSrc">
+            The player to get the identifier for
+            </param>
+            <param name="identifierType">
+            The string to match in an identifier, this can be `"license"` for example.
+            </param>
+            <returns>
+            The identifier that matches the string provided
             </returns>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetPlayerMeleeWeaponDamageModifier(System.String)">
@@ -9825,6 +9852,18 @@
             <returns>
             A value indicating if the write succeeded.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.ScanResourceRoot(System.String,CitizenFX.Core.Native.InputArgument)">
+            <summary>
+            Scans the resources in the specified resource root. This function is only available in the 'monitor mode' process and is
+            not available for user resources.
+            </summary>
+            <param name="rootPath">
+            The resource directory to scan.
+            </param>
+            <param name="callback">
+            A callback that will receive an object with results.
+            </param>
         </member>
         <member name="M:CitizenFX.Core.Native.API.ScheduleResourceTick(System.String)">
             <summary>
