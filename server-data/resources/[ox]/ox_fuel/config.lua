@@ -1,10 +1,7 @@
 Config = {
 	-- Get notified when a new version releases
 	versionCheck = false,
-
-	-- Enable support for qTarget
-	qtarget = false,
-
+	
 	/*
 	* Show or hide gas stations blips
 	* 0 - Hide all
