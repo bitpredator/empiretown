@@ -4,7 +4,7 @@ return {
 		weight = 220,
 		degrade = 60,
 		client = {
-			status = { hunger = 200000 },
+			status = { hunger = 2100000 },
 			anim = 'eating',
 			prop = 'burger',
 			usetime = 2500,
@@ -505,7 +505,7 @@ return {
 			export = 'wasabi_backpack.openBackpack'
 		}
 	},
-	-- 
+	 
 	['boar_meat'] = {
 	    label = 'carne di cinghiale',
 	    weight = 3000,
@@ -565,6 +565,30 @@ return {
 		label = 'olio per friggere',
 		weight = 100,
 		stack = true,
+	},
+
+	['idcard'] = {
+		label = 'carta d\'identità',
+		weight = 1,
+		stack = false,
+	},
+
+	['jobcard'] = {
+		label = 'documento lavorativo',
+		weight = 1,
+		stack = false,
+	},
+
+	['dmvcard'] = {
+		label = 'patente di guida',
+		weight = 1,
+		stack = false,
+	},
+
+	['licensecard'] = {
+		label = 'porto d\'armi',
+		weight = 1,
+		stack = false,
 	},
 
 }
