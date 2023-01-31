@@ -94,8 +94,8 @@
 			document.body.removeChild(el);
 		}
 
-		function strip(text) {
-			return text.replace(/~[A-z0-9]~/g, '')
+		function isValidHexColor(color) {
+         return /^#[0-9A-F]{6}$/i.test(color);
 		}
 	</script>
 </head>
