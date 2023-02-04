@@ -1,9 +1,6 @@
------------------For support, scripts, and more----------------
---------------- https://discord.gg/wasabiscripts  -------------
----------------------------------------------------------------
 Config = {}
 
-Config.checkForUpdates = true -- Check for updates?
+Config.checkForUpdates = false -- Check for updates?
 
 Config.BackpackItem = 'backpack' -- Item name of backpack
 

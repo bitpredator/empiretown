@@ -1,14 +1,8 @@
------------------For support, scripts, and more----------------
---------------- https://discord.gg/wasabiscripts  -------------
----------------------------------------------------------------
-
 local bagEquipped, bagObj
 local hash = `p_michael_backpack_s`
 local ox_inventory = exports.ox_inventory
 local ped = cache.ped
 local justConnect = true
-
-
 
 local function PutOnBag()
     local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(ped,0.0,3.0,0.5))
@@ -53,17 +47,6 @@ end)
 lib.onCache('ped', function(value)
     ped = value
 end)
-
---[[lib.onCache('vehicle', function(value)
-    if value then
-        RemoveBag()
-    else
-        local count = ox_inventory:Search('count', Config.BackpackItem)
-        if count and count >= 1 then
-            PutOnBag()
-        end
-    end
-end)]]-- Needs work for player load error?
 
 exports('openBackpack', function(data, slot)
     if not slot?.metadata?.identifier then
