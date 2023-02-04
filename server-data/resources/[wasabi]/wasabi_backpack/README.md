@@ -32,9 +32,3 @@ Item to add to `ox_inventory/data/items.lua`
 		}
 	},
 ```
-
-## Preview
-https://www.youtube.com/watch?v=OsjuUtE9Pg8
-
-# Support
-<a href='https://discord.gg/79zjvy4JMs'>![Discord Banner 2](https://discordapp.com/api/guilds/1025493337031049358/widget.png?style=banner2)</a>

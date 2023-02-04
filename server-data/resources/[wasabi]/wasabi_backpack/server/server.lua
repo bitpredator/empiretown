@@ -1,11 +1,7 @@
------------------For support, scripts, and more----------------
---------------- https://discord.gg/wasabiscripts  -------------
----------------------------------------------------------------
 local registeredStashes = {}
 local ox_inventory = exports.ox_inventory
 
-
-local function GenerateText(num) -- Thnx Linden
+local function GenerateText(num) 
 	local str
 	repeat str = {}
 		for i = 1, num do str[i] = string.char(math.random(65, 90)) end
@@ -14,7 +10,7 @@ local function GenerateText(num) -- Thnx Linden
 	return str
 end
 
-local function GenerateSerial(text) -- Thnx Again
+local function GenerateSerial(text)
 	if text and text:len() > 3 then
 		return text
 	end
