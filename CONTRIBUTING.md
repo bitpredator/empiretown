@@ -17,3 +17,6 @@ fix broken code, but introduce breaking changes
 
 6. feat(lang)
 implementation of new translations
+
+7. delete
+deleting one or more files
