@@ -121,4 +121,20 @@ return {
 
 		}
 	},
+
+	DmvSchool = {
+		name = 'Scuola Guida',
+		groups = {
+			['drivingschool'] = 4
+		},
+		blip = {
+			id = 403, colour = 69, scale = 0.8
+		}, inventory = {
+			{ name = 'dmvcard',   price = 10000 }
+		}, locations = {
+			vec3(214.694519, -1400.452759, 30.577271)
+		}, targets = {
+
+		}
+	},
 }
