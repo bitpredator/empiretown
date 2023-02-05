@@ -50,70 +50,69 @@ AddEventHandler('esx:playerLoaded', function(xPlayer, isNew, skin)
 	ESX.PlayerLoaded = true
 
 	while ESX.PlayerData.ped == nil do Wait(20) end
+
 	if Config.EnablePVP then
 		SetCanAttackFriendly(ESX.PlayerData.ped, true, false)
 		NetworkSetFriendlyFireOption(true)
 	end
 
-	CreateThread(function()
-		local SetPlayerHealthRechargeMultiplier = SetPlayerHealthRechargeMultiplier
-		local BlockWeaponWheelThisFrame = BlockWeaponWheelThisFrame
-		local DisableControlAction = DisableControlAction
-		local IsPedArmed = IsPedArmed
-		local SetPlayerLockonRangeOverride = SetPlayerLockonRangeOverride
-		local DisablePlayerVehicleRewards = DisablePlayerVehicleRewards
-		local RemoveAllPickupsOfType = RemoveAllPickupsOfType
-		local HideHudComponentThisFrame = HideHudComponentThisFrame
-		local PlayerId = PlayerId()
-		local DisabledComps = {}
-		for i=1, #(Config.RemoveHudCommonents) do
-			if Config.RemoveHudCommonents[i] then
-				DisabledComps[#DisabledComps + 1] = i
-			end
+	local playerId = PlayerId()
+
+	-- RemoveHudCommonents
+	for i=1, #(Config.RemoveHudCommonents) do
+		if Config.RemoveHudCommonents[i] then
+			SetHudComponentPosition(i, 999999.0, 999999.0)
 		end
+	end
 
-		while true do 
-			local Sleep = true
-			if Config.DisableHealthRegeneration then
-				Sleep = false
-				SetPlayerHealthRechargeMultiplier(PlayerId, 0.0)
-			end
-			if Config.DisableWeaponWheel then
-				Sleep = false
-				BlockWeaponWheelThisFrame()
-				DisableControlAction(0, 37,true)
-			end
+	-- DisableNPCDrops
+	if Config.DisableNPCDrops then
+		local weaponPickups = {`PICKUP_WEAPON_CARBINERIFLE`, `PICKUP_WEAPON_PISTOL`, `PICKUP_WEAPON_PUMPSHOTGUN`}
+		for i = 1, #weaponPickups do 
+			ToggleUsePickupsForPlayer(playerId, weaponPickups[i], false) 
+		end
+	end
 
-			if Config.DisableAimAssist then
-				Sleep = false
-				if IsPedArmed(ESX.PlayerData.ped, 4) then
-					SetPlayerLockonRangeOverride(PlayerId, 2.0)
-				end
-			end
+	-- DisableVehicleRewards
+	if Config.DisableVehicleRewards then
+		AddEventHandler('esx:enteredVehicle', function(vehicle, plate, seat, displayName, netId)
+			if GetVehicleClass(vehicle) == 18 then
+				CreateThread(function()
+					while true do
+						DisablePlayerVehicleRewards(playerId)
+						if not IsPedInAnyVehicle(ESX.PlayerData.ped, false) then
+							break
+						end
 
-			if Config.DisableVehicleRewards then
-				Sleep = false
-				DisablePlayerVehicleRewards(PlayerId)
-			end
-			
-			if Config.DisableNPCDrops then
-				Sleep = false
-				RemoveAllPickupsOfType(0xDF711959)
-				RemoveAllPickupsOfType(0xF9AFB48F)
-				RemoveAllPickupsOfType(0xA9355DCD)
-			end
-
-			if #DisabledComps > 0 then
-				Sleep = false
-				for i=1, #(DisabledComps) do
-				    HideHudComponentThisFrame(DisabledComps[i])
-				end
-			end
-				
-			Wait(Sleep and 1500 or 0)
+						Wait(0)
+					end
+				end)
 			end
 		end)
+	end
 
+	if Config.DisableHealthRegeneration or Config.DisableWeaponWheel or Config.DisableAimAssist then
+		CreateThread(function()
+			while true do
+				if Config.DisableHealthRegeneration then
+					SetPlayerHealthRechargeMultiplier(playerId, 0.0)
+				end
+
+				if Config.DisableWeaponWheel then
+					BlockWeaponWheelThisFrame()
+					DisableControlAction(0, 37, true)
+				end
+
+				if Config.DisableAimAssist then
+					if IsPedArmed(ESX.PlayerData.ped, 4) then
+						SetPlayerLockonRangeOverride(playerId, 2.0)
+					end
+				end
+
+				Wait(0)
+			end
+		end)
+	end
 	SetDefaultVehicleNumberPlateTextPattern(-1, Config.CustomAIPlates)
 	StartServerSyncLoops()
 end)
@@ -127,8 +126,8 @@ RegisterNetEvent('esx:setMaxWeight')
 AddEventHandler('esx:setMaxWeight', function(newMaxWeight) ESX.SetPlayerData("maxWeight", newMaxWeight) end)
 
 local function onPlayerSpawn()
-		ESX.SetPlayerData('ped', PlayerPedId())
-		ESX.SetPlayerData('dead', false)
+	ESX.SetPlayerData('ped', PlayerPedId())
+	ESX.SetPlayerData('dead', false)
 end
 
 AddEventHandler('playerSpawned', onPlayerSpawn)
@@ -190,7 +189,7 @@ AddStateBagChangeHandler('VehicleProperties', nil, function(bagName, key, value)
 				end
 			end
 			if NetworkGetEntityOwner(Vehicle) == PlayerId() then
-					ESX.Game.SetVehicleProperties(Vehicle, value)
+				ESX.Game.SetVehicleProperties(Vehicle, value)
 			end
 	end
 end)
@@ -509,9 +508,9 @@ AddEventHandler("esx:tpm", function()
 					-- Get ground coord. As mentioned in the natives, this only works if the client is in render distance.
 					found, groundZ = GetGroundZFor_3dCoord(x, y, z, false)
 					if found then
-							Wait(0)
-							SetPedCoordsKeepVehicle(ped, x, y, groundZ)
-							break
+						Wait(0)
+						SetPedCoordsKeepVehicle(ped, x, y, groundZ)
+						break
 					end
 					Wait(0)
 			end
@@ -519,16 +518,16 @@ AddEventHandler("esx:tpm", function()
 			-- Remove black screen once the loop has ended.
 			DoScreenFadeIn(650)
 			if vehicle > 0 then
-					FreezeEntityPosition(vehicle, false)
+				FreezeEntityPosition(vehicle, false)
 			else
-					FreezeEntityPosition(ped, false)
+				FreezeEntityPosition(ped, false)
 			end
 	
 			if not found then
-					-- If we can't find the coords, set the coords to the old ones.
-					-- We don't unpack them before since they aren't in a loop and only called once.
-					SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
-					ESX.ShowNotification('Successfully Teleported', true, false, 140)
+				-- If we can't find the coords, set the coords to the old ones.
+				-- We don't unpack them before since they aren't in a loop and only called once.
+				SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
+				ESX.ShowNotification('Successfully Teleported', true, false, 140)
 			end
 	
 			-- If Z coord was found, set coords in found coords.
