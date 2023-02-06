@@ -1,3 +1,4 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -22,7 +23,10 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 
 // node_modules/.pnpm/sqlstring@2.3.3/node_modules/sqlstring/lib/SqlString.js
 var require_SqlString = __commonJS({
@@ -227,19 +231,20 @@ var require_sqlstring = __commonJS({
   }
 });
 
-// node_modules/.pnpm/denque@2.0.1/node_modules/denque/index.js
+// node_modules/.pnpm/denque@2.1.0/node_modules/denque/index.js
 var require_denque = __commonJS({
-  "node_modules/.pnpm/denque@2.0.1/node_modules/denque/index.js"(exports, module2) {
+  "node_modules/.pnpm/denque@2.1.0/node_modules/denque/index.js"(exports, module2) {
     "use strict";
     function Denque(array, options) {
       var options = options || {};
+      this._capacity = options.capacity;
       this._head = 0;
       this._tail = 0;
-      this._capacity = options.capacity;
-      this._capacityMask = 3;
-      this._list = new Array(4);
       if (Array.isArray(array)) {
         this._fromArray(array);
+      } else {
+        this._capacityMask = 3;
+        this._list = new Array(4);
       }
     }
     Denque.prototype.peekAt = function peekAt(index) {
@@ -508,6 +513,7 @@ var require_denque = __commonJS({
       }
     };
     Denque.prototype.clear = function clear() {
+      this._list = new Array(this._list.length);
       this._head = 0;
       this._tail = 0;
     };
@@ -518,37 +524,56 @@ var require_denque = __commonJS({
       return this._copyArray(false);
     };
     Denque.prototype._fromArray = function _fromArray(array) {
-      for (var i2 = 0; i2 < array.length; i2++)
-        this.push(array[i2]);
+      var length = array.length;
+      var capacity = this._nextPowerOf2(length);
+      this._list = new Array(capacity);
+      this._capacityMask = capacity - 1;
+      this._tail = length;
+      for (var i2 = 0; i2 < length; i2++)
+        this._list[i2] = array[i2];
     };
-    Denque.prototype._copyArray = function _copyArray(fullCopy) {
-      var newArray = [];
-      var list = this._list;
-      var len = list.length;
+    Denque.prototype._copyArray = function _copyArray(fullCopy, size) {
+      var src = this._list;
+      var capacity = src.length;
+      var length = this.length;
+      size = size | length;
+      if (size == length && this._head < this._tail) {
+        return this._list.slice(this._head, this._tail);
+      }
+      var dest = new Array(size);
+      var k = 0;
       var i2;
       if (fullCopy || this._head > this._tail) {
-        for (i2 = this._head; i2 < len; i2++)
-          newArray.push(list[i2]);
+        for (i2 = this._head; i2 < capacity; i2++)
+          dest[k++] = src[i2];
         for (i2 = 0; i2 < this._tail; i2++)
-          newArray.push(list[i2]);
+          dest[k++] = src[i2];
       } else {
         for (i2 = this._head; i2 < this._tail; i2++)
-          newArray.push(list[i2]);
+          dest[k++] = src[i2];
       }
-      return newArray;
+      return dest;
     };
     Denque.prototype._growArray = function _growArray() {
-      if (this._head) {
-        this._list = this._copyArray(true);
+      if (this._head != 0) {
+        var newList = this._copyArray(true, this._list.length << 1);
+        this._tail = this._list.length;
         this._head = 0;
+        this._list = newList;
+      } else {
+        this._tail = this._list.length;
+        this._list.length <<= 1;
       }
-      this._tail = this._list.length;
-      this._list.length <<= 1;
       this._capacityMask = this._capacityMask << 1 | 1;
     };
     Denque.prototype._shrinkArray = function _shrinkArray() {
       this._list.length >>>= 1;
       this._capacityMask >>>= 1;
+    };
+    Denque.prototype._nextPowerOf2 = function _nextPowerOf2(num) {
+      var log2 = Math.log(num) / Math.log(2);
+      var nextPow2 = 1 << log2 + 1;
+      return Math.max(nextPow2, 4);
     };
     module2.exports = Denque;
   }
@@ -3875,7 +3900,12 @@ var require_long = __commonJS({
       if (!isLong(multiplier))
         multiplier = fromValue(multiplier);
       if (wasm) {
-        var low = wasm.mul(this.low, this.high, multiplier.low, multiplier.high);
+        var low = wasm.mul(
+          this.low,
+          this.high,
+          multiplier.low,
+          multiplier.high
+        );
         return fromBits(low, wasm.get_high(), this.unsigned);
       }
       if (multiplier.isZero())
@@ -3934,7 +3964,12 @@ var require_long = __commonJS({
         if (!this.unsigned && this.high === -2147483648 && divisor.low === -1 && divisor.high === -1) {
           return this;
         }
-        var low = (this.unsigned ? wasm.div_u : wasm.div_s)(this.low, this.high, divisor.low, divisor.high);
+        var low = (this.unsigned ? wasm.div_u : wasm.div_s)(
+          this.low,
+          this.high,
+          divisor.low,
+          divisor.high
+        );
         return fromBits(low, wasm.get_high(), this.unsigned);
       }
       if (this.isZero())
@@ -3996,7 +4031,12 @@ var require_long = __commonJS({
       if (!isLong(divisor))
         divisor = fromValue(divisor);
       if (wasm) {
-        var low = (this.unsigned ? wasm.rem_u : wasm.rem_s)(this.low, this.high, divisor.low, divisor.high);
+        var low = (this.unsigned ? wasm.rem_u : wasm.rem_s)(
+          this.low,
+          this.high,
+          divisor.low,
+          divisor.high
+        );
         return fromBits(low, wasm.get_high(), this.unsigned);
       }
       return this.sub(this.div(divisor).mul(divisor));
@@ -4105,10 +4145,18 @@ var require_long = __commonJS({
       return le ? Long.fromBytesLE(bytes, unsigned) : Long.fromBytesBE(bytes, unsigned);
     };
     Long.fromBytesLE = function fromBytesLE(bytes, unsigned) {
-      return new Long(bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24, bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24, unsigned);
+      return new Long(
+        bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24,
+        bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24,
+        unsigned
+      );
     };
     Long.fromBytesBE = function fromBytesBE(bytes, unsigned) {
-      return new Long(bytes[4] << 24 | bytes[5] << 16 | bytes[6] << 8 | bytes[7], bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3], unsigned);
+      return new Long(
+        bytes[4] << 24 | bytes[5] << 16 | bytes[6] << 8 | bytes[7],
+        bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3],
+        unsigned
+      );
     };
   }
 });
@@ -7763,7 +7811,12 @@ var require_packet = __commonJS({
         return this.buffer.slice(this.start, this.end);
       }
       dump() {
-        console.log([this.buffer.asciiSlice(this.start, this.end)], this.buffer.slice(this.start, this.end), this.length(), this.sequenceId);
+        console.log(
+          [this.buffer.asciiSlice(this.start, this.end)],
+          this.buffer.slice(this.start, this.end),
+          this.length(),
+          this.sequenceId
+        );
       }
       haveMoreData() {
         return this.end > this.offset;
@@ -8022,7 +8075,12 @@ var require_packet = __commonJS({
           return null;
         }
         this.offset += len;
-        return StringParser.decode(this.buffer, encoding, this.offset - len, this.offset);
+        return StringParser.decode(
+          this.buffer,
+          encoding,
+          this.offset - len,
+          this.offset
+        );
       }
       readLengthCodedBuffer() {
         const len = this.readLengthCodedNumber();
@@ -8049,7 +8107,12 @@ var require_packet = __commonJS({
           len = this.end - this.offset;
         }
         this.offset += len;
-        return StringParser.decode(this.buffer, encoding, this.offset - len, this.offset);
+        return StringParser.decode(
+          this.buffer,
+          encoding,
+          this.offset - len,
+          this.offset
+        );
       }
       parseInt(len, supportBigNumbers) {
         if (len === null) {
@@ -8215,7 +8278,9 @@ var require_packet = __commonJS({
         if (timezone === "Z") {
           return new Date(Date.UTC(y, m2 - 1, d));
         }
-        return new Date(`${leftPad(4, y)}-${leftPad(2, m2)}-${leftPad(2, d)}T00:00:00${timezone}`);
+        return new Date(
+          `${leftPad(4, y)}-${leftPad(2, m2)}-${leftPad(2, d)}T00:00:00${timezone}`
+        );
       }
       parseDateTime(timezone) {
         const str = this.readLengthCodedString("binary");
@@ -8522,12 +8587,24 @@ var require_packet_parser = __commonJS({
           if (end - start >= this.length + this.packetHeaderLength) {
             const sequenceId = chunk[start + 3];
             if (this.length < MAX_PACKET_LENGTH && this.largePacketParts.length === 0) {
-              this.onPacket(new Packet(sequenceId, chunk, start, start + this.packetHeaderLength + this.length));
+              this.onPacket(
+                new Packet(
+                  sequenceId,
+                  chunk,
+                  start,
+                  start + this.packetHeaderLength + this.length
+                )
+              );
             } else {
               if (this.largePacketParts.length === 0) {
                 this.firstPacketSequenceId = sequenceId;
               }
-              this.largePacketParts.push(chunk.slice(start + this.packetHeaderLength, start + this.packetHeaderLength + this.length));
+              this.largePacketParts.push(
+                chunk.slice(
+                  start + this.packetHeaderLength,
+                  start + this.packetHeaderLength + this.length
+                )
+              );
               if (this.length < MAX_PACKET_LENGTH) {
                 this._flushLargePacket();
               }
@@ -8565,12 +8642,24 @@ var require_packet_parser = __commonJS({
           chunk.copy(payload, offset, start, start + remainingPayload);
           const sequenceId = payload[3];
           if (this.length < MAX_PACKET_LENGTH && this.largePacketParts.length === 0) {
-            this.onPacket(new Packet(sequenceId, payload, 0, this.length + this.packetHeaderLength));
+            this.onPacket(
+              new Packet(
+                sequenceId,
+                payload,
+                0,
+                this.length + this.packetHeaderLength
+              )
+            );
           } else {
             if (this.largePacketParts.length === 0) {
               this.firstPacketSequenceId = sequenceId;
             }
-            this.largePacketParts.push(payload.slice(this.packetHeaderLength, this.packetHeaderLength + this.length));
+            this.largePacketParts.push(
+              payload.slice(
+                this.packetHeaderLength,
+                this.packetHeaderLength + this.length
+              )
+            );
             if (this.length < MAX_PACKET_LENGTH) {
               this._flushLargePacket();
             }
@@ -9293,9 +9382,17 @@ var require_change_user = __commonJS({
         this.connectAttributes = opts.connectAttrinutes || {};
         let authToken;
         if (this.passwordSha1) {
-          authToken = auth41.calculateTokenFromPasswordSha(this.passwordSha1, this.authPluginData1, this.authPluginData2);
+          authToken = auth41.calculateTokenFromPasswordSha(
+            this.passwordSha1,
+            this.authPluginData1,
+            this.authPluginData2
+          );
         } else {
-          authToken = auth41.calculateToken(this.password, this.authPluginData1, this.authPluginData2);
+          authToken = auth41.calculateToken(
+            this.password,
+            this.authPluginData1,
+            this.authPluginData2
+          );
         }
         this.authToken = authToken;
         this.charsetNumber = opts.charsetNumber;
@@ -9325,12 +9422,18 @@ var require_change_user = __commonJS({
           let keysLength = 0;
           for (let k = 0; k < attrNames.length; ++k) {
             keysLength += Packet.lengthCodedStringLength(attrNames[k], encoding);
-            keysLength += Packet.lengthCodedStringLength(connectAttributes[attrNames[k]], encoding);
+            keysLength += Packet.lengthCodedStringLength(
+              connectAttributes[attrNames[k]],
+              encoding
+            );
           }
           packet.writeLengthCodedNumber(keysLength);
           for (let k = 0; k < attrNames.length; ++k) {
             packet.writeLengthCodedString(attrNames[k], encoding);
-            packet.writeLengthCodedString(connectAttributes[attrNames[k]], encoding);
+            packet.writeLengthCodedString(
+              connectAttributes[attrNames[k]],
+              encoding
+            );
           }
         }
         return packet;
@@ -9405,7 +9508,12 @@ var require_column_definition = __commonJS({
         packet.skip(1);
         this.characterSet = packet.readInt16();
         this.encoding = CharsetToEncoding[this.characterSet];
-        this.name = StringParser.decode(this._buf, this.encoding === "binary" ? this._clientEncoding : this.encoding, _nameStart, _nameStart + _nameLength);
+        this.name = StringParser.decode(
+          this._buf,
+          this.encoding === "binary" ? this._clientEncoding : this.encoding,
+          _nameStart,
+          _nameStart + _nameLength
+        );
         this.columnLength = packet.readInt32();
         this.columnType = packet.readInt8();
         this.flags = packet.readInt16();
@@ -9429,12 +9537,18 @@ var require_column_definition = __commonJS({
       static toPacket(column, sequenceId) {
         let length = 17;
         fields.forEach((field) => {
-          length += Packet.lengthCodedStringLength(column[field], CharsetToEncoding[column.characterSet]);
+          length += Packet.lengthCodedStringLength(
+            column[field],
+            CharsetToEncoding[column.characterSet]
+          );
         });
         const buffer = Buffer.allocUnsafe(length);
         const packet = new Packet(sequenceId, buffer, 0, length);
         function writeField(name) {
-          packet.writeLengthCodedString(column[name], CharsetToEncoding[column.characterSet]);
+          packet.writeLengthCodedString(
+            column[name],
+            CharsetToEncoding[column.characterSet]
+          );
         }
         packet.offset = 4;
         fields.forEach(writeField);
@@ -9456,7 +9570,12 @@ var require_column_definition = __commonJS({
         get: function() {
           const start = this[`_${name}Start`];
           const end = start + this[`_${name}Length`];
-          const val = StringParser.decode(this._buf, this.encoding === "binary" ? this._clientEncoding : this.encoding, start, end);
+          const val = StringParser.decode(
+            this._buf,
+            this.encoding === "binary" ? this._clientEncoding : this.encoding,
+            start,
+            end
+          );
           Object.defineProperty(this, name, {
             value: val,
             writable: false,
@@ -9565,8 +9684,13 @@ var require_execute = __commonJS({
           length += Math.floor((this.parameters.length + 7) / 8);
           length += 1;
           length += 2 * this.parameters.length;
-          parameters = this.parameters.map((value) => toParameter(value, this.encoding, this.timezone));
-          length += parameters.reduce((accumulator, parameter) => accumulator + parameter.length, 0);
+          parameters = this.parameters.map(
+            (value) => toParameter(value, this.encoding, this.timezone)
+          );
+          length += parameters.reduce(
+            (accumulator, parameter) => accumulator + parameter.length,
+            0
+          );
         }
         const buffer = Buffer.allocUnsafe(length);
         const packet = new Packet(0, buffer, 0, length);
@@ -9732,9 +9856,17 @@ var require_handshake_response = __commonJS({
         this.clientFlags = handshake.flags;
         let authToken;
         if (this.passwordSha1) {
-          authToken = auth41.calculateTokenFromPasswordSha(this.passwordSha1, this.authPluginData1, this.authPluginData2);
+          authToken = auth41.calculateTokenFromPasswordSha(
+            this.passwordSha1,
+            this.authPluginData1,
+            this.authPluginData2
+          );
         } else {
-          authToken = auth41.calculateToken(this.password, this.authPluginData1, this.authPluginData2);
+          authToken = auth41.calculateToken(
+            this.password,
+            this.authPluginData1,
+            this.authPluginData2
+          );
         }
         this.authToken = authToken;
         this.charsetNumber = handshake.charsetNumber;
@@ -9774,12 +9906,18 @@ var require_handshake_response = __commonJS({
           let keysLength = 0;
           for (k = 0; k < attrNames.length; ++k) {
             keysLength += Packet.lengthCodedStringLength(attrNames[k], encoding);
-            keysLength += Packet.lengthCodedStringLength(connectAttributes[attrNames[k]], encoding);
+            keysLength += Packet.lengthCodedStringLength(
+              connectAttributes[attrNames[k]],
+              encoding
+            );
           }
           packet.writeLengthCodedNumber(keysLength);
           for (k = 0; k < attrNames.length; ++k) {
             packet.writeLengthCodedString(attrNames[k], encoding);
-            packet.writeLengthCodedString(connectAttributes[attrNames[k]], encoding);
+            packet.writeLengthCodedString(
+              connectAttributes[attrNames[k]],
+              encoding
+            );
           }
         }
         return packet;
@@ -10104,7 +10242,9 @@ var require_resultset_header = __commonJS({
                 key = packet.readLengthCodedString(encoding);
                 stateChanges.schema = key;
               } else if (type === sessionInfoTypes.STATE_CHANGE) {
-                stateChanges.trackStateChange = packet.readLengthCodedString(encoding);
+                stateChanges.trackStateChange = packet.readLengthCodedString(
+                  encoding
+                );
               } else {
               }
               packet.offset = stateEnd;
@@ -10407,7 +10547,10 @@ var require_sha256_password = __commonJS({
     var STATE_WAIT_SERVER_KEY = 1;
     var STATE_FINAL = -1;
     function encrypt(password, scramble, key) {
-      const stage1 = xor(Buffer.from(`${password}\0`, "utf8").toString("binary"), scramble.toString("binary"));
+      const stage1 = xor(
+        Buffer.from(`${password}\0`, "utf8").toString("binary"),
+        scramble.toString("binary")
+      );
       return crypto.publicEncrypt(key, stage1);
     }
     module2.exports = (pluginOptions = {}) => ({ connection }) => {
@@ -10434,9 +10577,13 @@ var require_sha256_password = __commonJS({
             }
             return authWithKey(data);
           case STATE_FINAL:
-            throw new Error(`Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in STATE_FINAL state.`);
+            throw new Error(
+              `Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in STATE_FINAL state.`
+            );
         }
-        throw new Error(`Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in state ${state}`);
+        throw new Error(
+          `Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in state ${state}`
+        );
       };
     };
   }
@@ -10471,7 +10618,10 @@ var require_caching_sha2_password = __commonJS({
       return xor(stage1, stage3);
     }
     function encrypt(password, scramble, key) {
-      const stage1 = xorRotating(Buffer.from(`${password}\0`, "utf8").toString("binary"), scramble.toString("binary"));
+      const stage1 = xorRotating(
+        Buffer.from(`${password}\0`, "utf8").toString("binary"),
+        scramble.toString("binary")
+      );
       return crypto.publicEncrypt(key, stage1);
     }
     module2.exports = (pluginOptions = {}) => ({ connection }) => {
@@ -10506,16 +10656,22 @@ var require_caching_sha2_password = __commonJS({
               state = STATE_WAIT_SERVER_KEY;
               return REQUEST_SERVER_KEY_PACKET;
             }
-            throw new Error(`Invalid AuthMoreData packet received by ${PLUGIN_NAME} plugin in STATE_TOKEN_SENT state.`);
+            throw new Error(
+              `Invalid AuthMoreData packet received by ${PLUGIN_NAME} plugin in STATE_TOKEN_SENT state.`
+            );
           case STATE_WAIT_SERVER_KEY:
             if (pluginOptions.onServerPublicKey) {
               pluginOptions.onServerPublicKey(data);
             }
             return authWithKey(data);
           case STATE_FINAL:
-            throw new Error(`Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in STATE_FINAL state.`);
+            throw new Error(
+              `Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in STATE_FINAL state.`
+            );
         }
-        throw new Error(`Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in state ${state}`);
+        throw new Error(
+          `Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in state ${state}`
+        );
       };
     };
   }
@@ -10534,9 +10690,17 @@ var require_mysql_native_password = __commonJS({
         const authPluginData2 = data.slice(8, 20);
         let authToken;
         if (passwordSha1) {
-          authToken = auth41.calculateTokenFromPasswordSha(passwordSha1, authPluginData1, authPluginData2);
+          authToken = auth41.calculateTokenFromPasswordSha(
+            passwordSha1,
+            authPluginData1,
+            authPluginData2
+          );
         } else {
-          authToken = auth41.calculateToken(password, authPluginData1, authPluginData2);
+          authToken = auth41.calculateToken(
+            password,
+            authPluginData1,
+            authPluginData2
+          );
         }
         return authToken;
       };
@@ -10558,7 +10722,9 @@ var require_auth_switch = __commonJS({
       mysql_native_password: mysql_native_password({})
     };
     function warnLegacyAuthSwitch() {
-      console.warn("WARNING! authSwitchHandler api is deprecated, please use new authPlugins api");
+      console.warn(
+        "WARNING! authSwitchHandler api is deprecated, please use new authPlugins api"
+      );
     }
     function authSwitchPluginError(error, command) {
       error.code = "AUTH_SWITCH_PLUGIN_ERROR";
@@ -10566,7 +10732,9 @@ var require_auth_switch = __commonJS({
       command.emit("error", error);
     }
     function authSwitchRequest(packet, connection, command) {
-      const { pluginName, pluginData } = Packets.AuthSwitchRequest.fromPacket(packet);
+      const { pluginName, pluginData } = Packets.AuthSwitchRequest.fromPacket(
+        packet
+      );
       let authPlugin = connection.config.authPlugins && connection.config.authPlugins[pluginName];
       if (connection.config.authSwitchHandler && pluginName !== "mysql_native_password") {
         const legacySwitchHandler = connection.config.authSwitchHandler;
@@ -10583,7 +10751,9 @@ var require_auth_switch = __commonJS({
         authPlugin = standardAuthPlugins[pluginName];
       }
       if (!authPlugin) {
-        throw new Error(`Server requests authentication using unknown plugin ${pluginName}. See ${"TODO: add plugins doco here"} on how to configure or author authentication plugins.`);
+        throw new Error(
+          `Server requests authentication using unknown plugin ${pluginName}. See ${"TODO: add plugins doco here"} on how to configure or author authentication plugins.`
+        );
       }
       connection._authPlugin = authPlugin({ connection, command });
       Promise.resolve(connection._authPlugin(pluginData)).then((data) => {
@@ -10608,7 +10778,9 @@ var require_auth_switch = __commonJS({
         return;
       }
       if (!connection._authPlugin) {
-        throw new Error("AuthPluginMoreData received but no auth plugin instance found");
+        throw new Error(
+          "AuthPluginMoreData received but no auth plugin instance found"
+        );
       }
       Promise.resolve(connection._authPlugin(data)).then((data2) => {
         if (data2) {
@@ -10781,7 +10953,10 @@ var require_compressed_protocol = __commonJS({
       let start;
       if (buffer.length > MAX_COMPRESSED_LENGTH) {
         for (start = 0; start < buffer.length; start += MAX_COMPRESSED_LENGTH) {
-          writeCompressed.call(this, buffer.slice(start, start + MAX_COMPRESSED_LENGTH));
+          writeCompressed.call(
+            this,
+            buffer.slice(start, start + MAX_COMPRESSED_LENGTH)
+          );
         }
         return;
       }
@@ -10872,12 +11047,19 @@ var require_client_handshake = __commonJS({
         return ClientHandshake.prototype.handshakeInit;
       }
       sendSSLRequest(connection) {
-        const sslRequest = new Packets.SSLRequest(this.clientFlags, connection.config.charsetNumber);
+        const sslRequest = new Packets.SSLRequest(
+          this.clientFlags,
+          connection.config.charsetNumber
+        );
         connection.writePacket(sslRequest.toPacket());
       }
       sendCredentials(connection) {
         if (connection.config.debug) {
-          console.log("Sending handshake packet: flags:%d=(%s)", this.clientFlags, flagNames(this.clientFlags).join(", "));
+          console.log(
+            "Sending handshake packet: flags:%d=(%s)",
+            this.clientFlags,
+            flagNames(this.clientFlags).join(", ")
+          );
         }
         this.user = connection.config.user;
         this.password = connection.config.password;
@@ -10903,9 +11085,17 @@ var require_client_handshake = __commonJS({
         const authPluginData2 = authPluginData.slice(8, 20);
         let authToken;
         if (this.passwordSha1) {
-          authToken = auth41.calculateTokenFromPasswordSha(this.passwordSha1, authPluginData1, authPluginData2);
+          authToken = auth41.calculateTokenFromPasswordSha(
+            this.passwordSha1,
+            authPluginData1,
+            authPluginData2
+          );
         } else {
-          authToken = auth41.calculateToken(this.password, authPluginData1, authPluginData2);
+          authToken = auth41.calculateToken(
+            this.password,
+            authPluginData1,
+            authPluginData2
+          );
         }
         return authToken;
       }
@@ -10916,7 +11106,11 @@ var require_client_handshake = __commonJS({
         });
         this.handshake = Packets.Handshake.fromPacket(helloPacket);
         if (connection.config.debug) {
-          console.log("Server hello packet: capability flags:%d=(%s)", this.handshake.capabilityFlags, flagNames(this.handshake.capabilityFlags).join(", "));
+          console.log(
+            "Server hello packet: capability flags:%d=(%s)",
+            this.handshake.capabilityFlags,
+            flagNames(this.handshake.capabilityFlags).join(", ")
+          );
         }
         connection.serverCapabilityFlags = this.handshake.capabilityFlags;
         connection.serverEncoding = CharsetToEncoding[this.handshake.characterSet];
@@ -11027,24 +11221,27 @@ var require_server_handshake = __commonJS({
         const clientHelloReply = Packets.HandshakeResponse.fromPacket(packet);
         connection.clientHelloReply = clientHelloReply;
         if (this.args.authCallback) {
-          this.args.authCallback({
-            user: clientHelloReply.user,
-            database: clientHelloReply.database,
-            address: connection.stream.remoteAddress,
-            authPluginData1: this.serverHello.authPluginData1,
-            authPluginData2: this.serverHello.authPluginData2,
-            authToken: clientHelloReply.authToken
-          }, (err, mysqlError) => {
-            if (!mysqlError) {
-              connection.writeOk();
-            } else {
-              connection.writeError({
-                message: mysqlError.message || "",
-                code: mysqlError.code || 1045
-              });
-              connection.close();
+          this.args.authCallback(
+            {
+              user: clientHelloReply.user,
+              database: clientHelloReply.database,
+              address: connection.stream.remoteAddress,
+              authPluginData1: this.serverHello.authPluginData1,
+              authPluginData2: this.serverHello.authPluginData2,
+              authToken: clientHelloReply.authToken
+            },
+            (err, mysqlError) => {
+              if (!mysqlError) {
+                connection.writeOk();
+              } else {
+                connection.writeError({
+                  message: mysqlError.message || "",
+                  code: mysqlError.code || 1045
+                });
+                connection.close();
+              }
             }
-          });
+          );
         } else {
           connection.writeOk();
         }
@@ -11756,7 +11953,9 @@ var require_text_parser = __commonJS({
         };
       }
       const parserFn = genFunc();
-      parserFn("(function () {")("return class TextRow {");
+      parserFn("(function () {")(
+        "return class TextRow {"
+      );
       parserFn("constructor(fields) {");
       if (typeof options.typeCast === "function") {
         parserFn("const _this = this;");
@@ -11789,7 +11988,9 @@ var require_text_parser = __commonJS({
         fieldName = helpers.srcEscape(fields[i2].name);
         parserFn(`// ${fieldName}: ${typeNames[fields[i2].columnType]}`);
         if (typeof options.nestTables === "string") {
-          lvalue = `result[${helpers.srcEscape(fields[i2].table + options.nestTables + fields[i2].name)}]`;
+          lvalue = `result[${helpers.srcEscape(
+            fields[i2].table + options.nestTables + fields[i2].name
+          )}]`;
         } else if (options.nestTables === true) {
           lvalue = `result[${helpers.srcEscape(fields[i2].table)}][${fieldName}]`;
         } else if (options.rowsAsArray) {
@@ -11801,7 +12002,13 @@ var require_text_parser = __commonJS({
           parserFn(`${lvalue} = packet.readLengthCodedBuffer();`);
         } else {
           const encodingExpr = `fields[${i2}].encoding`;
-          const readCode = readCodeFor(fields[i2].columnType, fields[i2].characterSet, encodingExpr, config, options);
+          const readCode = readCodeFor(
+            fields[i2].columnType,
+            fields[i2].characterSet,
+            encodingExpr,
+            config,
+            options
+          );
           if (typeof options.typeCast === "function") {
             parserFn(`${lvalue} = options.typeCast(this.wrap${i2}, function() { return ${readCode} });`);
           } else {
@@ -11813,7 +12020,10 @@ var require_text_parser = __commonJS({
       parserFn("}");
       parserFn("};")("})()");
       if (config.debug) {
-        helpers.printDebugWithCode("Compiled text protocol row parser", parserFn.toString());
+        helpers.printDebugWithCode(
+          "Compiled text protocol row parser",
+          parserFn.toString()
+        );
       }
       if (typeof options.typeCast === "function") {
         return parserFn.toFunction({ wrap });
@@ -11872,7 +12082,10 @@ var require_query2 = __commonJS({
         this.options = Object.assign({}, connection.config, this._queryOptions);
         this._setTimeout();
         this._time = process.hrtime();
-        const cmdPacket = new Packets.Query(this.sql, connection.config.charsetNumber);
+        const cmdPacket = new Packets.Query(
+          this.sql,
+          connection.config.charsetNumber
+        );
         connection.writePacket(cmdPacket.toPacket(1));
         return Query.prototype.resultsetHeader;
       }
@@ -11931,7 +12144,9 @@ var require_query2 = __commonJS({
         const rs = new Packets.ResultSetHeader(packet, connection);
         this._fieldCount = rs.fieldCount;
         if (connection.config.debug) {
-          console.log(`        Resultset header received, expecting ${rs.fieldCount} column definition packets`);
+          console.log(
+            `        Resultset header received, expecting ${rs.fieldCount} column definition packets`
+          );
         }
         if (this._fieldCount === 0) {
           return this.doneInsert(rs);
@@ -11948,7 +12163,9 @@ var require_query2 = __commonJS({
         if (this._streamFactory) {
           this._localStream = this._streamFactory(path);
         } else {
-          this._localStreamError = new Error(`As a result of LOCAL INFILE command server wants to read ${path} file, but as of v2.0 you must provide streamFactory option returning ReadStream.`);
+          this._localStreamError = new Error(
+            `As a result of LOCAL INFILE command server wants to read ${path} file, but as of v2.0 you must provide streamFactory option returning ReadStream.`
+          );
           connection.writePacket(EmptyPacket);
           return this.infileOk;
         }
@@ -11964,7 +12181,9 @@ var require_query2 = __commonJS({
         const onData = function(data) {
           const dataWithHeader = Buffer.allocUnsafe(data.length + 4);
           data.copy(dataWithHeader, 4);
-          connection.writePacket(new Packets.Packet(0, dataWithHeader, 0, dataWithHeader.length));
+          connection.writePacket(
+            new Packets.Packet(0, dataWithHeader, 0, dataWithHeader.length)
+          );
         };
         const onEnd = () => {
           connection.removeListener("error", onConnectionError);
@@ -11993,7 +12212,10 @@ var require_query2 = __commonJS({
       readField(packet, connection) {
         this._receivedFieldsCount++;
         if (this._fields[this._resultIndex].length !== this._fieldCount) {
-          const field = new Packets.ColumnDefinition(packet, connection.clientEncoding);
+          const field = new Packets.ColumnDefinition(
+            packet,
+            connection.clientEncoding
+          );
           this._fields[this._resultIndex].push(field);
           if (connection.config.debug) {
             console.log("        Column definition:");
@@ -12028,7 +12250,11 @@ var require_query2 = __commonJS({
         }
         let row;
         try {
-          row = this._rowParser.next(packet, this._fields[this._resultIndex], this.options);
+          row = this._rowParser.next(
+            packet,
+            this._fields[this._resultIndex],
+            this.options
+          );
         } catch (err) {
           this._localStreamError = err;
           return this.doneInsert(null);
@@ -12072,7 +12298,10 @@ var require_query2 = __commonJS({
       _setTimeout() {
         if (this.timeout) {
           const timeoutHandler = this._handleTimeoutError.bind(this);
-          this.queryTimeout = Timers.setTimeout(timeoutHandler, this.timeout);
+          this.queryTimeout = Timers.setTimeout(
+            timeoutHandler,
+            this.timeout
+          );
         }
       }
       _handleTimeoutError() {
@@ -12248,7 +12477,9 @@ var require_binary_parser = __commonJS({
         parserFn(`// ${fieldName}: ${typeNames[fields[i2].columnType]}`);
         if (typeof options.nestTables === "string") {
           tableName = helpers.srcEscape(fields[i2].table);
-          lvalue = `result[${helpers.srcEscape(fields[i2].table + options.nestTables + fields[i2].name)}]`;
+          lvalue = `result[${helpers.srcEscape(
+            fields[i2].table + options.nestTables + fields[i2].name
+          )}]`;
         } else if (options.nestTables === true) {
           tableName = helpers.srcEscape(fields[i2].table);
           lvalue = `result[${tableName}][${fieldName}]`;
@@ -12271,7 +12502,10 @@ var require_binary_parser = __commonJS({
       parserFn("}");
       parserFn("};")("})()");
       if (config.debug) {
-        helpers.printDebugWithCode("Compiled binary protocol row parser", parserFn.toString());
+        helpers.printDebugWithCode(
+          "Compiled binary protocol row parser",
+          parserFn.toString()
+        );
       }
       return parserFn.toFunction();
     }
@@ -12321,7 +12555,12 @@ var require_execute2 = __commonJS({
         this._connection = connection;
         this.options = Object.assign({}, connection.config, this._executeOptions);
         this._setTimeout();
-        const executePacket = new Packets.Execute(this.statement.id, this.parameters, connection.config.charsetNumber, connection.config.timezone);
+        const executePacket = new Packets.Execute(
+          this.statement.id,
+          this.parameters,
+          connection.config.charsetNumber,
+          connection.config.timezone
+        );
         try {
           connection.writePacket(executePacket.toPacket(1));
         } catch (error) {
@@ -12331,7 +12570,10 @@ var require_execute2 = __commonJS({
       }
       readField(packet, connection) {
         let fields;
-        const field = new Packets.ColumnDefinition(packet, connection.clientEncoding);
+        const field = new Packets.ColumnDefinition(
+          packet,
+          connection.clientEncoding
+        );
         this._receivedFieldsCount++;
         this._fields[this._resultIndex].push(field);
         if (this._receivedFieldsCount === this._fieldCount) {
@@ -12345,7 +12587,10 @@ var require_execute2 = __commonJS({
         if (!packet.isEOF()) {
           return connection.protocolError("Expected EOF packet");
         }
-        this._rowParser = new (this.buildParserFromFields(this._fields[this._resultIndex], connection))();
+        this._rowParser = new (this.buildParserFromFields(
+          this._fields[this._resultIndex],
+          connection
+        ))();
         return Execute.prototype.row;
       }
     };
@@ -12387,7 +12632,9 @@ var require_prepare = __commonJS({
           callback = parameters;
           parameters = [];
         }
-        return this._connection.addCommand(new Execute({ statement: this, values: parameters }, callback));
+        return this._connection.addCommand(
+          new Execute({ statement: this, values: parameters }, callback)
+        );
       }
     };
     var Prepare = class extends Command {
@@ -12412,7 +12659,10 @@ var require_prepare = __commonJS({
           }
           return null;
         }
-        const cmdPacket = new Packets.PrepareStatement(this.query, connection.config.charsetNumber);
+        const cmdPacket = new Packets.PrepareStatement(
+          this.query,
+          connection.config.charsetNumber
+        );
         connection.writePacket(cmdPacket.toPacket(1));
         return Prepare.prototype.prepareHeader;
       }
@@ -12461,7 +12711,13 @@ var require_prepare = __commonJS({
         return this.prepareDone(connection);
       }
       prepareDone(connection) {
-        const statement = new PreparedStatementInfo(this.query, this.id, this.fields, this.parameterDefinitions, connection);
+        const statement = new PreparedStatementInfo(
+          this.query,
+          this.id,
+          this.fields,
+          this.parameterDefinitions,
+          connection
+        );
         connection._statements.set(this.key, statement);
         if (this.onResult) {
           this.onResult(null, statement);
@@ -12486,7 +12742,12 @@ var require_ping = __commonJS({
         this.onResult = callback;
       }
       start(packet, connection) {
-        const ping = new Packet(0, Buffer.from([1, 0, 0, 0, CommandCode.PING]), 0, 5);
+        const ping = new Packet(
+          0,
+          Buffer.from([1, 0, 0, 0, CommandCode.PING]),
+          0,
+          5
+        );
         connection.writePacket(ping);
         return Ping.prototype.pingResponse;
       }
@@ -12604,10 +12865,18 @@ var require_binlog_query_statusvars = __commonJS({
             break;
           case keys.INVOKERS:
             length = buffer[offset++];
-            result.invokerUsername = buffer.toString("utf8", offset, offset + length);
+            result.invokerUsername = buffer.toString(
+              "utf8",
+              offset,
+              offset + length
+            );
             offset += length;
             length = buffer[offset++];
-            result.invokerHostname = buffer.toString("utf8", offset, offset + length);
+            result.invokerHostname = buffer.toString(
+              "utf8",
+              offset,
+              offset + length
+            );
             offset += length;
             break;
           case keys.UPDATED_DB_NAMES:
@@ -12617,7 +12886,9 @@ var require_binlog_query_statusvars = __commonJS({
               prevOffset = offset;
               while (buffer[offset++] && offset < buffer.length) {
               }
-              result.updatedDBs.push(buffer.toString("utf8", prevOffset, offset - 1));
+              result.updatedDBs.push(
+                buffer.toString("utf8", prevOffset, offset - 1)
+              );
             }
             break;
           case keys.MICROSECONDS:
@@ -12787,7 +13058,12 @@ var require_quit = __commonJS({
       }
       start(packet, connection) {
         connection._closing = true;
-        const quit = new Packet(0, Buffer.from([1, 0, 0, 0, CommandCode.QUIT]), 0, 5);
+        const quit = new Packet(
+          0,
+          Buffer.from([1, 0, 0, 0, CommandCode.QUIT]),
+          0,
+          5
+        );
         if (this.done) {
           this.done();
         }
@@ -12958,7 +13234,9 @@ var require_connection_config = __commonJS({
           if (!Object.prototype.hasOwnProperty.call(options, key))
             continue;
           if (validOptions[key] !== 1) {
-            console.error(`Ignoring invalid configuration option passed to Connection: ${key}. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection`);
+            console.error(
+              `Ignoring invalid configuration option passed to Connection: ${key}. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection`
+            );
           }
         }
         this.isServer = options.isServer;
@@ -12983,7 +13261,9 @@ var require_connection_config = __commonJS({
         this.enableKeepAlive = !!options.enableKeepAlive;
         this.keepAliveInitialDelay = options.keepAliveInitialDelay || 0;
         if (options.timezone && !/^(?:local|Z|[ +-]\d\d:\d\d)$/.test(options.timezone)) {
-          console.error(`Ignoring invalid timezone passed to Connection: ${options.timezone}. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection`);
+          console.error(
+            `Ignoring invalid timezone passed to Connection: ${options.timezone}. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection`
+          );
           this.timezone = "Z";
         } else {
           this.timezone = options.timezone || "local";
@@ -13001,7 +13281,9 @@ var require_connection_config = __commonJS({
         }
         if (this.ssl) {
           if (typeof this.ssl !== "object") {
-            throw new TypeError(`SSL profile must be an object, instead it's a ${typeof this.ssl}`);
+            throw new TypeError(
+              `SSL profile must be an object, instead it's a ${typeof this.ssl}`
+            );
           }
           this.ssl.rejectUnauthorized = this.ssl.rejectUnauthorized !== false;
         }
@@ -13010,7 +13292,10 @@ var require_connection_config = __commonJS({
         this.compress = options.compress || false;
         this.authPlugins = options.authPlugins;
         this.authSwitchHandler = options.authSwitchHandler;
-        this.clientFlags = ConnectionConfig.mergeFlags(ConnectionConfig.getDefaultFlags(options), options.flags || "");
+        this.clientFlags = ConnectionConfig.mergeFlags(
+          ConnectionConfig.getDefaultFlags(options),
+          options.flags || ""
+        );
         this.connectAttributes = options.connectAttributes;
         this.maxPreparedStatements = options.maxPreparedStatements || 16e3;
       }
@@ -13130,11 +13415,14 @@ var require_promise = __commonJS({
       const listeners = {};
       target.on("newListener", (eventName) => {
         if (events.indexOf(eventName) >= 0 && !target.listenerCount(eventName)) {
-          source2.on(eventName, listeners[eventName] = function() {
-            const args = [].slice.call(arguments);
-            args.unshift(eventName);
-            target.emit.apply(target, args);
-          });
+          source2.on(
+            eventName,
+            listeners[eventName] = function() {
+              const args = [].slice.call(arguments);
+              args.unshift(eventName);
+              target.emit.apply(target, args);
+            }
+          );
         }
       }).on("removeListener", (eventName) => {
         if (events.indexOf(eventName) >= 0 && !target.listenerCount(eventName)) {
@@ -13187,7 +13475,9 @@ var require_promise = __commonJS({
         const c = this.connection;
         const localErr = new Error();
         if (typeof params === "function") {
-          throw new Error("Callback function is not available with promise clients.");
+          throw new Error(
+            "Callback function is not available with promise clients."
+          );
         }
         return new this.Promise((resolve, reject) => {
           const done = makeDoneCb(resolve, reject, localErr);
@@ -13202,7 +13492,9 @@ var require_promise = __commonJS({
         const c = this.connection;
         const localErr = new Error();
         if (typeof params === "function") {
-          throw new Error("Callback function is not available with promise clients.");
+          throw new Error(
+            "Callback function is not available with promise clients."
+          );
         }
         return new this.Promise((resolve, reject) => {
           const done = makeDoneCb(resolve, reject, localErr);
@@ -13282,7 +13574,10 @@ var require_promise = __commonJS({
               localErr.sqlMessage = err.sqlMessage;
               reject(localErr);
             } else {
-              const wrappedStatement = new PromisePreparedStatementInfo(statement, promiseImpl);
+              const wrappedStatement = new PromisePreparedStatementInfo(
+                statement,
+                promiseImpl
+              );
               resolve(wrappedStatement);
             }
           });
@@ -13318,7 +13613,9 @@ var require_promise = __commonJS({
       const createConnectionErr = new Error();
       const thePromise = opts.Promise || Promise;
       if (!thePromise) {
-        throw new Error("no Promise implementation available.Use promise-enabled node version or pass userland Promise implementation as parameter, for example: { Promise: require('bluebird') }");
+        throw new Error(
+          "no Promise implementation available.Use promise-enabled node version or pass userland Promise implementation as parameter, for example: { Promise: require('bluebird') }"
+        );
       }
       return new thePromise((resolve, reject) => {
         coreConnection.once("connect", () => {
@@ -13339,7 +13636,10 @@ var require_promise = __commonJS({
         if (typeof core.Connection.prototype[func] === "function" && PromiseConnection.prototype[func] === void 0) {
           PromiseConnection.prototype[func] = function factory(funcName) {
             return function() {
-              return core.Connection.prototype[funcName].apply(this.connection, arguments);
+              return core.Connection.prototype[funcName].apply(
+                this.connection,
+                arguments
+              );
             };
           }(func);
         }
@@ -13361,7 +13661,10 @@ var require_promise = __commonJS({
         super(connection, promiseImpl);
       }
       destroy() {
-        return core.PoolConnection.prototype.destroy.apply(this.connection, arguments);
+        return core.PoolConnection.prototype.destroy.apply(
+          this.connection,
+          arguments
+        );
       }
     };
     var PromisePool = class extends EventEmitter {
@@ -13387,7 +13690,9 @@ var require_promise = __commonJS({
         const corePool = this.pool;
         const localErr = new Error();
         if (typeof args === "function") {
-          throw new Error("Callback function is not available with promise clients.");
+          throw new Error(
+            "Callback function is not available with promise clients."
+          );
         }
         return new this.Promise((resolve, reject) => {
           const done = makeDoneCb(resolve, reject, localErr);
@@ -13402,7 +13707,9 @@ var require_promise = __commonJS({
         const corePool = this.pool;
         const localErr = new Error();
         if (typeof args === "function") {
-          throw new Error("Callback function is not available with promise clients.");
+          throw new Error(
+            "Callback function is not available with promise clients."
+          );
         }
         return new this.Promise((resolve, reject) => {
           const done = makeDoneCb(resolve, reject, localErr);
@@ -13436,7 +13743,9 @@ var require_promise = __commonJS({
       const corePool = core.createPool(opts);
       const thePromise = opts.Promise || Promise;
       if (!thePromise) {
-        throw new Error("no Promise implementation available.Use promise-enabled node version or pass userland Promise implementation as parameter, for example: { Promise: require('bluebird') }");
+        throw new Error(
+          "no Promise implementation available.Use promise-enabled node version or pass userland Promise implementation as parameter, for example: { Promise: require('bluebird') }"
+        );
       }
       return new PromisePool(corePool, thePromise);
     }
@@ -13479,7 +13788,9 @@ var require_promise = __commonJS({
         const corePoolCluster = this.poolCluster;
         const localErr = new Error();
         if (typeof args === "function") {
-          throw new Error("Callback function is not available with promise clients.");
+          throw new Error(
+            "Callback function is not available with promise clients."
+          );
         }
         return new this.Promise((resolve, reject) => {
           const done = makeDoneCb(resolve, reject, localErr);
@@ -13490,7 +13801,9 @@ var require_promise = __commonJS({
         const corePoolCluster = this.poolCluster;
         const localErr = new Error();
         if (typeof args === "function") {
-          throw new Error("Callback function is not available with promise clients.");
+          throw new Error(
+            "Callback function is not available with promise clients."
+          );
         }
         return new this.Promise((resolve, reject) => {
           const done = makeDoneCb(resolve, reject, localErr);
@@ -13498,7 +13811,10 @@ var require_promise = __commonJS({
         });
       }
       of(pattern, selector) {
-        return new PromisePoolCluster(this.poolCluster.of(pattern, selector), this.Promise);
+        return new PromisePoolCluster(
+          this.poolCluster.of(pattern, selector),
+          this.Promise
+        );
       }
       end() {
         const corePoolCluster = this.poolCluster;
@@ -13537,7 +13853,9 @@ var require_promise = __commonJS({
       const corePoolCluster = core.createPoolCluster(opts);
       const thePromise = opts && opts.Promise || Promise;
       if (!thePromise) {
-        throw new Error("no Promise implementation available.Use promise-enabled node version or pass userland Promise implementation as parameter, for example: { Promise: require('bluebird') }");
+        throw new Error(
+          "no Promise implementation available.Use promise-enabled node version or pass userland Promise implementation as parameter, for example: { Promise: require('bluebird') }"
+        );
       }
       return new PromisePoolCluster(corePoolCluster, thePromise);
     }
@@ -13580,7 +13898,10 @@ var require_connection = __commonJS({
           if (opts.config.socketPath) {
             this.stream = Net.connect(opts.config.socketPath);
           } else {
-            this.stream = Net.connect(opts.config.port, opts.config.host);
+            this.stream = Net.connect(
+              opts.config.port,
+              opts.config.host
+            );
             this.stream.setKeepAlive(true, this.config.keepAliveInitialDelay);
           }
         } else if (typeof opts.config.stream === "function") {
@@ -13625,7 +13946,9 @@ var require_connection = __commonJS({
             return;
           }
           if (!this._protocolError) {
-            this._protocolError = new Error("Connection lost: The server closed the connection.");
+            this._protocolError = new Error(
+              "Connection lost: The server closed the connection."
+            );
             this._protocolError.fatal = true;
             this._protocolError.code = "PROTOCOL_CONNECTION_LOST";
           }
@@ -13651,7 +13974,10 @@ var require_connection = __commonJS({
         this.serverEncoding = "utf8";
         if (this.config.connectTimeout) {
           const timeoutHandler = this._handleTimeoutError.bind(this);
-          this.connectTimeout = Timers.setTimeout(timeoutHandler, this.config.connectTimeout);
+          this.connectTimeout = Timers.setTimeout(
+            timeoutHandler,
+            this.config.connectTimeout
+          );
         }
       }
       promise(promiseImpl) {
@@ -13659,7 +13985,9 @@ var require_connection = __commonJS({
         return new PromiseConnection(this, promiseImpl);
       }
       _addCommandClosedState(cmd) {
-        const err = new Error("Can't add new command when connection is in closed state");
+        const err = new Error(
+          "Can't add new command when connection is in closed state"
+        );
         err.fatal = true;
         if (cmd.onResult) {
           cmd.onResult(err);
@@ -13758,15 +14086,23 @@ var require_connection = __commonJS({
         if (length < MAX_PACKET_LENGTH) {
           packet.writeHeader(this.sequenceId);
           if (this.config.debug) {
-            console.log(`${this._internalId} ${this.connectionId} <== ${this._command._commandName}#${this._command.stateName()}(${[this.sequenceId, packet._name, packet.length()].join(",")})`);
-            console.log(`${this._internalId} ${this.connectionId} <== ${packet.buffer.toString("hex")}`);
+            console.log(
+              `${this._internalId} ${this.connectionId} <== ${this._command._commandName}#${this._command.stateName()}(${[this.sequenceId, packet._name, packet.length()].join(",")})`
+            );
+            console.log(
+              `${this._internalId} ${this.connectionId} <== ${packet.buffer.toString("hex")}`
+            );
           }
           this._bumpSequenceId(1);
           this.write(packet.buffer);
         } else {
           if (this.config.debug) {
-            console.log(`${this._internalId} ${this.connectionId} <== Writing large packet, raw content not written:`);
-            console.log(`${this._internalId} ${this.connectionId} <== ${this._command._commandName}#${this._command.stateName()}(${[this.sequenceId, packet._name, packet.length()].join(",")})`);
+            console.log(
+              `${this._internalId} ${this.connectionId} <== Writing large packet, raw content not written:`
+            );
+            console.log(
+              `${this._internalId} ${this.connectionId} <== ${this._command._commandName}#${this._command.stateName()}(${[this.sequenceId, packet._name, packet.length()].join(",")})`
+            );
           }
           for (offset = 4; offset < 4 + length; offset += MAX_PACKET_LENGTH) {
             chunk = packet.buffer.slice(offset, offset + MAX_PACKET_LENGTH);
@@ -13832,7 +14168,11 @@ var require_connection = __commonJS({
           };
         } else {
           this.stream.on("data", (data) => {
-            this.packetParser.execute(data.parent, data.offset, data.offset + data.length);
+            this.packetParser.execute(
+              data.parent,
+              data.offset,
+              data.offset + data.length
+            );
           });
         }
       }
@@ -13852,7 +14192,9 @@ var require_connection = __commonJS({
         }
         if (packet) {
           if (this.sequenceId !== packet.sequenceId) {
-            const err = new Error(`Warning: got packets out of order. Expected ${this.sequenceId} but received ${packet.sequenceId}`);
+            const err = new Error(
+              `Warning: got packets out of order. Expected ${this.sequenceId} but received ${packet.sequenceId}`
+            );
             err.expected = this.sequenceId;
             err.received = packet.sequenceId;
             this.emit("warn", err);
@@ -13862,11 +14204,15 @@ var require_connection = __commonJS({
         }
         if (this.config.debug) {
           if (packet) {
-            console.log(` raw: ${packet.buffer.slice(packet.offset, packet.offset + packet.length()).toString("hex")}`);
+            console.log(
+              ` raw: ${packet.buffer.slice(packet.offset, packet.offset + packet.length()).toString("hex")}`
+            );
             console.trace();
             const commandName = this._command ? this._command._commandName : "(no command)";
             const stateName = this._command ? this._command.stateName() : "(no command)";
-            console.log(`${this._internalId} ${this.connectionId} ==> ${commandName}#${stateName}(${[packet.sequenceId, packet.type(), packet.length()].join(",")})`);
+            console.log(
+              `${this._internalId} ${this.connectionId} ==> ${commandName}#${stateName}(${[packet.sequenceId, packet.type(), packet.length()].join(",")})`
+            );
           }
         }
         if (!this._command) {
@@ -13875,7 +14221,10 @@ var require_connection = __commonJS({
             const error = Packets.Error.fromPacket(packet);
             this.protocolError(error.message, error.code);
           } else {
-            this.protocolError("Unexpected packet while no commands in the queue", "PROTOCOL_UNEXPECTED_PACKET");
+            this.protocolError(
+              "Unexpected packet while no commands in the queue",
+              "PROTOCOL_UNEXPECTED_PACKET"
+            );
           }
           this.close();
           return;
@@ -13906,13 +14255,23 @@ var require_connection = __commonJS({
       }
       format(sql, values) {
         if (typeof this.config.queryFormat === "function") {
-          return this.config.queryFormat.call(this, sql, values, this.config.timezone);
+          return this.config.queryFormat.call(
+            this,
+            sql,
+            values,
+            this.config.timezone
+          );
         }
         const opts = {
           sql,
           values
         };
-        return SqlString.format(opts.sql, opts.values, this.config.stringifyObjects, this.config.timezone);
+        return SqlString.format(
+          opts.sql,
+          opts.values,
+          this.config.stringifyObjects,
+          this.config.timezone
+        );
       }
       escape(value) {
         return SqlString.escape(value, false, this.config.timezone);
@@ -13993,7 +14352,9 @@ var require_connection = __commonJS({
               val = null;
             }
             if (typeof val === "function") {
-              throw new TypeError("Bind parameters must not contain function(s). To pass the body of a function as a string call .toString() first");
+              throw new TypeError(
+                "Bind parameters must not contain function(s). To pass the body of a function as a string call .toString() first"
+              );
             }
           });
         }
@@ -14023,22 +14384,27 @@ var require_connection = __commonJS({
           options = {};
         }
         const charsetNumber = options.charset ? ConnectionConfig.getCharsetNumber(options.charset) : this.config.charsetNumber;
-        return this.addCommand(new Commands.ChangeUser({
-          user: options.user || this.config.user,
-          password: options.password || this.config.password,
-          passwordSha1: options.passwordSha1 || this.config.passwordSha1,
-          database: options.database || this.config.database,
-          timeout: options.timeout,
-          charsetNumber,
-          currentConfig: this.config
-        }, (err) => {
-          if (err) {
-            err.fatal = true;
-          }
-          if (callback) {
-            callback(err);
-          }
-        }));
+        return this.addCommand(
+          new Commands.ChangeUser(
+            {
+              user: options.user || this.config.user,
+              password: options.password || this.config.password,
+              passwordSha1: options.passwordSha1 || this.config.passwordSha1,
+              database: options.database || this.config.database,
+              timeout: options.timeout,
+              charsetNumber,
+              currentConfig: this.config
+            },
+            (err) => {
+              if (err) {
+                err.fatal = true;
+              }
+              if (callback) {
+                callback(err);
+              }
+            }
+          )
+        );
       }
       beginTransaction(cb) {
         return this.query("START TRANSACTION", cb);
@@ -14121,12 +14487,16 @@ var require_connection = __commonJS({
       writeColumns(columns) {
         this.writePacket(Packets.ResultSetHeader.toPacket(columns.length));
         columns.forEach((column) => {
-          this.writePacket(Packets.ColumnDefinition.toPacket(column, this.serverConfig.encoding));
+          this.writePacket(
+            Packets.ColumnDefinition.toPacket(column, this.serverConfig.encoding)
+          );
         });
         this.writeEof();
       }
       writeTextRow(column) {
-        this.writePacket(Packets.TextRow.toPacket(column, this.serverConfig.encoding));
+        this.writePacket(
+          Packets.TextRow.toPacket(column, this.serverConfig.encoding)
+        );
       }
       writeTextResult(rows, columns) {
         this.writeColumns(columns);
@@ -14213,7 +14583,12 @@ var require_connection = __commonJS({
           ca: config.ssl.ca,
           ciphers: config.ssl.ciphers
         });
-        const securePair = Tls.createSecurePair(credentials, false, true, rejectUnauthorized);
+        const securePair = Tls.createSecurePair(
+          credentials,
+          false,
+          true,
+          rejectUnauthorized
+        );
         if (stream.ondata) {
           stream.ondata = null;
         }
@@ -14262,7 +14637,9 @@ var require_pool_connection = __commonJS({
         return new PromisePoolConnection(this, promiseImpl);
       }
       end() {
-        const err = new Error("Calling conn.end() to release a pooled connection is deprecated. In next version calling conn.end() will be restored to default conn.end() behavior. Use conn.release() instead.");
+        const err = new Error(
+          "Calling conn.end() to release a pooled connection is deprecated. In next version calling conn.end() will be restored to default conn.end() behavior. Use conn.release() instead."
+        );
         this.emit("warn", err);
         console.warn(err.message);
         this.release();
@@ -14402,7 +14779,12 @@ var require_pool = __commonJS({
         }
       }
       query(sql, values, cb) {
-        const cmdQuery = Connection.createQuery(sql, values, cb, this.config.connectionConfig);
+        const cmdQuery = Connection.createQuery(
+          sql,
+          values,
+          cb,
+          this.config.connectionConfig
+        );
         if (typeof cmdQuery.namedPlaceholders === "undefined") {
           cmdQuery.namedPlaceholders = this.config.connectionConfig.namedPlaceholders;
         }
@@ -14441,7 +14823,7 @@ var require_pool = __commonJS({
             });
           } catch (e2) {
             conn.release();
-            throw e2;
+            return cb(e2);
           }
         });
       }
@@ -14451,10 +14833,19 @@ var require_pool = __commonJS({
         this.releaseConnection(connection);
       }
       format(sql, values) {
-        return mysql.format(sql, values, this.config.connectionConfig.stringifyObjects, this.config.connectionConfig.timezone);
+        return mysql.format(
+          sql,
+          values,
+          this.config.connectionConfig.stringifyObjects,
+          this.config.connectionConfig.timezone
+        );
       }
       escape(value) {
-        return mysql.escape(value, this.config.connectionConfig.stringifyObjects, this.config.connectionConfig.timezone);
+        return mysql.escape(
+          value,
+          this.config.connectionConfig.stringifyObjects,
+          this.config.connectionConfig.timezone
+        );
       }
       escapeId(value) {
         return mysql.escapeId(value, false);
@@ -14670,7 +15061,9 @@ var require_pool_cluster = __commonJS({
           foundNodeIds = [pattern];
         } else {
           const keyword = pattern.substring(pattern.length - 1, 0);
-          foundNodeIds = this._serviceableNodeIds.filter((id) => id.startsWith(keyword));
+          foundNodeIds = this._serviceableNodeIds.filter(
+            (id) => id.startsWith(keyword)
+          );
         }
         this._findCaches[pattern] = foundNodeIds;
         return foundNodeIds;
@@ -14793,12 +15186,27 @@ var require_mysql2 = __commonJS({
     exports.escapeId = SqlString.escapeId;
     exports.format = SqlString.format;
     exports.raw = SqlString.raw;
-    exports.__defineGetter__("createConnectionPromise", () => require_promise().createConnection);
-    exports.__defineGetter__("createPoolPromise", () => require_promise().createPool);
-    exports.__defineGetter__("createPoolClusterPromise", () => require_promise().createPoolCluster);
+    exports.__defineGetter__(
+      "createConnectionPromise",
+      () => require_promise().createConnection
+    );
+    exports.__defineGetter__(
+      "createPoolPromise",
+      () => require_promise().createPool
+    );
+    exports.__defineGetter__(
+      "createPoolClusterPromise",
+      () => require_promise().createPoolCluster
+    );
     exports.__defineGetter__("Types", () => require_types());
-    exports.__defineGetter__("Charsets", () => require_charsets());
-    exports.__defineGetter__("CharsetToEncoding", () => require_charset_encodings());
+    exports.__defineGetter__(
+      "Charsets",
+      () => require_charsets()
+    );
+    exports.__defineGetter__(
+      "CharsetToEncoding",
+      () => require_charset_encodings()
+    );
     exports.setMaxParserCache = function(max) {
       parserCache.setMaxCache(max);
     };
@@ -14809,14 +15217,28 @@ var require_mysql2 = __commonJS({
 });
 
 // src/config/index.ts
-var resourceName, mysql_debug, mysql_ui, mysql_slow_query_warning, mysql_connection_string, mysql_transaction_isolation_level;
+function setDebug() {
+  try {
+    const debug = GetConvar("mysql_debug", "false");
+    mysql_debug = debug === "false" ? false : JSON.parse(debug);
+  } catch (e2) {
+    mysql_debug = true;
+  }
+}
+var resourceName, mysql_connection_string, mysql_ui, mysql_slow_query_warning, mysql_debug, mysql_transaction_isolation_level, parseUri, connectionOptions;
 var init_config = __esm({
   "src/config/index.ts"() {
+    "use strict";
     resourceName = GetCurrentResourceName();
-    mysql_debug = GetConvar("mysql_debug", "false") === "true";
+    mysql_connection_string = GetConvar("mysql_connection_string", "");
     mysql_ui = GetConvar("mysql_ui", "false") === "true";
     mysql_slow_query_warning = GetConvarInt("mysql_slow_query_warning", 200);
-    mysql_connection_string = GetConvar("mysql_connection_string", "");
+    setDebug();
+    setInterval(() => {
+      setDebug();
+      mysql_ui = GetConvar("mysql_ui", "false") === "true";
+      mysql_slow_query_warning = GetConvarInt("mysql_slow_query_warning", 200);
+    }, 1e3);
     mysql_transaction_isolation_level = (() => {
       const query = "SET TRANSACTION ISOLATION LEVEL";
       switch (GetConvarInt("mysql_transaction_isolation_level", 2)) {
@@ -14832,6 +15254,76 @@ var init_config = __esm({
           return `${query} READ COMMITTED`;
       }
     })();
+    parseUri = (connectionString) => {
+      const splitMatchGroups = connectionString.match(
+        new RegExp(
+          "^(?:([^:/?#.]+):)?(?://(?:([^/?#]*)@)?([\\w\\d\\-\\u0100-\\uffff.%]*)(?::([0-9]+))?)?([^?#]+)?(?:\\?([^#]*))?$"
+        )
+      );
+      if (!splitMatchGroups)
+        throw new Error(`mysql_connection_string structure was invalid (${connectionString})`);
+      const authTarget = splitMatchGroups[2] ? splitMatchGroups[2].split(":") : [];
+      const options = {
+        user: authTarget[0] || void 0,
+        password: authTarget[1] || void 0,
+        host: splitMatchGroups[3],
+        port: parseInt(splitMatchGroups[4]),
+        database: splitMatchGroups[5].replace(/^\/+/, ""),
+        ...splitMatchGroups[6] && splitMatchGroups[6].split("&").reduce((connectionInfo, parameter) => {
+          const [key, value] = parameter.split("=");
+          connectionInfo[key] = value;
+          return connectionInfo;
+        }, {})
+      };
+      return options;
+    };
+    connectionOptions = (() => {
+      const options = mysql_connection_string.includes("mysql://") ? parseUri(mysql_connection_string) : mysql_connection_string.replace(/(?:host(?:name)|ip|server|data\s?source|addr(?:ess)?)=/gi, "host=").replace(/(?:user\s?(?:id|name)?|uid)=/gi, "user=").replace(/(?:pwd|pass)=/gi, "password=").replace(/(?:db)=/gi, "database=").split(";").reduce((connectionInfo, parameter) => {
+        const [key, value] = parameter.split("=");
+        connectionInfo[key] = value;
+        return connectionInfo;
+      }, {});
+      options.namedPlaceholders = options.namedPlaceholders === "false" ? false : true;
+      for (const key in ["dateStrings", "flags", "ssl"]) {
+        const value = options[key];
+        if (typeof value === "string") {
+          try {
+            options[key] = JSON.parse(value);
+          } catch {
+          }
+        }
+      }
+      return options;
+    })();
+    RegisterCommand(
+      "oxmysql_debug",
+      (source2, args) => {
+        if (source2 !== 0)
+          return console.log("^3This command can only be run server side^0");
+        switch (args[0]) {
+          case "add":
+            if (!Array.isArray(mysql_debug))
+              mysql_debug = [];
+            mysql_debug.push(args[1]);
+            SetConvar("mysql_debug", JSON.stringify(mysql_debug));
+            return console.log(`^3Added ${args[1]} to mysql_debug^0`);
+          case "remove":
+            if (Array.isArray(mysql_debug)) {
+              const index = mysql_debug.indexOf(args[1]);
+              if (index === -1)
+                return;
+              mysql_debug.splice(index, 1);
+              if (mysql_debug.length === 0)
+                mysql_debug = false;
+              SetConvar("mysql_debug", JSON.stringify(mysql_debug) || "false");
+              return console.log(`^3Removed ${args[1]} from mysql_debug^0`);
+            }
+          default:
+            return console.log(`^3Usage: oxmysql add|remove <resource>^0`);
+        }
+      },
+      true
+    );
   }
 });
 
@@ -19475,9 +19967,9 @@ var require_ponyfill_es2018 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fetch-blob@3.1.5/node_modules/fetch-blob/streams.cjs
+// node_modules/.pnpm/fetch-blob@3.2.0/node_modules/fetch-blob/streams.cjs
 var require_streams2 = __commonJS({
-  "node_modules/.pnpm/fetch-blob@3.1.5/node_modules/fetch-blob/streams.cjs"() {
+  "node_modules/.pnpm/fetch-blob@3.2.0/node_modules/fetch-blob/streams.cjs"() {
     var POOL_SIZE2 = 65536;
     if (!globalThis.ReadableStream) {
       try {
@@ -19521,7 +20013,7 @@ var require_streams2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fetch-blob@3.1.5/node_modules/fetch-blob/index.js
+// node_modules/.pnpm/fetch-blob@3.2.0/node_modules/fetch-blob/index.js
 async function* toIterator(parts, clone2 = true) {
   for (const part of parts) {
     if ("stream" in part) {
@@ -19552,7 +20044,7 @@ async function* toIterator(parts, clone2 = true) {
 }
 var import_streams, POOL_SIZE, _Blob, Blob2, fetch_blob_default;
 var init_fetch_blob = __esm({
-  "node_modules/.pnpm/fetch-blob@3.1.5/node_modules/fetch-blob/index.js"() {
+  "node_modules/.pnpm/fetch-blob@3.2.0/node_modules/fetch-blob/index.js"() {
     import_streams = __toESM(require_streams2(), 1);
     POOL_SIZE = 65536;
     _Blob = class Blob {
@@ -19584,11 +20076,8 @@ var init_fetch_blob = __esm({
           } else {
             part = encoder.encode(`${element}`);
           }
-          const size = ArrayBuffer.isView(part) ? part.byteLength : part.size;
-          if (size) {
-            this.#size += size;
-            this.#parts.push(part);
-          }
+          this.#size += ArrayBuffer.isView(part) ? part.byteLength : part.size;
+          this.#parts.push(part);
         }
         this.#endings = `${options.endings === void 0 ? "transparent" : options.endings}`;
         const type = options.type === void 0 ? "" : String(options.type);
@@ -19683,10 +20172,10 @@ var init_fetch_blob = __esm({
   }
 });
 
-// node_modules/.pnpm/fetch-blob@3.1.5/node_modules/fetch-blob/file.js
+// node_modules/.pnpm/fetch-blob@3.2.0/node_modules/fetch-blob/file.js
 var _File, File2, file_default;
 var init_file = __esm({
-  "node_modules/.pnpm/fetch-blob@3.1.5/node_modules/fetch-blob/file.js"() {
+  "node_modules/.pnpm/fetch-blob@3.2.0/node_modules/fetch-blob/file.js"() {
     init_fetch_blob();
     _File = class File extends fetch_blob_default {
       #lastModified = 0;
@@ -19825,10 +20314,10 @@ var init_esm_min = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/errors/base.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/errors/base.js
 var FetchBaseError;
 var init_base = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/errors/base.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/errors/base.js"() {
     FetchBaseError = class extends Error {
       constructor(message, type) {
         super(message);
@@ -19845,10 +20334,10 @@ var init_base = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/errors/fetch-error.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/errors/fetch-error.js
 var FetchError;
 var init_fetch_error = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/errors/fetch-error.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/errors/fetch-error.js"() {
     init_base();
     FetchError = class extends FetchBaseError {
       constructor(message, type, systemError) {
@@ -19862,10 +20351,10 @@ var init_fetch_error = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/is.js
-var NAME, isURLSearchParameters, isBlob, isAbortSignal, isDomainOrSubdomain;
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/is.js
+var NAME, isURLSearchParameters, isBlob, isAbortSignal, isDomainOrSubdomain, isSameProtocol;
 var init_is = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/is.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/is.js"() {
     NAME = Symbol.toStringTag;
     isURLSearchParameters = (object) => {
       return typeof object === "object" && typeof object.append === "function" && typeof object.delete === "function" && typeof object.get === "function" && typeof object.getAll === "function" && typeof object.has === "function" && typeof object.set === "function" && typeof object.sort === "function" && object[NAME] === "URLSearchParams";
@@ -19880,6 +20369,11 @@ var init_is = __esm({
       const orig = new URL(original).hostname;
       const dest = new URL(destination).hostname;
       return orig === dest || orig.endsWith(`.${dest}`);
+    };
+    isSameProtocol = (destination, original) => {
+      const orig = new URL(original).protocol;
+      const dest = new URL(destination).protocol;
+      return orig === dest;
     };
   }
 });
@@ -19899,10 +20393,10 @@ var require_node_domexception = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fetch-blob@3.1.5/node_modules/fetch-blob/from.js
+// node_modules/.pnpm/fetch-blob@3.2.0/node_modules/fetch-blob/from.js
 var import_node_fs, import_node_domexception, stat, BlobDataItem;
 var init_from = __esm({
-  "node_modules/.pnpm/fetch-blob@3.1.5/node_modules/fetch-blob/from.js"() {
+  "node_modules/.pnpm/fetch-blob@3.2.0/node_modules/fetch-blob/from.js"() {
     import_node_fs = require("node:fs");
     import_node_domexception = __toESM(require_node_domexception(), 1);
     init_file();
@@ -19916,20 +20410,18 @@ var init_from = __esm({
         this.#start = options.start;
         this.size = options.size;
         this.lastModified = options.lastModified;
-        this.originalSize = options.originalSize === void 0 ? options.size : options.originalSize;
       }
       slice(start, end) {
         return new BlobDataItem({
           path: this.#path,
           lastModified: this.lastModified,
-          originalSize: this.originalSize,
           size: end - start,
           start: this.#start + start
         });
       }
       async *stream() {
-        const { mtimeMs, size } = await stat(this.#path);
-        if (mtimeMs > this.lastModified || this.originalSize !== size) {
+        const { mtimeMs } = await stat(this.#path);
+        if (mtimeMs > this.lastModified) {
           throw new import_node_domexception.default("The requested file could not be read, typically due to permission problems that have occurred after a reference to a file was acquired.", "NotReadableError");
         }
         yield* (0, import_node_fs.createReadStream)(this.#path, {
@@ -19944,7 +20436,7 @@ var init_from = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/multipart-parser.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/multipart-parser.js
 var multipart_parser_exports = {};
 __export(multipart_parser_exports, {
   toFormData: () => toFormData
@@ -20038,7 +20530,7 @@ async function toFormData(Body2, ct) {
 }
 var s, S, f2, F, LF, CR, SPACE, HYPHEN, COLON, A, Z, lower, noop, MultipartParser;
 var init_multipart_parser = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/multipart-parser.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/multipart-parser.js"() {
     init_from();
     init_esm_min();
     s = 0;
@@ -20297,7 +20789,7 @@ var init_multipart_parser = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/body.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/body.js
 async function consumeBody(data) {
   if (data[INTERNALS].disturbed) {
     throw new TypeError(`body used already for: ${data.url}`);
@@ -20344,7 +20836,7 @@ async function consumeBody(data) {
 }
 var import_node_stream, import_node_util, import_node_buffer, pipeline, INTERNALS, Body, clone, getNonSpecFormDataBoundary, extractContentType, getTotalBytes, writeToStream;
 var init_body = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/body.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/body.js"() {
     import_node_stream = __toESM(require("node:stream"), 1);
     import_node_util = require("node:util");
     import_node_buffer = require("node:buffer");
@@ -20448,8 +20940,12 @@ var init_body = __esm({
       blob: { enumerable: true },
       json: { enumerable: true },
       text: { enumerable: true },
-      data: { get: (0, import_node_util.deprecate)(() => {
-      }, "data doesn't exist, use json(), text(), arrayBuffer(), or body instead", "https://github.com/node-fetch/node-fetch/issues/1000 (response)") }
+      data: { get: (0, import_node_util.deprecate)(
+        () => {
+        },
+        "data doesn't exist, use json(), text(), arrayBuffer(), or body instead",
+        "https://github.com/node-fetch/node-fetch/issues/1000 (response)"
+      ) }
     });
     clone = (instance, highWaterMark) => {
       let p1;
@@ -20468,7 +20964,11 @@ var init_body = __esm({
       }
       return body;
     };
-    getNonSpecFormDataBoundary = (0, import_node_util.deprecate)((body) => body.getBoundary(), "form-data doesn't follow the spec and requires special treatment. Use alternative package", "https://github.com/node-fetch/node-fetch/issues/1167");
+    getNonSpecFormDataBoundary = (0, import_node_util.deprecate)(
+      (body) => body.getBoundary(),
+      "form-data doesn't follow the spec and requires special treatment. Use alternative package",
+      "https://github.com/node-fetch/node-fetch/issues/1167"
+    );
     extractContentType = (body, request) => {
       if (body === null) {
         return null;
@@ -20522,26 +21022,28 @@ var init_body = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/headers.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/headers.js
 function fromRawHeaders(headers = []) {
-  return new Headers(headers.reduce((result, value, index, array) => {
-    if (index % 2 === 0) {
-      result.push(array.slice(index, index + 2));
-    }
-    return result;
-  }, []).filter(([name, value]) => {
-    try {
-      validateHeaderName(name);
-      validateHeaderValue(name, String(value));
-      return true;
-    } catch {
-      return false;
-    }
-  }));
+  return new Headers(
+    headers.reduce((result, value, index, array) => {
+      if (index % 2 === 0) {
+        result.push(array.slice(index, index + 2));
+      }
+      return result;
+    }, []).filter(([name, value]) => {
+      try {
+        validateHeaderName(name);
+        validateHeaderValue(name, String(value));
+        return true;
+      } catch {
+        return false;
+      }
+    })
+  );
 }
 var import_node_util2, import_node_http, validateHeaderName, validateHeaderValue, Headers;
 var init_headers = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/headers.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/headers.js"() {
     import_node_util2 = require("node:util");
     import_node_http = __toESM(require("node:http"), 1);
     validateHeaderName = typeof import_node_http.default.validateHeaderName === "function" ? import_node_http.default.validateHeaderName : (name) => {
@@ -20604,14 +21106,21 @@ var init_headers = __esm({
                 return (name, value) => {
                   validateHeaderName(name);
                   validateHeaderValue(name, String(value));
-                  return URLSearchParams.prototype[p].call(target, String(name).toLowerCase(), String(value));
+                  return URLSearchParams.prototype[p].call(
+                    target,
+                    String(name).toLowerCase(),
+                    String(value)
+                  );
                 };
               case "delete":
               case "has":
               case "getAll":
                 return (name) => {
                   validateHeaderName(name);
-                  return URLSearchParams.prototype[p].call(target, String(name).toLowerCase());
+                  return URLSearchParams.prototype[p].call(
+                    target,
+                    String(name).toLowerCase()
+                  );
                 };
               case "keys":
                 return () => {
@@ -20677,17 +21186,20 @@ var init_headers = __esm({
         }, {});
       }
     };
-    Object.defineProperties(Headers.prototype, ["get", "entries", "forEach", "values"].reduce((result, property) => {
-      result[property] = { enumerable: true };
-      return result;
-    }, {}));
+    Object.defineProperties(
+      Headers.prototype,
+      ["get", "entries", "forEach", "values"].reduce((result, property) => {
+        result[property] = { enumerable: true };
+        return result;
+      }, {})
+    );
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/is-redirect.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/is-redirect.js
 var redirectStatus, isRedirect;
 var init_is_redirect = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/is-redirect.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/is-redirect.js"() {
     redirectStatus = /* @__PURE__ */ new Set([301, 302, 303, 307, 308]);
     isRedirect = (code) => {
       return redirectStatus.has(code);
@@ -20695,10 +21207,10 @@ var init_is_redirect = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/response.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/response.js
 var INTERNALS2, Response;
 var init_response = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/response.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/response.js"() {
     init_headers();
     init_body();
     init_is_redirect();
@@ -20794,10 +21306,10 @@ var init_response = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/get-search.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/get-search.js
 var getSearch;
 var init_get_search = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/get-search.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/get-search.js"() {
     getSearch = (parsedURL) => {
       if (parsedURL.search) {
         return parsedURL.search;
@@ -20809,7 +21321,7 @@ var init_get_search = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/referrer.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/referrer.js
 function stripURLForUseAsAReferrer(url, originOnly = false) {
   if (url == null) {
     return "no-referrer";
@@ -20845,7 +21357,7 @@ function isOriginPotentiallyTrustworthy(url) {
   if (hostIPVersion === 6 && /^(((0+:){7})|(::(0+:){0,6}))0*1$/.test(hostIp)) {
     return true;
   }
-  if (/^(.+\.)*localhost$/.test(url.host)) {
+  if (url.host === "localhost" || url.host.endsWith(".localhost")) {
     return false;
   }
   if (url.protocol === "file:") {
@@ -20937,7 +21449,7 @@ function parseReferrerPolicyFromHeader(headers) {
 }
 var import_node_net, ReferrerPolicy, DEFAULT_REFERRER_POLICY;
 var init_referrer = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/utils/referrer.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/utils/referrer.js"() {
     import_node_net = require("node:net");
     ReferrerPolicy = /* @__PURE__ */ new Set([
       "",
@@ -20954,10 +21466,10 @@ var init_referrer = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/request.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/request.js
 var import_node_url, import_node_util3, INTERNALS3, isRequest, doBadDataWarn, Request, getNodeRequestOptions;
 var init_request = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/request.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/request.js"() {
     import_node_url = require("node:url");
     import_node_util3 = require("node:util");
     init_headers();
@@ -20969,8 +21481,12 @@ var init_request = __esm({
     isRequest = (object) => {
       return typeof object === "object" && typeof object[INTERNALS3] === "object";
     };
-    doBadDataWarn = (0, import_node_util3.deprecate)(() => {
-    }, ".data is not a valid RequestInit property, use .body instead", "https://github.com/node-fetch/node-fetch/issues/1000 (request)");
+    doBadDataWarn = (0, import_node_util3.deprecate)(
+      () => {
+      },
+      ".data is not a valid RequestInit property, use .body instead",
+      "https://github.com/node-fetch/node-fetch/issues/1000 (request)"
+    );
     Request = class extends Body {
       constructor(input, init = {}) {
         let parsedURL;
@@ -20987,7 +21503,7 @@ var init_request = __esm({
         if (/^(delete|get|head|options|post|put)$/i.test(method)) {
           method = method.toUpperCase();
         }
-        if ("data" in init) {
+        if (!isRequest(init) && "data" in init) {
           doBadDataWarn();
         }
         if ((init.body != null || isRequest(input) && input.body !== null) && (method === "GET" || method === "HEAD")) {
@@ -21120,7 +21636,7 @@ var init_request = __esm({
         headers.set("User-Agent", "node-fetch");
       }
       if (request.compress && !headers.has("Accept-Encoding")) {
-        headers.set("Accept-Encoding", "gzip,deflate,br");
+        headers.set("Accept-Encoding", "gzip, deflate, br");
       }
       let { agent } = request;
       if (typeof agent === "function") {
@@ -21145,10 +21661,10 @@ var init_request = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/errors/abort-error.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/errors/abort-error.js
 var AbortError;
 var init_abort_error = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/errors/abort-error.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/errors/abort-error.js"() {
     init_base();
     AbortError = class extends FetchBaseError {
       constructor(message, type = "aborted") {
@@ -21158,7 +21674,7 @@ var init_abort_error = __esm({
   }
 });
 
-// node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/index.js
+// node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/index.js
 async function fetch(url, options_) {
   return new Promise((resolve, reject) => {
     const request = new Request(url, options_);
@@ -21209,7 +21725,9 @@ async function fetch(url, options_) {
       finalize();
     });
     fixResponseChunkedTransferBadEnding(request_, (error) => {
-      response.body.destroy(error);
+      if (response && response.body) {
+        response.body.destroy(error);
+      }
     });
     if (process.version < "v14") {
       request_.on("socket", (s2) => {
@@ -21270,7 +21788,7 @@ async function fetch(url, options_) {
               referrer: request.referrer,
               referrerPolicy: request.referrerPolicy
             };
-            if (!isDomainOrSubdomain(request.url, locationURL)) {
+            if (!isDomainOrSubdomain(request.url, locationURL) || !isSameProtocol(request.url, locationURL)) {
               for (const name of ["authorization", "www-authenticate", "cookie", "cookie2"]) {
                 requestOptions.headers.delete(name);
               }
@@ -21403,22 +21921,24 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
         errorCallback(error);
       }
     };
-    socket.prependListener("close", onSocketClose);
-    request.on("abort", () => {
-      socket.removeListener("close", onSocketClose);
-    });
-    socket.on("data", (buf) => {
+    const onData = (buf) => {
       properLastChunkReceived = import_node_buffer2.Buffer.compare(buf.slice(-5), LAST_CHUNK) === 0;
       if (!properLastChunkReceived && previousChunk) {
         properLastChunkReceived = import_node_buffer2.Buffer.compare(previousChunk.slice(-3), LAST_CHUNK.slice(0, 3)) === 0 && import_node_buffer2.Buffer.compare(buf.slice(-2), LAST_CHUNK.slice(3)) === 0;
       }
       previousChunk = buf;
+    };
+    socket.prependListener("close", onSocketClose);
+    socket.on("data", onData);
+    request.on("close", () => {
+      socket.removeListener("close", onSocketClose);
+      socket.removeListener("data", onData);
     });
   });
 }
 var import_node_http2, import_node_https, import_node_zlib, import_node_stream2, import_node_buffer2, supportedSchemas;
 var init_src = __esm({
-  "node_modules/.pnpm/node-fetch@3.2.4/node_modules/node-fetch/src/index.js"() {
+  "node_modules/.pnpm/node-fetch@3.2.10/node_modules/node-fetch/src/index.js"() {
     import_node_http2 = __toESM(require("node:http"), 1);
     import_node_https = __toESM(require("node:https"), 1);
     import_node_zlib = __toESM(require("node:zlib"), 1);
@@ -21444,28 +21964,30 @@ var init_src = __esm({
 var update_exports = {};
 var init_update = __esm({
   "src/update/index.ts"() {
+    "use strict";
     init_src();
     init_config();
     if (GetConvar("mysql_versioncheck", "true") === "true") {
       setTimeout(async () => {
         try {
-          const response = await fetch(`https://api.github.com/repos/bitpredator/oxmysql/releases/latest`);
+          const response = await fetch(`https://api.github.com/repos/overextended/oxmysql/releases/latest`);
           if (response.status !== 200)
             return;
           const release = await response.json();
           if (release.prerelease)
             return;
-          const currentVersion = GetResourceMetadata(resourceName, "version", 0).match(/(\d)\.(\d+)\.(\d+)/);
+          const currentVersion = GetResourceMetadata(resourceName, "version", 0).match(/(\d)\.(\d+\.\d+)/);
           if (!currentVersion)
             return;
-          const latestVersion = release.tag_name.match(/(\d)\.(\d+)\.(\d+)/);
+          const latestVersion = release.tag_name.match(/(\d)\.(\d+\.\d+)/);
           if (!latestVersion)
             return;
-          if (currentVersion[0] === latestVersion[0] || currentVersion[0] > latestVersion[0])
+          if (currentVersion[0] === latestVersion[0] || parseInt(currentVersion[1]) > parseInt(latestVersion[1]) || parseFloat(currentVersion[2]) > parseFloat(latestVersion[2]))
             return;
-          const updateMessage = currentVersion[3] < latestVersion[3] ? "patch" : currentVersion[2] < latestVersion[2] ? "an update" : "a major update";
-          console.log(`^3There is ${updateMessage} available for oxmysql - please update to the latest release (current version: ${currentVersion[0]})\r
-${release.html_url}^0`);
+          console.log(
+            `^3An update is available for oxmysql (current version: ${currentVersion[0]})\r
+${release.html_url}^0`
+          );
         } catch (e2) {
         }
       }, 1e3);
@@ -21510,35 +22032,20 @@ var typeCast = (field, next) => {
 };
 
 // src/database/index.ts
-var parseUri = (connectionString) => {
-  const splitMatchGroups = connectionString.match(new RegExp("^(?:([^:/?#.]+):)?(?://(?:([^/?#]*)@)?([\\w\\d\\-\\u0100-\\uffff.%]*)(?::([0-9]+))?)?([^?#]+)?(?:\\?([^#]*))?$"));
-  if (!splitMatchGroups)
-    throw new Error(`mysql_connection_string structure was invalid (${connectionString})`);
-  const authTarget = splitMatchGroups[2] ? splitMatchGroups[2].split(":") : [];
-  const options = {
-    user: authTarget[0] || void 0,
-    password: authTarget[1] || void 0,
-    host: splitMatchGroups[3],
-    port: parseInt(splitMatchGroups[4]),
-    database: splitMatchGroups[5].replace(/^\/+/, ""),
-    ...splitMatchGroups[6] && splitMatchGroups[6].split("&").reduce((connectionInfo, parameter) => {
-      const [key, value] = parameter.split("=");
-      connectionInfo[key] = value;
-      return connectionInfo;
-    }, {})
-  };
-  return options;
-};
-var connectionOptions = (() => {
-  const options = mysql_connection_string.includes("mysql://") ? parseUri(mysql_connection_string) : mysql_connection_string.replace(/(?:host(?:name)|ip|server|data\s?source|addr(?:ess)?)=/gi, "host=").replace(/(?:user\s?(?:id|name)?|uid)=/gi, "user=").replace(/(?:pwd|pass)=/gi, "password=").replace(/(?:db)=/gi, "database=").split(";").reduce((connectionInfo, parameter) => {
-    const [key, value] = parameter.split("=");
-    connectionInfo[key] = value;
-    return connectionInfo;
-  }, {});
-  return options;
-})();
 var pool;
 var serverReady = false;
+async function waitForConnection() {
+  if (!serverReady) {
+    await new Promise((resolve) => {
+      (function wait() {
+        if (serverReady) {
+          return resolve();
+        }
+        setTimeout(wait);
+      })();
+    });
+  }
+}
 setTimeout(() => {
   pool = (0, import_mysql2.createPool)({
     connectTimeout: 6e4,
@@ -21557,14 +22064,15 @@ setTimeout(() => {
 });
 
 // src/utils/parseArguments.ts
-var convertNamedPlaceholders = require_named_placeholders()();
+init_config();
+var convertNamedPlaceholders = connectionOptions.namedPlaceholders && require_named_placeholders()();
 var parseArguments = (invokingResource, query, parameters, cb) => {
-  if (typeof query !== "string")
-    throw new Error(`Query expected a string but received ${typeof query} instead`);
-  if (query.includes(":") && parameters && typeof parameters === "object" && !Array.isArray(parameters) || query.includes("@")) {
-    const placeholders = convertNamedPlaceholders(query, parameters);
-    query = placeholders[0];
-    parameters = placeholders[1];
+  if (convertNamedPlaceholders && parameters && typeof parameters === "object" && !Array.isArray(parameters)) {
+    if (query.includes(":") || query.includes("@")) {
+      const placeholders = convertNamedPlaceholders(query, parameters);
+      query = placeholders[0];
+      parameters = placeholders[1];
+    }
   }
   if (cb && typeof cb !== "function")
     cb = void 0;
@@ -21573,7 +22081,7 @@ var parseArguments = (invokingResource, query, parameters, cb) => {
     parameters = [];
   } else if (parameters === null || parameters === void 0)
     parameters = [];
-  if (!Array.isArray(parameters)) {
+  if (parameters && !Array.isArray(parameters)) {
     let arr = [];
     Object.entries(parameters).forEach((entry) => arr[parseInt(entry[0]) - 1] = entry[1]);
     parameters = arr;
@@ -21590,9 +22098,11 @@ var parseArguments = (invokingResource, query, parameters, cb) => {
         for (let i2 = 0; i2 < diff; i2++)
           parameters[queryParams.length + i2] = null;
       } else if (diff < 0) {
-        throw new Error(`${invokingResource} was unable to execute a query!
-        Expected ${queryParams.length} parameters, but received ${parameters.length}.
-        ${`${query} ${JSON.stringify(parameters)}`}`);
+        throw new Error(
+          `${invokingResource} was unable to execute a query!
+Expected ${queryParams.length} parameters, but received ${parameters.length}.
+${`${query} ${JSON.stringify(parameters)}`}`
+        );
       }
     }
   }
@@ -21622,9 +22132,18 @@ var parseResponse = (type, result) => {
 init_config();
 var logStorage = {};
 var logQuery = (invokingResource, query, executionTime, parameters) => {
-  if (executionTime >= mysql_slow_query_warning || mysql_debug)
-    console.log(`^3[${mysql_debug ? "DEBUG" : "WARNING"}] ${invokingResource} took ${executionTime}ms to execute a query!
-    ${query} ${JSON.stringify(parameters)}^0`);
+  if (mysql_debug && Array.isArray(mysql_debug)) {
+    if (mysql_debug.includes(invokingResource)) {
+      console.log(
+        `^3[DEBUG] ${invokingResource} took ${executionTime}ms to execute a query!
+      ${query} ${JSON.stringify(parameters)}^0`
+      );
+    }
+  } else if (mysql_debug || executionTime >= mysql_slow_query_warning)
+    console.log(
+      `^3[${mysql_debug ? "DEBUG" : "WARNING"}] ${invokingResource} took ${executionTime}ms to execute a query!
+    ${query} ${JSON.stringify(parameters)}^0`
+    );
   if (!mysql_ui)
     return;
   if (logStorage[invokingResource] === void 0)
@@ -21636,40 +22155,44 @@ var logQuery = (invokingResource, query, executionTime, parameters) => {
     slow: executionTime >= mysql_slow_query_warning ? true : void 0
   });
 };
-RegisterCommand("mysql", (source2) => {
-  if (!mysql_ui)
-    return;
-  if (source2 < 1) {
-    console.log("^3This command cannot run server side^0");
-    return;
-  }
-  let totalQueries = 0;
-  let totalTime = 0;
-  let slowQueries = 0;
-  let chartData = [
-    {
-      x: 0,
-      y: 0,
-      z: ""
+RegisterCommand(
+  "mysql",
+  (source2) => {
+    if (!mysql_ui)
+      return;
+    if (source2 < 1) {
+      console.log("^3This command cannot run server side^0");
+      return;
     }
-  ];
-  for (const resource in logStorage) {
-    const queries = logStorage[resource];
-    let totalResourceTime = 0;
-    totalQueries += queries.length;
-    totalTime += queries.reduce((totalTime2, query) => totalTime2 += query.executionTime, 0);
-    slowQueries += queries.reduce((slowQueries2, query) => slowQueries2 += query.slow ? 1 : 0, 0);
-    totalResourceTime += queries.reduce((totalResourceTime2, query) => totalResourceTime2 += query.executionTime, 0);
-    chartData.push({ x: queries.length, y: totalResourceTime, z: resource });
-  }
-  emitNet(`oxmysql:openUi`, source2, {
-    resources: Object.keys(logStorage),
-    totalQueries,
-    slowQueries,
-    totalTime,
-    chartData
-  });
-}, true);
+    let totalQueries = 0;
+    let totalTime = 0;
+    let slowQueries = 0;
+    let chartData = [
+      {
+        x: 0,
+        y: 0,
+        z: ""
+      }
+    ];
+    for (const resource in logStorage) {
+      const queries = logStorage[resource];
+      let totalResourceTime = 0;
+      totalQueries += queries.length;
+      totalTime += queries.reduce((totalTime2, query) => totalTime2 += query.executionTime, 0);
+      slowQueries += queries.reduce((slowQueries2, query) => slowQueries2 += query.slow ? 1 : 0, 0);
+      totalResourceTime += queries.reduce((totalResourceTime2, query) => totalResourceTime2 += query.executionTime, 0);
+      chartData.push({ x: queries.length, y: totalResourceTime, z: resource });
+    }
+    emitNet(`oxmysql:openUi`, source2, {
+      resources: Object.keys(logStorage),
+      totalQueries,
+      slowQueries,
+      totalTime,
+      chartData
+    });
+  },
+  true
+);
 var sortQueries = (queries, sort) => {
   const sortedQueries = [...queries].sort((a, b) => {
     switch (sort.id) {
@@ -21683,40 +22206,40 @@ var sortQueries = (queries, sort) => {
   });
   return sort.desc ? sortedQueries.reverse() : sortedQueries;
 };
-onNet(`oxmysql:fetchResource`, (data) => {
-  if (typeof data.resource !== "string")
-    return;
-  const sort = data.sortBy ? data.sortBy[0] : false;
-  const startRow = data.pageIndex * 12;
-  const endRow = startRow + 12;
-  const queries = sort ? sortQueries(logStorage[data.resource], sort).slice(startRow, endRow) : logStorage[data.resource].slice(startRow, endRow);
-  const pageCount = Math.ceil(logStorage[data.resource].length / 12);
-  if (!queries)
-    return;
-  emitNet(`oxmysql:loadResource`, source, { queries, pageCount });
-});
+onNet(
+  `oxmysql:fetchResource`,
+  (data) => {
+    if (typeof data.resource !== "string")
+      return;
+    const sort = data.sortBy ? data.sortBy[0] : false;
+    const startRow = data.pageIndex * 12;
+    const endRow = startRow + 12;
+    const queries = sort ? sortQueries(logStorage[data.resource], sort).slice(startRow, endRow) : logStorage[data.resource].slice(startRow, endRow);
+    const pageCount = Math.ceil(logStorage[data.resource].length / 12);
+    if (!queries)
+      return;
+    emitNet(`oxmysql:loadResource`, source, { queries, pageCount });
+  }
+);
 
 // src/utils/scheduleTick.ts
 init_config();
-var scheduleTick = async () => {
-  if (!serverReady) {
-    await new Promise((resolve) => {
-      (function wait() {
-        if (serverReady) {
-          return resolve();
-        }
-        setTimeout(wait);
-      })();
-    });
-  }
+async function scheduleTick() {
   ScheduleResourceTick(resourceName);
-};
+}
 
 // src/database/rawQuery.ts
-var rawQuery = async (type, invokingResource, query, parameters, cb, throwError) => {
-  await scheduleTick();
+var rawQuery = (type, invokingResource, query, parameters, cb, throwError) => {
+  if (typeof query !== "string")
+    throw new Error(
+      `${invokingResource} was unable to execute a query!
+Expected query to be a string but received ${typeof query} instead.`
+    );
   [query, parameters, cb] = parseArguments(invokingResource, query, parameters, cb);
-  return await new Promise((resolve, reject) => {
+  scheduleTick();
+  return new Promise(async (resolve, reject) => {
+    if (!serverReady)
+      await waitForConnection();
     pool.query(query, parameters, (err, result, _, executionTime) => {
       if (err)
         return reject(err);
@@ -21737,7 +22260,9 @@ var rawQuery = async (type, invokingResource, query, parameters, cb, throwError)
   }).catch((err) => {
     const error = `${invokingResource} was unable to execute a query!
 ${err.message}
-${`${query} ${JSON.stringify(parameters)}`}`;
+${`${query} ${JSON.stringify(
+      parameters
+    )}`}`;
     TriggerEvent("oxmysql:error", {
       query,
       parameters,
@@ -21766,13 +22291,21 @@ var parseTransaction = (invokingResource, queries, parameters, cb) => {
     const transactions2 = queries.map((query) => {
       if (typeof query[1] !== "object")
         throw new Error(`Transaction parameters must be array or object, received '${typeof query[1]}'.`);
-      const [parsedQuery, parsedParameters] = parseArguments(invokingResource, query[0], query[1]);
+      const [parsedQuery, parsedParameters] = parseArguments(
+        invokingResource,
+        query[0],
+        query[1]
+      );
       return { query: parsedQuery, params: parsedParameters };
     });
     return { transactions: transactions2, cb };
   }
   const transactions = queries.map((query) => {
-    const [parsedQuery, parsedParameters] = parseArguments(invokingResource, isTransactionQuery(query) ? query.query : query, isTransactionQuery(query) ? query.parameters || query.values : parameters || []);
+    const [parsedQuery, parsedParameters] = parseArguments(
+      invokingResource,
+      isTransactionQuery(query) ? query.query : query,
+      isTransactionQuery(query) ? query.parameters || query.values : parameters || []
+    );
     return { query: parsedQuery, params: parsedParameters };
   });
   return { transactions, cb };
@@ -21780,9 +22313,13 @@ var parseTransaction = (invokingResource, queries, parameters, cb) => {
 
 // src/database/rawTransaction.ts
 var transactionError = (queries, parameters) => `${queries.map((query) => `${query.query} ${JSON.stringify(query.params || [])}`).join("\n")}
-${JSON.stringify(parameters)}`;
+${JSON.stringify(
+  parameters
+)}`;
 var rawTransaction = async (invokingResource, queries, parameters, callback) => {
-  await scheduleTick();
+  if (!serverReady)
+    await waitForConnection();
+  scheduleTick();
   const { transactions, cb } = parseTransaction(invokingResource, queries, parameters, callback);
   const connection = await pool.promise().getConnection();
   let response = false;
@@ -21797,9 +22334,11 @@ var rawTransaction = async (invokingResource, queries, parameters, callback) => 
   } catch (e2) {
     await connection.rollback();
     const transactionErrorMessage = e2.sql || transactionError(transactions, parameters);
-    console.error(`${invokingResource} was unable to execute a transaction!
+    console.error(
+      `${invokingResource} was unable to execute a transaction!
 ${e2.message}
-${transactionErrorMessage}^0`);
+${transactionErrorMessage}^0`
+    );
     TriggerEvent("oxmysql:transaction-error", {
       query: transactionErrorMessage,
       parameters,
@@ -21837,7 +22376,7 @@ var executeType = (query) => {
       throw new Error(`Prepared statements only accept SELECT, INSERT, UPDATE, and DELETE methods.`);
   }
 };
-var parseExecute = (parameters) => {
+var parseExecute = (placeholders, parameters) => {
   if (!Array.isArray(parameters)) {
     if (typeof parameters === "object") {
       const arr = [];
@@ -21846,42 +22385,56 @@ var parseExecute = (parameters) => {
     } else
       throw new Error(`Parameters expected an array but received ${typeof parameters} instead`);
   }
-  return parameters;
-};
-var parseValues = (placeholders, parameters) => {
-  if (!Array.isArray(parameters)) {
-    if (typeof parameters === "object") {
+  if (!parameters.every(Array.isArray)) {
+    if (parameters.every((item) => typeof item === "object")) {
       const arr = [];
-      Object.entries(parameters).forEach((entry) => arr[parseInt(entry[0]) - 1] = entry[1]);
+      parameters.forEach((value, index) => {
+        arr[index] = new Array(placeholders);
+        if (!Array.isArray(value)) {
+          Object.entries(value).forEach((entry) => {
+            arr[index][parseInt(entry[0]) - 1] = entry[1];
+          });
+        } else
+          arr[index] = parameters[index];
+        for (let i2 = 0; i2 < placeholders; i2++) {
+          if (!arr[index][i2])
+            arr[index][i2] = null;
+        }
+      });
       parameters = arr;
     } else
-      throw new Error(`Parameters expected an array but received ${typeof parameters} instead`);
-  } else if (placeholders > parameters.length) {
-    for (let i2 = parameters.length; i2 < placeholders; i2++) {
-      parameters[i2] = null;
-    }
+      parameters = [[...parameters]];
   }
   return parameters;
 };
 
 // src/database/rawExecute.ts
-var rawExecute = async (invokingResource, query, parameters, cb, throwError) => {
+var rawExecute = (invokingResource, query, parameters, cb, throwError) => {
+  if (typeof query !== "string")
+    throw new Error(
+      `${invokingResource} was unable to execute a query!
+Expected query to be a string but received ${typeof query} instead.`
+    );
   const type = executeType(query);
-  parameters = parseExecute(parameters);
+  const placeholders = query.split("?").length - 1;
+  parameters = parseExecute(placeholders, parameters);
+  if (parameters.length === 0)
+    throw new Error(`Query received no parameters.`);
   let response = [];
-  if (!parameters.every(Array.isArray))
-    parameters = [[...parameters]];
-  await scheduleTick();
-  return await new Promise((resolve, reject) => {
+  scheduleTick();
+  return new Promise(async (resolve, reject) => {
+    if (!serverReady)
+      await waitForConnection();
     pool.getConnection((err, connection) => {
       if (err)
         return reject(err.message);
-      if (parameters.length === 0)
-        return reject(`Query received no parameters.`);
-      const placeholders = query.split("?").length - 1;
       parameters.forEach((values, index) => {
         const executionTime = process.hrtime();
-        values = parseValues(placeholders, values);
+        if (placeholders > values.length) {
+          for (let i2 = values.length; i2 < placeholders; i2++) {
+            values[i2] = null;
+          }
+        }
         connection.execute(query, values, (err2, results) => {
           if (err2) {
             connection.release();
@@ -21974,20 +22527,30 @@ function provide(name, cb, sync) {
   on(`__cfx_export_ghmattimysql_${name}`, (setCb) => setCb(cb));
   on(`__cfx_export_ghmattimysql_${name}Sync`, (setCb) => setCb(sync));
 }
-provide("store", (query, cb) => {
-  cb(query);
-}, (query) => {
-  return query;
-});
+provide(
+  "store",
+  (query, cb) => {
+    cb(query);
+  },
+  (query) => {
+    return query;
+  }
+);
 for (const key in MySQL) {
   global.exports(key, MySQL[key]);
   const exp = (query, parameters, invokingResource = GetInvokingResource()) => {
     return new Promise((resolve, reject) => {
-      MySQL[key](query, parameters, (result, err) => {
-        if (err)
-          return reject(new Error(err));
-        resolve(result);
-      }, invokingResource, true);
+      MySQL[key](
+        query,
+        parameters,
+        (result, err) => {
+          if (err)
+            return reject(new Error(err));
+          resolve(result);
+        },
+        invokingResource,
+        true
+      );
     });
   };
   global.exports(`${key}_async`, exp);
