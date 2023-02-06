@@ -137,4 +137,18 @@ return {
 
 		}
 	},
+
+    Government = {
+		name = 'Governo',
+		blip = {
+			id = 419, scale = 0.8
+		}, inventory = {
+			{ name = 'jobcard',   price = 3000 },
+			{ name = 'idcard',   price = 3000 }
+		}, locations = {
+			vec3(-554.887939, -187.252747, 38.277710)
+		}, targets = {
+
+		}
+	},
 }
