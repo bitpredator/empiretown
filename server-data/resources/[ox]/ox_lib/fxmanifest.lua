@@ -2,19 +2,20 @@
 fx_version   'cerulean'
 use_experimental_fxv2_oal 'yes'
 lua54        'yes'
-game         'gta5'
+games        { 'rdr3', 'gta5' }
+rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 --[[ Resource Information ]]--
 name         'ox_lib'
 author       'Linden'
-version      '2.15.1'
+version      '2.21.0'
 license      'LGPL-3.0-or-later'
 repository   'https://github.com/overextended/ox_lib'
 description  'A library of shared functions to utilise in other resources.'
 
 --[[ Manifest ]]--
 dependencies {
-	'/server:5104',
+	'/server:5848',
     '/onesync',
 }
 
@@ -29,7 +30,7 @@ files {
 	'locales/*.json',
 }
 
-shared_script 'resource/main.lua'
+shared_script 'resource/init.lua'
 
 shared_scripts {
     'resource/**/shared.lua',
@@ -38,6 +39,8 @@ shared_scripts {
 
 client_scripts {
 	'imports/callback/client.lua',
+	'imports/requestModel/client.lua',
+	'imports/requestAnimDict/client.lua',
     'resource/**/client.lua',
     'resource/**/client/*.lua'
 }
