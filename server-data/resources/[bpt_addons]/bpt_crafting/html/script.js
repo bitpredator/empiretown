@@ -278,15 +278,10 @@ function openCrafting(t) {
   }
 
   base = base + first + second + '</div>' +
-
-
     '   </div>' +
-
     '   <div class="verticalspacer" data-offset-top="0" data-content-above-spacer="1060" data-content-below-spacer="0" data-sizePolicy="fixed" data-pintopage="page_fixedLeft"></div>' +
-    '   <div class="grpelem" id="u559"><!-- simple frame --></div>' +
-    '  </div>';
-
-
+    '   <div class="grpelem" id="u559">simple frame</div>' +
+    '   </div>';
   $("#main_container").append(base);
 
   $(".recipe").hover(function () {

@@ -9,54 +9,51 @@ ExperiancePerCraft = 5, -- The amount of experiance added per craft (100 Experia
 HideWhenCantCraft = false, -- Instead of lowering the opacity it hides the item that is not craftable due to low level or wrong job
 
 Categories = {
-
-['weapons'] = {
-	Label = 'ARMI',
-	Image = 'WEAPON_APPISTOL',
-	Jobs = {'ammu'}
-},
-['medical'] = {
-	Label = 'Ospedale',
-	Image = 'bandage',
-	Jobs = {'ambulance'}
-},
-['import'] = {
-	Label = 'Import',
-	Image = 'Import',
-	Jobs = {'import'}
-},
-['mechanic'] = {
-	Label = 'Meccanico',
-	Image = 'Mechanic',
-	Jobs = {'mechanic'}
-},
-['ammu'] = {
-	Label = 'Armeria',
-	Image = 'ammu',
-	Jobs = {'ammu'}
-},
-['unicorn'] = {
-	Label = 'Unicorn',
-	Image = 'unicorn',
-	Jobs = {'unicorn'}
-},
-['dustman'] = {
-	Label = 'Dustman',
-	Image = 'dustman',
-	Jobs = {'dustman'}
-},
-['ballas'] = {
-	Label = 'Ballas',
-	Image = 'ballas',
-	Jobs = {'ballas'}
-},
-['baker'] = {
-	Label = 'Baker',
-	Image = 'baker',
-	Jobs = {'baker'}
-}
-
-
+	['weapons'] = {
+		Label = 'ARMI',
+		Image = 'WEAPON_APPISTOL',
+		Jobs = {'ammu'}
+	},
+	['medical'] = {
+		Label = 'Ospedale',
+		Image = 'bandage',
+		Jobs = {'ambulance'}
+	},
+	['import'] = {
+		Label = 'Import',
+		Image = 'Import',
+		Jobs = {'import'}
+	},
+	['mechanic'] = {
+		Label = 'Meccanico',
+		Image = 'Mechanic',
+		Jobs = {'mechanic'}
+	},
+	['ammu'] = {
+		Label = 'Armeria',
+		Image = 'ammu',
+		Jobs = {'ammu'}
+	},
+	['unicorn'] = {
+		Label = 'Unicorn',
+		Image = 'unicorn',
+		Jobs = {'unicorn'}
+	},
+	['dustman'] = {
+		Label = 'Dustman',
+		Image = 'dustman',
+		Jobs = {'dustman'}
+	},
+	['ballas'] = {
+		Label = 'Ballas',
+		Image = 'ballas',
+		Jobs = {'ballas'}
+	},
+	['baker'] = {
+		Label = 'Baker',
+		Image = 'baker',
+		Jobs = {'baker'}
+	}
 },
 
 PermanentItems = { -- Items that dont get removed when crafting
