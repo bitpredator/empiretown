@@ -1,15 +1,10 @@
 ESX = nil
 
 CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Wait(0)
-	end
-
+    ESX = exports["es_extended"]:getSharedObject()
     while ESX.GetPlayerData().job == nil do
         Wait(10)
     end
-
     ESX.PlayerData = ESX.GetPlayerData()
 end)
 
@@ -55,11 +50,7 @@ end)
 RegisterNetEvent("JOBCARD:USE")
 AddEventHandler("JOBCARD:USE", function(user)
     closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-    while ESX == nil do
-        TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-        Wait(0)
-    end
-
+    ESX = exports["es_extended"]:getSharedObject()
     ESX.PlayerData = ESX.GetPlayerData()
 
     local userData = user[1]
