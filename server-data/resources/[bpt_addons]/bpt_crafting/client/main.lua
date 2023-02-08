@@ -11,19 +11,17 @@ local Keys = {
 }
 
 ESX = nil
-
 local labels = {}
 local craftingQueue = {}
-
 local job = ""
 local grade = 0
 
-Citizen.CreateThread(
+CreateThread(
     function()
         ESX = exports["es_extended"]:getSharedObject()
 
         while ESX.GetPlayerData().job == nil do
-            Citizen.Wait(10)
+            Wait(10)
         end
 
         job = ESX.GetPlayerData().job.name
@@ -78,10 +76,10 @@ function isNearWorkbench()
     end
 end
 
-Citizen.CreateThread(
+CreateThread(
     function()
         while true do
-            Citizen.Wait(1000)
+            Wait(1000)
 
             if craftingQueue[1] ~= nil then
                 if not Config.CraftingStopWithDistance or (Config.CraftingStopWithDistance and isNearWorkbench()) then
@@ -145,17 +143,17 @@ function openWorkbench(val)
     )
 end
 
-Citizen.CreateThread(
+CreateThread(
     function()
         while true do
-            Citizen.Wait(1)
+            Wait(1)
 
             local ped = PlayerPedId()
             local coords = GetEntityCoords(ped)
 
             for _, v in ipairs(Config.Workbenches) do
                 local dst = #(coords - v.coords)
-                if dst < 20 then
+                if dst < 10 then
                     DrawText3D(v.coords[1], v.coords[2], v.coords[3] - 0.8, Config.Text["workbench_hologram"])
                 end
                 if dst < 2 then
@@ -250,8 +248,8 @@ function DrawText3D(x, y, z, text)
 
         BeginTextCommandWidth("STRING")
         AddTextComponentString(text)
-        local height = GetTextScaleHeight(0.55 * scale, 4)
-        local width = EndTextCommandGetWidth(4)
+        GetTextScaleHeight(0.55 * scale, 4)
+        EndTextCommandGetWidth(4)
 
         SetTextEntry("STRING")
         AddTextComponentString(text)
