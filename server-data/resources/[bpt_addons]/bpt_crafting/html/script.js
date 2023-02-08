@@ -14,10 +14,10 @@ function closeMenu() {
   $.post('https://bpt_crafting/close', JSON.stringify({}));
 
 
-  $("#main_container").fadeOut(400);
+  $("#main").fadeOut(400);
   timeout = setTimeout(function () {
-    $("#main_container").html("");
-    $("#main_container").fadeIn();
+    $("#main").html("");
+    $("#main").fadeIn();
   }, 400);
 
 
@@ -109,16 +109,11 @@ function openCategory() {
   }
 
   base = base + first + '</div>' +
-
-
     '   </div>' +
-
     '   <div class="verticalspacer" data-offset-top="0" data-content-above-spacer="1060" data-content-below-spacer="0" data-sizePolicy="fixed" data-pintopage="page_fixedLeft"></div>' +
     '   <div class="grpelem" id="u559"><!-- simple frame --></div>' +
     '  </div>';
-
-
-  $("#main_container").append(base);
+  $("#main").append(base);
 
   $(".recipe").hover(function () {
     playClickSound();
@@ -133,7 +128,7 @@ function openCategory() {
 
 function openCrafting(t) {
 
-  $("#main_container").html('');
+  $("#main").html('');
 
   var first = '';
   var second = '';
@@ -280,9 +275,9 @@ function openCrafting(t) {
   base = base + first + second + '</div>' +
     '   </div>' +
     '   <div class="verticalspacer" data-offset-top="0" data-content-above-spacer="1060" data-content-below-spacer="0" data-sizePolicy="fixed" data-pintopage="page_fixedLeft"></div>' +
-    '   <div class="grpelem" id="u559">simple frame</div>' +
+    '   <div class="grpelem" id="u559"></div>' +
     '   </div>';
-  $("#main_container").append(base);
+  $("#main").append(base);
 
   $(".recipe").hover(function () {
     playClickSound();

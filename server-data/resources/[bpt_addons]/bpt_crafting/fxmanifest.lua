@@ -1,6 +1,6 @@
 
 fx_version 'adamant'
-versin '0.0.3'
+versin '0.0.4'
 
 game 'gta5'
 
