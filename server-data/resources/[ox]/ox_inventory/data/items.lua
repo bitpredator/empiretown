@@ -421,19 +421,6 @@ return {
 	    weight = 100,
 	    stack = true,
     },
-
-	['opium'] = {
-	    label = 'oppio',
-	    weight = 100,
-	    stack = true,
-    },
-
-	['seed_opium'] = {
-	    label = 'seme di oppio',
-	    weight = 100,
-	    stack = true,
-		use = true,
-    },
 	
 	['fishingrod'] = {
 	    label = 'canna da pesca',
