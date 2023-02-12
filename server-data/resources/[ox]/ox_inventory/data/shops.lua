@@ -69,22 +69,6 @@ return {
 		}
 	},
 
-	Ballas = {
-		name = 'Shop Ballas',
-		groups = {
-			['ballas'] = 0
-		},
-		blip = {
-			id = 403, colour = 69, scale = 0.8
-		}, inventory = {
-			{ name = 'seed_opium',   price = 1500 }
-		}, locations = {
-			vec3(85.793411, -1962.369263, 18.041016)
-		}, targets = {
-
-		}
-	},
-
 	VendingMachineDrinks = {
 		name = 'Vending Machine',
 		inventory = {
