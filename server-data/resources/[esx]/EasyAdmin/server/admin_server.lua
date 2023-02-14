@@ -53,7 +53,7 @@ end
 
 exports('announce', announce)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	--Wait(10000)
 	reminderTime = GetConvarInt("ea_chatReminderTime", 0)
 	if reminderTime ~= 0 then
@@ -166,7 +166,7 @@ end
 exports('IsPlayerAdmin', IsPlayerAdmin)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	
 	if not CachedPlayers or GetVersion() == nil then
 		print("^7--------------------------------------------------------------")
@@ -845,14 +845,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
-	while true do
-		PerformHttpRequest("https://api.github.com/repos/Blumlaut/EasyAdmin/releases/latest", checkVersion, "GET")
-		Wait(3600000)
-	end
-end)
-
-Citizen.CreateThread(function()
+CreateThread(function()
 	function HTTPRequest(url, ...)
 		local err,response,headers
 		
@@ -868,7 +861,7 @@ Citizen.CreateThread(function()
 	exports('HTTPRequest', HTTPRequest)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	
 	AddEventHandler('playerConnecting', function(playerName, setKickReason, deferrals)
 		local player = source
@@ -1016,38 +1009,12 @@ function checkVersion()
 	readAcePermissions()
 end
 
-
-Citizen.CreateThread(function()
-	function getLatestVersion()
-		local latestVersion,latestURL
-		
-		PerformHttpRequest("https://api.github.com/repos/Blumlaut/EasyAdmin/releases/latest", function(err,response,headers)
-			if err == 200 then
-				local data = json.decode(response)
-				latestVersion = data.tag_name
-				latestURL = data.html_url
-			else
-				latestVersion = GetVersion()
-				latestURL = "https://github.com/Blumlaut/EasyAdmin"
-			end		
-			PrintDebugMessage("Version check returned "..err..", Local Version: "..GetVersion()..", Remote Version: "..latestVersion, 4)
-		end, "GET")
-		
-		repeat
-			Wait(50)
-		until (latestVersion and latestURL)
-		return latestVersion, latestURL
-	end
-	exports('getLatestVersion', getLatestVersion)
-
-end)
-
-Citizen.CreateThread(function()
+CreateThread(function()
 	repeat
 		Wait(1000)
 	until updateBlacklist
 	if GetConvar("ea_enableTelemetry", "true") == "true" then
-		Citizen.CreateThread(function()
+		CreateThread(function()
 			while true do
 				if GetConvar("ea_enableTelemetry", "true") == "false" then
 					return -- stop telemetry if it gets disabled at runtime
@@ -1062,17 +1029,6 @@ Citizen.CreateThread(function()
 		Wait(300000)
 	end
 end)
-
-
----------------------------------- END USEFUL
-
-if GetConvar("ea_enableSplash", "true") == "true" then
-	local version,master = GetVersion()
-	if master then version = version.." (UNSTABLE PRE-RELEASE!)" end
-	print("\n _______ _______ _______ __   __ _______ ______  _______ _____ __   _\n |______ |_____| |______   \\_/   |_____| |     \\ |  |  |   |   | \\  |\n |______ |     | ______|    |    |     | |_____/ |  |  | __|__ |  \\_|\n                           Version ^3"..version.."^7")
-	PrintDebugMessage("Initialised.", 4)
-end
-
 
 -- DO NOT TOUCH THESE
 -- DO NOT TOUCH THESE

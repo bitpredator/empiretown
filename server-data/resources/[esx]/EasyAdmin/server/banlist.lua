@@ -64,7 +64,7 @@ RegisterServerEvent("EasyAdmin:offlinebanPlayer", function(playerId,reason,expir
 end)
 
 AddEventHandler('banCheater', function(playerId,reason)
-    Citizen.Trace("^1EasyAdmin^7: the banCheater event is ^1deprecated^7 and has been removed! Please adjust your ^3"..GetInvokingResource().."^7 Resource to use EasyAdmin:addBan instead.")
+    Trace("^1EasyAdmin^7: the banCheater event is ^1deprecated^7 and has been removed! Please adjust your ^3"..GetInvokingResource().."^7 Resource to use EasyAdmin:addBan instead.")
 end)
 
 
@@ -116,7 +116,7 @@ RegisterServerEvent("EasyAdmin:updateBanlist", function(playerId)
     local src = source
     if DoesPlayerHavePermission(source, "player.ban.view") then
         updateBlacklist(false,true)
-        Citizen.Wait(300)
+        Wait(300)
         TriggerLatentClientEvent("EasyAdmin:fillBanlist", src, 100000, blacklist)
         PrintDebugMessage("Banlist Refreshed by "..getName(src,true), 3)
     end
@@ -141,7 +141,7 @@ RegisterCommand("unban", function(source, args, rawCommand)
         if (source ~= 0) then
             TriggerClientEvent("EasyAdmin:showNotification", source, GetLocalisedText("done"))
         else
-            Citizen.Trace(GetLocalisedText("done"))
+            Trace(GetLocalisedText("done"))
         end
         SendWebhookMessage(moderationNotification,string.format(GetLocalisedText("adminunbannedplayer"), getName(source, false, true), args[1], "Unbanned via Command"), "ban", 16711680)
     end
@@ -453,7 +453,7 @@ function performBanlistUpgrades()
         end
     end
     if blacklist[1] and (blacklist[1].identifier or blacklist[1].steam or blacklist[1].discord) then 
-        Citizen.Trace("Upgrading Banlist...\n", 4)
+        Trace("Upgrading Banlist...\n", 4)
         for i,ban in ipairs(blacklist) do
             if not ban.identifiers then
                 ban.identifiers = {}
@@ -479,7 +479,7 @@ function performBanlistUpgrades()
                 upgraded=true
             end
         end
-        Citizen.Trace("Banlist Upgraded.\n", 4)
+        Trace("Banlist Upgraded.\n", 4)
     end
     return upgraded
 end

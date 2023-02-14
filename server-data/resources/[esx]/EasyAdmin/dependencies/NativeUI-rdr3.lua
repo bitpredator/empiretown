@@ -1,4 +1,4 @@
-Citizen.CreateThread(function()
+CreateThread(function()
 
 if  not CompendiumHorseObserved then
     return
@@ -501,7 +501,7 @@ end
 function AddLongStringForAscii(str)
     local maxbytelength = 99
     for i = 0, GetCharacterCount(str), 99 do
-		Citizen.InvokeNative(0x6C188BE134E074AA, string.sub(str, i, math.min(maxbytelength, GetCharacterCount(str) - i)))
+		InvokeNative(0x6C188BE134E074AA, string.sub(str, i, math.min(maxbytelength, GetCharacterCount(str) - i)))
     end
 end
 
@@ -510,7 +510,7 @@ function AddLongStringForUtf8(str)
     local bytecount = GetByteCount(str)
 
     if bytecount < maxbytelength then
-        Citizen.InvokeNative(0x6C188BE134E074AA,str)
+        InvokeNative(0x6C188BE134E074AA,str)
         return
     end
 
@@ -519,12 +519,12 @@ function AddLongStringForUtf8(str)
     for i = 0, GetCharacterCount(str), 1 do
         local length = i - startIndex
         if GetByteCount(string.sub(str, startIndex, length)) > maxbytelength then
-            Citizen.InvokeNative(0x6C188BE134E074AA,string.sub(str, startIndex, length - 1))
+            InvokeNative(0x6C188BE134E074AA,string.sub(str, startIndex, length - 1))
             i = i - 1
             startIndex = startIndex + (length - 1)
         end
     end
-    Citizen.InvokeNative(0x6C188BE134E074AA,string.sub(str, startIndex, GetCharacterCount(str) - startIndex))
+    InvokeNative(0x6C188BE134E074AA,string.sub(str, startIndex, GetCharacterCount(str) - startIndex))
 end 
 
 function AddLongString(str)
@@ -591,7 +591,7 @@ function UIResText:Draw()
     local Position = self:Position()
     Position.X, Position.Y = FormatXWYH(Position.X, Position.Y)
 
-	Citizen.InvokeNative(0xADA9255D,self.Font)
+	InvokeNative(0xADA9255D,self.Font)
     SetTextScale(1.0, self.Scale)
     SetTextColor(self._Colour.R, self._Colour.G, self._Colour.B, self._Colour.A)
 
@@ -607,14 +607,14 @@ function UIResText:Draw()
             SetTextCentre(true)
 		elseif self.Alignment == 2 or self.Alignment == "Right" then
 			SetTextCentre(true)
-			--Citizen.InvokeNative(0x6B3C4650BC8BEE47, true)
-			--Citizen.InvokeNative(0x63145D9C883A1A70, 0, Position.X)
+			--InvokeNative(0x6B3C4650BC8BEE47, true)
+			--InvokeNative(0x63145D9C883A1A70, 0, Position.X)
         end
     end
 
     if tonumber(self.WordWrap) then
         if tonumber(self.WordWrap) ~= 0 then
-            Citizen.InvokeNative(0x63145D9C883A1A70,Position.X, Position.X + (tonumber(self.WordWrap) / Resolution.Width))
+            InvokeNative(0x63145D9C883A1A70,Position.X, Position.X + (tonumber(self.WordWrap) / Resolution.Width))
         end
     end
 
@@ -625,7 +625,7 @@ end
 function RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
     Text = tostring(Text)
     X, Y = FormatXWYH(X, Y)
-    Citizen.InvokeNative(0xADA9255D,Font or 0)
+    InvokeNative(0xADA9255D,Font or 0)
     SetTextScale(1.0, Scale or 0)
     SetTextColor(R or 255, G or 255, B or 255, A or 255)
 
@@ -641,15 +641,15 @@ function RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, 
             SetTextCentre(true)
 		elseif Alignment == 2 or Alignment == "Right" then
 			SetTextCentre(true)
-			--Citizen.InvokeNative(0x6B3C4650BC8BEE47, true)
-			--Citizen.InvokeNative(0x63145D9C883A1A70, 0, X)
+			--InvokeNative(0x6B3C4650BC8BEE47, true)
+			--InvokeNative(0x63145D9C883A1A70, 0, X)
         end
     end
 
     if tonumber(WordWrap) then
         if tonumber(WordWrap) ~= 0 then
             WordWrap, _ = FormatXWYH(WordWrap, 0)
-            Citizen.InvokeNative(0x63145D9C883A1A70,WordWrap, X - WordWrap)
+            InvokeNative(0x63145D9C883A1A70,WordWrap, X - WordWrap)
         end
     end
 
@@ -1961,11 +1961,11 @@ function UIMenuGridPanel:Functions()
         if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
             if not self.Pressed then
                 self.Pressed = true
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     self.Audio.Id = GetSoundId()
                     PlaySoundFrontend(self.Audio.Id, self.Audio.Slider, self.Audio.Library, 1)
                     while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(self.Grid.X + 20 + SafeZone.X, self.Grid.Y + 20 + SafeZone.Y, self.Grid.Width - 40, self.Grid.Height - 40) do
-                        Citizen.Wait(0)
+                        Wait(0)
                         local CursorX, CursorY = math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920) - SafeZone.X - (self.Circle.Width/2), math.round(GetControlNormal(0, "INPUT_CURSOR_Y") * 1080) - SafeZone.Y - (self.Circle.Height/2)
 
                         self.Circle:Position(((CursorX > (self.Grid.X + 10 + self.Grid.Width - 40)) and (self.Grid.X + 10 + self.Grid.Width - 40) or ((CursorX < (self.Grid.X + 20 - (self.Circle.Width/2))) and (self.Grid.X + 20 - (self.Circle.Width/2)) or CursorX)), ((CursorY > (self.Grid.Y + 10 + self.Grid.Height - 40)) and (self.Grid.Y + 10 + self.Grid.Height - 40) or ((CursorY < (self.Grid.Y + 20 - (self.Circle.Height/2))) and (self.Grid.Y + 20 - (self.Circle.Height/2)) or CursorY)))
@@ -1974,9 +1974,9 @@ function UIMenuGridPanel:Functions()
                     ReleaseSoundId(self.Audio.Id)
                     self.Pressed = false
                 end)
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(self.Grid.X + 20 + SafeZone.X, self.Grid.Y + 20 + SafeZone.Y, self.Grid.Width - 40, self.Grid.Height - 40) do
-                        Citizen.Wait(75)
+                        Wait(75)
                         local ResultX, ResultY = math.round((self.Circle.X - (self.Grid.X + 20) + (self.Circle.Width/2))/(self.Grid.Width - 40), 2), math.round((self.Circle.Y - (self.Grid.Y + 20) + (self.Circle.Height/2))/(self.Grid.Height - 40), 2)
 
                         self:UpdateParent((((ResultX >= 0.0 and ResultX <= 1.0) and ResultX or ((ResultX <= 0) and 0.0) or 1.0) * 2) - 1, (((ResultY >= 0.0 and ResultY <= 1.0) and ResultY or ((ResultY <= 0) and 0.0) or 1.0) * 2) - 1)
@@ -2346,11 +2346,11 @@ function UIMenuPercentagePanel:Functions()
         if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
             if not self.Pressed then
                 self.Pressed = true
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     self.Audio.Id = GetSoundId()
                     PlaySoundFrontend(self.Audio.Id, self.Audio.Slider, self.Audio.Library, 1)
                     while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(self.BackgroundBar.X + SafeZone.X, self.BackgroundBar.Y - 4 + SafeZone.Y, self.BackgroundBar.Width, self.BackgroundBar.Height + 8) do
-                        Citizen.Wait(0)
+                        Wait(0)
                         local Progress = (math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920) - SafeZone.X) - self.ActiveBar.X
                         self.ActiveBar:Size(((Progress >= 0 and Progress <= 413) and Progress or ((Progress < 0) and 0 or 413)), self.ActiveBar.Height)
                     end
@@ -2358,9 +2358,9 @@ function UIMenuPercentagePanel:Functions()
                     ReleaseSoundId(self.Audio.Id)
                     self.Pressed = false
                 end)
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(self.BackgroundBar.X + SafeZone.X, self.BackgroundBar.Y - 4 + SafeZone.Y, self.BackgroundBar.Width, self.BackgroundBar.Height + 8) do
-                        Citizen.Wait(75)
+                        Wait(75)
                         local Progress = (math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920) - SafeZone.X) - self.ActiveBar.X
                         self:UpdateParent(math.round(((Progress >= 0 and Progress <= 413) and Progress or ((Progress < 0) and 0 or 413))/self.BackgroundBar.Width, 2))
                     end
@@ -2527,11 +2527,11 @@ function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName)
 	_UIMenu.Background = Sprite.New("commonmenu", "gradient_bgd", _UIMenu.Position.X, 144 + _UIMenu.Position.Y - 37 + _UIMenu.Subtitle.ExtraY, 290, 25)
 	
 	--[[
-    Citizen.CreateThread(function()
+    CreateThread(function()
         if not HasScaleformMovieLoaded(_UIMenu.InstructionalScaleform) then
             _UIMenu.InstructionalScaleform = RequestScaleformMovie("INSTRUCTIONAL_BUTTONS")
             while not HasScaleformMovieLoaded(_UIMenu.InstructionalScaleform) do
-                Citizen.Wait(0)
+                Wait(0)
             end
         end
 	end)
@@ -2860,7 +2860,7 @@ function UIMenu:Visible(bool)
         if self.Settings.ResetCursorOnOpen then
 			local W, H = 1920, 1080
 			--SetCursorLocation(W / 2, H / 2)
-			--Citizen.InvokeNative(0xFC695459D4D0E219, W / 2, H / 2)
+			--InvokeNative(0xFC695459D4D0E219, W / 2, H / 2)
             --SetCursorSprite(1)
         end
 				collectgarbage()
@@ -2888,7 +2888,7 @@ function UIMenu:ProcessControl()
 
     if not self.UpPressed then
         if self.Controls.Up.Enabled and (IsDisabledControlJustPressed(0, "INPUT_FRONTEND_UP") or IsDisabledControlJustPressed(1, "INPUT_CURSOR_SCROLL_UP")) and IsInputDisabled(0) then
-            Citizen.CreateThread(function()
+            CreateThread(function()
                 self.UpPressed = true
                 if #self.Items > self.Pagination.Total + 1 then
                     self:GoUpOverflow()
@@ -2896,7 +2896,7 @@ function UIMenu:ProcessControl()
                     self:GoUp()
                 end
                 self:UpdateScaleform()
-                Citizen.Wait(175)
+                Wait(175)
                 while self.Controls.Up.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_UP") or IsDisabledControlPressed(2, "INPUT_CURSOR_SCROLL_UP")) and IsInputDisabled(0) do
                     if #self.Items > self.Pagination.Total + 1 then
                         self:GoUpOverflow()
@@ -2904,7 +2904,7 @@ function UIMenu:ProcessControl()
                         self:GoUp()
                     end
                     self:UpdateScaleform()
-                    Citizen.Wait(125)
+                    Wait(125)
                 end
                 self.UpPressed = false
             end)
@@ -2913,7 +2913,7 @@ function UIMenu:ProcessControl()
 
     if not self.DownPressed then
         if self.Controls.Down.Enabled and (IsDisabledControlJustPressed(0, "INPUT_FRONTEND_DOWN") or IsDisabledControlJustPressed(1, "INPUT_CURSOR_SCROLL_DOWN")) and IsInputDisabled(0) then
-            Citizen.CreateThread(function()
+            CreateThread(function()
                 self.DownPressed = true
                 if #self.Items > self.Pagination.Total + 1 then
                     self:GoDownOverflow()
@@ -2921,7 +2921,7 @@ function UIMenu:ProcessControl()
                     self:GoDown()
                 end
                 self:UpdateScaleform()
-                Citizen.Wait(175)
+                Wait(175)
                 while self.Controls.Down.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_DOWN") or IsDisabledControlPressed(2, "INPUT_CURSOR_SCROLL_DOWN")) and IsInputDisabled(0) do
                     if #self.Items > self.Pagination.Total + 1 then
                         self:GoDownOverflow()
@@ -2929,7 +2929,7 @@ function UIMenu:ProcessControl()
                         self:GoDown()
                     end
                     self:UpdateScaleform()
-                    Citizen.Wait(125)
+                    Wait(125)
                 end
                 self.DownPressed = false
             end)
@@ -2938,14 +2938,14 @@ function UIMenu:ProcessControl()
 
     if not self.LeftPressed then
         if self.Controls.Left.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_LEFT")) and IsInputDisabled(0) then
-            Citizen.CreateThread(function()
+            CreateThread(function()
                 if not self.LeftPressed then
                     self.LeftPressed = true
                     self:GoLeft()
-                    Citizen.Wait(150)
+                    Wait(150)
                     while self.Controls.Left.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_LEFT")) and IsInputDisabled(0) do
                         self:GoLeft()
-                        Citizen.Wait(200)
+                        Wait(200)
                     end
                     self.LeftPressed = false
                 end
@@ -2955,14 +2955,14 @@ function UIMenu:ProcessControl()
 
     if not self.RightPressed then
         if self.Controls.Right.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_RIGHT")) and IsInputDisabled(0) then
-            Citizen.CreateThread(function()
+            CreateThread(function()
                 if not self.RightPressed then
                     self.RightPressed = true
                     self:GoRight()
-                    Citizen.Wait(150)
+                    Wait(150)
                     while self.Controls.Right.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_RIGHT")) and IsInputDisabled(0) do
                         self:GoRight()
-                        Citizen.Wait(200)
+                        Wait(200)
                     end
                     self.RightPressed = false
                 end
@@ -3169,7 +3169,7 @@ function UIMenu:GoBack()
         if self.Settings.ResetCursorOnOpen then
 			local W, H = 1920, 1080
 			--SetCursorLocation(W / 2, H / 2)
-			Citizen.InvokeNative(0xFC695459D4D0E219, W / 2, H / 2)
+			InvokeNative(0xFC695459D4D0E219, W / 2, H / 2)
         end
     end
     self.OnMenuClosed(self)
@@ -3212,9 +3212,9 @@ function UIMenu:Draw()
 
 	if self.Settings.ScaleWithSafezone then
 	   -- ScreenDrawPositionBegin(76, 84)
-	   Citizen.InvokeNative(0xB8A850F20A067EB6, 76, 84)
+	   InvokeNative(0xB8A850F20A067EB6, 76, 84)
 	   -- ScreenDrawPositionRatio(0, 0, 0, 0)
-	   Citizen.InvokeNative(0xF5A2C681787E579D, 0, 0, 0, 0)
+	   InvokeNative(0xF5A2C681787E579D, 0, 0, 0, 0)
     end
 
     if self.ReDraw then
@@ -3253,7 +3253,7 @@ function UIMenu:Draw()
     if #self.Items == 0 then
         if self.Settings.ScaleWithSafezone then
 			--ScreenDrawPositionEnd()
-			Citizen.InvokeNative(0xE3A3DB414A373DAB)
+			InvokeNative(0xE3A3DB414A373DAB)
         end
         return
     end
@@ -3314,7 +3314,7 @@ function UIMenu:Draw()
 
     if self.Settings.ScaleWithSafezone then
 		--ScreenDrawPositionEnd()
-		Citizen.InvokeNative(0xE3A3DB414A373DAB)
+		InvokeNative(0xE3A3DB414A373DAB)
     end
 end
 
@@ -3369,7 +3369,7 @@ function UIMenu:ProcessMouse()
             Item:Hovered(true)
             if not self.Controls.MousePressed then
                 if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
-                    Citizen.CreateThread(function()
+                    CreateThread(function()
                         local _X, _Y, _Width, _Height = X, Y, Width, Height
                         self.Controls.MousePressed = true
                         if Item:Selected() and Item:Enabled() then
@@ -3415,7 +3415,7 @@ function UIMenu:ProcessMouse()
                         elseif not Item:Enabled() and Item:Selected() then
                             PlaySoundFrontend(self.Settings.Audio.Error, self.Settings.Audio.Library, true)
                         end
-                        Citizen.Wait(175)
+                        Wait(175)
                         while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(_X, _Y, _Width, _Height) do
                             if Item:Selected() and Item:Enabled() then
                                 if SubType == "UIMenuListItem" then
@@ -3450,7 +3450,7 @@ function UIMenu:ProcessMouse()
                             elseif not Item:Enabled() and Item:Selected() then
                                 PlaySoundFrontend(self.Settings.Audio.Error, self.Settings.Audio.Library, true)
                             end
-                            Citizen.Wait(125)                       
+                            Wait(125)                       
                         end
                         self.Controls.MousePressed = false
                     end)
@@ -3470,7 +3470,7 @@ function UIMenu:ProcessMouse()
         self.Extra.Up:Colour(30, 30, 30, 255)
         if not self.Controls.MousePressed then
             if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     local _ExtraX, _ExtraY = ExtraX, ExtraY
                     self.Controls.MousePressed = true
                     if #self.Items > self.Pagination.Total + 1 then
@@ -3478,14 +3478,14 @@ function UIMenu:ProcessMouse()
                     else
                         self:GoUp()
                     end
-                    Citizen.Wait(175)
+                    Wait(175)
                     while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(_ExtraX, _ExtraY, 431 + self.WidthOffset, 18) do
                         if #self.Items > self.Pagination.Total + 1 then
                             self:GoUpOverflow()
                         else
                             self:GoUp()
                         end
-                        Citizen.Wait(125)
+                        Wait(125)
                     end
                     self.Controls.MousePressed = false              
                 end)
@@ -3499,7 +3499,7 @@ function UIMenu:ProcessMouse()
         self.Extra.Down:Colour(30, 30, 30, 255)
         if not self.Controls.MousePressed then
             if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     local _ExtraX, _ExtraY = ExtraX, ExtraY
                     self.Controls.MousePressed = true
                     if #self.Items > self.Pagination.Total + 1 then
@@ -3507,14 +3507,14 @@ function UIMenu:ProcessMouse()
                     else
                         self:GoDown()
                     end
-                    Citizen.Wait(175)
+                    Wait(175)
                     while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(_ExtraX, _ExtraY + 18, 431 + self.WidthOffset, 18) do
                         if #self.Items > self.Pagination.Total + 1 then
                             self:GoDownOverflow()
                         else
                             self:GoDown()
                         end
-                        Citizen.Wait(125)
+                        Wait(125)
                     end
                     self.Controls.MousePressed = false              
                 end)

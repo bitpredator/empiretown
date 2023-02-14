@@ -41,7 +41,7 @@ RegisterCommand("ea_printIdentifiers", function(source,args,rawCommand)
 	end
 end,false)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	RegisterCommand("ea_generateSupportFile", function(source, args, rawCommand)
 		if DoesPlayerHavePermission(source, "server") then
 			print("SupportFile is no longer supported, please use eaDiag instead.")
@@ -52,7 +52,7 @@ end)
 
 RegisterCommand("spectate", function(source, args, rawCommand)
     if(source == 0) then
-        Citizen.Trace(GetLocalisedText("badidea")) -- Maybe should be it's own string saying something like "only players can do this" or something
+        Trace(GetLocalisedText("badidea")) -- Maybe should be it's own string saying something like "only players can do this" or something
     end
     
     PrintDebugMessage("Player "..getName(source,true).." Requested Spectate on "..getName(args[1],true), 3)

@@ -40,7 +40,7 @@ function PrintDebugMessage(msg,level)
 	if not level or not tonumber(level) then level = 3 end
 	
 	if level == 1 and loglevel >= level then -- ERROR Loglevel
-		Citizen.Trace("^1"..GetCurrentResourceName().."^7: "..msg.."^7\n")
+		Trace("^1"..GetCurrentResourceName().."^7: "..msg.."^7\n")
 
 		if IsDuplicityVersion() then
 			for i,k in pairs(GetOnlineAdmins()) do
@@ -50,13 +50,13 @@ function PrintDebugMessage(msg,level)
 			TriggerEvent("EasyAdmin:showNotification", string.gsub(msg, "%^%d", ""))
 		end
 	elseif level == 2 and loglevel >= level then -- WARN Loglevel
-		Citizen.Trace("^3"..GetCurrentResourceName().."^7: "..msg.."^7\n")
+		Trace("^3"..GetCurrentResourceName().."^7: "..msg.."^7\n")
 	elseif level == 3 and loglevel >= level then -- INFO Loglevel 
-		Citizen.Trace("^0"..GetCurrentResourceName().."^7: "..msg.."^7\n")
+		Trace("^0"..GetCurrentResourceName().."^7: "..msg.."^7\n")
 	elseif level == 4 and loglevel >= level then -- DEV Loglevel
-		Citizen.Trace("^7"..GetCurrentResourceName().."^7: "..msg.."^7\n")
+		Trace("^7"..GetCurrentResourceName().."^7: "..msg.."^7\n")
 	elseif level > 4 and loglevel >= level then -- anything above 4 shouldn't exist, but kept just in case
-		Citizen.Trace("^5"..GetCurrentResourceName().."^7: "..msg.."^7\n")
+		Trace("^5"..GetCurrentResourceName().."^7: "..msg.."^7\n")
 	end
 end
 
@@ -123,7 +123,7 @@ function displayKeyboardInput(title,default,maxLength)
 	alreadyTyping = true
 
 	while not keyboardState do --While typing is not aborted and not finished, this loop waits
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	alreadyTyping = false
@@ -133,20 +133,6 @@ function displayKeyboardInput(title,default,maxLength)
 	else
 		return nil
 	end
---[[ -- default V Input
-	DisplayOnscreenKeyboard(1, title, "", default, "", "", "", maxLength)
-
-	while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do --While typing is not aborted and not finished, this loop waits
-		Citizen.Wait(0)
-	end
-		
-	if UpdateOnscreenKeyboard() ~= 2 then
-		local result = GetOnscreenKeyboardResult()
-		return result
-	else
-		return nil
-	end
-]]
 end
 
 function copyToClipboard(text)
