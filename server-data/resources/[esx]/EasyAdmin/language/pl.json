@@ -49,7 +49,6 @@
     "allplayers": "Wszyscy gracze",
     "teleporttome": "Teleportuj do mnie",
     "teleporttomeguide": "~r~~h~UWAGA:~h~~w~ Spowoduje to teleportację do ciebie ~h~wszystkich ~h~ graczy.",
-    "setgametype": "Ustaw Tryb Gry",
     "setmapname": "Ustaw Nazwę Mapy",
     "setmapnameguide": "~r~~h~UWAGA:~h~~w~ Spowoduje to ustawienie nazwy mapy zgodnie z listą serwerów.",
     "startresourcebynameguide": "~r~~h~UWAGA:~h~~w~ Spowoduje to uruchomienie zasobu zainstalowanego na serwerze.",
@@ -141,19 +140,13 @@
     "warnkicked": "Zostałeś wyrzucony z serwera, z powodu otrzymania zbyt wielu ostrzeżeń..",
     "warnbanned": "Ostrzeżono cię zbyt wiele razy.",
     "adminwarnedplayer": "**%s** ostrzegł **%s**, Powód: %s, Ostrzeżenie %s/%s",
-
     "searchuser": "Wyszukaj użytkownika",
     "searchuserguide": "Znajdź gracza, używając jego nazwy użytkownika lub identyfikatora",
-
-    "setconvar": "Ustaw convar-a",
-    "setconvarguide": "~r~UWAGA: Jeżeli nie wiesz co robisz, nie dotykaj tego!~w~\nZmienia convar-a",
     "adminchangedconvar": "**%s** zmieniono convar-a **%s** na **%s**",
     "adminstartedresource": "**%s** uruchomiono skrypt **%s**",
     "adminstoppedresource": "**%s** zatrzymano skrypt **%s**",
-
     "convarname": "Nazwa Convar-a",
     "convarvalue": "Wartość Convar-a",
-
     "cleanarea": "Wyczyść lokalizację",
     "cleanareaguide": "Usuń wszystkie pobliskie obiekty wybranego typu",
     "cars": "Pojazdy",
@@ -168,12 +161,7 @@
     "type": "Rodzaj",
     "deepclean":"Głębokie Czyszczenie",
     "deepcleanguide":"Usuwa również podmioty po stronie klienta.",
-
     "forceeasteregg": "Wymuś Easter Egg-a",
-
-    "permissioneditor": "Edytor uprawnień",
-    "permissioneditorguide": "Edytuje uprawnienia na serwerze, zapisuje do ~g~easyadmin_permissions.cfg~w~",
-
     "aces": "Uprawnienia ACE",
     "permission": "Uprawnienia",
     "principals": "Principale",

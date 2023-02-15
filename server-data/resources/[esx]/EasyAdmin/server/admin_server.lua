@@ -213,13 +213,7 @@ CreateThread(function()
 			if perm == "player.screenshot" and not screenshots then
 				thisPerm = false
 			end
-			if string.find(perm, "server.permissions") and disablePermissionEditor then
-				thisPerm = false
-			end
-			--if (perm == "teleport" or perm == "spectate") and infinity then
-			--if (perm == "spectate") and infinity then
-			--	thisPerm = false
-			--end 
+			
 			if thisPerm == true then
 				OnlineAdmins[source] = true 
 			end

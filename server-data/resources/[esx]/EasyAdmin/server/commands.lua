@@ -66,14 +66,6 @@ RegisterCommand("spectate", function(source, args, rawCommand)
     end
 end, false)
 
-
-RegisterCommand("setgametype", function(source, args, rawCommand)
-    if args[1] and DoesPlayerHavePermission(source, "server.convars") then
-        PrintDebugMessage("Player "..getName(source,true).." set Gametype to "..args[1], 3)
-        SetGameType(args[1])
-    end
-end, false)
-
 RegisterCommand("setmapname", function(source, args, rawCommand)
     if args[1] and DoesPlayerHavePermission(source, "server.convars") then
         PrintDebugMessage("Player "..getName(source,true).." set Map Name to "..args[1], 3)

@@ -49,7 +49,6 @@
     "allplayers": "Alle spelers",
     "teleporttome": "Teleporteer naar mij",
     "teleporttomeguide": "~r~~h~NOTITIE:~h~~w~ Dit teleporteert ~h~alle~h~ spelers naar jou.",
-    "setgametype": "Stel Game Type in",
     "setmapname": "Stel Map Naam in",
     "setmapnameguide": "~r~~h~NOTITIE:~h~~w~ Dit stelt de map naam in zoals weergegeven in de Serverlijst.",
     "startresourcebynameguide": "~r~~h~NOTITIE:~h~~w~ Dit zal een resource starten geinstalleerd op de server.",
@@ -141,19 +140,13 @@
     "warnkicked": "Je bent gekicked, omdat je teveel waarschuwingen hebt ontvangen.",
     "warnbanned": "Te vaak gewaarschuwd.",
     "adminwarnedplayer": "**%s** heeft **%s** gewaarschuwd, Reden: %s, Waarschuwing %s/%s",
-
     "searchuser": "Zoek gebruiker",
     "searchuserguide": "Zoek een speler met behulp van zijn gebruikersnaam of ID",
-
-    "setconvar": "Pas de Convar aan",
-    "setconvarguide": "~r~NOTITIE: Gebruik dit alleen, als je weet wat je aan het doen bent!~w~\nVeranderd de Convar",
     "adminchangedconvar": "**%s** veranderde de convar **%s** to **%s**",
     "adminstartedresource": "**%s** startte resource **%s**",
     "adminstoppedresource": "**%s** stopte resource **%s**",
-
     "convarname": "Convar Naam",
     "convarvalue": "Convar Waarde",
-
     "cleanarea": "Opruim Gebied",
     "cleanareaguide": "Verwijdert alle entities van het geselecteerde type",
     "cars": "Voertuigen",
@@ -168,12 +161,7 @@
     "type": "Type",
     "deepclean":"Grondige Schoonmaak",
     "deepcleanguide":"Verwijdert ook client entities.",
-
     "forceeasteregg": "Forceer Easter Egg",
-
-    "permissioneditor": "Permissies Aanpassen",
-    "permissioneditorguide": "Pas de permissies aan, opgeslagen in ~g~easyadmin_permissions.cfg~w~",
-
     "aces": "ACEs",
     "permission": "Permissies",
     "principals": "Principals",

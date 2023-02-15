@@ -50,7 +50,6 @@
     "allplayers": "Alle Spieler",
     "teleporttome": "Zu mir Teleportieren",
     "teleporttomeguide": "~r~~h~ACHTUNG:~h~~w~ Das wird ~h~alle~h~ Spieler zu dir Teleportieren.",
-    "setgametype": "Spiel-Typ setzen",
     "setmapname": "Karten Namen setzen",
     "setmapnameguide": "~r~~h~ACHTUNG:~h~~w~ Das wird den Karten Namen wie er auf der Serverliste angezeigt wird setzen.",
     "startresourcebynameguide": "~r~~h~ACHTUNG:~h~~w~ Das wird eine Ressource die auf dem server installiert ist starten.",
@@ -141,19 +140,13 @@
     "warnkicked": "Du wurdest gekickt, weil du zu oft verwarnt wurdest.",
     "warnbanned": "Du wurdest gebannt, weil du zu oft verwarnt wurdest.",
     "adminwarnedplayer": "**%s** hat **%s** gewarnt, Grund: %s, Warnung %s/%s",
-
     "searchuser": "Spieler suchen",
     "searchuserguide": "Spieler mit Spielernamen oder Server ID finden.",
-
-    "setconvar": "Convar Setzen",
-    "setconvarguide": "~r~~h~ACHTUNG:~h~~w~ Nur mit wissen anfassen!\nÄndert eine Convar.",
     "adminchangedconvar": "**%s** hat die Convar **%s** zu **%s** geändert.",
     "adminstartedresource": "**%s** hat die Ressource **%s** gestartet",
     "adminstoppedresource": "**%s** hat die Ressource **%s** gestoppt",
-
     "convarname": "Convar Name",
     "convarvalue": "Convar Inhalt",
-
     "cleanarea": "Gebiet aufräumen",
     "cleanareaguide": "Entfernt alle Gegenstände in der nähe.",
     "cars": "Fahrzeuge",
@@ -168,12 +161,7 @@
     "type": "Art",
     "deepclean":"Tiefe Reinigung",
     "deepcleanguide":"Löscht auch clientseitige Gegenstände.",
-
     "forceeasteregg": "Easter Egg aktivieren",
-
-    "permissioneditor": "Permissions anpassen",
-    "permissioneditorguide": "Permissions auf dem Server editieren, speichert nach ~g~easyadmin_permissions.cfg~w~.",
-
     "aces": "ACEs",
     "permission": "Permission",
     "principals": "Principals",

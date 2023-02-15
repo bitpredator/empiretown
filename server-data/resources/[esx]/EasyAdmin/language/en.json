@@ -49,7 +49,6 @@
     "allplayers": "All Players",
     "teleporttome": "Teleport To Me",
     "teleporttomeguide": "~r~~h~NOTE:~h~~w~ This will teleport ~h~all~h~ players to you.",
-    "setgametype": "Set Game Type",
     "setmapname": "Set Map Name",
     "setmapnameguide": "~r~~h~NOTE:~h~~w~ This will set the Map Name as listed on the Serverlist.",
     "startresourcebynameguide": "~r~~h~NOTE:~h~~w~ This will start a resource installed on the server.",
@@ -140,19 +139,13 @@
     "warnkicked": "You have been kicked due to getting Warned too many times.",
     "warnbanned": "Warned too many times.",
     "adminwarnedplayer": "**%s** warned **%s**, Reason: %s, Warning %s/%s",
-
     "searchuser": "Search for User",
     "searchuserguide": "Find a Player using their Username or ID",
-
-    "setconvar": "Set Convar",
-    "setconvarguide": "~r~NOTE: If you don't know what you are doing, don't touch this!~w~\nChanges a Convar",
     "adminchangedconvar": "**%s** changed convar **%s** to **%s**",
     "adminstartedresource": "**%s** started resource **%s**",
     "adminstoppedresource": "**%s** stopped resource **%s**",
-
     "convarname": "Convar Name",
     "convarvalue": "Convar Value",
-
     "cleanarea": "Cleanup Area",
     "cleanareaguide": "Cleans up all nearby entities of selected type",
     "cars": "Cars",
@@ -167,12 +160,7 @@
     "type": "Type",
     "deepclean":"Deep Clean",
     "deepcleanguide":"Also deletes clientside entities.",
-    
     "forceeasteregg": "Force Easter Egg",
-
-    "permissioneditor": "Permission Editor",
-    "permissioneditorguide": "Edit Permissions on the Server, saves into ~g~easyadmin_permissions.cfg~w~",
-
     "aces": "ACEs",
     "permission": "Permission",
     "principals": "Principals",

@@ -49,7 +49,6 @@
     "allplayers": "Todos los jugadores",
     "teleporttome": "Teleportar hacia mi",
     "teleporttomeguide": "~r~~h~NOTA:~h~~w~ Teletransportaras hacia ti a ~h~TODOS~h~ los jugadores.",
-    "setgametype": "Cambiar nombre de modo de juego",
     "setmapname": "Cambia el nombre de mapa",
     "setmapnameguide": "~r~~h~NOTA:~h~~w~ Esto ajustara el nombre del mapa.",
     "startresourcebynameguide": "~r~~h~NOTA:~h~~w~ Esto iniciara un recurso o script instalado en el servidor.",
@@ -140,19 +139,13 @@
     "warnkicked": "Has sido kickeado por recibir demasiadas advertencias.",
     "warnbanned": "Has sido baneado por recibir demasiadas advertencias.",
     "adminwarnedplayer": "**%s** advirtio a **%s**, Razón: %s, Advertencia %s/%s",
-
     "searchuser": "Buscar usuario",
     "searchuserguide": "Encuentra un jugador usando su nombre de usuario o ID",
-
-    "setconvar": "Definir Convar",
-    "setconvarguide": "~r~NOTA: NO TOQUES ESTO si no sabes lo que haces ~w~\nCambia una Convar",
     "adminchangedconvar": "**%s** ha cambiado la convar **%s** a **%s**",
     "adminstartedresource": "**%s** ha iniciado el script **%s**",
     "adminstoppedresource": "**%s** ha detenido el script **%s**",
-
     "convarname": "Nombre de Convar",
     "convarvalue": "Valor de Convar",
-
     "cleanarea": "Limpiar Area",
     "cleanareaguide": "Limpia el area de las entidades seleccionadas",
     "cars": "Vehículos",
@@ -167,12 +160,7 @@
     "type": "Tipo",
     "deepclean":"Limpieza Profunda",
     "deepcleanguide":"También borra las entidades del cliente.",
-
     "forceeasteregg": "Forzar Easter Egg",
-
-    "permissioneditor": "Editor de permisos",
-    "permissioneditorguide": "Edita los permisos del servidor, se guardan en ~g~easyadmin_permissions.cfg~w~",
-
     "aces": "ACEs",
     "permission": "Permisos",
     "principals": "Principal",

@@ -49,7 +49,6 @@
     "allplayers": "Tout les joueurs",
     "teleporttome": "Téléporter à moi",
     "teleporttomeguide": "~r~~h~NOTE :~h~~w~ Cela va téléporter ~r~~h~tout~h~~w~ les joueurs à vous.",
-    "setgametype": "Changer le type de jeu",
     "setmapname": "Changer de carte",
     "setmapnameguide": "~r~~h~NOTE :~h~~w~ Cela va changer de carte dans la liste des serveurs.",
     "startresourcebynameguide": "~r~~h~NOTE :~h~~w~ Cela va lancer une ressource sur votre serveur.",
@@ -141,19 +140,13 @@
     "warnkicked": "Vous avez reçu un coup de pied parce que vous avez été averti trop souvent.",
     "warnbanned": "Averti trop souvent.",
     "adminwarnedplayer": "**%s** averti **%s**, Raison : %s, Avertissement %s/%s",
-
     "searchuser": "Rechercher un utilisateur",
     "searchuserguide": "Trouver un joueur à l'aide de son nom d'utilisateur ou de son identifiant",
-
-    "setconvar": "Set Convar",
-    "setconvarguide": "~r~NOTE: Si vous ne savez pas ce que vous faites, n'y touchez pas!~w~\nModifications apportées à Convar",
     "adminchangedconvar": "**%s** changed convar **%s** to **%s**",
     "adminstartedresource": "**%s** started resource **%s**",
     "adminstoppedresource": "**%s** stopped resource **%s**",
-
     "convarname": "Convar Nom",
     "convarvalue": "Convar Valeur",
-
     "cleanarea": "Zone de nettoyage",
     "cleanareaguide": "Nettoie toutes les entités à proximité du type sélectionné",
     "cars": "Voitures",
@@ -168,12 +161,7 @@
     "type": "Type",
     "deepclean":"Deep Clean",
     "deepcleanguide":"Also deletes clientside entities.",
-
     "forceeasteregg": "Forcer Easter Egg",
-
-    "permissioneditor": "Permission Editor",
-    "permissioneditorguide": "Modifier les autorisations sur le serveur, enregistre dans ~g~easyadmin_permissions.cfg~w~",
-
     "aces": "ACEs",
     "permission": "Autorisation",
     "principals": "Principals",
