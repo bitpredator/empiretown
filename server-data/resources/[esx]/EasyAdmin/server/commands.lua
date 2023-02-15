@@ -41,7 +41,7 @@ RegisterCommand("ea_printIdentifiers", function(source,args,rawCommand)
 	end
 end,false)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	RegisterCommand("ea_generateSupportFile", function(source, args, rawCommand)
 		if DoesPlayerHavePermission(source, "server") then
 			print("SupportFile is no longer supported, please use eaDiag instead.")
@@ -52,7 +52,7 @@ end)
 
 RegisterCommand("spectate", function(source, args, rawCommand)
     if(source == 0) then
-        Citizen.Trace(GetLocalisedText("badidea")) -- Maybe should be it's own string saying something like "only players can do this" or something
+        Trace(GetLocalisedText("badidea")) -- Maybe should be it's own string saying something like "only players can do this" or something
     end
     
     PrintDebugMessage("Player "..getName(source,true).." Requested Spectate on "..getName(args[1],true), 3)
@@ -65,27 +65,3 @@ RegisterCommand("spectate", function(source, args, rawCommand)
         end
     end
 end, false)
-
-
-RegisterCommand("setgametype", function(source, args, rawCommand)
-    if args[1] and DoesPlayerHavePermission(source, "server.convars") then
-        PrintDebugMessage("Player "..getName(source,true).." set Gametype to "..args[1], 3)
-        SetGameType(args[1])
-    end
-end, false)
-
-RegisterCommand("setmapname", function(source, args, rawCommand)
-    if args[1] and DoesPlayerHavePermission(source, "server.convars") then
-        PrintDebugMessage("Player "..getName(source,true).." set Map Name to "..args[1], 3)
-        SetMapName(args[1])
-    end
-end, false)
-
-RegisterCommand("slap", function(source, args, rawCommand)
-    if args[1] and args[2] and DoesPlayerHavePermission(source, "player.slap") then
-        local preferredWebhook = detailNotification ~= "false" and detailNotification or moderationNotification
-        SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText("adminslappedplayer"), getName(source, false, true), getName(args[1], true, true), args[2]), "slap", 16711680)
-        PrintDebugMessage("Player "..getName(source,true).." slapped "..getName(args[1],true).." for "..args[2].." HP", 3)
-        TriggerClientEvent("EasyAdmin:SlapPlayer", args[1], args[2])
-    end
-end, false)	

@@ -1,8 +1,7 @@
 fx_version "cerulean"
 
-games {"rdr3","gta5"}
+games {"gta5"}
 
-author 'Blumlaut <blue@furfag.de>'
 description 'EasyAdmin - Admin Menu for FiveM & RedM'
 version '6.91'
 
@@ -15,14 +14,12 @@ shared_script 'shared/util_shared.lua'
 
 server_scripts {
     "server/*.lua",
-    "server/bot/*.js",
     "plugins/**/*_shared.lua",
     "plugins/**/*_server.lua"
 }
 
 client_scripts {
     "dependencies/NativeUI.lua",
-    "dependencies/NativeUI-rdr3.lua",
     "dependencies/Controls.lua",
     "client/*.lua",
     "plugins/**/*_shared.lua",
@@ -46,7 +43,7 @@ provide 'EasyAdmin'
 convar_category 'EasyAdmin' {
     "Configuration Options",
     {
-        { "EasyAdmin language", "$ea_LanguageName", "CV_STRING", "en" },
+        { "EasyAdmin language", "$ea_LanguageName", "CV_STRING", "it" },
         { "Default key to open the menu", "$ea_defaultKey", "CV_STRING", "none" },
         { "The Minimum Amount of Identifiers", "$ea_minIdentifierMatches", "CV_INT", "2" },
         { "Display banlist checking progress", "$ea_presentDeferral", "CV_BOOL", "true" },

@@ -1,4 +1,4 @@
-Citizen.CreateThread(function()
+CreateThread(function()
 	local diagActive = false
 	RegisterCommand("eaDiag", function(source, args, rawCommand)
 		if diagActive then
@@ -110,9 +110,6 @@ Citizen.CreateThread(function()
 				end
 
 			end
-
-
-
 
 			if supportData.config.steam_webApiKey == "" then
 				PrintDebugMessage("POSSIBLE ISSUE: steam_webApiKey is not defined! Steam Identifiers will not work.\n", 1)

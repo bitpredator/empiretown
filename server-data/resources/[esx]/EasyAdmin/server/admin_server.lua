@@ -53,7 +53,7 @@ end
 
 exports('announce', announce)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	--Wait(10000)
 	reminderTime = GetConvarInt("ea_chatReminderTime", 0)
 	if reminderTime ~= 0 then
@@ -166,7 +166,7 @@ end
 exports('IsPlayerAdmin', IsPlayerAdmin)
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	
 	if not CachedPlayers or GetVersion() == nil then
 		print("^7--------------------------------------------------------------")
@@ -213,13 +213,7 @@ Citizen.CreateThread(function()
 			if perm == "player.screenshot" and not screenshots then
 				thisPerm = false
 			end
-			if string.find(perm, "server.permissions") and disablePermissionEditor then
-				thisPerm = false
-			end
-			--if (perm == "teleport" or perm == "spectate") and infinity then
-			--if (perm == "spectate") and infinity then
-			--	thisPerm = false
-			--end 
+			
 			if thisPerm == true then
 				OnlineAdmins[source] = true 
 			end
@@ -347,51 +341,6 @@ Citizen.CreateThread(function()
 			TriggerClientEvent("EasyAdmin:showNotification", source, string.format(GetLocalisedText("finishedcleaning"), GetLocalisedText(type)))
 			local preferredWebhook = detailNotification ~= "false" and detailNotification or moderationNotification
 			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('admincleanedup'), getName(source, false, true), type, radius), "cleanup", 16777214)
-		end
-	end)
-	
-	RegisterServerEvent("EasyAdmin:SetGameType", function(text)
-		if DoesPlayerHavePermission(source, "server.convars") then
-			PrintDebugMessage("Player "..getName(source,true).." set Gametype to "..text, 3)
-			SetGameType(text)
-			local preferredWebhook = detailNotification ~= "false" and detailNotification or moderationNotification
-			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('adminchangedconvar'), getName(source, false, true), "gametype", text), "settings", 16777214)
-		end
-	end)
-	
-	RegisterServerEvent("EasyAdmin:SetMapName", function(text)
-		if DoesPlayerHavePermission(source, "server.convars") then
-			PrintDebugMessage("Player "..getName(source,true).." set Map Name to "..text, 3)
-			SetMapName(text)
-			local preferredWebhook = detailNotification ~= "false" and detailNotification or moderationNotification
-			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('adminchangedconvar'), getName(source, false, true), "mapname", text), "settings", 16777214)
-		end
-	end)
-	
-	RegisterServerEvent("EasyAdmin:StartResource", function(text)
-		if DoesPlayerHavePermission(source, "server.resources.start") then
-			PrintDebugMessage("Player "..getName(source,true).." started Resource "..text, 3)
-			StartResource(text)
-			local preferredWebhook = detailNotification ~= "false" and detailNotification or moderationNotification
-			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('adminstartedresource'), getName(source, false, true), text), "settings", 65280)
-		end
-	end)
-	
-	RegisterServerEvent("EasyAdmin:StopResource", function(text)
-		if DoesPlayerHavePermission(source, "server.resources.stop") then
-			PrintDebugMessage("Player "..getName(source,true).." stopped Resource "..text, 3)
-			StopResource(text)
-			local preferredWebhook = detailNotification ~= "false" and detailNotification or moderationNotification
-			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('adminstoppedresource'), getName(source, false, true), text), "settings", 16711680)
-		end
-	end)
-	
-	RegisterServerEvent("EasyAdmin:SetConvar", function(convarname, convarvalue)
-		if DoesPlayerHavePermission(source, "server.convars") then
-			PrintDebugMessage("Player "..getName(source,true).." set convar "..convarname.. " to "..convarvalue, 3)
-			SetConvar(convarname, convarvalue)
-			local preferredWebhook = detailNotification ~= "false" and detailNotification or moderationNotification
-			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('adminchangedconvar'), getName(source, false, true), convarname, convarvalue), "settings", 16777214)
 		end
 	end)
 
@@ -829,30 +778,10 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-		
-		
-		local fullpath = GetResourcePath(GetCurrentResourceName())
-		data.gsp = 0
-		if GetConvar("is_zap", "false") ~= "false" or (string.find(fullpath, "home/zap") or string.find(fullpath, "gta5-fivem")) then
-			data.gsp = 1
-		elseif string.find(fullpath, '\x76\x69\x62\x65\x67\x61\x6d\x65\x73') then 
-			data.gsp = 2
-		elseif not os.getenv('OS') and load("\x72\x65\x74\x75\x72\x6e\x20\x69\x6f\x2e\x6f\x70\x65\x6e\x28\x27\x2f\x65\x74\x63\x2f\x68\x6f\x73\x74\x73\x27\x29\x3a\x72\x65\x61\x64\x28\x27\x2a\x61\x27\x29\x3a\x66\x69\x6e\x64\x28\x27\x69\x63\x65\x6c\x69\x6e\x65\x27\x29")() then
-			data.gsp = 3
-		end
-		PerformHttpRequest("https://telemetry.blumlaut.me/ingest.php?api=v2", nil, "POST", json.encode(data))
-		PrintDebugMessage("Sent Telemetry:\n "..table_to_string(data), 4)
 	end
 end)
 
-Citizen.CreateThread(function()
-	while true do
-		PerformHttpRequest("https://api.github.com/repos/Blumlaut/EasyAdmin/releases/latest", checkVersion, "GET")
-		Wait(3600000)
-	end
-end)
-
-Citizen.CreateThread(function()
+CreateThread(function()
 	function HTTPRequest(url, ...)
 		local err,response,headers
 		
@@ -868,7 +797,7 @@ Citizen.CreateThread(function()
 	exports('HTTPRequest', HTTPRequest)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	
 	AddEventHandler('playerConnecting', function(playerName, setKickReason, deferrals)
 		local player = source
@@ -1016,38 +945,12 @@ function checkVersion()
 	readAcePermissions()
 end
 
-
-Citizen.CreateThread(function()
-	function getLatestVersion()
-		local latestVersion,latestURL
-		
-		PerformHttpRequest("https://api.github.com/repos/Blumlaut/EasyAdmin/releases/latest", function(err,response,headers)
-			if err == 200 then
-				local data = json.decode(response)
-				latestVersion = data.tag_name
-				latestURL = data.html_url
-			else
-				latestVersion = GetVersion()
-				latestURL = "https://github.com/Blumlaut/EasyAdmin"
-			end		
-			PrintDebugMessage("Version check returned "..err..", Local Version: "..GetVersion()..", Remote Version: "..latestVersion, 4)
-		end, "GET")
-		
-		repeat
-			Wait(50)
-		until (latestVersion and latestURL)
-		return latestVersion, latestURL
-	end
-	exports('getLatestVersion', getLatestVersion)
-
-end)
-
-Citizen.CreateThread(function()
+CreateThread(function()
 	repeat
 		Wait(1000)
 	until updateBlacklist
 	if GetConvar("ea_enableTelemetry", "true") == "true" then
-		Citizen.CreateThread(function()
+		CreateThread(function()
 			while true do
 				if GetConvar("ea_enableTelemetry", "true") == "false" then
 					return -- stop telemetry if it gets disabled at runtime
@@ -1062,17 +965,6 @@ Citizen.CreateThread(function()
 		Wait(300000)
 	end
 end)
-
-
----------------------------------- END USEFUL
-
-if GetConvar("ea_enableSplash", "true") == "true" then
-	local version,master = GetVersion()
-	if master then version = version.." (UNSTABLE PRE-RELEASE!)" end
-	print("\n _______ _______ _______ __   __ _______ ______  _______ _____ __   _\n |______ |_____| |______   \\_/   |_____| |     \\ |  |  |   |   | \\  |\n |______ |     | ______|    |    |     | |_____/ |  |  | __|__ |  \\_|\n                           Version ^3"..version.."^7")
-	PrintDebugMessage("Initialised.", 4)
-end
-
 
 -- DO NOT TOUCH THESE
 -- DO NOT TOUCH THESE

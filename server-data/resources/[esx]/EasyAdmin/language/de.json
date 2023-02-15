@@ -2,7 +2,6 @@
     "language": "de",
     "on": "An",
     "off": "Aus",
-
     "spectatingUser": "Schaue ~b~<C>%s</C> ~w~zu.",
     "stoppedSpectating": "Zuschauermodus verlassen.",
     "hour": "Stunde",
@@ -45,18 +44,13 @@
     "teleportplayer": "Teleportieren",
     "teleporttoplayer": "Zum Spieler",
     "teleportplayertome": "Spieler zu mir",
-    "slapplayer": "Spieler schlagen",
     "setplayerfrozen": "Spieler einfrieren",
     "allplayers": "Alle Spieler",
     "teleporttome": "Zu mir Teleportieren",
     "teleporttomeguide": "~r~~h~ACHTUNG:~h~~w~ Das wird ~h~alle~h~ Spieler zu dir Teleportieren.",
-    "setgametype": "Spiel-Typ setzen",
-    "setgametypeguide": "~r~~h~ACHTUNG:~h~~w~ Das wird den Spiel-Typ wie er auf der Serverliste angezeigt wird setzen.",
     "setmapname": "Karten Namen setzen",
     "setmapnameguide": "~r~~h~ACHTUNG:~h~~w~ Das wird den Karten Namen wie er auf der Serverliste angezeigt wird setzen.",
-    "startresourcebyname": "Ressource mit Namen starten",
     "startresourcebynameguide": "~r~~h~ACHTUNG:~h~~w~ Das wird eine Ressource die auf dem server installiert ist starten.",
-    "stopresourcebyname": "Ressource mit Namen stoppen",
     "stopresourcebynameguide": "~r~~h~ACHTUNG:~h~~w~ Das wird eine Ressource die auf dem server installiert ist stoppen.",
     "badidea": "Das würde ich lieber nicht tuhen.",
     "viewbanlist": "Bannliste ansehen",
@@ -144,19 +138,13 @@
     "warnkicked": "Du wurdest gekickt, weil du zu oft verwarnt wurdest.",
     "warnbanned": "Du wurdest gebannt, weil du zu oft verwarnt wurdest.",
     "adminwarnedplayer": "**%s** hat **%s** gewarnt, Grund: %s, Warnung %s/%s",
-
     "searchuser": "Spieler suchen",
     "searchuserguide": "Spieler mit Spielernamen oder Server ID finden.",
-
-    "setconvar": "Convar Setzen",
-    "setconvarguide": "~r~~h~ACHTUNG:~h~~w~ Nur mit wissen anfassen!\nÄndert eine Convar.",
     "adminchangedconvar": "**%s** hat die Convar **%s** zu **%s** geändert.",
     "adminstartedresource": "**%s** hat die Ressource **%s** gestartet",
     "adminstoppedresource": "**%s** hat die Ressource **%s** gestoppt",
-
     "convarname": "Convar Name",
     "convarvalue": "Convar Inhalt",
-
     "cleanarea": "Gebiet aufräumen",
     "cleanareaguide": "Entfernt alle Gegenstände in der nähe.",
     "cars": "Fahrzeuge",
@@ -171,14 +159,8 @@
     "type": "Art",
     "deepclean":"Tiefe Reinigung",
     "deepcleanguide":"Löscht auch clientseitige Gegenstände.",
-
     "forceeasteregg": "Easter Egg aktivieren",
-
-    "permissioneditor": "Permissions anpassen",
-    "permissioneditorguide": "Permissions auf dem Server editieren, speichert nach ~g~easyadmin_permissions.cfg~w~.",
-
     "aces": "ACEs",
-    "permission": "Permission",
     "principals": "Principals",
     "addace": "~g~ACE hinzufügen",
     "addaceguide": "Du kannst das ganze vor dem abspeichern nochmal editieren.",
@@ -192,16 +174,13 @@
     "locationguide": "Dieser Wert kann nicht bearbeitet werden.",
     "principal": "Principal",
     "enterprincipal": "Principal einfügen (e.g. identifier.steam:aabbccddeefff)",
-    "deletepermission": "~r~Permission löschen",
     "deletepermissionguide": "~r~~h~ACHTUNG:~h~~w~ Dadurch wird die Permission vollständig widerrufen und gelöscht!",
     "deleteprincipal": "~r~Principal löschen",
     "deleteprincipalguide": "~r~~h~ACHTUNG:~h~~w~ Dadurch wird der Principal vollständig widerrufen und gelöscht!",
-
     "itemdeleted": "~r~Dieser Eintrag wurde gelöscht.",
     "savechanges": "~g~Änderungen speichern",
     "savechangesguide": "~r~~h~ACHTUNG:~h~~w~ Das kann nicht rückgängig gemacht werden!",
     "admineditedpermissions": "**%s** hat die Berechtigungen des Servers bearbeitet.",
-
     "reportviewer": "Report Viewer",
     "call": "Ruf",
     "report": "Report",
