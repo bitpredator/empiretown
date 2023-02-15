@@ -715,15 +715,6 @@ function GenerateMenu() -- this is a big ass function
 							end
 						end
 					end
-					
-					
-					if permissions["player.slap"] then
-						local thisItem = NativeUI.CreateSliderItem(GetLocalisedText("slapplayer"), SlapAmount, 20, false, false)
-						thisPlayer:AddItem(thisItem)
-						thisItem.OnSliderSelected = function(index)
-							TriggerServerEvent("EasyAdmin:SlapPlayer", thePlayer.id, index*10)
-						end
-					end
 		
 					if permissions["player.freeze"] and not RedM then
 						local thisItem = NativeUI.CreateCheckboxItem(GetLocalisedText("setplayerfrozen"), FrozenPlayers[thePlayer.id])
