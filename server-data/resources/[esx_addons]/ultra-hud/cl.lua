@@ -3,17 +3,16 @@ local armor = 0
 local food = 0
 local thirst = 0
 local oxygen = 100
-local tension = 0
 local posi = "bottom"
 
 ESX = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	ESX = exports["es_extended"]:getSharedObject()
 end)
 
 AddEventHandler('playerSpawned', function()  -- Enable hud only after player spawn
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		Wait(100)
 		while true do 
 			Wait(1000)
@@ -34,10 +33,6 @@ AddEventHandler('playerSpawned', function()  -- Enable hud only after player spa
 				thirst = status.getPercent()
 			end)
 			
-			TriggerEvent('esx_status:getStatus', 'stress', function(status)
-				tension = status.getPercent()
-			end)
-			
 			Wait(100)
 
 			SendNUIMessage({
@@ -48,7 +43,6 @@ AddEventHandler('playerSpawned', function()  -- Enable hud only after player spa
 				food = food,
 				thirst = thirst,
 				oxygen = oxygen,
-				tension = tension
 			})
 		end
 	end)

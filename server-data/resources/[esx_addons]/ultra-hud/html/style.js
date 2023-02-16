@@ -19,12 +19,10 @@ $(document).ready(function(){
         
 		oxyegnJS = 50 - data.oxygen
 		document.querySelectorAll('.wave5')[0].style.setProperty("--top", `${oxyegnJS}%`);
-        
-		tensionJS = 50 - data.tension
-		document.querySelectorAll('.wave6')[0].style.setProperty("--top", `${tensionJS}%`);
 		}
 		else
-		{		$(".main").css("top", "15vh");
+		{
+			$(".main").css("top", "15vh");
 				$(".main").css("right", "5vw");
 				$("body").show();
 				soMany = 50-data.health;
@@ -40,10 +38,7 @@ $(document).ready(function(){
 				document.querySelectorAll('.wave4')[0].style.setProperty("--top", `${waterJS}%`);
 				
 				oxyegnJS = 50 - data.oxygen
-				document.querySelectorAll('.wave5')[0].style.setProperty("--top", `${oxyegnJS}%`);
-				
-				tensionJS = 50 - data.tension
-				document.querySelectorAll('.wave6')[0].style.setProperty("--top", `${tensionJS}%`);
+				document.querySelectorAll('.wave5')[0].style.setProperty("--top", `${oxyegnJS}%`);		
 		}
 		}
 		else

@@ -9,12 +9,7 @@ ui_page 'html/ui.html'
 files {
 	'html/style.css',
 	'html/style.js',
-	'html/burger.png',
-	'html/heart.png',
-	'html/oxygen.png',
-	'html/sheild.png',
-	'html/tension.png',
-	'html/water.png',
+	'html/*.png',
 	'html/ui.html'
 }
 
