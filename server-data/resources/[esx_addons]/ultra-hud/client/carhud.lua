@@ -36,10 +36,6 @@ local cruiseColorOff = {255, 255, 255}      -- Color used when seatbelt is off
 local locationAlwaysOn = false              -- Always display location and time
 local locationColorText = {255, 255, 255}   -- Color used to display location and time
 
--- Lookup tables for direction and zone
-local directions = { [0] = 'N', [1] = 'NW', [2] = 'W', [3] = 'SW', [4] = 'S', [5] = 'SE', [6] = 'E', [7] = 'NE', [8] = 'N' } 
-local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alamo Sea", ['ALTA'] = "Alta", ['ARMYB'] = "Fort Zancudo", ['BANHAMC'] = "Banham Canyon Dr", ['BANNING'] = "Banning", ['BEACH'] = "Vespucci Beach", ['BHAMCA'] = "Banham Canyon", ['BRADP'] = "Braddock Pass", ['BRADT'] = "Braddock Tunnel", ['BURTON'] = "Burton", ['CALAFB'] = "Calafia Bridge", ['CANNY'] = "Raton Canyon", ['CCREAK'] = "Cassidy Creek", ['CHAMH'] = "Chamberlain Hills", ['CHIL'] = "Vinewood Hills", ['CHU'] = "Chumash", ['CMSW'] = "Chiliad Mountain State Wilderness", ['CYPRE'] = "Cypress Flats", ['DAVIS'] = "Davis", ['DELBE'] = "Del Perro Beach", ['DELPE'] = "Del Perro", ['DELSOL'] = "La Puerta", ['DESRT'] = "Grand Senora Desert", ['DOWNT'] = "Downtown", ['DTVINE'] = "Downtown Vinewood", ['EAST_V'] = "East Vinewood", ['EBURO'] = "El Burro Heights", ['ELGORL'] = "El Gordo Lighthouse", ['ELYSIAN'] = "Elysian Island", ['GALFISH'] = "Galilee", ['GOLF'] = "GWC and Golfing Society", ['GRAPES'] = "Grapeseed", ['GREATC'] = "Great Chaparral", ['HARMO'] = "Harmony", ['HAWICK'] = "Hawick", ['HORS'] = "Vinewood Racetrack", ['HUMLAB'] = "Humane Labs and Research", ['JAIL'] = "Bolingbroke Penitentiary", ['KOREAT'] = "Little Seoul", ['LACT'] = "Land Act Reservoir", ['LAGO'] = "Lago Zancudo", ['LDAM'] = "Land Act Dam", ['LEGSQU'] = "Legion Square", ['LMESA'] = "La Mesa", ['LOSPUER'] = "La Puerta", ['MIRR'] = "Mirror Park", ['MORN'] = "Morningwood", ['MOVIE'] = "Richards Majestic", ['MTCHIL'] = "Mount Chiliad", ['MTGORDO'] = "Mount Gordo", ['MTJOSE'] = "Mount Josiah", ['MURRI'] = "Murrieta Heights", ['NCHU'] = "North Chumash", ['NOOSE'] = "N.O.O.S.E", ['OCEANA'] = "Pacific Ocean", ['PALCOV'] = "Paleto Cove", ['PALETO'] = "Paleto Bay", ['PALFOR'] = "Paleto Forest", ['PALHIGH'] = "Palomino Highlands", ['PALMPOW'] = "Palmer-Taylor Power Station", ['PBLUFF'] = "Pacific Bluffs", ['PBOX'] = "Pillbox Hill", ['PROCOB'] = "Procopio Beach", ['RANCHO'] = "Rancho", ['RGLEN'] = "Richman Glen", ['RICHM'] = "Richman", ['ROCKF'] = "Rockford Hills", ['RTRAK'] = "Redwood Lights Track", ['SANAND'] = "San Andreas", ['SANCHIA'] = "San Chianski Mountain Range", ['SANDY'] = "Sandy Shores", ['SKID'] = "Mission Row", ['SLAB'] = "Stab City", ['STAD'] = "Maze Bank Arena", ['STRAW'] = "Strawberry", ['TATAMO'] = "Tataviam Mountains", ['TERMINA'] = "Terminal", ['TEXTI'] = "Textile City", ['TONGVAH'] = "Tongva Hills", ['TONGVAV'] = "Tongva Valley", ['VCANA'] = "Vespucci Canals", ['VESP'] = "Vespucci", ['VINE'] = "Vinewood", ['WINDF'] = "Ron Alternates Wind Farm", ['WVINE'] = "West Vinewood", ['ZANCUDO'] = "Zancudo River", ['ZP_ORT'] = "Port of South Los Santos", ['ZQ_UAR'] = "Davis Quartz" }
-
 -- Globals
 local pedInVeh = false
 local timeText = ""
@@ -47,7 +43,7 @@ local locationText = ""
 local currentFuel = 0.0
 
 -- Main thread
-Citizen.CreateThread(function()
+CreateThread(function()
     -- Initialize local variable
     local currSpeed = 0.0
     local cruiseSpeed = 999.0
@@ -57,7 +53,7 @@ Citizen.CreateThread(function()
 
     while true do
         -- Loop forever and update HUD every frame
-        Citizen.Wait(0)
+        Wait(0)
 
         -- Get player PED, position and vehicle and save to locals
         local player = GetPlayerPed(-1)
@@ -107,7 +103,7 @@ Citizen.CreateThread(function()
                     if (vehIsMovingFwd and (prevSpeed > (seatbeltEjectSpeed/2.237)) and (vehAcc > (seatbeltEjectAccel*9.81))) then
                         SetEntityCoords(player, position.x, position.y, position.z - 0.47, true, true, true)
                         SetEntityVelocity(player, prevVelocity.x, prevVelocity.y, prevVelocity.z)
-                        Citizen.Wait(1)
+                        Wait(1)
                         SetPedToRagdoll(player, 1000, 1000, 0, 0, 0, 0)
                     else
                         -- Update previous velocity for ejecting player
@@ -154,7 +150,7 @@ Citizen.CreateThread(function()
 
                 -- Draw cruise control status
                 local cruiseColor = cruiseIsOn and cruiseColorOn or cruiseColorOff
-                drawTxt("CRUISE", 2, cruiseColor, 0.4, screenPosX + 0.040, screenPosY + 0.048)
+                drawTxt("CRUISE", 2, cruiseColor, 0.4, screenPosX + 0.020, screenPosY + 0.048)
 
                 -- Draw seatbelt status if not a motorcyle
                 if vehicleClass ~= 8 then
@@ -167,7 +163,7 @@ Citizen.CreateThread(function()
 end)
 
 -- Secondary thread to update strings
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         -- Update when player is in a vehicle or on foot (if enabled)
         if pedInVeh or locationAlwaysOn then
@@ -175,14 +171,7 @@ Citizen.CreateThread(function()
             local player = GetPlayerPed(-1)
             local position = GetEntityCoords(player)
 
-            -- Update time text string
-            local hour = GetClockHours()
-            local minute = GetClockMinutes()
-            timeText = ("%.2d"):format((hour == 0) and 12 or hour) .. ":" .. ("%.2d"):format( minute) .. ((hour < 12) and " AM" or " PM")
-
             -- Get heading and zone from lookup tables and street name from hash
-            local heading = directions[math.floor((GetEntityHeading(player) + 22.5) / 45.0)]
-            local zoneNameFull = zones[GetNameOfZone(position.x, position.y, position.z)]
             local streetName = GetStreetNameFromHashKey(GetStreetNameAtCoord(position.x, position.y, position.z))
             
             -- Update location text string
@@ -203,10 +192,10 @@ Citizen.CreateThread(function()
             end
 
             -- Update every second
-            Citizen.Wait(1000)
+            Wait(1000)
         else
             -- Wait until next frame
-            Citizen.Wait(0)
+            Wait(0)
         end
     end
 end)
