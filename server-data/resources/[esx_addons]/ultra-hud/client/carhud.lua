@@ -39,7 +39,6 @@ local locationColorText = {255, 255, 255}   -- Color used to display location an
 -- Globals
 local pedInVeh = false
 local timeText = ""
-local locationText = ""
 local currentFuel = 0.0
 
 -- Main thread
@@ -74,9 +73,6 @@ CreateThread(function()
         if pedInVeh or locationAlwaysOn then
             -- Get time and display
             drawTxt(timeText, 4, locationColorText, 0.4, screenPosX, screenPosY + 0.048)
-            
-            -- Display heading, street name and zone when possible
-            drawTxt(locationText, 4, locationColorText, 0.5, screenPosX, screenPosY + 0.075)
         
             -- Display remainder of HUD when engine is on and vehicle is not a bicycle
             local vehicleClass = GetVehicleClass(vehicle)
@@ -173,11 +169,6 @@ CreateThread(function()
 
             -- Get heading and zone from lookup tables and street name from hash
             local streetName = GetStreetNameFromHashKey(GetStreetNameAtCoord(position.x, position.y, position.z))
-            
-            -- Update location text string
-            locationText = heading
-            locationText = (streetName == "" or streetName == nil) and (locationText) or (locationText .. " | " .. streetName)
-            locationText = (zoneNameFull == "" or zoneNameFull == nil) and (locationText) or (locationText .. " | " .. zoneNameFull)
 
             -- Update fuel when in a vehicle
             if pedInVeh then
