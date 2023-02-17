@@ -464,12 +464,6 @@ return {
 	    stack = true,
     },
 
-	['cigarrette_opium'] = {
-	    label = 'sigaretta con oppio',
-	    weight = 100,
-	    stack = true,
-    },
-
 	['almondmilk'] = {
 		label = 'Latte di mandorla',
 		weight = 500,
