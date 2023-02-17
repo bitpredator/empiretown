@@ -4,7 +4,6 @@
 ## Installation
 
 ### Manually
-- Download https://github.com/ESX-Org/esx_basicneeds/archive/master.zip
 - Put it in the `[esx]` directory
 
 
