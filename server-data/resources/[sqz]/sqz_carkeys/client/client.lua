@@ -1,4 +1,4 @@
-Citizen.CreateThread(function()
+CreateThread(function()
     ESX = exports["es_extended"]:getSharedObject()
 end)
 
@@ -24,7 +24,7 @@ RegisterNetEvent('carlock:CarLockedEffect', function(netId, lockStatus)
         local prop = GetHashKey('p_car_keys_01')
         RequestModel(prop)
         while not HasModelLoaded(prop) do
-            Citizen.Wait(10)
+            Wait(10)
         end
         local keyObj = CreateObject(prop, 1.0, 1.0, 1.0, 1, 1, 0)
         AttachEntityToEntity(keyObj, ped, GetPedBoneIndex(ped, 57005), 0.08, 0.039, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
@@ -32,7 +32,7 @@ RegisterNetEvent('carlock:CarLockedEffect', function(netId, lockStatus)
         local dict = "anim@mp_player_intmenu@key_fob@"
         RequestAnimDict(dict)
         while not HasAnimDictLoaded(dict) do
-            Citizen.Wait(0)
+            Wait(0)
         end
 
         if not IsPedInAnyVehicle(PlayerPedId(), true) then
@@ -48,11 +48,11 @@ RegisterNetEvent('carlock:CarLockedEffect', function(netId, lockStatus)
         end
 
         SetVehicleLights(vehicle, 2)
-        Citizen.Wait(250)
+        Wait(250)
         SetVehicleLights(vehicle, 0)
-        Citizen.Wait(250)
+        Wait(250)
         SetVehicleLights(vehicle, 2)
-        Citizen.Wait(250)
+        Wait(250)
         SetVehicleLights(vehicle, 0)
         Wait(600)
         DetachEntity(keyObj, false, false)
@@ -85,7 +85,7 @@ function Draw3DText(x, y, z, text)
 end
 
 local centralPos = vector3(-25.94, -624.51, 35.5)
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         Wait(0)
         local playerPed = PlayerPedId()
@@ -110,7 +110,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 
     local blip = AddBlipForCoord(centralPos)
 

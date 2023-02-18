@@ -1,7 +1,7 @@
 local rentalTimer = 0
 local lastLocalVehicle
 
-Citizen.CreateThread(function()
+CreateThread(function()
     AddTextEntry('carRental', 'Vehicle Rental')
     AddTextEntry('carRentalClose', '~INPUT_PICKUP~ Vehicle Rental')
     while true do
@@ -138,7 +138,7 @@ function SpawnLocalVehicle(model, coords)
     SetEntityInvincible(PlayerPedId(), true)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 
     for k, v in pairs(Config.Points) do
         local blip = AddBlipForCoord(v.Pos)
@@ -215,15 +215,15 @@ function disp_time(time)
 end
 
 function startTimer()
-    Citizen.CreateThread(function()
-        Citizen.CreateThread(function()
+    CreateThread(function()
+        CreateThread(function()
             while rentalTimer>0 do
                 rentalTimer=rentalTimer-1
-                Citizen.Wait(1000)
+                Wait(1000)
             end
         end)
         while rentalTimer>0 do
-            Citizen.Wait(0)
+            Wait(0)
             SetTextFont(4)
             SetTextScale(0.45, 0.45)
             SetTextColour(185, 185, 185, 255)
@@ -238,7 +238,7 @@ function startTimer()
     end)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     AddTextEntry('carReturn', 'Vehicle return point')
     AddTextEntry('carReturnClose', '~INPUT_PICKUP~ Return Vehicle')
     while true do
@@ -297,7 +297,7 @@ AddEventHandler('sqz_carrental:VehicleSuccessfulyReturned', function()
     end
 
 	while not HasScaleformMovieLoaded(scaleform) do
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	BeginScaleformMovieMethod(scaleform, 'SHOW_SHARD_WASTED_MP_MESSAGE')
@@ -306,7 +306,7 @@ AddEventHandler('sqz_carrental:VehicleSuccessfulyReturned', function()
 	EndScaleformMovieMethod()
 
 	while sec > 0 do
-		Citizen.Wait(1)
+		Wait(1)
 		sec = sec - 0.01
 
 		DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)

@@ -17,7 +17,7 @@ exports('giveTempKeys', function(plate, identifier, timeout)
     vehiclesCache[plate][identifier] = true
 
     if timeout then
-        Citizen.SetTimeout(timeout, function()
+        SetTimeout(timeout, function()
             if vehiclesCache[plate] and vehiclesCache[plate][identifier] then
                 vehiclesCache[plate][identifier] = nil
             end

@@ -432,7 +432,7 @@ function WarMenu.InputButton(text, windowTitleEntry, defaultText, maxLength, sub
 				break
 			end
 
-			Citizen.Wait(0)
+			Wait(0)
 		end
 	end
 
