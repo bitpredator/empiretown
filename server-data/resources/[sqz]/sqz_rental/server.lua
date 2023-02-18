@@ -37,7 +37,7 @@ AddEventHandler('sqz_carrental:VehicleSpawned', function(plate, insurance, time,
             local plate = GetVehicleNumberPlateText(NetworkGetEntityFromNetworkId(netId))
             if rentedVehicles[plate] then
                 if GetPlayerPing(rentedVehicles[plate].owner) > 5 then
-                    Citizen.CreateThread(function()
+                    CreateThread(function()
                         
                         while true do
                             Wait(1000 * 60)
