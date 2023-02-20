@@ -1,28 +1,28 @@
 
-Citizen.CreateThread( function()
-    Citizen.Wait( 1000 )
+CreateThread( function()
+    Wait( 1000 )
     local resourceName = GetCurrentResourceName()
     SendNUIMessage( { resourcename = resourceName } )
 end )
 
 
 ESX = nil
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		ESX = exports["es_extended"]:getSharedObject()
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	while ESX.GetPlayerData().job == nil do
-		Citizen.Wait(10)
+		Wait(10)
 	end
 
 	PlayerData = ESX.GetPlayerData()
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(60000)
+		Wait(60000)
 		PlayerData = ESX.GetPlayerData()
 	end
 end)
@@ -144,7 +144,7 @@ AddEventHandler( 'wk:changeRadarLimit', function( speed )
 end )
 
 function Radar_SetLimit()
-    Citizen.CreateThread( function()
+    CreateThread( function()
         DisplayOnscreenKeyboard( false, "", "", "", "", "", "", 4 )
 
         while true do 
@@ -166,7 +166,7 @@ function Radar_SetLimit()
                 break 
             end  
 
-            Citizen.Wait( 0 )
+            Wait( 0 )
         end 
     end )
 end 
@@ -358,7 +358,7 @@ end
 
 RegisterNetEvent( 'wk:radarRC' )
 AddEventHandler( 'wk:radarRC', function()
-    Citizen.Wait( 10 )
+    Wait( 10 )
 
     TriggerEvent( 'wk:toggleMenuControlLock', true )
 
@@ -431,14 +431,14 @@ RegisterNUICallback( "RadarRC", function( data, cb )
     if ( cb ) then cb( 'ok' ) end 
 end )
 
-Citizen.CreateThread( function()
+CreateThread( function()
     SetNuiFocus( false ) 
 
     while true do 
         ManageVehicleRadar()
 
         -- Only run 2 times a second, more realistic, also prevents spam 
-        Citizen.Wait( 500 )
+        Wait( 500 )
     end
 end )
 
@@ -449,7 +449,7 @@ RegisterCommand('radar',function()
 end)
 
 
-Citizen.CreateThread( function()
+CreateThread( function()
     while true do 
         -- These control pressed natives must be the disabled check ones. 
 
@@ -475,7 +475,7 @@ Citizen.CreateThread( function()
             SendNUIMessage( { hideradar = false } )
         end 
 
-        Citizen.Wait( 0 )
+        Wait( 0 )
     end 
 end )
 
@@ -491,7 +491,7 @@ AddEventHandler( 'wk:toggleMenuControlLock', function( lock )
     locked = lock 
 end )
 
-Citizen.CreateThread( function()
+CreateThread( function()
     while true do
         if ( locked ) then 
             local ped = GetPlayerPed( -1 )  
@@ -506,7 +506,7 @@ Citizen.CreateThread( function()
             SetPauseMenuActive( false )
         end 
 
-        Citizen.Wait( 0 )
+        Wait( 0 )
     end 
 end )
 
