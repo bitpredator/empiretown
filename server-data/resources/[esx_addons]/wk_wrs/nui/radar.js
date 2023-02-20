@@ -1,12 +1,3 @@
-/*-------------------------------------------------------------------------
-
-    Wraith Radar System - v1.01
-	Created by WolfKnight
-	
-	Plate Reader added by Ascaped
-    
--------------------------------------------------------------------------*/
-
 var resourceName = "";
 var radarEnabled = false;
 var targets = [];
