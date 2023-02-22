@@ -1,6 +1,15 @@
 local registeredStashes = {}
 local ox_inventory = exports.ox_inventory
 
+local function GenerateText(num) 
+	local str
+	repeat str = {}
+		for i = 1, num do str[i] = string.char(math.random(65, 90)) end
+		str = table.concat(str)
+	until str ~= 'POL' and str ~= 'EMS'
+	return str
+end
+
 local function GenerateSerial(text)
 	if text and text:len() > 3 then
 		return text

@@ -13,9 +13,6 @@ This asset was created as a free wallet script using ox_inventory
  - ox_inventory
 
 ## Extra Information
- - original code https://github.com/wasabirobby/wasabi_backpack
-
-
 Item to add to `ox_inventory/data/items.lua`
 ```
 	['wallet'] = {
