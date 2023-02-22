@@ -572,4 +572,14 @@ return {
 		stack = false,
 	},
 
+	['wallet'] = {
+		label = 'portafoglio',
+		weight = 220,
+		stack = false,
+		consume = 0,
+		client = {
+			export = 'bpt_wallet.openWallet'
+		}
+	},
+
 }
