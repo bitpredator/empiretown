@@ -15,7 +15,6 @@ RageUI.BadgeStyle = {
 	Gun = 14,
 	Heart = 15,
 	Makeup = 16,
-	Mask = 17,
 	Michael = 18,
 	Star = 19,
 	Tattoo = 20,
@@ -111,13 +110,6 @@ RageUI.BadgeTexture = {
 			return "shop_makeup_icon_b"
 		else
 			return "shop_makeup_icon_a"
-		end
-	end,
-	[17] = function(Selected)
-		if Selected then
-			return "shop_mask_icon_b"
-		else
-			return "shop_mask_icon_a"
 		end
 	end,
 	[18] = function(Selected)

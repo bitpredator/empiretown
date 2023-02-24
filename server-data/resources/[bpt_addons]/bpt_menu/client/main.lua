@@ -4,8 +4,7 @@ local PersonalMenu = {
 	WalletIndex = {},
 	WalletList = {},
 	BillData = {},
-	ClothesButtons = {'torso', 'pants', 'shoes', 'bag', 'bproof'},
-	AccessoriesButtons = {'Ears', 'Glasses', 'Helmet', 'Mask'},
+	ClothesButtons = {'torso', 'pants', 'shoes', 'bproof'},
 	DoorState = {
 		FrontLeft = false,
 		FrontRight = false,
@@ -33,21 +32,21 @@ Player = {
 
 local societymoney, societymoney2 = nil, nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while ESX == nil do
 		ESX = exports["es_extended"]:getSharedObject()
-		Citizen.Wait(10)
+		Wait(10)
 	end
 
 	while ESX.GetPlayerData().job == nil do
-		Citizen.Wait(10)
+		Wait(10)
 	end
 
 	ESX.PlayerData = ESX.GetPlayerData()
 
 	while actualSkin == nil do
 		TriggerEvent('skinchanger:getSkin', function(skin) actualSkin = skin end)
-		Citizen.Wait(100)
+		Wait(100)
 	end
 
 	RefreshMoney()
@@ -55,8 +54,6 @@ Citizen.CreateThread(function()
 	RMenu.Add('rageui', 'personal', RageUI.CreateMenu(Config.MenuTitle, _U('mainmenu_subtitle'), 0, 0, 'commonmenu', 'interaction_bgd', 255, 255, 255, 255))
 	RMenu.Add('personal', 'billing', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('bills_title')))
 	RMenu.Add('personal', 'clothes', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('clothes_title')))
-	RMenu.Add('personal', 'accessories', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('accessories_title')))
-	RMenu.Add('personal', 'animation', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('animation_title')))
 	RMenu.Add('personal', 'admin', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('admin_title')), function()
 		if Player.group ~= nil and (Player.group == 'mod' or Player.group == 'admin') then
 			return true
@@ -65,9 +62,6 @@ Citizen.CreateThread(function()
 		return false
 	end)
 
-	for i = 1, #Config.Animations, 1 do
-		RMenu.Add('animation', Config.Animations[i].name, RageUI.CreateSubMenu(RMenu.Get('personal', 'animation'), Config.Animations[i].label))
-	end
 end)
 
 RegisterNetEvent('esx:playerLoaded')
@@ -83,12 +77,6 @@ end)
 
 AddEventHandler('playerSpawned', function()
 	Player.isDead = false
-end)
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-	ESX.PlayerData.job = job
-	RefreshMoney()
 end)
 
 RegisterNetEvent('esx_addonaccount:setMoney')
@@ -131,15 +119,15 @@ function KeyboardInput(entryTitle, textEntry, inputText, maxLength)
 	DisplayOnscreenKeyboard(1, entryTitle, '', inputText, '', '', '', maxLength)
 
 	while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
-		Citizen.Wait(0)
+		Wait(0)
 	end
 
 	if UpdateOnscreenKeyboard() ~= 2 then
 		local result = GetOnscreenKeyboardResult()
-		Citizen.Wait(500)
+		Wait(500)
 		return result
 	else
-		Citizen.Wait(500)
+		Wait(500)
 		return nil
 	end
 end
@@ -184,7 +172,7 @@ function setUniform(value, plyPed)
 		TriggerEvent('skinchanger:getSkin', function(skina)
 			if value == 'torso' then
 				startAnimAction('clothingtie', 'try_tie_neutral_a')
-				Citizen.Wait(1000)
+				Wait(1000)
 				Player.handsup, Player.pointing = false, false
 				ClearPedTasks(plyPed)
 
@@ -213,15 +201,9 @@ function setUniform(value, plyPed)
 						TriggerEvent('skinchanger:loadClothes', skina, {['shoes_1'] = 35, ['shoes_2'] = 0})
 					end
 				end
-			elseif value == 'bag' then
-				if skin.bags_1 ~= skina.bags_1 then
-					TriggerEvent('skinchanger:loadClothes', skina, {['bags_1'] = skin.bags_1, ['bags_2'] = skin.bags_2})
-				else
-					TriggerEvent('skinchanger:loadClothes', skina, {['bags_1'] = 0, ['bags_2'] = 0})
-				end
 			elseif value == 'bproof' then
 				startAnimAction('clothingtie', 'try_tie_neutral_a')
-				Citizen.Wait(1000)
+				Wait(1000)
 				Player.handsup, Player.pointing = false, false
 				ClearPedTasks(plyPed)
 
@@ -233,63 +215,6 @@ function setUniform(value, plyPed)
 			end
 		end)
 	end)
-end
-
-function setAccessory(accessory)
-	ESX.TriggerServerCallback('esx_accessories:get', function(hasAccessory, accessorySkin)
-		local _accessory = (accessory):lower()
-
-		if hasAccessory then
-			TriggerEvent('skinchanger:getSkin', function(skin)
-				local mAccessory = -1
-				local mColor = 0
-
-				if _accessory == 'ears' then
-					startAnimAction('mini@ears_defenders', 'takeoff_earsdefenders_idle')
-					Citizen.Wait(250)
-					Player.handsup, Player.pointing = false, false
-					ClearPedTasks(plyPed)
-				elseif _accessory == 'glasses' then
-					mAccessory = 0
-					startAnimAction('clothingspecs', 'try_glasses_positive_a')
-					Citizen.Wait(1000)
-					Player.handsup, Player.pointing = false, false
-					ClearPedTasks(plyPed)
-				elseif _accessory == 'helmet' then
-					startAnimAction('missfbi4', 'takeoff_mask')
-					Citizen.Wait(1000)
-					Player.handsup, Player.pointing = false, false
-					ClearPedTasks(plyPed)
-				elseif _accessory == 'mask' then
-					mAccessory = 0
-					startAnimAction('missfbi4', 'takeoff_mask')
-					Citizen.Wait(850)
-					Player.handsup, Player.pointing = false, false
-					ClearPedTasks(plyPed)
-				end
-
-				if skin[_accessory .. '_1'] == mAccessory then
-					mAccessory = accessorySkin[_accessory .. '_1']
-					mColor = accessorySkin[_accessory .. '_2']
-				end
-
-				local accessorySkin = {}
-				accessorySkin[_accessory .. '_1'] = mAccessory
-				accessorySkin[_accessory .. '_2'] = mColor
-				TriggerEvent('skinchanger:loadClothes', skin, accessorySkin)
-			end)
-		else
-			if _accessory == 'ears' then
-				ESX.ShowNotification(_U('accessories_no_ears'))
-			elseif _accessory == 'glasses' then
-				ESX.ShowNotification(_U('accessories_no_glasses'))
-			elseif _accessory == 'helmet' then
-				ESX.ShowNotification(_U('accessories_no_helmet'))
-			elseif _accessory == 'mask' then
-				ESX.ShowNotification(_U('accessories_no_mask'))
-			end
-		end
-	end, accessory)
 end
 
 function CheckQuantity(number)
@@ -350,48 +275,6 @@ function RenderClothesMenu()
 	end)
 end
 
-function RenderAccessoriesMenu()
-	RageUI.DrawContent({header = true, instructionalButton = true}, function()
-		for i = 1, #PersonalMenu.AccessoriesButtons, 1 do
-			RageUI.Button(_U(('accessories_%s'):format((PersonalMenu.AccessoriesButtons[i]:lower()))), nil, {RightBadge = RageUI.BadgeStyle.Clothes}, true, function(Hovered, Active, Selected)
-				if (Selected) then
-					setAccessory(PersonalMenu.AccessoriesButtons[i])
-				end
-			end)
-		end
-	end)
-end
-
-function RenderAnimationMenu()
-	RageUI.DrawContent({header = true, instructionalButton = true}, function()
-		for i = 1, #RMenu['animation'], 1 do
-			RageUI.Button(RMenu['animation'][i].Menu.Title, nil, {RightLabel = "→→→"}, true, function() end, RMenu['animation'][i].Menu)
-		end
-	end)
-end
-
-function RenderAnimationsSubMenu(menu)
-	RageUI.DrawContent({header = true, instructionalButton = true}, function()
-		for i = 1, #Config.Animations, 1 do
-			if Config.Animations[i].name == menu then
-				for j = 1, #Config.Animations[i].items, 1 do
-					RageUI.Button(Config.Animations[i].items[j].label, nil, {}, true, function(Hovered, Active, Selected)
-						if (Selected) then
-							if Config.Animations[i].items[j].type == 'anim' then
-								startAnim(Config.Animations[i].items[j].data.lib, Config.Animations[i].items[j].data.anim)
-							elseif Config.Animations[i].items[j].type == 'scenario' then
-								TaskStartScenarioInPlace(plyPed, Config.Animations[i].items[j].data.anim, 0, false)
-							elseif Config.Animations[i].items[j].type == 'attitude' then
-								startAttitude(Config.Animations[i].items[j].data.lib, Config.Animations[i].items[j].data.anim)
-							end
-						end
-					end)
-				end
-			end
-		end
-	end)
-end
-
 function RenderAdminMenu()
 	RageUI.DrawContent({header = true, instructionalButton = true}, function()
 		for i = 1, #Config.Admin, 1 do
@@ -416,9 +299,9 @@ function RenderAdminMenu()
 	end)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if IsControlJustReleased(0, Config.Controls.OpenMenu.keyboard) and not Player.isDead then
 			if not RageUI.Visible() then
@@ -451,14 +334,6 @@ Citizen.CreateThread(function()
 			RenderClothesMenu()
 		end
 
-		if RageUI.Visible(RMenu.Get('personal', 'accessories')) then
-			RenderAccessoriesMenu()
-		end
-
-		if RageUI.Visible(RMenu.Get('personal', 'animation')) then
-			RenderAnimationMenu()
-		end
-
 		if RageUI.Visible(RMenu.Get('personal', 'vehicle')) then
 			if not RMenu.Settings('personal', 'vehicle', 'Restriction')() then
 				RageUI.GoBack()
@@ -472,16 +347,10 @@ Citizen.CreateThread(function()
 			end
 			RenderAdminMenu()
 		end
-
-		for i = 1, #Config.Animations, 1 do
-			if RageUI.Visible(RMenu.Get('animation', Config.Animations[i].name)) then
-				RenderAnimationsSubMenu(Config.Animations[i].name)
-			end
-		end
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		plyPed = PlayerPedId()
 
@@ -511,11 +380,11 @@ Citizen.CreateThread(function()
 			SetEntityCoordsNoOffset(plyPed, plyCoords, true, true, true)
 		end
 
-		Citizen.Wait(0)
+		Wait(0)
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		if Player.showName then
 			for k, v in ipairs(ESX.Game.GetPlayers()) do
@@ -532,6 +401,6 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		Citizen.Wait(100)
+		Wait(100)
 	end
 end)
