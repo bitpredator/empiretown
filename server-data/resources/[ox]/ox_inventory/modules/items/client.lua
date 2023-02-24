@@ -1,3 +1,6 @@
+if not lib then return end
+
+---@type { [string]: OxClientItem }
 local Items = shared.items
 
 local function displayMetadata(metadata, value)

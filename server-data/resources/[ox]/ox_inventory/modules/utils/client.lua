@@ -1,27 +1,27 @@
+if not lib then return end
+
 local Utils = {}
 
 function Utils.PlayAnim(wait, dict, name, blendIn, blendOut, duration, flag, rate, lockX, lockY, lockZ)
 	lib.requestAnimDict(dict)
-	CreateThread(function()
-		TaskPlayAnim(cache.ped, dict, name, blendIn, blendOut, duration, flag, rate, lockX, lockY, lockZ)
-		Wait(wait)
-		if wait > 0 then ClearPedSecondaryTask(cache.ped) end
-	end)
+	TaskPlayAnim(cache.ped, dict, name, blendIn, blendOut, duration, flag, rate, lockX, lockY, lockZ)
+	RemoveAnimDict(dict)
+
+	if wait > 0 then Wait(wait) end
 end
 
-function Utils.PlayAnimAdvanced(wait, dict, name, posX, posY, posZ, rotX, rotY, rotZ, animEnter, animExit, duration, flag, time)
+function Utils.PlayAnimAdvanced(wait, dict, name, posX, posY, posZ, rotX, rotY, rotZ, blendIn, blendOut, duration, flag, time)
 	lib.requestAnimDict(dict)
-	CreateThread(function()
-		TaskPlayAnimAdvanced(cache.ped, dict, name, posX, posY, posZ, rotX, rotY, rotZ, animEnter, animExit, duration, flag, time, 0, 0)
-		Wait(wait)
-		if wait > 0 then ClearPedSecondaryTask(cache.ped) end
-	end)
+	TaskPlayAnimAdvanced(cache.ped, dict, name, posX, posY, posZ, rotX, rotY, rotZ, blendIn, blendOut, duration, flag, time, 0, 0)
+	RemoveAnimDict(dict)
+
+	if wait > 0 then Wait(wait) end
 end
 
 function Utils.Raycast(flag)
 	local playerCoords = GetEntityCoords(cache.ped)
 	local plyOffset = GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 2.2, -0.25)
-	local rayHandle = StartShapeTestCapsule(playerCoords.x, playerCoords.y, playerCoords.z + 0.5, plyOffset.x, plyOffset.y, plyOffset.z, 2.2, flag or 30, cache.ped)
+	local rayHandle = StartShapeTestCapsule(playerCoords.x, playerCoords.y, playerCoords.z + 0.5, plyOffset.x, plyOffset.y, plyOffset.z, 2.2, flag or 30, cache.ped, 4)
 	while true do
 		Wait(0)
 		local result, _, _, _, entityHit = GetShapeTestResult(rayHandle)
@@ -69,64 +69,50 @@ end
 RegisterNetEvent('ox_inventory:notify', Utils.Notify)
 exports('notify', Utils.Notify)
 
-function Utils.ItemNotify(data) SendNUIMessage({action = 'itemNotify', data = data}) end
-
-function Utils.Disarm(currentWeapon, skipAnim)
-	if source == '' then
-		TriggerServerEvent('ox_inventory:updateWeapon')
+function Utils.ItemNotify(data)
+	if not client.itemnotify then
+		return
 	end
 
-	if currentWeapon then
-		SetPedAmmo(cache.ped, currentWeapon.hash, 0)
-
-		if not skipAnim then
-			ClearPedSecondaryTask(cache.ped)
-
-			local sleep = (client.hasGroup(shared.police) and (GetWeapontypeGroup(currentWeapon.hash) == 416676503 or GetWeapontypeGroup(currentWeapon.hash) == 690389602)) and 450 or 1400
-			local coords = GetEntityCoords(cache.ped, true)
-
-			if currentWeapon.hash == `WEAPON_SWITCHBLADE` then
-				Utils.PlayAnimAdvanced(sleep, 'anim@melee@switchblade@holster', 'holster', coords.x, coords.y, coords.z, 0, 0, GetEntityHeading(cache.ped), 8.0, 3.0, -1, 48, 0)
-				Wait(600)
-			else
-				Utils.PlayAnimAdvanced(sleep, (sleep == 450 and 'reaction@intimidation@cop@unarmed' or 'reaction@intimidation@1h'), 'outro', coords.x, coords.y, coords.z, 0, 0, GetEntityHeading(cache.ped), 8.0, 3.0, -1, 50, 0)
-				Wait(sleep)
-			end
-		end
-
-		Utils.ItemNotify({currentWeapon.metadata.label or currentWeapon.label, currentWeapon.metadata.image or currentWeapon.name, shared.locale('holstered')})
-		TriggerEvent('ox_inventory:currentWeapon')
-	end
-
-	Utils.WeaponWheel()
-	RemoveAllPedWeapons(cache.ped, true)
+	SendNUIMessage({action = 'itemNotify', data = data})
 end
 
-function Utils.ClearWeapons(currentWeapon)
-	Utils.Disarm(currentWeapon)
-
-	if client.parachute then
-		local chute = `GADGET_PARACHUTE`
-		GiveWeaponToPed(cache.ped, chute, 0, true, false)
-		SetPedGadget(cache.ped, chute, true)
-	end
-end
+RegisterNetEvent('ox_inventory:itemNotify', Utils.ItemNotify)
 
 function Utils.DeleteObject(obj)
 	SetEntityAsMissionEntity(obj, false, true)
 	DeleteObject(obj)
 end
 
+function Utils.DeleteEntity(entity)
+	if DoesEntityExist(entity) then
+		SetEntityAsMissionEntity(entity, false, true)
+		DeleteEntity(entity)
+	end
+end
+
 -- Enables the weapon wheel, but disables the use of inventory items
 -- Mostly used for weaponised vehicles, though could be called for "minigames"
 function Utils.WeaponWheel(state)
-	if state == nil then state = BlockWeaponWheel end
+	if state == nil then state = EnableWeaponWheel end
 
-	BlockWeaponWheel = state
+	EnableWeaponWheel = state
 	SetWeaponsNoAutoswap(not state)
 	SetWeaponsNoAutoreload(not state)
-	SetPedCanSwitchWeapon(cache.ped, state)
 end
 exports('weaponWheel', Utils.WeaponWheel)
+
+function Utils.CreateBlip(settings, coords)
+	local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+	SetBlipSprite(blip, settings.id)
+	SetBlipDisplay(blip, 4)
+	SetBlipScale(blip, settings.scale)
+	SetBlipColour(blip, settings.colour)
+	SetBlipAsShortRange(blip, true)
+	BeginTextCommandSetBlipName(settings.name)
+	EndTextCommandSetBlipName(blip)
+
+	return blip
+end
 
 client.utils = Utils

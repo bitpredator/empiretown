@@ -1,28 +1,29 @@
+if not lib then return end
+
 local Inventory = {}
 
 Inventory.Dumpsters = {218085040, 666561306, -58485588, -206690185, 1511880420, 682791951}
 
-if shared.qtarget then
+if shared.target then
 	local function OpenDumpster(entity)
 		local netId = NetworkGetEntityIsNetworked(entity) and NetworkGetNetworkIdFromEntity(entity)
 
 		if not netId then
-			NetworkRegisterEntityAsNetworked(entity)
-			SetEntityAsMissionEntity(entity)
-			netId = NetworkGetNetworkIdFromEntity(entity)
-			NetworkUseHighPrecisionBlending(netId, false)
-			SetNetworkIdExistsOnAllMachines(netId, true)
-			SetNetworkIdCanMigrate(netId, true)
+			local coords = GetEntityCoords(entity)
+			entity = GetClosestObjectOfType(coords.x, coords.y, coords.z, 0.1, GetEntityModel(entity), true, true, true)
+			netId = entity ~= 0 and NetworkGetNetworkIdFromEntity(entity)
 		end
 
-		client.openInventory('dumpster', 'dumpster'..netId)
+		if netId then
+			client.openInventory('dumpster', 'dumpster'..netId)
+		end
 	end
 
 	exports.qtarget:AddTargetModel(Inventory.Dumpsters, {
 		options = {
 			{
 				icon = 'fas fa-dumpster',
-				label = shared.locale('search_dumpster'),
+				label = locale('search_dumpster'),
 				action = function(entity)
 					OpenDumpster(entity)
 				end
@@ -34,10 +35,18 @@ end
 
 local table = lib.table
 
----@param search string|number slots|1, count|2
+---@param search 'slots' | 1 | 'count' | 2
 ---@param item table | string
 ---@param metadata? table | string
 function Inventory.Search(search, item, metadata)
+	if not PlayerData.loaded then
+		if not coroutine.running() then
+			error('player inventory has not yet loaded.')
+		end
+
+		repeat Wait(100) until PlayerData.loaded
+	end
+
 	if item then
 		if search == 'slots' then search = 1 elseif search == 'count' then search = 2 end
 		if type(item) == 'string' then item = {item} end
@@ -72,10 +81,12 @@ local function openEvidence()
 	client.openInventory('policeevidence')
 end
 
-local function nearbyEvidence(self)
-	DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 30, 30, 150, 222, false, false, false, true, false, false, false)
+---@param point CPoint
+local function nearbyEvidence(point)
+	---@diagnostic disable-next-line: param-type-mismatch
+	DrawMarker(2, point.coords.x, point.coords.y, point.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 30, 30, 150, 222, false, false, 0, true, false, false, false)
 
-	if self.currentDistance < 1.2 and lib.points.closest().id == self.id and IsControlJustReleased(0, 38) then
+	if point.isClosest and point.currentDistance < 1.2 and IsControlJustReleased(0, 38) then
 		openEvidence()
 	end
 end
@@ -88,23 +99,25 @@ Inventory.Evidence = setmetatable(data('evidence'), {
 			end
 
 			if client.hasGroup(shared.police) then
-				if shared.qtarget then
+				if shared.target then
 					if evidence.target then
 						exports.qtarget:RemoveZone(evidence.target.name)
 						exports.qtarget:AddBoxZone(evidence.target.name, evidence.target.loc, evidence.target.length or 0.5, evidence.target.width or 0.5,
 						{
 							name = evidence.target.name,
 							heading = evidence.target.heading or 0.0,
-							debugPoly = false,
+							debugPoly = evidence.target.debug,
 							minZ = evidence.target.minZ,
-							maxZ = evidence.target.maxZ
+							maxZ = evidence.target.maxZ,
+							drawSprite = evidence.target.drawSprite,
 						}, {
 							options = {
 								{
-									icon = 'fas fa-warehouse',
-									label = shared.locale('open_police_evidence'),
+									icon = evidence.target.icon or 'fas fa-warehouse',
+									label = locale('open_police_evidence'),
 									job = shared.police,
-									action = openEvidence
+									action = openEvidence,
+									iconColor = evidence.target.iconColor,
 								},
 							},
 							distance = evidence.target.distance or 2.0
@@ -124,12 +137,9 @@ Inventory.Evidence = setmetatable(data('evidence'), {
 	end
 })
 
-local function OpenStash(data)
-	exports.ox_inventory:openInventory('stash', data)
-end
-
 local function nearbyStash(self)
-	DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 30, 30, 150, 222, false, false, false, true, false, false, false)
+	---@diagnostic disable-next-line: param-type-mismatch
+	DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 30, 30, 150, 222, false, false, 0, true, false, false, false)
 end
 
 Inventory.Stashes = setmetatable(data('stashes'), {
@@ -142,25 +152,27 @@ Inventory.Stashes = setmetatable(data('stashes'), {
 			end
 
 			if not stash.groups or client.hasGroup(stash.groups) then
-				if shared.qtarget then
+				if shared.target then
 					if stash.target then
 						exports.qtarget:RemoveZone(stash.name)
 						exports.qtarget:AddBoxZone(stash.name, stash.target.loc, stash.target.length or 0.5, stash.target.width or 0.5,
 						{
 							name = stash.name,
 							heading = stash.target.heading or 0.0,
-							debugPoly = false,
+							debugPoly = stash.target.debug,
 							minZ = stash.target.minZ,
-							maxZ = stash.target.maxZ
+							maxZ = stash.target.maxZ,
+							drawSprite = stash.target.drawSprite,
 						}, {
 							options = {
 								{
 									icon = stash.target.icon or 'fas fa-warehouse',
-									label = stash.target.label or shared.locale('open_stash'),
+									label = stash.target.label or locale('open_stash'),
 									job = stash.groups,
 									action = function()
-										OpenStash({id=id})
-									end
+										exports.ox_inventory:openInventory('stash', stash.name)
+									end,
+									iconColor = stash.target.iconColor,
 								},
 							},
 							distance = stash.target.distance or 3.0
@@ -172,7 +184,7 @@ Inventory.Stashes = setmetatable(data('stashes'), {
 						coords = stash.coords,
 						distance = 16,
 						inv = 'stash',
-						invId = id,
+						invId = stash.name,
 						nearby = nearbyStash
 					})
 				end
