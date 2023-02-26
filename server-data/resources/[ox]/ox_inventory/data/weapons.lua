@@ -186,7 +186,8 @@ return {
 		['WEAPON_EMPLAUNCHER'] = {
 			label = 'Compact EMP Launcher',
 			weight = 2750,
-			durability = 0.2
+			durability = 0.2,
+			ammoname = 'ammo-emp'
 		},
 
 		['WEAPON_FIREEXTINGUISHER'] = {
@@ -253,11 +254,22 @@ return {
 		['WEAPON_HEAVYRIFLE'] = {
 			label = 'Heavy Rifle',
 			weight = 2750,
-			durability = 0.2
+			durability = 0.2,
+			ammoname = 'ammo-rifle'
 		},
 
 		['WEAPON_HAZARDCAN'] = {
 			label = 'Hazard Can',
+			weight = 12000,
+		},
+
+		['WEAPON_METALDETECTOR'] = {
+			label = 'Metal Detector',
+			weight = 1200,
+		},
+
+		['WEAPON_FERTILIZERCAN'] = {
+			label = 'Fertilizer Can',
 			weight = 12000,
 		},
 
@@ -397,7 +409,8 @@ return {
 		['WEAPON_GADGETPISTOL'] = {
 			label = 'Perico Pistol',
 			weight = 1750,
-			durability = 0.1
+			durability = 0.1,
+			ammoname = 'ammo-9'
 		},
 
 		['WEAPON_PIPEBOMB'] = {
@@ -553,7 +566,7 @@ return {
 			durability = 0.1,
 		},
 
-		['WEAPON_SWEEPERSHOTGUN'] = {
+		['WEAPON_AUTOSHOTGUN'] = {
 			label = 'Sweeper Shotgun',
 			weight = 4400,
 			durability = 0.05,
@@ -564,6 +577,7 @@ return {
 			label = 'Switch Blade',
 			weight = 300,
 			durability = 0.1,
+			anim = { 'anim@melee@switchblade@holster', 'unholster', 200, 'anim@melee@switchblade@holster', 'holster', 600 },
 		},
 
 		['WEAPON_VINTAGEPISTOL'] = {
@@ -1048,7 +1062,7 @@ return {
 		},
 
 		['ammo-flare'] = {
-			label = 'Flare',
+			label = 'Flare round',
 			weight = 38,
 		},
 
@@ -1058,7 +1072,7 @@ return {
 		},
 
 		['ammo-musket'] = {
-			label = 'Musket ammo',
+			label = 'Musket round',
 			weight = 30,
 		},
 
@@ -1080,6 +1094,11 @@ return {
 		['ammo-sniper'] = {
 			label = '7.62 NATO',
 			weight = 11,
-		}
+		},
+
+		['ammo-emp'] = {
+			label = 'EMP round',
+			weight = 400,
+		},
 	}
 }

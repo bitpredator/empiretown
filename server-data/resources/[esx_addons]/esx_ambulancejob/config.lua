@@ -6,7 +6,7 @@ Config.Marker                     = {type = 1, x = 1.5, y = 1.5, z = 0.5, r = 10
 
 Config.ReviveReward               = 700  -- Revive reward, set to 0 if you don't want it enabled
 Config.AntiCombatLog              = true -- Enable anti-combat logging? (Removes Items when a player logs back after intentionally logging out while dead.)
-Config.LoadIpl                    = true -- Disable if you're using fivem-ipl or other IPL loaders
+Config.LoadIpl                    = false -- Disable if you're using fivem-ipl or other IPL loaders
 
 Config.Locale                     = 'en'
 
@@ -37,16 +37,16 @@ Config.Hospitals = {
 		},
 
 		AmbulanceActions = {
-			vector3(338.571442, -585.112061, 27.791260)
+			vector3(301.925293, -598.549438, 42.282104)
 		},
 
 		Vehicles = {
 			{
-				Spawner = vector3(322.167053, -556.747253, 28.740601),
+				Spawner = vector3(338.123077, -575.947266, 28.791260),
 				InsideShop = vector3(320.756042, -548.004395, 28.740601),
 				Marker = {type = 36, x = 1.0, y = 1.0, z = 1.0, r = 100, g = 50, b = 200, a = 100, rotate = true},
 				SpawnPoints = {
-					{coords = vector3(320.756042, -548.004395, 28.740601), heading = 227.6, radius = 4.0}
+					{coords = vector3(328.021973, -576.553833, 28.791260), heading = 227.6, radius = 4.0}
 				}
 			}
 		},
@@ -63,22 +63,37 @@ Config.Hospitals = {
 		},
 
 		FastTravels = {
-			-- roof access UP
+			-- roof access (ok)
 			{
-				From = vector3(339.468140, -595.107666, 27.791260), 
+				From = vector3(329.393402, -601.081299, 42.282104), 
 				To = {coords = vector3(341.076935, -581.604370, 74.150879), heading = 0.0},
 				Marker = {type = 1, x = 1.5, y = 1.5, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false}
 			},
             
 
-			-- DW
+			-- DW main
 			{
 				From = vector3(339.454956, -584.175842, 73.150879),
-				To = {coords = vector3(337.239563, -594.224182, 28.791260), heading = 0.0},
+				To = {coords = vector3(331.371429, -595.424194, 43.282104), heading = 0.0},
 				Marker = {type = 1, x = 2.0, y = 2.0, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false}
 			},
 
-            -- Roof access end
+			-- Garage dw
+			{
+				From = vector3(327.217590, -603.560425, 42.282104),
+				To = {coords = vector3(339.283508, -584.479126, 28.791260), heading = 0.0},
+				Marker = {type = 1, x = 2.0, y = 2.0, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false}
+			},
+
+			-- Garage up 
+			{
+				From = vector3(340.892303, -580.378052, 27.791260),
+				To = {coords = vector3(332.175812, -595.569214, 43.282104), heading = 0.0},
+				Marker = {type = 1, x = 2.0, y = 2.0, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false}
+			},
+
+
+            -- Roof access end 
 		}
 
 	}

@@ -1,6 +1,5 @@
 author 'Tabarra'
 description 'Remotely Manage & Monitor your GTA5 FiveM Server'
-repository 'https://github.com/tabarra/txAdmin'
 version '5.2.0'
 ui_label 'txAdmin'
 

@@ -1,91 +1,71 @@
+if not lib then return end
+
+---@diagnostic disable-next-line: duplicate-set-field
 function client.setPlayerData(key, value)
 	PlayerData[key] = value
 	OnPlayerData(key, value)
 end
 
 function client.hasGroup(group)
-	if PlayerData.loaded then
-		if type(group) == 'table' then
-			for name, rank in pairs(group) do
-				local groupRank = PlayerData.groups[name]
-				if groupRank and groupRank >= (rank or 0) then
-					return name, groupRank
-				end
+	if not PlayerData.loaded then return end
+
+	if type(group) == 'table' then
+		for name, rank in pairs(group) do
+			local groupRank = PlayerData.groups[name]
+			if groupRank and groupRank >= (rank or 0) then
+				return name, groupRank
 			end
-		else
-			local groupRank = PlayerData.groups[group]
-			if groupRank then
-				return group, groupRank
-			end
+		end
+	else
+		local groupRank = PlayerData.groups[group]
+		if groupRank then
+			return group, groupRank
 		end
 	end
 end
 
 local Utils = client.utils
+local Weapon = client.weapon
 
-local function onLogout()
-	if PlayerData.loaded then
-		if client.parachute then
-			Utils.DeleteObject(client.parachute)
-			client.parachute = false
-		end
+function client.onLogout()
+	if not PlayerData.loaded then return end
 
-		client.closeInventory()
-		PlayerData.loaded = false
-		ClearInterval(client.interval)
-		ClearInterval(client.tick)
-		currentWeapon = Utils.Disarm(currentWeapon)
-	end
-end
-
-if shared.framework == 'ox' then
-	RegisterNetEvent('ox:playerLogout', onLogout)
-
-	RegisterNetEvent('ox:setGroup', function(name, grade)
-		PlayerData.groups[name] = grade
-		OnPlayerData('groups')
-	end)
-
-elseif shared.framework == 'esx' then
-	local ESX = table.create(0, 2)
-	setmetatable(ESX, {
-		__index = function(self, index)
-			local obj = exports.es_extended:getSharedObject()
-			ESX.SetPlayerData = obj.SetPlayerData
-			ESX.PlayerLoaded = obj.PlayerLoaded
-			return ESX[index]
-		end
-	})
-
-	function client.setPlayerData(key, value)
-		PlayerData[key] = value
-		ESX.SetPlayerData(key, value)
+	if client.parachute then
+		Utils.DeleteObject(client.parachute)
+		client.parachute = false
 	end
 
-	RegisterNetEvent('esx:onPlayerLogout', onLogout)
-
-	AddEventHandler('esx:setPlayerData', function(key, value)
-		if PlayerData.loaded and GetInvokingResource() == 'es_extended' then
-			if key == 'job' then
-				key = 'groups'
-				value = { [value.name] = value.grade }
-			end
-
-			PlayerData[key] = value
-			OnPlayerData(key, value)
+	for _, point in pairs(client.drops) do
+		if point.entity then
+			Utils.DeleteObject(point.entity)
 		end
-	end)
 
-	RegisterNetEvent('esx_policejob:handcuff', function()
-		PlayerData.cuffed = not PlayerData.cuffed
-		LocalPlayer.state:set('invBusy', PlayerData.cuffed, false)
-		if PlayerData.cuffed then
-			currentWeapon = Utils.Disarm(currentWeapon)
-		end
-	end)
+		point:remove()
+	end
 
-	RegisterNetEvent('esx_policejob:unrestrain', function()
-		PlayerData.cuffed = false
-		LocalPlayer.state:set('invBusy', PlayerData.cuffed, false)
-	end)
+	PlayerData.loaded = false
+	client.drops = nil
+
+	client.closeInventory()
+	client.wipeShops()
+	ClearInterval(client.interval)
+	ClearInterval(client.tick)
+	Weapon.Disarm()
 end
+
+local scriptPath = ('modules/bridge/%s/client.lua'):format(shared.framework)
+local resourceFile = LoadResourceFile(cache.resource, scriptPath)
+
+if not resourceFile then
+	lib = nil
+	return error(("Unable to find framework bridge for '%s'"):format(shared.framework))
+end
+
+local func, err = load(resourceFile, ('@@%s/%s'):format(cache.resource, scriptPath))
+
+if not func or err then
+	lib = nil
+	return error(err)
+end
+
+func(client.onLogout, client.weapon)

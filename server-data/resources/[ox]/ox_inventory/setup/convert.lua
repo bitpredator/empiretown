@@ -1,12 +1,4 @@
 local Items = server.items
-
---[[
-	You should remove this file from fxmanifest.lua if it is not required
-	Remember to backup your database in the event of errors
-
-	This conversion process is designed for ESX v1 Final and ESX Legacy!
-]]
-
 local started
 
 local function Print(arg)
@@ -14,24 +6,28 @@ local function Print(arg)
 end
 
 local function Upgrade()
-	-- Throw an error if ox_inventory does not exist
-	-- User needs to use upgrade.sql first
-	MySQL.query.await('SELECT name FROM ox_inventory')
+	if started then
+		return warn('Data is already being converted, please wait..')
+	end
+
+	started = true
 
 	local trunk = MySQL.query.await('SELECT owner, name, data FROM ox_inventory WHERE name LIKE ?', {'trunk-%'})
 	local glovebox = MySQL.query.await('SELECT owner, name, data FROM ox_inventory WHERE name LIKE ?', {'glovebox-%'})
-	if #trunk > 0 or #glovebox > 0 then
+
+	if trunk and glovebox then
 		local vehicles = {}
+
 		for _, v in pairs(trunk) do
 			vehicles[v.owner] = vehicles[v.owner] or {}
-			vehicles[v.owner][v.name:sub(7, #v.name)] = {trunk=v.data or '[]', glovebox='[]'}
+			local subbedName = v.name:sub(7, #v.name)
+			vehicles[v.owner][subbedName] = vehicles[v.owner][subbedName] or {trunk=v.data or '[]', glovebox='[]'}
 		end
 
 		for _, v in pairs(glovebox) do
-			if not vehicles[v.owner] then
-				vehicles[v.owner] = {}
-			end
-			vehicles[v.owner][v.name:sub(10, #v.name)] = vehicles[v.owner][v.name:sub(10, #v.name)] or {trunk='[]', glovebox=v.data or '[]'}
+			vehicles[v.owner] = vehicles[v.owner] or {}
+			local subbedName = v.name:sub(10, #v.name)
+			vehicles[v.owner][subbedName] = {trunk=vehicles[v.owner][subbedName].trunk ~= '[]' and vehicles[v.owner][subbedName].trunk or '[]', glovebox=vehicles[v.owner][subbedName].glovebox ~= '[]' and vehicles[v.owner][subbedName].glovebox or v.data or '[]'}
 		end
 
 		Print(('Moving ^3%s^0 trunks and ^3%s^0 gloveboxes to owned_vehicles table'):format(#trunk, #glovebox))
@@ -39,11 +35,11 @@ local function Upgrade()
 		local count = 0
 
 		for owner, v in pairs(vehicles) do
-			for plate, v in pairs(v) do
+			for plate, v2 in pairs(v) do
 				count += 1
 				parameters[count] = {
-					v.trunk,
-					v.glovebox,
+					v2.trunk,
+					v2.glovebox,
 					plate,
 					owner
 				}
@@ -53,10 +49,12 @@ local function Upgrade()
 		MySQL.prepare.await('UPDATE owned_vehicles SET trunk = ?, glovebox = ? WHERE plate = ? AND owner = ?', parameters)
 		MySQL.prepare.await('DELETE FROM ox_inventory WHERE name LIKE ? OR name LIKE ?', {'trunk-%', 'glovebox-%'})
 
-		Print('Completed task - you can safely remove setup/convert.lua')
+		Print('Successfully converted trunks and gloveboxes')
 	else
-		Print('^3No inventories need to be moved! You can safely remove setup/convert.lua')
+		Print('No inventories need to be converted')
 	end
+
+	started = false
 end
 
 local function GenerateText(num)
@@ -76,15 +74,23 @@ local function GenerateSerial(text)
 	return ('%s%s%s'):format(math.random(100000,999999), text == nil and GenerateText(3) or text, math.random(100000,999999))
 end
 
-local function Convert()
+local function ConvertESX()
+	if started then
+		return warn('Data is already being converted, please wait..')
+	end
+
 	local users = MySQL.query.await('SELECT identifier, inventory, loadout, accounts FROM users')
+
+	if not users then return end
+
+	started = true
 	local total = #users
 	local count = 0
 	local parameters = {}
 
 	Print(('Converting %s user inventories to new data format'):format(total))
 
-	for i = 1, #users do
+	for i = 1, total do
 		count += 1
 		local inventory, slot = {}, 0
 		local items = users[i].inventory and json.decode(users[i].inventory) or {}
@@ -93,7 +99,7 @@ local function Convert()
 
 		for k, v in pairs(accounts) do
 			if type(v) == 'table' then break end
-			if Items(k) and v > 0 then
+			if server.accounts[k] and Items(k) and v > 0 then
 				slot += 1
 				inventory[slot] = {slot=slot, name=k, count=v}
 			end
@@ -124,11 +130,193 @@ local function Convert()
 	end
 
 	MySQL.prepare.await('UPDATE users SET inventory = ? WHERE identifier = ?', parameters)
-	Print('Completed task - you can safely remove setup/convert.lua')
+	Print('Successfully converted user inventories')
+	started = false
+end
+
+local function ConvertQB()
+	if started then
+		return warn('Data is already being converted, please wait..')
+	end
+
+	started = true
+	local users = MySQL.query.await('SELECT citizenid, inventory, money FROM players')
+	if not users then return end
+	local count = 0
+	local parameters = {}
+
+	for i = 1, #users do
+		local inventory, slot = {}, 0
+		local user = users[i]
+		local items = user.inventory and json.decode(user.inventory) or {}
+		local accounts = user.money and json.decode(user.money) or {}
+
+		for k, v in pairs(accounts) do
+			if type(v) == 'table' then break end
+			if k == 'cash' then k = 'money' end
+
+			if server.accounts[k] and Items(k) and v > 0 then
+				slot += 1
+				inventory[slot] = {slot=slot, name=k, count=v}
+			end
+		end
+
+		local shouldConvert = false
+
+		for _, v in pairs(items) do
+			if Items(v?.name) then
+				slot += 1
+				inventory[slot] = {slot=slot, name=v.name, count=v.amount, metadata = type(v.info) == 'table' and v.info or {}}
+				if v.type == "weapon" then
+					inventory[slot].metadata.durability = v.info.quality or 100
+					inventory[slot].metadata.ammo = v.info.ammo or 0
+					inventory[slot].metadata.components = {}
+					inventory[slot].metadata.serial = GenerateSerial()
+					inventory[slot].metadata.quality = nil
+				end
+			end
+
+			shouldConvert = v.amount and true
+		end
+
+		if shouldConvert then
+			count += 1
+			parameters[count] = { 'UPDATE players SET inventory = ? WHERE citizenid = ?', { json.encode(inventory), user.citizenid } }
+		end
+	end
+
+	Print(('Converting %s user inventories to new data format'):format(count))
+
+	if count > 0 then
+		if not MySQL.transaction.await(parameters) then
+			return Print('An error occurred while converting player inventories')
+		end
+		Wait(100)
+	end
+
+	local plates = MySQL.query.await('SELECT plate, citizenid FROM player_vehicles')
+
+	if plates then
+		for i = 1, #plates do
+			plates[plates[i].plate] = plates[i].citizenid
+		end
+
+		local trunk = MySQL.query.await('SELECT plate, items FROM trunkitems')
+
+		if trunk then
+			table.wipe(parameters)
+			count = 0
+			local vehicles = {}
+
+			for _, v in pairs(trunk) do
+				local owner = plates[v.plate]
+
+				if owner then
+					if not vehicles[owner] then
+						vehicles[owner] = {}
+					end
+
+					if not vehicles[owner][v.plate] then
+						local items = json.decode(v.items) or {}
+						local inventory, slot = {}, 0
+
+						for _, v in pairs(items) do
+							if Items(v?.name) then
+								slot += 1
+								inventory[slot] = {slot=slot, name=v.name, count=v.amount, metadata = type(v.info) == 'table' and v.info or {}}
+								if v.type == "weapon" then
+									inventory[slot].metadata.durability = v.info.quality or 100
+									inventory[slot].metadata.ammo = v.info.ammo or 0
+									inventory[slot].metadata.components = {}
+									inventory[slot].metadata.serial = GenerateSerial()
+									inventory[slot].metadata.quality = nil
+								end
+							end
+						end
+
+						vehicles[owner][v.plate] = true
+						count += 1
+						parameters[count] = { 'UPDATE player_vehicles SET trunk = ? WHERE plate = ? AND citizenid = ?', { json.encode(inventory), v.plate, owner } }
+					end
+				end
+			end
+
+			Print(('Moving ^3%s^0 trunks to the player_vehicles table'):format(count))
+
+			if count > 0 then
+				if not MySQL.transaction.await(parameters) then
+					return Print('An error occurred while converting trunk inventories')
+				end
+
+				Wait(100)
+			end
+		end
+
+		local glovebox = MySQL.query.await('SELECT plate, items FROM gloveboxitems')
+
+		if glovebox then
+			table.wipe(parameters)
+			count = 0
+			local vehicles = {}
+
+			for _, v in pairs(glovebox) do
+				local owner = plates[v.plate]
+
+				if owner then
+					if not vehicles[owner] then
+						vehicles[owner] = {}
+					end
+
+					if not vehicles[owner][v.plate] then
+						local items = json.decode(v.items) or {}
+						local inventory, slot = {}, 0
+
+						for _, v in pairs(items) do
+							if Items(v?.name) then
+								slot += 1
+								inventory[slot] = {slot=slot, name=v.name, count=v.amount, metadata = type(v.info) == 'table' and v.info or {}}
+
+								if v.type == "weapon" then
+									inventory[slot].metadata.durability = v.info.quality or 100
+									inventory[slot].metadata.ammo = v.info.ammo or 0
+									inventory[slot].metadata.components = {}
+									inventory[slot].metadata.serial = GenerateSerial()
+									inventory[slot].metadata.quality = nil
+								end
+							end
+						end
+
+						vehicles[owner][v.plate] = true
+						count += 1
+						parameters[count] = { 'UPDATE player_vehicles SET glovebox = ? WHERE plate = ? AND citizenid = ?', { json.encode(inventory), v.plate, owner } }
+					end
+				end
+			end
+
+			Print(('Moving ^3%s^0 gloveboxes to the player_vehicles table'):format(count))
+
+			if count > 0 then
+				if not MySQL.transaction.await(parameters) then
+					return Print('An error occurred while converting glovebox inventories')
+				end
+			end
+		end
+	end
+
+	Print('Successfully converted user and vehicle inventories')
+	started = false
 end
 
 local function Convert_Old_ESX_Property()
+	if started then
+		return warn('Data is already being converted, please wait..')
+	end
+
 	local inventories = MySQL.query.await('select distinct owner from ( select owner from addon_inventory_items WHERE inventory_name = "property" union all select owner from datastore_data WHERE NAME = "property" union all select owner from addon_account_data WHERE account_name = "property_black_money") a ')
+
+	if not inventories then return end
+
+	started = true
 	local total = #inventories
 	local count = 0
 	local parameters = {}
@@ -138,7 +326,7 @@ local function Convert_Old_ESX_Property()
 	for i = 1, #inventories do
 		count += 1
 		local inventory, slot = {}, 0
-		
+
 		local addoninventory = MySQL.query.await('SELECT name,count FROM addon_inventory_items WHERE owner = ? AND inventory_name = "property"', {inventories[i].owner})
 
 		for k,v in pairs(addoninventory) do
@@ -147,7 +335,7 @@ local function Convert_Old_ESX_Property()
 				inventory[slot] = {slot=slot, name=v.name, count=v.count}
 			end
 		end
-		
+
 		local addonaccount = MySQL.query.await('SELECT money FROM addon_account_data WHERE owner = ? AND account_name = "property_black_money"', {inventories[i].owner})
 
 		for k,v in pairs(addonaccount) do
@@ -156,7 +344,7 @@ local function Convert_Old_ESX_Property()
 				inventory[slot] = {slot=slot, name="black_money", count=v.money}
 			end
 		end
-		
+
 		local datastore = MySQL.query.await('SELECT data FROM datastore_data WHERE owner = ? AND name = "property"', {inventories[i].owner})
 
 		for k,v in pairs(datastore) do
@@ -179,35 +367,13 @@ local function Convert_Old_ESX_Property()
 		parameters[count] = {inventories[i].owner,"property"..inventories[i].owner,json.encode(inventory,{indent=false})}
 	end
 	MySQL.prepare.await('INSERT INTO ox_inventory (owner,name,data) VALUES (?,?,?)', parameters)
-	Print('Completed task - you can safely remove setup/convert.lua')
+	Print('Successfully converted user property inventories')
+	started = false
 end
 
-CreateThread(function()
-	repeat Wait(50) until shared.ready
-	shared.ready = false
-	Print([[Currently running in setup mode
-If you are upgrading from linden_inventory, type '/convertinventory linden'
-To update standard ESX player inventories to support metadata, type '/convertinventory'
-
-Remove 'setup/convert.lua' from fxmanifest.lua and restart the server when you are done]])
-
-	RegisterCommand('convertinventory', function(source, args, raw)
-		if not started then
-			if args and args[1] == 'linden' then
-				Upgrade()
-				started = true
-			else
-				Convert()
-				started = true
-			end
-		end
-	end)
-		
-	RegisterCommand('convertproperties', function(source, args, raw)
-		if not started then
-			Convert_Old_ESX_Property()
-			started = true
-		end
-	end)
-
-end)
+return {
+	linden = Upgrade,
+	esx = ConvertESX,
+	qb = ConvertQB,
+	esxproperty = Convert_Old_ESX_Property,
+}
