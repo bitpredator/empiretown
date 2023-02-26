@@ -1,30 +1,24 @@
 Config = {}
 Config.Shops = {
-    ['import'] = { -- Job name
-        label = 'negozio import',
+    ['ambulance'] = { -- Job name
+        label = 'Negozio medico ',
         blip = {
             enabled = true,
-            coords = vec3(-707.419800, -914.479126, 19.203613),
-            sprite = 279,
+            coords = vec3(309.415375, -561.784607, 43.282104),
+            sprite = 61,
             color = 8,
             scale = 0.7,
-            string = 'import'
-        },
-        bossMenu = {
-            enabled = true, -- Enable boss menu?
-            coords = vec3(-709.621948, -906.461548, 19.203613), -- Location of boss menu
-            string = '[E] - Access Boss Menu', -- Text UI label string
-            range = 3.0, -- Distance to allow access/prompt with text UI
+            string = 'ambulance'
         },
         locations = {
             stash = {
                 string = '[E] - Access Inventory',
-                coords = vec3(-707.419800, -914.479126, 19.203613),
+                coords = vec3(309.415375, -561.784607, 43.282104),
                 range = 3.0
             },
             shop = {
                 string = '[E] - Access Shop',
-                coords = vec3(-707.419800, -914.479126, 19.203613),
+                coords = vec3(308.782410, -592.061523, 43.282104),
                 range = 4.0
             }
         }

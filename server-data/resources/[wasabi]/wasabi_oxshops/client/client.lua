@@ -62,9 +62,6 @@ CreateThread(function()
             local stashLoc = v.locations.stash.coords
             local shopLoc = v.locations.shop.coords
             local bossLoc
-            if v.bossMenu.enabled then
-                bossLoc = v.bossMenu.coords
-            end
             local distStash = #(coords - stashLoc)
             local distShop = #(coords - shopLoc)
             local distBoss
@@ -89,17 +86,7 @@ CreateThread(function()
                 if IsControlJustReleased(0, 38) then
                     exports.ox_inventory:openInventory('shop', { type = k, id = 1 })
                 end
-            elseif distBoss and distBoss <= v.bossMenu.range then
-                if not textUI then
-                    lib.showTextUI(v.bossMenu.string)
-                    textUI = true
-                end
                 sleep = 0
-                if IsControlJustReleased(0, 38) and ESX.PlayerData.job.grade_name == 'boss' then
-                    TriggerEvent('esx_society:openBossMenu', ESX.PlayerData.job.name, function(data, menu)
-                        menu.close()
-                    end, {wash = false})
-                end
             elseif textUI then
                 lib.hideTextUI()
                 textUI = nil
