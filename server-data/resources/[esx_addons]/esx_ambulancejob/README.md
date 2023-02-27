@@ -8,28 +8,9 @@ ESX Ambulance Job is an plugin for ESX with features:
 ## Requirements
 
 * Auto mode
-   - [esx_skin](https://github.com/ESX-Org/esx_skin)
-   - [esx_vehicleshop](https://github.com/ESX-Org/esx_vehicleshop)
-
-* Player management (boss actions)
-   - [esx_society](https://github.com/ESX-Org/esx_society)
-
-## Download & Installation
-
-### Using [fvm](https://github.com/qlaffont/fvm-installer)
-```
-fvm install --save --folder=esx esx-org/esx_ambulancejob
-```
-
-### Using Git
-```
-cd resources
-git clone https://github.com/ESX-Org/esx_ambulancejob [esx]/esx_ambulancejob
-```
-
-### Manually
-- Download https://github.com/ESX-Org/esx_ambulancejob/archive/master.zip
-- Put it in the `[esx]` directory
+   - [esx_skin]
+   - [esx_vehicleshop]
+   - [esx_society]
 
 ## Installation
 - Import `esx_ambulancejob.sql` in your database
@@ -44,7 +25,7 @@ start esx_ambulancejob
 ### License
 esx_ambulancejob - ambulance script for fivem
 
-Copyright (C) 2015-2020 Jérémie N'gadi
+Copyright (C) 2015-2023
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 
