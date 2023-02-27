@@ -4,64 +4,61 @@ local isBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
 isInShopMenu = false
 
 function OpenAmbulanceActionsMenu()
-	local elements = {{label = _U('cloakroom'), value = 'cloakroom'}}
+	local elements = {
+		{unselectable = true, icon = "fas fa-shirt", title = "Ambulance Actions"},
+		{icon = "fas fa-shirt", title = _U('cloakroom'), value = 'cloakroom'}	
+	}
 
 	if Config.EnablePlayerManagement and ESX.PlayerData.job.grade_name == 'boss' then
-		table.insert(elements, {label = _U('boss_actions'), value = 'boss_actions'})
+		elements[#elements+1] = {
+			icon = "fas fa-ambulance",
+			title = _U('boss_actions'),
+		 	value = 'boss_actions'
+		}
 	end
 
-	ESX.UI.Menu.CloseAll()
-
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'ambulance_actions', {
-		title    = _U('ambulance'),
-		align    = 'top-left',
-		elements = elements
-	}, function(data, menu)
-		if data.current.value == 'cloakroom' then
+	ESX.OpenContext("right", elements, function(menu,element)
+		if element.value == 'cloakroom' then
 			OpenCloakroomMenu()
-		elseif data.current.value == 'boss_actions' then
+		elseif element.value == 'boss_actions' then
 			TriggerEvent('esx_society:openBossMenu', 'ambulance', function(data, menu)
 				menu.close()
 			end, {wash = false})
 		end
-	end, function(data, menu)
-		menu.close()
 	end)
 end
 
 function OpenMobileAmbulanceActionsMenu()
-	ESX.UI.Menu.CloseAll()
+	local elements = {
+		{unselectable = true, icon = "fas fa-ambulance", title = _U('ambulance')},
+		{icon = "fas fa-ambulance", title = _U('ems_menu'), value = "citizen_interaction"}
+	}
 
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'mobile_ambulance_actions', {
-		title    = _U('ambulance'),
-		align    = 'top-left',
-		elements = {
-			{label = _U('ems_menu'), value = 'citizen_interaction'}
-	}}, function(data, menu)
-		if data.current.value == 'citizen_interaction' then
-			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
-				title    = _U('ems_menu_title'),
-				align    = 'top-left',
-				elements = {
-					{label = _U('ems_menu_revive'), value = 'revive'},
-					{label = _U('ems_menu_small'), value = 'small'},
-					{label = _U('ems_menu_big'), value = 'big'},
-					{label = _U('ems_menu_putincar'), value = 'put_in_vehicle'},
-					{label = _U('ems_menu_search'), value = 'search'},
-					{label = _U('billing'), value = 'billing'}
-			}}, function(data, menu)
+	ESX.OpenContext("right", elements, function(menu,element)
+		if element.value == "citizen_interaction" then
+			local elements2 = {
+				{unselectable = true, icon = "fas fa-ambulance", title = element.title},
+				{icon = "fas fa-syringe", title = _U('ems_menu_revive'), value = "revive"},
+				{icon = "fas fa-bandage", title = _U('ems_menu_small'), value = "small"},
+				{icon = "fas fa-bandage", title = _U('ems_menu_big'), value = "big"},
+				{icon = "fas fa-car", title = _U('ems_menu_putincar'), value = "put_in_vehicle"},
+				{icon = "fas fa-syringe", title = _U('ems_menu_search'), value = "search"},
+				{icon = "fas fa-syringe", title = _U('billing'), value = "billing"},
+			}
+
+			ESX.OpenContext("right", elements2, function(menu2,element2)
 				if isBusy then return end
 
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 
-				if data.current.value == 'search' then
+				if element2.value == 'search' then
 					TriggerServerEvent('esx_ambulancejob:svsearch')
 				elseif closestPlayer == -1 or closestDistance > 1.0 then
 					ESX.ShowNotification(_U('no_players'))
 				else
-					if data.current.value == 'revive' then
+					if element2.value == 'revive' then
 						revivePlayer(closestPlayer)
-					elseif data.current.value == 'small' then
+					elseif element2.value == 'small' then
 						ESX.TriggerServerCallback('esx_ambulancejob:getItemAmount', function(quantity)
 							if quantity > 0 then
 								local closestPlayerPed = GetPlayerPed(closestPlayer)
@@ -73,7 +70,7 @@ function OpenMobileAmbulanceActionsMenu()
 									isBusy = true
 									ESX.ShowNotification(_U('heal_inprogress'))
 									TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
-									Citizen.Wait(10000)
+									Wait(10000)
 									ClearPedTasks(playerPed)
 
 									TriggerServerEvent('esx_ambulancejob:removeItem', 'bandage')
@@ -88,7 +85,7 @@ function OpenMobileAmbulanceActionsMenu()
 							end
 						end, 'bandage')
 
-					elseif data.current.value == 'big' then
+					elseif element2.value == 'big' then
 
 						ESX.TriggerServerCallback('esx_ambulancejob:getItemAmount', function(quantity)
 							if quantity > 0 then
@@ -101,7 +98,7 @@ function OpenMobileAmbulanceActionsMenu()
 									isBusy = true
 									ESX.ShowNotification(_U('heal_inprogress'))
 									TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
-									Citizen.Wait(10000)
+									Wait(10000)
 									ClearPedTasks(playerPed)
 
 									TriggerServerEvent('esx_ambulancejob:removeItem', 'medikit')
@@ -116,17 +113,12 @@ function OpenMobileAmbulanceActionsMenu()
 							end
 						end, 'medikit')
 
-					elseif data.current.value == 'put_in_vehicle' then
+					elseif element2.value == 'put_in_vehicle' then
 						TriggerServerEvent('esx_ambulancejob:putInVehicle', GetPlayerServerId(closestPlayer))
 					end
 				end
-			end, function(data, menu)
-				menu.close()
 			end)
 		end
-
-	end, function(data, menu)
-		menu.close()
 	end)
 end
 
@@ -175,7 +167,7 @@ function revivePlayer(closestPlayer)
 				ESX.ShowNotification(_U('revive_inprogress'))
 
 				for i=1, 15 do
-					Citizen.Wait(900)
+					Wait(900)
 
 					ESX.Streaming.RequestAnimDict(lib, function()
 						TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0.0, false, false, false)
@@ -200,7 +192,7 @@ function FastTravel(coords, heading)
 	DoScreenFadeOut(800)
 
 	while not IsScreenFadedOut() do
-		Citizen.Wait(500)
+		Wait(500)
 	end
 
 	ESX.Game.Teleport(playerPed, coords, function()
@@ -213,9 +205,9 @@ function FastTravel(coords, heading)
 end
 
 -- Draw markers & Marker logic
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if ESX.PlayerData.job and ESX.PlayerData.job.name == 'ambulance' then
 			local playerCoords = GetEntityCoords(PlayerPedId())
@@ -287,18 +279,18 @@ Citizen.CreateThread(function()
 			end
 
 			if letSleep then
-				Citizen.Wait(500)
+				Wait(500)
 			end
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
 -- Fast travels
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local playerCoords, letSleep = GetEntityCoords(PlayerPedId()), true
 
 		for hospitalNum,hospital in pairs(Config.Hospitals) do
@@ -318,7 +310,7 @@ Citizen.CreateThread(function()
 		end
 
 		if letSleep then
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
@@ -341,16 +333,16 @@ end)
 
 AddEventHandler('esx_ambulancejob:hasExitedMarker', function(hospital, part, partNum)
 	if not isInShopMenu then
-		ESX.UI.Menu.CloseAll()
+		ESX.CloseContext()
 	end
 
 	CurrentAction = nil
 end)
 
 -- Key Controls
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if CurrentAction then
 			ESX.ShowHelpNotification(CurrentActionMsg)
@@ -372,7 +364,7 @@ Citizen.CreateThread(function()
 				OpenMobileAmbulanceActionsMenu()
 			end
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
@@ -403,14 +395,14 @@ AddEventHandler('esx_ambulancejob:putInVehicle', function()
 end)
 
 function OpenCloakroomMenu()
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'cloakroom', {
-		title    = _U('cloakroom'),
-		align    = 'top-left',
-		elements = {
-			{label = _U('ems_clothes_civil'), value = 'citizen_wear'},
-			{label = _U('ems_clothes_ems'), value = 'ambulance_wear'},
-	}}, function(data, menu)
-		if data.current.value == 'citizen_wear' then
+	local elements = {
+		{unselectable = true, icon = "fas fa-shirt", title = _U('cloakroom')},
+		{icon = "fas fa-shirt", title = _U('ems_clothes_civil'), value = "citizen_wear"},
+		{icon = "fas fa-shirt", title = _U('ems_clothes_ems'), value = "ambulance_wear"},
+	}
+
+	ESX.OpenContext("right", elements, function(menu,element)
+		if element.value == "citizen_wear" then
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
 				TriggerEvent('skinchanger:loadSkin', skin)
 				isOnDuty = false
@@ -420,7 +412,7 @@ function OpenCloakroomMenu()
 					deadPlayerBlips[playerId] = nil
 				end
 			end)
-		elseif data.current.value == 'ambulance_wear' then
+		elseif element.value == "ambulance_wear" then
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
 				if skin.sex == 0 then
 					TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
@@ -432,10 +424,6 @@ function OpenCloakroomMenu()
 				TriggerEvent('esx_ambulancejob:setDeadPlayers', deadPlayers)
 			end)
 		end
-
-		menu.close()
-	end, function(data, menu)
-		menu.close()
 	end)
 end
 
