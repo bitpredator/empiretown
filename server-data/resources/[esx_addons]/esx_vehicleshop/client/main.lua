@@ -83,7 +83,7 @@ function ReturnVehicleProvider()
 
 		for k, v in ipairs(vehicles) do
 			local returnPrice = ESX.Math.Round(v.price * 0.75)
-			local vehicleLabel = getVehicleFromModel(v.vehicle).label
+			local vehicleLabel = getVehicleFromModel(v.vehicle).name
 
 			table.insert(elements, {
 				label = ('%s [<span style="color:orange;">%s</span>]'):format(vehicleLabel, _U('generic_shopitem', ESX.Math.GroupDigits(returnPrice))),
@@ -411,7 +411,7 @@ function OpenPopVehicleMenu()
 		local elements = {}
 
 		for k,v in ipairs(vehicles) do
-			local vehicleLabel = getVehicleFromModel(v.vehicle).label
+			local vehicleLabel = getVehicleFromModel(v.vehicle).name
 
 			table.insert(elements, {
 				label = ('%s [<span style="color:green;">%s</span>]'):format(vehicleLabel, _U('generic_shopitem', ESX.Math.GroupDigits(v.price))),
