@@ -13,14 +13,6 @@ Locales['it'] = {
 	['approach'] = 'Approccio: ~b~%s',
 	-- Bills Menu
 	['bills_title'] = 'Fatture',
-	-- Clothes Menu
-	['clothes_title'] = 'abbigliamento',
-	['clothes_torso'] = 'Torso',
-	['clothes_pants'] = 'pantaloni',
-	['clothes_shoes'] = 'Scarpe',
-	['clothes_bproof'] = 'Giubbotto antiproiettile',
-	-- Main Menu
-	['mainmenu_subtitle'] = 'menu interazioni',
 	-- Admin Menu
 	['admin_title'] = 'Amministrazione',
 	['admin_goto_button'] = 'TP su Player',
