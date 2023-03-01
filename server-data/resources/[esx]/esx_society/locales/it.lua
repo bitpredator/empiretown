@@ -39,5 +39,5 @@ Locales['it'] = {
   ['you_have_promoted']      = 'hai promosso %s come %s',
   ['you_have_been_promoted'] = 'hai avuto una promozione!',  
   ['invalid_value']          = 'valore non valido',  
-  ['invalid_value_nochanges']= 'valore non valido, nessuna modifica applicata',
+  ['invalid_value_nochanges']= 'valore non valido nessuna modifica applicata',
 }
