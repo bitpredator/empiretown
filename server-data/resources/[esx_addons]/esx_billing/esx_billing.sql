@@ -1,14 +1,16 @@
+USE `es_extended`;
 
-
-CREATE TABLE `billing` (
-	`id` int NOT NULL AUTO_INCREMENT,
-	`identifier` varchar(60) NOT NULL,
-	`sender` varchar(60) NOT NULL,
-	`target_type` varchar(50) NOT NULL,
-	`target` varchar(60) NOT NULL,
-	`label` varchar(255) NOT NULL,
-	`amount` int NOT NULL,
-
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+create table billing
+(
+	id int auto_increment
+		primary key,
+	identifier varchar(255) not null,
+	sender varchar(255) not null,
+	target_type varchar(50) not null,
+	target varchar(255) not null,
+	label varchar(255) not null,
+	amount int not null,
+	split tinyint(1) default 0 not null,
+	paid tinyint(1) default 0 not null
+);
 

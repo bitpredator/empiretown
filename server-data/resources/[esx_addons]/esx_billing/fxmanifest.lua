@@ -1,10 +1,7 @@
 fx_version 'adamant'
-
 game 'gta5'
-
 description 'ESX Billing'
-
-version '0.0.3'
+version '0.0.4'
 
 shared_script '@es_extended/imports.lua'
 
