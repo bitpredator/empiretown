@@ -27,6 +27,9 @@
     "enabled": true,
     "sentryEnabled": true
   },
+  "images": {
+    "useWebhook": true
+  },
   "apps": [
     "npwd_services"
   ],
