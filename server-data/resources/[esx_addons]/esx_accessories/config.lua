@@ -1,10 +1,10 @@
 Config = {}
 
-Config.Locale = GetConvar('esx:locale', 'it')
+Config.Locale = 'it'
 
 Config.Price = 100
 
-Config.EnableControls = true
+Config.EnableControls = false
 
 Config.DrawDistance = 10
 Config.Size   = {x = 1.5, y = 1.5, z = 1.0}
