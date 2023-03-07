@@ -9,7 +9,7 @@ files {
 	'nui/digital-7.regular.ttf', 
 	'nui/radar.html',
 	'nui/radar.css',
-	'nui/radar.j'
+	'nui/radar.js'
 }
 
 client_script {
