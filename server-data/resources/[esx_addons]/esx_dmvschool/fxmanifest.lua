@@ -2,9 +2,9 @@ fx_version 'adamant'
 
 game 'gta5'
 
-description 'ESX DMV School'
+description 'BPT DMV School'
 lua54 'yes'
-version '0.0.3'
+version '0.0.4'
 
 shared_script '@es_extended/imports.lua'
 
@@ -26,7 +26,6 @@ ui_page 'html/ui.html'
 
 files {
 	'html/ui.html',
-	'html/logo.png',
 	'html/dmv.png',
 	'html/styles.css',
 	'html/questions.js',
