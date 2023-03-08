@@ -93,8 +93,8 @@ local function closeTrunk()
 	end
 end
 
----@param inv string
----@param data any
+---@param inv string?
+---@param data any?
 ---@return boolean?
 function client.openInventory(inv, data)
 	if invOpen then
@@ -158,7 +158,6 @@ function client.openInventory(inv, data)
 				return lib.notify({ id = 'cannot_perform', type = 'error', description = locale('cannot_perform') })
 			end
 
-			left, right = lib.callback.await('ox_inventory:openShop', 200, data)
 		elseif invOpen ~= nil then
 			if inv == 'policeevidence' then
 				local input = lib.inputDialog(locale('police_evidence'), {locale('locker_number')}) --[[@as any]]
@@ -255,7 +254,7 @@ lib.callback.register('ox_inventory:usingItem', function(data)
 
 		local success = (not item.usetime or lib.progressBar({
 			duration = item.usetime,
-			label = item.label or locale('using', data.label),
+			label = item.label or locale('using', data.metadata.label or data.label),
 			useWhileDead = item.useWhileDead,
 			canCancel = item.cancel,
 			disable = item.disable,
@@ -337,9 +336,23 @@ local function useSlot(slot)
 	if not data then return end
 
 	if canUseItem(data.ammo and true) then
-
 		if data.component and not currentWeapon then
 			return lib.notify({ id = 'weapon_hand_required', type = 'error', description = locale('weapon_hand_required') })
+		end
+
+		local durability = item.metadata.durability --[[@as number?]]
+		local consume = data.consume --[[@as number?]]
+		local label = item.metadata.label or item.label --[[@as string]]
+
+		-- Naive durability check to get an early exit
+		-- People often don't call the 'useItem' export and then complain about "broken" items being usable
+		-- This won't work with degradation since we need access to os.time on the server
+		if durability and durability <= 100 and consume then
+			if durability <= 0 then
+				return lib.notify({ type = 'error', description = locale('no_durability', label) })
+			elseif consume ~= 0 and consume < 1 and durability < consume * 100 then
+				return lib.notify({ type = 'error', description = locale('not_enough_durability', label) })
+			end
 		end
 
 		data.slot = slot
@@ -378,50 +391,93 @@ local function useSlot(slot)
 		elseif currentWeapon then
 			if data.ammo then
 				if EnableWeaponWheel or currentWeapon.metadata.durability <= 0 then return end
+
 				local maxAmmo = GetMaxAmmoInClip(playerPed, currentWeapon.hash, true)
 				local currentAmmo = GetAmmoInPedWeapon(playerPed, currentWeapon.hash)
 
-				if currentAmmo ~= maxAmmo and currentAmmo < maxAmmo then
-					useItem(data, function(data)
-						if data then
-							if data.name == currentWeapon.ammo then
-								local missingAmmo = maxAmmo - currentAmmo
-								local newAmmo = 0
+				if currentAmmo == maxAmmo then return end
 
-								if missingAmmo > data.count then newAmmo = currentAmmo + data.count else newAmmo = maxAmmo end
-								if newAmmo < 0 then newAmmo = 0 end
+				useItem(data, function(resp)
+					if not resp or resp.name ~= currentWeapon?.ammo then return end
 
-								currentWeapon.metadata.ammo = newAmmo
+					if currentWeapon.metadata.specialAmmo ~= resp.metadata.type then
+						local clipComponentKey = ('%s_CLIP'):format(Items[currentWeapon.name].model:gsub('WEAPON_', 'COMPONENT_'))
+						local specialClip = ('%s_%s'):format(clipComponentKey, (resp.metadata.type or currentWeapon.metadata.specialAmmo):upper())
 
-								if cache.vehicle then
-									SetAmmoInClip(playerPed, currentWeapon.hash, newAmmo)
-								else
-									SetPedAmmo(playerPed, currentWeapon.hash, newAmmo)
-									MakePedReload(playerPed)
+						if type(resp.metadata.type) == 'string' then
+							if not HasPedGotWeaponComponent(playerPed, currentWeapon.hash, specialClip) then
+								if not DoesWeaponTakeWeaponComponent(currentWeapon.hash, specialClip) then
+									warn('cannot use clip with this weapon')
+									return
 								end
 
-								TriggerServerEvent('ox_inventory:updateWeapon', 'load', currentWeapon.metadata.ammo)
+								local defaultClip = ('%s_01'):format(clipComponentKey)
+
+								if not HasPedGotWeaponComponent(playerPed, currentWeapon.hash, defaultClip) then
+									warn('cannot use clip with currently equipped clip')
+									return
+								end
+
+								if currentAmmo > 0 then
+									warn('cannot mix special ammo with base ammo')
+									return
+								end
+
+								currentWeapon.metadata.specialAmmo = resp.metadata.type
+
+								GiveWeaponComponentToPed(playerPed, currentWeapon.hash, specialClip)
 							end
+						elseif HasPedGotWeaponComponent(playerPed, currentWeapon.hash, specialClip) then
+							if currentAmmo > 0 then
+								warn('cannot mix special ammo with base ammo')
+								return
+							end
+
+							currentWeapon.metadata.specialAmmo = nil
+
+							RemoveWeaponComponentFromPed(playerPed, currentWeapon.hash, specialClip)
 						end
-					end)
-				end
+					end
+
+					maxAmmo = GetMaxAmmoInClip(playerPed, currentWeapon.hash, true)
+					currentAmmo = GetAmmoInPedWeapon(playerPed, currentWeapon.hash)
+
+					local missingAmmo = maxAmmo - currentAmmo
+					local addAmmo = resp.count > missingAmmo and missingAmmo or resp.count
+					local newAmmo = currentAmmo + addAmmo
+
+					if newAmmo == currentAmmo then return end
+
+					if cache.vehicle then
+						SetAmmoInClip(playerPed, currentWeapon.hash, newAmmo)
+					else
+						AddAmmoToPed(playerPed, currentWeapon.hash, addAmmo)
+						Wait(100)
+						MakePedReload(playerPed)
+					end
+
+					currentWeapon.metadata.ammo = newAmmo
+
+					TriggerServerEvent('ox_inventory:updateWeapon', 'load', currentWeapon.metadata.ammo, false, currentWeapon.metadata.specialAmmo)
+				end)
 			elseif data.component then
 				local components = data.client.component
 				local componentType = data.type
 				local weaponComponents = PlayerData.inventory[currentWeapon.slot].metadata.components
+
 				-- Checks if the weapon already has the same component type attached
 				for componentIndex = 1, #weaponComponents do
 					if componentType == Items[weaponComponents[componentIndex]].type then
-						-- todo: Update locale?
-						return lib.notify({ id = 'component_has', type = 'error', description = locale('component_has', data.label) })
+						return lib.notify({ id = 'component_slot_occupied', type = 'error', description = locale('component_slot_occupied', componentType) })
 					end
 				end
+
 				for i = 1, #components do
 					local component = components[i]
 
 					if DoesWeaponTakeWeaponComponent(currentWeapon.hash, component) then
 						if HasPedGotWeaponComponent(playerPed, currentWeapon.hash, component) then
-							lib.notify({ id = 'component_has', type = 'error', description = locale('component_has', data.label) })
+							lib.notify({ id = 'component_has', type = 'error', description = locale('component_has', label) })
 						else
 							useItem(data, function(data)
 								if data then
@@ -434,7 +490,7 @@ local function useSlot(slot)
 						return
 					end
 				end
-				lib.notify({ id = 'component_invalid', type = 'error', description = locale('component_invalid', data.label) })
+				lib.notify({ id = 'component_invalid', type = 'error', description = locale('component_invalid', label) })
 			elseif data.allowArmed then
 				useItem(data)
 			end
@@ -504,6 +560,12 @@ local function registerCommands()
 			end
 
 			local closest = lib.points.closest()
+
+			if closest and closest.currentDistance < 1.2 and (not closest.instance or closest.instance == currentInstance) then
+				if closest.inv ~= 'license' and closest.inv ~= 'policeevidence' then
+					return client.openInventory(closest.inv or 'drop', { id = closest.invId, type = closest.type })
+				end
+			end
 
 			return client.openInventory()
 		end
@@ -672,7 +734,7 @@ local function registerCommands()
 
 			if currentWeapon.ammo then
 				if currentWeapon.metadata.durability > 0 then
-					local ammo = Inventory.Search(1, currentWeapon.ammo)?[1]
+					local ammo = Inventory.Search(1, currentWeapon.ammo, { type = currentWeapon.metadata.specialAmmo })?[1]
 
 					if ammo then
 						useSlot(ammo.slot)
@@ -1295,7 +1357,7 @@ RegisterNetEvent('ox_inventory:setPlayerInventory', function(currentDrops, inven
 						TriggerServerEvent('ox_inventory:updateWeapon', 'ammo', weaponAmmo)
 
 						if client.autoreload and weaponAmmo == 0 and currentWeapon.ammo and canUseItem(true) then
-							local ammo = Inventory.Search(1, currentWeapon.ammo)?[1]
+							local ammo = Inventory.Search(1, currentWeapon.ammo, { type = currentWeapon.metadata.specialAmmo })?[1]
 
 							if ammo then
 								useSlot(ammo.slot)
@@ -1565,17 +1627,6 @@ RegisterNUICallback('buyItem', function(data, cb)
 	end
 
 	cb(response)
-end)
-
-RegisterNUICallback('craftItem', function(data, cb)
-	cb(true)
-
-	local id, index = currentInventory.id, currentInventory.index
-	local success, response = lib.callback.await('ox_inventory:craftItem', 200, currentInventory.id, currentInventory.index, data.fromSlot, data.toSlot)
-
-	if not success then
-		lib.notify({ type = 'error', description = locale(response or 'cannot_perform') })
-	end
 end)
 
 lib.callback.register('ox_inventory:getVehicleData', function(netid)

@@ -6,7 +6,7 @@ do
 	local success, msg = lib.checkDependency('oxmysql', '2.4.0')
 	if not success then error(msg) end
 
-	success, msg = lib.checkDependency('ox_lib', '2.14.2')
+	success, msg = lib.checkDependency('ox_lib', '3.0.0')
 	if not success then error(msg) end
 end
 
@@ -228,6 +228,13 @@ local function isAuthorised(playerId, door, lockpick, passcode)
 		authorised = IsPlayerAceAllowed(playerId, 'command.doorlock')
 	end
 
+	-- e.g. add_ace group.police "doorlock.mrpd locker rooms" allow
+	-- add_principal fivem:123456 group.police
+	-- or add_ace identifier.fivem:123456 "doorlock.mrpd locker rooms" allow
+	if not authorised and IsPlayerAceAllowed(playerId, ('doorlock.%s'):format(door.name)) then
+		authorised = true
+	end
+
 	return authorised
 end
 
@@ -337,7 +344,16 @@ RegisterNetEvent('ox_doorlock:breakLockpick', function()
 	RemoveItem(source, 'lockpick')
 end)
 
-
-lib.addCommand(Config.CommandPrincipal, 'doorlock', function(source, args)
+lib.addCommand('doorlock', {
+    help = locale('create_modify_lock'),
+    params = {
+        {
+            name = 'closest',
+            help = locale('command_closest'),
+			optional = true,
+        },
+    },
+    restricted = Config.CommandPrincipal
+}, function(source, args)
 	TriggerClientEvent('ox_doorlock:triggeredCommand', source, args.closest)
-end, {'closest'}, locale('create_modify_lock'))
+end)
