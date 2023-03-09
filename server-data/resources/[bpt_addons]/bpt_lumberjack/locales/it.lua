@@ -9,6 +9,6 @@ Locales ['it'] = {
   ['wood_processed'] = 'hai tagliato ~b~5x~s~ ~g~il legno~s~ ed ottenuto ~b~1x~s~ ~g~ pezzi di legno~s~',
   ['wood_processingtoofar'] = 'la lavorazione è stata ~r~annullata~s~ perchè ti sei allontanato.',
   -- blips
-  ['blip_legnofield'] = 'bosco',
-  ['blip_legnoprocessing'] = 'lavorazione legno',
+  ['blip_woodfield'] = 'bosco',
+  ['blip_woodprocessing'] = 'lavorazione legno',
 }

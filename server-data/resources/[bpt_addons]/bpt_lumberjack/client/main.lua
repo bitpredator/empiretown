@@ -13,13 +13,11 @@ Keys = {
 ESX = nil
 local menuOpen = false
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	ESX = exports["es_extended"]:getSharedObject()
-
 	while ESX.GetPlayerData().job == nil do
-		Citizen.Wait(100)
+		Wait(100)
 	end
-
 	ESX.PlayerData = ESX.GetPlayerData()
 end)
 
@@ -31,52 +29,50 @@ AddEventHandler('onResourceStop', function(resource)
 	end
 end)
 
+local spawnedWood = 0
+local TreeWood = {}
+local Collection, Processing = false, false
 
-local spawnedLegno = 0
-local AlberoLegno = {}
-local Raccolta, Lavorazione = false, false
-
-
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Wait(10)
 		local coords = GetEntityCoords(PlayerPedId())
 
-		if GetDistanceBetweenCoords(coords, Config.CircleZones.LegnoField.coords, true) < 50 then
-			SpawnAlberoLegno()
-			Citizen.Wait(500)
+		if GetDistanceBetweenCoords(coords, Config.CircleZones.WoodField.coords, true) < 50 then
+			SpawnTreeWood()
+			Wait(500)
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local playerPed = PlayerPedId()
 		local coords = GetEntityCoords(playerPed)
 
-		if GetDistanceBetweenCoords(coords, Config.CircleZones.LegnoProcessing.coords, true) < 1 then
-			if not Lavorazione then
+		if GetDistanceBetweenCoords(coords, Config.CircleZones.WoodProcessing.coords, true) < 1 then
+			if not Processing then
 				ESX.ShowHelpNotification(_U('wood_processprompt'))
 			end
 
-			if IsControlJustReleased(0, Keys['E']) and not Lavorazione then
+			if IsControlJustReleased(0, Keys['E']) and not Processing then
 
 				if Config.LicenseEnable then
 				else
-					ProcessLegno()
+					ProcessWood()
 				end
 
 			end
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
-function LavorazioneAnimazione()
+function ProcessingAnimation()
 	local Animated = PlayerPedId()
 	
 	RequestAnimDict("timetable@floyd@clean_kitchen@base")
@@ -86,32 +82,30 @@ function LavorazioneAnimazione()
 end
 
 
-function ProcessLegno()
-	Lavorazione = true
-
+function ProcessWood()
+	Processing = true
 	ESX.ShowNotification(_U('wood_processingstarted'))
-	TriggerServerEvent('bpt_taglialegna:processLegno')
-	local timeLeft = Config.Delays.LegnoProcessing / 1000
+	TriggerServerEvent('bpt_woodcutter:processWood')
+	local timeLeft = Config.Delays.WoodProcessing / 1000
 	local playerPed = PlayerPedId()
-
-	LavorazioneAnimazione()
+	ProcessingAnimation()
 	Wait(950)
 	while timeLeft > 0 do
 		
-		Citizen.Wait(1000)
+		Wait(1000)
 		timeLeft = timeLeft - 1
 
-		if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.CircleZones.LegnoProcessing.coords, false) > 4 then
+		if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.CircleZones.WoodProcessing.coords, false) > 4 then
 			ESX.ShowNotification(_U('wood_processingtoofar'))
-			TriggerServerEvent('bpt_taglialegna:cancelProcessing')
+			TriggerServerEvent('bpt_woodcutter:cancelProcessing')
 			break
 		end
 	end
 
-	Lavorazione = false
+	Processing = false
 end
 
-function tagliaalbero()
+function treecutter()
 	local jake = PlayerPedId()
 	
 	RequestAnimDict("melee@hatchet@streamed_core")
@@ -121,56 +115,54 @@ function tagliaalbero()
 end
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
-		local giocatore = PlayerPedId()
-		local coords = GetEntityCoords(giocatore)
-		local alberolegno, nearbyID
+		Wait(0)
+		local player = PlayerPedId()
+		local coords = GetEntityCoords(player)
+		local treewood, nearbyID
 		
-		for i=1, #AlberoLegno, 1 do
-			if GetDistanceBetweenCoords(coords, GetEntityCoords(AlberoLegno[i]), false) < 1 then
-				alberolegno, nearbyID = AlberoLegno[i], i
+		for i=1, #TreeWood, 1 do
+			if GetDistanceBetweenCoords(coords, GetEntityCoords(TreeWood[i]), false) < 1 then
+				treewood, nearbyID = TreeWood[i], i
 			end
 		end
 
-		if alberolegno and IsPedOnFoot(giocatore) then
+		if treewood and IsPedOnFoot(player) then
 
-			if not Raccolta then
+			if not Collection then
 				ESX.ShowHelpNotification(_U('wood_pickupprompt'))
 			end
 
-			if IsControlJustReleased(0, Keys['E']) and not Raccolta then
-				Raccolta = true
+			if IsControlJustReleased(0, Keys['E']) and not Collection then
+				ollection = true
 
-				ESX.TriggerServerCallback('bpt_taglialegna:canPickUp', function(canPickUp)
+				ESX.TriggerServerCallback('bpt_woodcutter:canPickUp', function(canPickUp)
 
 					if canPickUp then
-						GiveWeaponToPed(giocatore, "WEAPON_HATCHET", 800, false, false)
-						SetCurrentPedWeapon(giocatore, GetHashKey("WEAPON_HATCHET"), false)
-						tagliaalbero()
+						GiveWeaponToPed(player, "WEAPON_HATCHET", 800, false, false)
+						SetCurrentPedWeapon(player, GetHashKey("WEAPON_HATCHET"), false)
+						treecutter()
 						Wait(3000)
-						Citizen.Wait(400)
-						ClearPedTasks(giocatore)
-						Citizen.Wait(400)
-						SetEntityRotation(alberolegno, 80.0, -0, 85.0, false, true)
-						Citizen.Wait(200)
-						DeleteObject(alberolegno)
-						RemoveWeaponFromPed(giocatore, GetHashKey("WEAPON_HATCHET"), true, true)
-						SetCurrentPedWeapon(giocatore, GetHashKey("WEAPON_UNARMED"), false)
-
-						TriggerServerEvent('bpt_taglialegna:pickedUpLegno')
+						Wait(400)
+						ClearPedTasks(player)
+						Wait(400)
+						SetEntityRotation(treewood, 80.0, -0, 85.0, false, true)
+						Wait(200)
+						DeleteObject(treewood)
+						RemoveWeaponFromPed(player, GetHashKey("WEAPON_HATCHET"), true, true)
+						SetCurrentPedWeapon(player, GetHashKey("WEAPON_UNARMED"), false)
+						TriggerServerEvent('bpt_woodcutter:pickedUpWood')
 					else
 						ESX.ShowNotification(_U('wood_inventoryfull'))
-					end
+					end				
+					Collection = false
 
-					Raccolta = false
-
-				end, 'legno')
+				end, 'wood')
 			end
 
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 
 	end
@@ -179,68 +171,60 @@ end)
 
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
-		for k, v in pairs(AlberoLegno) do
+		for k, v in pairs(TreeWood) do
 			ESX.Game.DeleteObject(v)
 		end
 	end
 end)
 
-function SpawnAlberoLegno()
-	while spawnedLegno < 25 do
-		Citizen.Wait(0)
-		local legnoCoords = GenerateLegnoCoords()
+function SpawnTreeWood()
+	while spawnedWood < 25 do
+		Wait(0)
+		local woodCoords = GenerateWoodCoords()
 
-		ESX.Game.SpawnLocalObject('prop_tree_eng_oak_cr2', legnoCoords, function(obj)
+		ESX.Game.SpawnLocalObject('prop_tree_eng_oak_cr2', woodCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 
-			table.insert(AlberoLegno, obj)
-			spawnedLegno = spawnedLegno + 1
+			table.insert(TreeWood, obj)
+			spawnedWood = spawnedWood + 1
 		end)
 	end
 end
 
-function ValidateLegnoCoord(plantCoord)
-	if spawnedLegno > 0 then
+function ValidateWoodCoord(plantCoord)
+	if spawnedWood > 0 then
 		local validate = true
 
-		for k, v in pairs(AlberoLegno) do
+		for k, v in pairs(TreeWood) do
 			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 5 then
 				validate = false
 			end
 		end
-
-		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.LegnoField.coords, false) > 50 then
+		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.WoodField.coords, false) > 50 then
 			validate = false
 		end
-
 		return validate
 	else
 		return true
 	end
 end
 
-function GenerateLegnoCoords()
+function GenerateWoodCoords()
 	while true do
-		Citizen.Wait(1)
-
-		local legnoCoordX, legnoCoordY
-
+		Wait(1)
+		local woodCoordX, woodCoordY
 		math.randomseed(GetGameTimer())
 		local modX = math.random(-90, 90)
-
-		Citizen.Wait(100)
-
+		Wait(100)
 		math.randomseed(GetGameTimer())
 		local modY = math.random(-90, 90)
+		woodCoordX = Config.CircleZones.WoodField.coords.x + modX
+		woodCoordY = Config.CircleZones.WoodField.coords.y + modY
+		local coordZ = GetCoordZ(woodCoordX, woodCoordY)
+		local coord = vector3(woodCoordX, woodCoordY, coordZ)
 
-		legnoCoordX = Config.CircleZones.LegnoField.coords.x + modX
-		legnoCoordY = Config.CircleZones.LegnoField.coords.y + modY
-
-		local coordZ = GetCoordZ(legnoCoordX, legnoCoordY)
-		local coord = vector3(legnoCoordX, legnoCoordY, coordZ)
-
-		if ValidateLegnoCoord(coord) then
+		if ValidateWoodCoord(coord) then
 			return coord
 		end
 	end
@@ -248,7 +232,6 @@ end
 
 function GetCoordZ(x, y)
 	local groundCheckHeights = { 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0 }
-
 	for i, height in ipairs(groundCheckHeights) do
 		local foundGround, z = GetGroundZFor_3dCoord(x, y, height)
 
@@ -262,26 +245,23 @@ end
 
 function CreateBlipCircle(coords, text, radius, color, sprite)
 	local blip = AddBlipForRadius(coords, radius)
-
 	SetBlipHighDetail(blip, true)
 	SetBlipColour(blip, 1)
 	SetBlipAlpha (blip, 128)
 
 	-- create a blip in the middle
 	blip = AddBlipForCoord(coords)
-
 	SetBlipHighDetail(blip, true)
 	SetBlipSprite (blip, sprite)
 	SetBlipScale  (blip, 1.0)
 	SetBlipColour (blip, color)
 	SetBlipAsShortRange(blip, true)
-
 	BeginTextCommandSetBlipName("STRING")
 	AddTextComponentString(text)
 	EndTextCommandSetBlipName(blip)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	for k,zone in pairs(Config.CircleZones) do
 
 		CreateBlipCircle(zone.coords, zone.name, zone.radius, zone.color, zone.sprite)

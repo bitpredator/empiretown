@@ -1,11 +1,11 @@
 ESX = nil
-local playersProcessingLegno = {}
+local playersProcessingWood = {}
 ESX = exports["es_extended"]:getSharedObject()
 
-RegisterServerEvent('bpt_taglialegna:pickedUpLegno')
-AddEventHandler('bpt_taglialegna:pickedUpLegno', function()
+RegisterServerEvent('bpt_woodcutter:pickedUpWood')
+AddEventHandler('bpt_woodcutter:pickedUpWood', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
-	local xItem = xPlayer.getInventoryItem('legno')
+	local xItem = xPlayer.getInventoryItem('wood')
 
 	if xItem.weight ~= -1 and (xItem.count + 1) > xItem.weight then
 		TriggerClientEvent('esx:showNotification', _source, _U('wood_inventoryfull'))
@@ -14,7 +14,7 @@ AddEventHandler('bpt_taglialegna:pickedUpLegno', function()
 	end
 end)
 
-ESX.RegisterServerCallback('bpt_taglialegna:canPickUp', function(source, cb, item)
+ESX.RegisterServerCallback('bpt_woodcutter:canPickUp', function(source, cb, item)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem(item)
 
@@ -25,41 +25,41 @@ ESX.RegisterServerCallback('bpt_taglialegna:canPickUp', function(source, cb, ite
 	end
 end)
 
-RegisterServerEvent('bpt_taglialegna:processLegno')
-AddEventHandler('bpt_taglialegna:processLegno', function()
-	if not playersProcessingLegno[source] then
+RegisterServerEvent('bpt_woodcutter:processWood')
+AddEventHandler('bpt_woodcutter:processWood', function()
+	if not playersProcessingWood[source] then
 		local _source = source
 
-		playersProcessingLegno[_source] = ESX.SetTimeout(Config.Delays.LegnoProcessing, function()
+		playersProcessingWood[_source] = ESX.SetTimeout(Config.Delays.WoodProcessing, function()
 			local xPlayer = ESX.GetPlayerFromId(_source)
-			local xLegno, xLegnatagliata = xPlayer.getInventoryItem('legno'), xPlayer.getInventoryItem('legnatagliata')
+			local xWood, xChoppedwood = xPlayer.getInventoryItem('wood'), xPlayer.getInventoryItem('choppedwood')
 
-			if xLegnatagliata.weight ~= -1 and (xLegnatagliata.count + 1) >= xLegnatagliata.weight then
+			if xChoppedwood.weight ~= -1 and (xChoppedwood.count + 1) >= xChoppedwood.weight then
 				TriggerClientEvent('esx:showNotification', _source, _U('wood_processingfull'))
-			elseif xLegno.count < 5 then
+			elseif xWood.count < 5 then
 				TriggerClientEvent('esx:showNotification', _source, _U('wood_processingenough'))
 			else
-				xPlayer.removeInventoryItem('legno', 5)
-				xPlayer.addInventoryItem('legnatagliata', 1)
+				xPlayer.removeInventoryItem('wood', 5)
+				xPlayer.addInventoryItem('choppedwood', 1)
 
 				TriggerClientEvent('esx:showNotification', _source, _U('wood_processed'))
 			end
 
-			playersProcessingLegno[_source] = nil
+			playersProcessingWood[_source] = nil
 		end)
 	else
 	end
 end)
 
 function CancelProcessing(playerID)
-	if playersProcessingLegno[playerID] then
-		ESX.ClearTimeout(playersProcessingLegno[playerID])
-		playersProcessingLegno[playerID] = nil
+	if playersProcessingWood[playerID] then
+		ESX.ClearTimeout(playersProcessingWood[playerID])
+		playersProcessingWood[playerID] = nil
 	end
 end
 
-RegisterServerEvent('bpt_taglialegna:cancelProcessing')
-AddEventHandler('bpt_taglialegna:cancelProcessing', function()
+RegisterServerEvent('bpt_woodcutter:cancelProcessing')
+AddEventHandler('bpt_woodcutter:cancelProcessing', function()
 	CancelProcessing(source)
 end)
 
