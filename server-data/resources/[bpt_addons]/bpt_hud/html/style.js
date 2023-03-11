@@ -16,9 +16,6 @@ $(document).ready(function(){
 		
 		waterJS = 50 - data.thirst
         document.querySelectorAll('.wave4')[0].style.setProperty("--top", `${waterJS}%`);
-        
-		oxyegnJS = 50 - data.oxygen
-		document.querySelectorAll('.wave5')[0].style.setProperty("--top", `${oxyegnJS}%`);
 		}
 		else
 		{
@@ -35,10 +32,7 @@ $(document).ready(function(){
 				document.querySelectorAll('.wave3')[0].style.setProperty("--top", `${foodJS}%`);
 				
 				waterJS = 50 - data.thirst
-				document.querySelectorAll('.wave4')[0].style.setProperty("--top", `${waterJS}%`);
-				
-				oxyegnJS = 50 - data.oxygen
-				document.querySelectorAll('.wave5')[0].style.setProperty("--top", `${oxyegnJS}%`);		
+				document.querySelectorAll('.wave4')[0].style.setProperty("--top", `${waterJS}%`);	
 		}
 		}
 		else
