@@ -1,6 +1,6 @@
 local minimap = RequestScaleformMovie("minimap")
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         Wait(1250)
 
@@ -45,7 +45,7 @@ end)
 local x = -0.025
 local y = -0.015
 
-Citizen.CreateThread(function()
+CreateThread(function()
 
 	RequestStreamedTextureDict("circlemap", false)
 	while not HasStreamedTextureDictLoaded("circlemap") do
@@ -70,7 +70,7 @@ ToggleRadar = function(state)
 end
 
 TriggerVehicleLoop = function()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		ToggleRadar(true)
         SetRadarBigmapEnabled(false, false)
 	end)
