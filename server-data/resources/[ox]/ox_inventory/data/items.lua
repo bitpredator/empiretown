@@ -342,7 +342,7 @@ return {
 		consume = 0,
 	},
 
-	['legno'] = {
+	['wood'] = {
 		label = 'Legna',
 		weight = 100,
 		stack = true,
@@ -350,7 +350,7 @@ return {
 		consume = 0
 	},
 
-	['legnatagliata'] = {
+	['choppedwood'] = {
 		label = 'legno tagliato',
 		weight = 100,
 		stack = true,
