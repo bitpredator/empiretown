@@ -12,7 +12,6 @@ files {
 	'html/*.js',
 	'html/*.png',
 	'html/ui.html',
-	'html/ui-map'
 }
 
 
