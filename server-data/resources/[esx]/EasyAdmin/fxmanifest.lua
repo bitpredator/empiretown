@@ -1,9 +1,10 @@
 fx_version "cerulean"
 
-games {"gta5"}
+games {"rdr3","gta5"}
 
+author 'Blumlaut <blue@furfag.de>'
 description 'EasyAdmin - Admin Menu for FiveM & RedM'
-version '6.91'
+version '7.0'
 
 
 lua54 'yes'
@@ -14,12 +15,14 @@ shared_script 'shared/util_shared.lua'
 
 server_scripts {
     "server/*.lua",
+    "server/bot/*.js",
     "plugins/**/*_shared.lua",
     "plugins/**/*_server.lua"
 }
 
 client_scripts {
     "dependencies/NativeUI.lua",
+    "dependencies/NativeUI-rdr3.lua",
     "dependencies/Controls.lua",
     "client/*.lua",
     "plugins/**/*_shared.lua",
@@ -43,7 +46,7 @@ provide 'EasyAdmin'
 convar_category 'EasyAdmin' {
     "Configuration Options",
     {
-        { "EasyAdmin language", "$ea_LanguageName", "CV_STRING", "it" },
+        { "EasyAdmin language", "$ea_LanguageName", "CV_STRING", "en" },
         { "Default key to open the menu", "$ea_defaultKey", "CV_STRING", "none" },
         { "The Minimum Amount of Identifiers", "$ea_minIdentifierMatches", "CV_INT", "2" },
         { "Display banlist checking progress", "$ea_presentDeferral", "CV_BOOL", "true" },
@@ -76,11 +79,9 @@ convar_category 'EasyAdmin' {
         { "Time before Cached Player Expires", "$ea_playerCacheExpiryTime", "CV_INT", "900" },
         { "Set Debug Level", "$ea_logLevel", "CV_INT", "1" },
         { "Enable Custom Banlist", "$ea_custombanlist", "CV_BOOL", "false" },
-        { "Enable Telemetry", "$ea_enableTelemetry", "CV_BOOL", "true" },
         { "Use Tokens as Identifiers", "$ea_useTokenIdentifiers", "CV_BOOL", "true" },
         { "Enable Ascii Art on Start", "$ea_enableSplash", "CV_BOOL", "true" },
         { "Token for Discord bot", "$ea_botToken", "CV_STRING", "none" },
-        { "Guild ID for Discord bot", "$ea_botGuild", "CV_STRING", "none" },
         { "Channel for Discord bot to log", "$ea_botLogChannel", "CV_STRING", "none" },
         { "Channel for Discord bot to enable live status", "$ea_botStatusChannel", "CV_STRING", "true" },
         { "Enable Allowlist", "$ea_enableAllowlist", "CV_BOOL", "false" }

@@ -1,5 +1,7 @@
 [{
+    "translator": "TheIndra, Jaccosf",
     "language": "nl",
+
     "on": "Ingeschakeld",
     "off": "Uitgeschakeld",
     "spectatingUser": "~b~<C>%s</C> aan het Spectaten.",
@@ -44,13 +46,18 @@
     "teleportplayer": "Teleporteer",
     "teleporttoplayer": "naar Speler",
     "teleportplayertome": "Speler naar mij",
+    "slapplayer": "Speler klap geven",
     "setplayerfrozen": "Speler vastzetten",
     "allplayers": "Alle spelers",
     "teleporttome": "Teleporteer naar mij",
     "teleporttomeguide": "~r~~h~NOTITIE:~h~~w~ Dit teleporteert ~h~alle~h~ spelers naar jou.",
+    "setgametype": "Stel Game Type in",
+    "setgametypeguide": "~r~~h~NOTITIE:~h~~w~ Dit stelt het game type in zoals weergegeven op de Serverlijst.",
     "setmapname": "Stel Map Naam in",
     "setmapnameguide": "~r~~h~NOTITIE:~h~~w~ Dit stelt de map naam in zoals weergegeven in de Serverlijst.",
+    "startresourcebyname": "Start Resource met Naam",
     "startresourcebynameguide": "~r~~h~NOTITIE:~h~~w~ Dit zal een resource starten geinstalleerd op de server.",
+    "stopresourcebyname": "Stop Resource met Naam",
     "stopresourcebynameguide": "~r~~h~NOTITIE:~h~~w~ Dit zal een resource stoppen geinstalleerd op de server.",
     "badidea": "Doe dat alsjeblieft niet.",
     "viewbanlist": "Bekijk de Banlijst",
@@ -139,13 +146,19 @@
     "warnkicked": "Je bent gekicked, omdat je teveel waarschuwingen hebt ontvangen.",
     "warnbanned": "Te vaak gewaarschuwd.",
     "adminwarnedplayer": "**%s** heeft **%s** gewaarschuwd, Reden: %s, Waarschuwing %s/%s",
+
     "searchuser": "Zoek gebruiker",
     "searchuserguide": "Zoek een speler met behulp van zijn gebruikersnaam of ID",
+
+    "setconvar": "Pas de Convar aan",
+    "setconvarguide": "~r~NOTITIE: Gebruik dit alleen, als je weet wat je aan het doen bent!~w~\nVeranderd de Convar",
     "adminchangedconvar": "**%s** veranderde de convar **%s** to **%s**",
     "adminstartedresource": "**%s** startte resource **%s**",
     "adminstoppedresource": "**%s** stopte resource **%s**",
+
     "convarname": "Convar Naam",
     "convarvalue": "Convar Waarde",
+
     "cleanarea": "Opruim Gebied",
     "cleanareaguide": "Verwijdert alle entities van het geselecteerde type",
     "cars": "Voertuigen",
@@ -160,8 +173,14 @@
     "type": "Type",
     "deepclean":"Grondige Schoonmaak",
     "deepcleanguide":"Verwijdert ook client entities.",
+
     "forceeasteregg": "Forceer Easter Egg",
+
+    "permissioneditor": "Permissies Aanpassen",
+    "permissioneditorguide": "Pas de permissies aan, opgeslagen in ~g~easyadmin_permissions.cfg~w~",
+
     "aces": "ACEs",
+    "permission": "Permissies",
     "principals": "Principals",
     "addace": "~g~ACE toevoegen",
     "addaceguide": "Je kan het aanpassen, voordat je het opslaat.",
@@ -175,13 +194,16 @@
     "locationguide": "Deze waarde kan niet aangepast worden.",
     "principal": "Principal",
     "enterprincipal": "Vul een principal in (bijv. identifier.steam:aabbccddeefff)",
+    "deletepermission": "~r~Verwijder permissies",
     "deletepermissionguide": "~r~Waarschuwing! Dit zal de permissie intrekken en verwijderen!",
     "deleteprincipal": "~r~Verwijder Principal",
     "deleteprincipalguide": "~r~Waarschuwing! Dit zal de Principal intrekken en verwijderen!",
+
     "itemdeleted": "~r~Het voorwerp is verwijderd.",
     "savechanges": "~g~Sla de wijzigingen op.",
     "savechangesguide": "~r~Waarschuwing! ~w~Dit kan niet ongedaan worden gemaakt!",
     "admineditedpermissions": "**%s** heeft de server permissies aangepast.",
+
     "reportviewer": "Report Overzicht",
     "call": "Oproep",
     "report": "Report",
@@ -192,6 +214,7 @@
     "closesimilarreports": "~r~Sluit alle soortgelijke reports~w~",
     "closesimilarreportsguide": "Zal alle reports van deze gebruiker verwijderen.",
     "adminclosedreport": "**%s** sloot Report #**%s**",
+    "adminclaimedreport": "**%s** claimed Report #**%s**",
     "entertoopen": "Selecteer om de opties voor de speler te bekijken.",
     "refreshreports": "Vernieuw Reports",
     "refreshreportsguide": "Laat nieuwe reports zien, als er nieuwe zijn.",

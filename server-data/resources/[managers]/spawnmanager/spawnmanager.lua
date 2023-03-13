@@ -2,7 +2,7 @@
 local spawnPoints = {}
 
 -- auto-spawn enabled flag
-local autoSpawnEnabled = true
+local autoSpawnEnabled = false
 local autoSpawnCallback
 
 -- support for mapmanager maps
