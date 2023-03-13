@@ -23,7 +23,7 @@ end)
 
 cooldowns = {} -- DO NOT TOUCH THIS
 
-CreateThread(function()
+Citizen.CreateThread(function()
     
     PlayerReports = {}
     
@@ -48,6 +48,7 @@ CreateThread(function()
                 
                 local preferredWebhook = (reportNotification ~= "false") and reportNotification or moderationNotification
                 SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText("playercalledforadmin"), getName(source, true, true), reason, reportid), "calladmin", 16776960)
+                --TriggerClientEvent('chatMessage', source, "^3EasyAdmin^7", {255,255,255}, GetLocalisedText("admincalled"))
                 TriggerClientEvent("EasyAdmin:showNotification", source, GetLocalisedText("admincalled"))
                 
                 time = os.time()
@@ -132,6 +133,7 @@ CreateThread(function()
         end, false)
     end
 
+
 	function addNewReport(type, reporter, reported, reason)
 		local t = nil
 		if type == 1 then
@@ -157,6 +159,7 @@ CreateThread(function()
 					TriggerLatentClientEvent("EasyAdmin:ClaimedReport", admin, 10000, reports[reportId])
 				end
                 TriggerEvent("EasyAdmin:reportClaimed", reports[reportId])
+                SendWebhookMessage(moderationNotification,string.format(GetLocalisedText("adminclaimedreport"), getName(source, false, true), reportId), "reports", 16777214)
 			else
 				TriggerClientEvent("EasyAdmin:showNotification", source, GetLocalisedText("reportalreadyclaimed"))
 			end
@@ -220,11 +223,14 @@ CreateThread(function()
 		end
 	end
 
+
 	function getAllReports()
 		return reports
 	end
 	exports('getAllReports', getAllReports)
 
+		
+	
 	RegisterServerEvent("EasyAdmin:RemoveReport", function(report)
 		if DoesPlayerHavePermission(source, "player.reports.process") then
 			SendWebhookMessage(moderationNotification,string.format(GetLocalisedText("adminclosedreport"), getName(source, false, true), report.id), "reports", 16777214)

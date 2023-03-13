@@ -1,4 +1,4 @@
-CreateThread(function()
+Citizen.CreateThread(function()
 	local diagActive = false
 	RegisterCommand("eaDiag", function(source, args, rawCommand)
 		if diagActive then
@@ -46,7 +46,6 @@ CreateThread(function()
 				ea_backupFrequency = GetConvarInt("ea_backupFrequency", 72),
 				ea_maxBackupCount = GetConvarInt("ea_maxBackupCount", 10),
 				ea_useTokenIdentifiers = GetConvar("ea_useTokenIdentifiers", "true"),
-				ea_enableTelemetry = GetConvar("ea_enableTelemetry", "true"),
 			}
 
 			for i,v in pairs(supportData.config) do
@@ -110,6 +109,9 @@ CreateThread(function()
 				end
 
 			end
+
+
+
 
 			if supportData.config.steam_webApiKey == "" then
 				PrintDebugMessage("POSSIBLE ISSUE: steam_webApiKey is not defined! Steam Identifiers will not work.\n", 1)

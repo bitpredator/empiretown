@@ -1,3 +1,14 @@
+--- player-data is a basic resource to showcase player identifier storage
+--
+-- it works in a fairly simple way: a set of identifiers is assigned to an account ID, and said
+-- account ID is then returned/added as state bag
+--
+-- it also implements the `cfx.re/playerData.v1alpha1` spec, which is exposed through the following:
+-- - getPlayerId(source: string)
+-- - getPlayerById(dbId: string)
+-- - getPlayerIdFromIdentifier(identifier: string)
+-- - setting `cfx.re/playerData@id` state bag field on the player
+
 -- identifiers that we'll ignore (e.g. IP) as they're low-trust/high-variance
 local identifierBlocklist = {
     ip = true
@@ -11,6 +22,14 @@ local function isIdentifierBlocked(identifier)
     -- ensure it's a boolean
     return identifierBlocklist[idType] or false
 end
+
+-- our database schema, in hierarchical KVS syntax:
+-- player:
+--     <id>:
+--         identifier:
+--             <identifier>: 'true'
+-- identifier:
+--     <identifier>: <playerId>
 
 -- list of player indices to data
 local players = {}
@@ -176,7 +195,7 @@ local function getExportEventName(resource, name)
 end
 
 function AddExport(name, fn)
-    if not Traits or not Traits.ProvidesExports then
+    if not Citizen.Traits or not Citizen.Traits.ProvidesExports then
         AddEventHandler(getExportEventName('cfx.re/playerData.v1alpha1', name), function(setCB)
             setCB(fn)
         end)

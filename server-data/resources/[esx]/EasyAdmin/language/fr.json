@@ -1,7 +1,9 @@
 [{
+    "translator": "Feared, Robi321",
     "language": "fr",
     "on": "Activer",
     "off": "Éteins",
+
     "spectatingUser": "Vous regardez ~b~<C>%s</C>.",
     "stoppedSpectating": "Vous avez arrêté de regarder un joueur.",
     "hour": "Heure",
@@ -44,13 +46,18 @@
     "teleportplayer": "Téléportation",
     "teleporttoplayer": "au joueur",
     "teleportplayertome": "du joueur à moi",
+    "slapplayer": "Pousser le joueur",
     "setplayerfrozen": "Geler le joueur",
     "allplayers": "Tout les joueurs",
     "teleporttome": "Téléporter à moi",
     "teleporttomeguide": "~r~~h~NOTE :~h~~w~ Cela va téléporter ~r~~h~tout~h~~w~ les joueurs à vous.",
+    "setgametype": "Changer le type de jeu",
+    "setgametypeguide": "~r~~h~NOTE:~h~~w~ Cela va changer de type de jeu dans la liste des serveurs.",
     "setmapname": "Changer de carte",
     "setmapnameguide": "~r~~h~NOTE :~h~~w~ Cela va changer de carte dans la liste des serveurs.",
+    "startresourcebyname": "Lancer la ressource par son nom",
     "startresourcebynameguide": "~r~~h~NOTE :~h~~w~ Cela va lancer une ressource sur votre serveur.",
+    "stopresourcebyname": "Arrêter la ressource par son nom",
     "stopresourcebynameguide": "~r~~h~NOTE :~h~~w~ Cela va arrêter une ressource sur votre serveur.",
     "badidea": "Ne faites pas cela, s'il vous plaît.",
     "viewbanlist": "Voir la liste d'interdiction",
@@ -139,13 +146,19 @@
     "warnkicked": "Vous avez reçu un coup de pied parce que vous avez été averti trop souvent.",
     "warnbanned": "Averti trop souvent.",
     "adminwarnedplayer": "**%s** averti **%s**, Raison : %s, Avertissement %s/%s",
+
     "searchuser": "Rechercher un utilisateur",
     "searchuserguide": "Trouver un joueur à l'aide de son nom d'utilisateur ou de son identifiant",
+
+    "setconvar": "Set Convar",
+    "setconvarguide": "~r~NOTE: Si vous ne savez pas ce que vous faites, n'y touchez pas!~w~\nModifications apportées à Convar",
     "adminchangedconvar": "**%s** changed convar **%s** to **%s**",
     "adminstartedresource": "**%s** started resource **%s**",
     "adminstoppedresource": "**%s** stopped resource **%s**",
+
     "convarname": "Convar Nom",
     "convarvalue": "Convar Valeur",
+
     "cleanarea": "Zone de nettoyage",
     "cleanareaguide": "Nettoie toutes les entités à proximité du type sélectionné",
     "cars": "Voitures",
@@ -160,8 +173,14 @@
     "type": "Type",
     "deepclean":"Deep Clean",
     "deepcleanguide":"Also deletes clientside entities.",
+
     "forceeasteregg": "Forcer Easter Egg",
+
+    "permissioneditor": "Permission Editor",
+    "permissioneditorguide": "Modifier les autorisations sur le serveur, enregistre dans ~g~easyadmin_permissions.cfg~w~",
+
     "aces": "ACEs",
+    "permission": "Autorisation",
     "principals": "Principals",
     "addace": "~g~Ajouter ACE",
     "addaceguide": "Vous avez la possibilité de le modifier avant d'enregistrer.",
@@ -175,13 +194,16 @@
     "locationguide": "Cette valeur ne peut pas être modifiée.",
     "principal": "Principal",
     "enterprincipal": "Entrer principal (e.g. identifier.steam:aabbccddeefff)",
+    "deletepermission": "~r~Supprimer l'autorisation",
     "deletepermissionguide": "~r~Avertissement! Cela révoquera et supprimera complètement l'autorisation!",
     "deleteprincipal": "~r~Supprimer Principal",
     "deleteprincipalguide": "~r~Avertissement! Cela révoquera et supprimera complètement le principal!",
+
     "itemdeleted": "~r~Cet élément a été supprimé.",
     "savechanges": "~g~Sauvegarder les modifications",
     "savechangesguide": "~r~Avertissement! ~w~Ça ne peut pas être annulé!",
     "admineditedpermissions": "**%s** modifié les autorisations du serveur.",
+
     "reportviewer": "Visionneuse de rapports",
     "call": "Appeler",
     "report": "Reportage",
@@ -192,6 +214,7 @@
     "closesimilarreports": "~r~Fermer tous les rapports similaires~w~",
     "closesimilarreportsguide": "Tentera de trouver et de supprimer les rapports créés par le même utilisateur.",
     "adminclosedreport": "**%s** Rapport fermé #**%s**",
+    "adminclaimedreport": "**%s** claimed Report #**%s**",
     "entertoopen": "Sélectionnez pour afficher les options pour ce lecteur.",
     "refreshreports": "Actualiser les rapports",
     "refreshreportsguide": "Affiche de nouveaux rapports au cas où il y en aurait depuis la dernière fois que le menu a été ouvert.",
