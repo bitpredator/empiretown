@@ -9333,17 +9333,6 @@ $jscomp.polyfill = function (e, r, p, m) {
             this.nextMonth();
           }
         }
-        // if (!$target.hasClass('pika-select')) {
-        //   // if this is touch event prevent mouse events emulation
-        //   // if (e.preventDefault) {
-        //   //   e.preventDefault();
-        //   // } else {
-        //   //   e.returnValue = false;
-        //   //   return false;
-        //   // }
-        // } else {
-        //   this._c = true;
-        // }
       }
     }, {
       key: "_handleClearClick",
