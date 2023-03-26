@@ -1,4 +1,4 @@
-Locales['en-US'] = {
+Locales['cz'] = {
     planting_text = 'Zasazuji',
     planting_ok = 'Uspesne zasazena',
     planting_in_vehicle = 'Nemuzes zasazovat roslitu v aute.',
