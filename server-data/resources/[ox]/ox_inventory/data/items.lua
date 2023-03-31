@@ -582,4 +582,17 @@ return {
 		}
 	},
 
+	['coke_seed'] = {
+		label = 'seme di cocaina',
+		weight = 220,
+		stack = true,
+	},
+
+	['coke'] = {
+		label = 'cocaina',
+		weight = 220,
+		stack = true,
+		consume = 1,
+	},
+
 }
