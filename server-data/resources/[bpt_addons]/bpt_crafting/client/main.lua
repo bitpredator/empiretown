@@ -17,8 +17,8 @@ local job = ""
 local grade = 0
 
 CreateThread(
-    function()
-        ESX = exports["es_extended"]:getSharedObject()
+ function()
+     ESX = exports["es_extended"]:getSharedObject()
 
         while ESX.GetPlayerData().job == nil do
             Wait(10)
@@ -36,13 +36,12 @@ CreateThread(
 
         for _, v in ipairs(Config.Workbenches) do
             if v.blip then
-                local blip = AddBlipForCoord(v.coords)
+             local blip = AddBlipForCoord(v.coords)
 
-                SetBlipScale(blip, 0.8)
-                SetBlipAsShortRange(blip, true)
-
-                BeginTextCommandSetBlipName("STRING")
-                EndTextCommandSetBlipName(blip)
+             SetBlipScale(blip, 0.8)
+             SetBlipAsShortRange(blip, true)
+             BeginTextCommandSetBlipName("STRING")
+             EndTextCommandSetBlipName(blip)
             end
         end
     end
@@ -58,9 +57,9 @@ AddEventHandler(
 )
 
 function isNearWorkbench()
-    local ped = PlayerPedId()
-    local coords = GetEntityCoords(ped)
-    local near = false
+ local ped = PlayerPedId()
+ local coords = GetEntityCoords(ped)
+ local near = false
 
     for _, v in ipairs(Config.Workbenches) do
         local dst = #(coords - v.coords)
@@ -79,24 +78,23 @@ end
 CreateThread(
     function()
         while true do
-            Wait(1000)
-
+         Wait(1000)
             if craftingQueue[1] ~= nil then
                 if not Config.CraftingStopWithDistance or (Config.CraftingStopWithDistance and isNearWorkbench()) then
-                    craftingQueue[1].time = craftingQueue[1].time - 1
+                 craftingQueue[1].time = craftingQueue[1].time - 1
 
                     SendNUIMessage(
                         {
-                            type = "addqueue",
-                            item = craftingQueue[1].item,
-                            time = craftingQueue[1].time,
-                            id = craftingQueue[1].id
+                         type = "addqueue",
+                         item = craftingQueue[1].item,
+                         time = craftingQueue[1].time,
+                         id = craftingQueue[1].id
                         }
                     )
 
                     if craftingQueue[1].time == 0 then
-                        TriggerServerEvent("bpt_crafting:itemCrafted", craftingQueue[1].item, craftingQueue[1].count)
-                        table.remove(craftingQueue, 1)
+                     TriggerServerEvent("bpt_crafting:itemCrafted", craftingQueue[1].item, craftingQueue[1].count)
+                     table.remove(craftingQueue, 1)
                     end
                 end
             end
@@ -128,15 +126,15 @@ function openWorkbench(val)
 
             SendNUIMessage(
                 {
-                    type = "open",
-                    recipes = recipes,
-                    names = labels,
-                    level = xp,
-                    inventory = inv,
-                    job = job,
-                    grade = grade,
-                    hidecraft = Config.HideWhenCantCraft,
-                    categories = Config.Categories
+                 type = "open",
+                 recipes = recipes,
+                 names = labels,
+                 level = xp,
+                 inventory = inv,
+                 job = job,
+                 grade = grade,
+                 hidecraft = Config.HideWhenCantCraft,
+                 categories = Config.Categories
                 }
             )
         end
@@ -146,10 +144,9 @@ end
 CreateThread(
     function()
         while true do
-            Wait(1)
-
-            local ped = PlayerPedId()
-            local coords = GetEntityCoords(ped)
+         Wait(1)
+         local ped = PlayerPedId()
+         local coords = GetEntityCoords(ped)
 
             for _, v in ipairs(Config.Workbenches) do
                 local dst = #(coords - v.coords)
@@ -161,7 +158,7 @@ CreateThread(
                         local open = false
                         for _, g in ipairs(v.jobs) do
                             if g == job then
-                                open = true
+                             open = true
                             end
                         end
 
@@ -181,8 +178,8 @@ RegisterNetEvent("bpt_crafting:craftStart")
 AddEventHandler(
     "bpt_crafting:craftStart",
     function(item, count)
-        local id = math.random(000, 999)
-        table.insert(craftingQueue, {time = Config.Recipes[item].Time, item = item, count = 1, id = id})
+     local id = math.random(000, 999)
+     table.insert(craftingQueue, {time = Config.Recipes[item].Time, item = item, count = 1, id = id})
 
         SendNUIMessage(
             {
@@ -213,28 +210,28 @@ AddEventHandler(
 RegisterNUICallback(
     "close",
     function(data)
-        TriggerScreenblurFadeOut(1000)
-        SetNuiFocus(false, false)
+     TriggerScreenblurFadeOut(1000)
+     SetNuiFocus(false, false)
     end
 )
 
 RegisterNUICallback(
-    "craft",
+ "craft",
     function(data)
-        local item = data["item"]
-        TriggerServerEvent("bpt_crafting:craft", item, false)
+     local item = data["item"]
+     TriggerServerEvent("bpt_crafting:craft", item, false)
     end
 )
 
 function SendTextMessage(msg)
-   exports['mythic_notify']:SendAlert('inform', msg)
+ exports['mythic_notify']:SendAlert('inform', msg)
 end
 
 function DrawText3D(x, y, z, text)
-    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
-    local px, py, pz = table.unpack(GetGameplayCamCoord())
-    local dist = GetDistanceBetweenCoords(px, py, pz, x, y, z, 1)
-    local scale = ((1 / dist) * 2) * (1 / GetGameplayCamFov()) * 100
+ local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+ local px, py, pz = table.unpack(GetGameplayCamCoord())
+ local dist = GetDistanceBetweenCoords(px, py, pz, x, y, z, 1)
+ local scale = ((1 / dist) * 2) * (1 / GetGameplayCamFov()) * 100
 
     if onScreen then
         SetTextColour(255, 255, 255, 255)
