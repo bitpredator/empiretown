@@ -4,12 +4,7 @@ CraftingStopWithDistance = false, -- Crafting will stop when not near workbench
 ExperiancePerCraft = 5, -- The amount of experiance added per craft (100 Experiance is 1 level)
 HideWhenCantCraft = false, -- Instead of lowering the opacity it hides the item that is not craftable due to low level or wrong job
 
-Categories = {
-	['weapons'] = {
-	 Label = 'ARMI',
-	 Image = 'WEAPON_APPISTOL',
-	 Jobs = {'ammu'}
-	},
+Categories = {	
 	['medical'] = {
 	 Label = 'Ospedale',
 	 Image = 'bandage',
@@ -74,226 +69,226 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
 }, 
 
 ['cottonforbandages'] = {
-	Level = 0, -- From what level this item will be craftable
-	Category = 'import', -- The category item will be put in
-	isGun = false, -- Specify if this is a gun so it will be added to the loadout
-	Jobs = {'import'}, -- What jobs can craft this item, leaving {} allows any job
-	JobGrades = {}, -- What job grades can craft this item, leaving {} allows any grade
-	Amount = 1, -- The amount that will be crafted
-	SuccessRate = 100, -- 100% you will recieve the item
-	requireBlueprint = false, -- Requires a blueprint whitch you need to add in the database yourself TEMPLATE: itemname_blueprint EXAMPLE: bandage_blueprint
-	Time = 20, -- Time in seconds it takes to craft this item
+ Level = 0, -- From what level this item will be craftable
+ Category = 'import', -- The category item will be put in
+ isGun = false, -- Specify if this is a gun so it will be added to the loadout
+ Jobs = {'import'}, -- What jobs can craft this item, leaving {} allows any job
+ JobGrades = {}, -- What job grades can craft this item, leaving {} allows any grade
+ Amount = 1, -- The amount that will be crafted
+ SuccessRate = 100, -- 100% you will recieve the item
+ requireBlueprint = false, -- Requires a blueprint whitch you need to add in the database yourself TEMPLATE: itemname_blueprint EXAMPLE: bandage_blueprint
+ Time = 20, -- Time in seconds it takes to craft this item
 	Ingredients = { -- Ingredients needed to craft this item
-		['cotton'] = 4 -- item name and count, adding items that dont exist in database will crash the script
+	 ['cotton'] = 4 -- item name and count, adding items that dont exist in database will crash the script
 	}
 }, 
 
 ['bandage'] = {
-	Level = 0, 
-	Category = 'medical', 
-	isGun = false, 
-	Jobs = {'ambulance'}, 
-	JobGrades = {}, 
-	Amount = 1, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 20, 
+ Level = 0, 
+ Category = 'medical', 
+ isGun = false, 
+ Jobs = {'ambulance'}, 
+ JobGrades = {}, 
+ Amount = 1, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 20, 
 	Ingredients = { 
-		['cottonforbandages'] = 2 
+	 ['cottonforbandages'] = 2 
 	}
 }, 
 
 ['ironsheet'] = {
-	Level = 0, 
-	Category = 'dustman', 
-	isGun = false, 
-	Jobs = {'dustman'}, 
-	JobGrades = {}, 
-	Amount = 2, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 60, 
+ Level = 0, 
+ Category = 'dustman', 
+ isGun = false, 
+ Jobs = {'dustman'}, 
+ JobGrades = {}, 
+ Amount = 2, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 60, 
 	Ingredients = { 
-		['trash_can'] = 5, 
-		['hammer'] = 1
+	 ['trash_can'] = 5, 
+	 ['hammer'] = 1
 	}
 },
 
 ['recycled_paper'] = {
-	Level = 0, 
-	Category = 'dustman', 
-	isGun = false, 
-	Jobs = {'dustman'}, 
-	JobGrades = {}, 
-	Amount = 1, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 30, 
+ Level = 0, 
+ Category = 'dustman', 
+ isGun = false, 
+ Jobs = {'dustman'}, 
+ JobGrades = {}, 
+ Amount = 1, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 30, 
 	Ingredients = { 
-		['paper'] = 2
+	 ['paper'] = 2
 	}
 },
 
 ['paper'] = {
-	Level = 0, 
-	Category = 'dustman', 
-	isGun = false, 
-	Jobs = {'dustman'}, 
-	JobGrades = {}, 
-	Amount = 6, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 30, 
+ Level = 0, 
+ Category = 'dustman', 
+ isGun = false, 
+ Jobs = {'dustman'}, 
+ JobGrades = {}, 
+ Amount = 6, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 30, 
 	Ingredients = { 
-		['newspaper'] = 1,
-		['trash_burgershot'] = 1
+	 ['newspaper'] = 1,
+	 ['trash_burgershot'] = 1
 	}
 },
 
 ['hammer'] = {
-	Level = 0,
-	Category = 'import', 
-	isGun = false, 
-	Jobs = {'import'}, 
-	JobGrades = {}, 
-	Amount = 4, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 60, 
+ Level = 0,
+ Category = 'import', 
+ isGun = false, 
+ Jobs = {'import'}, 
+ JobGrades = {}, 
+ Amount = 4, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 60, 
 	Ingredients = { 
-		['iron'] = 4, 
-		['legnatagliata'] = 1
+	 ['iron'] = 4, 
+	 ['legnatagliata'] = 1
 	}
 }, 
 
 ['fixkit'] = {
-	Level = 0,
-	Category = 'mechanic', 
-	isGun = false, 
-	Jobs = {'mechanic'}, 
-	JobGrades = {}, 
-	Amount = 1, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 60, 
+ Level = 0,
+ Category = 'mechanic', 
+ isGun = false, 
+ Jobs = {'mechanic'}, 
+ JobGrades = {}, 
+ Amount = 1, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 60, 
 	Ingredients = { 
-		['ironsheet'] = 2, 
-		['hammer'] = 1
+	 ['ironsheet'] = 2, 
+	 ['hammer'] = 1
 	}
 }, 
 
 ['almondmilk'] = {
-	Level = 0,
-	Category = 'unicorn', 
-	isGun = false, 
-	Jobs = {'unicorn'}, 
-	JobGrades = {}, 
-	Amount = 1, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 60, 
+ Level = 0,
+ Category = 'unicorn', 
+ isGun = false, 
+ Jobs = {'unicorn'}, 
+ JobGrades = {}, 
+ Amount = 1, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 60, 
 	Ingredients = { 
-		['ice'] = 2, 
-		['almonds'] = 5,
-		['water'] = 1
+	 ['ice'] = 2, 
+	 ['almonds'] = 5,
+	 ['water'] = 1
 	}
 },
 
 ['slicedchips'] = {
-	Level = 0,
-	Category = 'unicorn', 
-	isGun = false, 
-	Jobs = {'unicorn'}, 
-	JobGrades = {}, 
-	Amount = 5, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 10, 
+ Level = 0,
+ Category = 'unicorn', 
+ isGun = false, 
+ Jobs = {'unicorn'}, 
+ JobGrades = {}, 
+ Amount = 5, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 10, 
 	Ingredients = { 
-		['potato'] = 1,
-		['water'] = 1
+	 ['potato'] = 1,
+	 ['water'] = 1
 	}
 },
 
 ['iron'] = {
-	Level = 0,
-	Category = 'import', 
-	isGun = false, 
-	Jobs = {'import'}, 
-	JobGrades = {}, 
-	Amount = 3, 
-	SuccessRate = 100, 
+ Level = 0,
+ Category = 'import', 
+ isGun = false, 
+ Jobs = {'import'}, 
+ JobGrades = {}, 
+ Amount = 3, 
+ SuccessRate = 100, 
 	requireBlueprint = false, 
 	Time = 10, 
 	Ingredients = { 
-		['hammer'] = 1,
-		['ironsheet'] = 10
+	 ['hammer'] = 1,
+	 ['ironsheet'] = 10
 	}
 },
 
 ['cigarette_paper'] = {
-	Level = 0,
-	Category = 'ballas', 
-	isGun = false, 
-	Jobs = {'ballas'}, 
-	JobGrades = {}, 
-	Amount = 1, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 10, 
+ Level = 0,
+ Category = 'ballas', 
+ isGun = false, 
+ Jobs = {'ballas'}, 
+ JobGrades = {}, 
+ Amount = 1, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 10, 
 	Ingredients = { 
-		['recycled_paper'] = 1
+	 ['recycled_paper'] = 1
 	}
 },
 
 ['WEAPON_APPISTOL'] = {
-	Level = 10,
-	Category = 'ammu', 
-	isGun = false, 
-	Jobs = {'ammu'}, 
-	JobGrades = {}, 
-	Amount = 1, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 180, 
+ Level = 10,
+ Category = 'ammu', 
+ isGun = false, 
+ Jobs = {'ammu'}, 
+ JobGrades = {}, 
+ Amount = 1, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 180, 
 	Ingredients = { 
-		['copper'] = 1,
-		['iron'] = 1,
-		['legnatagliata'] = 1
+	 ['copper'] = 1,
+	 ['iron'] = 1,
+	 ['legnatagliata'] = 1
 	}
 },
 
 ['ammo-sniper'] = {
-	Level = 10,
-	Category = 'ammu', 
-	isGun = false, 
-	Jobs = {'ammu'}, 
-	JobGrades = {}, 
-	Amount = 1, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 30, 
+ Level = 10,
+ Category = 'ammu', 
+ isGun = false, 
+ Jobs = {'ammu'}, 
+ JobGrades = {}, 
+ Amount = 1, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 30, 
 	Ingredients = { 
-		['copper'] = 1,
-		['iron'] = 1,
-		['gunpowder'] = 1,
-		['gold'] = 1
+	 ['copper'] = 1,
+	 ['iron'] = 1,
+	 ['gunpowder'] = 1,
+	 ['gold'] = 1
 	}
 },
 
 ['iron'] = {
-	Level = 0,
-	Category = 'import', 
-	isGun = false, 
-	Jobs = {'import'}, 
-	JobGrades = {}, 
-	Amount = 3, 
-	SuccessRate = 100, 
-	requireBlueprint = false, 
-	Time = 10, 
+ Level = 0,
+ Category = 'import', 
+ isGun = false, 
+ Jobs = {'import'}, 
+ JobGrades = {}, 
+ Amount = 3, 
+ SuccessRate = 100, 
+ requireBlueprint = false, 
+ Time = 10, 
 	Ingredients = { 
-		['hammer'] = 1,
-		['ironsheet'] = 10
+	 ['hammer'] = 1,
+	 ['ironsheet'] = 10
 	}
 },
 
