@@ -4,8 +4,15 @@ if GetConvar('inventory:versioncheck', 'true') == 'true' then
 	lib.versionCheck('overextended/ox_inventory')
 end
 
-local Inventory = server.inventory
-local Items = server.items
+require 'modules.bridge.server'
+require 'modules.pefcl.server'
+
+local TriggerEventHooks = require 'modules.hooks.server'
+local db = require 'modules.mysql.server'
+local Items = require 'modules.items.server'
+local Inventory = require 'modules.inventory.server'
+
+require 'modules.shops.server'
 
 ---@param player table
 ---@param data table?
@@ -278,15 +285,9 @@ lib.callback.register('ox_inventory:useItem', function(source, itemName, slot, m
 
 			data.consume = consume
 
-			local success, response = lib.callback.await('ox_inventory:usingItem', source, data)
+			local success = lib.callback.await('ox_inventory:usingItem', source, data)
 
 			if not success then return end
-
-			if response then
-				if response.status and server.setPlayerStatus then
-					server.setPlayerStatus(source, response.status)
-				end
-			end
 
 			if consume and consume ~= 0 and not data.component then
 				data = inventory.items[data.slot]
@@ -331,12 +332,16 @@ lib.callback.register('ox_inventory:useItem', function(source, itemName, slot, m
 				if not durability then
 					Inventory.RemoveItem(inventory.id, data.name, consume < 1 and 1 or consume, nil, data.slot)
 				else
+					inventory.changed = true
+
 					TriggerClientEvent('ox_inventory:updateSlots', inventory.id, {
 						{
 							item = inventory.items[data.slot],
 							inventory = inventory.type
 						}
 					}, { left = inventory.weight })
+
+					if server.syncInventory then server.syncInventory(inventory) end
 				end
 
 				if item?.cb then
@@ -522,7 +527,7 @@ lib.addCommand('saveinv', {
 	},
 	restricted = 'group.admin',
 }, function(source, args)
-	server.saveInventories(args.lock == 'true')
+	Inventory.SaveInventories(args.lock == 'true')
 end)
 
 lib.addCommand('viewinv', {

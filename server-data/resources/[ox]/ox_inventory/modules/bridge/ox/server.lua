@@ -1,9 +1,5 @@
 local playerDropped = ...
-local Inventory
-
-CreateThread(function()
-	Inventory = server.inventory
-end)
+local Inventory = require 'modules.inventory.server'
 
 AddEventHandler('ox:playerLogout', playerDropped)
 

@@ -291,7 +291,7 @@ local Items
 
 CreateThread(function()
 	TriggerEvent('ox_inventory:loadInventory', Inventory)
-	Items = server.items
+	Items = require 'modules.items.server'
 
 	-- Require "set inventory:weaponmismatch 1" to enable experimental weapon checks.
 	-- Maybe need some tweaks, and will definitely need more hashes added to the ignore list.
@@ -341,8 +341,9 @@ end)
 
 ---@param item table
 ---@param slot table
-function Inventory.SlotWeight(item, slot)
-	local weight = item.weight * slot.count
+function Inventory.SlotWeight(item, slot, ignoreCount)
+	local weight = ignoreCount and item.weight or item.weight * (slot.count or 1)
+
 	if not slot.metadata then slot.metadata = {} end
 
 	if item.ammoname and slot.metadata.ammo then
@@ -364,7 +365,7 @@ function Inventory.SlotWeight(item, slot)
 	end
 
 	if slot.metadata.weight then
-		weight += (slot.metadata.weight * slot.count)
+		weight += ignoreCount and slot.metadata.weight or (slot.metadata.weight * (slot.count or 1))
 	end
 
 	return weight
@@ -696,9 +697,13 @@ exports('GetItem', Inventory.GetItem)
 function Inventory.SwapSlots(fromInventory, toInventory, slot1, slot2)
 	local fromSlot = fromInventory.items[slot1] and table.clone(fromInventory.items[slot1]) or nil
 	local toSlot = toInventory.items[slot2] and table.clone(toInventory.items[slot2]) or nil
+
 	if fromSlot then fromSlot.slot = slot2 end
 	if toSlot then toSlot.slot = slot1 end
+
 	fromInventory.items[slot1], toInventory.items[slot2] = toSlot, fromSlot
+	fromInventory.changed, toInventory.changed = true, true
+
 	return fromSlot, toSlot
 end
 exports('SwapSlots', Inventory.SwapSlots)
@@ -717,9 +722,12 @@ end
 ---@param metadata? table
 function Inventory.SetItem(inv, item, count, metadata)
 	if type(item) ~= 'table' then item = Items(item) end
+
 	if item and count >= 0 then
 		inv = Inventory(inv) --[[@as OxInventory]]
+
 		if inv then
+			inv.changed = true
 			local itemCount = Inventory.GetItem(inv, item.name, metadata, true) --[[@as number]]
 
 			if count > itemCount then
@@ -776,6 +784,7 @@ function Inventory.SetDurability(inv, slot, durability)
 	local slotData = inv and inv.items[slot]
 
 	if inv and slotData then
+		inv.changed = true
 		slotData.metadata.durability = durability
 
 		if inv.player then
@@ -794,6 +803,7 @@ function Inventory.SetMetadata(inv, slot, metadata)
 	local slotData = inv and type(slot) == 'number' and inv.items[slot]
 
 	if inv and slotData then
+		inv.changed = true
 		local imageurl = slotData.metadata.imageurl
 		slotData.metadata = type(metadata) == 'table' and metadata or { type = metadata or nil }
 
@@ -829,6 +839,7 @@ function Inventory.SetSlotCount(inv, slots)
 	if not inv then return end
 	if type(slots) ~= 'number' then return end
 
+	inv.changed = true
 	inv.slots = slots
 end
 
@@ -906,6 +917,8 @@ function Inventory.AddItem(inv, item, count, metadata, slot, cb)
 			end
 
 			if toSlot then
+				inv.changed = true
+
 				local invokingResource = server.loglevel > 1 and GetInvokingResource()
 
 				if type(toSlot) == 'number' then
@@ -1108,6 +1121,8 @@ function Inventory.RemoveItem(inv, item, count, metadata, slot, ignoreTotal)
 		end
 
 		if removed > 0 then
+			inv.changed = true
+
 			if inv.player then
 				if server.syncInventory then server.syncInventory(inv) end
 
@@ -1281,6 +1296,8 @@ exports('CreateDropFromPlayer', function(playerId)
 	return dropId
 end)
 
+local TriggerEventHooks = require 'modules.hooks.server'
+
 local function dropItem(source, data)
 	local playerInventory = Inventory(source)
 	local fromData = playerInventory.items[data.fromSlot]
@@ -1320,8 +1337,7 @@ local function dropItem(source, data)
 
 	local dropId = generateInvId('drop')
 	local inventory = Inventory.Create(dropId, ('Drop %s'):format(dropId:gsub('%D', '')), 'drop', shared.playerslots, toData.weight, shared.playerweight, false, {[data.toSlot] = toData})
-	local coords = GetEntityCoords(GetPlayerPed(source))
-	inventory.coords = vec3(coords.x, coords.y, coords.z-0.2)
+	inventory.coords = data.coords
 	Inventory.Drops[dropId] = {coords = inventory.coords, instance = data.instance}
 	playerInventory.changed = true
 
@@ -1630,11 +1646,15 @@ end)
 
 function Inventory.Confiscate(source)
 	local inv = Inventories[source]
+
 	if inv?.player then
 		db.saveStash(inv.owner, inv.owner, json.encode(minimal(inv)))
 		table.wipe(inv.items)
 		inv.weight = 0
+		inv.changed = true
+
 		TriggerClientEvent('ox_inventory:inventoryConfiscated', inv.id)
+
 		if server.syncInventory then server.syncInventory(inv) end
 	end
 end
@@ -1663,6 +1683,7 @@ function Inventory.Return(source)
 					end
 				end
 
+				inv.changed = true
 				inv.weight = totalWeight
 				inv.items = inventory
 
@@ -1812,9 +1833,9 @@ SetInterval(function()
 	end
 
 	db.saveInventories(parameters[1], parameters[2], parameters[3], parameters[4])
-end, 600000)
+end, math.max(300000, GetConvarInt('inventory:saveinterval', 600000)))
 
-function server.saveInventories(lock)
+function Inventory.SaveInventories(lock)
 	local parameters = { {}, {}, {}, {} }
 	local size = { 0, 0, 0, 0 }
 	Inventory.Lock = lock or nil
@@ -1837,17 +1858,17 @@ end
 
 AddEventHandler('playerDropped', function()
 	if GetNumPlayerIndices() == 0 then
-		server.saveInventories()
+		Inventory.SaveInventories()
 	end
 end)
 
 AddEventHandler('txAdmin:events:serverShuttingDown', function()
-	server.saveInventories(true)
+	Inventory.SaveInventories(true)
 end)
 
 AddEventHandler('onResourceStop', function(resource)
 	if resource == shared.resource then
-		server.saveInventories(true)
+		Inventory.SaveInventories(true)
 	end
 end)
 
@@ -2119,4 +2140,4 @@ end
 
 exports('CreateTemporaryStash', Inventory.CreateTemporaryStash)
 
-server.inventory = Inventory
+return Inventory
