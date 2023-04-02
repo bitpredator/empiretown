@@ -2,8 +2,8 @@ local playerDropped = ...
 local Inventory, Items
 
 CreateThread(function()
-	Inventory = server.inventory
-	Items = server.items
+	Inventory = require 'modules.inventory.server'
+	Items = require 'modules.items.server'
 end)
 
 local QBCore
@@ -73,7 +73,7 @@ local function setupPlayer(Player)
 
 	QBCore.Functions.AddPlayerMethod(Player.PlayerData.source, "SetInventory", function()
 		-- ox_inventory's item structure is not compatible with qb-inventory's one so we don't support it
-		shared.info('Player.Functions.SetInventory is unsupported for ox_inventory, please use exports.ox_inventory:setPlayerInventory instead.')
+		error('Player.Functions.SetInventory is unsupported for ox_inventory. Try ClearInventory, then add the desired items.')
 	end)
 end
 
@@ -216,27 +216,33 @@ function server.convertInventory(playerId, items)
 	end
 end
 
-function server.setPlayerStatus(playerId, values)
-	local Player = QBCore.Functions.GetPlayer(playerId)
-
-	if not Player then return end
-
-	local playerMetadata = Player.PlayerData.metadata
-
-	for name, value in pairs(values) do
-		if playerMetadata[name] then
-			if value > 100 or value < -100 then
-				value = value * 0.0001
-			end
-
-			Player.Functions.SetMetaData(name, playerMetadata[name] + value)
-		end
-	end
-end
-
 ---@diagnostic disable-next-line: duplicate-set-field
 function server.isPlayerBoss(playerId)
 	local Player = QBCore.Functions.GetPlayer(playerId)
 
 	return Player.PlayerData.job.isboss or Player.PlayerData.gang.isboss
 end
+
+-- taken from qbox-core (https://github.com/Qbox-project/qb-core/blob/f4174f311aae8157181a48fa2e2bd30c8d13edb1/client/functions.lua#L25)
+-- copied from client-side implementation and completely untested (have fun)
+local function hasItem(source, items, amount)
+    amount = amount or 1
+
+    local count = Inventory.Search(source, 'count', items)
+
+    if type(items) == 'table' and type(count) == 'table' then
+        for _, v in pairs(count) do
+            if v < amount then
+                return false
+            end
+        end
+
+        return true
+    end
+
+    return count >= amount
+end
+
+AddEventHandler(('__cfx_export_qb-inventory_HasItem'), function(setCB)
+	setCB(hasItem)
+end)

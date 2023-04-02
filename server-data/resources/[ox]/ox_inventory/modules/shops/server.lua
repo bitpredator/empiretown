@@ -1,7 +1,7 @@
 if not lib then return end
 
-local Items = server.items
-local Inventory = server.inventory
+local Items = require 'modules.items.server'
+local Inventory = require 'modules.inventory.server'
 local Shops = {}
 local locations = shared.target and 'targets' or 'locations'
 
@@ -49,6 +49,10 @@ local function setupShopItems(id, shopType, shopName, groups)
 				currency = slot.currency,
 				grade = slot.grade
 			}
+
+			if slot.metadata then
+				slot.weight = Inventory.SlotWeight(Item, slot, true)
+			end
 
 			shop.items[i] = slot
 		end
@@ -167,6 +171,8 @@ end
 local function removeCurrency(inv, currency, price)
 	Inventory.RemoveItem(inv, currency, price)
 end
+
+local TriggerEventHooks = require 'modules.hooks.server'
 
 lib.callback.register('ox_inventory:buyItem', function(source, data)
 	if data.toType == 'player' then

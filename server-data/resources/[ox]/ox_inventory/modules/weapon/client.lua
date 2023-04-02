@@ -1,9 +1,8 @@
 if not lib then return end
 
 local Weapon = {}
-local Items = client.items
-local Utils = client.utils
-client.weapon = Weapon
+local Items = require 'modules.items.client'
+local Utils = require 'modules.utils.client'
 
 -- generic group animation data
 local anims = {}
@@ -47,6 +46,7 @@ function Weapon.Equip(item, data)
 	item.melee = GetWeaponDamageType(data.hash) == 2 and 0
 	item.timer = 0
 	item.throwable = data.throwable
+	item.group = GetWeapontypeGroup(item.hash)
 
 	local ammo = item.metadata.ammo or item.throwable and 1 or 0
 	-- Create an object instead of adding the weapon directly to ped
@@ -86,7 +86,7 @@ function Weapon.Equip(item, data)
 	-- Refilling without a timeout tends to lead to the weapon jamming
 	SetTimeout(0, function() RefillAmmoInstantly(playerPed) end)
 
-	if data.hash == `WEAPON_PETROLCAN` or data.hash == `WEAPON_HAZARDCAN` or data.hash == `WEAPON_FERTILIZERCAN` or data.hash == `WEAPON_FIREEXTINGUISHER` then
+	if item.group == `GROUP_PETROLCAN` or item.group == `GROUP_FIREEXTINGUISHER` then
 		item.metadata.ammo = item.metadata.durability
 		SetPedInfiniteAmmo(playerPed, true, data.hash)
 	end
@@ -149,3 +149,5 @@ end
 
 Utils.Disarm = Weapon.Disarm
 Utils.ClearWeapons = Weapon.ClearAll
+
+return Weapon
