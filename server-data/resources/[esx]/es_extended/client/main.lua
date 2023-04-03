@@ -246,7 +246,7 @@ if not Config.OxInventory then
 	end)
 
 	RegisterNetEvent('esx:addWeapon')
-	AddEventHandler('esx:addWeapon', function(weapon, ammo)
+	AddEventHandler('esx:addWeapon', function(_, ammo)
 		print("[^1ERROR^7] event ^5'esx:addWeapon'^7 Has Been Removed. Please use ^5xPlayer.addWeapon^7 Instead!")
 	end)
 
