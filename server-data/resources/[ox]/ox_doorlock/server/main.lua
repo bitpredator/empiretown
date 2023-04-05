@@ -194,33 +194,38 @@ function DoesPlayerHaveItem(player, items)
 				ox_inventory:RemoveItem(playerId, item.name, 1, nil, data.slot)
 			end
 
-			return true
+			return item.name
 		end
 	end
 end
 
-local function isAuthorised(playerId, door, lockpick, passcode)
-	local player, authorised = GetPlayer(playerId)
+local lockpickItems = {
+	{ name = 'lockpick' }
+}
 
-	if lockpick and door.lockpick then
-		return 'lockpick'
-	end
-
-	if passcode and passcode == door.passcode then
-		return true
-	end
+local function isAuthorised(playerId, door, lockpick)
+	local player = GetPlayer(playerId)
+	local authorised = door.passcode or false --[[@as boolean?]]
 
 	if player then
-		if door.groups then
-			authorised = IsPlayerInGroup(player, door.groups)
+		if lockpick then
+			return DoesPlayerHaveItem(player, lockpickItems)
 		end
 
-		if not authorised and door.characters then
-			authorised = table.contains(door.characters, GetCharacterId(player))
+		if door.characters then
+			return table.contains(door.characters, GetCharacterId(player))
+		end
+
+		if door.groups then
+			authorised = IsPlayerInGroup(player, door.groups) or nil
 		end
 
 		if not authorised and door.items then
-			authorised = DoesPlayerHaveItem(player, door.items)
+			authorised = DoesPlayerHaveItem(player, door.items) or nil
+		end
+
+		if authorised ~= nil and door.passcode then
+			authorised = door.passcode == lib.callback.await('ox_doorlock:inputPassCode', playerId)
 		end
 	end
 
@@ -267,7 +272,7 @@ MySQL.ready(function()
 	isLoaded = true
 end)
 
-RegisterNetEvent('ox_doorlock:setState', function(id, state, lockpick, passcode)
+RegisterNetEvent('ox_doorlock:setState', function(id, state, lockpick)
 	local door = doors[id]
 
 	if source == '' then
@@ -277,7 +282,7 @@ RegisterNetEvent('ox_doorlock:setState', function(id, state, lockpick, passcode)
 	state = (state == 1 or state == 0) and state or (state and 1 or 0)
 
 	if door then
-		local authorised = source == nil or isAuthorised(source, door, lockpick, passcode)
+		local authorised = source == nil or isAuthorised(source, door, lockpick)
 
 		if authorised then
 			door.state = state
