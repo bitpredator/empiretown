@@ -12,8 +12,8 @@ end
 function getCraftingLevel(identifier)
     return tonumber(
         MySQL.Sync.fetchScalar(
-            "SELECT `crafting_level` FROM users WHERE identifier = @identifier ",
-            {["@identifier"] = identifier}
+         "SELECT `crafting_level` FROM users WHERE identifier = @identifier ",
+         {["@identifier"] = identifier}
         )
     )
 end

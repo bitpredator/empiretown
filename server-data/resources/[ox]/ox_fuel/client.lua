@@ -95,22 +95,24 @@ end)
 local isFueling = false
 local nearestPump
 
+AddTextEntry('ox_fuel_station', locale('fuel_station_blip'))
+
 local function createBlip(station)
 	local blip = AddBlipForCoord(station.x, station.y, station.z)
-	SetBlipSprite(blip, 415)
+	SetBlipSprite(blip, 361)
 	SetBlipDisplay(blip, 4)
-	SetBlipScale(blip, 0.6)
-	SetBlipColour(blip, 23)
+	SetBlipScale(blip, 0.8)
+	SetBlipColour(blip, 6)
 	SetBlipAsShortRange(blip, true)
-	BeginTextCommandSetBlipName('STRING')
-	AddTextComponentSubstringPlayerName(locale('fuel_station_blip'))
+	BeginTextCommandSetBlipName('ox_fuel_station')
 	EndTextCommandSetBlipName(blip)
+
 	return blip
 end
 
 CreateThread(function()
 	local blip
-	if Config.showBlips ~= 1 then return end
+	if Config.qtarget and Config.showBlips ~= 1 then return end
 
 	while true do
 		local playerCoords = GetEntityCoords(cache.ped)
@@ -120,6 +122,9 @@ CreateThread(function()
 			if stationDistance < 60 then
 				if Config.showBlips == 1 and not blip then
 					blip = createBlip(station)
+				end
+
+				if not Config.qtarget then
 					repeat
 						if stationDistance < 15 then
 							local pumpDistance
@@ -165,6 +170,7 @@ CreateThread(function()
 			end
 		end
 
+
 		Wait(500)
 		if blip then
 			RemoveBlip(blip)
@@ -179,10 +185,20 @@ end
 
 local ox_inventory = exports.ox_inventory
 
+---@return number
+local function defaultMoneyCheck()
+	return ox_inventory:Search('count', 'money')
+end
+
+local getMoneyAmount = defaultMoneyCheck
+
+exports('setMoneyCheck', function(fn)
+	getMoneyAmount = fn or defaultMoneyCheck
+end)
+
 -- fuelingMode = 1 - Pump
 -- fuelingMode = 2 - Can
 local function startFueling(vehicle, isPump)
-	isFueling = true
 	local Vehicle = Entity(vehicle).state
 	local fuel = Vehicle.fuel or GetVehicleFuelLevel(vehicle)
 	local duration = math.ceil((100 - fuel) / Config.refillValue) * Config.refillTick
@@ -190,17 +206,29 @@ local function startFueling(vehicle, isPump)
 	local durability = 0
 
 	if 100 - fuel < Config.refillValue then
-		isFueling = false
 		return lib.notify({type = 'error', description = locale('tank_full')})
 	end
 
 	if isPump then
 		price = 0
-		moneyAmount = ox_inventory:Search(2, 'money')
+		moneyAmount = getMoneyAmount()
+
+		if Config.priceTick > moneyAmount then
+			return lib.notify({
+				type = 'error',
+				description = locale('not_enough_money', Config.priceTick)
+			})
+		end
+	elseif Config.durabilityTick > fuelingCan.metadata.ammo then
+		return lib.notify({
+			type = 'error',
+			description = locale('petrolcan_not_enough_fuel')
+		})
 	end
 
-	TaskTurnPedToFaceEntity(cache.ped, vehicle, duration)
+	isFueling = true
 
+	TaskTurnPedToFaceEntity(cache.ped, vehicle, duration)
 	Wait(500)
 
 	CreateThread(function()
@@ -226,7 +254,7 @@ local function startFueling(vehicle, isPump)
 		if isPump then
 			price += Config.priceTick
 
-			if price >= moneyAmount then
+			if price + Config.priceTick >= moneyAmount then
 				lib.cancelProgress()
 			end
 		else
@@ -249,6 +277,8 @@ local function startFueling(vehicle, isPump)
 		Wait(Config.refillTick)
 	end
 
+	ClearPedTasks(cache.ped)
+
 	if isPump then
 		TriggerServerEvent('ox_fuel:pay', price, fuel, NetworkGetNetworkIdFromEntity(vehicle))
 	else
@@ -257,7 +287,7 @@ local function startFueling(vehicle, isPump)
 end
 
 local function getPetrolCan(pumpCoord, refuel)
-	TaskTurnPedToFaceCoord(cache.ped, pumpCoord, Config.petrolCan.duration)
+	TaskTurnPedToFaceCoord(cache.ped, pumpCoord.x, pumpCoord.y, pumpCoord.z, Config.petrolCan.duration)
 	Wait(500)
 
 	if lib.progressCircle({
@@ -281,60 +311,156 @@ local function getPetrolCan(pumpCoord, refuel)
 
 		TriggerServerEvent('ox_fuel:fuelCan', false, Config.petrolCan.price)
 	end
+
+	ClearPedTasks(cache.ped)
 end
 
+if not Config.qtarget then
+	local bones = {'wheel_rr', 'wheel_lr'}
 
-local bones = {'wheel_rr', 'wheel_lr'}
+	RegisterCommand('startfueling', function()
+		if isFueling or cache.vehicle or lib.progressActive() then return end
 
-RegisterCommand('startfueling', function()
-	if isFueling or cache.vehicle or lib.progressActive() then return end
+		local petrolCan = Config.petrolCan.enabled and GetSelectedPedWeapon(cache.ped) == `WEAPON_PETROLCAN`
+		local playerCoords = GetEntityCoords(cache.ped)
 
-	local petrolCan = Config.petrolCan.enabled and GetSelectedPedWeapon(cache.ped) == `WEAPON_PETROLCAN`
-	local playerCoords = GetEntityCoords(cache.ped)
+		if nearestPump then
+			local moneyAmount = getMoneyAmount()
 
-	if nearestPump then
-		local moneyAmount = ox_inventory:Search(2, 'money')
-
-		if petrolCan and moneyAmount >= Config.petrolCan.price then
-			return getPetrolCan(nearestPump, true)
-		end
-
-		local vehicleInRange = lastVehicle and #(GetEntityCoords(lastVehicle) - playerCoords) <= 3
-
-		if not vehicleInRange then
-			if not Config.petrolCan.enabled then return end
-
-			if moneyAmount >= Config.petrolCan.price then
-				return getPetrolCan(nearestPump)
+			if petrolCan and moneyAmount >= Config.petrolCan.refillPrice then
+				return getPetrolCan(nearestPump, true)
 			end
 
-			return lib.notify({type = 'error', description = locale('petrolcan_cannot_afford')})
-		elseif moneyAmount >= Config.priceTick then
-			return startFueling(lastVehicle, true)
-		else
-			return lib.notify({type = 'error', description = locale('refuel_cannot_afford')})
-		end
+			local vehicleInRange = lastVehicle and #(GetEntityCoords(lastVehicle) - playerCoords) <= 3
 
-		return lib.notify({type = 'error', description = locale('vehicle_far')})
-	elseif petrolCan then
-		local vehicle = raycast()
+			if not vehicleInRange then
+				if not Config.petrolCan.enabled then return end
 
-		if vehicle then
-			for i = 1, #bones do
-				local fuelcapPosition = GetWorldPositionOfEntityBone(vehicle, GetEntityBoneIndexByName(vehicle, bones[i]))
-
-				if #(playerCoords - fuelcapPosition) < 1.3 then
-					return startFueling(vehicle, false)
+				if moneyAmount >= Config.petrolCan.price then
+					return getPetrolCan(nearestPump)
 				end
+
+				return lib.notify({type = 'error', description = locale('petrolcan_cannot_afford')})
+			elseif moneyAmount >= Config.priceTick then
+				return startFueling(lastVehicle, true)
+			else
+				return lib.notify({type = 'error', description = locale('refuel_cannot_afford')})
 			end
 
 			return lib.notify({type = 'error', description = locale('vehicle_far')})
-		end
-	end
-end)
+		elseif petrolCan then
+			local vehicle = raycast()
 
-RegisterKeyMapping('startfueling', 'Fuel vehicle', 'keyboard', 'e')
-TriggerEvent('chat:removeSuggestion', '/startfueling')
+			if vehicle then
+				for i = 1, #bones do
+					local fuelcapPosition = GetWorldPositionOfEntityBone(vehicle, GetEntityBoneIndexByName(vehicle, bones[i]))
+
+					if #(playerCoords - fuelcapPosition) < 1.3 then
+						return startFueling(vehicle, false)
+					end
+				end
+
+				return lib.notify({type = 'error', description = locale('vehicle_far')})
+			end
+		end
+	end)
+
+	RegisterKeyMapping('startfueling', 'Fuel vehicle', 'keyboard', 'e')
+	TriggerEvent('chat:removeSuggestion', '/startfueling')
+end
+
+
+if Config.qtarget then
+	if Config.petrolCan.enabled then
+		exports.qtarget:AddTargetModel(Config.pumpModels, {
+			options = {
+				{
+					action = function (entity)
+						if getMoneyAmount() >= Config.priceTick then
+							startFueling(lastVehicle, 1)
+						else
+							lib.notify({type = 'error', description = locale('refuel_cannot_afford')})
+						end
+					end,
+					icon = "fas fa-gas-pump",
+					label = locale('start_fueling'),
+					canInteract = function (entity)
+						if isFueling or cache.vehicle or lib.progressActive() then
+							return false
+						end
+
+						return lastVehicle and #(GetEntityCoords(lastVehicle) - GetEntityCoords(cache.ped)) <= 3
+					end
+				},
+				{
+					action = function (entity)
+						local petrolCan = Config.petrolCan.enabled and GetSelectedPedWeapon(cache.ped) == `WEAPON_PETROLCAN`
+						local moneyAmount = getMoneyAmount()
+
+						if moneyAmount < Config.petrolCan.price then
+							return lib.notify({type = 'error', description = locale('petrolcan_cannot_afford')})
+						end
+
+						return getPetrolCan(GetEntityCoords(entity), petrolCan)
+					end,
+					icon = "fas fa-faucet",
+					label = locale('petrolcan_buy_or_refill'),
+				},
+			},
+			distance = 2
+		})
+	else
+		exports.qtarget:AddTargetModel(Config.pumpModels, {
+			options = {
+				{
+					action = function (entity)
+						if getMoneyAmount() >= Config.priceTick then
+							if GetVehicleFuelLevel(lastVehicle) >= 100 then
+								return lib.notify({type = 'error', description = locale('vehicle_full')})
+							end
+							startFueling(lastVehicle, 1)
+						else
+							lib.notify({type = 'error', description = locale('refuel_cannot_afford')})
+						end
+					end,
+					icon = "fas fa-gas-pump",
+					label = locale('start_fueling'),
+					canInteract = function (entity)
+						if isFueling or cache.vehicle then
+							return false
+						end
+
+						return lastVehicle and #(GetEntityCoords(lastVehicle) - GetEntityCoords(cache.ped)) <= 3
+					end
+				},
+			},
+			distance = 2
+		})
+	end
+	if Config.petrolCan.enabled then
+		exports.qtarget:Vehicle({
+			options = {
+				{
+					action = function (entity)
+						local petrolCan = GetSelectedPedWeapon(cache.ped) == `WEAPON_PETROLCAN`
+						if not petrolCan then return lib.notify({type = 'error', description = locale('petrolcan_not_equipped')}) end
+						if fuelingCan.metadata.ammo <= Config.durabilityTick then return end
+						startFueling(entity)
+					end,
+					icon = "fas fa-gas-pump",
+					label = locale('start_fueling'),
+					canInteract = function (entity)
+						if isFueling or cache.vehicle or lib.progressActive() then
+							return false
+						end
+						return fuelingCan and Config.petrolCan.enabled
+					end
+				}
+			},
+			distance = 2
+		})
+	end
+end
 
 AddTextEntry('fuelHelpText', locale('fuel_help'))
 AddTextEntry('petrolcanHelpText', locale('petrolcan_help'))

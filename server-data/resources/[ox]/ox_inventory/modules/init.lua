@@ -17,11 +17,12 @@ do
 		shared.police = { shared.police }
 	end
 
-	local police = table.create(0, #shared.police)
+	local police = table.create(0, shared.police and #shared.police or 0)
 
 	for i = 1, #shared.police do
 		police[shared.police[i]] = 0
 	end
+
 	shared.police = police
 end
 
@@ -63,14 +64,40 @@ else
 		giveplayerlist = GetConvarInt('inventory:giveplayerlist', 0) == 1,
 		weaponanims = GetConvarInt('inventory:weaponanims', 1) == 1,
 		itemnotify = GetConvarInt('inventory:itemnotify', 1) == 1,
+		imagepath = GetConvar('inventory:imagepath', 'nui://ox_inventory/web/images'),
 		dropprops = GetConvarInt('inventory:dropprops', 0) == 1,
 		weaponmismatch = GetConvarInt('inventory:weaponmismatch', 1) == 1,
+		ignoreweapons = json.decode(GetConvar('inventory:ignoreweapons', '[]'))
 	}
+
+	local ignoreweapons = table.create(0, (client.ignoreweapons and #client.ignoreweapons or 0) + 3)
+
+	for i = 1, #client.ignoreweapons do
+		local weapon = client.ignoreweapons[i]
+		ignoreweapons[tonumber(weapon) or joaat(weapon)] = true
+	end
+
+	ignoreweapons[`WEAPON_UNARMED`] = true
+	ignoreweapons[`WEAPON_HANDCUFFS`] = true
+	ignoreweapons[`WEAPON_GARBAGEBAG`] = true
+
+	client.ignoreweapons = ignoreweapons
 end
 
 function shared.print(...) print(string.strjoin(' ', ...)) end
 
 function shared.info(...) shared.print('^2[info]^7', ...) end
+
+---Throws a formatted type error.
+---```lua
+---error("expected %s to have type '%s' (received %s)")
+---```
+---@param variable string
+---@param expected string
+---@param received string
+function TypeError(variable, expected, received)
+    error(("expected %s to have type '%s' (received %s)"):format(variable, expected, received))
+end
 
 -- People like ignoring errors for some reason
 local function spamError(err)
@@ -87,20 +114,22 @@ local function spamError(err)
 	error(err, 0)
 end
 
-if shared.framework == 'ox' then
-	local file = ('imports/%s.lua'):format(lib.context)
-	local import = LoadResourceFile('ox_core', file)
-	local func, err = load(import, ('@@ox_core/%s'):format(file))
+CreateThread(function()
+	if shared.framework == 'ox' then
+		local file = ('imports/%s.lua'):format(lib.context)
+		local import = LoadResourceFile('ox_core', file)
+		local func, err = load(import, ('@@ox_core/%s'):format(file))
 
-	if not func or err then
-		shared.ready = false
-		return spamError(err)
+		if not func or err then
+			shared.ready = false
+			return spamError(err)
+		end
+
+		func()
+
+		Ox = Ox or {}
 	end
-
-	func()
-
-	Ox = Ox
-end
+end)
 
 ---@param name string
 ---@return table
@@ -154,4 +183,9 @@ if shared.target then
 	shared.target = ox_target and 'ox_target' or 'qtarget'
 end
 
-if shared.server then shared.ready = false end
+if lib.context == 'server' then
+	shared.ready = false
+	return require 'server'
+end
+
+require 'client'
