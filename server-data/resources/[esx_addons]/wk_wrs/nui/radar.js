@@ -5,22 +5,18 @@ var targets = [];
 $(function() {
 	radarInit();
 	var radarContainer = $("#policeradar");
-
 	var fwdArrowFront = radarContainer.find(".fwdarrowfront");
 	var fwdArrowBack = radarContainer.find(".fwdarrowback");
 	var bwdArrowFront = radarContainer.find(".bwdarrowfront");
 	var bwdArrowBack = radarContainer.find(".bwdarrowback");
-
 	var fwdSame = radarContainer.find(".fwdsame");
 	var fwdOpp = radarContainer.find(".fwdopp");
 	var fwdXmit = radarContainer.find(".fwdxmit");
 	var fwdPlate = radarContainer.find("#fwdPlate");
-
 	var bwdSame = radarContainer.find(".bwdsame");
 	var bwdOpp = radarContainer.find(".bwdopp");
 	var bwdXmit = radarContainer.find(".bwdxmit");
 	var bwdPlate = radarContainer.find("#bwdPlate");
-
 	var radarRCContainer = $("#policeradarrc");
 
 	window.addEventListener("message", function(event) {
@@ -130,7 +126,8 @@ function radarInit() {
 					sendData("RadarRC", data);
 				});
 			}
-		});
+		}
+	);
 }
 
 function updatePlate(attr, data) {

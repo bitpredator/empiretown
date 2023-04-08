@@ -6595,6 +6595,11 @@
             gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.CLEAR_PED_SECONDARY_TASK">
+            <summary>
+            CLEAR_PED_SECONDARY_TASK
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.CLEAR_PED_TASKS">
             <summary>
             Clear a ped's tasks. Stop animations and other tasks created by scripts.
@@ -6630,6 +6635,11 @@
             (e.g. using REQUEST_MODEL).
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.CREATE_PED_INSIDE_VEHICLE">
+            <summary>
+            CREATE_PED_INSIDE_VEHICLE
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.CREATE_VEHICLE">
             <summary>
             Creates a vehicle with the specified model at the specified position. This vehicle will initially be owned by the creating
@@ -6653,9 +6663,24 @@
             Deletes the specified entity.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.DELETE_FUNCTION_REFERENCE">
+            <summary>
+            DELETE_FUNCTION_REFERENCE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.DELETE_RESOURCE_KVP">
+            <summary>
+            DELETE_RESOURCE_KVP
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.DELETE_RESOURCE_KVP_NO_SYNC">
             <summary>
             Nonsynchronous [DELETE_RESOURCE_KVP](#\_0x7389B5DF) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.DOES_ENTITY_EXIST">
+            <summary>
+            DOES_ENTITY_EXIST
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.DOES_PLAYER_OWN_SKU">
@@ -6668,9 +6693,44 @@
             Requests whether or not the player owns the specified package.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.DROP_PLAYER">
+            <summary>
+            DROP_PLAYER
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.DUPLICATE_FUNCTION_REFERENCE">
+            <summary>
+            DUPLICATE_FUNCTION_REFERENCE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.ENABLE_ENHANCED_HOST_SUPPORT">
+            <summary>
+            ENABLE_ENHANCED_HOST_SUPPORT
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.END_FIND_KVP">
+            <summary>
+            END_FIND_KVP
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.ENSURE_ENTITY_STATE_BAG">
             <summary>
             Internal function for ensuring an entity has a state bag.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.EXECUTE_COMMAND">
+            <summary>
+            EXECUTE_COMMAND
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.FIND_KVP">
+            <summary>
+            FIND_KVP
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.FLAG_SERVER_AS_PRIVATE">
+            <summary>
+            FLAG_SERVER_AS_PRIVATE
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.FLUSH_RESOURCE_KVP">
@@ -6683,6 +6743,11 @@
         <member name="F:CitizenFX.Core.Native.Hash.FREEZE_ENTITY_POSITION">
             <summary>
             Freezes or unfreezes an entity preventing its coordinates to change by the player if set to `true`. You can still change the entity position using SET_ENTITY_COORDS.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_AIR_DRAG_MULTIPLIER_FOR_PLAYERS_VEHICLE">
+            <summary>
+            GET_AIR_DRAG_MULTIPLIER_FOR_PLAYERS_VEHICLE
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_ALL_OBJECTS">
@@ -6752,6 +6817,11 @@
             Returns the entity handle for the specified state bag name. For use with [ADD_STATE_BAG_CHANGE_HANDLER](?\_0x5BA35AAF).
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_HEADING">
+            <summary>
+            GET_ENTITY_HEADING
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_HEALTH">
             <summary>
             Currently it only works with peds.
@@ -6762,9 +6832,24 @@
             Currently it only works with peds.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_MODEL">
+            <summary>
+            GET_ENTITY_MODEL
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_POPULATION_TYPE">
             <summary>
             This native gets an entity's population type.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_ROTATION">
+            <summary>
+            GET_ENTITY_ROTATION
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_ROTATION_VELOCITY">
+            <summary>
+            GET_ENTITY_ROTATION_VELOCITY
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_ROUTING_BUCKET">
@@ -6772,6 +6857,11 @@
             Gets the routing bucket for the specified entity.
             
             Routing buckets are also known as 'dimensions' or 'virtual worlds' in past echoes, however they are population-aware.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_SCRIPT">
+            <summary>
+            GET_ENTITY_SCRIPT
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_SPEED">
@@ -6788,6 +6878,13 @@
             <summary>
             Gets the entity type (as an integer), which can be one of the following defined down below:
             
+            **The following entities will return type `1`:**
+            
+            *   Ped
+            *   Player
+            *   Animal (Red Dead Redemption 2)
+            *   Horse (Red Dead Redemption 2)
+            
             **The following entities will return type `2`:**
             
             *   Automobile
@@ -6800,13 +6897,6 @@
             *   Train
             *   DraftVeh (Red Dead Redemption 2)
             
-            **The following entities will return type `1`:**
-            
-            *   Ped
-            *   Player
-            *   Animal (Red Dead Redemption 2)
-            *   Horse (Red Dead Redemption 2)
-            
             **The following entities will return type `3`:**
             
             *   Object
@@ -6814,6 +6904,11 @@
             *   Pickup
             
             Otherwise, a value of `0` will be returned.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_ENTITY_VELOCITY">
+            <summary>
+            GET_ENTITY_VELOCITY
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_GAME_BUILD_NUMBER">
@@ -6866,15 +6961,110 @@
             This native converts the passed string to a hash.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_HELI_MAIN_ROTOR_HEALTH">
+            <summary>
+            GET_HELI_MAIN_ROTOR_HEALTH
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_HELI_TAIL_ROTOR_HEALTH">
+            <summary>
+            GET_HELI_TAIL_ROTOR_HEALTH
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_HOST_ID">
+            <summary>
+            GET_HOST_ID
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_INSTANCE_ID">
+            <summary>
+            GET_INSTANCE_ID
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_INVOKING_RESOURCE">
+            <summary>
+            GET_INVOKING_RESOURCE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_IS_VEHICLE_ENGINE_RUNNING">
+            <summary>
+            GET_IS_VEHICLE_ENGINE_RUNNING
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_IS_VEHICLE_PRIMARY_COLOUR_CUSTOM">
+            <summary>
+            GET_IS_VEHICLE_PRIMARY_COLOUR_CUSTOM
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_IS_VEHICLE_SECONDARY_COLOUR_CUSTOM">
+            <summary>
+            GET_IS_VEHICLE_SECONDARY_COLOUR_CUSTOM
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_LANDING_GEAR_STATE">
             <summary>
             See the client-side [GET_LANDING_GEAR_STATE](#\_0x9B0F3DCA3DB0F4CD) native for a description of landing gear states.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_LAST_PED_IN_VEHICLE_SEAT">
+            <summary>
+            GET_LAST_PED_IN_VEHICLE_SEAT
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_NUM_PLAYER_IDENTIFIERS">
+            <summary>
+            GET_NUM_PLAYER_IDENTIFIERS
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_NUM_PLAYER_INDICES">
+            <summary>
+            GET_NUM_PLAYER_INDICES
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_NUM_PLAYER_TOKENS">
+            <summary>
+            GET_NUM_PLAYER_TOKENS
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_NUM_RESOURCES">
+            <summary>
+            GET_NUM_RESOURCES
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_NUM_RESOURCE_METADATA">
             <summary>
             Gets the amount of metadata values with the specified key existing in the specified resource's manifest.
             See also: [Resource manifest](https://docs.fivem.net/resources/manifest/)
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PASSWORD_HASH">
+            <summary>
+            GET_PASSWORD_HASH
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PED_ARMOUR">
+            <summary>
+            GET_PED_ARMOUR
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PED_CAUSE_OF_DEATH">
+            <summary>
+            GET_PED_CAUSE_OF_DEATH
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PED_DESIRED_HEADING">
+            <summary>
+            GET_PED_DESIRED_HEADING
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PED_IN_VEHICLE_SEAT">
+            <summary>
+            GET_PED_IN_VEHICLE_SEAT
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PED_MAX_HEALTH">
+            <summary>
+            GET_PED_MAX_HEALTH
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_PED_SCRIPT_TASK_COMMAND">
@@ -6908,9 +7098,19 @@
             Gets the current camera rotation for a specified player. This native is used server side when using OneSync.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_ENDPOINT">
+            <summary>
+            GET_PLAYER_ENDPOINT
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_FAKE_WANTED_LEVEL">
             <summary>
             Gets the current fake wanted level for a specified player. This native is used server side when using OneSync.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_FROM_INDEX">
+            <summary>
+            GET_PLAYER_FROM_INDEX
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_FROM_STATE_BAG_NAME">
@@ -6918,9 +7118,39 @@
             On the server this will return the players source, on the client it will return the player handle.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_GUID">
+            <summary>
+            GET_PLAYER_GUID
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_IDENTIFIER">
+            <summary>
+            GET_PLAYER_IDENTIFIER
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_IDENTIFIER_BY_TYPE">
             <summary>
             Get an identifier from a player by the type of the identifier.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_INVINCIBLE">
+            <summary>
+            GET_PLAYER_INVINCIBLE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_LAST_MSG">
+            <summary>
+            GET_PLAYER_LAST_MSG
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_MAX_ARMOUR">
+            <summary>
+            GET_PLAYER_MAX_ARMOUR
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_MAX_HEALTH">
+            <summary>
+            GET_PLAYER_MAX_HEALTH
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_MELEE_WEAPON_DAMAGE_MODIFIER">
@@ -6928,11 +7158,31 @@
             A getter for [SET_PLAYER_MELEE_WEAPON_DAMAGE_MODIFIER](#\_0x4A3DC7ECCC321032).
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_NAME">
+            <summary>
+            GET_PLAYER_NAME
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_PED">
+            <summary>
+            GET_PLAYER_PED
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_PING">
+            <summary>
+            GET_PLAYER_PING
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_ROUTING_BUCKET">
             <summary>
             Gets the routing bucket for the specified player.
             
             Routing buckets are also known as 'dimensions' or 'virtual worlds' in past echoes, however they are population-aware.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_TEAM">
+            <summary>
+            GET_PLAYER_TEAM
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_PLAYER_TIME_IN_PURSUIT">
@@ -6989,6 +7239,11 @@
             ```
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_RESOURCE_BY_FIND_INDEX">
+            <summary>
+            GET_RESOURCE_BY_FIND_INDEX
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_RESOURCE_KVP_FLOAT">
             <summary>
             A getter for [SET_RESOURCE_KVP_FLOAT](#\_0x9ADD2938).
@@ -7030,6 +7285,46 @@
             Returns the value of a state bag key.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_TRAIN_CARRIAGE_ENGINE">
+            <summary>
+            GET_TRAIN_CARRIAGE_ENGINE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_TRAIN_CARRIAGE_INDEX">
+            <summary>
+            GET_TRAIN_CARRIAGE_INDEX
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_BODY_HEALTH">
+            <summary>
+            GET_VEHICLE_BODY_HEALTH
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_COLOURS">
+            <summary>
+            GET_VEHICLE_COLOURS
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_CUSTOM_PRIMARY_COLOUR">
+            <summary>
+            GET_VEHICLE_CUSTOM_PRIMARY_COLOUR
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_CUSTOM_SECONDARY_COLOUR">
+            <summary>
+            GET_VEHICLE_CUSTOM_SECONDARY_COLOUR
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_DASHBOARD_COLOUR">
+            <summary>
+            GET_VEHICLE_DASHBOARD_COLOUR
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_DIRT_LEVEL">
+            <summary>
+            GET_VEHICLE_DIRT_LEVEL
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_DOORS_LOCKED_FOR_PLAYER">
             <summary>
             Currently it only works when set to "all players".
@@ -7054,9 +7349,34 @@
             command will return only '0' if unlocked.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_DOOR_STATUS">
+            <summary>
+            GET_VEHICLE_DOOR_STATUS
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_ENGINE_HEALTH">
+            <summary>
+            GET_VEHICLE_ENGINE_HEALTH
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_EXTRA_COLOURS">
+            <summary>
+            GET_VEHICLE_EXTRA_COLOURS
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_FLIGHT_NOZZLE_POSITION">
             <summary>
             Gets the flight nozzel position for the specified vehicle. See the client-side [\_GET_VEHICLE_FLIGHT_NOZZLE_POSITION](#\_0xDA62027C8BDB326E) native for usage examples.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_HANDBRAKE">
+            <summary>
+            GET_VEHICLE_HANDBRAKE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_HEADLIGHTS_COLOUR">
+            <summary>
+            GET_VEHICLE_HEADLIGHTS_COLOUR
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_HOMING_LOCKON_STATE">
@@ -7064,14 +7384,59 @@
             Gets the lock on state for the specified vehicle. See the client-side [GET_VEHICLE_HOMING_LOCKON_STATE](#\_0xE6B0E8CFC3633BF0) native for a description of lock on states.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_INTERIOR_COLOUR">
+            <summary>
+            GET_VEHICLE_INTERIOR_COLOUR
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_LIGHTS_STATE">
+            <summary>
+            GET_VEHICLE_LIGHTS_STATE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_LIVERY">
+            <summary>
+            GET_VEHICLE_LIVERY
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_LOCK_ON_TARGET">
             <summary>
             Gets the vehicle that is locked on to for the specified vehicle.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_NUMBER_PLATE_TEXT">
+            <summary>
+            GET_VEHICLE_NUMBER_PLATE_TEXT
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_NUMBER_PLATE_TEXT_INDEX">
+            <summary>
+            GET_VEHICLE_NUMBER_PLATE_TEXT_INDEX
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_PED_IS_IN">
             <summary>
             Gets the vehicle the specified Ped is/was in depending on bool value. This native is used server side when using OneSync.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_PETROL_TANK_HEALTH">
+            <summary>
+            GET_VEHICLE_PETROL_TANK_HEALTH
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_RADIO_STATION_INDEX">
+            <summary>
+            GET_VEHICLE_RADIO_STATION_INDEX
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_ROOF_LIVERY">
+            <summary>
+            GET_VEHICLE_ROOF_LIVERY
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_STEERING_ANGLE">
+            <summary>
+            GET_VEHICLE_STEERING_ANGLE
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_TYPE">
@@ -7090,6 +7455,51 @@
             *   train
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_TYRE_SMOKE_COLOR">
+            <summary>
+            GET_VEHICLE_TYRE_SMOKE_COLOR
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_WHEEL_TYPE">
+            <summary>
+            GET_VEHICLE_WHEEL_TYPE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GET_VEHICLE_WINDOW_TINT">
+            <summary>
+            GET_VEHICLE_WINDOW_TINT
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GIVE_WEAPON_COMPONENT_TO_PED">
+            <summary>
+            GIVE_WEAPON_COMPONENT_TO_PED
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.GIVE_WEAPON_TO_PED">
+            <summary>
+            GIVE_WEAPON_TO_PED
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.HAS_ENTITY_BEEN_MARKED_AS_NO_LONGER_NEEDED">
+            <summary>
+            HAS_ENTITY_BEEN_MARKED_AS_NO_LONGER_NEEDED
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.HAS_VEHICLE_BEEN_OWNED_BY_PLAYER">
+            <summary>
+            HAS_VEHICLE_BEEN_OWNED_BY_PLAYER
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.INVOKE_FUNCTION_REFERENCE">
+            <summary>
+            INVOKE_FUNCTION_REFERENCE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.IS_ACE_ALLOWED">
+            <summary>
+            IS_ACE_ALLOWED
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.IS_DUPLICITY_VERSION">
             <summary>
             Gets whether or not this is the CitizenFX server.
@@ -7103,6 +7513,11 @@
         <member name="F:CitizenFX.Core.Native.Hash.IS_PED_A_PLAYER">
             <summary>
             This native checks if the given ped is a player.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.IS_PLAYER_ACE_ALLOWED">
+            <summary>
+            IS_PLAYER_ACE_ALLOWED
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.IS_PLAYER_COMMERCE_INFO_LOADED">
@@ -7121,6 +7536,36 @@
             Otherwise will return false.
             
             If the player is not wanted, it simply returns false.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.IS_PLAYER_USING_SUPER_JUMP">
+            <summary>
+            IS_PLAYER_USING_SUPER_JUMP
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.IS_PRINCIPAL_ACE_ALLOWED">
+            <summary>
+            IS_PRINCIPAL_ACE_ALLOWED
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.IS_VEHICLE_ENGINE_STARTING">
+            <summary>
+            IS_VEHICLE_ENGINE_STARTING
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.IS_VEHICLE_EXTRA_TURNED_ON">
+            <summary>
+            IS_VEHICLE_EXTRA_TURNED_ON
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.IS_VEHICLE_SIREN_ON">
+            <summary>
+            IS_VEHICLE_SIREN_ON
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.IS_VEHICLE_TYRE_BURST">
+            <summary>
+            IS_VEHICLE_TYRE_BURST
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.LOAD_PLAYER_COMMERCE_DATA">
@@ -7155,6 +7600,11 @@
             Mutes or unmutes the specified player
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.NETWORK_GET_ENTITY_FROM_NETWORK_ID">
+            <summary>
+            NETWORK_GET_ENTITY_FROM_NETWORK_ID
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.NETWORK_GET_ENTITY_OWNER">
             <summary>
             Returns the owner ID of the specified entity.
@@ -7163,6 +7613,26 @@
         <member name="F:CitizenFX.Core.Native.Hash.NETWORK_GET_FIRST_ENTITY_OWNER">
             <summary>
             Returns the first owner ID of the specified entity.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.NETWORK_GET_NETWORK_ID_FROM_ENTITY">
+            <summary>
+            NETWORK_GET_NETWORK_ID_FROM_ENTITY
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.NETWORK_GET_VOICE_PROXIMITY_OVERRIDE">
+            <summary>
+            NETWORK_GET_VOICE_PROXIMITY_OVERRIDE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.PERFORM_HTTP_REQUEST_INTERNAL">
+            <summary>
+            PERFORM_HTTP_REQUEST_INTERNAL
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.PERFORM_HTTP_REQUEST_INTERNAL_EX">
+            <summary>
+            PERFORM_HTTP_REQUEST_INTERNAL_EX
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.PRINT_STRUCTURED_TRACE">
@@ -7251,6 +7721,11 @@
             Removes a handler for changes to a state bag.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.REMOVE_WEAPON_COMPONENT_FROM_PED">
+            <summary>
+            REMOVE_WEAPON_COMPONENT_FROM_PED
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.REMOVE_WEAPON_FROM_PED">
             <summary>
             This native removes a specified weapon from your selected ped.  
@@ -7297,9 +7772,24 @@
             There's a [list of sprites](https://docs.fivem.net/game-references/blips/) on the FiveM documentation site.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_CONVAR">
+            <summary>
+            SET_CONVAR
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.SET_CONVAR_REPLICATED">
             <summary>
             Used to replicate a server variable onto clients.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_CONVAR_SERVER_INFO">
+            <summary>
+            SET_CONVAR_SERVER_INFO
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_CURRENT_PED_WEAPON">
+            <summary>
+            SET_CURRENT_PED_WEAPON
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.SET_ENTITY_COORDS">
@@ -7318,6 +7808,11 @@
             Set the heading of an entity in degrees also known as "Yaw".
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_ENTITY_ROTATION">
+            <summary>
+            SET_ENTITY_ROTATION
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.SET_ENTITY_ROUTING_BUCKET">
             <summary>
             Sets the routing bucket for the specified entity.
@@ -7330,6 +7825,21 @@
             Note that the third parameter(denoted as z) is "up and down" with positive numbers encouraging upwards movement.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_GAME_TYPE">
+            <summary>
+            SET_GAME_TYPE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_HTTP_HANDLER">
+            <summary>
+            SET_HTTP_HANDLER
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_MAP_NAME">
+            <summary>
+            SET_MAP_NAME
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.SET_PED_AMMO">
             <summary>
             NativeDB Added Parameter 4: BOOL p3
@@ -7340,6 +7850,11 @@
             Sets the armor of the specified ped.  
             ped: The Ped to set the armor of.  
             amount: A value between 0 and 100 indicating the value to set the Ped's armor to.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_PED_CAN_RAGDOLL">
+            <summary>
+            SET_PED_CAN_RAGDOLL
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.SET_PED_COMPONENT_VARIATION">
@@ -7881,6 +8396,11 @@
             You may need to call [`SetPedHeadBlendData`](#0x9414E18B9434C2FE) prior to calling this native in order for it to work.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_PED_INTO_VEHICLE">
+            <summary>
+            SET_PED_INTO_VEHICLE
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.SET_PED_PROP_INDEX">
             <summary>
             This native is used to set prop variation on a ped. Components, drawables and textures IDs are related to the ped model.
@@ -8048,6 +8568,11 @@
             Internal function for setting a state bag value.
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_VEHICLE_ALARM">
+            <summary>
+            SET_VEHICLE_ALARM
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.SET_VEHICLE_BODY_HEALTH">
             <summary>
             p2 often set to 1000.0 in the decompiled scripts.
@@ -8103,6 +8628,26 @@
             See eDoorId declared in [`SET_VEHICLE_DOOR_SHUT`](#\_0x93D9BD300D7789E5)
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.SET_VEHICLE_NUMBER_PLATE_TEXT">
+            <summary>
+            SET_VEHICLE_NUMBER_PLATE_TEXT
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.START_FIND_KVP">
+            <summary>
+            START_FIND_KVP
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.START_RESOURCE">
+            <summary>
+            START_RESOURCE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.STOP_RESOURCE">
+            <summary>
+            STOP_RESOURCE
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.TASK_COMBAT_PED">
             <summary>
             Makes the specified ped attack the target ped.  
@@ -8125,6 +8670,16 @@
             speed 1.0 = walk, 2.0 = run  
             p5 1 = normal, 3 = teleport to vehicle, 8 = normal/carjack ped from seat, 16 = teleport directly into vehicle  
             p6 is always 0
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.TASK_EVERYONE_LEAVE_VEHICLE">
+            <summary>
+            TASK_EVERYONE_LEAVE_VEHICLE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.TASK_GO_STRAIGHT_TO_COORD">
+            <summary>
+            TASK_GO_STRAIGHT_TO_COORD
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.TASK_GO_TO_COORD_ANY_MEANS">
@@ -8226,6 +8781,11 @@
             [Animations list](https://alexguirre.github.io/animations-list/)
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.TASK_REACT_AND_FLEE_PED">
+            <summary>
+            TASK_REACT_AND_FLEE_PED
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.TASK_SHOOT_AT_COORD">
             <summary>
             Firing Pattern Hash Information: https://pastebin.com/Px036isB
@@ -8243,6 +8803,16 @@
             Firing Pattern Hash Information: https://pastebin.com/Px036isB
             </summary>
         </member>
+        <member name="F:CitizenFX.Core.Native.Hash.TASK_WARP_PED_INTO_VEHICLE">
+            <summary>
+            TASK_WARP_PED_INTO_VEHICLE
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.TEMP_BAN_PLAYER">
+            <summary>
+            TEMP_BAN_PLAYER
+            </summary>
+        </member>
         <member name="F:CitizenFX.Core.Native.Hash.TRIGGER_CLIENT_EVENT_INTERNAL">
             <summary>
             The backing function for TriggerClientEvent.
@@ -8256,6 +8826,11 @@
         <member name="F:CitizenFX.Core.Native.Hash.TRIGGER_LATENT_CLIENT_EVENT_INTERNAL">
             <summary>
             The backing function for TriggerLatentClientEvent.
+            </summary>
+        </member>
+        <member name="F:CitizenFX.Core.Native.Hash.VERIFY_PASSWORD_HASH">
+            <summary>
+            VERIFY_PASSWORD_HASH
             </summary>
         </member>
         <member name="F:CitizenFX.Core.Native.Hash.WAS_EVENT_CANCELED">
@@ -8589,6 +9164,11 @@
             gtaxscripting.blogspot.com/2016/04/gta-v-peds-component-and-props.html
             </summary>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.ClearPedSecondaryTask(System.Int32)">
+            <summary>
+            CLEAR_PED_SECONDARY_TASK
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.ClearPedTasks(System.Int32)">
             <summary>
             Clear a ped's tasks. Stop animations and other tasks created by scripts.
@@ -8705,6 +9285,14 @@
             A script handle (fwScriptGuid index) for the ped, or `0` if the ped failed to be created.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.CreatePedInsideVehicle(System.Int32,System.Int32,System.UInt32,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            CREATE_PED_INSIDE_VEHICLE
+            </summary>
+            <param name="pedType">
+            See [`CREATE_PED`](#\_0xD49F9B0955C367DE)
+            </param>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.CreateVehicle(System.UInt32,System.Single,System.Single,System.Single,System.Single,System.Boolean,System.Boolean)">
             <summary>
             Creates a vehicle with the specified model at the specified position. This vehicle will initially be owned by the creating
@@ -8774,6 +9362,19 @@
             The entity to delete.
             </param>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.DeleteFunctionReference(System.String)">
+            <summary>
+            DELETE_FUNCTION_REFERENCE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.DeleteResourceKvp(System.String)">
+            <summary>
+            DELETE_RESOURCE_KVP
+            </summary>
+            <param name="key">
+            The key to delete
+            </param>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.DeleteResourceKvpNoSync(System.String)">
             <summary>
             Nonsynchronous [DELETE_RESOURCE_KVP](#\_0x7389B5DF) operation; see [FLUSH_RESOURCE_KVP](#\_0x5240DA5A).
@@ -8781,6 +9382,11 @@
             <param name="key">
             The key to delete
             </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.DoesEntityExist(System.Int32)">
+            <summary>
+            DOES_ENTITY_EXIST
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.DoesPlayerOwnSku(System.String,System.Int32)">
             <summary>
@@ -8810,9 +9416,56 @@
             A boolean.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.DropPlayer(System.String,System.String)">
+            <summary>
+            DROP_PLAYER
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.DuplicateFunctionReference(System.String)">
+            <summary>
+            DUPLICATE_FUNCTION_REFERENCE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.EnableEnhancedHostSupport(System.Boolean)">
+            <summary>
+            ENABLE_ENHANCED_HOST_SUPPORT
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.EndFindKvp(System.Int32)">
+            <summary>
+            END_FIND_KVP
+            </summary>
+            <param name="handle">
+            The KVP find handle returned from [START_FIND_KVP](#\_0xDD379006)
+            </param>
+            <returns>
+            None.
+            </returns>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.EnsureEntityStateBag(System.Int32)">
             <summary>
             Internal function for ensuring an entity has a state bag.
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.ExecuteCommand(System.String)">
+            <summary>
+            EXECUTE_COMMAND
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.FindKvp(System.Int32)">
+            <summary>
+            FIND_KVP
+            </summary>
+            <param name="handle">
+            The KVP find handle returned from [START_FIND_KVP](#\_0xDD379006)
+            </param>
+            <returns>
+            None.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.FlagServerAsPrivate(System.Boolean)">
+            <summary>
+            FLAG_SERVER_AS_PRIVATE
             </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.FlushResourceKvp">
@@ -8830,6 +9483,14 @@
             </param>
             <param name="toggle">
             Freeze or unfreeze entity.
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetAirDragMultiplierForPlayersVehicle(System.String)">
+            <summary>
+            GET_AIR_DRAG_MULTIPLIER_FOR_PLAYERS_VEHICLE
+            </summary>
+            <param name="playerSrc">
+            The player handle
             </param>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetAllObjects">
@@ -8946,6 +9607,11 @@
             The entity handle or 0 if the state bag name did not refer to an entity, or the entity does not exist.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetEntityHeading(System.Int32)">
+            <summary>
+            GET_ENTITY_HEADING
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetEntityHealth(System.Int32)">
             <summary>
             Currently it only works with peds.
@@ -8954,6 +9620,11 @@
         <member name="M:CitizenFX.Core.Native.API.GetEntityMaxHealth(System.Int32)">
             <summary>
             Currently it only works with peds.
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetEntityModel(System.Int32)">
+            <summary>
+            GET_ENTITY_MODEL
             </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetEntityPopulationType(System.Int32)">
@@ -8982,6 +9653,16 @@
             ```
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetEntityRotation(System.Int32)">
+            <summary>
+            GET_ENTITY_ROTATION
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetEntityRotationVelocity(System.Int32)">
+            <summary>
+            GET_ENTITY_ROTATION_VELOCITY
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetEntityRoutingBucket(System.Int32)">
             <summary>
             Gets the routing bucket for the specified entity.
@@ -8993,6 +9674,11 @@
             <returns>
             The routing bucket ID.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetEntityScript(System.Int32)">
+            <summary>
+            GET_ENTITY_SCRIPT
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetEntitySpeed(System.Int32)">
             <summary>
@@ -9012,6 +9698,11 @@
         <member name="M:CitizenFX.Core.Native.API.GetEntityType(System.Int32)">
             <summary>
             Gets the entity type (as an integer), which can be one of the following defined down below:
+            **The following entities will return type `1`:**
+            *   Ped
+            *   Player
+            *   Animal (Red Dead Redemption 2)
+            *   Horse (Red Dead Redemption 2)
             **The following entities will return type `2`:**
             *   Automobile
             *   Bike
@@ -9022,11 +9713,6 @@
             *   Trailer
             *   Train
             *   DraftVeh (Red Dead Redemption 2)
-            **The following entities will return type `1`:**
-            *   Ped
-            *   Player
-            *   Animal (Red Dead Redemption 2)
-            *   Horse (Red Dead Redemption 2)
             **The following entities will return type `3`:**
             *   Object
             *   Door
@@ -9039,6 +9725,11 @@
             <returns>
             The entity type returned as an integer value.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetEntityVelocity(System.Int32)">
+            <summary>
+            GET_ENTITY_VELOCITY
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetGameBuildNumber">
             <summary>
@@ -9095,6 +9786,58 @@
             This native converts the passed string to a hash.
             </summary>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetHeliMainRotorHealth(System.Int32)">
+            <summary>
+            GET_HELI_MAIN_ROTOR_HEALTH
+            </summary>
+            <param name="vehicle">
+            The target vehicle.
+            </param>
+            <returns>
+            See the client-side [GET_HELI_MAIN_ROTOR_HEALTH](https://docs.fivem.net/natives/?\_0xE4CB7541F413D2C5) for the return value.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetHeliTailRotorHealth(System.Int32)">
+            <summary>
+            GET_HELI_TAIL_ROTOR_HEALTH
+            </summary>
+            <param name="vehicle">
+            The target vehicle.
+            </param>
+            <returns>
+            See the client-side [GET_HELI_TAIL_ROTOR_HEALTH](https://docs.fivem.net/natives/?\_0xAE8CE82A4219AC8C) for the return value.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetHostId">
+            <summary>
+            GET_HOST_ID
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetInstanceId">
+            <summary>
+            GET_INSTANCE_ID
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetInvokingResource">
+            <summary>
+            GET_INVOKING_RESOURCE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetIsVehicleEngineRunning(System.Int32)">
+            <summary>
+            GET_IS_VEHICLE_ENGINE_RUNNING
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetIsVehiclePrimaryColourCustom(System.Int32)">
+            <summary>
+            GET_IS_VEHICLE_PRIMARY_COLOUR_CUSTOM
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetIsVehicleSecondaryColourCustom(System.Int32)">
+            <summary>
+            GET_IS_VEHICLE_SECONDARY_COLOUR_CUSTOM
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetLandingGearState(System.Int32)">
             <summary>
             See the client-side [GET_LANDING_GEAR_STATE](#\_0x9B0F3DCA3DB0F4CD) native for a description of landing gear states.
@@ -9105,6 +9848,35 @@
             <returns>
             The current state of the vehicles landing gear.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetLastPedInVehicleSeat(System.Int32,System.Int32)">
+            <summary>
+            GET_LAST_PED_IN_VEHICLE_SEAT
+            </summary>
+            <param name="vehicle">
+            The target vehicle.
+            </param>
+            <param name="seatIndex">
+            See eSeatPosition declared in [`IS_VEHICLE_SEAT_FREE`](#\_0x22AC59A870E6A669).
+            </param>
+            <returns>
+            The last ped in the specified seat of the passed vehicle. Returns 0 if the specified seat was never occupied or the last ped does not exist anymore.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetNumPlayerIdentifiers(System.String)">
+            <summary>
+            GET_NUM_PLAYER_IDENTIFIERS
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetNumPlayerIndices">
+            <summary>
+            GET_NUM_PLAYER_INDICES
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetNumPlayerTokens(System.String)">
+            <summary>
+            GET_NUM_PLAYER_TOKENS
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetNumResourceMetadata(System.String,System.String)">
             <summary>
@@ -9117,6 +9889,56 @@
             <param name="metadataKey">
             The key to look up in the resource manifest.
             </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetNumResources">
+            <summary>
+            GET_NUM_RESOURCES
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPasswordHash(System.String)">
+            <summary>
+            GET_PASSWORD_HASH
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPedArmour(System.Int32)">
+            <summary>
+            GET_PED_ARMOUR
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPedCauseOfDeath(System.Int32)">
+            <summary>
+            GET_PED_CAUSE_OF_DEATH
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPedDesiredHeading(System.Int32)">
+            <summary>
+            GET_PED_DESIRED_HEADING
+            </summary>
+            <param name="ped">
+            The target ped
+            </param>
+            <returns>
+            Returns ped's desired heading.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPedInVehicleSeat(System.Int32,System.Int32)">
+            <summary>
+            GET_PED_IN_VEHICLE_SEAT
+            </summary>
+            <param name="vehicle">
+            The target vehicle.
+            </param>
+            <param name="seatIndex">
+            See eSeatPosition declared in [`IS_VEHICLE_SEAT_FREE`](#\_0x22AC59A870E6A669).
+            </param>
+            <returns>
+            The ped in the specified seat of the passed vehicle. Returns 0 if the specified seat is not occupied.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPedMaxHealth(System.Int32)">
+            <summary>
+            GET_PED_MAX_HEALTH
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetPedScriptTaskCommand(System.Int32)">
             <summary>
@@ -9190,6 +10012,11 @@
             The player's camera rotation. Values are in radians.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerEndpoint(System.String)">
+            <summary>
+            GET_PLAYER_ENDPOINT
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetPlayerFakeWantedLevel(System.String)">
             <summary>
             Gets the current fake wanted level for a specified player. This native is used server side when using OneSync.
@@ -9201,6 +10028,11 @@
             The fake wanted level
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerFromIndex(System.Int32)">
+            <summary>
+            GET_PLAYER_FROM_INDEX
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetPlayerFromStateBagName(System.String)">
             <summary>
             On the server this will return the players source, on the client it will return the player handle.
@@ -9211,6 +10043,16 @@
             <returns>
             The player handle or 0 if the state bag name did not refer to a player, or the player does not exist.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerGuid(System.String)">
+            <summary>
+            GET_PLAYER_GUID
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerIdentifier(System.String,System.Int32)">
+            <summary>
+            GET_PLAYER_IDENTIFIER
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetPlayerIdentifierByType(System.String,System.String)">
             <summary>
@@ -9226,6 +10068,38 @@
             The identifier that matches the string provided
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerInvincible(System.String)">
+            <summary>
+            GET_PLAYER_INVINCIBLE
+            </summary>
+            <param name="playerSrc">
+            The player handle
+            </param>
+            <returns>
+            A boolean to tell if the player is invincible.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerLastMsg(System.String)">
+            <summary>
+            GET_PLAYER_LAST_MSG
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerMaxArmour(System.String)">
+            <summary>
+            GET_PLAYER_MAX_ARMOUR
+            </summary>
+            <param name="playerSrc">
+            The player handle
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerMaxHealth(System.String)">
+            <summary>
+            GET_PLAYER_MAX_HEALTH
+            </summary>
+            <param name="playerSrc">
+            The player handle
+            </param>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetPlayerMeleeWeaponDamageModifier(System.String)">
             <summary>
             A getter for [SET_PLAYER_MELEE_WEAPON_DAMAGE_MODIFIER](#\_0x4A3DC7ECCC321032).
@@ -9236,6 +10110,21 @@
             <returns>
             Returns player melee weapon damage modifier value.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerName(System.String)">
+            <summary>
+            GET_PLAYER_NAME
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerPed(System.String)">
+            <summary>
+            GET_PLAYER_PED
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerPing(System.String)">
+            <summary>
+            GET_PLAYER_PING
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetPlayerRoutingBucket(System.String)">
             <summary>
@@ -9248,6 +10137,14 @@
             <returns>
             The routing bucket ID.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetPlayerTeam(System.String)">
+            <summary>
+            GET_PLAYER_TEAM
+            </summary>
+            <param name="playerSrc">
+            The player handle
+            </param>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetPlayerTimeInPursuit(System.String,System.Boolean)">
             <summary>
@@ -9355,6 +10252,17 @@
             An object containing registered commands.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetResourceByFindIndex(System.Int32)">
+            <summary>
+            GET_RESOURCE_BY_FIND_INDEX
+            </summary>
+            <param name="findIndex">
+            The index of the resource (starting at 0)
+            </param>
+            <returns>
+            The resource name as a `string`
+            </returns>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetResourceKvpFloat(System.String)">
             <summary>
             A getter for [SET_RESOURCE_KVP_FLOAT](#\_0x9ADD2938).
@@ -9444,6 +10352,58 @@
             Value.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetTrainCarriageEngine(System.Int32)">
+            <summary>
+            GET_TRAIN_CARRIAGE_ENGINE
+            </summary>
+            <param name="train">
+            The entity handle.
+            </param>
+            <returns>
+            The train engine carriage.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetTrainCarriageIndex(System.Int32)">
+            <summary>
+            GET_TRAIN_CARRIAGE_INDEX
+            </summary>
+            <param name="train">
+            The entity handle.
+            </param>
+            <returns>
+            The carriage index. -1 returned if invalid result.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleBodyHealth(System.Int32)">
+            <summary>
+            GET_VEHICLE_BODY_HEALTH
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleColours(System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            GET_VEHICLE_COLOURS
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleCustomPrimaryColour(System.Int32,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            GET_VEHICLE_CUSTOM_PRIMARY_COLOUR
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleCustomSecondaryColour(System.Int32,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            GET_VEHICLE_CUSTOM_SECONDARY_COLOUR
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleDashboardColour(System.Int32,System.Int32@)">
+            <summary>
+            GET_VEHICLE_DASHBOARD_COLOUR
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleDirtLevel(System.Int32)">
+            <summary>
+            GET_VEHICLE_DIRT_LEVEL
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetVehicleDoorLockStatus(System.Int32)">
             <summary>
             ```lua
@@ -9468,9 +10428,27 @@
             The door lock status for the specified vehicle.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleDoorStatus(System.Int32)">
+            <summary>
+            GET_VEHICLE_DOOR_STATUS
+            </summary>
+            <returns>
+            A number from 0 to 7.
+            </returns>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetVehicleDoorsLockedForPlayer(System.Int32)">
             <summary>
             Currently it only works when set to "all players".
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleEngineHealth(System.Int32)">
+            <summary>
+            GET_VEHICLE_ENGINE_HEALTH
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleExtraColours(System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            GET_VEHICLE_EXTRA_COLOURS
             </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetVehicleFlightNozzlePosition(System.Int32)">
@@ -9484,6 +10462,16 @@
             The flight nozzel position between 0.0 (flying normally) and 1.0 (VTOL mode)
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleHandbrake(System.Int32)">
+            <summary>
+            GET_VEHICLE_HANDBRAKE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleHeadlightsColour(System.Int32)">
+            <summary>
+            GET_VEHICLE_HEADLIGHTS_COLOUR
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetVehicleHomingLockonState(System.Int32)">
             <summary>
             Gets the lock on state for the specified vehicle. See the client-side [GET_VEHICLE_HOMING_LOCKON_STATE](#\_0xE6B0E8CFC3633BF0) native for a description of lock on states.
@@ -9495,6 +10483,21 @@
             The lock on state.
             </returns>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleInteriorColour(System.Int32,System.Int32@)">
+            <summary>
+            GET_VEHICLE_INTERIOR_COLOUR
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleLightsState(System.Int32,System.Boolean@,System.Boolean@)">
+            <summary>
+            GET_VEHICLE_LIGHTS_STATE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleLivery(System.Int32)">
+            <summary>
+            GET_VEHICLE_LIVERY
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.GetVehicleLockOnTarget(System.Int32)">
             <summary>
             Gets the vehicle that is locked on to for the specified vehicle.
@@ -9505,6 +10508,16 @@
             <returns>
             The vehicle that is locked on. 0 returned if no vehicle is locked on.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleNumberPlateText(System.Int32)">
+            <summary>
+            GET_VEHICLE_NUMBER_PLATE_TEXT
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleNumberPlateTextIndex(System.Int32)">
+            <summary>
+            GET_VEHICLE_NUMBER_PLATE_TEXT_INDEX
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetVehiclePedIsIn(System.Int32,System.Boolean)">
             <summary>
@@ -9519,6 +10532,26 @@
             <returns>
             The vehicle id. Returns 0 if the ped is/was not in a vehicle.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehiclePetrolTankHealth(System.Int32)">
+            <summary>
+            GET_VEHICLE_PETROL_TANK_HEALTH
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleRadioStationIndex(System.Int32)">
+            <summary>
+            GET_VEHICLE_RADIO_STATION_INDEX
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleRoofLivery(System.Int32)">
+            <summary>
+            GET_VEHICLE_ROOF_LIVERY
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleSteeringAngle(System.Int32)">
+            <summary>
+            GET_VEHICLE_STEERING_ANGLE
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.GetVehicleType(System.Int32)">
             <summary>
@@ -9539,6 +10572,51 @@
             <returns>
             If the entity is a vehicle, the vehicle type. If it is not a vehicle, the return value will be null.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleTyreSmokeColor(System.Int32,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            GET_VEHICLE_TYRE_SMOKE_COLOR
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleWheelType(System.Int32)">
+            <summary>
+            GET_VEHICLE_WHEEL_TYPE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GetVehicleWindowTint(System.Int32)">
+            <summary>
+            GET_VEHICLE_WINDOW_TINT
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GiveWeaponComponentToPed(System.Int32,System.UInt32,System.UInt32)">
+            <summary>
+            GIVE_WEAPON_COMPONENT_TO_PED
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.GiveWeaponToPed(System.Int32,System.UInt32,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            GIVE_WEAPON_TO_PED
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.HasEntityBeenMarkedAsNoLongerNeeded(System.Int32)">
+            <summary>
+            HAS_ENTITY_BEEN_MARKED_AS_NO_LONGER_NEEDED
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.HasVehicleBeenOwnedByPlayer(System.Int32)">
+            <summary>
+            HAS_VEHICLE_BEEN_OWNED_BY_PLAYER
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.InvokeFunctionReference(System.String,System.String,System.Int32,System.Int32@)">
+            <summary>
+            INVOKE_FUNCTION_REFERENCE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.IsAceAllowed(System.String)">
+            <summary>
+            IS_ACE_ALLOWED
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.IsDuplicityVersion">
             <summary>
@@ -9563,6 +10641,11 @@
             <returns>
             Returns `true` if the ped is a player, `false` otherwise.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.IsPlayerAceAllowed(System.String,System.String)">
+            <summary>
+            IS_PLAYER_ACE_ALLOWED
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.IsPlayerCommerceInfoLoaded(System.String)">
             <summary>
@@ -9598,6 +10681,42 @@
             <returns>
             boolean value, depending if the player is evading his wanted level or not.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.IsPlayerUsingSuperJump(System.String)">
+            <summary>
+            IS_PLAYER_USING_SUPER_JUMP
+            </summary>
+            <param name="playerSrc">
+            The player handle
+            </param>
+            <returns>
+            A boolean.
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.IsPrincipalAceAllowed(System.String,System.String)">
+            <summary>
+            IS_PRINCIPAL_ACE_ALLOWED
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.IsVehicleEngineStarting(System.Int32)">
+            <summary>
+            IS_VEHICLE_ENGINE_STARTING
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.IsVehicleExtraTurnedOn(System.Int32,System.Int32)">
+            <summary>
+            IS_VEHICLE_EXTRA_TURNED_ON
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.IsVehicleSirenOn(System.Int32)">
+            <summary>
+            IS_VEHICLE_SIREN_ON
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.IsVehicleTyreBurst(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            IS_VEHICLE_TYRE_BURST
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.LoadPlayerCommerceData(System.String)">
             <summary>
@@ -9661,6 +10780,11 @@
             Whether to mute or unmute the player
             </param>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.NetworkGetEntityFromNetworkId(System.Int32)">
+            <summary>
+            NETWORK_GET_ENTITY_FROM_NETWORK_ID
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.NetworkGetEntityOwner(System.Int32)">
             <summary>
             Returns the owner ID of the specified entity.
@@ -9682,6 +10806,29 @@
             <returns>
             The server ID of the first entity owner.
             </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.NetworkGetNetworkIdFromEntity(System.Int32)">
+            <summary>
+            NETWORK_GET_NETWORK_ID_FROM_ENTITY
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.NetworkGetVoiceProximityOverride(System.String)">
+            <summary>
+            NETWORK_GET_VOICE_PROXIMITY_OVERRIDE
+            </summary>
+            <param name="playerSrc">
+            The player handle
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.PerformHttpRequestInternal(System.String,System.Int32)">
+            <summary>
+            PERFORM_HTTP_REQUEST_INTERNAL
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.PerformHttpRequestInternalEx(System.Object)">
+            <summary>
+            PERFORM_HTTP_REQUEST_INTERNAL_EX
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.PrintStructuredTrace(System.String)">
             <summary>
@@ -9809,6 +10956,11 @@
             The cookie.
             </param>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.RemoveWeaponComponentFromPed(System.Int32,System.UInt32,System.UInt32)">
+            <summary>
+            REMOVE_WEAPON_COMPONENT_FROM_PED
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.RemoveWeaponFromPed(System.Int32,System.UInt32)">
             <summary>
             This native removes a specified weapon from your selected ped.
@@ -9889,6 +11041,11 @@
             The sprite ID to set.
             </param>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.SetConvar(System.String,System.String)">
+            <summary>
+            SET_CONVAR
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.SetConvarReplicated(System.String,System.String)">
             <summary>
             Used to replicate a server variable onto clients.
@@ -9899,6 +11056,16 @@
             <param name="_value">
             The value to set for the given console variable.
             </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetConvarServerInfo(System.String,System.String)">
+            <summary>
+            SET_CONVAR_SERVER_INFO
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetCurrentPedWeapon(System.Int32,System.UInt32,System.Boolean)">
+            <summary>
+            SET_CURRENT_PED_WEAPON
+            </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.SetEntityCoords(System.Int32,System.Single,System.Single,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -9952,6 +11119,14 @@
             The heading in degrees.
             </param>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.SetEntityRotation(System.Int32,System.Single,System.Single,System.Single,System.Int32,System.Boolean)">
+            <summary>
+            SET_ENTITY_ROTATION
+            </summary>
+            <param name="rotationOrder">
+            The order yaw pitch roll are applied, see [`GET_ENTITY_ROTATION`](#\_0xAFBD61CC738D9EB9).
+            </param>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.SetEntityRoutingBucket(System.Int32,System.Int32)">
             <summary>
             Sets the routing bucket for the specified entity.
@@ -9969,6 +11144,21 @@
             Note that the third parameter(denoted as z) is "up and down" with positive numbers encouraging upwards movement.
             </summary>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.SetGameType(System.String)">
+            <summary>
+            SET_GAME_TYPE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetHttpHandler(CitizenFX.Core.Native.InputArgument)">
+            <summary>
+            SET_HTTP_HANDLER
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetMapName(System.String)">
+            <summary>
+            SET_MAP_NAME
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.SetPedAmmo(System.Int32,System.UInt32,System.Int32)">
             <summary>
             NativeDB Added Parameter 4: BOOL p3
@@ -9979,6 +11169,11 @@
             Sets the armor of the specified ped.
             ped: The Ped to set the armor of.
             amount: A value between 0 and 100 indicating the value to set the Ped's armor to.
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.SetPedCanRagdoll(System.Int32,System.Boolean)">
+            <summary>
+            SET_PED_CAN_RAGDOLL
             </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.SetPedComponentVariation(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
@@ -10673,6 +11868,14 @@
             An integer representing the secondary color id
             </param>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.SetPedIntoVehicle(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            SET_PED_INTO_VEHICLE
+            </summary>
+            <param name="seatIndex">
+            See eSeatPosition declared in [`IS_VEHICLE_SEAT_FREE`](#\_0x22AC59A870E6A669). -2 for the first available seat.
+            </param>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.SetPedPropIndex(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
             <summary>
             This native is used to set prop variation on a ped. Components, drawables and textures IDs are related to the ped model.
@@ -10912,6 +12115,11 @@
             Internal function for setting a state bag value.
             </summary>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.SetVehicleAlarm(System.Int32,System.Boolean)">
+            <summary>
+            SET_VEHICLE_ALARM
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.SetVehicleBodyHealth(System.Int32,System.Single)">
             <summary>
             p2 often set to 1000.0 in the decompiled scripts.
@@ -10977,6 +12185,38 @@
             };
             </summary>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.SetVehicleNumberPlateText(System.Int32,System.String)">
+            <summary>
+            SET_VEHICLE_NUMBER_PLATE_TEXT
+            </summary>
+            <param name="vehicle">
+            The vehicle to set the plate for
+            </param>
+            <param name="plateText">
+            The text to set the plate to, 8 chars maximum
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.StartFindKvp(System.String)">
+            <summary>
+            START_FIND_KVP
+            </summary>
+            <param name="prefix">
+            A prefix match
+            </param>
+            <returns>
+            A KVP find handle to use with [FIND_KVP](#\_0xBD7BEBC5) and close with [END_FIND_KVP](#\_0xB3210203)
+            </returns>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.StartResource(System.String)">
+            <summary>
+            START_RESOURCE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.StopResource(System.String)">
+            <summary>
+            STOP_RESOURCE
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.TaskCombatPed(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Makes the specified ped attack the target ped.
@@ -11002,6 +12242,40 @@
             </summary>
             <param name="seatIndex">
             See eSeatPosition declared in [`IS_VEHICLE_SEAT_FREE`](#\_0x22AC59A870E6A669).
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.TaskEveryoneLeaveVehicle(System.Int32)">
+            <summary>
+            TASK_EVERYONE_LEAVE_VEHICLE
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.TaskGoStraightToCoord(System.Int32,System.Single,System.Single,System.Single,System.Single,System.Int32,System.Single,System.Single)">
+            <summary>
+            TASK_GO_STRAIGHT_TO_COORD
+            </summary>
+            <param name="ped">
+            The ped handle.
+            </param>
+            <param name="x">
+            The x coordinate.
+            </param>
+            <param name="y">
+            The y coordinate.
+            </param>
+            <param name="z">
+            The z coordinate.
+            </param>
+            <param name="speed">
+            The ped movement speed.
+            </param>
+            <param name="timeout">
+            \-1 , other values appear to break the ped movement.
+            </param>
+            <param name="targetHeading">
+            The heading you want the ped to be on x,y,z coord.
+            </param>
+            <param name="distanceToSlide">
+            The distance from x,y,z where the ped will start sliding.
             </param>
         </member>
         <member name="M:CitizenFX.Core.Native.API.TaskGoToCoordAnyMeans(System.Int32,System.Single,System.Single,System.Single,System.Single,System.Int32,System.Boolean,System.Int32,System.Single)">
@@ -11140,6 +12414,11 @@
             Value between 0.0 and 1.0, lets you start an animation from the given point
             </param>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.TaskReactAndFleePed(System.Int32,System.Int32)">
+            <summary>
+            TASK_REACT_AND_FLEE_PED
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.TaskShootAtCoord(System.Int32,System.Single,System.Single,System.Single,System.Int32,System.UInt32)">
             <summary>
             Firing Pattern Hash Information: https://pastebin.com/Px036isB
@@ -11157,6 +12436,19 @@
             Firing Pattern Hash Information: https://pastebin.com/Px036isB
             </summary>
         </member>
+        <member name="M:CitizenFX.Core.Native.API.TaskWarpPedIntoVehicle(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            TASK_WARP_PED_INTO_VEHICLE
+            </summary>
+            <param name="seatIndex">
+            See eSeatPosition declared in [`IS_VEHICLE_SEAT_FREE`](#\_0x22AC59A870E6A669).
+            </param>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.TempBanPlayer(System.String,System.String)">
+            <summary>
+            TEMP_BAN_PLAYER
+            </summary>
+        </member>
         <member name="M:CitizenFX.Core.Native.API.TriggerClientEventInternal(System.String,System.String,System.String,System.Int32)">
             <summary>
             The backing function for TriggerClientEvent.
@@ -11170,6 +12462,11 @@
         <member name="M:CitizenFX.Core.Native.API.TriggerLatentClientEventInternal(System.String,System.String,System.String,System.Int32,System.Int32)">
             <summary>
             The backing function for TriggerLatentClientEvent.
+            </summary>
+        </member>
+        <member name="M:CitizenFX.Core.Native.API.VerifyPasswordHash(System.String,System.String)">
+            <summary>
+            VERIFY_PASSWORD_HASH
             </summary>
         </member>
         <member name="M:CitizenFX.Core.Native.API.WasEventCanceled">

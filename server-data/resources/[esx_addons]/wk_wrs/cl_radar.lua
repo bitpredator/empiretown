@@ -5,7 +5,6 @@ CreateThread( function()
     SendNUIMessage( { resourcename = resourceName } )
 end )
 
-
 ESX = nil
 CreateThread(function()
 	while ESX == nil do
@@ -26,7 +25,6 @@ CreateThread(function()
 		PlayerData = ESX.GetPlayerData()
 	end
 end)
-
 
 SetNuiFocus(false)
 
@@ -51,9 +49,7 @@ end
 function IsEntityInMyHeading( myAng, tarAng, range )
     local rangeStartFront = myAng - ( range / 2 )
     local rangeEndFront = myAng + ( range / 2 )
-
     local opp = oppang( myAng )
-
     local rangeStartBack = opp - ( range / 2 )
     local rangeEndBack = opp + ( range / 2 )
 
@@ -75,9 +71,7 @@ local hidden = false
 local radarInfo = 
 { 
     patrolSpeed = "000", 
-
     speedType = "mph", 
-
     fwdPrevVeh = 0, 
     fwdXmit = true, 
     fwdMode = "same", 
@@ -87,7 +81,6 @@ local radarInfo =
     fwdDir = nil, 
     fwdFastSpeed = 0,
 	fwdPlate = "",
-
     bwdPrevVeh = 0, 
     bwdXmit = false, 
     bwdMode = "none", 
@@ -97,7 +90,6 @@ local radarInfo =
     bwdDir = nil, 
     bwdFastSpeed = 0, 
 	bwdPlate = "",
-
     fastResetLimit = 150,
     fastLimit = 55, 
 
@@ -177,7 +169,7 @@ function ResetFrontAntenna()
         radarInfo.fwdFast = "000"  
     else 
         radarInfo.fwdSpeed = "OFF"
-        radarInfo.fwdFast = "   "  
+        radarInfo.fwdFast = ""  
     end 
 
     radarInfo.fwdDir = nil
@@ -191,7 +183,7 @@ function ResetRearAntenna()
         radarInfo.bwdFast = "000"
     else 
         radarInfo.bwdSpeed = "OFF"
-        radarInfo.bwdFast = "   "
+        radarInfo.bwdFast = ""
     end 
 
     radarInfo.bwdDir = nil
@@ -204,7 +196,6 @@ function ResetFrontFast()
         radarInfo.fwdFast = "000"
         radarInfo.fwdFastSpeed = 0
         radarInfo.fwdFastLocked = false 
-
         SendNUIMessage( { lockfwdfast = false } )
     end 
 end 
@@ -214,7 +205,6 @@ function ResetRearFast()
         radarInfo.bwdFast = "000"
         radarInfo.bwdFastSpeed = 0
         radarInfo.bwdFastLocked = false 
-
         SendNUIMessage( { lockbwdfast = false } )
     end 
 end 
@@ -224,9 +214,8 @@ function CloseRadarRC()
         toggleradarrc = true
     })
 
-    TriggerEvent( 'wk:toggleMenuControlLock', false )
-
-    SetNuiFocus( false )
+    TriggerEvent('wk:toggleMenuControlLock', false )
+    SetNuiFocus(false)
 end 
 
 function ToggleSpeedType()
@@ -235,7 +224,7 @@ function ToggleSpeedType()
         exports["esx_notify"]:Notify("info", 3000, "velocità in mph ?")
     else 
         radarInfo.speedType = "mph"
-            exports["esx_notify"]:Notify("info", 3000, "stai controllando la velocità MPH ?")
+        exports["esx_notify"]:Notify("info", 3000, "stai controllando la velocità MPH ?")
     end
 end 
 
@@ -480,12 +469,7 @@ CreateThread( function()
 end )
 
 
---[[------------------------------------------------------------------------
-    Menu Control Lock - Prevents certain actions 
-    Thanks to the authors of the ES Banking script. 
-------------------------------------------------------------------------]]--
 local locked = false 
-
 RegisterNetEvent( 'wk:toggleMenuControlLock' )
 AddEventHandler( 'wk:toggleMenuControlLock', function( lock ) 
     locked = lock 
@@ -508,6 +492,6 @@ CreateThread( function()
 
         Wait( 0 )
     end 
-end )
+end)
 
 
