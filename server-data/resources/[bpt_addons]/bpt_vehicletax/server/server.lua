@@ -1,7 +1,7 @@
 ESX = nil
 local vehicleprices = {}
 local percentage = 1
-
+ESX = exports["es_extended"]:getSharedObject()
 MySQL.ready(function()
     local result = MySQL.Sync.fetchAll('SELECT * FROM vehicles')
 
@@ -10,13 +10,6 @@ MySQL.ready(function()
             table.insert(vehicleprices, {model = GetHashKey(result[i].model), price = result[i].price})
         end
     end
-    CreateThread(function()
-        ESX = exports["es_extended"]:getSharedObject()
-        while ESX == nil do
-            Wait(100)
-        end
-        Tax()
-    end)
 end)
 
 function Tax()
