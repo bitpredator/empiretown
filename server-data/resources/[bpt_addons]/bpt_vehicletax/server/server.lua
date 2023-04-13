@@ -29,8 +29,8 @@ function Tax()
 
                         for m = 1, #vehicleprices, 1 do
                             if vehicleprices[m].model == model then
-                                TriggerEvent('esx_billing:sendBill',  xPlayers[j], 'society_cardealer', 'Tassa sui veicoli: '..result[i].plate, ((vehicleprices[m].price * percentage) / 100) , 1)
-                                break
+                             TriggerServerEvent('esx_billing:sendBill',  xPlayers[j], 'society_cardealer', 'Tassa sui veicoli: '..result[i].plate, ((vehicleprices[m].price * percentage) / 100) , 1)
+                             break
                             end
                         end
                     end
