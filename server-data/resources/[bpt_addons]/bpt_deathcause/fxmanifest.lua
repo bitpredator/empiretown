@@ -1,0 +1,15 @@
+fx_version 'adamant'
+game 'gta5'
+description 'bpt_deathcause'
+author 'bitpredator'
+lua54 'yes'
+version '0.0.4'
+
+shared_script '@es_extended/imports.lua'
+
+client_scripts {
+  '@es_extended/locale.lua',
+  'locales/*.lua',
+  'config.lua',
+  'client/main.lua',
+}
