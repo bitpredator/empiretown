@@ -1,6 +1,6 @@
 fx_version "cerulean"
 
-games {"rdr3","gta5"}
+games {"gta5"}
 
 author 'Blumlaut <blue@furfag.de>'
 description 'EasyAdmin - Admin Menu for FiveM & RedM'
@@ -8,8 +8,6 @@ version '7.0'
 
 
 lua54 'yes'
-
-rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 shared_script 'shared/util_shared.lua'
 
@@ -22,7 +20,6 @@ server_scripts {
 
 client_scripts {
     "dependencies/NativeUI.lua",
-    "dependencies/NativeUI-rdr3.lua",
     "dependencies/Controls.lua",
     "client/*.lua",
     "plugins/**/*_shared.lua",
