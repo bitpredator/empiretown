@@ -4,12 +4,13 @@ if ESX.GetConfig().Multichar then
 
 	CreateThread(function()
 		while not ESX.PlayerLoaded do
-			Wait(0)
+			Wait(100)
+			
 			if NetworkIsPlayerActive(PlayerId()) then
 				exports.spawnmanager:setAutoSpawn(false)
 				DoScreenFadeOut(0)
 				while not GetResourceState('esx_context') == 'started' do
-					Wait(0)
+					Wait(100)
 				end
 				TriggerEvent("esx_multicharacter:SetupCharacters")
 				break
@@ -35,7 +36,6 @@ if ESX.GetConfig().Multichar then
 		RenderScriptCams(true, false, 1, true, true)
 		SetCamCoord(cam, offset.x, offset.y, offset.z)
 		PointCamAtCoord(cam, Config.Spawn.x, Config.Spawn.y, Config.Spawn.z + 1.3)
-		ESX.UI.Menu.CloseAll()
 		StartLoop()
 		ShutdownLoadingScreen()
 		ShutdownLoadingScreenNui()
@@ -96,7 +96,7 @@ if ESX.GetConfig().Multichar then
 	end
 
 	SetupCharacter = function(index)
-		if spawned == false then
+		if not spawned then
 			exports.spawnmanager:spawnPlayer({
 				x = Config.Spawn.x,
 				y = Config.Spawn.y,
@@ -140,6 +140,24 @@ if ESX.GetConfig().Multichar then
 		})
 	end
 
+	function CharacterDeleteConfirmation(Characters, slots, SelectedCharacter, value)
+		local elements = {
+			{title = _U('char_delete_confirmation'), icon = "fa-solid fa-users", description = _U('char_delete_confirmation_description'), unselectable = true},
+			{title = _U('char_delete'), icon ="fa-solid fa-xmark", description = _U('char_delete_yes_description'), action = 'delete', value = value},
+			{title = _U('return'), unselectable = false, icon = "fa-solid fa-arrow-left", description = _U('char_delete_no_description'), action = "return"}
+		}
+	
+		ESX.OpenContext("left", elements, function(element, Action)
+			if Action.action == "delete" then
+				ESX.CloseContext()
+				TriggerServerEvent('esx_multicharacter:DeleteCharacter', Action.value)
+				spawned = false
+			elseif Action.action == "return" then
+				CharacterOptions(Characters, slots, SelectedCharacter)
+			end
+		end, nil, false)
+	end
+
 	function CharacterOptions(Characters, slots, SelectedCharacter)
 		local elements = {{title = _U('character', Characters[SelectedCharacter.value].firstname .. " ".. Characters[SelectedCharacter.value].lastname),icon = "fa-regular fa-user", unselectable = true}, 
 		{title = _U('return'), unselectable = false,icon = "fa-solid fa-arrow-left",description = _U('return_description'), action = "return"}}
@@ -157,9 +175,7 @@ if ESX.GetConfig().Multichar then
 				ESX.CloseContext()
 				TriggerServerEvent('esx_multicharacter:CharacterChosen', Action.value, false)
 			elseif Action.action == "delete" then
-					ESX.CloseContext()
-					TriggerServerEvent('esx_multicharacter:DeleteCharacter', Action.value)
-					spawned = false
+				CharacterDeleteConfirmation(Characters, slots, SelectedCharacter, Action.value)
 			elseif Action.action == "return" then
 				SelectCharacterMenu(Characters, slots)
 			end
@@ -173,7 +189,7 @@ if ESX.GetConfig().Multichar then
 			if not v.model and v.skin then
 				if v.skin.model then v.model = v.skin.model elseif v.skin.sex == 1 then v.model = mp_f_freemode_01 else v.model = mp_m_freemode_01 end
 			end
-			if spawned == false then SetupCharacter(Character) end
+			if not spawned then SetupCharacter(Character) end
 			local label = v.firstname..' '..v.lastname
 			if Characters[k].disabled then
 				elements[#elements+1] = {title = label,icon = "fa-regular fa-user", value = v.id}
@@ -303,7 +319,7 @@ if ESX.GetConfig().Multichar then
 
 	if Config.Relog then
 		RegisterCommand('relog', function(source, args, rawCommand)
-			if canRelog == true then
+			if canRelog then
 				canRelog = false
 				TriggerServerEvent('esx_multicharacter:relog')
 				ESX.SetTimeout(10000, function()
