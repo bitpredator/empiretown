@@ -9,5 +9,6 @@ updates:
     directory: "server-data/resources/[gameplay]/chat/" # Location of package manifests
     directory: "server-data/resources/[system]/[builders]/webpack/" # Location of package manifests
     directory: "server-data/resources/[esx]/EasyAdmin/" # Location of package manifests
+    directory: "server-data/resources/[system]/[builders]/yarn/" # Location of package manifests
     schedule:
       interval: "daily"
