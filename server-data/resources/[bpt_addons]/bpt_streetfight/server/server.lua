@@ -48,7 +48,7 @@ local actualCount = 0
 function countdown(copyFight)
     for i = count, 0, -1 do
         actualCount = i
-        Citizen.Wait(1000)
+        Wait(1000)
     end
 
     if copyFight == fight then

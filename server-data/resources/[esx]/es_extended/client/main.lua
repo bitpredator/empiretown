@@ -456,8 +456,8 @@ AddEventHandler("esx:tpm", function()
 		if admin then
 			local blipMarker = GetFirstBlipInfoId(8)
 			if not DoesBlipExist(blipMarker) then
-					ESX.ShowNotification('No Waypoint Set.', true, false, 140)
-					return 'marker'
+			 ESX.ShowNotification(_U('nowaipoint'), true, false, 140)
+			 return 'marker'
 			end
 	
 			-- Fade screen to hide how clients get teleported.
@@ -527,12 +527,12 @@ AddEventHandler("esx:tpm", function()
 				-- If we can't find the coords, set the coords to the old ones.
 				-- We don't unpack them before since they aren't in a loop and only called once.
 				SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
-				ESX.ShowNotification('Successfully Teleported', true, false, 140)
+				ESX.ShowNotification(_U('tpm_success'), true, false, 140)
 			end
 	
 			-- If Z coord was found, set coords in found coords.
 			SetPedCoordsKeepVehicle(ped, x, y, groundZ)
-			ESX.ShowNotification('Successfully Teleported', true, false, 140)
+			ESX.ShowNotification(_U('tpm_success'), true, false, 140)
 		end
 	end)
 end)

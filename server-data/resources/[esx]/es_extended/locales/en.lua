@@ -98,6 +98,8 @@ Locales['en'] = {
   ['commanderror_invalidcommand'] = 'Invalid Command - /%s',
   ['commanderror_invalidplayerid'] = 'Specified Player is not online',
   ['commandgeneric_playerid'] = 'Player`s Server Id',
+  ['tpm_success'] = 'teleport done',
+  ['nowaipoint'] = 'no waipoint',
   -- Locale settings
   ['locale_digit_grouping_symbol'] = ',',
   ['locale_currency'] = '£%s',
