@@ -14,10 +14,10 @@ local Gloves = {}
 local showWinner = false
 local winner = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while ESX == nil do
-        ESX = exports["es_extended"]:getSharedObject()
-        Citizen.Wait(0)
+     ESX = exports["es_extended"]:getSharedObject()
+     Wait(0)
     end
     CreateBlip(Config.BLIP.coords, Config.BLIP.text, Config.BLIP.sprite, Config.BLIP.color, Config.BLIP.scale)
     RunThread()
@@ -62,13 +62,13 @@ RegisterNetEvent('bpt_streetfight:playerLeaveFight')
 AddEventHandler('bpt_streetfight:playerLeaveFight', function(id)
 
     if id == GetPlayerServerId(PlayerId()) then
-        ESX.ShowNotification('Ti sei allontanato troppo, hai rinunciato a combattere')
+        ESX.ShowNotification(_U('you_toofar'))
         SetPedMaxHealth(PlayerPedId(), 200)
         SetEntityHealth(PlayerPedId(), 200)
         removeGloves()
     elseif participating == true then
         TriggerServerEvent('bpt_streetfight:pay', betAmount)
-        ESX.ShowNotification('Hai vinto ~r~' .. (betAmount * 2) .. '$')
+        ESX.ShowNotification(_U('you_win') .. (betAmount * 2) .. '$')
         SetPedMaxHealth(PlayerPedId(), 200)
         SetEntityHealth(PlayerPedId(), 200)
         removeGloves()
@@ -83,7 +83,7 @@ AddEventHandler('bpt_streetfight:fightFinished', function(looser)
     if participating == true then
         if(looser ~= GetPlayerServerId(PlayerId()) and looser ~= -2) then
             TriggerServerEvent('bpt_streetfight:pay', betAmount)
-            ESX.ShowNotification('Hai vinto ~r~' .. (betAmount * 2) .. '$')
+            ESX.ShowNotification(_U('you_win') .. (betAmount * 2) .. '$')
             SetPedMaxHealth(PlayerPedId(), 200)
             SetEntityHealth(PlayerPedId(), 200)
     
@@ -91,13 +91,13 @@ AddEventHandler('bpt_streetfight:fightFinished', function(looser)
         end
     
         if(looser == GetPlayerServerId(PlayerId()) and looser ~= -2) then
-            ESX.ShowNotification('hai perso la battaglia ~r~-' .. betAmount .. '$')
+            ESX.ShowNotification(_U('you_lost') .. betAmount .. '$' )
             SetPedMaxHealth(PlayerPedId(), 200)
             SetEntityHealth(PlayerPedId(), 200)
         end
     
         if looser == -2 then
-            ESX.ShowNotification('La lotta è finita per limite di tempo')
+            ESX.ShowNotification(_U('time_out'))
             SetPedMaxHealth(PlayerPedId(), 200)
             SetEntityHealth(PlayerPedId(), 200)
         end
@@ -121,7 +121,7 @@ RegisterNetEvent('bpt_streetfight:winnerText')
 AddEventHandler('bpt_streetfight:winnerText', function(id)
     showWinner = true
     winner = id
-    Citizen.Wait(5000)
+    Wait(5000)
     showWinner = false
     winner = nil
 end)
@@ -130,7 +130,7 @@ local actualCount = 0
 function countdown()
     for i = 5, 0, -1 do
         actualCount = i
-        Citizen.Wait(1000)
+        Wait(1000)
     end
     showCountDown = false
     actualCount = 0
@@ -144,7 +144,9 @@ end
 function putGloves()
     local ped = GetPlayerPed(-1)
     local hash = GetHashKey('prop_boxing_glove_01')
-    while not HasModelLoaded(hash) do RequestModel(hash); Citizen.Wait(0); end
+    while not HasModelLoaded(hash) do RequestModel(hash); 
+        Wait(0); 
+    end
     local pos = GetEntityCoords(ped)
     local gloveA = CreateObject(hash, pos.x,pos.y,pos.z + 0.50, true,false,false)
     local gloveB = CreateObject(hash, pos.x,pos.y,pos.z + 0.50, true,false,false)
@@ -247,9 +249,9 @@ function reset()
 end
 
 function RunThread()
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while true do
-            Citizen.Wait(0)
+            Wait(0)
             local coords = GetEntityCoords(PlayerPedId())
             spawnMarker(coords)
         end
@@ -257,12 +259,12 @@ function RunThread()
 end
 
 -- Alejar player - 1000 loop
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         if fightStatus == STATUS_STARTED and participating == false and GetEntityCoords(PlayerPedId()) ~= rival then
             local coords = GetEntityCoords(GetPlayerPed(-1))
             if get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z,coords.x,coords.y,coords.z) < Config.TP_DISTANCE then
-                ESX.ShowNotification('Aléjate del ring!')
+                ESX.ShowNotification(_U('step_away'))
                 for height = 1, 1000 do
                     SetPedCoordsKeepVehicle(GetPlayerPed(-1), -521.58, -1723.58, 19.16)
                     local foundGround, zPos = GetGroundZFor_3dCoord(-521.58, -1723.58, 19.16)
@@ -270,18 +272,18 @@ Citizen.CreateThread(function()
                         SetPedCoordsKeepVehicle(GetPlayerPed(id), -521.58, -1723.58, 19.16)
                         break
                     end
-                    Citizen.Wait(5)
+                    Wait(5)
                 end
             end
         end
-        Citizen.Wait(1000)
+        Wait(1000)
 	end
 end)
 
 -- Main 0 loop
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(0)
+        Wait(0)
         if showCountDown == true then
             DrawText3D(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z + 1.5, 'La lotta inizia in: ' .. actualCount, 2.0)
         elseif showCountDown == false and fightStatus == STATUS_STARTED then
