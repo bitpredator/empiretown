@@ -202,7 +202,7 @@ AddEventHandler ('esx_uteknark1:test_forest',function(forest)
         for i, tree in ipairs(forest) do
             cropstate:plant(tree.location, soil, tree.stage)
             if i % 25 == 0 then
-                Citizen.Wait(0)
+               Wait(0)
             end
         end
     else
@@ -220,7 +220,7 @@ function keyCount(tbl)
     return count
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     local ESXTries = 60
     local itemsLoaded = false
     while not itemsLoaded and ESXTries > 0 do
@@ -251,7 +251,7 @@ Citizen.CreateThread(function()
                 end)
             end
         end)
-        Citizen.Wait(1000)
+        Wait(1000)
         ESXTries = ESXTries - 1
     end
     if not ESX then
@@ -259,13 +259,13 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     local databaseReady = false
     while not databaseReady do
-        Citizen.Wait(500)
+        Wait(500)
         local state = GetResourceState('mysql-async')
         if state == "started" then
-            Citizen.Wait(500)
+            Wait(500)
             cropstate:load(function(plantCount)
                 if plantCount == 1 then
                     log('Uteknark loaded a single plant!')
@@ -278,7 +278,7 @@ Citizen.CreateThread(function()
     end
 
     while true do
-        Citizen.Wait(0)
+        Wait(0)
         local now = os.time()
         local begin = GetGameTimer()
         local plantsHandled = 0
@@ -309,7 +309,7 @@ Citizen.CreateThread(function()
 
                 plantsHandled = plantsHandled + 1
                 if plantsHandled % 10 == 0 then
-                    Citizen.Wait(0)
+                    Wait(0)
                 end
             end
         end

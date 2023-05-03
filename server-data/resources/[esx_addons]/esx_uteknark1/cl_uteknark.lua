@@ -35,7 +35,7 @@ function makeToast(subject,message)
     if not HasStreamedTextureDictLoaded(dict) then
         RequestStreamedTextureDict(dict)
         while not HasStreamedTextureDictLoaded(dict) do
-            Citizen.Wait(0)
+            Wait(0)
         end
     end
 
@@ -205,7 +205,7 @@ function RunScenario(name, facing)
     if facing then
         local heading = GetHeadingFromPoints(GetEntityCoords(playerPed), facing)
         SetEntityHeading(playerPed, heading)
-        Citizen.Wait(0) -- So it syncs before we start the scenario!
+        Wait(0) -- So it syncs before we start the scenario!
     end
     TaskStartScenarioInPlace(playerPed, name, 0, true)
     inScenario = true
@@ -215,11 +215,11 @@ RegisterNetEvent('esx_uteknark1:do')
 AddEventHandler ('esx_uteknark1:do', function(scenarioName, location)
     if Config.Scenario[scenarioName] then
         print("Got order for scenario " .. scenarioName)
-        Citizen.CreateThread(function()
+        CreateThread(function()
             local begin = GetGameTimer()
             RunScenario(Config.Scenario[scenarioName], location)
             while GetGameTimer() <= begin + Config.ScenarioTime do
-                Citizen.Wait(0)
+                Wait(0)
             end
             if inScenario then
                 ClearPedTasks(PlayerPedId())
@@ -261,7 +261,7 @@ function DrawIndicator(location, color)
     )
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     local drawDistance = Config.Distance.Draw
     drawDistance = drawDistance * 1.01 -- So they don't fight about it, culling is at a slightly longer range
     while true do
@@ -321,14 +321,14 @@ Citizen.CreateThread(function()
                     end
                 end
             end
-            Citizen.Wait(0)
+            Wait(0)
         else
-            Citizen.Wait(500)
+            Wait(500)
         end
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     local drawDistance = Config.Distance.Draw
     while true do
         local here = GetEntityCoords(PlayerPedId())
@@ -344,12 +344,12 @@ Citizen.CreateThread(function()
                     RequestModel(model)
                     local begin = GetGameTimer()
                     while not HasModelLoaded(model) and GetGameTimer() < begin + 2500 do
-                        Citizen.Wait(0)
+                        Wait(0)
                     end
                 end
                 if not HasModelLoaded(model) then
                     Citizen.Trace("Failed to load model for growth stage " .. stage ..", but will retry shortly!\n")
-                    Citizen.Wait(2500)
+                    Wait(2500)
                 else
                     local offset = Growth[stage].offset or vector3(0,0,0)
                     local weed = CreateObject(model, entry.bounds.location + offset, false, false, false)
@@ -366,7 +366,7 @@ Citizen.CreateThread(function()
                 end
             end
         end, true)
-        Citizen.Wait(1500)
+        Wait(1500)
     end
 end)
 
@@ -409,12 +409,12 @@ AddEventHandler ('esx_uteknark1:pyromaniac',function(location)
             location = myLocation + vector3(0,0,-1) -- Because the ped location is one meter off the ground.
         end
         if #(location - myLocation) <= Config.Distance.Draw then
-            Citizen.CreateThread(function()
+            CreateThread(function()
                 local begin = GetGameTimer()
                 if not HasNamedPtfxAssetLoaded(Config.Burn.Effect) then
                     RequestNamedPtfxAsset(Config.Burn.Collection)
                     while not HasNamedPtfxAssetLoaded(Config.Burn.Collection) and GetGameTimer() <= begin + Config.Burn.Duration do
-                        Citizen.Wait(0)
+                       Wait(0)
                     end
                     if not HasNamedPtfxAssetLoaded(Config.Burn.Collection) then
                         print("UteKnark failed to load particle effects asset "..Config.Burn.Collection)
@@ -423,7 +423,7 @@ AddEventHandler ('esx_uteknark1:pyromaniac',function(location)
                 UseParticleFxAsset(Config.Burn.Collection)
                 local handle = StartParticleFxLoopedAtCoord(Config.Burn.Effect, location + Config.Burn.Offset, Config.Burn.Rotation, Config.Burn.Scale * 1.0, false, false, false)
                 while GetGameTimer() <= begin + Config.Burn.Duration do
-                    Citizen.Wait(0)
+                   Wait(0)
                 end
                 StopParticleFxLooped(handle, 0)
                 RemoveNamedPtfxAsset(Config.Burn.Collection)
@@ -432,7 +432,7 @@ AddEventHandler ('esx_uteknark1:pyromaniac',function(location)
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     local ready = false
     while true do
         if ready then
@@ -443,13 +443,13 @@ Citizen.CreateThread(function()
                 end
                 debug:flush()
             end
-            Citizen.Wait(0)
+            Wait(0)
         else
             if NetworkIsSessionStarted() then
                 ready = true
                 cropstate:bulkData()
             else
-                Citizen.Wait(100)
+                Wait(100)
             end
         end
     end
@@ -496,7 +496,7 @@ AddEventHandler ('esx_uteknark1:test_forest',function(count, randomStage)
         cursor = cursor + vector3(0, Config.Distance.Space, 0)
         planted = planted + 1
         if planted % column == 0 then
-            Citizen.Wait(0)
+            Wait(0)
             cursor = cursor + vector3(Config.Distance.Space, -(Config.Distance.Space * column), 0)
         end
     end

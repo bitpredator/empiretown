@@ -1,6 +1,6 @@
 Locales['it'] = {
     planting_text = 'piantare',
-    planting_ok = 'piantagione riuscita!',
+    planting_ok = 'semina riuscita!',
     planting_in_vehicle = 'Gettare i semi dalla finestra, o cosa?',
     planting_too_steep = 'Troppo ripido!',
     planting_too_far = 'Un po\' più vicino, forse?',

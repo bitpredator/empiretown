@@ -26,11 +26,11 @@ local cropstateMethods = {
             MySQL.Async.fetchAll("SELECT `id`, `stage`, UNIX_TIMESTAMP(`time`) AS `time`, `x`, `y`, `z`, `soil` FROM `uteknark1`;", 
             {},
             function(rows)
-                Citizen.CreateThread(function()
+                CreateThread(function()
                     for rownum,row in ipairs(rows) do
                         instance:import(row.id, vector3(row.x, row.y, row.z), row.stage, row.time, row.soil)
                         if rownum % 50 == 0 then
-                            Citizen.Wait(0)
+                            Wait(0)
                         end
                     end
                     if callback then callback(#rows) end
@@ -106,7 +106,7 @@ local cropstateMethods = {
             verbose('Preparing bulk plant data for player',target)
             target = target or -1
             while not instance.loaded do
-                Citizen.Wait(1000)
+               Wait(1000)
             end
             local forest = {}
             for id, plant in pairs(instance.index) do

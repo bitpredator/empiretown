@@ -15,6 +15,7 @@ shared_scripts {
     'lib/octree.lua',
     'lib/growth.lua',
     'lib/cropstate.lua',
+    '@es_extended/imports.lua',
 }
 client_scripts {
     'lib/debug.lua',
