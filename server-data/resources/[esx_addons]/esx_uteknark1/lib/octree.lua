@@ -340,7 +340,7 @@ local nodeMethods = {
         return hits
     end,
     searchSphereAsync = function(instance,location,radius,callback, slowMode)
-        Citizen.CreateThread(function()
+        CreateThread(function()
             local distance = #( location - instance._data.bounds.location )
             if distance <= radius + instance._data.bounds.radius then
                 for i,object in pairs(instance._data.objects) do
@@ -352,7 +352,7 @@ local nodeMethods = {
                 if instance._data.nodes then
                     for i,node in ipairs(instance._data.nodes) do
                         if slowMode then
-                            Citizen.Wait(0)
+                          Wait(0)
                         end
                         node:searchSphereAsync(location, radius, callback, slowMode)
                     end
