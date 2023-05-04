@@ -4,10 +4,12 @@ games {"gta5"}
 
 author 'Blumlaut <blue@furfag.de>'
 description 'EasyAdmin - Admin Menu for FiveM & RedM'
-version '7.0'
+version '7.01'
 
 
 lua54 'yes'
+
+rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 shared_script 'shared/util_shared.lua'
 
