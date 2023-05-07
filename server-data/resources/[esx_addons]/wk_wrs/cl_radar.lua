@@ -1,4 +1,3 @@
-
 CreateThread( function()
     Wait( 1000 )
     local resourceName = GetCurrentResourceName()
@@ -273,25 +272,25 @@ function ManageVehicleRadar()
                         local dir = IsEntityInMyHeading( h, fwdVehHeading, 100 )
 						
 						radarInfo.fwdPlate = fwdPlate
-                        radarInfo.fwdSpeed = FormatSpeed( fwdVehSpeed )
-                        radarInfo.fwdDir = dir 
+                        radarInfo.fwdSpeed = FormatSpeed(fwdVehSpeed)
+                        radarInfo.fwdDir = dir
 
-                        if ( fwdVehSpeed > radarInfo.fastLimit and not radarInfo.fwdFastLocked ) then 
+                        if ( fwdVehSpeed > radarInfo.fastLimit and not radarInfo.fwdFastLocked ) then
                             PlaySoundFrontend( -1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1 )
 							
-                            radarInfo.fwdFastSpeed = fwdVehSpeed 
-                            radarInfo.fwdFastLocked = true 
+                            radarInfo.fwdFastSpeed = fwdVehSpeed
+                            radarInfo.fwdFastLocked = true
 
-                            SendNUIMessage( { lockfwdfast = true } )
-                        end 
+                            SendNUIMessage( { lockfwdfast = true })
+                        end
 
-                        radarInfo.fwdFast = FormatSpeed( radarInfo.fwdFastSpeed )
+                        radarInfo.fwdFast = FormatSpeed( radarInfo.fwdFastSpeed)
 
-                        radarInfo.fwdPrevVeh = fwdVeh 
+                        radarInfo.fwdPrevVeh = fwdVeh
                     end
-                end 
+                end
 
-                -- Rear Antenna 
+                -- Rear Antenna
                 if ( radarInfo.bwdXmit ) then 
                     local backwardPosition = GetOffsetFromEntityInWorldCoords( vehicle, radarInfo.angles[ radarInfo.bwdMode ].x, -radarInfo.angles[ radarInfo.bwdMode ].y, radarInfo.angles[ radarInfo.bwdMode ].z )
                     local bwdPos = { x = backwardPosition.x, y = backwardPosition.y, z = backwardPosition.z }
@@ -458,27 +457,26 @@ CreateThread( function()
 
         if ( ( (not inVeh or (inVeh and GetVehicleClass( veh ) ~= 18)) and radarEnabled and not hidden) or IsPauseMenuActive() and radarEnabled ) then 
             hidden = true 
-            SendNUIMessage( { hideradar = true } )
-        elseif ( inVeh and GetVehicleClass( veh ) == 18 and radarEnabled and hidden ) then 
-            hidden = false 
-            SendNUIMessage( { hideradar = false } )
+            SendNUIMessage( { hideradar = true })
+        elseif ( inVeh and GetVehicleClass( veh ) == 18 and radarEnabled and hidden ) then
+            hidden = false
+            SendNUIMessage( { hideradar = false })
         end 
 
-        Wait( 0 )
-    end 
-end )
+        Wait(0)
+    end
+end)
 
-
-local locked = false 
+local locked = false
 RegisterNetEvent( 'wk:toggleMenuControlLock' )
 AddEventHandler( 'wk:toggleMenuControlLock', function( lock ) 
     locked = lock 
-end )
+end)
 
 CreateThread( function()
     while true do
-        if ( locked ) then 
-            local ped = GetPlayerPed( -1 )  
+        if ( locked ) then
+            local ped = GetPlayerPed(-1)
 
             DisableControlAction( 0, 1, true ) -- LookLeftRight
             DisableControlAction( 0, 2, true ) -- LookUpDown
@@ -486,12 +484,9 @@ CreateThread( function()
             DisablePlayerFiring( ped, true ) -- Disable weapon firing
             DisableControlAction( 0, 142, true ) -- MeleeAttackAlternate
             DisableControlAction( 0, 106, true ) -- VehicleMouseControlOverride
-
             SetPauseMenuActive( false )
-        end 
+        end
 
         Wait( 0 )
     end 
 end)
-
-
