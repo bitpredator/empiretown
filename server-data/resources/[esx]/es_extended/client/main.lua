@@ -251,12 +251,12 @@ if not Config.OxInventory then
 	end)
 
 	RegisterNetEvent('esx:addWeaponComponent')
-	AddEventHandler('esx:addWeaponComponent', function(weapon, weaponComponent)
+	AddEventHandler('esx:addWeaponComponent', function()
 		print("[^1ERROR^7] event ^5'esx:addWeaponComponent'^7 Has Been Removed. Please use ^5xPlayer.addWeaponComponent^7 Instead!")
 	end)
 
 	RegisterNetEvent('esx:setWeaponAmmo')
-	AddEventHandler('esx:setWeaponAmmo', function(weapon, weaponAmmo)
+	AddEventHandler('esx:setWeaponAmmo', function()
 		print("[^1ERROR^7] event ^5'esx:setWeaponAmmo'^7 Has Been Removed. Please use ^5xPlayer.addWeaponAmmo^7 Instead!")
 	end)
 
@@ -268,7 +268,6 @@ if not Config.OxInventory then
 
 	RegisterNetEvent('esx:removeWeapon')
 	AddEventHandler('esx:removeWeapon', function(weapon)
-		local playerPed = ESX.PlayerData.ped
 		RemoveWeaponFromPed(ESX.PlayerData.ped, joaat(weapon))
 		SetPedAmmo(ESX.PlayerData.ped, joaat(weapon), 0)
 	end)
@@ -398,7 +397,7 @@ if not Config.OxInventory then
 		while true do
 			local Sleep = 1500
 			local playerCoords = GetEntityCoords(ESX.PlayerData.ped)
-			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer(playerCoords)
+			local _, closestDistance = ESX.Game.GetClosestPlayer(playerCoords)
 
 			for pickupId,pickup in pairs(pickups) do
 				local distance = #(playerCoords - pickup.coords)
