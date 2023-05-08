@@ -1,8 +1,6 @@
-
 var statusMessage = undefined
 var botStatusChannel = GetConvar('ea_botStatusChannel', "")
 var startTimestamp = new Date()
-
 
 async function getServerStatus(why) {
     var embed = new EmbedBuilder()
@@ -14,7 +12,7 @@ async function getServerStatus(why) {
     var buttonRow = false
     
 
-    if(joinURL != '' && joinURL.indexOf('cfx.re' != -1) && joinURL.match(/^[^A-z0-9]/)==null) {
+    if(joinURL != '' && joinURL.indexOf('cfx.re' != -1) && joinURL.match(/^[^0-9A-F]/)==null) {
         embed.setURL(`https://${joinURL}`)
         buttonRow = new ActionRowBuilder()
         var button = new ButtonBuilder()
@@ -68,8 +66,6 @@ async function getServerStatus(why) {
         }
     }
     embed.addFields([{ name: 'Uptime', value: `\`\`\`${prettyMilliseconds(new Date()-startTimestamp, {verbose: true, secondsDecimalDigits: 0})}\`\`\``, inline: false}])
-    
-    
     
     if (why) {
         embed.addFields([{name: 'Last Update', value: why}])
