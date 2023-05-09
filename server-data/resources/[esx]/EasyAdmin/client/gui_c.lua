@@ -119,7 +119,7 @@ RegisterCommand('ea', function(source,args)
 	ExecuteCommand('easyadmin '..table.concat(args, " "))
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	if CompendiumHorseObserved then -- https://www.youtube.com/watch?v=r7qovpFAGrQ
 		RedM = true
 		settings.button = "PhotoModePc"
@@ -177,8 +177,7 @@ Citizen.CreateThread(function()
 				ExecuteCommand("easyadmin")
 			end
 		end
-		
-		Citizen.Wait(1)
+		Wait(1)
 	end
 end)
 
@@ -430,21 +429,21 @@ function GenerateMenu() -- this is a big ass function
 						resultMenu:AddItem(thisItem)
 						thisItem.Activated = function(ParentMenu, SelectedItem)
 							_menuPool:CloseAllMenus()
-							Citizen.Wait(300)
+							Wait(300)
 							local thisMenu = thePlayer.menu
 							playerMenus[tostring(thePlayer.id)].generate(thisMenu)
 							thisMenu:Visible(true)
 						end
 					end
 					_menuPool:CloseAllMenus()
-					Citizen.Wait(300)
+					Wait(300)
 					resultMenu:Visible(true)
 					return
 				end
 				if found and (#temp == 1) then
 					local thisMenu = temp[1].menu
 					_menuPool:CloseAllMenus()
-					Citizen.Wait(300)
+					Wait(300)
 					ttsSpeechText("Found User.")
 					playerMenus[tostring(temp[1].id)].generate(thisMenu)
 					thisMenu:Visible(true)
@@ -509,7 +508,7 @@ function GenerateMenu() -- this is a big ass function
 							end
 							TriggerServerEvent("EasyAdmin:kickPlayer", thePlayer.id, KickReason)
 							_menuPool:CloseAllMenus()
-							Citizen.Wait(800)
+							Wait(800)
 							GenerateMenu()
 							playermanagement:Visible(true)
 						end	
@@ -639,7 +638,7 @@ function GenerateMenu() -- this is a big ass function
 							BanTime = 1
 							BanReason = ""
 							_menuPool:CloseAllMenus()
-							Citizen.Wait(800)
+							Wait(800)
 							GenerateMenu()
 							playermanagement:Visible(true)
 						end	
@@ -771,7 +770,7 @@ function GenerateMenu() -- this is a big ass function
 							BanTime = 1
 							BanReason = ""
 							_menuPool:CloseAllMenus()
-							Citizen.Wait(800)
+							Wait(800)
 							GenerateMenu()
 							playermanagement:Visible(true)
 						end	
@@ -877,7 +876,7 @@ function GenerateMenu() -- this is a big ass function
 				thisMenu:AddItem(thisItem)
 				thisItem.Activated = function(ParentMenu,SelectedItem)
 					_menuPool:CloseAllMenus()
-					Citizen.Wait(50)
+					Wait(50)
 					GenerateMenu()
 					Wait(100)
 					if not playerMenus[tostring(report.reporter)] then
@@ -897,7 +896,7 @@ function GenerateMenu() -- this is a big ass function
 					thisMenu:AddItem(thisItem)
 					thisItem.Activated = function(ParentMenu,SelectedItem)
 						_menuPool:CloseAllMenus()
-						Citizen.Wait(50)
+						Wait(50)
 						GenerateMenu()
 						Wait(100)
 						if not playerMenus[tostring(report.reported)] then
@@ -922,7 +921,7 @@ function GenerateMenu() -- this is a big ass function
 					thisItem.Activated = function(ParentMenu,SelectedItem)
 						TriggerServerEvent("EasyAdmin:RemoveReport", report)
 						_menuPool:CloseAllMenus()
-						Citizen.Wait(800)
+						Wait(800)
 						GenerateMenu()
 						reportViewer:Visible(true)
 					end
@@ -933,7 +932,7 @@ function GenerateMenu() -- this is a big ass function
 					thisItem.Activated = function(ParentMenu,SelectedItem)
 						TriggerServerEvent("EasyAdmin:RemoveSimilarReports", report)
 						_menuPool:CloseAllMenus()
-						Citizen.Wait(800)
+						Wait(800)
 						GenerateMenu()
 						reportViewer:Visible(true)
 					end
@@ -1022,7 +1021,7 @@ function GenerateMenu() -- this is a big ass function
 										BanTime = 1
 										BanReason = ""
 										_menuPool:CloseAllMenus()
-										Citizen.Wait(800)
+										Wait(800)
 										GenerateMenu()
 										playermanagement:Visible(true)
 									end	
@@ -1261,7 +1260,7 @@ function GenerateMenu() -- this is a big ass function
 					TriggerServerEvent("EasyAdmin:unbanPlayer", banlist[banId].banid)
 					TriggerServerEvent("EasyAdmin:requestBanlist")
 					_menuPool:CloseAllMenus()
-					Citizen.Wait(800)
+					Wait(800)
 					GenerateMenu()
 					unbanPlayer:Visible(true)
 				end	
@@ -1312,7 +1311,7 @@ function GenerateMenu() -- this is a big ass function
 				end
 			end
 			_menuPool:CloseAllMenus()
-			Citizen.Wait(300)
+			Wait(300)
 			if foundBan then
 				generateBanOverview(foundBanid)
 			else
@@ -1343,7 +1342,7 @@ function GenerateMenu() -- this is a big ass function
 			thisItem.Activated = function(ParentMenu,SelectedItem)
 				banlistPage = math.ceil(#banlist/10)
 				_menuPool:CloseAllMenus()
-				Citizen.Wait(300)
+				Wait(300)
 				GenerateMenu()
 				unbanPlayer:Visible(true)
 			end	
@@ -1355,7 +1354,7 @@ function GenerateMenu() -- this is a big ass function
 			thisItem.Activated = function(ParentMenu,SelectedItem)
 				banlistPage = 1
 				_menuPool:CloseAllMenus()
-				Citizen.Wait(300)
+				Wait(300)
 				GenerateMenu()
 				unbanPlayer:Visible(true)
 			end	
@@ -1364,7 +1363,7 @@ function GenerateMenu() -- this is a big ass function
 			thisItem.Activated = function(ParentMenu,SelectedItem)
 				banlistPage=banlistPage-1
 				_menuPool:CloseAllMenus()
-				Citizen.Wait(300)
+				Wait(300)
 				GenerateMenu()
 				unbanPlayer:Visible(true)
 			end	
@@ -1375,7 +1374,7 @@ function GenerateMenu() -- this is a big ass function
 			thisItem.Activated = function(ParentMenu,SelectedItem)
 				banlistPage=banlistPage+1
 				_menuPool:CloseAllMenus()
-				Citizen.Wait(300)
+				Wait(300)
 				GenerateMenu()
 				unbanPlayer:Visible(true)
 			end	
@@ -1501,7 +1500,7 @@ function GenerateMenu() -- this is a big ass function
 				thisItem.Activated = function(ParentMenu,SelectedItem)
 					table.insert(add_aces, tempAce)
 					_menuPool:CloseAllMenus()
-					Citizen.Wait(800)
+					Wait(800)
 					GenerateMenu()
 					editAces:Visible(true)
 					collectgarbage()
@@ -1604,7 +1603,7 @@ function GenerateMenu() -- this is a big ass function
 				thisItem.Activated = function(ParentMenu,SelectedItem)
 					table.insert(add_principals, tempPrincipal)
 					_menuPool:CloseAllMenus()
-					Citizen.Wait(800)
+					Wait(800)
 					GenerateMenu()
 					editPrincipals:Visible(true)
 					collectgarbage()
@@ -1685,7 +1684,7 @@ function GenerateMenu() -- this is a big ass function
 			thisItem.Activated = function(ParentMenu,SelectedItem)
 				TriggerLatentServerEvent("EasyAdmin:setServerAces", 200000, add_aces, add_principals)
 				_menuPool:CloseAllMenus()
-				Citizen.Wait(800)
+				Wait(800)
 				GenerateMenu()
 				permissionEditor:Visible(true)
 				collectgarbage()
@@ -1874,9 +1873,9 @@ function GenerateMenu() -- this is a big ass function
 end
 
 
-Citizen.CreateThread( function()
+CreateThread( function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		if drawInfo then
 			local text = {}
 			-- cheat checks
@@ -1948,7 +1947,7 @@ Citizen.CreateThread( function()
 				TriggerEvent("EasyAdmin:showNotification", GetLocalisedText("stoppedSpectating"))
 			end
 		else
-			Citizen.Wait(1000)
+			Wait(1000)
 		end
 	end
 end)
