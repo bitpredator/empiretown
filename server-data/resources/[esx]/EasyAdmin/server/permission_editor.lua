@@ -10,11 +10,11 @@
 ------------------------------------
 ------------------------------------
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	local add_aces = {}
 	local add_principals = {}
 	function readAcePermissions()
-		Citizen.CreateThread(function()
+		CreateThread(function()
 			add_aces, add_principals, execs = FindInfosinFile("server.cfg")
 			for i, config in pairs(execs) do
 				local tempaces, tempprincipals, _ = FindInfosinFile(config)
@@ -173,7 +173,7 @@ Citizen.CreateThread(function()
 		end
 	end
 	
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		lockedFiles = {}
 		function AddToFile(filename, args)
 			if not GetInvokingResource() or GetInvokingResource() == GetCurrentResourceName() then -- sorry, but i _really_ dont want other resources hooking into easyadmins file edit functions.

@@ -23,7 +23,7 @@ end)
 
 cooldowns = {} -- DO NOT TOUCH THIS
 
-Citizen.CreateThread(function()
+CreateThread(function()
     
     PlayerReports = {}
     

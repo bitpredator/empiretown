@@ -116,7 +116,7 @@ RegisterServerEvent("EasyAdmin:updateBanlist", function(playerId)
     local src = source
     if DoesPlayerHavePermission(source, "player.ban.view") then
         updateBlacklist(false,true)
-        Citizen.Wait(300)
+        Wait(300)
         TriggerLatentClientEvent("EasyAdmin:fillBanlist", src, 100000, blacklist)
         PrintDebugMessage("Banlist Refreshed by "..getName(src,true), 3)
     end

@@ -10,7 +10,7 @@
 ------------------------------------
 ------------------------------------
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	backupInfos = LoadResourceFile(GetCurrentResourceName(), "backups/_backups.json")
 	
 	while true do 

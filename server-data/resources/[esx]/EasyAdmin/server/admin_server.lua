@@ -53,7 +53,7 @@ end
 
 exports('announce', announce)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	--Wait(10000)
 	reminderTime = GetConvarInt("ea_chatReminderTime", 0)
 	if reminderTime ~= 0 then
@@ -165,8 +165,7 @@ function IsPlayerAdmin(pid)
 end
 exports('IsPlayerAdmin', IsPlayerAdmin)
 
-
-Citizen.CreateThread(function()
+CreateThread(function()
 	
 	if not CachedPlayers or GetVersion() == nil then
 		print("^7--------------------------------------------------------------")
@@ -800,14 +799,14 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 		PerformHttpRequest("https://api.github.com/repos/Blumlaut/EasyAdmin/releases/latest", checkVersion, "GET")
 		Wait(3600000)
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	function HTTPRequest(url, ...)
 		local err,response,headers
 		
@@ -823,7 +822,7 @@ Citizen.CreateThread(function()
 	exports('HTTPRequest', HTTPRequest)
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	
 	AddEventHandler('playerConnecting', function(playerName, setKickReason, deferrals)
 		local player = source
@@ -972,7 +971,7 @@ function checkVersion()
 end
 
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	function getLatestVersion()
 		local latestVersion,latestURL
 		
@@ -997,7 +996,7 @@ Citizen.CreateThread(function()
 
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	repeat
 		Wait(1000)
 	until updateBlacklist
