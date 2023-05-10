@@ -39,7 +39,6 @@ Config.Rewards = {
 -- Vehicle model
 Config.Models = {
 	scooter = 'faggio3',
-	-- van     = 'pony', -- The original game vehicle
 	van     = 's1',      -- Chinese car Wuling hong guang S1
 	truck   = 'mule',
 	vehDoor = {

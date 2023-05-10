@@ -9,7 +9,6 @@ local Status = {
 }
 
 -- Don't touch this, pls :)
-
 local CurrentStatus             = Status.DELIVERY_INACTIVE
 local CurrentSubtitle           = nil
 local CurrentBlip               = nil
@@ -24,7 +23,6 @@ local PlayerJob                 = nil
 local FinishedJobs              = 0
 
 -- Make player look like a worker
-
 function LoadWorkPlayerSkin(deliveryType)
 	
 	local playerPed = PlayerPedId()
@@ -53,7 +51,6 @@ function LoadWorkPlayerSkin(deliveryType)
 end
 
 -- Load the default player skin (for esx_skin)
-
 function LoadDefaultPlayerSkin()
 	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
 		TriggerEvent('skinchanger:loadSkin', skin)
@@ -61,7 +58,6 @@ function LoadDefaultPlayerSkin()
 end
 
 -- Control the input
-
 function HandleInput()
 	
 	if PlayerJob ~= "delivery" then
@@ -76,7 +72,6 @@ function HandleInput()
 end
 
 -- Main logic handler
-
 function HandleLogic()
 	
 	if PlayerJob ~= "delivery" then
@@ -150,7 +145,6 @@ function HandleLogic()
 end
 
 -- Handling markers and object status
-
 function HandleMarkers()
 	
 	if PlayerJob ~= "delivery" then
@@ -309,7 +303,6 @@ function PlayTrunkAnimation()
 end
 
 -- Create a blip for the location
-
 function CreateBlipAt(x, y, z)
  local tmpBlip = AddBlipForCoord(x, y, z)
 	
@@ -326,19 +319,16 @@ function CreateBlipAt(x, y, z)
 end
 
 -- Let the player carry something
-
 function ForceCarryAnimation()
 	TaskPlayAnim(PlayerPedId(), "anim@heists@box_carry@", "walk", 8.0, 8.0, -1, 51)
 end
 
 -- Tell the server start delivery job
-
 function StartDelivery(deliveryType)
 	TriggerServerEvent("bpt_deliveries:removeSafeMoney:server", deliveryType)
 end
 
 -- Check is the player in the delivery vehicle
-
 function IsPlayerInsideDeliveryVehicle()
 	if IsPedSittingInAnyVehicle(PlayerPedId()) then
 		local playerVehicle = GetVehiclePedIsIn(PlayerPedId(), false)
@@ -350,7 +340,6 @@ function IsPlayerInsideDeliveryVehicle()
 end
 
 -- Is this checkpoint the last checkpoint?
-
 function IsLastDelivery()
 	local isLast = false
 	local dp1    = DeliveryLocation.Item2
@@ -362,7 +351,6 @@ function IsLastDelivery()
 end
 
 -- Remove all object from the player ped
-
 function RemovePlayerProps()
 	for i = 0, #CurrentAttachments do
 		DetachEntity(CurrentAttachments[i])
@@ -373,7 +361,6 @@ function RemovePlayerProps()
 end
 
 -- Spawn an object and attach it to the player
-
 function GetPlayerPropsForDelivery(deliveryType)
 	
 	RequestAnimDict("anim@heists@box_carry@")
@@ -440,7 +427,6 @@ function GetPlayerPropsForDelivery(deliveryType)
 end
 
 -- Spawn the scooter, truck or van
-
 function SpawnDeliveryVehicle(deliveryType)
 	
 	local Rnd           = GetRandomFromRange(1, #Config.ParkingSpawns)
@@ -497,7 +483,6 @@ function SpawnDeliveryVehicle(deliveryType)
 end
 
 -- Get the next destination
-
 function GetNextDeliveryPoint(firstTime)
 	if CurrentBlip ~= nil then
 		RemoveBlip(CurrentBlip)
@@ -522,7 +507,6 @@ function GetNextDeliveryPoint(firstTime)
 end
 
 -- Create some random destinations
-
 function CreateRoute(deliveryType)
 	
 	local TotalDeliveries = GetRandomFromRange(Config.Deliveries.min, Config.Deliveries.max)
@@ -564,13 +548,11 @@ function CreateRoute(deliveryType)
 end
 
 -- Create a blip to tell the player back to the delivery hub
-
 function ReturnToBase(deliveryType)
 	CurrentBlip = CreateBlipAt(Config.Base.retveh.x, Config.Base.retveh.y, Config.Base.retveh.z)
 end
 
 -- End Delivery, is the player finish or failed?
-
 function EndDelivery()
 	local PlayerPed = PlayerPedId()
 	if not IsPedSittingInAnyVehicle(PlayerPed) or GetVehiclePedIsIn(PlayerPed) ~= CurrentVehicle then
@@ -583,7 +565,6 @@ function EndDelivery()
 end
 
 -- Return the vehicle to system
-
 function ReturnVehicle(deliveryType)
 	SetVehicleAsNoLongerNeeded(CurrentVehicle)
 	DeleteEntity(CurrentVehicle)
@@ -592,7 +573,6 @@ function ReturnVehicle(deliveryType)
 end
 
 -- When the delivery mission finish
-
 function FinishDelivery(deliveryType, safeReturn)
 	if CurrentVehicle ~= nil then
 		for i = 0, #CurrentVehicleAttachments do
@@ -624,7 +604,6 @@ function FinishDelivery(deliveryType, safeReturn)
 end
 
 -- Some helpful functions
-
 function DisplayHelpText(text)
 	SetTextComponentFormat('STRING')
 	AddTextComponentString(text)
@@ -658,7 +637,6 @@ function Draw2DTextCenter(x, y, text, scale)
 end
 
 -- Initialize ESX
-
 CreateThread(function()
     while ESX == nil do
      ESX = exports["es_extended"]:getSharedObject()
@@ -674,7 +652,6 @@ CreateThread(function()
 end)
 
 -- Main thread
-
 CreateThread(function()
  blip = AddBlipForCoord(Config.Base.coords.x, Config.Base.coords.y, Config.Base.coords.z)
  SetBlipSprite(blip, 85)
@@ -686,7 +663,6 @@ CreateThread(function()
 end)
 
 -- The other 4 threads
-
 CreateThread(function()
 	while true do
 	 Wait(0)

@@ -26,7 +26,6 @@ AddEventHandler('bpt_deliveries:returnSafe:server', function(deliveryType, safeR
 end)
 
 -- Finish delivery mission event
-
 AddEventHandler('bpt_deliveries:finishDelivery:server', function(deliveryType)
     local xPlayer = ESX.GetPlayerFromId(source)
 	local deliveryMoney = 800
@@ -41,7 +40,6 @@ AddEventHandler('bpt_deliveries:finishDelivery:server', function(deliveryType)
 end)
 
 -- Remove safe deposit event (On start mission)
-
 AddEventHandler('bpt_deliveries:removeSafeMoney:server', function(deliveryType)
     local xPlayer = ESX.GetPlayerFromId(source)
 	local SafeMoney = 4000
@@ -62,7 +60,6 @@ AddEventHandler('bpt_deliveries:removeSafeMoney:server', function(deliveryType)
 end)
 
 -- Get the player job name
-
 AddEventHandler('bpt_deliveries:getPlayerJob:server', function()
  local xPlayer = ESX.GetPlayerFromId(source)
  print("Player request job: " .. source .. ", " .. xPlayer.job.name)
