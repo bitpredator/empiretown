@@ -1,8 +1,8 @@
 ESX = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while ESX == nil do
-        Citizen.Wait(5)
+        Wait(5)
 		ESX = exports["es_extended"]:getSharedObject(), function(library)
 			ESX = library
 		end
@@ -16,18 +16,18 @@ local oPlayer = false
 local InVehicle = false
 local playerpos = false
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while(true) do
 		oPlayer = PlayerPedId()
         InVehicle = IsPedInAnyVehicle(oPlayer, true)
 		playerpos = GetEntityCoords(oPlayer)
-        Citizen.Wait(500)
+        Wait(500)
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		local handle, ped = FindFirstPed()
 		local success
 		repeat
@@ -72,7 +72,7 @@ Citizen.CreateThread(function()
 								Vehicle = true
 								},
 								})
-						Citizen.Wait(5000)
+						Wait(5000)
 						ClearPedTasks(PlayerPedId())
 								if GetEntityModel(ped) == GetHashKey("a_c_boar") then
 									local item = 'boar_meat'
@@ -96,12 +96,12 @@ Citizen.CreateThread(function()
 									TriggerServerEvent('esx_bobhunt:getPelt', item,  p_name)
 								end
 						
-						Citizen.Wait(10)
+						Wait(10)
 						SetPedAsNoLongerNeeded(oldped)
 						if DoesEntityExist(ped) then
 						DeleteEntity(ped)
 						end						
-						Citizen.Wait(1000)
+						Wait(1000)
 						break
 					else
 					ESX.ShowNotification('~r~You need to use a knife!')
@@ -121,10 +121,10 @@ function CanSlaughterPed(ped)
 end
 
 local blips = {
-      {title="Hunters Den", colour=4, id=463, x = -1132.93, y = 4948.42, z = 221.87}
-} 
-      
-Citizen.CreateThread(function()
+    {title="Hunters Den", colour=4, id=463, x = -1132.93, y = 4948.42, z = 221.87}
+}
+
+CreateThread(function()
     for _, info in pairs(blips) do
       info.blip = AddBlipForCoord(info.x, info.y, info.z)
       SetBlipSprite(info.blip, info.id)
