@@ -1,5 +1,4 @@
 ESX = nil
-
 CreateThread(function()
     while ESX == nil do
         Wait(5)
@@ -104,7 +103,7 @@ CreateThread(function()
 						Wait(1000)
 						break
 					else
-					ESX.ShowNotification('~r~You need to use a knife!')
+					ESX.showNotification(_U('knife_uses'))
 					end
 					end
 				end	
