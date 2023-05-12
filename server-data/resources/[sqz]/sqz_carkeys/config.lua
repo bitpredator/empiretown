@@ -1,3 +1,3 @@
 Config = {}
-Config.Locale = 'it' -- en/cz
+Config.Locale = 'it'
 Config.Price = 5000 -- amount of car locks replace at Locksmith
