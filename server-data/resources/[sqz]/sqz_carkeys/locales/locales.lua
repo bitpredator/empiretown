@@ -1,23 +1,3 @@
-Locales['cz'] = {
-    ['spz_not_found'] = 'Nepodařilo se najít SPZ vozidla',
-    ['no_keys'] = 'Od tohoto auta nemáš klíče',
-    ['not_yours_vehicle'] = 'Toto vozidlo není tvoje',
-    ['locks_replaced'] = 'Zámky úspěšně vyměněny',
-    ['paid_for_locks'] = 'Zaplatil jsi %s$ za nové zámky',
-    ['not_enough_money'] = 'Nemáš na zaplacení nových zámků',
-    ['wait_new_locks'] = 'Nyní počkej půl minuty na nové zámky',
-    ['installing_new_locks'] = 'Probíhá instalace nových zámků',
-    ['received_keys'] = 'Dostal jsi klíče od vozidla s SPZ: %s',
-    ['gave_keys'] = 'Dal jsi klíče od vozidla s SPZ: %s',
-    ['locksmith'] = 'Locksmith',
-    ['must_in_vehicle'] = 'Musíš sedět ve vozidle',
-    ['change_locks_for'] = '[E] Pro výměnu zámků za %s$',
-    ['vehicle_locked'] = 'Vozidlo bylo úspěšně zamčeno',
-    ['vehicle_unlocked'] = 'Vozidlo bylo úspěšně odemčeno',
-    ['lock_vehicle'] = 'Zamknout vozidlo',
-    ['no_vehicle_found'] = 'Žádné vozidlo nebylo nalezeno'
-}
-
 Locales['en'] = {
     ['spz_not_found'] = 'We were unable to find the vehicle\'s SPZ',
     ['no_keys'] = 'You do not have keys of this vehicle',
@@ -36,24 +16,4 @@ Locales['en'] = {
     ['vehicle_unlocked'] = 'Vehicle has been successfuly unlocked',
     ['lock_vehicle'] = 'Toggle vehicle locks',
     ['no_vehicle_found'] = 'There is no vehicle nearby'
-}
-
-Locales['it'] = {
-    ['spz_not_found'] = 'Non siamo riusciti a trovare l\'SPZ del veicolo',
-    ['no_keys'] = 'Non hai le chiavi di questo veicolo',
-    ['not_yours_vehicle'] = 'Questo veicolo non è tuo',
-    ['locks_replaced'] = 'le chiavi sono state sostituite con successo',
-    ['paid_for_locks'] = 'hai pagato %s$ per le nuovi chiavi',
-    ['not_enough_money'] = 'Non hai abbastanza soldi per comprare una chiave sostitutiva',
-    ['wait_new_locks'] = 'Attendi mezzo minuto fino a quando le chivi non verranno sostituite',
-    ['installing_new_locks'] = 'le chivi sono in fase di sostituzioni',
-    ['received_keys'] = 'Hai ricevuto le chiavi di un veicolo targato: %s',
-    ['gave_keys'] = 'Hai consegnato le chiavi di un veicolo targato: %s',
-    ['locksmith'] = 'Fabbro',
-    ['must_in_vehicle'] = 'Devi essere seduto in un veicolo',
-    ['change_locks_for'] = 'premi [E] per sostituire le chiavi del veicolo %s$',
-    ['vehicle_locked'] = 'Il veicolo è stato chiuso con successo',
-    ['vehicle_unlocked'] = 'veicolo aperto con successo',
-    ['lock_vehicle'] = 'Attiva/disattiva le serrature del veicolo',
-    ['no_vehicle_found'] = 'Non c\'è nessun veicolo nelle vicinanze'
 }
