@@ -102,25 +102,18 @@ var config =
 
    // Logs
    LOG: {
-
-      enable: true,
-
+      enable: false,
    },
 
 
    // Music
    MUSIC: {
-
       enable: true,
-
       music: // YT ID
       [
-         "A5dtj0oY6ek", "X6zgPJqnKZs"
+         "RLr59M_Zvlg"
       ],
-
       Volume: 20,
-
       TextPrefix: "EMP:"
-
    }
 }
