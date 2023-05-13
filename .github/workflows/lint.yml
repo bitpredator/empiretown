@@ -13,7 +13,6 @@ jobs:
           args: "-t --formatter JUnit"
           extra_libs: mysql
       - name: Generate Lint Report
-        if: always()
         uses: mikepenz/action-junit-report@v3
         if: success() || failure() # always run even if the previous step fails
         with:
