@@ -909,14 +909,7 @@ $( window ).resize( function() {
 $( document ).ready( function() {
 	windowWidth = $( window ).width(); 
 	windowHeight = $( window ).height();
-} )
-
-elements.safezoneSlider.on( "input", function() {
-	let val = $( this ).val();
-	safezone = parseInt( val, 10 ); 
-
-	elements.safezoneDisplay.html( val + "px" ); 
-} )
+})
 
 function calculatePos( ele, x, y, w, h, offset, scale, safezone )
 {
