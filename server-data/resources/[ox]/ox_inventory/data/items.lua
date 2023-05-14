@@ -594,5 +594,4 @@ return {
 		stack = true,
 		consume = 1,
 	},
-
 }
