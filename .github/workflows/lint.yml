@@ -9,7 +9,6 @@ jobs:
       - name: Lint
         uses: iLLeniumStudios/fivem-lua-lint-action@v2
         with:
-          capture: "junit.xml"
           args: "-t --formatter JUnit"
           extra_libs: mysql
       - name: Generate Lint Report
