@@ -20,7 +20,6 @@ local function RestoreData( obj, getFunc, setFunc, setBackupFunc, key )
 	end
 end
 
-
 --[[----------------------------------------------------------------------------------
 	Plate reader sync variables and functions
 ----------------------------------------------------------------------------------]]--
@@ -77,7 +76,7 @@ function READER:LoadDataFromDriver( data )
 	self:BackupData()
 
 	-- As a precaution, give the system 50ms before it replaces the local data with the data from the driver
-	Citizen.SetTimeout( 50, function()
+	SetTimeout( 50, function()
 		-- Set the camera data
 		for cam in UTIL:Values( { "front", "rear" } ) do
 			self:SetReaderCamData( cam, data[cam] )
@@ -127,16 +126,16 @@ end
 function RADAR:GetOMTableData()	return self.vars.settings end
 
 -- Sets the operator menu settings table within the radar's main variables table
-function RADAR:SetOMTableData( data )
-	if ( type( data ) == "table" ) then
+function RADAR:SetOMTableData(data)
+	if (type( data ) == "table") then
 		self.vars.settings = data
-		self:UpdateOptionIndexes( false )
+		self:UpdateOptionIndexes(false)
 	end
 end
 
 -- Sets the antenna settings table for the given antenna within the radar's main variables table
-function RADAR:SetAntennaTableData( ant, data )
-	if ( type( data ) == "table" ) then
+function RADAR:SetAntennaTableData(ant, data)
+	if (type( data ) == "table") then
 		self.vars.antennas[ant] = data
 	end
 end
@@ -191,7 +190,7 @@ function RADAR:LoadDataFromDriver( data )
 	self:BackupData()
 
 	-- As a precaution, give the system 50ms before it replaces the local data with the data from the driver
-	Citizen.SetTimeout( 50, function()
+	SetTimeout( 50, function()
 		-- Set the operator menu settings
 		self:SetOMTableData( data.om )
 
@@ -216,7 +215,7 @@ function RADAR:RestoreFromBackup()
 	RestoreData( RADAR, RADAR.GetBackupOMData, RADAR.SetOMTableData, RADAR.SetBackupOMData )
 
 	-- Iterate through the antennas and restore their backups
-	for ant in UTIL:Values( { "front", "rear" } ) do
+	for ant in UTIL:Values({"front", "rear"}) do
 		RestoreData( RADAR, RADAR.GetBackupAntennaData, RADAR.SetAntennaTableData, RADAR.SetBackupAntennaData, ant )
 	end
 
@@ -224,41 +223,39 @@ function RADAR:RestoreFromBackup()
 	local pwrState = self:GetBackupPowerState()
 
 	-- Restore the power state
-	if ( pwrState ~= nil ) then
-		self:SetPowerState( pwrState, true )
-		self:SetBackupPowerState( nil )
+	if (pwrState ~= nil) then
+		self:SetPowerState(pwrState, true)
+		self:SetBackupPowerState(nil)
 	end
 
 	-- Update the display
-	if ( pwrState ) then
-		Citizen.SetTimeout( 50, function()
+	if (pwrState) then
+		SetTimeout(50, function()
 			self:SendSettingUpdate()
-		end )
+		end)
 	end
 end
-
 
 --[[----------------------------------------------------------------------------------
 	Sync variables
 ----------------------------------------------------------------------------------]]--
 SYNC = {}
 
-
 --[[----------------------------------------------------------------------------------
 	Sync functions
 ----------------------------------------------------------------------------------]]--
 -- Returns if the given player has the remote open
 function SYNC:IsRemoteAlreadyOpen( ply )
-	if ( not RADAR:IsPassengerViewAllowed() ) then
+	if (not RADAR:IsPassengerViewAllowed() ) then
 		return false
 	else
-		return DecorGetBool( ply, "wk_wars2x_sync_remoteOpen" )
+		return DecorGetBool(ply, "wk_wars2x_sync_remoteOpen")
 	end
 end
 
 -- Sets the remote open decor for the local player to the given state
-function SYNC:SetRemoteOpenState( state )
-	if ( RADAR:IsPassengerViewAllowed() ) then
+function SYNC:SetRemoteOpenState(state)
+	if (RADAR:IsPassengerViewAllowed()) then
 		DecorSetBool( PLY.ped, "wk_wars2x_sync_remoteOpen", state )
 	end
 end
@@ -287,35 +284,35 @@ end
 function SYNC:SendAntennaPowerState( state, ant )
 	self:SyncData( function( ply )
 		TriggerServerEvent( "wk_wars2x_sync:sendAntennaPowerState", ply, state, ant )
-	end )
+	end)
 end
 
 -- Sends the mode for the given antenna to the other player (driver/passenger)
 function SYNC:SendAntennaMode( ant, mode )
 	self:SyncData( function( ply )
-		TriggerServerEvent( "wk_wars2x_sync:sendAntennaMode", ply, ant, mode )
-	end )
+		TriggerServerEvent("wk_wars2x_sync:sendAntennaMode", ply, ant, mode )
+	end)
 end
 
 -- Sends a lock/unlock state, as well as the current player's displayed data to the other player (driver/passenger)
 function SYNC:LockAntennaSpeed( ant, data )
-	self:SyncData( function( ply )
+	self:SyncData(function( ply )
 		TriggerServerEvent( "wk_wars2x_sync:sendLockAntennaSpeed", ply, ant, data )
-	end )
+	end)
 end
 
 -- Sends the given operator menu table data to the other player
 function SYNC:SendUpdatedOMData( data )
 	self:SyncData( function( ply )
 		TriggerServerEvent( "wk_wars2x_sync:sendUpdatedOMData", ply, data )
-	end )
+	end)
 end
 
 -- Sends the plate reader lock event with the data from the reader that was locked
 function SYNC:LockReaderCam( cam, data )
 	self:SyncData( function( ply )
 		TriggerServerEvent( "wk_wars2x_sync:sendLockCameraPlate", ply, cam, data )
-	end )
+	end)
 end
 
 -- Requests radar data from the driver if the player has just entered a valid vehicle as a front seat passenger
@@ -330,15 +327,14 @@ function SYNC:SyncDataOnEnter()
 		if ( driver ~= nil ) then
 			TriggerServerEvent( "wk_wars2x_sync:requestRadarData", driver )
 		end
-	elseif ( PLY:IsDriver() ) then
-		if ( RADAR:IsThereBackupData() ) then
+	elseif (PLY:IsDriver()) then
+		if (RADAR:IsThereBackupData()) then
 			-- Restore the local data
 			RADAR:RestoreFromBackup()
 			READER:RestoreFromBackup()
 		end
 	end
 end
-
 
 --[[----------------------------------------------------------------------------------
 	Sync client events
@@ -348,7 +344,7 @@ RegisterNetEvent( "wk_wars2x_sync:receivePowerState" )
 AddEventHandler( "wk_wars2x_sync:receivePowerState", function( state )
 	-- Set the radar's power
 	RADAR:SetPowerState( state, false )
-end )
+end)
 
 -- Event for receiving a power state for the given antenna
 RegisterNetEvent( "wk_wars2x_sync:receiveAntennaPowerState" )
@@ -360,24 +356,24 @@ AddEventHandler( "wk_wars2x_sync:receiveAntennaPowerState", function( state, ant
 	if ( power ~= state ) then
 		RADAR:ToggleAntenna( antenna )
 	end
-end )
+end)
 
 -- Event for receiving a mode for the given antenna
 RegisterNetEvent( "wk_wars2x_sync:receiveAntennaMode" )
 AddEventHandler( "wk_wars2x_sync:receiveAntennaMode", function( antenna, mode )
 	RADAR:SetAntennaMode( antenna, mode )
-end )
+end)
 
 -- Event for receiving a lock state and speed data for the given antenna
 RegisterNetEvent( "wk_wars2x_sync:receiveLockAntennaSpeed" )
 AddEventHandler( "wk_wars2x_sync:receiveLockAntennaSpeed", function( antenna, data )
 	RADAR:LockAntennaSpeed( antenna, data, true )
-end )
+end)
 
 RegisterNetEvent( "wk_wars2x_sync:receiveLockCameraPlate" )
 AddEventHandler( "wk_wars2x_sync:receiveLockCameraPlate", function( camera, data )
 	READER:LockCam( camera, true, false, data )
-end )
+end)
 
 -- Event for gathering the radar data and sending it to another player
 RegisterNetEvent( "wk_wars2x_sync:getRadarDataFromDriver" )
@@ -386,14 +382,14 @@ AddEventHandler( "wk_wars2x_sync:getRadarDataFromDriver", function( playerFor )
 	local readerData = READER:GetReaderDataForSync()
 
 	TriggerServerEvent( "wk_wars2x_sync:sendRadarDataForPassenger", playerFor, { radarData, readerData } )
-end )
+end)
 
 -- Event for receiving radar data from another player
 RegisterNetEvent( "wk_wars2x_sync:receiveRadarData" )
 AddEventHandler( "wk_wars2x_sync:receiveRadarData", function( data )
 	RADAR:LoadDataFromDriver( data[1] )
 	READER:LoadDataFromDriver( data[2] )
-end )
+end)
 
 -- Event for receiving updated operator menu data from another player
 RegisterNetEvent( "wk_wars2x_sync:receiveUpdatedOMData" )
@@ -402,4 +398,4 @@ AddEventHandler( "wk_wars2x_sync:receiveUpdatedOMData", function( data )
 		RADAR:SetOMTableData( data )
 		RADAR:SendSettingUpdate()
 	end
-end )
+end)

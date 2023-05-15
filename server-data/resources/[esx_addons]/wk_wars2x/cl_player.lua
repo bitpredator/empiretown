@@ -63,20 +63,19 @@ end
 -- The main purpose of this thread is to update the information about the local player, including their
 -- ped id, the vehicle id (if they're in one), whether they're in a driver seat, and if the vehicle's class
 -- is valid or not
-Citizen.CreateThread( function()
-	while ( true ) do
+CreateThread( function()
+	while (true) do
 		PLY.ped = PlayerPedId()
 		PLY.veh = GetVehiclePedIsIn( PLY.ped, false )
 		PLY.inDriverSeat = GetPedInVehicleSeat( PLY.veh, -1 ) == PLY.ped
 		PLY.inPassengerSeat = GetPedInVehicleSeat( PLY.veh, 0 ) == PLY.ped
 		PLY.vehClassValid = GetVehicleClass( PLY.veh ) == 18
-
-		Citizen.Wait( 500 )
+		Wait( 500 )
 	end
 end )
 
 -- This thread is used to check when the player is entering a vehicle and then triggers the sync system 
-Citizen.CreateThread( function()
+CreateThread( function()
 	while ( true ) do
 		-- The sync trigger should only start when the player is getting into a vehicle
 		if ( IsPedGettingIntoAVehicle( PLY.ped ) and RADAR:IsPassengerViewAllowed() ) then
@@ -86,7 +85,7 @@ Citizen.CreateThread( function()
 			-- Only proceed if the vehicle the player is entering is an emergency vehicle
 			if ( GetVehicleClass( vehEntering ) == 18 ) then
 				-- Wait two seconds, this gives enough time for the player to get sat in the seat
-				Citizen.Wait( 2000 )
+				Wait(2000)
 
 				-- Get the vehicle the player is now in
 				local veh = GetVehiclePedIsIn( PLY.ped, false )
@@ -98,7 +97,6 @@ Citizen.CreateThread( function()
 				end
 			end
 		end
-
-		Citizen.Wait( 500 )
+		Wait(500)
 	end
 end )

@@ -36,10 +36,7 @@ READER.vars =
 	}
 }
 
-
---[[----------------------------------------------------------------------------------
-	Plate reader functions
-----------------------------------------------------------------------------------]]--
+-- Plate reader functions
 -- Gets the display state
 function READER:GetDisplayState()
 	return self.vars.displayed
@@ -167,9 +164,7 @@ AddEventHandler( "wk:togglePlateLock", function( cam, beep, bolo )
 end )
 
 
---[[----------------------------------------------------------------------------------
-	Plate reader NUI callbacks
-----------------------------------------------------------------------------------]]--
+-- Plate reader NUI callbacks
 -- Runs when the "Toggle Display" button is pressed on the plate reder box
 RegisterNUICallback( "togglePlateReaderDisplay", function( data, cb )
 	-- Toggle the display state
@@ -191,10 +186,7 @@ RegisterNUICallback( "clearBoloPlate", function( plate, cb )
 	cb( "ok" )
 end )
 
-
---[[----------------------------------------------------------------------------------
-	Plate reader threads
-----------------------------------------------------------------------------------]]--
+--	Plate reader threads
 -- This is the main function that runs and scans all vehicles in front and behind the patrol vehicle
 function READER:Main()
 	-- Check that the system can actually run
@@ -265,13 +257,12 @@ function READER:Main()
 end
 
 -- Main thread
-Citizen.CreateThread( function()
-	while ( true ) do
+CreateThread( function()
+	while (true) do
 		-- Run the main plate reader function
 		READER:Main()
-
 		-- Wait half a second
-		Citizen.Wait( 500 )
+		Wait(500)
 	end
 end )
 
@@ -279,7 +270,7 @@ end )
 -- using it. Hides the radar UI when certain criteria is met, e.g. in pause menu or stepped out ot the
 -- patrol vehicle
 function READER:RunDisplayValidationCheck()
-	if ( ( ( PLY.veh == 0 or ( PLY.veh > 0 and not PLY.vehClassValid ) ) and self:GetDisplayState() and not self:GetDisplayHidden() ) or IsPauseMenuActive() and self:GetDisplayState() ) then
+	if ((( PLY.veh == 0 or ( PLY.veh > 0 and not PLY.vehClassValid)) and self:GetDisplayState() and not self:GetDisplayHidden() ) or IsPauseMenuActive() and self:GetDisplayState() ) then
 		self:SetDisplayHidden( true )
 		SendNUIMessage( { _type = "setReaderDisplayState", state = false } )
 	elseif ( PLY:CanViewRadar() and self:GetDisplayState() and self:GetDisplayHidden() ) then
@@ -289,14 +280,12 @@ function READER:RunDisplayValidationCheck()
 end
 
 -- Runs the display validation check for the radar
-Citizen.CreateThread( function()
-	Citizen.Wait( 100 )
-
+CreateThread( function()
+	Wait(100)
 	while ( true ) do
 		-- Run the check
 		READER:RunDisplayValidationCheck()
-
 		-- Wait half a second
-		Citizen.Wait( 500 )
+		Wait(500)
 	end
-end )
+end)
