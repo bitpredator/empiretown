@@ -901,22 +901,15 @@ $( document ).mousemove( function( event ) {
 	}
 } )
 
-$( window ).resize( function() {
-	windowWidth = $( this ).width(); 
-	windowHeight = $( this ).height(); 
-} )
+$(window).resize(function() {
+	windowWidth = $(this).width(); 
+	windowHeight = $(this).height(); 
+})
 
-$( document ).ready( function() {
-	windowWidth = $( window ).width(); 
-	windowHeight = $( window ).height();
-} )
-
-elements.safezoneSlider.on( "input", function() {
-	let val = $( this ).val();
-	safezone = parseInt( val, 10 ); 
-
-	elements.safezoneDisplay.html( val + "px" ); 
-} )
+$(document).ready( function() {
+	windowWidth = $(window).width(); 
+	windowHeight = $(window).height();
+})
 
 function calculatePos( ele, x, y, w, h, offset, scale, safezone )
 {
