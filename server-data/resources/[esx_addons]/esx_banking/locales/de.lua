@@ -1,16 +1,16 @@
 Locales['de'] = {
-    ['invalid_amount'] = 'Das ist ein ungültiger Geldbetrag.',
-    ['deposit_money']  = 'Du hast $%s eingezahlt',
-    ['withdraw_money'] = 'Du hast $%s abgehoben',
-    ['pincode_money'] = 'Dein neuer Pincode lautet: %s',
-    ['transfer_money'] = 'Du hast erfolgreich $%s Geld zu ID: %s transferiert.',
-    ['receive_transfer'] = 'Du hast $%s Geld von ID: %s erhalten.',
-    ['press_e_banking']    = 'Drücke [E] um die Bank aufzurufen',
-    ['access_bank']    = 'Zugang zur Bank',
-    ['banking_blip']       = 'Bank',
-    ['cant_do_it']       = "Du kannst es nicht tun!",
-    ['not_enough_money'] = "Nicht genug Geld, du brauchst $%s",
-    ['pincode_not_found'] = "Ungültiger Pincode",
-    ['pincode_found'] = "Gültiger PIN-Code...",
-    ['bank_name'] = "Fleeca Bank"
-  }
+  ['invalid_amount'] = 'Das ist eine Ungültige anzahl von Geld',
+  ['deposit_money']  = 'Du zahlst ein %s€',
+  ['withdraw_money'] = 'Du zahlst aus %s€',
+  ['pincode_money'] = 'Dein neuer Pin lautet %s',
+  ['transfer_money'] = 'Du überweist %s€ an ID: %s',
+  ['receive_transfer'] = 'Du erhälst eine überweisung Betrag: %s€ Von: %s',
+  ['press_e_banking']    = 'Drücke [E] um auf die Bank zuzugreifen',
+  ['access_bank']    = 'Auf die Bank zugreifen',
+  ['banking_blip']       = 'Bank',
+  ['cant_do_it']       = "Kannst du nicht tun!",
+  ['not_enough_money'] = "Nicht genug Geld! Du benötigst %s Geld!",
+  ['pincode_not_found'] = "Ungültiger PIN Code",
+  ['pincode_found'] = "Gültiger PIN Code!",
+  ['bank_name'] = "Fleeca Bank"
+}
