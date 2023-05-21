@@ -85,5 +85,8 @@
   "cannot_give": "无法将 %s %s 交给目标",
   "evidence_cannot_take": "你无权撤回证据",
   "dumpster": "垃圾箱",
+  "crafting_item": "制作 %s",
+  "crafting_bench": "工作台",
+  "open_crafting_bench": "打开工作台",
   "not_enough_durability": "%s 没有足够的耐久度"
 }
