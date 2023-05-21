@@ -4,7 +4,9 @@ This program is a project for the fivem community, you have legal permission to 
 
 ATTENTION: You are not authorized to change the name of the resources present within it.
 
-Server installation procedure: https://bitpredator.github.io/bitpredator.dev/installation.html
+Database Installation: https://bitpredator.github.io/bptdevelopment/docs/database
+
+Server installation procedure: https://bitpredator.github.io/bptdevelopment/docs/install-server
 
 You are not authorized to sell this software (this is a free project).
 
