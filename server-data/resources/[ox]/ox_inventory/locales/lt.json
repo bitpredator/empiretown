@@ -84,5 +84,8 @@
 "cannot_give": "Nepavyko paduoti %s %s",
 "evidence_cannot_take": "Tau neleidžiama paimti įkalčių",
 "dumpster": "Konteineris",
+"crafting_item": "Gaminti %s",
+"crafting_bench": "Gamybos Stalas",
+"open_crafting_bench": "Atidaryti Gamybos Stalą",
 "not_enough_durability": "%s nėra pakankamai patvarus"
 }

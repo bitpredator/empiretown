@@ -66,8 +66,10 @@ else
 		itemnotify = GetConvarInt('inventory:itemnotify', 1) == 1,
 		imagepath = GetConvar('inventory:imagepath', 'nui://ox_inventory/web/images'),
 		dropprops = GetConvarInt('inventory:dropprops', 0) == 1,
+		dropmodel = joaat(GetConvar('inventory:dropmodel', 'prop_med_bag_01b')),
 		weaponmismatch = GetConvarInt('inventory:weaponmismatch', 1) == 1,
-		ignoreweapons = json.decode(GetConvar('inventory:ignoreweapons', '[]'))
+		ignoreweapons = json.decode(GetConvar('inventory:ignoreweapons', '[]')),
+		suppresspickups = GetConvarInt('inventory:suppresspickups', 1) == 1,
 	}
 
 	local ignoreweapons = table.create(0, (client.ignoreweapons and #client.ignoreweapons or 0) + 3)
@@ -163,7 +165,7 @@ local success, msg = lib.checkDependency('oxmysql', '2.4.0')
 
 if not success then return spamError(msg) end
 
-success, msg = lib.checkDependency('ox_lib', '3.0.0')
+success, msg = lib.checkDependency('ox_lib', '3.2.0')
 
 if not success then spamError(msg) end
 
@@ -177,10 +179,10 @@ if shared.target then
 
 	if not ox_target and not qtarget then
 		shared.target = false
-		return warn('targeting resource is not loaded - it should start before ox_inventory')
+		warn('targeting resource is not loaded - it should start before ox_inventory')
+	else
+		shared.target = ox_target and 'ox_target' or 'qtarget'
 	end
-
-	shared.target = ox_target and 'ox_target' or 'qtarget'
 end
 
 if lib.context == 'server' then

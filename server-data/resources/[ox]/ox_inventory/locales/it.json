@@ -82,5 +82,7 @@
   "cannot_give": "Impossibile dare %s %s al giocatore selezionato",
   "evidence_cannot_take": "Il tuo grado non può prendere oggetti dal deposito",
   "dumpster": "Cassonetto",
+  "crafting_item": "Craftando %s",
+  "crafting_bench": "Banco da lavoro",
   "not_enough_durability": "%s non ha abbastanza durabilità"
 }
