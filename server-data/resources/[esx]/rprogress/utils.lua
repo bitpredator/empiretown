@@ -47,7 +47,7 @@ function LoadAnimDict(animDict)
         RequestAnimDict(animDict)
 
         while not HasAnimDictLoaded(animDict) do
-            Citizen.Wait(1)
+            Wait(1)
         end
     end
 end
