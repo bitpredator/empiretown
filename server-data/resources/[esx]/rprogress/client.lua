@@ -248,7 +248,7 @@ function PlayAnimation()
     if Animation ~= nil then
         local player = PlayerPedId()
         if DoesEntityExist(player) and not IsEntityDead(player) then  
-            Citizen.CreateThread(function()
+            CreateThread(function()
                 if Animation.scenario ~= nil then
                     TaskStartScenarioInPlace(player, Animation.scenario, 0, true)
                 else
@@ -341,7 +341,6 @@ RegisterNUICallback('progress_minigame_complete', function(data, cb)
 
     cb('ok')
 end)
-
 
 ------------------------------------------------------------
 --                         EVENTS                         --
