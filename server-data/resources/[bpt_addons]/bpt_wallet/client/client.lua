@@ -3,13 +3,6 @@ local ox_inventory = exports.ox_inventory
 local ped = cache.ped
 local justConnect = true
 
-local function PutOnWal()
-    local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(ped,0.0,3.0,0.5))
-    walObj = CreateObjectNoOffset(hash, x, y, z, true, false)
-    AttachEntityToEntity(walObj, ped, GetPedBoneIndex(ped, 24818), 0.07, -0.11, -0.05, 0.0, 90.0, 175.0, true, true, false, true, 1, true)
-    walEquipped = true
-end
-
 local function RemoveWal()
     if DoesEntityExist(walObj) then
         DeleteObject(walObj)
@@ -27,11 +20,6 @@ AddEventHandler('ox_inventory:updateInventory', function(changes)
     for k, v in pairs(changes) do
         if type(v) == 'table' then
             local count = ox_inventory:Search('count', Config.WalletItem)
-	        if count > 0 and (not walEquipped or not walObj) then
-                PutOnWal()
-            elseif count < 1 and walEquipped then
-                RemoveWal()
-            end
         end
         if type(v) == 'boolean' then
             local count = ox_inventory:Search('count', Config.WalletItem)
@@ -55,4 +43,3 @@ exports('openWallet', function(data, slot)
         ox_inventory:openInventory('stash', 'wal_'..slot.metadata.identifier)
     end
 end)
-
