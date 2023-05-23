@@ -230,8 +230,13 @@ function OpenPoliceActionsMenu()
 				{icon = "fas fa-idkyet", title = _U('put_in_vehicle'), value = 'put_in_vehicle'},
 				{icon = "fas fa-idkyet", title = _U('out_the_vehicle'), value = 'out_the_vehicle'},
 				{icon = "fas fa-idkyet", title = _U('fine'), value = 'fine'},
-				{icon = "fas fa-idkyet", title = _U('unpaid_bills'), value = 'unpaid_bills'}
+				{icon = "fas fa-idkyet", title = _U('unpaid_bills'), value = 'unpaid_bills'},
+				{icon = "fas fa-idkyte", title = _U("Jail_Menu"), value = 'jail_menu'}
 			}
+
+			if data.current.value == 'jail_menu' then
+				TriggerEvent("esx-qalle-jail:openJailMenu")
+			end
 
 			if Config.EnableLicenses then
 				elements2[#elements2+1] = {

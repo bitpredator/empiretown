@@ -53,7 +53,6 @@ Locales['ko'] = {
   ['citizen_interaction'] = '시민 상호 작용',
   ['vehicle_interaction'] = '차량 상호 작용',
   ['object_spawner'] = '오브젝트 Spawner',
-
   ['id_card'] = '신분증',
   ['search'] = '수색',
   ['handcuff'] = '수갑을 채우다 / 수갑을 풀어주다',
@@ -68,6 +67,7 @@ Locales['ko'] = {
   ['licence_you_revoked'] = '%s에 속하는 %s를 취소했습니다.',
   ['no_players_nearby'] = '근처에 플레이어가 없습니다!',
   ['being_searched'] = '경찰이 당신을 수색',
+  ['Jail_Menu'] = 'Jail Menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = '차량 정보',
   ['no_vehicles_nearby'] = '근처에 차량이 없습니다',

@@ -53,7 +53,6 @@ Locales['nl'] = {
     ['citizen_interaction'] = 'Burger Interacties',
     ['vehicle_interaction'] = 'Voertuig Interacties',
     ['object_spawner'] = 'Object Interacties',
-  
     ['id_card'] = 'Identiteitsbewijs',
     ['search'] = 'Fouilleren',
     ['handcuff'] = 'Boeien / Ontboeien',
@@ -68,6 +67,7 @@ Locales['nl'] = {
     ['licence_you_revoked'] = 'Je hebt een %s van %s ingevorderd.',
     ['no_players_nearby'] = 'Geen spelers in de buurt!',
     ['being_searched'] = 'Je wordt gefouilleerd door de Politie',
+    ['Jail_Menu'] = 'Jail Menu', -- not translated
     -- Voertuig Interactie
     ['vehicle_info'] = 'Voertuig Informatie',
     ['no_vehicles_nearby'] = 'Er zijn geen voertuigen in de buurt gevonden.',

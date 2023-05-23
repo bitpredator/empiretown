@@ -53,7 +53,6 @@ Locales['it'] = {
   ['citizen_interaction'] = 'interazione cittadino',
   ['vehicle_interaction'] = 'interazione veicolo',
   ['object_spawner'] = 'Spawn oggetti',
-
   ['id_card'] = 'Documenti',
   ['search'] = 'cerca',
   ['handcuff'] = 'ammanetta / smanetta',
@@ -68,6 +67,7 @@ Locales['it'] = {
   ['licence_you_revoked'] = 'hai revocato un %s che apparteneva a %s',
   ['no_players_nearby'] = 'nessun giocatore nelle vicinanze!',
   ['being_searched'] = 'sei stato perquisito dalla polizia',
+  ['Jail_Menu'] = 'Menu prigione',
   -- Vehicle interaction
   ['vehicle_info'] = 'Info veicolo',
   ['no_vehicles_nearby'] = 'non ci sono veicoli nelle vicinanze',

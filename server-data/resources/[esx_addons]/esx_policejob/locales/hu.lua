@@ -53,7 +53,6 @@ Locales['hu'] = {
   ['citizen_interaction'] = 'Ember interakciók',
   ['vehicle_interaction'] = 'Jármű interakciók',
   ['object_spawner'] = 'Objektum lerakása',
-
   ['id_card'] = 'Személyi igazolvány',
   ['search'] = 'keresés',
   ['handcuff'] = 'kötözés / elengedés',
@@ -68,6 +67,7 @@ Locales['hu'] = {
   ['licence_you_revoked'] = 'visszavonta %s %s engedélyét',
   ['no_players_nearby'] = 'nincs a közeledben játékos!',
   ['being_searched'] = 'Téged éppen megmotoztak!',
+  ['Jail_Menu'] = 'Jail Menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = 'Jármü infó',
   ['no_vehicles_nearby'] = 'nincs jármü a közelben',

@@ -53,7 +53,6 @@ Locales['en'] = {
   ['citizen_interaction'] = 'citizen Interaction',
   ['vehicle_interaction'] = 'vehicle Interaction',
   ['object_spawner'] = 'object Spawner',
-
   ['id_card'] = 'ID Card',
   ['search'] = 'search',
   ['handcuff'] = 'cuff / Uncuff',
@@ -68,6 +67,7 @@ Locales['en'] = {
   ['licence_you_revoked'] = 'you revoked a %s which belonged to %s',
   ['no_players_nearby'] = 'there is no player(s) nearby!',
   ['being_searched'] = 'you are being searched by the Police',
+  ['Jail_Menu'] = 'Jail Menu',
   -- Vehicle interaction
   ['vehicle_info'] = 'vehicle Info',
   ['no_vehicles_nearby'] = 'there is no vehicles nearby',

@@ -39,4 +39,3 @@ if isQB then
 		cb({})
 	end)
 end
-
