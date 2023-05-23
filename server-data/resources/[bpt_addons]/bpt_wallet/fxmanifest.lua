@@ -6,7 +6,7 @@ description 'BPT Wallet for ox_inventory'
 version '0.0.4'
 
 client_scripts {
-    'client/**.lua'
+  'client/**.lua'
 }
 
 server_scripts {
@@ -16,8 +16,4 @@ server_scripts {
 shared_scripts {
   '@ox_lib/init.lua',
   'config.lua'
-}
-
-dependencies {
-  'ox_inventory'
 }
