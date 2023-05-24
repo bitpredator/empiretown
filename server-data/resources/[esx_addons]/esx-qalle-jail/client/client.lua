@@ -17,11 +17,7 @@ PlayerData = {}
 local jailTime = 0
 
 CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Wait(0)
-	end
-
+	ESX = exports["es_extended"]:getSharedObject()
 	while ESX.GetPlayerData() == nil do
 		Wait(10)
 	end
@@ -73,9 +69,7 @@ end)
 function JailLogin()
 	local JailPosition = Config.JailPositions["Cell"]
 	SetEntityCoords(PlayerPedId(), JailPosition["x"], JailPosition["y"], JailPosition["z"] - 1)
-
-	ESX.ShowNotification("Last time you went to sleep you were jailed, because of that you are now put back!")
-
+    ESX.ShowNotification(_U('back_in_jail'))
 	InJail()
 end
 
@@ -87,8 +81,7 @@ function UnJail()
 	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 		TriggerEvent('skinchanger:loadSkin', skin)
 	end)
-
-	ESX.ShowNotification("You are released, stay calm outside! Good LucK!")
+    ESX.ShowNotification(_U('you_released'))
 end
 
 function InJail()
@@ -96,18 +89,13 @@ function InJail()
 	--Jail Timer--
 
 	CreateThread(function()
-
 		while jailTime > 0 do
-
 			jailTime = jailTime - 1
-
-			ESX.ShowNotification("You have " .. jailTime .. " minutes left in jail!")
+            ESX.ShowNotification(_U('few_minutes'))
 
 			TriggerServerEvent("esx-qalle-jail:updateJailTime", jailTime)
-
 			if jailTime == 0 then
 				UnJail()
-
 				TriggerServerEvent("esx-qalle-jail:updateJailTime", 0)
 			end
 
@@ -151,24 +139,16 @@ function InJail()
 							if v["state"] then
 								PackPackage(posId)
 							else
-								ESX.ShowNotification("You've already taken this package!")
+							    ESX.ShowNotification(_U('package_taken'))
 							end
-
 						end
-
 					end
-
 				end
-
 			end
-
 			Wait(sleepThread)
-
 		end
 	end)
-
 	--Prison Work--
-
 end
 
 function LoadTeleporters()
@@ -226,18 +206,13 @@ function PackPackage(packageId)
 
 		if not IsPedUsingScenario(PlayerPedId(), "PROP_HUMAN_BUM_BIN") then
 			DeleteEntity(PackageObject)
-
-			ESX.ShowNotification("Canceled!")
-
+		    ESX.ShowNotification(_U('canceled'))
 			Packaging = false
 		end
 
 		if PackPercent >= 100 then
-
 			Packaging = false
-
 			DeliverPackage(PackageObject)
-
 			Package["state"] = false
 		else
 			ESX.Game.Utils.DrawText3D(Package, "Packaging... " .. math.ceil(tonumber(PackPercent)) .. "%", 0.4)
@@ -320,14 +295,14 @@ function OpenJailMenu()
             	local jailTime = tonumber(data2.value)
 
             	if jailTime == nil then
-              		ESX.ShowNotification("The time needs to be in minutes!")
+				    ESX.ShowNotification(_U('time_minutes'))
             	else
               		menu2.close()
 
               		local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 
               		if closestPlayer == -1 or closestDistance > 3.0 then
-                		ESX.ShowNotification("No players nearby!")
+                        ESX.ShowNotification(_U('players_nearby'))
 					else
 						ESX.UI.Menu.Open(
 							'dialog', GetCurrentResourceName(), 'jail_choose_reason_menu',
@@ -339,14 +314,14 @@ function OpenJailMenu()
 						  	local reason = data3.value
 		  
 						  	if reason == nil then
-								ESX.ShowNotification("You need to put something here!")
+							    ESX.ShowNotification(_U('put_something'))
 						  	else
 								menu3.close()
 		  
 								local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 		  
 								if closestPlayer == -1 or closestDistance > 3.0 then
-								  	ESX.ShowNotification("No players nearby!")
+								    ESX.ShowNotification(_U('players_nearby'))
 								else
 								  	TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(closestPlayer), jailTime, reason)
 								end
@@ -370,7 +345,7 @@ function OpenJailMenu()
 			ESX.TriggerServerCallback("esx-qalle-jail:retrieveJailedPlayers", function(playerArray)
 
 				if #playerArray == 0 then
-					ESX.ShowNotification("Your jail is empty!")
+				    ESX.ShowNotification(_U('jail_empty'))
 					return
 				end
 
@@ -404,4 +379,3 @@ function OpenJailMenu()
 		menu.close()
 	end)	
 end
-

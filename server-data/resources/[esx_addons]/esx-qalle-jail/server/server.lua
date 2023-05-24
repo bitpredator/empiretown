@@ -1,7 +1,5 @@
-ESX                = nil
-
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
+ESX = nil
+ESX = exports["es_extended"]:getSharedObject()
 RegisterCommand("jail", function(src, args, raw)
 
 	local xPlayer = ESX.GetPlayerFromId(src)
