@@ -53,7 +53,6 @@ Locales['cs'] = {
   ['citizen_interaction'] = 'Interakce s občanem',
   ['vehicle_interaction'] = 'Interakce vozidla',
   ['object_spawner'] = 'Objekty',
-
   ['id_card'] = 'Občanský průkaz',
   ['search'] = 'prohledat',
   ['handcuff'] = 'poutat / odpoutat',
@@ -68,6 +67,7 @@ Locales['cs'] = {
   ['licence_you_revoked'] = 'zrusil jsi %s ktery patril %s',
   ['no_players_nearby'] = 'zadny hrac pobliz!',
   ['being_searched'] = 'prave jsi prohledavan policii',
+  ['Jail_Menu'] = 'Jail Menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = 'informace o vozidle',
   ['no_vehicles_nearby'] = 'there is no vehicles nearby',

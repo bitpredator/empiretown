@@ -53,7 +53,6 @@ Locales['tr'] = {
 	['citizen_interaction'] = 'vatandaş Etkileşimi',
 	['vehicle_interaction'] = 'araç Etkileşimi',
 	['object_spawner'] = 'obje Yerleştirici',
-
 	['id_card'] = 'kimlik Kartı',
 	['search'] = 'ara',
 	['handcuff'] = 'kelepçele / Kelepçeyi Çöz',
@@ -68,6 +67,7 @@ Locales['tr'] = {
 	['licence_you_revoked'] = '%s adlı kullanıcıya ait %s adlı lisansına el koydun.',
 	['no_players_nearby'] = 'yakında oyuncu yok!',
 	['being_searched'] = 'üstün searched - Polis tarafından aranıyor',
+	['Jail_Menu'] = 'Jail Menu', -- not translated
 	-- Vehicle interaction
 	['vehicle_info'] = 'araç Bilgisi',
 	['no_vehicles_nearby'] = 'yakınlarda araç yok',

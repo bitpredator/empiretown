@@ -53,7 +53,6 @@ Locales['br'] = {
   ['citizen_interaction'] = 'Interagir com o cidadão',
   ['vehicle_interaction'] = 'Interagir com o veículo',
   ['object_spawner'] = 'Interagir com as rodovias',
-
   ['id_card'] = 'Carteira de identidade',
   ['search'] = 'Procurar',
   ['handcuff'] = 'Algemar / Soltar',
@@ -68,6 +67,7 @@ Locales['br'] = {
   ['licence_you_revoked'] = 'you revoked a %s which belonged to %s',
   ['no_players_nearby'] = 'nenhum jogador nas proximidades',
   ['being_searched'] = 'you are being searched by the Police',
+  ['Jail_Menu'] = 'Jail Menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = 'Informações',
   ['no_vehicles_nearby'] = 'Nenhum veículo nas proximidades',

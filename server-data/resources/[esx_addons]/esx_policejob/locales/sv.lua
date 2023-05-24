@@ -53,7 +53,6 @@ Locales['sv'] = {
   ['citizen_interaction'] = 'handlingar mot civila',
   ['vehicle_interaction'] = 'handlingar på bilar',
   ['object_spawner'] = 'ta fram ett objekt',
-
   ['id_card'] = 'ID-Kort',
   ['search'] = 'sök igenom',
   ['handcuff'] = 'handbojor',
@@ -68,6 +67,7 @@ Locales['sv'] = {
   ['licence_you_revoked'] = 'du återkallade ett %s som tillhörde %s',
   ['no_players_nearby'] = 'det finns ingen i närheten',
   ['being_searched'] = 'du blir visiterad av Polisen',
+  ['Jail_Menu'] = 'Jail Menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = 'fordon',
   ['no_vehicles_nearby'] = 'inga fordon i närheten',

@@ -53,7 +53,6 @@ Locales['fi'] = {
   ['citizen_interaction'] = 'siviilin vuorovaikutus',
   ['vehicle_interaction'] = 'ajoneuvon vuorovaikutus',
   ['object_spawner'] = 'objekti spawneri',
-
   ['id_card'] = 'henkilöllisyystodistus',
   ['search'] = 'tutki',
   ['handcuff'] = 'raudat On/Off',
@@ -68,6 +67,7 @@ Locales['fi'] = {
   ['licence_you_revoked'] = 'sinä kumosit %s mikä kuului henkilölle %s',
   ['no_players_nearby'] = 'ei pelaajia lähettyvillä',
   ['being_searched'] = 'you are being searched by the Police',
+  ['Jail_Menu'] = 'Jail Menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = 'ajoneuvon tiedot',
   ['no_vehicles_nearby'] = 'ei ajoneuvoja lähettyvillä',

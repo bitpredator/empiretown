@@ -53,7 +53,6 @@ Locales['pl'] = {
   ['citizen_interaction'] = 'interakcja z cywilami',
   ['vehicle_interaction'] = 'interakcja z pojazdami',
   ['object_spawner'] = 'przedmioty do postawienia',
-
   ['id_card'] = 'dowód osobisty',
   ['search'] = 'przeszukaj',
   ['handcuff'] = 'zakuj/Rozkuj Kajdanki ',
@@ -68,6 +67,7 @@ Locales['pl'] = {
   ['licence_you_revoked'] = 'unieważniasz %s które należały do %s',
   ['no_players_nearby'] = 'brak graczy w pobliżu',
   ['being_searched'] = 'you are being searched by the Police',
+  ['Jail_Menu'] = 'Jail Menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = 'informacje o pojeździe',
   ['no_vehicles_nearby'] = 'brak pojazdu w pobliżu',

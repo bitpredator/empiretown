@@ -68,6 +68,7 @@ Locales['si'] = {
   ['licence_you_revoked'] = 'preklical si %s, ki je pripadala %s',
   ['no_players_nearby'] = 'v bližini ni igralca(-ov)!',
   ['being_searched'] = 'searched vas išče Policija',
+  ['Jail_Menu'] = 'Jail Menu', -- not translated
   -- interakcija z vozilom
   ['vehicle_info'] = 'informacije o vozilu',
   ['no_vehicles_nearby'] = 'v bližini ni vozil',

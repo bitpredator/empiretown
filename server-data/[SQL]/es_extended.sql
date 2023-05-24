@@ -105,8 +105,9 @@ CREATE TABLE IF NOT EXISTS `banking` (
   `time` bigint(20) DEFAULT NULL,
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `balance` int(11) DEFAULT 0,
+  `label` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella es_extended.banking: ~0 rows (circa)
 
@@ -250,9 +251,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1282 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1333 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~1.268 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~1.319 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -1511,7 +1512,58 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1278, 'property', NULL, '{}'),
 	(1279, 'property', NULL, '{}'),
 	(1280, 'property', NULL, '{}'),
-	(1281, 'property', NULL, '{}');
+	(1281, 'property', NULL, '{}'),
+	(1282, 'property', NULL, '{}'),
+	(1283, 'property', NULL, '{}'),
+	(1284, 'property', NULL, '{}'),
+	(1285, 'property', NULL, '{}'),
+	(1286, 'property', NULL, '{}'),
+	(1287, 'property', NULL, '{}'),
+	(1288, 'property', NULL, '{}'),
+	(1289, 'property', NULL, '{}'),
+	(1290, 'property', NULL, '{}'),
+	(1291, 'property', NULL, '{}'),
+	(1292, 'property', NULL, '{}'),
+	(1293, 'property', NULL, '{}'),
+	(1294, 'property', NULL, '{}'),
+	(1295, 'property', NULL, '{}'),
+	(1296, 'property', NULL, '{}'),
+	(1297, 'property', NULL, '{}'),
+	(1298, 'property', NULL, '{}'),
+	(1299, 'property', NULL, '{}'),
+	(1300, 'property', NULL, '{}'),
+	(1301, 'property', NULL, '{}'),
+	(1302, 'property', NULL, '{}'),
+	(1303, 'property', NULL, '{}'),
+	(1304, 'property', NULL, '{}'),
+	(1305, 'property', NULL, '{}'),
+	(1306, 'property', NULL, '{}'),
+	(1307, 'property', NULL, '{}'),
+	(1308, 'property', NULL, '{}'),
+	(1309, 'property', NULL, '{}'),
+	(1310, 'property', NULL, '{}'),
+	(1311, 'property', NULL, '{}'),
+	(1312, 'property', NULL, '{}'),
+	(1313, 'property', NULL, '{}'),
+	(1314, 'property', NULL, '{}'),
+	(1315, 'property', NULL, '{}'),
+	(1316, 'property', NULL, '{}'),
+	(1317, 'property', NULL, '{}'),
+	(1318, 'property', NULL, '{}'),
+	(1319, 'property', NULL, '{}'),
+	(1320, 'property', NULL, '{}'),
+	(1321, 'property', NULL, '{}'),
+	(1322, 'property', NULL, '{}'),
+	(1323, 'property', NULL, '{}'),
+	(1324, 'property', NULL, '{}'),
+	(1325, 'property', NULL, '{}'),
+	(1326, 'property', NULL, '{}'),
+	(1327, 'property', NULL, '{}'),
+	(1328, 'property', NULL, '{}'),
+	(1329, 'property', NULL, '{}'),
+	(1330, 'property', NULL, '{}'),
+	(1331, 'property', NULL, '{}'),
+	(1332, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -1986,7 +2038,7 @@ CREATE TABLE IF NOT EXISTS `owned_vehicles` (
   PRIMARY KEY (`plate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.owned_vehicles: ~4 rows (circa)
+-- Dump dei dati della tabella es_extended.owned_vehicles: ~5 rows (circa)
 
 -- Dump della struttura di tabella es_extended.ox_doorlock
 CREATE TABLE IF NOT EXISTS `ox_doorlock` (
@@ -2069,7 +2121,7 @@ CREATE TABLE IF NOT EXISTS `ox_inventory` (
   UNIQUE KEY `owner` (`owner`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.ox_inventory: ~6 rows (circa)
+-- Dump dei dati della tabella es_extended.ox_inventory: ~5 rows (circa)
 
 -- Dump della struttura di tabella es_extended.rented_vehicles
 CREATE TABLE IF NOT EXISTS `rented_vehicles` (
@@ -2121,6 +2173,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `tattoos` longtext DEFAULT NULL,
   `iban` varchar(255) DEFAULT NULL,
   `phone_number` int(10) DEFAULT NULL,
+  `jail` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`identifier`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
