@@ -6,10 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set upNode.js
-      uses: action/setup-node@v3
-      with:
-        node-version: 19
       - name: Lint
         uses: iLLeniumStudios/fivem-lua-lint-action@v2
         with:
