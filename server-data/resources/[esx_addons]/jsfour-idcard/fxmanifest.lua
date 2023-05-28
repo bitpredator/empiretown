@@ -4,12 +4,20 @@ game 'gta5'
 
 ui_page 'html/index.html'
 
+shared_script '@es_extended/imports.lua'
+
 server_script {
+	'@es_extended/locale.lua',
+	'locales/*.lua',
 	'@oxmysql/lib/MySQL.lua',
+	'config.lua',
 	'server.lua'
 }
 
 client_script {
+	'@es_extended/locale.lua',
+	'locales/*.lua',
+	'config.lua',
 	'client.lua'
 }
 
