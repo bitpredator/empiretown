@@ -1,5 +1,4 @@
 ESX = nil
-
 CreateThread(function()
     ESX = exports["es_extended"]:getSharedObject()
     while ESX.GetPlayerData().job == nil do
@@ -58,7 +57,7 @@ AddEventHandler("JOBCARD:USE", function(user)
     local name2    = userData.lastname
     
     if closestDistance ~= -1 and closestDistance <= 2.0 then
-        ESX.ShowNotification(("[~b~Inventaire~s~]~n~ %s a bien reçu votre carte."):format(GetPlayerName(closestPlayer)))
+        ESX.ShowNotification(_U('you_have_licensed'):format(GetPlayerName(closestPlayer)))
         for job,info in pairs(_LConfig.jobs) do
             if ESX.PlayerData.job.name == job then
                 local msg = info.message
@@ -78,8 +77,7 @@ AddEventHandler("JOBCARD:USE", function(user)
                 return
             end
         end
-        ESX.ShowNotification((_LConfig.defaultJobMessage):format(name, name2, ESX.PlayerData.job.label, ESX.PlayerData.job.grade_label)) -- 
+        ESX.ShowNotification((_LConfig.defaultJobMessage):format(name, name2, ESX.PlayerData.job.label, ESX.PlayerData.job.grade_label))
     end
     Wait(1)
 end)
-

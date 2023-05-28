@@ -2,21 +2,27 @@ fx_version 'cerulean'
 game 'gta5'
 
 name "LItemBasic"
-description "fivem ressource"
+description "fivem resource"
 author "LQuatre"
 version "1.0.0"
-
-dependency 'jsfour-idcard'
+lua54 'yes'
 
 shared_scripts {
-	'shared/*.lua'
+	'shared/*.lua',
+	'@es_extended/imports.lua'
 }
 
 client_scripts {
-	'client/*.lua'
+	'@es_extended/locale.lua',
+	'client/*.lua',
+	'config.lua'
 }
 
 server_scripts {
+	'@es_extended/locale.lua',
 	"@mysql-async/lib/MySQL.lua",
-	'server/*.lua'
+	'server/*.lua',
+	'config.lua'
 }
+
+dependency 'jsfour-idcard'
