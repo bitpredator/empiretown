@@ -7,14 +7,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Lint
-        uses: iLLeniumStudios/fivem-lua-lint-action@v2
+        uses: GoatG33k/fivem-lua-lint-action@v1
         with:
           capture: "junit.xml"
           args: "-t --formatter JUnit"
+          extra_libs: mysql
       - name: Generate Lint Report
         if: always()
         uses: mikepenz/action-junit-report@v3
         with:
-          report_paths: "junit.xml"
+          report_paths: "**/junit.xml"
           check_name: Linting Report
           fail_on_failure: false
