@@ -77,7 +77,7 @@ return {
 	DmvSchool = {
 		name = 'Scuola Guida',
 		groups = {
-			['drivingschool'] = 4
+			['driving'] = 4
 		},
 		blip = {
 			id = 403, colour = 69, scale = 0.8
