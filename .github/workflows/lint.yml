@@ -1,38 +1,21 @@
 name: Lint
-
-on:
-  pull_request:
-    branches:
-      - main
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-
+on: [push, pull_request]
 jobs:
   lint:
-    name: Lint
-    timeout-minutes: 30
+    name: Lint Resource
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
-      - name: Set up Node
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
-        with:
-          node-version: '16'
-          cache: yarn
-      - name: Installation
-        run: yarn
-        # run: yarn install --immutable # Fails if yarn.lock is modified (unfortunately only works for Yarn 2, and --frozen-lockfile is not the same!)
-      - name: Check immutable yarn.lock
-        run: git diff --exit-code
+      - uses: actions/checkout@v3
       - name: Lint
-        run: |
-          echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
-          yarn lint:ci
-      - name: Prettier Code
-        run: yarn format:diff
+        uses: iLLeniumStudios/fivem-lua-lint-action@v2
+        with:
+          capture: "junit.xml"
+          args: "-t --formatter JUnit"
+          extra_libs: mysql
+      - name: Generate Lint Report
+        if: always()
+        uses: mikepenz/action-junit-report@v3
+        with:
+          report_paths: "**/junit.xml"
+          check_name: Linting Report
+          fail_on_failure: false
