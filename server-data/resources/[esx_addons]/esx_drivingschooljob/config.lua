@@ -11,8 +11,8 @@ Config.Locale = 'en'
 Config.Zones = {
        
 	DrivingActions = {
-		Pos   = {x = 212.38, y = -1397.26, z = 30.58},
-		Size  = {x = 1.5, y = 1.5, z = 1.0},
+		Pos   = {x = 212.584625, y = -1399.859375, z = 30.577271},
+		Size  = {x = 1.0, y = 1.0, z = 1.0},
 		Color = {r = 32, g = 229, b = 10},
 		Type  = 20
 	},
