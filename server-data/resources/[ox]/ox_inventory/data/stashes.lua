@@ -226,4 +226,23 @@ return {
 		weight = 70000,
 		groups = {['baker'] = 0}
 	},
+
+	{
+		coords = vec3(206.241760, -1395.758301, 30.577271),
+		target = {
+			loc = vec3(206.241760, -1395.758301, 30.577271),
+			length = 0.6,
+			width = 1.8,
+			heading = 340,
+			minZ = 43.34,
+			maxZ = 44.74,
+			label = 'Storage'
+		},
+		name = 'drivinglocker',
+		label = 'driving',
+		owner = false,
+		slots = 70,
+		weight = 70000,
+		groups = {['driving'] = 0}
+	},
 }

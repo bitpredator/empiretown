@@ -97,8 +97,6 @@ local function closeTrunk()
 	end
 end
 
-local CraftingBenches = require 'modules.crafting.client'
-
 ---@param inv string?
 ---@param data any?
 ---@return boolean?
