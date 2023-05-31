@@ -249,10 +249,9 @@ end)
 function OpenDrivingActionsMenu()
 
   local elements = {
-    {label = _U('vehicle_list'), value = 'vehicle_list'},
-    {label = _U('deposit_stock'), value = 'put_stock'},
-    {label = _U('withdraw_stock'), value = 'get_stock'}
+    {label = _U('vehicle_list'), value = 'vehicle_list'}
   }
+
   if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
     table.insert(elements, {label = _U('boss_actions'), value = 'boss_actions'})
   end
@@ -367,14 +366,6 @@ function OpenDrivingActionsMenu()
           end
       end
 
-      if data.current.value == 'put_stock' then
-        OpenPutStocksMenu()
-      end
-
-      if data.current.value == 'get_stock' then
-        OpenGetStocksMenu()
-      end
-
       if data.current.value == 'boss_actions' then
         TriggerEvent('esx_society:openBossMenu', 'driving', function(data, menu)
           menu.close()
@@ -389,129 +380,6 @@ function OpenDrivingActionsMenu()
       CurrentActionData = {}
     end
   )
-end
-
-function OpenGetStocksMenu()
-
-  ESX.TriggerServerCallback('esx_drivingschooljob:getStockItems', function(items)
-
-    print(json.encode(items))
-
-    local elements = {}
-
-    for i=1, #items, 1 do
-
-      local item = items[i]
-
-      if item.count > 0 then
-        table.insert(elements, {label = item.label .. ' x' .. item.count, type = 'item_standard', value = item.name})
-      end
-
-    end
-
-    ESX.UI.Menu.Open(
-      'default', GetCurrentResourceName(), 'stocks_menu',
-      {
-        title    = _U('stock'),
-        elements = elements
-      },
-      function(data, menu)
-
-        local itemName = data.current.value
-
-        ESX.UI.Menu.Open(
-          'dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count',
-          {
-            title = _U('quantity')
-          },
-          function(data2, menu2)
-
-            local count = tonumber(data2.value)
-
-            if count == nil then
-              ESX.ShowNotification(_U('invalid_quantity'))
-            else
-              menu2.close()
-              menu.close()
-              OpenGetStocksMenu()
-
-              TriggerServerEvent('esx_drivingschooljob:getStockItem', itemName, count)
-            end
-
-          end,
-          function(data2, menu2)
-            menu2.close()
-          end
-        )
-
-      end,
-      function(data, menu)
-        menu.close()
-      end
-    )
-
-  end)
-
-end
-
-function OpenPutStocksMenu()
-
-ESX.TriggerServerCallback('esx_drivingschooljob:getPlayerInventory', function(inventory)
-
-    local elements = {}
-
-    for i=1, #inventory.items, 1 do
-
-      local item = inventory.items[i]
-
-      if item.count > 0 then
-        table.insert(elements, {label = item.label .. ' x' .. item.count, type = 'item_standard', value = item.name})
-      end
-
-    end
-
-    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu',
-      {
-        title    = _U('inventory'),
-        elements = elements
-      },
-      function(data, menu)
-
-        local itemName = data.current.value
-
-        ESX.UI.Menu.Open(
-          'dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count',
-          {
-            title = _U('quantity')
-          },
-          function(data2, menu2)
-
-            local count = tonumber(data2.value)
-
-            if count == nil then
-              ESX.ShowNotification(_U('invalid_quantity'))
-            else
-              menu2.close()
-              menu.close()
-              OpenPutStocksMenu()
-
-              TriggerServerEvent('esx_drivingschooljob:putStockItems', itemName, count)
-            end
-
-          end,
-          function(data2, menu2)
-            menu2.close()
-          end
-        )
-
-      end,
-      function(data, menu)
-        menu.close()
-      end
-    )
-
-  end)
-
 end
 
 RegisterNetEvent('esx:playerLoaded')
@@ -651,7 +519,6 @@ CreateThread(function()
     end
   end
 end)
-
 
 -- Block UI
 CreateThread(function()

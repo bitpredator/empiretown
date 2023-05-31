@@ -17,10 +17,3 @@ INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_
   ('driving',3,'examiner','Examiner',200,'{}','{}'),
   ('driving',4,'boss','Boss',350,'{}','{}')
 ;
-
-INSERT INTO `licenses` (`type`, `label`) VALUES
-	('dmv', 'Code de la route'),
-	('drive', 'Permis de conduire'),
-	('drive_bike', 'Permis moto'),
-	('drive_truck', 'Permis camion')
-;
