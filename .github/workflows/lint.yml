@@ -9,12 +9,12 @@ jobs:
               with:
                   ref: ${{ github.event.pull_request.head.sha }}
             - name: Lint
-              uses: GoatG33k/fivem-lua-lint-action@v1
+              uses: iLLeniumStudios/fivem-lua-lint-action@v2
               with:
                   capture: "junit.xml"
                   args: "-t --formatter JUnit"
                   extra_libs: ox_lib
-            - name: Generate Lint Report
+            - name: Lint Report
               if: always()
               uses: mikepenz/action-junit-report@v3
               with:
