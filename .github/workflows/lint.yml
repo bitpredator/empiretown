@@ -1,5 +1,5 @@
 name: Lint
-on: [push, pull_request_target]
+on: [push, pull_request]
 jobs:
     lint:
         name: Lint Resource
@@ -13,7 +13,7 @@ jobs:
               with:
                   capture: "junit.xml"
                   args: "-t --formatter JUnit"
-                  extra_libs: mysql+ox_lib
+                  extra_libs: ox_lib
             - name: Generate Lint Report
               if: always()
               uses: mikepenz/action-junit-report@v3
