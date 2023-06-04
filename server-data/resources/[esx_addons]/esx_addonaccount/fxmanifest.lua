@@ -5,7 +5,7 @@ game 'gta5'
 author 'bitpredaator'
 description 'ESX Addon Account'
 
-version '0.0.3'
+version '0.0.4'
 
 server_scripts {
 	'@es_extended/imports.lua',
