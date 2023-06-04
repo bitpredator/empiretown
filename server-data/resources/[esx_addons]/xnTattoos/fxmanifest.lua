@@ -1,7 +1,7 @@
 fx_version 'adamant'
 games { 'gta5' }
 
-version '0.0.3'
+version '0.0.4'
 
 client_scripts {
 	'client/jaymenu.lua',
