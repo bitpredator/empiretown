@@ -9,13 +9,13 @@ jobs:
       - name: Lint
         uses: iLLeniumStudios/fivem-lua-lint-action@v2
         with:
-          capture: "junit.xml"
+          capture: "report.xml"
           args: "-t --formatter JUnit"
           extra_libs: mysql
       - name: Generate Lint Report
         if: always()
         uses: mikepenz/action-junit-report@v3
         with:
-          report_paths: "**/junit.xml"
+          report_paths: "**/report.xml"
           check_name: Linting Report
           fail_on_failure: false
