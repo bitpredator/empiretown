@@ -19,10 +19,10 @@ if isESX then
 				local xPlayer = PlayersWithJob[playerIndex]
 				local PlayerData = exports.npwd:getPlayerData({source = src})
 				PlayerList[#PlayerList + 1] = {
-						name = xPlayer.getName(),
-						job = xPlayer.job.name,
-						phoneNumber = PlayerData.phoneNumber,
-					}
+					name = xPlayer.getName(),
+					job = xPlayer.job.name,
+					phoneNumber = PlayerData.phoneNumber,
+			    }
 			end
 		end
 		cb(PlayerList)
@@ -35,7 +35,6 @@ if isQB then
 		local players = FrameworkObj.Functions.GetQBPlayers()
 		local playerList = {}
 	
-		
 		for i = 1, #players do
 			if not Config.ShowOffDuty and players[i].PlayerData.job.onduty then
 				for _, job in pairs(Config.Jobs) do
