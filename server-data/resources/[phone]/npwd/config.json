@@ -8,7 +8,12 @@
     "useResourceIntegration": true,
     "toggleKey": "f1",
     "toggleCommand": "phone",
-    "defaultLanguage": "it"
+    "defaultLanguage": "en"
+  },
+  "contacts": {
+    "frameworkPay": false,
+    "payResource": "my-core-resource",
+    "payFunction": "myCheckerFunction"
   },
   "profanityFilter": {
     "enabled": false,
@@ -27,6 +32,8 @@
     "enabled": true,
     "sentryEnabled": true
   },
+  "defaultContacts": [],
+  "disabledApps": [],
   "images": {
     "useWebhook": true
   },
