@@ -16,8 +16,3 @@ if Config.Item.Require then
         cb(RadioItem >= 1)
     end)
 end
-
-
-                                                                                          
-
- 
