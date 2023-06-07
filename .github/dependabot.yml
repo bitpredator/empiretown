@@ -10,6 +10,7 @@ updates:
   - package-ecosystem: 'npm'
     directory: 'server-data/resources/[gameplay]/chat/'
     directory: 'server-data/resources/[system]/[builders]/webpack/'
+    directory: 'server-data/resources/[esx]/EasyAdmin/'
     schedule:
       interval: 'daily'
     # Disable version updates for npm dependencies
