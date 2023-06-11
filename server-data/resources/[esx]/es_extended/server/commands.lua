@@ -22,7 +22,7 @@ ESX.RegisterCommand('car', 'admin', function(xPlayer, args, showError)
 	local GameBuild = tonumber(GetConvar("sv_enforceGameBuild", 1604))
 	if not args.car then args.car = GameBuild >= 2699 and "draugur" or "prototipo" end
 	local upgrades = Config.MaxAdminVehicles and {
-		plate = "BPT EMP", 
+		plate = "BPT EMP",
 		modEngine = 3,
 		modBrakes = 2,
 		modTransmission = 2,
@@ -39,7 +39,7 @@ ESX.RegisterCommand('car', 'admin', function(xPlayer, args, showError)
 	end)
 end, false, {help = _U('command_car'), validate = false, arguments = {
 	{name = 'car',validate = false, help = _U('command_car_car'), type = 'string'}
-}}) 
+}})
 
 ESX.RegisterCommand({'cardel', 'dv'}, 'admin', function(xPlayer, args, showError)
 	local PedVehicle = GetVehiclePedIsIn(GetPlayerPed(xPlayer.source), false)
@@ -47,7 +47,7 @@ ESX.RegisterCommand({'cardel', 'dv'}, 'admin', function(xPlayer, args, showError
 		DeleteEntity(PedVehicle)
 	end
 	local Vehicles = ESX.OneSync.GetVehiclesInArea(GetEntityCoords(GetPlayerPed(xPlayer.source)), tonumber(args.radius) or 5.0)
-	for i=1, #Vehicles do 
+	for i=1, #Vehicles do
 		local Vehicle = NetworkGetEntityFromNetworkId(Vehicles[i])
 		if DoesEntityExist(Vehicle) then
 			DeleteEntity(Vehicle)
@@ -139,7 +139,7 @@ end, true, {help = _U('command_clearall')})
 
 if not Config.OxInventory then
 	ESX.RegisterCommand('clearinventory', 'admin', function(xPlayer, args, showError)
-		for k,v in ipairs(args.playerId.inventory) do
+		for _,v in ipairs(args.playerId.inventory) do
 			if v.count > 0 then
 				args.playerId.setInventoryItem(v.name, 0)
 			end
@@ -233,7 +233,7 @@ end, true, {help = _U('command_unfreeze'), validate = true, arguments = {
 ESX.RegisterCommand('players', "admin", function(xPlayer, args, showError)
 	local xPlayers = ESX.GetExtendedPlayers() -- Returns all xPlayers
 	print("^5"..#xPlayers.." ^2online player(s)^0")
-	for i=1, #(xPlayers) do 
+	for i=1, #(xPlayers) do
 		local xPlayer = xPlayers[i]
 		print("^1[ ^2ID : ^5"..xPlayer.source.." ^0| ^2Name : ^5"..xPlayer.getName().." ^0 | ^2Group : ^5"..xPlayer.getGroup().." ^0 | ^2Identifier : ^5".. xPlayer.identifier .."^1]^0\n")
 	end

@@ -22,7 +22,7 @@ end
 
 function ESX.RegisterCommand(name, group, cb, allowConsole, suggestion)
   if type(name) == 'table' then
-    for k, v in ipairs(name) do
+    for _, v in ipairs(name) do
       ESX.RegisterCommand(v, group, cb, allowConsole, suggestion)
     end
 
@@ -151,7 +151,7 @@ function ESX.RegisterCommand(name, group, cb, allowConsole, suggestion)
   end, true)
 
   if type(group) == 'table' then
-    for k, v in ipairs(group) do
+    for _, v in ipairs(group) do
       ExecuteCommand(('add_ace group.%s command.%s allow'):format(v, name))
     end
   else
@@ -179,10 +179,10 @@ function Core.SavePlayer(xPlayer, cb)
   local parameters <const> = {
     json.encode(xPlayer.getAccounts(true)),
     xPlayer.job.name,
-    xPlayer.job.grade, 
+    xPlayer.job.grade,
     xPlayer.group,
     json.encode(xPlayer.getCoords()),
-    json.encode(xPlayer.getInventory(true)), 
+    json.encode(xPlayer.getInventory(true)),
     json.encode(xPlayer.getLoadout(true)),
     xPlayer.identifier
   }
@@ -224,7 +224,7 @@ function Core.SavePlayers(cb)
 
   MySQL.prepare(
     "UPDATE `users` SET `accounts` = ?, `job` = ?, `job_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ? WHERE `identifier` = ?",
-    parameters, 
+    parameters,
     function(results)
       if not results then
         return
@@ -242,7 +242,7 @@ end
 ESX.GetPlayers = GetPlayers
 function ESX.GetExtendedPlayers(key, val)
   local xPlayers = {}
-  for k, v in pairs(ESX.Players) do
+  for _, v in pairs(ESX.Players) do
     if key then
       if (key == 'job' and v.job.name == val) or v[key] == val then
         xPlayers[#xPlayers + 1] = v
@@ -259,7 +259,7 @@ function ESX.GetPlayerFromId(source)
 end
 
 function ESX.GetPlayerFromIdentifier(identifier)
-  for k, v in pairs(ESX.Players) do
+  for _, v in pairs(ESX.Players) do
     if v.identifier == identifier then
       return v
     end
@@ -267,11 +267,11 @@ function ESX.GetPlayerFromIdentifier(identifier)
 end
 
 function ESX.GetIdentifier(playerId)
-  local fxDk = GetConvarInt('sv_fxdkMode', 0) 
+  local fxDk = GetConvarInt('sv_fxdkMode', 0)
   if fxDk == 1 then
     return "ESX-DEBUG-LICENCE"
   end
-  for k, v in ipairs(GetPlayerIdentifiers(playerId)) do
+  for _, v in ipairs(GetPlayerIdentifiers(playerId)) do
     if string.match(v, 'license:') then
       local identifier = string.gsub(v, 'license:', '')
       return identifier

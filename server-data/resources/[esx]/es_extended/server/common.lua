@@ -16,7 +16,7 @@ Core.PlayerFunctionOverrides = {}
 
 AddEventHandler('esx:getSharedObject', function(cb)
   local Invoke = GetInvokingResource()
-  print(('[^3WARNING^7] ^5%s^7 used ^5esx:getSharedObject^7, this method is deprecated and should not be used, On 30/11/2022 esx:getSharedObject will come to EOL and be fully removed! Refer to ^5https://documentation.esx-framework.org/tutorials/sharedevent^7 for more info!'):format(Invoke))
+  print(('[^3WARNING^7] ^5%s^7 used ^5esx:getSharedObject^7, this method is obsolete, refer to ^5https://bitpredator.github.io/bptdevelopment/docs/esx-tutorial/sharedevent^7 for more info!'):format(Invoke))
   cb(ESX)
 end)
 
@@ -43,7 +43,7 @@ end
 MySQL.ready(function()
   if not Config.OxInventory then
     local items = MySQL.query.await('SELECT * FROM items')
-    for k, v in ipairs(items) do
+    for _, v in ipairs(items) do
       ESX.Items[v.name] = {label = v.label, weight = v.weight, rare = v.rare, canRemove = v.can_remove}
     end
   else

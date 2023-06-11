@@ -1,6 +1,7 @@
 SetMapName('San Andreas')
 SetGameType('BPT FRAMEWORK')
 
+local oneSyncState = GetConvar('onesync', 'off')
 local newPlayer = 'INSERT INTO `users` SET `accounts` = ?, `identifier` = ?, `group` = ?'
 local loadPlayer = 'SELECT `accounts`, `job`, `job_grade`, `group`, `position`, `inventory`, `skin`, `loadout`'
 
@@ -133,9 +134,9 @@ function loadESXPlayer(identifier, playerId, isNew)
     end
     local index = #userData.accounts + 1
     userData.accounts[index] = {
-      name = account, 
+      name = account,
       money = foundAccounts[account] or Config.StartingAccountMoney[account] or 0,
-      label = data.label, 
+      label = data.label,
       round = data.round,
       index = index
     }
@@ -299,13 +300,13 @@ function loadESXPlayer(identifier, playerId, isNew)
 
   xPlayer.triggerEvent('esx:playerLoaded',
     {
-      accounts = xPlayer.getAccounts(), 
-      coords = xPlayer.getCoords(), 
-      identifier = xPlayer.getIdentifier(), 
+      accounts = xPlayer.getAccounts(),
+      coords = userData.coords,
+      identifier = xPlayer.getIdentifier(),
       inventory = xPlayer.getInventory(),
-      job = xPlayer.getJob(), 
-      loadout = xPlayer.getLoadout(), 
-      maxWeight = xPlayer.getMaxWeight(), 
+      job = xPlayer.getJob(),
+      loadout = xPlayer.getLoadout(),
+      maxWeight = xPlayer.getMaxWeight(),
       money = xPlayer.getMoney(),
       sex = xPlayer.get("sex") or "m",
       dead = false
@@ -317,7 +318,6 @@ function loadESXPlayer(identifier, playerId, isNew)
   else
     exports.ox_inventory:setPlayerInventory(xPlayer, userData.inventory)
   end
-  xPlayer.updateCoords()
   xPlayer.triggerEvent('esx:registerSuggestions', Core.RegisteredCommands)
   print(('[^2INFO^0] Player ^5"%s"^0 has connected to the server. ID: ^5%s^7'):format(xPlayer.getName(), playerId))
 end
@@ -420,7 +420,7 @@ if not Config.OxInventory then
             targetXPlayer.setWeaponTint(itemName, weaponTint)
           end
           if weaponComponents then
-            for k, v in pairs(weaponComponents) do
+            for _, v in pairs(weaponComponents) do
               targetXPlayer.addWeaponComponent(itemName, v)
             end
           end
@@ -560,7 +560,7 @@ if not Config.OxInventory then
           xPlayer.addWeapon(pickup.name, pickup.count)
           xPlayer.setWeaponTint(pickup.name, pickup.tintIndex)
 
-          for k, v in ipairs(pickup.components) do
+          for _, v in ipairs(pickup.components) do
             xPlayer.addWeaponComponent(pickup.name, v)
           end
         end
@@ -578,7 +578,7 @@ ESX.RegisterServerCallback('esx:getPlayerData', function(source, cb)
   local xPlayer = ESX.GetPlayerFromId(source)
 
   cb({identifier = xPlayer.identifier, accounts = xPlayer.getAccounts(), inventory = xPlayer.getInventory(), job = xPlayer.getJob(),
-      loadout = xPlayer.getLoadout(), money = xPlayer.getMoney(), position = xPlayer.getCoords(true)})
+    loadout = xPlayer.getLoadout(), money = xPlayer.getMoney(), position = xPlayer.getCoords(true)})
 end)
 
 ESX.RegisterServerCallback('esx:isUserAdmin', function(source, cb)
@@ -589,23 +589,23 @@ ESX.RegisterServerCallback('esx:getOtherPlayerData', function(source, cb, target
   local xPlayer = ESX.GetPlayerFromId(target)
 
   cb({identifier = xPlayer.identifier, accounts = xPlayer.getAccounts(), inventory = xPlayer.getInventory(), job = xPlayer.getJob(),
-      loadout = xPlayer.getLoadout(), money = xPlayer.getMoney(), position = xPlayer.getCoords(true)})
+    loadout = xPlayer.getLoadout(), money = xPlayer.getMoney(), position = xPlayer.getCoords(true)})
 end)
 
 ESX.RegisterServerCallback('esx:getPlayerNames', function(source, cb, players)
-  players[source] = nil
+	players[source] = nil
 
-  for playerId, v in pairs(players) do
-    local xPlayer = ESX.GetPlayerFromId(playerId)
+	for playerId, v in pairs(players) do
+		local xPlayer = ESX.GetPlayerFromId(playerId)
 
-    if xPlayer then
-      players[playerId] = xPlayer.getName()
-    else
-      players[playerId] = nil
-    end
-  end
+		if xPlayer then
+			players[playerId] = xPlayer.getName()
+		else
+			players[playerId] = nil
+		end
+	end
 
-  cb(players)
+	cb(players)
 end)
 
 AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
@@ -620,4 +620,3 @@ end)
 AddEventHandler('txAdmin:events:serverShuttingDown', function()
   Core.SavePlayers()
 end)
-

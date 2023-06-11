@@ -68,8 +68,8 @@ AddEventHandler('esx:playerLoaded', function(xPlayer, isNew, skin)
 	-- DisableNPCDrops
 	if Config.DisableNPCDrops then
 		local weaponPickups = {`PICKUP_WEAPON_CARBINERIFLE`, `PICKUP_WEAPON_PISTOL`, `PICKUP_WEAPON_PUMPSHOTGUN`}
-		for i = 1, #weaponPickups do 
-			ToggleUsePickupsForPlayer(playerId, weaponPickups[i], false) 
+		for i = 1, #weaponPickups do
+			ToggleUsePickupsForPlayer(playerId, weaponPickups[i], false)
 		end
 	end
 
@@ -152,7 +152,7 @@ AddEventHandler('esx:restoreLoadout', function()
 		local ammoTypes = {}
 		RemoveAllPedWeapons(ESX.PlayerData.ped, true)
 
-		for k,v in ipairs(ESX.PlayerData.loadout) do
+		for _,v in ipairs(ESX.PlayerData.loadout) do
 			local weaponName = v.name
 			local weaponHash = joaat(weaponName)
 
@@ -161,7 +161,7 @@ AddEventHandler('esx:restoreLoadout', function()
 
 			local ammoType = GetPedAmmoTypeFromWeapon(ESX.PlayerData.ped, weaponHash)
 
-			for k2,v2 in ipairs(v.components) do
+			for _,v2 in ipairs(v.components) do
 				local componentHash = ESX.GetWeaponComponent(weaponName, v2).hash
 				GiveWeaponComponentToPed(ESX.PlayerData.ped, weaponHash, componentHash)
 			end
@@ -307,7 +307,7 @@ if not Config.OxInventory then
 			local pickupObject = CreateWeaponObject(weaponHash, 50, coords.x, coords.y, coords.z, true, 1.0, 0)
 			SetWeaponObjectTintIndex(pickupObject, tintIndex)
 
-			for k,v in ipairs(components) do
+			for _,v in ipairs(components) do
 				local component = ESX.GetWeaponComponent(name, v)
 				GiveWeaponComponentToWeaponObject(pickupObject, component.hash)
 			end
@@ -356,20 +356,20 @@ function StartServerSyncLoops()
 						if GetSelectedPedWeapon(ESX.PlayerData.ped) ~= -1569615261 then
 							sleep = 1000
 							local _,weaponHash = GetCurrentPedWeapon(ESX.PlayerData.ped, true)
-							local weapon = ESX.GetWeaponFromHash(weaponHash) 
+							local weapon = ESX.GetWeaponFromHash(weaponHash)
 							if weapon then
 								local ammoCount = GetAmmoInPedWeapon(ESX.PlayerData.ped, weaponHash)
-								if weapon.name ~= currentWeapon.name then 
+								if weapon.name ~= currentWeapon.name then
 									currentWeapon.Ammo = ammoCount
 									currentWeapon.name = weapon.name
 								else
 									if ammoCount ~= currentWeapon.Ammo then
 										currentWeapon.Ammo = ammoCount
 										TriggerServerEvent('esx:updateWeaponAmmo', weapon.name, ammoCount)
-									end 
-								end   
+									end
+								end
 							end
-						end    
+						end
 					Wait(sleep)
 					end
 			end)
@@ -573,7 +573,7 @@ RegisterNetEvent("esx:GetVehicleType", function(Model, Request)
 		if Model == `submersible` or Model == `submersible2` then
 			ReturnedType = "submarine"
 		end
-	else 
+	else
 		ReturnedType = false
 	end
 	TriggerServerEvent("esx:ReturnVehicleType", ReturnedType, Request)

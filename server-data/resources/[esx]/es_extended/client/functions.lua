@@ -89,11 +89,10 @@ function ESX.ShowNotification(message, type, length)
         end
     end
     
-    
 function ESX.TextUI(message, type)
     if GetResourceState("esx_textui") ~= "missing" then
         exports["esx_textui"]:TextUI(message, type)
-    else 
+    else
         print("[^1ERROR^7] ^5BPT TextUI^7 is Missing!")
         return
     end
@@ -102,7 +101,7 @@ end
 function ESX.HideUI()
     if GetResourceState("esx_textui") ~= "missing" then
         exports["esx_textui"]:HideUI()
-    else 
+    else
         print("[^1ERROR^7] ^5BPT TextUI^7 is Missing!")
         return
     end
@@ -149,7 +148,7 @@ ESX.HashString = function(str)
     local gsub = string.gsub
     local hash = joaat(str)
     local input_map = format("~INPUT_%s~", upper(format("%x", hash)))
-    input_map = string.gsub(input_map, "FFFFFFFF", "")
+    input_map = gsub(input_map, "FFFFFFFF", "")
 
     return input_map
 end
@@ -187,7 +186,6 @@ else
         print("[^1ERROR^7] Tried to ^5Refresh^7 context menu, but ^5esx_context^7 is missing!")
     end
 end
-
 
 ESX.RegisterInput = function(command_name, label, input_group, key, on_press, on_release)
     RegisterCommand(on_release ~= nil and "+" .. command_name or command_name, on_press)
@@ -361,7 +359,7 @@ end
 
 function ESX.Game.Teleport(entity, coords, cb)
     local vector = type(coords) == "vector4" and coords or type(coords) == "vector3" and vector4(coords, 0.0) or
-                       vec(coords.x, coords.y, coords.z, coords.heading or 0.0)
+        vec(coords.x, coords.y, coords.z, coords.heading or 0.0)
 
     if DoesEntityExist(entity) then
         RequestCollisionAtCoord(vector.xyz)
@@ -617,7 +615,7 @@ function ESX.Game.GetVehicleProperties(vehicle)
 
         local customXenonColorR, customXenonColorG, customXenonColorB = GetVehicleXenonLightsCustomColor(vehicle)
         local customXenonColor = nil
-        if customXenonColorR and customXenonColorG and customXenonColorB then 
+        if customXenonColorR and customXenonColorG and customXenonColorB then
             customXenonColor = {customXenonColorR, customXenonColorG, customXenonColorB}
         end
         
