@@ -75,7 +75,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer, isNew, skin)
 
 	-- DisableVehicleRewards
 	if Config.DisableVehicleRewards then
-		AddEventHandler('esx:enteredVehicle', function(vehicle, plate, seat, displayName, netId)
+		AddEventHandler('esx:enteredVehicle', function(vehicle, _, _, _, _)
 			if GetVehicleClass(vehicle) == 18 then
 				CreateThread(function()
 					while true do
@@ -174,7 +174,7 @@ AddEventHandler('esx:restoreLoadout', function()
 	end
 end)
 
-AddStateBagChangeHandler('VehicleProperties', nil, function(bagName, key, value)
+AddStateBagChangeHandler('VehicleProperties', nil, function(_, _, value)
 	if value then
 			Wait(0)
 			local NetId = value.NetId
@@ -246,7 +246,7 @@ if not Config.OxInventory then
 	end)
 
 	RegisterNetEvent('esx:addWeapon')
-	AddEventHandler('esx:addWeapon', function(_, ammo)
+	AddEventHandler('esx:addWeapon', function()
 		print("[^1ERROR^7] event ^5'esx:addWeapon'^7 Has Been Removed. Please use ^5xPlayer.addWeapon^7 Instead!")
 	end)
 
