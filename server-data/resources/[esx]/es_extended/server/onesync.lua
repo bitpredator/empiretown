@@ -91,14 +91,14 @@ end
 ---@param heading number
 ---@param cb function
 function ESX.OneSync.SpawnObject(model, coords, heading, cb)
-	if type(model) == 'string' then model = joaat(model) end
-	local coords = type(coords) == "vector3" and coords or vector3(coords.x, coords.y, coords.z)
-	CreateThread(function()
-		local entity = CreateObject(model, coords, true, true)
-		while not DoesEntityExist(entity) do Wait(50) end
-		SetEntityHeading(entity, heading)
-		cb(NetworkGetNetworkIdFromEntity(entity))
-	end)
+    if type(model) == 'string' then model = joaat(model) end
+    coords = type(coords) == "vector3" and coords or vector3(coords.x, coords.y, coords.z)
+    CreateThread(function()
+        local entity = CreateObject(model, coords.x, coords.y, coords.z, true, true, false)
+        while not DoesEntityExist(entity) do Wait(50) end
+        SetEntityHeading(entity, heading)
+        cb(NetworkGetNetworkIdFromEntity(entity))
+    end)
 end
 
 ---@param model number|string
@@ -106,12 +106,12 @@ end
 ---@param heading number
 ---@param cb function
 function ESX.OneSync.SpawnPed(model, coords, heading, cb)
-	if type(model) == 'string' then model = joaat(model) end
-	CreateThread(function()
-		local entity = CreatePed(0, model, coords.x, coords.y, coords.z, heading, true, true)
-		while not DoesEntityExist(entity) do Wait(50) end
-		return entity
-	end)
+    if type(model) == 'string' then model = joaat(model) end
+    CreateThread(function()
+        local entity = CreatePed(0, model, coords.x, coords.y, coords.z, heading, true, true)
+        while not DoesEntityExist(entity) do Wait(50) end
+        cb(NetworkGetNetworkIdFromEntity(entity))
+    end)
 end
 
 ---@param model number|string
@@ -119,12 +119,12 @@ end
 ---@param seat number
 ---@param cb function
 function ESX.OneSync.SpawnPedInVehicle(model, vehicle, seat, cb)
-	if type(model) == 'string' then model = joaat(model) end
-	CreateThread(function()
-		local entity = CreatePedInsideVehicle(vehicle, 1, model, seat, true, true)
-		while not DoesEntityExist(entity) do Wait(50) end
-		return entity
-	end)
+    if type(model) == 'string' then model = joaat(model) end
+    CreateThread(function()
+        local entity = CreatePedInsideVehicle(vehicle, 1, model, seat, true, true)
+        while not DoesEntityExist(entity) do Wait(50) end
+        cb(NetworkGetNetworkIdFromEntity(entity))
+    end)
 end
 
 local function getNearbyEntities(entities, coords, modelFilter, maxDistance, isPed)
@@ -164,26 +164,26 @@ end
 ---@param maxDistance number
 ---@param modelFilter table models to ignore, where the key is the model hash and the value is true
 ---@return table
-function ESX.OneSync.GetVehiclesInArea(coords, maxDistance, modelFilter, cb)
-	return getNearbyEntities(GetAllVehicles(), coords, modelFilter, maxDistance)
+function ESX.OneSync.GetVehiclesInArea(coords, maxDistance, modelFilter)
+    return getNearbyEntities(GetAllVehicles(), coords, modelFilter, maxDistance)
 end
 
 local function getClosestEntity(entities, coords, modelFilter, isPed)
-	local distance, closestEntity, closestCoords = maxDistance or 100, nil, nil
-	coords = type(coords) == 'number' and GetEntityCoords(GetPlayerPed(coords)) or vector3(coords.x, coords.y, coords.z)
+    local distance, closestEntity, closestCoords = 100, nil, nil
+    coords = type(coords) == 'number' and GetEntityCoords(GetPlayerPed(coords)) or vector3(coords.x, coords.y, coords.z)
 
-	for _, entity in pairs(entities) do
-		if not isPed or (isPed and not IsPedAPlayer(entity)) then
-			if not modelFilter or modelFilter[GetEntityModel(entity)] then
-				local entityCoords = GetEntityCoords(entity)
-				local dist = #(coords - entityCoords)
-				if dist < distance then
-					closestEntity, distance, closestCoords = entity, dist, entityCoords
-				end
-			end
-		end
-	end
-	return NetworkGetNetworkIdFromEntity(closestEntity), distance, closestCoords
+    for _, entity in pairs(entities) do
+        if not isPed or (isPed and not IsPedAPlayer(entity)) then
+            if not modelFilter or modelFilter[GetEntityModel(entity)] then
+                local entityCoords = GetEntityCoords(entity)
+                local dist = #(coords - entityCoords)
+                if dist < distance then
+                    closestEntity, distance, closestCoords = entity, dist, entityCoords
+                end
+            end
+        end
+    end
+    return NetworkGetNetworkIdFromEntity(closestEntity), distance, closestCoords
 end
 
 ---@param coords vector3
@@ -207,6 +207,6 @@ function ESX.OneSync.GetClosestVehicle(coords, modelFilter)
 	return getClosestEntity(GetAllVehicles(), coords, modelFilter)
 end
 
-ESX.RegisterServerCallback("esx:Onesync:SpawnObject", function(source, cb, model, coords, heading)
-	ESX.OneSync.SpawnObject(model, coords, heading, cb)
+ESX.RegisterServerCallback("esx:Onesync:SpawnObject", function(_, cb, model, coords, heading)
+    ESX.OneSync.SpawnObject(model, coords, heading, cb)
 end)
