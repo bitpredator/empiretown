@@ -72,30 +72,34 @@ function createESXPlayer(identifier, playerId, data)
     accounts[account] = money
   end
 
-  if Core.IsPlayerAdmin(playerId) then
-    print(('[^2INFO^0] Player ^5%s^0 Has been granted admin permissions via ^5Ace Perms^7.'):format(playerId))
-    defaultGroup = "admin"
-  else
-    defaultGroup = "user"
-  end
+  local defaultGroup = Core.GetPlayerAdminGroup(playerId)
+
+  if Core.IsPlayerAdmin(playerId) then print(("[^2INFO^0] Player ^5%s^0 Has been granted %s permissions via ^5Ace Perms^7"):format(playerId, defaultGroup)) end
 
   if not Config.Multichar then
-    MySQL.prepare(newPlayer, {json.encode(accounts), identifier, defaultGroup}, function()
+    MySQL.prepare(newPlayer, { json.encode(accounts), identifier, defaultGroup }, function()
       loadESXPlayer(identifier, playerId, true)
     end)
   else
-    MySQL.prepare(newPlayer,
-      {json.encode(accounts), identifier, defaultGroup, data.firstname, data.lastname, data.dateofbirth, data.sex, data.height}, function()
-        loadESXPlayer(identifier, playerId, true)
-      end)
+    MySQL.prepare(newPlayer, { json.encode(accounts), identifier, defaultGroup, data.firstname, data.lastname, data.dateofbirth, data.sex, data.height }, function()
+      loadESXPlayer(identifier, playerId, true)
+    end)
   end
 end
 
 if not Config.Multichar then
-  AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
+  AddEventHandler('playerConnecting', function(_, _, deferrals)
     deferrals.defer()
     local playerId = source
     local identifier = ESX.GetIdentifier(playerId)
+
+    if oneSyncState == "off" or oneSyncState == "legacy" then
+      return deferrals.done(('[ESX] ESX Requires Onesync Infinity to work. This server currently has Onesync set to: %s'):format(oneSyncState))
+    end
+
+    if not Core.DatabaseConnected then
+      return deferrals.done(('[ESX] ESX Cannot Connect to your database. Please make sure it is correctly configured in your server.cfg'):format(oneSyncState))
+    end
 
     if identifier then
       if ESX.GetPlayerFromIdentifier(identifier) then
@@ -116,7 +120,7 @@ function loadESXPlayer(identifier, playerId, isNew)
   local userData = {accounts = {}, inventory = {}, job = {}, loadout = {}, playerName = GetPlayerName(playerId), weight = 0}
 
   local result = MySQL.prepare.await(loadPlayer, {identifier})
-  local job, grade, jobObject, gradeObject = result.job, tostring(result.job_grade)
+  local job, grade, duty = result.job, tostring(result.job_grade), result.job_duty and (result.job_duty == 1 and true or result.job_duty == 0 and false)
   local foundAccounts, foundItems = {}, {}
 
   -- Accounts
@@ -143,32 +147,25 @@ function loadESXPlayer(identifier, playerId, isNew)
   end
 
   -- Job
-  if ESX.DoesJobExist(job, grade) then
-    jobObject, gradeObject = ESX.Jobs[job], ESX.Jobs[job].grades[grade]
-  else
-    print(('[^3WARNING^7] Ignoring invalid job for ^5%s^7 [job: ^5%s^7, grade: ^5%s^7]'):format(identifier, job, grade))
-    job, grade = 'unemployed', '0'
-    jobObject, gradeObject = ESX.Jobs[job], ESX.Jobs[job].grades[grade]
+  if not ESX.DoesJobExist(job, grade) then
+    job, grade, duty = 'unemployed', '0', false
+    print(("[^3WARNING^7] Ignoring invalid job for ^5%s^7 [job: ^5%s^7, grade: ^5%s^7]"):format(identifier, job, grade))
   end
 
-  userData.job.id = jobObject.id
-  userData.job.name = jobObject.name
-  userData.job.label = jobObject.label
+  local jobObject, gradeObject      = ESX.Jobs[job], ESX.Jobs[job].grades[grade]
 
-  userData.job.grade = tonumber(grade)
-  userData.job.grade_name = gradeObject.name
-  userData.job.grade_label = gradeObject.label
-  userData.job.grade_salary = gradeObject.salary
-
-  userData.job.skin_male = {}
-  userData.job.skin_female = {}
-
-  if gradeObject.skin_male then
-    userData.job.skin_male = json.decode(gradeObject.skin_male)
-  end
-  if gradeObject.skin_female then
-    userData.job.skin_female = json.decode(gradeObject.skin_female)
-  end
+  userData.job.id                   = jobObject.id
+  userData.job.name                 = jobObject.name
+  userData.job.label                = jobObject.label
+  userData.job.type                 = jobObject.type
+  userData.job.duty                 = type(duty) == "boolean" and duty or jobObject.default_duty --[[@as boolean]]
+  userData.job.grade                = tonumber(grade)
+  userData.job.grade_name           = gradeObject.name
+  userData.job.grade_label          = gradeObject.label
+  userData.job.grade_salary         = gradeObject.salary
+  userData.job.grade_offduty_salary = gradeObject.offduty_salary
+  userData.job.skin_male            = gradeObject.skin_male and json.decode(gradeObject.skin_male) or {} --[[@diagnostic disable-line: param-type-mismatch]]
+  userData.job.skin_female          = gradeObject.skin_female and json.decode(gradeObject.skin_female) or {} --[[@diagnostic disable-line: param-type-mismatch]]
 
   -- Inventory
   if not Config.OxInventory then
@@ -322,7 +319,7 @@ function loadESXPlayer(identifier, playerId, isNew)
   print(('[^2INFO^0] Player ^5"%s"^0 has connected to the server. ID: ^5%s^7'):format(xPlayer.getName(), playerId))
 end
 
-AddEventHandler('chatMessage', function(playerId, author, message)
+AddEventHandler('chatMessage', function(playerId, _, message)
   local xPlayer = ESX.GetPlayerFromId(playerId)
   if message:sub(1, 1) == '/' and playerId > 0 then
     CancelEvent()
@@ -442,7 +439,7 @@ if not Config.OxInventory then
       end
     elseif type == 'item_ammo' then
       if sourceXPlayer.hasWeapon(itemName) then
-        local weaponNum, weapon = sourceXPlayer.getWeapon(itemName)
+        local _, weapon = sourceXPlayer.getWeapon(itemName)
 
         if targetXPlayer.hasWeapon(itemName) then
           local _, weaponObject = ESX.GetWeapon(itemName)
@@ -466,58 +463,61 @@ if not Config.OxInventory then
     end
   end)
 
-  RegisterNetEvent('esx:removeInventoryItem')
-  AddEventHandler('esx:removeInventoryItem', function(type, itemName, itemCount)
+  RegisterServerEvent('esx:removeInventoryItem', function(type, itemName, itemCount)
     local playerId = source
     local xPlayer = ESX.GetPlayerFromId(playerId)
 
     if type == 'item_standard' then
-      if itemCount == nil or itemCount < 1 then
-        xPlayer.showNotification(_U('imp_invalid_quantity'))
-      else
-        local xItem = xPlayer.getInventoryItem(itemName)
-
-        if (itemCount > xItem.count or xItem.count < 1) then
+        if itemCount == nil or itemCount < 1 then
           xPlayer.showNotification(_U('imp_invalid_quantity'))
         else
-          xPlayer.removeInventoryItem(itemName, itemCount)
-          local pickupLabel = ('%s [%s]'):format(xItem.label, itemCount)
-          ESX.CreatePickup('item_standard', itemName, itemCount, pickupLabel, playerId)
-          xPlayer.showNotification(_U('threw_standard', itemCount, xItem.label))
-        end
-      end
-    elseif type == 'item_account' then
-      if itemCount == nil or itemCount < 1 then
-        xPlayer.showNotification(_U('imp_invalid_amount'))
-      else
-        local account = xPlayer.getAccount(itemName)
+          local xItem = xPlayer.getInventoryItem(itemName)
 
-        if (itemCount > account.money or account.money < 1) then
+          if not xItem or itemCount > xItem.count or xItem.count < 1 then
+            xPlayer.showNotification(_U('imp_invalid_quantity'))
+          else
+            xPlayer.removeInventoryItem(itemName, itemCount)
+            local pickupLabel = ('%s [%s]'):format(xItem.label, itemCount)
+            ESX.CreatePickup('item_standard', itemName, itemCount, pickupLabel, playerId)
+            xPlayer.showNotification(_U('threw_standard', itemCount, xItem.label))
+          end
+        end
+      elseif type == 'item_account' then
+        if itemCount == nil or itemCount < 1 then
           xPlayer.showNotification(_U('imp_invalid_amount'))
         else
-          xPlayer.removeAccountMoney(itemName, itemCount, "Threw away")
-          local pickupLabel = ('%s [%s]'):format(account.label, _U('locale_currency', ESX.Math.GroupDigits(itemCount)))
-          ESX.CreatePickup('item_account', itemName, itemCount, pickupLabel, playerId)
-          xPlayer.showNotification(_U('threw_account', ESX.Math.GroupDigits(itemCount), string.lower(account.label)))
+          local account = xPlayer.getAccount(itemName)
+
+          if not account or itemCount > account.money or account.money < 1 then
+            xPlayer.showNotification(_U('imp_invalid_amount'))
+          else
+            xPlayer.removeAccountMoney(itemName, itemCount, "Threw away")
+            local pickupLabel = ('%s [%s]'):format(account.label, _U('locale_currency', ESX.Math.GroupDigits(itemCount)))
+            ESX.CreatePickup('item_account', itemName, itemCount, pickupLabel, playerId)
+            xPlayer.showNotification(_U('threw_account', ESX.Math.GroupDigits(itemCount), string.lower(account.label)))
+          end
         end
-      end
-    elseif type == 'item_weapon' then
-      itemName = string.upper(itemName)
+      elseif type == 'item_weapon' then
+        itemName = string.upper(itemName)
 
       if xPlayer.hasWeapon(itemName) then
         local _, weapon = xPlayer.getWeapon(itemName)
-        local _, weaponObject = ESX.GetWeapon(itemName)
-        local components, pickupLabel = ESX.Table.Clone(weapon.components)
-        xPlayer.removeWeapon(itemName)
 
-        if weaponObject.ammo and weapon.ammo > 0 then
-          local ammoLabel = weaponObject.ammo.label
-          pickupLabel = ('%s [%s %s]'):format(weapon.label, weapon.ammo, ammoLabel)
-          xPlayer.showNotification(_U('threw_weapon_ammo', weapon.label, weapon.ammo, ammoLabel))
-        else
-          pickupLabel = ('%s'):format(weapon.label)
-          xPlayer.showNotification(_U('threw_weapon', weapon.label))
-        end
+      if not weapon then return end
+
+      local _, weaponObject = ESX.GetWeapon(itemName)
+      local components = ESX.Table.Clone(weapon.components)
+      local weaponAmmo = false
+      xPlayer.removeWeapon(itemName)
+
+      if weaponObject.ammo and weapon.ammo > 0 then
+        weaponAmmo = weaponObject.ammo.label
+        xPlayer.showNotification(_U('threw_weapon_ammo', weapon.label, weapon.ammo, weaponAmmo))
+      else
+        xPlayer.showNotification(_U('threw_weapon', weapon.label))
+      end
+
+      local pickupLabel = weaponAmmo and ('%s [%s %s]'):format(weapon.label, weapon.ammo, weaponAmmo) or ('%s'):format(weapon.label)
 
         ESX.CreatePickup('item_weapon', itemName, weapon.ammo, pickupLabel, playerId, components, weapon.tintIndex)
       end
@@ -585,27 +585,35 @@ ESX.RegisterServerCallback('esx:isUserAdmin', function(source, cb)
   cb(Core.IsPlayerAdmin(source))
 end)
 
-ESX.RegisterServerCallback('esx:getOtherPlayerData', function(source, cb, target)
+ESX.RegisterServerCallback('esx:getOtherPlayerData', function(_, cb, target)
   local xPlayer = ESX.GetPlayerFromId(target)
 
-  cb({identifier = xPlayer.identifier, accounts = xPlayer.getAccounts(), inventory = xPlayer.getInventory(), job = xPlayer.getJob(),
-    loadout = xPlayer.getLoadout(), money = xPlayer.getMoney(), position = xPlayer.getCoords(true)})
+  cb({
+    identifier = xPlayer.identifier,
+    accounts = xPlayer.getAccounts(),
+    inventory = xPlayer.getInventory(),
+    job = xPlayer.getJob(),
+    loadout = xPlayer.getLoadout(),
+    money = xPlayer.getMoney(),
+    position = xPlayer.getCoords(true),
+    metadata = xPlayer.getMetadata()
+  })
 end)
 
 ESX.RegisterServerCallback('esx:getPlayerNames', function(source, cb, players)
-	players[source] = nil
+  players[source] = nil
 
-	for playerId, v in pairs(players) do
-		local xPlayer = ESX.GetPlayerFromId(playerId)
+  for playerId in pairs(players) do
+    local xPlayer = ESX.GetPlayerFromId(playerId)
 
-		if xPlayer then
-			players[playerId] = xPlayer.getName()
-		else
-			players[playerId] = nil
-		end
-	end
+      if xPlayer then
+        players[playerId] = xPlayer.getName()
+      else
+        players[playerId] = nil
+      end
+  end
 
-	cb(players)
+  cb(players)
 end)
 
 AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
