@@ -4,7 +4,7 @@ CraftingStopWithDistance = false, -- Crafting will stop when not near workbench
 ExperiancePerCraft = 5, -- The amount of experiance added per craft (100 Experiance is 1 level)
 HideWhenCantCraft = false, -- Instead of lowering the opacity it hides the item that is not craftable due to low level or wrong job
 
-Categories = {	
+Categories = {
 	['medical'] = {
 	 Label = 'Ospedale',
 	 Image = 'bandage',
@@ -53,19 +53,19 @@ PermanentItems = { -- Items that dont get removed when crafting
 
 Recipes = { -- Enter Item name and then the speed value! The higher the value the more torque
 ['bandage'] = {
- Level = 0, -- From what level this item will be craftable
- Category = 'medical', -- The category item will be put in
- isGun = false, -- Specify if this is a gun so it will be added to the loadout
- Jobs = {'ambulance'}, -- What jobs can craft this item, leaving {} allows any job
- JobGrades = {}, -- What job grades can craft this item, leaving {} allows any grade
- Amount = 2, -- The amount that will be crafted
- SuccessRate = 100, -- 100% you will recieve the item
- requireBlueprint = false, -- Requires a blueprint whitch you need to add in the database yourself TEMPLATE: itemname_blueprint EXAMPLE: bandage_blueprint
- Time = 10, -- Time in seconds it takes to craft this item
- Ingredients = { -- Ingredients needed to craft this item
-	 ['cottonforbandages'] = 2 -- item name and count, adding items that dont exist in database will crash the script
+	Level = 0,
+	Category = 'medical',
+	isGun = false,
+	Jobs = {'ambulance'},
+	JobGrades = {},
+	Amount = 1,
+	SuccessRate = 100,
+	requireBlueprint = false,
+	Time = 20,
+	Ingredients = {
+		['cottonforbandages'] = 2
 	}
-}, 
+},
 
 ['cottonforbandages'] = {
  Level = 0, -- From what level this item will be craftable
@@ -80,22 +80,7 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
 	Ingredients = { -- Ingredients needed to craft this item
 	 ['cotton'] = 4 -- item name and count, adding items that dont exist in database will crash the script
 	}
-}, 
-
-['bandage'] = {
- Level = 0,
- Category = 'medical',
- isGun = false,
- Jobs = {'ambulance'},
- JobGrades = {},
- Amount = 1,
- SuccessRate = 100,
- requireBlueprint = false,
- Time = 20,
-	Ingredients = {
-	 ['cottonforbandages'] = 2
-	}
-}, 
+},
 
 ['ironsheet'] = {
  Level = 0,
@@ -158,7 +143,7 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
 	 ['iron'] = 4,
 	 ['legnatagliata'] = 1
 	}
-}, 
+},
 
 ['fixkit'] = {
  Level = 0,
@@ -169,12 +154,12 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
  Amount = 1,
  SuccessRate = 100,
  requireBlueprint = false,
- Time = 60, 
-	Ingredients = { 
-	 ['ironsheet'] = 2, 
+ Time = 60,
+	Ingredients = {
+	 ['ironsheet'] = 2,
 	 ['hammer'] = 1
 	}
-}, 
+},
 
 ['almondmilk'] = {
  Level = 0,
@@ -182,12 +167,12 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
  isGun = false,
  Jobs = {'unicorn'},
  JobGrades = {},
- Amount = 1, 
+ Amount = 1,
  SuccessRate = 100,
- requireBlueprint = false, 
- Time = 60, 
-	Ingredients = { 
-	 ['ice'] = 2, 
+ requireBlueprint = false,
+ Time = 60,
+	Ingredients = {
+	 ['ice'] = 2,
 	 ['almonds'] = 5,
 	 ['water'] = 1
 	}
@@ -196,14 +181,14 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
 ['slicedchips'] = {
  Level = 0,
  Category = 'unicorn',
- isGun = false, 
- Jobs = {'unicorn'}, 
- JobGrades = {}, 
- Amount = 5, 
- SuccessRate = 100, 
- requireBlueprint = false, 
- Time = 10, 
-	Ingredients = { 
+ isGun = false,
+ Jobs = {'unicorn'},
+ JobGrades = {},
+ Amount = 5,
+ SuccessRate = 100,
+ requireBlueprint = false,
+ Time = 10,
+	Ingredients = {
 	 ['potato'] = 1,
 	 ['water'] = 1
 	}
@@ -212,14 +197,14 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
 ['iron'] = {
  Level = 0,
  Category = 'import',
- isGun = false, 
- Jobs = {'import'}, 
- JobGrades = {}, 
- Amount = 3, 
- SuccessRate = 100, 
- requireBlueprint = false, 
- Time = 10, 
-	Ingredients = { 
+ isGun = false,
+ Jobs = {'import'},
+ JobGrades = {},
+ Amount = 3,
+ SuccessRate = 100,
+ requireBlueprint = false,
+ Time = 10,
+	Ingredients = {
 	 ['hammer'] = 1,
 	 ['ironsheet'] = 10
 	}
@@ -229,7 +214,7 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
  Level = 0,
  Category = 'ballas',
  isGun = false,
- Jobs = {'ballas'}, 
+ Jobs = {'ballas'},
  JobGrades = {},
  Amount = 1,
  SuccessRate = 100,
@@ -242,15 +227,15 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
 
 ['WEAPON_APPISTOL'] = {
  Level = 10,
- Category = 'ammu', 
- isGun = false, 
- Jobs = {'ammu'}, 
- JobGrades = {}, 
- Amount = 1, 
- SuccessRate = 100, 
- requireBlueprint = false, 
- Time = 180, 
-	Ingredients = { 
+ Category = 'ammu',
+ isGun = false,
+ Jobs = {'ammu'},
+ JobGrades = {},
+ Amount = 1,
+ SuccessRate = 100,
+ requireBlueprint = false,
+ Time = 180,
+	Ingredients = {
 	 ['copper'] = 1,
 	 ['iron'] = 1,
 	 ['legnatagliata'] = 1
@@ -259,35 +244,19 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
 
 ['ammo-sniper'] = {
  Level = 10,
- Category = 'ammu', 
- isGun = false, 
- Jobs = {'ammu'}, 
- JobGrades = {}, 
- Amount = 1, 
- SuccessRate = 100, 
- requireBlueprint = false, 
- Time = 30, 
-	Ingredients = { 
+ Category = 'ammu',
+ isGun = false,
+ Jobs = {'ammu'},
+ JobGrades = {},
+ Amount = 1,
+ SuccessRate = 100,
+ requireBlueprint = false,
+ Time = 30,
+	Ingredients = {
 	 ['copper'] = 1,
 	 ['iron'] = 1,
 	 ['gunpowder'] = 1,
 	 ['gold'] = 1
-	}
-},
-
-['iron'] = {
- Level = 0,
- Category = 'import', 
- isGun = false, 
- Jobs = {'import'}, 
- JobGrades = {}, 
- Amount = 3, 
- SuccessRate = 100, 
- requireBlueprint = false, 
- Time = 10, 
-	Ingredients = { 
-	 ['hammer'] = 1,
-	 ['ironsheet'] = 10
 	}
 },
 
@@ -297,7 +266,7 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
  isGun = false,
  Jobs = {'baker'},
  JobGrades = {},
- Amount = 5, 
+ Amount = 5,
  SuccessRate = 100,
  requireBlueprint = false,
  Time = 200,
