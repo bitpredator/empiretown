@@ -22,7 +22,7 @@ end
 
 function ESX.RegisterCommand(name, group, cb, allowConsole, suggestion)
   if type(name) == 'table' then
-    for k, v in ipairs(name) do
+    for _, v in ipairs(name) do
       ESX.RegisterCommand(v, group, cb, allowConsole, suggestion)
     end
 
@@ -50,7 +50,7 @@ function ESX.RegisterCommand(name, group, cb, allowConsole, suggestion)
 
   Core.RegisteredCommands[name] = {group = group, cb = cb, allowConsole = allowConsole, suggestion = suggestion}
 
-  RegisterCommand(name, function(playerId, args, rawCommand)
+  RegisterCommand(name, function(playerId, args, _)
     local command = Core.RegisteredCommands[name]
 
     if not command.allowConsole and playerId == 0 then
@@ -58,100 +58,100 @@ function ESX.RegisterCommand(name, group, cb, allowConsole, suggestion)
     else
       local xPlayer, error = ESX.Players[playerId], nil
 
-      if command.suggestion then
-        if command.suggestion.validate then
-          if #args ~= #command.suggestion.arguments then
-            error = _U('commanderror_argumentmismatch', #args, #command.suggestion.arguments)
+        if command.suggestion then
+          if command.suggestion.validate then
+            if #args ~= #command.suggestion.arguments then
+              error = _U('commanderror_argumentmismatch', #args, #command.suggestion.arguments)
+            end
           end
-        end
+          if not error and command.suggestion.arguments then
+            local newArgs = {}
 
-        if not error and command.suggestion.arguments then
-          local newArgs = {}
+            for k, v in ipairs(command.suggestion.arguments) do
+                if v.type then
+                    if v.type == 'number' then
+                        local newArg = tonumber(args[k])
 
-          for k, v in ipairs(command.suggestion.arguments) do
-            if v.type then
-              if v.type == 'number' then
-                local newArg = tonumber(args[k])
+                        if newArg then
+                          newArgs[v.name] = newArg
+                        else
+                          error = _U('commanderror_argumentmismatch_number', k)
+                        end
+                    elseif v.type == 'player' or v.type == 'playerId' then
+                        local targetPlayer = tonumber(args[k])
 
-                if newArg then
-                  newArgs[v.name] = newArg
-                else
-                  error = _U('commanderror_argumentmismatch_number', k)
-                end
-              elseif v.type == 'player' or v.type == 'playerId' then
-                local targetPlayer = tonumber(args[k])
+                        if args[k] == 'me' then
+                          targetPlayer = playerId
+                        end
 
-                if args[k] == 'me' then
-                  targetPlayer = playerId
-                end
+                        if targetPlayer then
+                          local xTargetPlayer = ESX.GetPlayerFromId(targetPlayer)
 
-                if targetPlayer then
-                  local xTargetPlayer = ESX.GetPlayerFromId(targetPlayer)
-
-                  if xTargetPlayer then
-                    if v.type == 'player' then
-                      newArgs[v.name] = xTargetPlayer
-                    else
-                      newArgs[v.name] = targetPlayer
+                            if xTargetPlayer then
+                              if v.type == 'player' then
+                                newArgs[v.name] = xTargetPlayer
+                              else
+                                newArgs[v.name] = targetPlayer
+                              end
+                            else
+                              error = _U('commanderror_invalidplayerid')
+                            end
+                        else
+                          error = _U('commanderror_argumentmismatch_number', k)
+                        end
+                    elseif v.type == 'string' then
+                        newArgs[v.name] = args[k]
+                    elseif v.type == 'item' then
+                        if ESX.Items[args[k]] then
+                          newArgs[v.name] = args[k]
+                        else
+                          error = _U('commanderror_invaliditem')
+                        end
+                    elseif v.type == 'weapon' then
+                        if ESX.GetWeapon(args[k]) then
+                          newArgs[v.name] = string.upper(args[k])
+                        else
+                          error = _U('commanderror_invalidweapon')
+                        end
+                    elseif v.type == 'any' then
+                      newArgs[v.name] = args[k]
                     end
-                  else
-                    error = _U('commanderror_invalidplayerid')
-                  end
-                else
-                  error = _U('commanderror_argumentmismatch_number', k)
                 end
-              elseif v.type == 'string' then
-                newArgs[v.name] = args[k]
-              elseif v.type == 'item' then
-                if ESX.Items[args[k]] then
-                  newArgs[v.name] = args[k]
-                else
-                  error = _U('commanderror_invaliditem')
+
+                if not v.validate then
+                    error = nil
                 end
-              elseif v.type == 'weapon' then
-                if ESX.GetWeapon(args[k]) then
-                  newArgs[v.name] = string.upper(args[k])
-                else
-                  error = _U('commanderror_invalidweapon')
+
+                if error then
+                  break
                 end
-              elseif v.type == 'any' then
-                newArgs[v.name] = args[k]
-              end
             end
 
-            if v.validate == false then
-              error = nil
-            end
-
-            if error then
-              break
-            end
-          end
-
-          args = newArgs
+            args = newArgs
         end
-      end
+    end
 
-      if error then
+    if error then
         if playerId == 0 then
           print(('[^3WARNING^7] %s^7'):format(error))
         else
           xPlayer.showNotification(error)
         end
-      else
+    else
         cb(xPlayer or false, args, function(msg)
-          if playerId == 0 then
-            print(('[^3WARNING^7] %s^7'):format(msg))
-          else
-            xPlayer.showNotification(msg)
-          end
+            if playerId == 0 then
+              print(('[^3WARNING^7] %s^7'):format(msg))
+            else
+              xPlayer.showNotification(msg)
+            end
         end)
-      end
     end
-  end, true)
+end
+
+end, true)
 
   if type(group) == 'table' then
-    for k, v in ipairs(group) do
+    for _, v in ipairs(group) do
       ExecuteCommand(('add_ace group.%s command.%s allow'):format(v, name))
     end
   else
@@ -167,7 +167,7 @@ function ESX.RegisterServerCallback(name, cb)
   Core.ServerCallbacks[name] = cb
 end
 
-function ESX.TriggerServerCallback(name, requestId, source,Invoke, cb, ...)
+function ESX.TriggerServerCallback(name, _, source,Invoke, cb, ...)
   if Core.ServerCallbacks[name] then
     Core.ServerCallbacks[name](source, cb, ...)
   else
@@ -179,10 +179,10 @@ function Core.SavePlayer(xPlayer, cb)
   local parameters <const> = {
     json.encode(xPlayer.getAccounts(true)),
     xPlayer.job.name,
-    xPlayer.job.grade, 
+    xPlayer.job.grade,
     xPlayer.group,
     json.encode(xPlayer.getCoords()),
-    json.encode(xPlayer.getInventory(true)), 
+    json.encode(xPlayer.getInventory(true)),
     json.encode(xPlayer.getLoadout(true)),
     xPlayer.identifier
   }
@@ -224,7 +224,7 @@ function Core.SavePlayers(cb)
 
   MySQL.prepare(
     "UPDATE `users` SET `accounts` = ?, `job` = ?, `job_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ? WHERE `identifier` = ?",
-    parameters, 
+    parameters,
     function(results)
       if not results then
         return
@@ -242,7 +242,7 @@ end
 ESX.GetPlayers = GetPlayers
 function ESX.GetExtendedPlayers(key, val)
   local xPlayers = {}
-  for k, v in pairs(ESX.Players) do
+  for _, v in pairs(ESX.Players) do
     if key then
       if (key == 'job' and v.job.name == val) or v[key] == val then
         xPlayers[#xPlayers + 1] = v
@@ -259,7 +259,7 @@ function ESX.GetPlayerFromId(source)
 end
 
 function ESX.GetPlayerFromIdentifier(identifier)
-  for k, v in pairs(ESX.Players) do
+  for _, v in pairs(ESX.Players) do
     if v.identifier == identifier then
       return v
     end
@@ -267,11 +267,11 @@ function ESX.GetPlayerFromIdentifier(identifier)
 end
 
 function ESX.GetIdentifier(playerId)
-  local fxDk = GetConvarInt('sv_fxdkMode', 0) 
+  local fxDk = GetConvarInt('sv_fxdkMode', 0)
   if fxDk == 1 then
     return "ESX-DEBUG-LICENCE"
   end
-  for k, v in ipairs(GetPlayerIdentifiers(playerId)) do
+  for _, v in ipairs(GetPlayerIdentifiers(playerId)) do
     if string.match(v, 'license:') then
       local identifier = string.gsub(v, 'license:', '')
       return identifier
