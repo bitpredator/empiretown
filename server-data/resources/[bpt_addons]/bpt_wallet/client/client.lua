@@ -17,7 +17,7 @@ AddEventHandler('ox_inventory:updateInventory', function(changes)
         Wait(4500)
         justConnect = nil
     end
-    for k, v in pairs(changes) do
+    for _, v in pairs(changes) do
         if type(v) == 'table' then
             local count = ox_inventory:Search('count', Config.WalletItem)
         end
