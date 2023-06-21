@@ -48,11 +48,6 @@ local function isPedDrivingAVehicle()
 end
 
 local function fscale(inputValue, originalMin, originalMax, newBegin, newEnd, curve)
-	local OriginalRange = 0.0
-	local NewRange = 0.0
-	local zeroRefCurVal = 0.0
-	local normalizedCurVal = 0.0
-	local rangedValue = 0.0
 	local invFlag = 0
 
 	if (curve > 10.0) then curve = 10.0 end
@@ -111,14 +106,14 @@ local function tireBurstLottery()
 			affectedTire = 0
 		end
 		SetVehicleTyreBurst(vehicle, affectedTire, false, 1000.0)
-		tireBurstLuckyNumber = math.random(tireBurstMaxNumber)			-- Select a new number to hit, just in case some numbers occur more often than others
+		tireBurstLuckyNumber = math.random(tireBurstMaxNumber) -- Select a new number to hit, just in case some numbers occur more often than others
 	end
 end
 
 if Config.torqueMultiplierEnabled or Config.preventVehicleFlip or Config.limpMode then
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while true do
-			Citizen.Wait(1)
+			Wait(1)
 			if Config.torqueMultiplierEnabled or Config.sundayDriver or Config.limpMode then
 				if pedInSameVehicleLast then
 					local factor = 1.0
@@ -202,29 +197,26 @@ if Config.torqueMultiplierEnabled or Config.preventVehicleFlip or Config.limpMod
 	end)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(50)
+		Wait(50)
 		local ped = PlayerPedId()
 		if isPedDrivingAVehicle() then
 			vehicle = GetVehiclePedIsIn(ped, false)
 			vehicleClass = GetVehicleClass(vehicle)
 			healthEngineCurrent = GetVehicleEngineHealth(vehicle)
-			if healthEngineCurrent == 1000 then healthEngineLast = 1000.0 end
+			 if healthEngineCurrent == 1000 then healthEngineLast = 1000.0 end
 			healthEngineNew = healthEngineCurrent
 			healthEngineDelta = healthEngineLast - healthEngineCurrent
 			healthEngineDeltaScaled = healthEngineDelta * Config.damageFactorEngine * Config.classDamageMultiplier[vehicleClass]
-
 			healthBodyCurrent = GetVehicleBodyHealth(vehicle)
-			if healthBodyCurrent == 1000 then healthBodyLast = 1000.0 end
+			 if healthBodyCurrent == 1000 then healthBodyLast = 1000.0 end
 			healthBodyNew = healthBodyCurrent
 			healthBodyDelta = healthBodyLast - healthBodyCurrent
 			healthBodyDeltaScaled = healthBodyDelta * Config.damageFactorBody * Config.classDamageMultiplier[vehicleClass]
 
 			healthPetrolTankCurrent = GetVehiclePetrolTankHealth(vehicle)
 			if Config.compatibilityMode and healthPetrolTankCurrent < 1 then
-				--	SetVehiclePetrolTankHealth(vehicle, healthPetrolTankLast)
-				--	healthPetrolTankCurrent = healthPetrolTankLast
 				healthPetrolTankLast = healthPetrolTankCurrent
 			end
 			if healthPetrolTankCurrent == 1000 then healthPetrolTankLast = 1000.0 end
@@ -244,7 +236,6 @@ Citizen.CreateThread(function()
 			if vehicle ~= lastVehicle then
 				pedInSameVehicleLast = false
 			end
-
 
 			if pedInSameVehicleLast == true then
 				-- Damage happened while in the car = can be multiplied
@@ -345,4 +336,3 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-

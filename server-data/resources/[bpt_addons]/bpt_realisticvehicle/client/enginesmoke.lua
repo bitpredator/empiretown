@@ -1,17 +1,17 @@
-local damageMultip = 6.0 -- Damage default kat sayısı
+local damageMultip = 6.0 -- Damage default multiples
 local particleDict = "scr_gr_def" -- Particle dictionary
 local particleName = "scr_gr_sw_engine_smoke" -- Particle name
-local boneName = "engine" -- Motor bölgesi
-local firstThreshold = 650.0 -- Motorun az tütmeye başlayacağı ilk eşik değeri
-local secondThreshold = 350.0 -- Motorun çok tütmeye başlayacağı ikinci eşik değeri
-local firstDelay = 20000 -- Motor az tütmeye başlayınca 20 saniyede bir motor açılıp kapanması için gereken süre, 20 saniyede bir motor kapanıp açılacak
-local secondDelay = 10000 -- Motor çok tütmeye başlayınca 10 saniyede bir motor açılıp kapanması için gereken süre, 10 saniyede bir motor kapanıp açılacak
+local boneName = "engine" -- engine area
+local firstThreshold = 650.0 -- The first threshold value at which the engine will start to smoke low
+local secondThreshold = 350.0 -- Second threshold value at which the engine will start to smoke a lot
+local firstDelay = 20000 -- When the engine starts to smoke less, the time required for the engine to turn on and off every 20 seconds, the engine will turn off and on every 20 seconds.
+local secondDelay = 10000 -- When the engine starts to smoke a lot, the time required for the engine to turn on and off every 10 seconds, the engine will turn off and on every 10 seconds.
 local isStarted = false
 local fxIds = {}
 
-Citizen.CreateThread(function()
+CreateThread(function()
  	while true do
- 		Citizen.Wait(0)
+ 		Wait(0)
 		if IsPedInAnyVehicle(PlayerPedId(), false) then
 			local veh = GetVehiclePedIsUsing(PlayerPedId())
 			local armourIndex = GetVehicleMod(veh, 16)
@@ -19,7 +19,7 @@ Citizen.CreateThread(function()
 				local damage = damageMultip
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
-					Citizen.Wait(0)
+					Wait(0)
 				end
 				UseParticleFxAssetNextCall(particleDict)
 				if armourIndex == 0 then
@@ -51,7 +51,7 @@ Citizen.CreateThread(function()
 				local damage = damageMultip
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
-					Citizen.Wait(0)
+					Wait(0)
 				end
 				UseParticleFxAssetNextCall(particleDict)
 				if armourIndex == 0 then
@@ -83,7 +83,7 @@ Citizen.CreateThread(function()
 				local damage = damageMultip
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
-					Citizen.Wait(0)
+					Wait(0)
 				end
 				UseParticleFxAssetNextCall(particleDict)
 				if armourIndex == 0 then
@@ -115,7 +115,7 @@ Citizen.CreateThread(function()
 				local damage = damageMultip
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
-					Citizen.Wait(0)
+					Wait(0)
 				end
 				UseParticleFxAssetNextCall(particleDict)
 				if armourIndex == 0 then
@@ -147,7 +147,7 @@ Citizen.CreateThread(function()
 				local damage = damageMultip
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
-					Citizen.Wait(0)
+					Wait(0)
 				end
 				UseParticleFxAssetNextCall(particleDict)
 				if armourIndex == 0 then
@@ -171,7 +171,7 @@ Citizen.CreateThread(function()
 				if GetVehicleEngineHealth(veh) >= firstThreshold and isStarted and #fxIds == 2 then
 					isStarted = false
 					for i = 1, #fxIds do
-						StopParticleFxLooped(fxIds[i], 0)
+					 StopParticleFxLooped(fxIds[i], 0)
 					end
 					fxIds = {}
 				end
@@ -179,7 +179,7 @@ Citizen.CreateThread(function()
 				local damage = damageMultip
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
-					Citizen.Wait(0)
+					Wait(0)
 				end
 				UseParticleFxAssetNextCall(particleDict)
 				if armourIndex == 0 then
@@ -210,28 +210,26 @@ Citizen.CreateThread(function()
 			end
 		end
  	end
- end)
+end)
 
-
- 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		if #fxIds == 1 then
 			if IsPedInAnyVehicle(PlayerPedId(), false) then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
-				Citizen.Wait(firstDelay)
+				Wait(firstDelay)
 				SetVehicleEngineOn(veh, false, true, false)
-				Citizen.Wait(firstDelay)
+				Wait(firstDelay)
 				SetVehicleEngineOn(veh, true, true, false)
 			end
 		elseif #fxIds == 2 then
 			if IsPedInAnyVehicle(PlayerPedId(), false) then
 				local veh = GetVehiclePedIsUsing(PlayerPedId())
 				SetVehicleEngineCanDegrade(veh, 1)
-				Citizen.Wait(secondDelay)
+				Wait(secondDelay)
 				SetVehicleEngineOn(veh, false, false, false)
-				Citizen.Wait(secondDelay)
+				Wait(secondDelay)
 				SetVehicleEngineOn(veh, true, false, false)
 			end
 		end
