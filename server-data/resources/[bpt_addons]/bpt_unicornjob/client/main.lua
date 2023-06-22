@@ -360,8 +360,7 @@ CreateThread(function()
 end)
 
 RegisterCommand('unicornmenu', function()
-    if not ESX.PlayerData.dead and Config.EnablePlayerManagement and ESX.PlayerData.job and ESX.PlayerData.job.name ==
-        'unicorn' then
+    if not ESX.PlayerData.dead and Config.EnablePlayerManagement and ESX.PlayerData.job and ESX.PlayerData.job.name == 'unicorn' then
         OpenMobileUnicornActionsMenu()
     end
 end, false)
