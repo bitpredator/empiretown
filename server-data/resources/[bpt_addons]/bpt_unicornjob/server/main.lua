@@ -4,7 +4,7 @@ TriggerEvent('esx_society:registerSociety', 'unicorn', 'Unicorn', 'society_unico
 ESX.RegisterServerCallback("bpt_unicornjob:SpawnVehicle", function(source, cb, model , props)
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.job.name ~= "unicorn" then 
+    if xPlayer.job.name ~= "unicorn" then
         print(('[^3WARNING^7] Player ^5%s^7 attempted to Exploit Vehicle Spawing!!'):format(source))
         return
     end

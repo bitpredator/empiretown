@@ -12,6 +12,7 @@ shared_scripts {
 	'locales/*.lua',
 	'config.lua',
 	'config.weapons.lua',
+	'dependencies/async/*.lua'
 }
 
 server_scripts {
@@ -26,7 +27,8 @@ server_scripts {
 	'server/commands.lua',
 	'common/modules/math.lua',
 	'common/modules/table.lua',
-	'common/functions.lua'
+	'common/functions.lua',
+	'dependencies/cron/server/*.lua'
 }
 
 client_scripts {
