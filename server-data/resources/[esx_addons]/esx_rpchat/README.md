@@ -1,6 +1,6 @@
 <h1 align='center'>[ESX] RP Chat</a></h1><p align='center'><b><a href='https://discord.esx-framework.org/'>Discord</a> - <a href='https://esx-framework.org/'>Website</a> - <a href='https://docs.esx-framework.org/legacy/installation'>Documentation</a></b></h5>
 
-This Resource adds a proximity chat along with a few cool commands such as `/me` , `/ooc` and `/twt`
+This Resource adds a proximity chat along with a few cool commands such as `/me` , `/ooc`
 
 > *Note: Elon Musk Not Included*
 
