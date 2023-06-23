@@ -7,30 +7,6 @@ AddEventHandler('chatMessage', function(playerId, playerName, message)
 	end
 end)
 
-RegisterCommand('twt', function(playerId, args, rawCommand)
-	if playerId == 0 then
-		print('[^1ERROR^7] This Command Cannot Be Used By The Console!')
-	else
-		args = table.concat(args, ' ')
-
-		local playerName = GetRealPlayerName(playerId)
-
-		TriggerClientEvent('chat:addMessage', -1, {args = {_U('twt_prefix', playerName), args}, color = {0, 153, 204}})
-	end
-end, false)
-
-RegisterCommand('anontwt', function(playerId, args, rawCommand)
-	if playerId == 0 then
-		print('[^1ERROR^7] This Command Cannot Be Used By The Console!')
-	else
-		args = table.concat(args, ' ')
-
-		local playerName = GetRealPlayerName(playerId)
-
-		TriggerClientEvent('chat:addMessage', -1, {args = {_U('twt_prefix', "Anonymous"), args}, color = {0, 153, 204}})
-	end
-end, false)
-
 RegisterCommand('me', function(playerId, args, rawCommand)
 	if playerId == 0 then
 		print('[^1ERROR^7] This Command Cannot Be Used By The Console!')
