@@ -2,9 +2,7 @@ local Vehicles, myCar = {}, {}
 local lsMenuIsShowed, HintDisplayed, isInLSMarker = false, false, false
 
 RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-    ESX.PlayerLoaded = true
-	ESX.PlayerData = xPlayer
+AddEventHandler('esx:playerLoaded', function()
     ESX.TriggerServerCallback('esx_lscustom:getVehiclesPrices', function(vehicles)
         Vehicles = vehicles
     end)
@@ -13,8 +11,9 @@ end)
 RegisterNetEvent('esx_lscustom:installMod')
 AddEventHandler('esx_lscustom:installMod', function()
     local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+    local NetId = NetworkGetNetworkIdFromEntity(vehicle)
     myCar = ESX.Game.GetVehicleProperties(vehicle)
-    TriggerServerEvent('esx_lscustom:refreshOwnedVehicle', myCar, NetworkGetNetworkIdFromEntity(vehicle))
+    TriggerServerEvent('esx_lscustom:refreshOwnedVehicle', myCar, NetId)
 end)
 
 RegisterNetEvent('esx_lscustom:restoreMods', function(netId, props)
@@ -163,6 +162,14 @@ function UpdateMods(data)
             props['modSmokeEnabled'] = true
             ESX.Game.SetVehicleProperties(vehicle, props)
             props = {}
+        elseif data.modType == 'xenonColor' then
+            if data.modNum then
+                props['modXenon'] = true
+            else
+                props['modXenon'] = false
+            end
+            ESX.Game.SetVehicleProperties(vehicle, props)
+            props = {}
         end
 
         props[data.modType] = data.modNum
@@ -211,38 +218,46 @@ function GetAction(data)
 
             if v.modType then
 
-                if v.modType == 22 then
-                    table.insert(elements, {
+                if v.modType == 22 or v.modType == 'xenonColor' then
+                    elements[#elements + 1] = {
                         label = " " .. _U('by_default'),
                         modType = k,
                         modNum = false
-                    })
+                   }
                 elseif v.modType == 'neonColor' or v.modType == 'tyreSmokeColor' then -- disable neon
-                    table.insert(elements, {
+                    elements[#elements + 1] = {
                         label = " " .. _U('by_default'),
                         modType = k,
                         modNum = {0, 0, 0}
-                    })
+                   }
                 elseif v.modType == 'color1' or v.modType == 'color2' or v.modType == 'pearlescentColor' or v.modType ==
                     'wheelColor' then
                     local num = myCar[v.modType]
-                    table.insert(elements, {
+                    elements[#elements + 1] = {
                         label = " " .. _U('by_default'),
                         modType = k,
                         modNum = num
-                    })
+                   }
                 elseif v.modType == 17 then
-                    table.insert(elements, {
+                    elements[#elements + 1] = {
                         label = " " .. _U('no_turbo'),
                         modType = k,
                         modNum = false
-                    })
+                   }
+                elseif v.modType == 23 then
+                    elements[#elements + 1] = {
+                        label = " " .. _U('by_default'),
+                        modType = "modFrontWheels",
+                        modNum = -1,
+                        wheelType = -1,
+                        price = Config.DefaultWheelsPriceMultiplier
+                   }
                 else
-                    table.insert(elements, {
+                    elements[#elements + 1] = {
                         label = " " .. _U('by_default'),
                         modType = k,
                         modNum = -1
-                    })
+                   }
                 end
 
                 if v.modType == 14 then -- HORNS
@@ -255,11 +270,11 @@ function GetAction(data)
                             price = math.floor(vehiclePrice * v.price / 100)
                             _label = GetHornName(j) .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         end
-                        table.insert(elements, {
+                        elements[#elements + 1] = {
                             label = _label,
                             modType = k,
                             modNum = j
-                        })
+                       }
                     end
                 elseif v.modType == 'plateIndex' then -- PLATES
                     for j = 0, 4, 1 do
@@ -271,11 +286,11 @@ function GetAction(data)
                             price = math.floor(vehiclePrice * v.price / 100)
                             _label = GetPlatesName(j) .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         end
-                        table.insert(elements, {
+                        elements[#elements + 1] = {
                             label = _label,
                             modType = k,
                             modNum = j
-                        })
+                        }
                     end
                 elseif v.modType == 22 then -- NEON
                     local _label = ''
@@ -285,21 +300,31 @@ function GetAction(data)
                         price = math.floor(vehiclePrice * v.price / 100)
                         _label = _U('neon') .. ' - <span style="color:green;">$' .. price .. ' </span>'
                     end
-                    table.insert(elements, {
+                    elements[#elements + 1] = {
                         label = _label,
                         modType = k,
                         modNum = true
-                    })
+                   }
+                elseif v.modType == 'xenonColor' then -- XENON COLOR
+                    local xenonColors = GetXenonColors()
+                    price = math.floor(vehiclePrice * v.price / 100)
+                    for i = 1, #xenonColors, 1 do
+                        elements[#elements + 1] = {
+                            label = xenonColors[i].label .. ' - <span style="color:green;">$' .. price .. '</span>',
+                            modType = k,
+                            modNum = xenonColors[i].index
+                       }
+                    end
                 elseif v.modType == 'neonColor' or v.modType == 'tyreSmokeColor' then -- NEON & SMOKE COLOR
                     local neons = GetNeons()
                     price = math.floor(vehiclePrice * v.price / 100)
                     for i = 1, #neons, 1 do
-                        table.insert(elements, {
+                        elements[#elements + 1] = {
                             label = '<span style="color:rgb(' .. neons[i].r .. ',' .. neons[i].g .. ',' .. neons[i].b ..
                                 ');">' .. neons[i].label .. ' - <span style="color:green;">$' .. price .. '</span>',
                             modType = k,
                             modNum = {neons[i].r, neons[i].g, neons[i].b}
-                        })
+                       }
                     end
                 elseif v.modType == 'color1' or v.modType == 'color2' or v.modType == 'pearlescentColor' or v.modType ==
                     'wheelColor' then -- RESPRAYS
@@ -308,11 +333,11 @@ function GetAction(data)
                         local _label = ''
                         price = math.floor(vehiclePrice * v.price / 100)
                         _label = colors[j].label .. ' - <span style="color:green;">$' .. price .. ' </span>'
-                        table.insert(elements, {
+                        elements[#elements + 1] = {
                             label = _label,
                             modType = k,
                             modNum = colors[j].index
-                        })
+                       }
                     end
                 elseif v.modType == 'windowTint' then -- WINDOWS TINT
                     for j = 1, 5, 1 do
@@ -324,11 +349,11 @@ function GetAction(data)
                             price = math.floor(vehiclePrice * v.price / 100)
                             _label = GetWindowName(j) .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         end
-                        table.insert(elements, {
+                        elements[#elements + 1] = {
                             label = _label,
                             modType = k,
                             modNum = j
-                        })
+                       }
                     end
                 elseif v.modType == 23 then -- WHEELS RIM & TYPE
                     local props = {}
@@ -349,13 +374,13 @@ function GetAction(data)
                                 _label = GetLabelText(modName) .. ' - <span style="color:green;">$' .. price ..
                                              ' </span>'
                             end
-                            table.insert(elements, {
+                            elements[#elements + 1] = {
                                 label = _label,
                                 modType = 'modFrontWheels',
                                 modNum = j,
                                 wheelType = v.wheelType,
                                 price = v.price
-                            })
+                           }
                         end
                     end
                 elseif v.modType == 11 or v.modType == 12 or v.modType == 13 or v.modType == 15 or v.modType == 16 then
@@ -371,11 +396,11 @@ function GetAction(data)
                             price = math.floor(vehiclePrice * v.price[j + 1] / 100)
                             _label = _U('level', j + 1) .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         end
-                        table.insert(elements, {
+                        elements[#elements + 1] = {
                             label = _label,
                             modType = k,
                             modNum = j
-                        })
+                       }
                         if j == modCount - 1 then
                             break
                         end
@@ -389,11 +414,11 @@ function GetAction(data)
                             'Turbo - <span style="color:green;">$' .. math.floor(vehiclePrice * v.price[1] / 100) ..
                                 ' </span>'
                     end
-                    table.insert(elements, {
+                    elements[#elements + 1] = {
                         label = _label,
                         modType = k,
                         modNum = true
-                    })
+                   }
                 else
                     local modCount = GetNumVehicleMods(vehicle, v.modType) -- BODYPARTS
                     for j = 0, modCount, 1 do
@@ -408,11 +433,11 @@ function GetAction(data)
                                 _label = GetLabelText(modName) .. ' - <span style="color:green;">$' .. price ..
                                              ' </span>'
                             end
-                            table.insert(elements, {
+                            elements[#elements + 1] = {
                                 label = _label,
                                 modType = k,
                                 modNum = j
-                            })
+                           }
                         end
                     end
                 end
@@ -421,38 +446,38 @@ function GetAction(data)
                     'pearlescentRespray' or data.value == 'modFrontWheelsColor' then
                     for i = 1, #Config.Colors, 1 do
                         if data.value == 'primaryRespray' then
-                            table.insert(elements, {
+                            elements[#elements + 1] = {
                                 label = Config.Colors[i].label,
                                 value = 'color1',
                                 color = Config.Colors[i].value
-                            })
+                           }
                         elseif data.value == 'secondaryRespray' then
-                            table.insert(elements, {
+                            elements[#elements + 1] = {
                                 label = Config.Colors[i].label,
                                 value = 'color2',
                                 color = Config.Colors[i].value
-                            })
+                           }
                         elseif data.value == 'pearlescentRespray' then
-                            table.insert(elements, {
+                            elements[#elements + 1] = {
                                 label = Config.Colors[i].label,
                                 value = 'pearlescentColor',
                                 color = Config.Colors[i].value
-                            })
+                           }
                         elseif data.value == 'modFrontWheelsColor' then
-                            table.insert(elements, {
+                            elements[#elements + 1] = {
                                 label = Config.Colors[i].label,
                                 value = 'wheelColor',
                                 color = Config.Colors[i].value
-                            })
+                           }
                         end
                     end
                 else
                     for l, w in pairs(v) do
                         if l ~= 'label' and l ~= 'parent' then
-                            table.insert(elements, {
+                            elements[#elements + 1] = {
                                 label = w,
                                 value = l
-                            })
+                           }
                         end
                     end
                 end
