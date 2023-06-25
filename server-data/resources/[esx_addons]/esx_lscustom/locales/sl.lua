@@ -1,13 +1,13 @@
-Locales['en'] = {
-  ['by_default'] = 'default',
-  ['installed'] = 'installed',
-  ['already_own'] = 'you already own: %s',
-  ['not_enough_money'] = 'you cannot afford this mod!',
-  ['purchased'] = 'you have purchased the mod!',
-  ['press_custom'] = 'press ~b~[E]~s~ to Personalise Your Vehicle',
+Locales['sl'] = {
+  ['by_default'] = 'navadno',
+  ['installed'] = 'instalirano',
+  ['already_own'] = 'Vi ze imate: %s',
+  ['not_enough_money'] = 'Vi si nemorete privosciti tega moda!',
+  ['purchased'] = 'Vi ste kupili ta mod!',
+  ['press_custom'] = 'Pritisnite ~b~[E]~s~ Da uredite vase vozilo',
   ['level'] = 'level %s',
   ['neon'] = 'neon',
-  ['blip_name'] = 'los Santos Customs',
+  ['blip_name'] = 'LS Customs',
 -- Paint Colors
   -- Black
   ['black'] = 'black',

@@ -1,12 +1,48 @@
 Config                   = {}
 Config.DrawDistance      = 10.0
-Config.Locale            = 'it'
-Config.IsMechanicJobOnly = true 
+Config.Locale = GetConvar('esx:locale', 'en')
+Config.IsMechanicJobOnly = false
 
 Config.Zones = {
 
 	ls1 = {
-		Pos   = { x = -338.967041, y = -136.654938, z = 39.002197},
+		Pos   = { x = -337.38, y = -136.92, z = 38.57},
+		Size  = {x = 3.0, y = 3.0, z = 0.2},
+		Color = {r = 204, g = 204, b = 0},
+		Marker= 1,
+		Name  = _U('blip_name'),
+		Hint  = _U('press_custom')
+	},
+
+	ls2 = {
+		Pos   = { x = -1155.53, y = -2007.18, z = 12.74},
+		Size  = {x = 3.0, y = 3.0, z = 0.2},
+		Color = {r = 204, g = 204, b = 0},
+		Marker= 1,
+		Name  = _U('blip_name'),
+		Hint  = _U('press_custom')
+	},
+
+	ls3 = {
+		Pos   = { x = 731.81, y = -1088.82, z = 21.73},
+		Size  = {x = 3.0, y = 3.0, z = 0.2},
+		Color = {r = 204, g = 204, b = 0},
+		Marker= 1,
+		Name  = _U('blip_name'),
+		Hint  = _U('press_custom')
+	},
+
+	ls4 = {
+		Pos   = { x = 1175.04, y = 2640.21, z = 37.32},
+		Size  = {x = 3.0, y = 3.0, z = 0.2},
+		Color = {r = 204, g = 204, b = 0},
+		Marker= 1,
+		Name  = _U('blip_name'),
+		Hint  = _U('press_custom')
+	},
+
+	ls5 = {
+		Pos   = { x = 110.99, y = 6626.39, z = 30.89},
 		Size  = {x = 3.0, y = 3.0, z = 0.2},
 		Color = {r = 204, g = 204, b = 0},
 		Marker= 1,
@@ -31,6 +67,8 @@ Config.Colors = {
 	{label = _U('chrome'), value = 'chrome'},
 	{label = _U('gold'), value = 'gold'}
 }
+
+Config.DefaultWheelsPriceMultiplier = 2
 
 function GetColors(color)
 	local colors = {}
@@ -372,21 +410,42 @@ function GetNeons()
 		{label = "Navy Blue", 		r = 0, 		g = 0, 		b = 128},
 		{label = "Sky Blue", 		r = 135, 	g = 206, 	b = 235},
 		{label = "Turquoise", 		r = 0, 		g = 245, 	b = 255},
-		{label = "Mint Green",   	r = 50, 	g = 255, 	b = 155},
-		{label = "Lime Green",  	r = 0, 		g = 255, 	b = 0},
+		{label = "Mint Green", 	r = 50, 	g = 255, 	b = 155},
+		{label = "Lime Green", 	r = 0, 		g = 255, 	b = 0},
 		{label = "Olive", 			r = 128, 	g = 128, 	b = 0},
-		{label = _U('yellow'),  	r = 255, 	g = 255, 	b = 0},
+		{label = _U('yellow'), 	r = 255, 	g = 255, 	b = 0},
 		{label = _U('gold'), 		r = 255, 	g = 215, 	b = 0},
-		{label = _U('orange'), 	    r = 255, 	g = 165, 	b = 0},
+		{label = _U('orange'), 	r = 255, 	g = 165, 	b = 0},
 		{label = _U('wheat'), 		r = 245, 	g = 222, 	b = 179},
 		{label = _U('red'), 		r = 255, 	g = 0, 		b = 0},
 		{label = _U('pink'), 		r = 255, 	g = 161, 	b = 211},
 		{label = _U('brightpink'),	r = 255, 	g = 0, 		b = 255},
-		{label = _U('purple'), 	    r = 153, 	g = 0, 		b = 153},
+		{label = _U('purple'), 	r = 153, 	g = 0, 		b = 153},
 		{label = "Ivory", 			r = 41, 	g = 36, 	b = 33}
 	}
 
 	return neons
+end
+
+function GetXenonColors()
+	local xenonColors = {
+		{label = _U('neon'), index = -1},
+		{label = _U('white'), index = 0},
+		{label = _U('blue'), index = 1},
+		{label = _U('electric_blue'), index = 2},
+		{label = _U('mintgreen'), index = 3},
+		{label = _U('lime_green'), index = 4},
+		{label = _U('yellow'), index = 5},
+		{label = _U('goldenshower'), index = 6},
+		{label = _U('orange'), index = 7},
+		{label = _U('red'), index = 8},
+		{label = _U('ponypink'), index = 9},
+		{label = _U('hotpink'), index = 10},
+		{label = _U('purple'), index = 11},
+		{label = _U('blacklight'), index = 11},
+	}
+
+	return xenonColors
 end
 
 function GetPlatesName(index)
@@ -464,7 +523,8 @@ Config.Menus = {
 		modHorns			= _U('horns'),
 		neonColor			= _U('neons'),
 		resprays			= _U('respray'),
-		modXenon			= _U('headlights'),
+		-- modXenon			= _U('headlights'),
+		xenonColor			= _U('headlights'),
 		plateIndex			= _U('licenseplates'),
 		wheels				= _U('wheels'),
 		modPlateHolder		= _U('modplateholder'),
@@ -763,6 +823,12 @@ Config.Menus = {
 		label = _U('headlights'),
 		parent = 'cosmetics',
 		modType = 22,
+		price = 3.72
+	},
+	xenonColor = {
+		label = _U('headlights'),
+		parent = 'cosmetics',
+		modType = 'xenonColor',
 		price = 3.72
 	},
 	bodyparts = {
