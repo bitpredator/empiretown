@@ -166,10 +166,7 @@ CreateThread(function()
             -- Get player, position and vehicle
             local player = GetPlayerPed(-1)
             local position = GetEntityCoords(player)
-
-            -- Get heading and zone from lookup tables and street name from hash
-            local streetName = GetStreetNameFromHashKey(GetStreetNameAtCoord(position.x, position.y, position.z))
-
+            
             -- Update fuel when in a vehicle
             if pedInVeh then
                 local vehicle = GetVehiclePedIsIn(player, false)
