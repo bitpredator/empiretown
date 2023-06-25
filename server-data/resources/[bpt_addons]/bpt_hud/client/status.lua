@@ -3,6 +3,7 @@ local armor = 0
 local food = 0
 local thirst = 0
 local posi = "bottom"
+local sleep
 
 ESX = nil
 
@@ -12,7 +13,7 @@ end)
 
 AddEventHandler('playerSpawned', function()  -- Enable hud only after player spawn
 	CreateThread(function()
-		while true do 
+		while true do
 			Wait(sleep)
 			if IsEntityDead(GetPlayerPed(-1)) then
 				health = 0
@@ -26,7 +27,6 @@ AddEventHandler('playerSpawned', function()  -- Enable hud only after player spa
 			TriggerEvent('esx_status:getStatus', 'thirst', function(status)
 				thirst = status.getPercent()
 			end)
-			Wait(sleep)
 			SendNUIMessage({
 				posi = posi,
 				show = IsPauseMenuActive(),  -- Disable hud if settings menu is active
@@ -38,6 +38,3 @@ AddEventHandler('playerSpawned', function()  -- Enable hud only after player spa
 		end
 	end)
 end)
-
-
-

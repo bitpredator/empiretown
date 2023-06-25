@@ -7,7 +7,7 @@ CreateThread(function()
         if IsPauseMenuActive() then
             SendNUIMessage({mapfoil = true})
             SendNUIMessage({mapoutline = false})
-        else 
+        else
             SendNUIMessage({mapfoil = false})
             SendNUIMessage({mapoutline = true})
         end
