@@ -43,7 +43,7 @@
   "vehicle_locked": "Il veicolo è chiuso",
   "nobody_nearby": "Nessuno nelle vicinanze",
   "give_amount": "Devi inserire la quantità da dare",
-  "buy_amount": "Devi inserire la quantitò da acquistare",
+  "buy_amount": "Devi inserire la quantità da acquistare",
   "component_has": "Quest'arma ha già %s",
   "component_invalid": "Quest'arma non può montare %s",
   "cannot_perform": "Non puoi eseguire questa azione",
@@ -82,7 +82,5 @@
   "cannot_give": "Impossibile dare %s %s al giocatore selezionato",
   "evidence_cannot_take": "Il tuo grado non può prendere oggetti dal deposito",
   "dumpster": "Cassonetto",
-  "crafting_item": "Craftando %s",
-  "crafting_bench": "Banco da lavoro",
   "not_enough_durability": "%s non ha abbastanza durabilità"
 }

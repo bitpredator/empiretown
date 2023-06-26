@@ -82,7 +82,5 @@
   "cannot_give": "%s %s kann nicht übergeben werden",
   "evidence_cannot_take": "Dein Rang ist hierfür zu niedrig",
   "dumpster": "Mülleimer",
-  "crafting_item": "%s herstellen",
-  "crafting_bench": "Werkbank",
   "not_enough_durability": "Haltbarkeit von %s reicht nicht mehr aus"
 }
