@@ -6,7 +6,7 @@ Locales ['it'] = {
   ['wood_processingstarted'] = 'stai tagliando il  ~g~legno~s~...',
   ['wood_processingfull'] = 'taglio~r~annullato~s~ inventario pieno!',
   ['wood_processingenough'] = 'devi avere almeno ~b~5x~s~ ~g~di legno~s~ per tagliarlo.',
-  ['wood_processed'] = 'hai tagliato ~b~5x~s~ ~g~il legno~s~ ed ottenuto ~b~1x~s~ ~g~ pezzi di legno~s~',
+  ['wood_processed'] = 'hai tagliato ~b~5~s~ ~g~il legno~s~ ed ottenuto ~b~1~s~ ~g~ pezzi di legno~s~',
   ['wood_processingtoofar'] = 'la lavorazione è stata ~r~annullata~s~ perchè ti sei allontanato.',
   -- blips
   ['blip_woodfield'] = 'bosco',
