@@ -1,10 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
-
 lua54 'yes'
-
 author 'bitpredator'
-
 version '0.0.4'
 
 server_scripts {

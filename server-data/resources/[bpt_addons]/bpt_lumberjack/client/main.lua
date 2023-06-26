@@ -74,13 +74,11 @@ end)
 
 function ProcessingAnimation()
 	local Animated = PlayerPedId()
-	
 	RequestAnimDict("timetable@floyd@clean_kitchen@base")
 	Wait(1000)
 
-	TaskPlayAnim(Animated, "timetable@floyd@clean_kitchen@base", "base", 10.0, 10.0, -1, 0, 0, false, false, false) 
+	TaskPlayAnim(Animated, "timetable@floyd@clean_kitchen@base", "base", 10.0, 10.0, -1, 0, 0, false, false, false)
 end
-
 
 function ProcessWood()
 	Processing = true
@@ -106,25 +104,24 @@ function ProcessWood()
 end
 
 function treecutter()
-	local jake = PlayerPedId()
+	local cut = PlayerPedId()
 	
 	RequestAnimDict("melee@hatchet@streamed_core")
 	Wait(1200)
 
-	TaskPlayAnim(jake, "melee@hatchet@streamed_core", "plyr_front_takedown_b", 6.0, -6.0, -1, 0, 0, false, false, false) 
+	TaskPlayAnim(cut, "melee@hatchet@streamed_core", "plyr_front_takedown_b", 6.0, -6.0, -1, 0, 0, false, false, false)
 end
-
 
 CreateThread(function()
 	while true do
 		Wait(0)
 		local player = PlayerPedId()
 		local coords = GetEntityCoords(player)
-		local treewood, nearbyID
+		local treewood
 		
 		for i=1, #TreeWood, 1 do
 			if GetDistanceBetweenCoords(coords, GetEntityCoords(TreeWood[i]), false) < 1 then
-				treewood, nearbyID = TreeWood[i], i
+				treewood = TreeWood[i], i
 			end
 		end
 
@@ -155,7 +152,7 @@ CreateThread(function()
 						TriggerServerEvent('bpt_woodcutter:pickedUpWood')
 					else
 						ESX.ShowNotification(_U('wood_inventoryfull'))
-					end				
+					end
 					Collection = false
 
 				end, 'wood')
@@ -171,7 +168,7 @@ end)
 
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
-		for k, v in pairs(TreeWood) do
+		for _, v in pairs(TreeWood) do
 			ESX.Game.DeleteObject(v)
 		end
 	end
@@ -196,7 +193,7 @@ function ValidateWoodCoord(plantCoord)
 	if spawnedWood > 0 then
 		local validate = true
 
-		for k, v in pairs(TreeWood) do
+		for _, v in pairs(TreeWood) do
 			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 5 then
 				validate = false
 			end
@@ -232,7 +229,7 @@ end
 
 function GetCoordZ(x, y)
 	local groundCheckHeights = { 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0 }
-	for i, height in ipairs(groundCheckHeights) do
+	for _, height in ipairs(groundCheckHeights) do
 		local foundGround, z = GetGroundZFor_3dCoord(x, y, height)
 
 		if foundGround then
@@ -262,8 +259,7 @@ function CreateBlipCircle(coords, text, radius, color, sprite)
 end
 
 CreateThread(function()
-	for k,zone in pairs(Config.CircleZones) do
-
+	for _,zone in pairs(Config.CircleZones) do
 		CreateBlipCircle(zone.coords, zone.name, zone.radius, zone.color, zone.sprite)
 	end
 end)

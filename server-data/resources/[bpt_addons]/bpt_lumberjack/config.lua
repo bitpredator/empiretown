@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Locale  = 'it'
+Config.Locale  = 'en'
 
 Config.Delays = {
 	WoodProcessing = 1000 * 10,
