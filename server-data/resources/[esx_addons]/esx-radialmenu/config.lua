@@ -28,7 +28,7 @@ Config.MenuItems = {
                 type = 'client',
                 event = 'esx-trunk:client:GetIn',
                 shouldClose = true
-            }, 
+            },
             {
                 id = 'interactions',
                 title = 'Interaction',
@@ -888,6 +888,6 @@ Config.ExtraCommands = {
     }
 }
 
-function _U(keyToFind)    
+function _U(keyToFind)
     return Config.Locales[Config.Locale][keyToFind]
 end
