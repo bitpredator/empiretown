@@ -1,7 +1,7 @@
 local registeredStashes = {}
 local ox_inventory = exports.ox_inventory
 
-local function GenerateText(num) 
+local function GenerateText(num)
 	local str
 	repeat str = {}
 		for i = 1, num do str[i] = string.char(math.random(65, 90)) end
