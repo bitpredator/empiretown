@@ -6,7 +6,7 @@ CreateThread(function()
     for k,_ in pairs(Config.Shops) do
         TriggerEvent('esx_society:registerSociety', k, k, 'society_'..k, 'society_'..k, 'society_'..k, {type = 'public'})
     end
-end) 
+end)
 
 CreateThread(function()
 	while GetResourceState('ox_inventory') ~= 'started' do Wait(1000) end
@@ -21,7 +21,7 @@ CreateThread(function()
 		local items = exports.ox_inventory:GetInventoryItems(k, false)
 		local stashItems = {}
 		if items and items ~= {} then
-			for k,v in pairs(items) do
+			for _,v in pairs(items) do
 				if v and v.name then
 					stashItems[#stashItems + 1] = { name = v.name, metadata = v.metadata, count = v.count, price = (v.metadata.shopData.price or 0) }
 				end
@@ -46,7 +46,7 @@ CreateThread(function()
 			local metadata = payload.metadata
 			if metadata?.shopData then
 				local price = metadata.shopData.price
-				local count = payload.count
+				local _ = payload.count
 				exports.ox_inventory:RemoveItem(metadata.shopData.shop, payload.item.name, payload.count)
 				TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..metadata.shopData.shop, function(account)
 					account.addMoney(price)
@@ -60,7 +60,7 @@ RegisterServerEvent('wasabi_oxshops:refreshShop', function(shop)
 	Wait(250)
 	local items = exports.ox_inventory:GetInventoryItems(shop, false)
 	local stashItems = {}
-	for k,v in pairs(items) do
+	for _,v in pairs(items) do
 		if v and v.name then
 			local metadata = v.metadata
 			if metadata?.shopData then
@@ -88,7 +88,6 @@ RegisterServerEvent('wasabi_oxshops:setData', function(shop, slot, price)
 	exports.ox_inventory:SetMetadata(shop, slot, metadata)
 	TriggerEvent('wasabi_oxshops:refreshShop', shop)
 end)
-
 
 AddEventHandler('onResourceStop', function(resourceName)
 	if (GetCurrentResourceName() ~= resourceName) then return end
