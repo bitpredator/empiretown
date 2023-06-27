@@ -1,7 +1,7 @@
 Config = {}
 Config.Shops = {
     ['ambulance'] = { -- Job name
-        label = 'Negozio medico ',
+        label = 'Hospital Shop',
         blip = {
             enabled = true,
             coords = vec3(309.415375, -561.784607, 43.282104),

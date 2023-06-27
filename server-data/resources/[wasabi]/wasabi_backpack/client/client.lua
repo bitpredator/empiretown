@@ -26,7 +26,7 @@ AddEventHandler('ox_inventory:updateInventory', function(changes)
         Wait(4500)
         justConnect = nil
     end
-    for k, v in pairs(changes) do
+    for _, v in pairs(changes) do
         if type(v) == 'table' then
             local count = ox_inventory:Search('count', Config.BackpackItem)
 	        if count > 0 and (not bagEquipped or not bagObj) then
@@ -57,4 +57,3 @@ exports('openBackpack', function(data, slot)
         ox_inventory:openInventory('stash', 'bag_'..slot.metadata.identifier)
     end
 end)
-

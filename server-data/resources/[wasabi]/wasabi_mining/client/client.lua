@@ -12,7 +12,7 @@ CreateThread(function()
         local sleep = 1500
         local pos = GetEntityCoords(cache.ped)
         for i=1, #Config.miningAreas, 1 do
-            local dist = #(pos - Config.miningAreas[i])	
+            local dist = #(pos - Config.miningAreas[i])
             if dist <= 2.0 and not mining then
                 sleep = 0
                 if not textUI[i] then
@@ -69,7 +69,7 @@ CreateThread(function()
                     elseif not output then
                         TriggerEvent('wasabi_mining:notify', Strings.no_pickaxe, Strings.no_pickaxe_desc, 'error')
                     end
-                end	
+                end
             elseif dist >= 2.1 then
                 if textUI[i] then
                     lib.hideTextUI()
@@ -79,7 +79,7 @@ CreateThread(function()
         end
         Wait(sleep)
     end
-end) 
+end)
 
 RegisterNetEvent('wasabi_mining:alertStaff')
 AddEventHandler('wasabi_mining:alertStaff', function()

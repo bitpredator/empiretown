@@ -25,7 +25,7 @@ Config.miningAreas = {
 }
 
 RegisterNetEvent('wasabi_mining:notify')
-AddEventHandler('wasabi_mining:notify', function(title, message, msgType)	
+AddEventHandler('wasabi_mining:notify', function(title, message, msgType)
     -- Place notification system info here, ex: exports['mythic_notify']:SendAlert('inform', message)
     if not msgType then
         lib.notify({
