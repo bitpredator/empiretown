@@ -13,10 +13,10 @@ Config.Zones = {
 }
 
 Config.Blip = {
-  Enabled = true, 
-  Sprite = 407, 
-  Display = 4, 
-  Scale = 0.8, 
-  Colour = 27, 
+  Enabled = true,
+  Sprite = 407,
+  Display = 4,
+  Scale = 0.8,
+  Colour = 27,
   ShortRange = true
 }
