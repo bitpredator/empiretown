@@ -9,7 +9,7 @@ elseif isQB then
 	FrameworkObj = exports["qb-core"]:GetCoreObject()
 end
 
-if isESX then 
+if isESX then
 	FrameworkObj.RegisterServerCallback('npwd:services:getPlayers', function(src, cb)
 		local PlayerList = {}
 
@@ -29,7 +29,7 @@ if isESX then
 	end)
 end
 
-if isQB then 
+if isQB then
 	RegisterNetEvent("npwd:services:getPlayers", function()
 		local src = source
 		local players = FrameworkObj.Functions.GetQBPlayers()
