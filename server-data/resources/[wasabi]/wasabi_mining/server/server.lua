@@ -7,15 +7,10 @@ lib.callback.register('wasabi_mining:checkPick', function(source, itemname)
     end
 end)
 
-lib.callback.register('wasabi_mining:getRockData', function(source)
+lib.callback.register('wasabi_mining:getRockData', function()
     local data = Config.rocks[math.random(#Config.rocks)]
     return data
 end)
-
-local addCommas = function(n)
-	return tostring(math.floor(n)):reverse():gsub("(%d%d%d)","%1,")
-	:gsub(",(%-?)$","%1"):reverse()
-end
 
 RegisterServerEvent("wasabi_mining:mineRock")
 AddEventHandler("wasabi_mining:mineRock", function(data, index)
