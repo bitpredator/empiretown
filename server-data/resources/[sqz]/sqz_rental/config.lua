@@ -7,7 +7,7 @@ Config.ExtraChargePerMinute = 500
 Config.Points = {
     {
         Pos = vector3(-985.3989,-2707.436,13.8307),
-        SpawnPoint = vector3(-985.3989,-2707.436,13.8307), 
+        SpawnPoint = vector3(-985.3989,-2707.436,13.8307),
         Vehicles = {
             {
                 model = 'issi2',
@@ -29,7 +29,7 @@ Config.Points = {
     },
     {
         Pos = vector3(211.2574,-1379.5165,30.5875),
-        SpawnPoint = vector3(219.0401,-1380.4989,30.5514), 
+        SpawnPoint = vector3(219.0401,-1380.4989,30.5514),
         Vehicles = {
             {
                 model = 'issi2',
@@ -51,7 +51,7 @@ Config.Points = {
     },
     {
         Pos = vector3(-249.0248,-954.9617,31.22),
-        SpawnPoint = vector3(-258.9018,-993.5417,29.951), 
+        SpawnPoint = vector3(-258.9018,-993.5417,29.951),
         Vehicles = {
             {
                 model = 'issi2',
@@ -73,7 +73,7 @@ Config.Points = {
     },
     {
         Pos = vector3(1852.7104,2593.9482,45.672),
-        SpawnPoint = vector3(1867.6857,2599.4282,45.672), 
+        SpawnPoint = vector3(1867.6857,2599.4282,45.672),
         Vehicles = {
             {
                 model = 'issi2',

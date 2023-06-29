@@ -1,4 +1,4 @@
-ESX = nil 
+ESX = nil
 ESX = exports["es_extended"]:getSharedObject()
   
 RegisterNetEvent('esx:playerLoaded')
@@ -23,7 +23,7 @@ local Drown = { -10959621, 1936677264 }
 local Car = { 133987706, -1553120962 }
   
 function checkArray (array, val)
- for name, value in ipairs(array) do
+ for _, value in ipairs(array) do
 	if value == val then
 	 return true
 	 end
@@ -42,14 +42,14 @@ CreateThread(function()
   
 			  if distance ~= -1 and distance < 10.0 then
   
-				if distance ~= -1 and distance <= 2.0 then	
+				if distance ~= -1 and distance <= 2.0 then
 					if IsPedDeadOrDying(GetPlayerPed(player)) then
 						Start(GetPlayerPed(player))
 					end
 				end
   
 			  else
-				  sleep = sleep / 100 * distance 
+				  sleep = sleep / 100 * distance
 			  end
 			end
   
@@ -59,9 +59,9 @@ CreateThread(function()
 end)
   
 function Start(ped)
-	  checking = true
+	checking = true
   
-	  while checking do
+	    while checking do
 		  Wait(5)
   
 		  local distance = GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), GetEntityCoords(ped))
@@ -111,7 +111,7 @@ function OpenDeathMenu(player)
 		 align    = 'top-right',
 		 elements = elements,
 		},
-	    function(data, menu)
+	    function(data)
 		  local ac = data.current.value
   
 		  if ac == 'damage' then

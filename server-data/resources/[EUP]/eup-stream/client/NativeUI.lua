@@ -757,8 +757,8 @@ function UIMenuItem.New(Text, Description)
         _Offset = {X = 0, Y = 0},
         ParentMenu = nil,
         Panels = {},
-        Activated = function(menu, item, panels) end,
-        ActivatedPanel = function(menu, item, panel, panelvalue) end,
+        Activated = function() end,
+        ActivatedPanel = function() end,
     }
     return setmetatable(_UIMenuItem, UIMenuItem)
 end
@@ -952,7 +952,7 @@ function UIMenuCheckboxItem.New(Text, Check, Description)
         Base = UIMenuItem.New(Text or "", Description or ""),
         CheckedSprite = Sprite.New("commonmenu", "shop_box_blank", 410, 95, 50, 50),
         Checked = tobool(Check),
-        CheckboxEvent = function(menu, item, checked) end,
+        CheckboxEvent = function() end,
     }
     return setmetatable(_UIMenuCheckboxItem, UIMenuCheckboxItem)
 end
@@ -1055,11 +1055,6 @@ function UIMenuCheckboxItem:Draw()
     end
     self.CheckedSprite:Draw()
 end
-
---[[
-    UIMenuListItem.lua
-    Items
---]]
 
 function UIMenuListItem.New(Text, Items, Index, Description)
     if type(Items) ~= "table" then Items = {} end
@@ -1443,7 +1438,7 @@ function UIMenuColouredItem.New(Text, Description, MainColour, HighlightColour)
         Rectangle = UIResRectangle.New(0, 0, 431, 38, MainColour.R, MainColour.G, MainColour.B, MainColour.A),
         MainColour = MainColour,
         HighlightColour = HighlightColour,
-        Activated = function(menu, item) end,
+        Activated = function() end,
     }
     _UIMenuColouredItem.Base.SelectedSprite:Colour(HighlightColour.R, HighlightColour.G, HighlightColour.B, HighlightColour.A)
     return setmetatable(_UIMenuColouredItem, UIMenuColouredItem)
@@ -1547,11 +1542,6 @@ function UIMenuColouredItem:Draw()
     self.Rectangle:Draw()
     self.Base:Draw()
 end
-
---[[
-    UIMenuProgressItem.lua
-    Items
---]]
 
 function UIMenuProgressItem.New(Text, Items, Index, Description, Counter)
     if type(Items) ~= "table" then Items = {} end
@@ -2337,17 +2327,17 @@ function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName)
         ReDraw = true,
         InstructionalScaleform = RequestScaleformMovie("INSTRUCTIONAL_BUTTONS"),
         InstructionalButtons = {},
-        OnIndexChange = function(menu, newindex) end,
-        OnListChange = function(menu, list, newindex) end,
-        OnSliderChange = function(menu, slider, newindex) end,
-        OnProgressChange = function(menu, progress, newindex) end,
-        OnCheckboxChange = function(menu, item, checked) end,
-        OnListSelect = function(menu, list, index) end,
-        OnSliderSelect = function(menu, slider, index) end,
-        OnProgressSelect = function(menu, progress, index) end,
-        OnItemSelect = function(menu, item, index) end,
-        OnMenuChanged = function(menu, newmenu, forward) end,
-        OnMenuClosed = function(menu) end,
+        OnIndexChange = function() end,
+        OnListChange = function() end,
+        OnSliderChange = function() end,
+        OnProgressChange = function() end,
+        OnCheckboxChange = function() end,
+        OnListSelect = function() end,
+        OnSliderSelect = function() end,
+        OnProgressSelect = function() end,
+        OnItemSelect = function() end,
+        OnMenuChanged = function() end,
+        OnMenuClosed = function() end,
         Settings = {
             InstructionalButtons = true,
             MultilineFormats = true,
@@ -3207,7 +3197,7 @@ function UIMenu:ProcessMouse()
         SetCursorSprite(6)
     elseif IsMouseInBounds(1920 - 30, 0, 30, 1080) and self.Settings.MouseEdgeEnabled then
         SetGameplayCamRelativeHeading(GetGameplayCamRelativeHeading() - 5)
-        SetCursorSprite(7)  
+        SetCursorSprite(7)
     elseif self.Settings.MouseEdgeEnabled then
         SetCursorSprite(1)
     end
@@ -3300,7 +3290,7 @@ function UIMenu:ProcessMouse()
                             elseif not Item:Enabled() and Item:Selected() then
                                 PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
                             end
-                            Wait(125)                       
+                            Wait(125)
                         end
                         self.Controls.MousePressed = false
                     end)
@@ -3337,7 +3327,7 @@ function UIMenu:ProcessMouse()
                         end
                         Wait(125)
                     end
-                    self.Controls.MousePressed = false              
+                    self.Controls.MousePressed = false
                 end)
             end
         end
@@ -3366,7 +3356,7 @@ function UIMenu:ProcessMouse()
                         end
                         Wait(125)
                     end
-                    self.Controls.MousePressed = false              
+                    self.Controls.MousePressed = false
                 end)
             end
         end

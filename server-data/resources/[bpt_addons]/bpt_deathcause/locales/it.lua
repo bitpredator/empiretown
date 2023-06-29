@@ -13,4 +13,3 @@ Locales['it'] = {
  ['drown'] = 'Probabilmente annegato',
  ['unknown'] = 'Causa sconosciuta',
 }
-   
