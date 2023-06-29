@@ -1,13 +1,9 @@
 Config                            = {}
-
 Config.DrawDistance               = 10.0 -- How close do you need to be for the markers to be drawn (in GTA units).
-
 Config.MaxInService               = -1 -- How much people can be in service at once?
 Config.EnablePlayerManagement     = true -- Enable society managing.
 Config.EnableSocietyOwnedVehicles = false
-
 Config.Locale                     = 'it'
-
 Config.OxInventory                = ESX.GetConfig().OxInventory
 
 Config.AuthorizedVehicles = {
@@ -17,7 +13,7 @@ Config.AuthorizedVehicles = {
 Config.Zones = {
 
 	VehicleSpawner = {
-		Pos   = {x = 1021.912109, y = -2372.043945, z = 30.526733},  
+		Pos   = {x = 1021.912109, y = -2372.043945, z = 30.526733},
 		Size  = {x = 0.6, y = 0.6, z = 0.6},
 		Color = {r = 204, g = 204, b = 0},
 		Type  = 36, Rotate = true
