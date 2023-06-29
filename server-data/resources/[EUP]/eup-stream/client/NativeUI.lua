@@ -757,8 +757,8 @@ function UIMenuItem.New(Text, Description)
         _Offset = {X = 0, Y = 0},
         ParentMenu = nil,
         Panels = {},
-        Activated = function(menu, item, panels) end,
-        ActivatedPanel = function(menu, item, panel, panelvalue) end,
+        Activated = function() end,
+        ActivatedPanel = function() end,
     }
     return setmetatable(_UIMenuItem, UIMenuItem)
 end
@@ -952,7 +952,7 @@ function UIMenuCheckboxItem.New(Text, Check, Description)
         Base = UIMenuItem.New(Text or "", Description or ""),
         CheckedSprite = Sprite.New("commonmenu", "shop_box_blank", 410, 95, 50, 50),
         Checked = tobool(Check),
-        CheckboxEvent = function(menu, item, checked) end,
+        CheckboxEvent = function() end,
     }
     return setmetatable(_UIMenuCheckboxItem, UIMenuCheckboxItem)
 end
@@ -1443,7 +1443,7 @@ function UIMenuColouredItem.New(Text, Description, MainColour, HighlightColour)
         Rectangle = UIResRectangle.New(0, 0, 431, 38, MainColour.R, MainColour.G, MainColour.B, MainColour.A),
         MainColour = MainColour,
         HighlightColour = HighlightColour,
-        Activated = function(menu, item) end,
+        Activated = function() end,
     }
     _UIMenuColouredItem.Base.SelectedSprite:Colour(HighlightColour.R, HighlightColour.G, HighlightColour.B, HighlightColour.A)
     return setmetatable(_UIMenuColouredItem, UIMenuColouredItem)
