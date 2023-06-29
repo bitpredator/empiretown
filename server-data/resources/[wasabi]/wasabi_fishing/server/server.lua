@@ -1,6 +1,5 @@
 ESX = exports['es_extended']:getSharedObject()
 
-
 lib.callback.register('wasabi_fishing:checkItem', function(source, itemname)
     local xPlayer = ESX.GetPlayerFromId(source)
     local item = xPlayer.getInventoryItem(itemname).count
@@ -11,7 +10,7 @@ lib.callback.register('wasabi_fishing:checkItem', function(source, itemname)
     end
 end)
 
-lib.callback.register('wasabi_fishing:getFishData', function(source)
+lib.callback.register('wasabi_fishing:getFishData', function()
     local data = Config.fish[math.random(#Config.fish)]
     return data
 end)
@@ -68,7 +67,7 @@ AddEventHandler('wasabi_fishing:sellFish', function(distance)
                 local xPlayer = ESX.GetPlayerFromId(source)
                 if xPlayer.getInventoryItem(Config.fish[i].item).count > 0 then
                     local rewardAmount = 0
-                    for j=1, xPlayer.getInventoryItem(Config.fish[i].item).count do
+                    for _=1, xPlayer.getInventoryItem(Config.fish[i].item).count do
                         rewardAmount = rewardAmount + math.random(Config.fish[i].price[1], Config.fish[i].price[2])
                     end
                     xPlayer.addMoney(rewardAmount)
@@ -90,5 +89,5 @@ end)
 
 addCommas = function(n)
 	return tostring(math.floor(n)):reverse():gsub("(%d%d%d)","%1,")
-								  :gsub(",(%-?)$","%1"):reverse()
+	:gsub(",(%-?)$","%1"):reverse()
 end
