@@ -31,7 +31,7 @@ function Start(text, duration, linear)
 
     -- CAN'T SEND FUNCTIONS TO NUI
     options.onStart = nil
-    options.onComplete = nil 
+    options.onComplete = nil
     
     OnStart = nil
     OnComplete = nil
@@ -91,7 +91,7 @@ function Custom(options, static)
         SetNuiFocus(true, true)
     end
 
-    SendNUIMessage(options) 
+    SendNUIMessage(options)
 
     Run = true
 
@@ -129,7 +129,7 @@ function Custom(options, static)
                 Wait(0)
             end
         end)
-    end   
+    end
 end
 
 function Linear(text, duration)
@@ -155,7 +155,7 @@ function Static(config)
             options.hide = false
             options.show = true
             options.progress = false
-            SendNUIMessage(options)            
+            SendNUIMessage(options)
         end,
         SetProgress = function(progress)
             options.hide = false
@@ -181,7 +181,7 @@ function Static(config)
             options.hide = false
             options.progress = false
             options.destroy = true
-            SendNUIMessage(options)            
+            SendNUIMessage(options)  
         end
     }
 end
@@ -247,7 +247,7 @@ end
 function PlayAnimation()
     if Animation ~= nil then
         local player = PlayerPedId()
-        if DoesEntityExist(player) and not IsEntityDead(player) then  
+        if DoesEntityExist(player) and not IsEntityDead(player) then
             CreateThread(function()
                 if Animation.scenario ~= nil then
                     TaskStartScenarioInPlace(player, Animation.scenario, 0, true)
@@ -267,7 +267,7 @@ function PlayAnimation()
                 end
             end)
         end
-    end 
+    end
 end
 
 -- Stop the scenario / animation
@@ -289,7 +289,7 @@ end
 function Reset()
     Run = false
 
-    SetNuiFocus(false, false)    
+    SetNuiFocus(false, false)
 end
 
 Reset()
@@ -298,7 +298,7 @@ Reset()
 --                     NUI CALLBACKS                      --
 ------------------------------------------------------------
 
-RegisterNUICallback('progress_start', function(data, cb)
+RegisterNUICallback('progress_start', function(_, cb)
     if OnStart ~= nil then
         OnStart()
     end
@@ -306,7 +306,7 @@ RegisterNUICallback('progress_start', function(data, cb)
     cb('ok')
 end)
 
-RegisterNUICallback('progress_complete', function(data, cb)
+RegisterNUICallback('progress_complete', function(_, cb)
     Reset()
 
     if OnComplete ~= nil then
@@ -317,7 +317,7 @@ RegisterNUICallback('progress_complete', function(data, cb)
     cb('ok')
 end)
 
-RegisterNUICallback('progress_stop', function(data, cb)
+RegisterNUICallback('progress_stop', function(_, cb)
     Reset()
 
     StopAnimation()
@@ -336,7 +336,7 @@ RegisterNUICallback('progress_minigame_input', function(data, cb)
     cb('ok')
 end)
 
-RegisterNUICallback('progress_minigame_complete', function(data, cb)
+RegisterNUICallback('progress_minigame_complete', function(_, cb)
     Reset()
 
     cb('ok')

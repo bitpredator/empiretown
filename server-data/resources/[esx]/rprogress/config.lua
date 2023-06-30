@@ -44,7 +44,7 @@ Config.MiniGameOptions = {
     MaxAngle = 240,
     Rotation = -120,
     Radius = 100,
-    Stroke = 30,    
+    Stroke = 30,
     Difficulty = {
         Custom = {
             Zone = 40,         -- The percentage of the dial that is the trigger zone (lower = harder)
@@ -61,6 +61,6 @@ Config.MiniGameOptions = {
         Hard = {
             Zone = 10,
             Duration = 500
-        }      
-    }      
+        }
+    }
 }
