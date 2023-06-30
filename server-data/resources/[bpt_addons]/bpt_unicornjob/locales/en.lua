@@ -1,36 +1,25 @@
 Locales['en'] = {
-  -- Cloakroom
-  ['cloakroom'] = 'cloakroom',
+  -- cloakroom
+  ['cloakroom_menu'] = 'wardrobe',
+  ['cloakroom_prompt'] = 'press [E] to access the cloakroom.',
   ['wear_citizen'] = 'civilian clothes',
-  ['barman_outfit'] = 'bartender outfit',
-  ['dancer_outfit_1'] = 'dance outfit',
-  ['no_outfit'] = 'there\'s no uniform to fit you...',
-  ['open_cloackroom'] = 'press ~INPUT_CONTEXT~ to change',
-  -- Vehicles  
-  ['vehicle_menu'] = 'vehicle',
-  ['vehicle_out'] = 'there is already a vehicle outside',
-  ['vehicle_spawner'] = 'press ~INPUT_CONTEXT~ to exit a vehicle',
-  ['store_vehicle'] = 'press ~INPUT_CONTEXT~ to store the vehicle',
-  ['service_max'] = 'full service: ',
-  ['spawn_point_busy'] = 'a vehicle is near the exit point',
-  -- Boss Menu  
-  ['take_company_money'] = 'remove money company',
-  ['deposit_money'] = 'deposit money',
-  ['amount_of_withdrawal'] = 'amount of withdrawal',
-  ['invalid_amount'] = 'invalid amount',
-  ['amount_of_deposit'] = 'deposit amount',
-  ['open_bossmenu'] = 'press ~INPUT_CONTEXT~ to open the menu',
-  -- Billing Menu  
-  ['billing'] = 'bill',
-  ['no_players_nearby'] = 'no players nearby',
-  ['billing_amount'] = 'invoice amount',
+  ['wear_work'] = 'work clothes',
+  -- garage
+  ['spawner_prompt'] = 'press [E] to access the Garage.',
+  ["vehicle_spawned"] = "Vehicle picked up successfully!",
+  ['store_veh'] = 'press [E] to deposit the vehicle',
+  ['spawn_veh'] = 'vehicle spawns',
+  ['spawnpoint_blocked'] = 'the spawnpoint is blocked!',
+  ['only_unicorn'] = 'you can only deposit company vehicles.',
+  ['taking_service'] = 'take service: unicorn',
+  ['full_service'] = 'complete service: ',
   ['amount_invalid'] = 'invalid amount',
-  -- Misc  
-  ['map_blip'] = 'vanilla Unicorn',
-  ['unicorn'] = 'vanilla Unicorn',
-  -- Teleporters
-  ['e_to_enter_1'] = 'press ~INPUT_PICKUP~ to go behind the bar',
-  ['e_to_exit_1'] = 'press ~INPUT_PICKUP~ to go in front off the bar',
-  ['e_to_enter_2'] = 'press ~INPUT_PICKUP~ to go up to the roof.',
-  ['e_to_exit_2'] = 'press ~INPUT_PICKUP~ to go down to the offices.',
+  ['press_to_open'] = 'press [E] to access the menu',
+  ['billing'] = 'billing',
+  ['billing_sent'] = 'the invoice has been posted!',
+  ['invoice_amount'] = 'invoice amount',
+  ['no_players_near'] = 'no players nearby',
+  ['boss_actions'] = 'Boss action',
+  ['blip_unicorn'] = 'unicorn',
+  ['unicorn'] = 'unicorn'
 }
