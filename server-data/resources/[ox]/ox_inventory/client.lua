@@ -167,9 +167,7 @@ function client.openInventory(inv, data)
 				return lib.notify({ id = 'cannot_perform', type = 'error', description = locale('cannot_perform') })
 			end
 
-			if cache.vehicle then
-				return lib.notify({ id = 'cannot_perform', type = 'error', description = locale('cannot_perform') })
-			end
+			left, right = lib.callback.await('ox_inventory:openShop', 200, data)
 
 		elseif invOpen ~= nil then
 			if inv == 'policeevidence' then

@@ -324,15 +324,6 @@ Colours = {
     Stunt2 = {224, 50, 50, 255},
 }
 
-function GetResolution()
-    local W, H = GetActiveScreenResolution()
-    if (W/H) > 3.5 then
-        return GetScreenResolution()
-    else
-        return W, H
-    end
-end
-
 function FormatXWYH(Value, Value2)
     return Value/1920, Value2/1080
 end

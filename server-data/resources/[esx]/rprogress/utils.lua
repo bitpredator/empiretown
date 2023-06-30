@@ -1,6 +1,6 @@
 function clone(object)
     local lookup_table = {}
-    local function copy(object) 
+    local function copy(object)
         if type(object) ~= "table" then
             return object
         elseif lookup_table[object] then
