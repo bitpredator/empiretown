@@ -46,7 +46,7 @@ function OpenCloakroom()
         {icon = "fas fa-shirt", title = _U('wear_work'), value = "wear_work"},
     }
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(menu,element)
         if element.value == "wear_citizen" then
             ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
                 TriggerEvent('skinchanger:loadSkin', skin)
@@ -61,7 +61,7 @@ function OpenCloakroom()
             end)
         end
         ESX.CloseContext()
-    end, function()
+    end, function(menu)
         CurrentAction = 'cloakroom'
         CurrentActionMsg = _U('cloakroom_prompt')
         CurrentActionData = {}
@@ -89,7 +89,7 @@ function OpenVehicleSpawnerMenu()
                 }
             end
 
-            ESX.OpenContext("right", elements, function(_,element)
+            ESX.OpenContext("right", elements, function(menu,element)
                 if not ESX.Game.IsSpawnPointClear(Config.Zones.VehicleSpawnPoint.Pos, 5.0) then
                     ESX.ShowNotification(_U('spawnpoint_blocked'))
                     return
@@ -105,7 +105,7 @@ function OpenVehicleSpawnerMenu()
                     return
                 end, vehicleProps.model, vehicleProps)
                 TriggerServerEvent('esx_society:removeVehicleFromGarage', 'import', vehicleProps)
-            end, function()
+            end, function(menu)
                 CurrentAction = 'vehicle_spawner'
                 CurrentActionMsg = _U('spawner_prompt')
                 CurrentActionData = {}
@@ -125,7 +125,7 @@ function OpenVehicleSpawnerMenu()
 			}
 		end
 
-        ESX.OpenContext("right", elements, function(_,element)
+        ESX.OpenContext("right", elements, function(menu,element)
             if not ESX.Game.IsSpawnPointClear(Config.Zones.VehicleSpawnPoint.Pos, 5.0) then
                 ESX.ShowNotification(_U('spawnpoint_blocked'))
                 return
@@ -138,7 +138,7 @@ function OpenVehicleSpawnerMenu()
                 ESX.ShowNotification(_U('vehicle_spawned'), "success")
             end, element.value, {plate = "IMPO JOB"})
 			ESX.CloseContext()
-        end, function()
+        end, function(menu)
             CurrentAction = 'vehicle_spawner'
             CurrentActionMsg = _U('spawner_prompt')
             CurrentActionData = {}
@@ -178,13 +178,13 @@ function OpenImportActionsMenu()
         }
     end
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(menu,element)
         if element.value == 'boss_actions' then
-            TriggerEvent('esx_society:openBossMenu', 'import', function(_, menu)
+            TriggerEvent('esx_society:openBossMenu', 'import', function(data, menu)
                 menu.close()
             end)
         end
-    end, function()
+    end, function(menu)
         CurrentAction = 'import_actions_menu'
         CurrentActionMsg = _U('press_to_open')
         CurrentActionData = {}
@@ -197,7 +197,7 @@ function OpenMobileImportActionsMenu()
         {icon = "fas fa-scroll", title = _U('billing'), value = "billing"},
     }
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(menu,element)
         if element.value == "billing" then
             local elements2 = {
                 {unselectable = true, icon = "fas fa-import", title = element.title},
@@ -205,7 +205,7 @@ function OpenMobileImportActionsMenu()
                 {icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
             }
 
-            ESX.OpenContext("right", function(menu2)
+            ESX.OpenContext("right", elements2, function(menu2,element2)
                 local amount = tonumber(menu2.eles[2].inputValue)
                 if amount == nil then
                     ESX.ShowNotification(_U('amount_invalid'))
@@ -266,7 +266,7 @@ AddEventHandler('bpt_importjob:hasEnteredMarker', function(zone)
     end
 end)
 
-AddEventHandler('bpt_importjob:hasExitedMarker', function()
+AddEventHandler('bpt_importjob:hasExitedMarker', function(zone)
     ESX.CloseContext()
     CurrentAction = nil
 end)
