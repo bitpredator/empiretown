@@ -494,7 +494,7 @@ function AddLongStringForUtf8(str)
         end
     end
     AddTextComponentSubstringPlayerName(string.sub(str, startIndex, GetCharacterCount(str) - startIndex))
-end 
+end
 
 function AddLongString(str)
     local bytecount = GetByteCount(str)
@@ -517,7 +517,7 @@ function MeasureStringWidth(str, font, scale)
     return MeasureStringWidthNoConvert(str, font, scale) * 1920
 end
 
-function UIResText.New(Text, X, Y, Scale, R, G, B, A, Font, Alignment, DropShadow, Outline, WordWrap)
+function UIResText.New(Text, X, Y, Scale, R, G, B, A, Font, Alignment, _, Outline, WordWrap)
     local _UIResText = {
         _Text = tostring(Text) or "",
         X = tonumber(X) or 0,
@@ -637,7 +637,7 @@ function Sprite.New(TxtDictionary, TxtName, X, Y, Width, Height, Heading, R, G, 
         TxtName = tostring(TxtName),
         X = tonumber(X) or 0,
         Y = tonumber(Y) or 0,
-        Width = tonumber(Width) or 0, 
+        Width = tonumber(Width) or 0,
         Height = tonumber(Height) or 0,
         Heading = tonumber(Heading) or 0,
         _Colour = {R = tonumber(R) or 255, G = tonumber(G) or 255, B = tonumber(B) or 255, A = tonumber(A) or 255},
@@ -683,16 +683,6 @@ function Sprite:Draw()
     Size.Width, Size.Height = FormatXWYH(Size.Width, Size.Height)
     Position.X, Position.Y = FormatXWYH(Position.X, Position.Y)
     DrawSprite(self.TxtDictionary, self.TxtName, Position.X + Size.Width * 0.5, Position.Y + Size.Height * 0.5, Size.Width, Size.Height, self.Heading, self._Colour.R, self._Colour.G, self._Colour.B, self._Colour.A)
-end
-
-function DrawTexture(TxtDictionary, TxtName, X, Y, Width, Height, Heading, R, G, B, A)
-    if not HasStreamedTextureDictLoaded(tostring(TxtDictionary) or "") then
-        RequestStreamedTextureDict(tostring(TxtDictionary) or "", true)
-    end
-    X, Y, Width, Height = X or 0, Y or 0, Width or 0, Height or 0
-    X, Y = FormatXWYH(X, Y)
-    Width, Height = FormatXWYH(Width, Height)
-    DrawSprite(tostring(TxtDictionary) or "", tostring(TxtName) or "", X + Width * 0.5, Y + Height * 0.5, Width, Height, tonumber(Heading) or 0, tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)
 end
 
 function MeasureString(str)
