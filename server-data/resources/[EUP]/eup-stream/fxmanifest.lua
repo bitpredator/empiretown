@@ -5,6 +5,5 @@ author 'bitpredator'
 version '0.0.4'
 
 client_script {
-    "client/NativeUI.lua",
     "client/eup_ui.lua",
 }

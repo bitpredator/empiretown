@@ -103,7 +103,7 @@ function OpenCloakroom()
         {icon = "fas fa-shirt", title = _U('wear_work'), value = "wear_work"},
     }
 
-    ESX.OpenContext("right", elements, function(menu,element)
+    ESX.OpenContext("right", elements, function(_,element)
         if element.value == "wear_citizen" then
             ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
                 TriggerEvent('skinchanger:loadSkin', skin)
@@ -118,7 +118,7 @@ function OpenCloakroom()
             end)
         end
 		ESX.CloseContext()
-    end, function(menu)
+    end, function()
         CurrentAction = 'cloakroom'
         CurrentActionMsg = _U('cloakroom_prompt')
         CurrentActionData = {}
@@ -146,7 +146,7 @@ function OpenVehicleSpawnerMenu()
                 }
             end
 
-            ESX.OpenContext("right", elements, function(menu,element)
+            ESX.OpenContext("right", elements, function(_,element)
                 if not ESX.Game.IsSpawnPointClear(Config.Zones.VehicleSpawnPoint.Pos, 5.0) then
                     ESX.ShowNotification(_U('spawnpoint_blocked'))
                     return
@@ -162,7 +162,7 @@ function OpenVehicleSpawnerMenu()
                     return
                 end, vehicleProps.model, vehicleProps)
                 TriggerServerEvent('esx_society:removeVehicleFromGarage', 'taxi', vehicleProps)
-            end, function(menu)
+            end, function()
                 CurrentAction = 'vehicle_spawner'
                 CurrentActionMsg = _U('spawner_prompt')
                 CurrentActionData = {}
@@ -183,7 +183,7 @@ function OpenVehicleSpawnerMenu()
 			}
 		end
 
-        ESX.OpenContext("right", elements, function(menu,element)
+        ESX.OpenContext("right", elements, function(_,element)
             if not ESX.Game.IsSpawnPointClear(Config.Zones.VehicleSpawnPoint.Pos, 5.0) then
                 ESX.ShowNotification(_U('spawnpoint_blocked'))
                 return
@@ -198,7 +198,7 @@ function OpenVehicleSpawnerMenu()
                 ESX.ShowNotification(_U('vehicle_spawned'), "success")
             end, element.value, {plate = "TAXI JOB"})
 			ESX.CloseContext()
-        end, function(menu)
+        end, function()
             CurrentAction = 'vehicle_spawner'
             CurrentActionMsg = _U('spawner_prompt')
             CurrentActionData = {}
@@ -237,16 +237,16 @@ function OpenTaxiActionsMenu()
         }
     end
 
-    ESX.OpenContext("right", elements, function(menu,element)
+    ESX.OpenContext("right", elements, function(_,element)
         if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
             exports.ox_inventory:openInventory('stash', 'society_taxi')
             return ESX.CloseContext()
         elseif element.value == 'boss_actions' then
-            TriggerEvent('esx_society:openBossMenu', 'taxi', function(data, menu)
+            TriggerEvent('esx_society:openBossMenu', 'taxi', function(_, menu)
                 menu.close()
             end)
         end
-    end, function(menu)
+    end, function()
         CurrentAction = 'taxi_actions_menu'
         CurrentActionMsg = _U('press_to_open')
         CurrentActionData = {}
@@ -260,7 +260,7 @@ function OpenMobileTaxiActionsMenu()
         {icon = "fas fa-taxi", title = _U('start_job'), value = "start_job"},
     }
 
-    ESX.OpenContext("right", elements, function(menu,element)
+    ESX.OpenContext("right", elements, function(_,element)
         if element.value == "billing" then
             ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
                 title = _U('invoice_amount')
@@ -280,7 +280,7 @@ function OpenMobileTaxiActionsMenu()
                         ESX.ShowNotification(_U('billing_sent'))
                     end
                 end
-            end, function(data, menu)
+            end, function(data)
                 menu.close()
             end)
         elseif element.value == "start_job" then
@@ -358,7 +358,7 @@ AddEventHandler('esx_taxijob:hasEnteredMarker', function(zone)
     end
 end)
 
-AddEventHandler('esx_taxijob:hasExitedMarker', function(zone)
+AddEventHandler('esx_taxijob:hasExitedMarker', function()
     ESX.CloseContext()
     CurrentAction = nil
 end)

@@ -1,4 +1,4 @@
-local HasAlreadyEnteredMarker,  
+local HasAlreadyEnteredMarker,
     CurrentActionData = false, false, false, false, false, {}
 local LastZone, CurrentAction, CurrentActionMsg
 
@@ -53,14 +53,14 @@ function OpenBallasActionsMenu()
 
     ESX.UI.Menu.CloseAll()
 
-    ESX.OpenContext("right", elements, function(menu,element)
+    ESX.OpenContext("right", elements, function(_,element)
         if element.value == 'boss_actions' then
-            TriggerEvent('esx_society:openBossMenu', 'ballas', function(data, menu)
+            TriggerEvent('esx_society:openBossMenu', 'ballas', function(_, menu)
                 menu.close()
             end)
         end
 
-    end, function(menu)
+    end, function()
 
         CurrentAction = 'ballas_actions_menu'
         CurrentActionMsg = _U('press_to_open')
@@ -74,7 +74,7 @@ function OpenMobileBallasActionsMenu()
         {icon = "fas fa-scroll", title = _U('billing'), value = "billing"}
     }
 
-    ESX.OpenContext("right", elements, function(menu,element)
+    ESX.OpenContext("right", elements, function(_,element)
         if element.value == "billing" then
             ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
                 title = _U('invoice_amount')
@@ -94,7 +94,7 @@ function OpenMobileBallasActionsMenu()
                         ESX.ShowNotification(_U('billing_sent'))
                     end
                 end
-            end, function(data, menu)
+            end, function(_, menu)
                 menu.close()
             end)
         end
@@ -109,7 +109,7 @@ AddEventHandler('bpt_ballasjob:hasEnteredMarker', function(zone)
     end
 end)
 
-AddEventHandler('bpt_ballasjob:hasExitedMarker', function(zone)
+AddEventHandler('bpt_ballasjob:hasExitedMarker', function()
     ESX.UI.Menu.CloseAll()
     CurrentAction = nil
 end)
