@@ -27,6 +27,7 @@ local function setOutfit(outfit)
 end
 
 local categoryOutfits = {}
+local outfits = outfits
 
 for name, outfit in pairs(outfits) do
     if not categoryOutfits[outfit.category] then
