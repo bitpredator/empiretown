@@ -26,40 +26,6 @@ local function setOutfit(outfit)
     end
 end
 
-local categoryOutfits = {}
-local outfits = outfits
-
-for name, outfit in pairs(outfits) do
-    if not categoryOutfits[outfit.category] then
-        categoryOutfits[outfit.category] = {}
-    end
-
-    categoryOutfits[outfit.category][name] = outfit
-end
-
-local menuPool = NativeUI.CreatePool()
-local mainMenu = NativeUI.CreateMenu('EUP FiveM', 'Pick your outfit!')
-
-for name, list in pairs(categoryOutfits) do
-    local subMenu = menuPool:AddSubMenu(mainMenu, name)
-
-    for id, outfit in pairs(list) do
-        outfit.item = NativeUI.CreateItem(id, 'Select this outfit.')
-        subMenu:AddItem(outfit.item)
-    end
-
-    subMenu.OnItemSelect = function(sender, item, index)
-        -- find the outfit
-        for _, outfit in pairs(list) do
-            if outfit.item == item then
-                CreateThread(function()
-                    setOutfit(outfit)
-                end)
-            end
-        end
-    end
-end
-
 menuPool:Add(mainMenu)
 
 menuPool:RefreshIndex()
