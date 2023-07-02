@@ -1,5 +1,5 @@
-local HasAlreadyEnteredMarker, CurrentAction,
-    CurrentActionData = false, false, false, false, false, {}
+local HasAlreadyEnteredMarker
+local CurrentAction, CurrentActionData = false, false, false, false, false, {}
 local LastZone, CurrentActionMsg
 
 RegisterNetEvent('esx:playerLoaded')
