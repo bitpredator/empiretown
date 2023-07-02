@@ -1,6 +1,6 @@
 local HasAlreadyEnteredMarker
-local CurrentAction, CurrentActionData = false, false, false, false, false, {}
-local LastZone, CurrentActionMsg
+local CurrentAction, CurrentActionMsg, CurrentActionData = nil, '', {}
+local LastZone
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
