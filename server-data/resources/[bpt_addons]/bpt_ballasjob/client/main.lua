@@ -1,6 +1,6 @@
-local HasAlreadyEnteredMarker,
-    CurrentActionData = false, false, false, false, false, {}
-local LastZone, CurrentAction, CurrentActionMsg
+local HasAlreadyEnteredMarker
+local CurrentAction, CurrentActionMsg = nil, {}
+local LastZone
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
@@ -61,10 +61,8 @@ function OpenBallasActionsMenu()
         end
 
     end, function()
-
         CurrentAction = 'ballas_actions_menu'
         CurrentActionMsg = _U('press_to_open')
-        CurrentActionData = {}
     end)
 end
 
@@ -105,7 +103,6 @@ AddEventHandler('bpt_ballasjob:hasEnteredMarker', function(zone)
     if zone == 'BallasActions' then
         CurrentAction = 'ballas_actions_menu'
         CurrentActionMsg = _U('press_to_open')
-        CurrentActionData = {}
     end
 end)
 
