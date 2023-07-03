@@ -1,5 +1,5 @@
 local HasAlreadyEnteredMarker
-local CurrentAction, CurrentActionMsg = nil, '', {}
+local CurrentAction, CurrentActionMsg = nil, {}
 local LastZone
 
 RegisterNetEvent('esx:playerLoaded')
