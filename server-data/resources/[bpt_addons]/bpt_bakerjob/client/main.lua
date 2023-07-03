@@ -215,7 +215,7 @@ function OpenMobileBakerActionsMenu()
                         ESX.ShowNotification(_U('billing_sent'))
                     end
                 end
-            end, function(data)
+            end, function()
                 menu.close()
             end)
         end
