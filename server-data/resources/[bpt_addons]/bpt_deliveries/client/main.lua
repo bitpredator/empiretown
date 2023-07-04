@@ -547,7 +547,7 @@ function CreateRoute(deliveryType)
 end
 
 -- Create a blip to tell the player back to the delivery hub
-function ReturnToBase(deliveryType)
+function ReturnToBase()
 	CurrentBlip = CreateBlipAt(Config.Base.retveh.x, Config.Base.retveh.y, Config.Base.retveh.z)
 end
 
