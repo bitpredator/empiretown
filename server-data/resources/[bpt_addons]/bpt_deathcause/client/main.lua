@@ -68,13 +68,13 @@ function Start(ped)
   
 		  local x,y,z = table.unpack(GetEntityCoords(ped))
   
-		  if distance < 2.0 then
+		    if distance < 2.0 then
 			  DrawText3D(x,y,z, 'Press [~g~E~s~] to manage individual', 0.4)
 			  
-			  if IsControlPressed(0, 38) then
+			    if IsControlPressed(0, 38) then
 				  OpenDeathMenu(ped)
-			  end
-		  end
+			    end
+		    end
   
 		  if distance > 7.5 or not IsPedDeadOrDying(ped) then
 			  checking = false
@@ -117,22 +117,21 @@ function OpenDeathMenu(player)
 		  if ac == 'damage' then
   
 			local bone
-			local success = GetPedLastDamageBone(player,bone)
+			GetPedLastDamageBone(player,bone)
   
 			local success,bone = GetPedLastDamageBone(player)
-			  if success then
+			    if success then
 				  --print(bone)
 				  local x,y,z = table.unpack(GetPedBoneCoords(player, bone))
 					Notification(x,y,z)
-				
-			  else
+			    else
 				  Notify('Where the damage occured could not get identified')
-			  end
-		  end
+			    end
+		    end
   
-		  if ac == 'deathcause' then
+		    if ac == 'deathcause' then
 			  --gets deathcause
-			  local d = GetPedCauseOfDeath(player)		
+			  local d = GetPedCauseOfDeath(player)
 			  local playerPed = GetPlayerPed(-1)
   
 			  --starts animation
@@ -146,32 +145,32 @@ function OpenDeathMenu(player)
   
 			  ClearPedTasksImmediately(playerPed)
   
-			  if checkArray(Melee, d) then
+			    if checkArray(Melee, d) then
 				  Notify(_U('hardmeele'))
-			  elseif checkArray(Bullet, d) then
+			    elseif checkArray(Bullet, d) then
 				  Notify(_U('bullet'))
-			  elseif checkArray(Knife, d) then
+			    elseif checkArray(Knife, d) then
 				  Notify(_U('knifes'))
-			  elseif checkArray(Animal, d) then
+			    elseif checkArray(Animal, d) then
 				  Notify(_U('bitten'))
-			  elseif checkArray(FallDamage, d) then
+			    elseif checkArray(FallDamage, d) then
 				  Notify(_U('brokenlegs'))
-			  elseif checkArray(Explosion, d) then
+			    elseif checkArray(Explosion, d) then
 				  Notify(_U('explosive'))
-			  elseif checkArray(Gas, d) then
+			    elseif checkArray(Gas, d) then
 				  Notify(_U('gas'))
-			  elseif checkArray(Burn, d) then
+			    elseif checkArray(Burn, d) then
 				  Notify(_U('fire'))
-			  elseif checkArray(Drown, d) then
+			    elseif checkArray(Drown, d) then
 				  Notify(_U('drown'))
-			  elseif checkArray(Car, d) then
+			    elseif checkArray(Car, d) then
 				  Notify(_U('caraccident'))
-			  else
+			    else
 				  Notify(_U('unknown'))
-			  end
+			    end
 		    end
 	    end,
-	  function(data, menu)
+	  function(_, menu)
 		menu.close()
 	  end
 	)
@@ -189,9 +188,8 @@ function Notify(message)
 end
   
 function DrawText3D(x, y, z, text, scale)
- local onScreen, _x, _y = World3dToScreen2d(x, y, z)
- local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
-   
+ World3dToScreen2d(x, y, z)
+ table.unpack(GetGameplayCamCoords())
  SetTextScale(scale, scale)
  SetTextFont(4)
  SetTextProportional(1)
