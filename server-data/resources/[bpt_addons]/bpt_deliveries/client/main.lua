@@ -52,7 +52,7 @@ end
 
 -- Load the default player skin (for esx_skin)
 function LoadDefaultPlayerSkin()
-	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 		TriggerEvent('skinchanger:loadSkin', skin)
 	end)
 end
@@ -168,7 +168,6 @@ function HandleMarkers()
 			if not IsPlayerInsideDeliveryVehicle() and CurrentVehicle ~= nil then
 				local VehiclePos = GetEntityCoords(CurrentVehicle)
 				local ArrowHeight = VehiclePos.z
-				ArrowHeight = VehiclePos.z + 1.0
 				
 				if CurrentType == 'van' then
 					ArrowHeight = ArrowHeight + 1.0
