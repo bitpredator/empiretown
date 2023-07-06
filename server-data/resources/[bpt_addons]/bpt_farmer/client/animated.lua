@@ -1,6 +1,6 @@
 RegisterNetEvent('farmer:freeze')
 AddEventHandler('farmer:freeze', function()
-	playerPed = PlayerPedId()	
+	playerPed = PlayerPedId()
 	ClearPedTasks(PlayerPedId())
 	FreezeEntityPosition(playerPed, true)
 end)
