@@ -28,7 +28,8 @@ server_scripts {
 	'common/modules/math.lua',
 	'common/modules/table.lua',
 	'common/functions.lua',
-	'dependencies/cron/server/*.lua'
+	'dependencies/cron/server/*.lua',
+	'dependencies/hardcap/server/*.lua'
 }
 
 client_scripts {
@@ -41,7 +42,8 @@ client_scripts {
 	'client/modules/streaming.lua',
 	'common/modules/math.lua',
 	'common/modules/table.lua',
-	'common/functions.lua'
+	'common/functions.lua',
+	'dependencies/hardcap/client/*.lua'
 }
 
 ui_page {
