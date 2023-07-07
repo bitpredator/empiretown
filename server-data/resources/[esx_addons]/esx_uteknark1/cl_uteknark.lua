@@ -10,7 +10,7 @@ local registerStrings = {
     'status_passive',
 }
 
-for i,entry in ipairs(registerStrings) do
+for _,entry in ipairs(registerStrings) do
     AddTextEntry('uteknark_'..entry, _U(entry))
 end
 
@@ -111,7 +111,7 @@ function getPlantingLocation(visible)
                     if #hits > 0 then
                         debug('Found another plant too close')
                         if visible then
-                            for i, hit in ipairs(hits) do
+                            for _, hit in ipairs(hits) do
                                 DrawLine(hitLocation, hit.bounds.location, 255, 0, 255, 100)
                             end
                             DebugSphere(hitLocation, 0.1, 255, 0, 255, 100)
@@ -372,7 +372,7 @@ end)
 
 
 function deleteActivePlants()
-    for i,plant in ipairs(activePlants) do
+    for _,plant in ipairs(activePlants) do
         if DoesEntityExist(plant.object) then
             DeleteObject(plant.object)
         end
@@ -437,7 +437,7 @@ CreateThread(function()
     while true do
         if ready then
             if debug.active then
-                local plantable, message, where, normal, material = getPlantingLocation(true)
+                local message = getPlantingLocation(true)
                 if message then
                     debug('Planting message:',_U(message))
                 end
@@ -457,7 +457,7 @@ end)
 
 RegisterNetEvent('esx_uteknark1:groundmat')
 AddEventHandler ('esx_uteknark1:groundmat', function()
-    local plantable, message, where, normal, material = getPlantingLocation(true)
+    local material = getPlantingLocation(true)
     TriggerEvent("chat:addMessage", {args={'Ground material', material}})
     serverlog('Ground material:',material)
 
