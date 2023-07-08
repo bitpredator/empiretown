@@ -6,7 +6,7 @@ local tickTimes = {}
 local tickPlantCount = 0
 local VERSION = '1.1.4'
 
-AddEventHandler('playerDropped',function(why)
+AddEventHandler('playerDropped',function()
     lastPlant[source] = nil
 end)
 
@@ -213,7 +213,7 @@ end)
 function keyCount(tbl)
     local count = 0
     if type(tbl) == 'table' then
-        for key, value in pairs(tbl) do
+        for _, value in pairs(tbl) do
             count = count + 1
         end
     end
@@ -324,7 +324,7 @@ CreateThread(function()
 end)
 
 local commands = {
-    debug = function(source, args)
+    debug = function(source)
         if source == 0 then
             log('Client debugging on the console? Nope.')
         else
@@ -370,10 +370,10 @@ local commands = {
 
         end
     end,
-    stats = function(source, args)
+    stats = function(source)
         if cropstate.loaded then
             local totalTime = 0
-            for i,time in ipairs(tickTimes) do
+            for _,time in ipairs(tickTimes) do
                 totalTime = totalTime + time
             end
             local tickTimeAverage = totalTime / #tickTimes
@@ -383,14 +383,14 @@ local commands = {
             inChat(source,'Not loaded yet')
         end
     end,
-    groundmat = function(source, args)
+    groundmat = function(source)
         if source == 0 then
             log('Console. The ground material is CONSOLE.')
         else
             TriggerClientEvent('esx_uteknark1:groundmat', source)
         end
     end,
-    pyro = function(source, args)
+    pyro = function(source)
         if source == 0 then
             log('You can\'t really test particle effects on the console.')
         else
@@ -399,7 +399,7 @@ local commands = {
     end,
 }
 
-RegisterCommand('uteknark', function(source, args, raw)
+RegisterCommand('uteknark', function(source, args)
     if #args > 0 then
         local directive = string.lower(args[1])
         if commands[directive] then
