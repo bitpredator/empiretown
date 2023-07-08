@@ -33,7 +33,7 @@ local debugMethods = {
     flush = function(instance)
         if instance.active then
             drawDebugLine(instance, instance.header)
-            for i,debugEntry in ipairs(instance.buffer) do
+            for _,debugEntry in ipairs(instance.buffer) do
                 drawDebugLine(instance,debugEntry)
             end
 
@@ -47,7 +47,7 @@ local debugMeta = {
     __call = function(instance,...)
         instance:add(...)
     end,
-    __newindex = function(instance, key, value)
+    __newindex = function()
         -- Just drop. Ignore. Go away.
     end,
     __index = function(instance,key)

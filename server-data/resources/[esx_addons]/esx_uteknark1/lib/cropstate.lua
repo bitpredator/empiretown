@@ -23,7 +23,7 @@ local cropstateMethods = {
     load = function(instance, callback)
         if onServer then
             verbose('Loading...')
-            MySQL.Async.fetchAll("SELECT `id`, `stage`, UNIX_TIMESTAMP(`time`) AS `time`, `x`, `y`, `z`, `soil` FROM `uteknark1`;", 
+            MySQL.Async.fetchAll("SELECT `id`, `stage`, UNIX_TIMESTAMP(`time`) AS `time`, `x`, `y`, `z`, `soil` FROM `uteknark1`;",
             {},
             function(rows)
                 CreateThread(function()
@@ -122,7 +122,7 @@ local cropstateMethods = {
 }
 
 local cropstateMeta = {
-    __newindex = function(instance, key, value)
+    __newindex = function()
         -- Do I even need this?
     end,
     __index = function(instance, key)
@@ -216,7 +216,7 @@ if onServer then
 else
     RegisterNetEvent('esx_uteknark1:bulk_data')
     AddEventHandler ('esx_uteknark1:bulk_data', function(forest)
-        for i, plant in ipairs(forest) do
+        for _, plant in ipairs(forest) do
             cropstate:import(plant.id, plant.location, plant.stage)
         end
         cropstate.loaded = true
