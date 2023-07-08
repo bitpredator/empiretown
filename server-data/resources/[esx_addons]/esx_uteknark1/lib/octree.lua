@@ -75,7 +75,7 @@ function pointInside(box,point)
 end
 
 local boundsMeta = {
-    __newindex = function(instance,key,value)
+    __newindex = function()
         -- Drop. Ignore. Go away.
     end,
     __index = function(instance,key)
@@ -93,7 +93,7 @@ local boundsMethods = {
         if getmetatable(location) == boundsMeta then
             return canFit(instance,location)
         else
-            local item = pBoxBounds(location,dimensions)
+            local _ = pBoxBounds(location,dimensions)
             return canFit(instance,location)
         end
     end,
@@ -216,7 +216,7 @@ local nodeMethods = {
     end,
     selectNode = function(instance,item)
         if instance._data.nodes then
-            for i,node in ipairs(instance._data.nodes) do
+            for _,node in ipairs(instance._data.nodes) do
                 if node:canFit(item) then
                     return node
                 end
@@ -275,7 +275,7 @@ local nodeMethods = {
                 if not instance._data.nodes then
                     instance:split()
                 end
-                for i,lobject in ipairs(limboObjects) do
+                for _,lobject in ipairs(limboObjects) do
                     local newNode = instance:selectNode(lobject.bounds)
                     if newNode then
                         if not newNode:insert(lobject.bounds.location,lobject.bounds.dimensions,lobject.data) then
@@ -306,11 +306,11 @@ local nodeMethods = {
     end,
     all = function(instance,funcref)
         if type(funcref) == 'function' then
-            for i,item in ipairs(instance._data.objects) do
+            for _,item in ipairs(instance._data.objects) do
                 funcref(item)
             end
             if instance._data.nodes then
-                for i,node in ipairs(instance._data.nodes) do
+                for _,node in ipairs(instance._data.nodes) do
                     node:all(funcref)
                 end
             end
@@ -326,13 +326,13 @@ local nodeMethods = {
             searchBox = pBoxBounds(location,dimensions)
         end
         if instance._data.bounds:intersects(searchBox) then
-            for i,object in ipairs(instance._data.objects) do
+            for _,object in ipairs(instance._data.objects) do
                 if object.bounds:intersects(searchBox) then
                     table.insert(hits,object)
                 end
             end
             if instance._data.nodes then
-                for i,node in ipairs(instance._data.nodes) do
+                for _,node in ipairs(instance._data.nodes) do
                     node:searchBox(searchBox,dimensions,hits)
                 end
             end
@@ -343,14 +343,14 @@ local nodeMethods = {
         CreateThread(function()
             local distance = #( location - instance._data.bounds.location )
             if distance <= radius + instance._data.bounds.radius then
-                for i,object in pairs(instance._data.objects) do
+                for _,object in pairs(instance._data.objects) do
                     local objectDistance = #( location - object.bounds.location)
                     if objectDistance <= radius + object.bounds.radius then
                         callback(object)
                     end
                 end
                 if instance._data.nodes then
-                    for i,node in ipairs(instance._data.nodes) do
+                    for _,node in ipairs(instance._data.nodes) do
                         if slowMode then
                           Wait(0)
                         end
@@ -364,14 +364,14 @@ local nodeMethods = {
         hits = hits  or {}
         local distance = #( location - instance._data.bounds.location )
         if distance <= radius + instance._data.bounds.radius then
-            for i,object in pairs(instance._data.objects) do
+            for _,object in pairs(instance._data.objects) do
                 local objectDistance = #( location - object.bounds.location)
                 if objectDistance <= radius + object.bounds.radius then
                     table.insert(hits,object)
                 end
             end
             if instance._data.nodes then
-                for i,node in ipairs(instance._data.nodes) do
+                for _,node in ipairs(instance._data.nodes) do
                     node:searchSphere(location,radius,hits)
                 end
             end
@@ -384,7 +384,7 @@ local nodeMethods = {
         local distance = lineDistance(from,to,instance._data.bounds.location)
         local intersectRange = thickness+instance._data.bounds.radius
         if distance <= intersectRange then
-            for i,object in ipairs(instance._data.objects) do
+            for _,object in ipairs(instance._data.objects) do
                 local objDistance = lineDistance(from,to,object.bounds.location)
                 local objIntersectRange = thickness+object.bounds.radius
                 if objDistance <= objIntersectRange then
@@ -392,7 +392,7 @@ local nodeMethods = {
                 end
             end
             if instance._data.nodes then
-                for i,node in ipairs(instance._data.nodes) do
+                for _,node in ipairs(instance._data.nodes) do
                     node:searchRay(from,to,thickness,hits)
                 end
             end
