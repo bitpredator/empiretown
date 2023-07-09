@@ -1,10 +1,5 @@
 Locales['en'] = {
   -- Inventory
-  ['give'] = 'Give',
-  ['remove'] = 'Throw',
-  ['return'] = 'Return',
-  ['give_to'] = 'Give to',
-  ['amount'] = 'Amount',
   ['giveammo'] = 'Give ammo',
   ['amountammo'] = 'Ammo Amount',
   ['noammo'] = 'Not Enough!',
@@ -100,6 +95,9 @@ Locales['en'] = {
   ['commandgeneric_playerid'] = 'Player`s Server Id',
   ['tpm_success'] = 'teleport done',
   ['nowaipoint'] = 'no waipoint',
+  ["not_in_vehicle"] = "Cannot Perform Action, Player isn't in a vehicle",
+  ['command_repair'] = 'Repair your vehicle',
+  ['command_repair_success'] = "Successfully repaired vehicle",
   -- Locale settings
   ['locale_digit_grouping_symbol'] = ',',
   ['locale_currency'] = '£%s',

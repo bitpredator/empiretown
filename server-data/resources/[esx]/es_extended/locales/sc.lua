@@ -1,10 +1,5 @@
 Locales['sc'] = {
   -- Inventory
-  ['give'] = '赠送',
-  ['remove'] = '丢弃',
-  ['return'] = '返回',
-  ['give_to'] = '赠给',
-  ['amount'] = '数量',
   ['giveammo'] = '赠送弹药',
   ['amountammo'] = '弹药量',
   ['noammo'] = '你没有足够的弹药！',

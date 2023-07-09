@@ -1,10 +1,5 @@
 Locales['nl'] = {
     -- Inventory
-    ['give'] = 'Geef',
-    ['remove'] = 'Gooi',
-    ['return'] = 'Terug',
-    ['give_to'] = 'Geef aan',
-    ['amount'] = 'Aantal',
     ['giveammo'] = 'Geef munitie',
     ['amountammo'] = 'Hoeveelheid munitie',
     ['noammo'] = 'Niet genoeg!',

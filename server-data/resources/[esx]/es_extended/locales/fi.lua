@@ -1,10 +1,5 @@
 Locales['fi'] = {
   -- Inventory
-  ['give'] = 'anna',
-  ['remove'] = 'poista',
-  ['return'] = 'takaisin',
-  ['give_to'] = 'give to',
-  ['amount'] = 'määrä',
   ['giveammo'] = 'anna ammuksia',
   ['amountammo'] = 'ammusten määrä',
   ['noammo'] = 'sinulla ei ole ammuksia!',

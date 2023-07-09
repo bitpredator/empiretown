@@ -1,10 +1,5 @@
 Locales['cs'] = {
   -- Inventory
-  ['give'] = 'dát',
-  ['remove'] = 'zahodit',
-  ['return'] = 'zpět',
-  ['give_to'] = 'dát',
-  ['amount'] = 'množství',
   ['giveammo'] = 'dát munici',
   ['amountammo'] = 'množství munice',
   ['noammo'] = 'nemáte dostatek munice!',
