@@ -127,16 +127,6 @@ Config.Admin = {
 		end
 	},
 	{
-		name = 'repairveh',
-		label = _U('admin_repairveh_button'),
-		groups = {'admin'},
-		command = function()
-			local plyVeh = GetVehiclePedIsIn(plyPed, false)
-			SetVehicleFixed(plyVeh)
-			SetVehicleDirtLevel(plyVeh, 0.0)
-		end
-	},
-	{
 		name = 'flipveh',
 		label = _U('admin_flipveh_button'),
 		groups = {'admin'},

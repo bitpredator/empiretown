@@ -29,7 +29,7 @@ Player = {
 	group = 'user'
 }
 
-local societymoney, societymoney2 = nil, nil
+local societymoney = nil
 
 CreateThread(function()
 	while ESX == nil do
@@ -136,28 +136,6 @@ function getCamDirection()
 	end
 
 	return coords
-end
-
-function startAttitude(lib, anim)
-	ESX.Streaming.RequestAnimSet(anim, function()
-		SetPedMotionBlur(plyPed, false)
-		SetPedMovementClipset(plyPed, anim, true)
-		RemoveAnimSet(anim)
-	end)
-end
-
-function startAnim(lib, anim)
-	ESX.Streaming.RequestAnimDict(lib, function()
-		TaskPlayAnim(plyPed, lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
-		RemoveAnimDict(lib)
-	end)
-end
-
-function startAnimAction(lib, anim)
-	ESX.Streaming.RequestAnimDict(lib, function()
-		TaskPlayAnim(plyPed, lib, anim, 8.0, 1.0, -1, 49, 0, false, false, false)
-		RemoveAnimDict(lib)
-	end)
 end
 
 function CheckQuantity(number)

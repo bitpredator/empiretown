@@ -1,4 +1,4 @@
-local function startPointing(plyPed)	
+local function startPointing(plyPed)
 	ESX.Streaming.RequestAnimDict('anim@mp_point', function()
 		SetPedConfigFlag(plyPed, 36, 1)
 		TaskMoveNetworkByName(plyPed, 'task_mp_pointing', 0.5, 0, 'anim@mp_point', 24)
@@ -28,7 +28,7 @@ CreateThread(function()
 			if (DoesEntityExist(plyPed)) and (not IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
 				Player.crouched = not Player.crouched
 
-				if Player.crouched then 
+				if Player.crouched then
 					ESX.Streaming.RequestAnimSet('move_ped_crouched', function()
 						SetPedMovementClipset(plyPed, 'move_ped_crouched', 0.25)
 						RemoveAnimSet('move_ped_crouched')
@@ -62,7 +62,7 @@ CreateThread(function()
 
 		if IsControlJustReleased(1, Config.Controls.Pointing.keyboard) and IsInputDisabled(2) then
 			local plyPed = PlayerPedId()
-	
+
 			if (DoesEntityExist(plyPed)) and (not IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
 				if Player.handsUp then
 					Player.handsUp = false
