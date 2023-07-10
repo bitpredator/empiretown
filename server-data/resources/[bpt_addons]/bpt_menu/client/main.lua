@@ -173,7 +173,7 @@ end
 function RenderBillingMenu()
 	RageUI.DrawContent({header = true, instructionalButton = true}, function()
 		for i = 1, #PersonalMenu.BillData, 1 do
-			RageUI.Button(PersonalMenu.BillData[i].label, nil, {RightLabel = '$' .. ESX.Math.GroupDigits(PersonalMenu.BillData[i].amount)}, true, function(Hovered, Active, Selected)
+			RageUI.Button(PersonalMenu.BillData[i].label, nil, {RightLabel = '$' .. ESX.Math.GroupDigits(PersonalMenu.BillData[i].amount)}, true, function(_, _, Selected)
 				if (Selected) then
 					ESX.TriggerServerCallback('esx_billing:payBill', function()
 						ESX.TriggerServerCallback('bpt_menu:Bill_getBills', function(bills) PersonalMenu.BillData = bills end)
@@ -196,7 +196,7 @@ function RenderAdminMenu()
 			end
 
 			if authorized then
-				RageUI.Button(Config.Admin[i].label, nil, {}, true, function(Hovered, Active, Selected)
+				RageUI.Button(Config.Admin[i].label, nil, {}, true, function(_, _, Selected)
 					if (Selected) then
 						Config.Admin[i].command()
 					end
@@ -285,7 +285,7 @@ end)
 CreateThread(function()
 	while true do
 		if Player.showName then
-			for k, v in ipairs(ESX.Game.GetPlayers()) do
+			for _, v in ipairs(ESX.Game.GetPlayers()) do
 				local otherPed = GetPlayerPed(v)
 
 				if otherPed ~= plyPed then
