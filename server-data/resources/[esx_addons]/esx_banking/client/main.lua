@@ -225,7 +225,7 @@ end)
     RegisterNetEvent('esx:onPlayerDeath', function() BANK:TextUi(false) end)
 
 -- Nui Callbacks
-RegisterNUICallback('close', function(data, cb)
+RegisterNUICallback('close', function(_, cb)
     BANK:HandleUi(false)
     cb('ok')
 end)
