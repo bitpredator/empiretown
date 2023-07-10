@@ -158,9 +158,9 @@ function logTransaction(targetSource,label, key,amount)
 
     if xPlayer ~= nil then
         local bankCurrentMoney = xPlayer.getAccount('bank').money
-        BANK.LogTransaction(targetSource, label, string.upper(key), amount, bankCurrentMoney)  
+        BANK.LogTransaction(targetSource, label, string.upper(key), amount, bankCurrentMoney)
     else
-        print("ERROR: xPlayer is nil!") 
+        print("ERROR: xPlayer is nil!")
     end
 end
 exports("logTransaction", logTransaction)
@@ -198,7 +198,7 @@ BANK = {
         xPlayer.removeAccountMoney('money', amount)
         xPlayer.addAccountMoney('bank', amount)
     end,
-    Transfer = function(xTarget, xPlayer, amount, key)
+    Transfer = function(xTarget, xPlayer, amount)
         if xTarget == nil or xPlayer.source == xTarget.source then
             TriggerClientEvent("esx:showNotification", source, _U("cant_do_it"), "error")
             return false
@@ -227,8 +227,8 @@ BANK = {
 
         local xPlayer = ESX.GetPlayerFromId(playerId)
         local identifier = xPlayer.getIdentifier()
-    
+
         MySQL.insert('INSERT INTO banking (identifier, label, type, amount, time, balance) VALUES (?, ?, ?, ?, ?, ?)',
             {identifier,label,logType,amount, os.time() * 1000, bankMoney})
-    end   
+    end
 }
