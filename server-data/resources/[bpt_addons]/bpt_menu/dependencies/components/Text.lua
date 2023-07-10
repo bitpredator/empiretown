@@ -20,7 +20,7 @@ function GetCharacterCount(Str)
 	---@type number
 	local Chars = 0
 
-	for Char in Str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+	for _ in Str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
 		Chars = Chars + 1
 	end
 

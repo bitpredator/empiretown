@@ -29,7 +29,7 @@ Player = {
 	group = 'user'
 }
 
-local societymoney, societymoney2 = nil, nil
+local societymoney = nil
 
 CreateThread(function()
 	while ESX == nil do
@@ -138,28 +138,6 @@ function getCamDirection()
 	return coords
 end
 
-function startAttitude(lib, anim)
-	ESX.Streaming.RequestAnimSet(anim, function()
-		SetPedMotionBlur(plyPed, false)
-		SetPedMovementClipset(plyPed, anim, true)
-		RemoveAnimSet(anim)
-	end)
-end
-
-function startAnim(lib, anim)
-	ESX.Streaming.RequestAnimDict(lib, function()
-		TaskPlayAnim(plyPed, lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
-		RemoveAnimDict(lib)
-	end)
-end
-
-function startAnimAction(lib, anim)
-	ESX.Streaming.RequestAnimDict(lib, function()
-		TaskPlayAnim(plyPed, lib, anim, 8.0, 1.0, -1, 49, 0, false, false, false)
-		RemoveAnimDict(lib)
-	end)
-end
-
 function CheckQuantity(number)
 	number = tonumber(number)
 
@@ -195,7 +173,7 @@ end
 function RenderBillingMenu()
 	RageUI.DrawContent({header = true, instructionalButton = true}, function()
 		for i = 1, #PersonalMenu.BillData, 1 do
-			RageUI.Button(PersonalMenu.BillData[i].label, nil, {RightLabel = '$' .. ESX.Math.GroupDigits(PersonalMenu.BillData[i].amount)}, true, function(Hovered, Active, Selected)
+			RageUI.Button(PersonalMenu.BillData[i].label, nil, {RightLabel = '$' .. ESX.Math.GroupDigits(PersonalMenu.BillData[i].amount)}, true, function(_, _, Selected)
 				if (Selected) then
 					ESX.TriggerServerCallback('esx_billing:payBill', function()
 						ESX.TriggerServerCallback('bpt_menu:Bill_getBills', function(bills) PersonalMenu.BillData = bills end)
@@ -218,7 +196,7 @@ function RenderAdminMenu()
 			end
 
 			if authorized then
-				RageUI.Button(Config.Admin[i].label, nil, {}, true, function(Hovered, Active, Selected)
+				RageUI.Button(Config.Admin[i].label, nil, {}, true, function(_, _, Selected)
 					if (Selected) then
 						Config.Admin[i].command()
 					end
@@ -307,7 +285,7 @@ end)
 CreateThread(function()
 	while true do
 		if Player.showName then
-			for k, v in ipairs(ESX.Game.GetPlayers()) do
+			for _, v in ipairs(ESX.Game.GetPlayers()) do
 				local otherPed = GetPlayerPed(v)
 
 				if otherPed ~= plyPed then

@@ -1,10 +1,5 @@
 Locales['sv'] = {
   -- Inventory
-  ['give'] = 'Ge',
-  ['remove'] = 'Kasta',
-  ['return'] = 'Gå tillbaka',
-  ['give_to'] = 'Ge till',
-  ['amount'] = 'Antal',
   ['giveammo'] = 'Ge ammunition',
   ['amountammo'] = 'Mängd ammunition',
   ['noammo'] = 'Inte tillräckligt med ammunition!',

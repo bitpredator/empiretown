@@ -1,9 +1,5 @@
 Locales['tc'] = {
-  -- Inventory,
-  ['give'] = '給',
-  ['remove'] = '丟棄',
-  ['return'] = '返回',
-  ['give_to'] = '給予',
+  -- Inventory
   ['amount'] = '數量',
   ['giveammo'] = '給予子彈',
   ['amountammo'] = '子彈數量',

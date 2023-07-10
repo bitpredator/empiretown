@@ -61,6 +61,10 @@ end, false, {help = _U('command_cardel'), validate = false, arguments = {
 	{name = 'radius',validate = false, help = _U('command_cardel_radius'), type = 'number'}
 }})
 
+ESX.RegisterCommand('repair', 'admin', function(xPlayer, args, showError)
+	xPlayer.triggerEvent("esx:repairPedVehicle")
+end, false, {help = _U('command_repair'), validate = false}) 
+
 ESX.RegisterCommand('setaccountmoney', 'admin', function(_, args, showError)
     if args.playerId.getAccount(args.account) then
         args.playerId.setAccountMoney(args.account, args.amount, "Government Grant")
@@ -304,7 +308,7 @@ end, true, {
     }
 })
 
-ESX.RegisterCommand('players', "admin", function(_, _, _)
+ESX.RegisterCommand('players', "admin", function()
     local xPlayers = ESX.GetExtendedPlayers() -- Returns all xPlayers
     print("^5" .. #xPlayers .. " ^2online player(s)^0")
     for i = 1, #(xPlayers) do

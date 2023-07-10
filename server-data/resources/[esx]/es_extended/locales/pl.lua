@@ -1,10 +1,5 @@
 Locales['pl'] = {
   -- Inventory
-  ['give'] = 'daj',
-  ['remove'] = 'usuń',
-  ['return'] = 'wróć',
-  ['give_to'] = 'daj dla',
-  ['amount'] = 'ilość',
   ['giveammo'] = 'daj amunicje',
   ['amountammo'] = 'ilość amunicji',
   ['noammo'] = 'nie posiadasz wystarczającej ilości amunicji!',

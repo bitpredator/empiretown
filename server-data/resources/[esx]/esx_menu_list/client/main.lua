@@ -26,7 +26,7 @@ CreateThread(function()
 			name      = name,
 		})
 
-		for k,v in pairs(OpenedMenus) do
+		for _,v in pairs(OpenedMenus) do
 			if v == true then
 				OpenedMenuCount = OpenedMenuCount + 1
 			end
