@@ -53,7 +53,7 @@ DiamondPenthouse = {
                 SetIplPropState(DiamondPenthouse.interiorId, pattern, true, refresh)
             end,
             Clear = function(refresh)
-                for key, value in pairs(DiamondPenthouse.Interior.Pattern) do
+                for _, value in pairs(DiamondPenthouse.Interior.Pattern) do
                     if type(value) == "string" then
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
@@ -77,7 +77,7 @@ DiamondPenthouse = {
                 SetIplPropState(DiamondPenthouse.interiorId, state, true, refresh)
             end,
             Clear = function(refresh)
-                for key, value in pairs(DiamondPenthouse.Interior.SpaBar) do
+                for _, value in pairs(DiamondPenthouse.Interior.SpaBar) do
                     if type(value) == "string" then
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
@@ -94,7 +94,7 @@ DiamondPenthouse = {
                 SetIplPropState(DiamondPenthouse.interiorId, state, true, refresh)
             end,
             Clear = function(refresh)
-                for key, value in pairs(DiamondPenthouse.Interior.MediaBar) do
+                for _, value in pairs(DiamondPenthouse.Interior.MediaBar) do
                     if type(value) == "string" then
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
@@ -111,7 +111,7 @@ DiamondPenthouse = {
                 SetIplPropState(DiamondPenthouse.interiorId, state, true, refresh)
             end,
             Clear = function(refresh)
-                for key, value in pairs(DiamondPenthouse.Interior.Dealer) do
+                for _, value in pairs(DiamondPenthouse.Interior.Dealer) do
                     if type(value) == "string" then
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
@@ -129,7 +129,7 @@ DiamondPenthouse = {
                 SetIplPropState(DiamondPenthouse.interiorId, arcade, true, refresh)
             end,
             Clear = function(refresh)
-                for key, value in pairs(DiamondPenthouse.Interior.Arcade) do
+                for _, value in pairs(DiamondPenthouse.Interior.Arcade) do
                     if type(value) == "string" then
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
@@ -148,7 +148,7 @@ DiamondPenthouse = {
                 SetIplPropState(DiamondPenthouse.interiorId, clutter, true, refresh)
             end,
             Clear = function(refresh)
-                for key, value in pairs(DiamondPenthouse.Interior.Clutter) do
+                for _, value in pairs(DiamondPenthouse.Interior.Clutter) do
                     if type(value) == "string" then
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
@@ -167,7 +167,7 @@ DiamondPenthouse = {
                 SetIplPropState(DiamondPenthouse.interiorId, light, true, refresh)
             end,
             Clear = function(refresh)
-                for key, value in pairs(DiamondPenthouse.Interior.BarLight) do
+                for _, value in pairs(DiamondPenthouse.Interior.BarLight) do
                     if type(value) == "string" then
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
@@ -187,7 +187,7 @@ DiamondPenthouse = {
                 SetIplPropState(DiamondPenthouse.interiorId, party, true, refresh)
             end,
             Clear = function(refresh)
-                for key, value in pairs(DiamondPenthouse.Interior.BarParty) do
+                for _, value in pairs(DiamondPenthouse.Interior.BarParty) do
                     if type(value) == "string" then
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
@@ -205,7 +205,7 @@ DiamondPenthouse = {
                     SetIplPropState(DiamondPenthouse.interiorId, blocker, true, refresh)
                 end,
                 Clear = function(refresh)
-                    for key, value in pairs(DiamondPenthouse.Interior.Blockers.Guest) do
+                    for _, value in pairs(DiamondPenthouse.Interior.Blockers.Guest) do
                         if type(value) == "string" then
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
@@ -222,7 +222,7 @@ DiamondPenthouse = {
                     SetIplPropState(DiamondPenthouse.interiorId, blocker, true, refresh)
                 end,
                 Clear = function(refresh)
-                    for key, value in pairs(DiamondPenthouse.Interior.Blockers.Lounge) do
+                    for _, value in pairs(DiamondPenthouse.Interior.Blockers.Lounge) do
                         if type(value) == "string" then
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
@@ -239,7 +239,7 @@ DiamondPenthouse = {
                     SetIplPropState(DiamondPenthouse.interiorId, blocker, true, refresh)
                 end,
                 Clear = function(refresh)
-                    for key, value in pairs(DiamondPenthouse.Interior.Blockers.Office) do
+                    for _, value in pairs(DiamondPenthouse.Interior.Blockers.Office) do
                         if type(value) == "string" then
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
@@ -256,7 +256,7 @@ DiamondPenthouse = {
                     SetIplPropState(DiamondPenthouse.interiorId, blocker, true, refresh)
                 end,
                 Clear = function(refresh)
-                    for key, value in pairs(DiamondPenthouse.Interior.Blockers.Cinema) do
+                    for _, value in pairs(DiamondPenthouse.Interior.Blockers.Cinema) do
                         if type(value) == "string" then
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
@@ -273,7 +273,7 @@ DiamondPenthouse = {
                     SetIplPropState(DiamondPenthouse.interiorId, blocker, true, refresh)
                 end,
                 Clear = function(refresh)
-                    for key, value in pairs(DiamondPenthouse.Interior.Blockers.Spa) do
+                    for _, value in pairs(DiamondPenthouse.Interior.Blockers.Spa) do
                         if type(value) == "string" then
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
@@ -290,7 +290,7 @@ DiamondPenthouse = {
                     SetIplPropState(DiamondPenthouse.interiorId, blocker, true, refresh)
                 end,
                 Clear = function(refresh)
-                    for key, value in pairs(DiamondPenthouse.Interior.Blockers.Bar) do
+                    for _, value in pairs(DiamondPenthouse.Interior.Blockers.Bar) do
                         if type(value) == "string" then
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
