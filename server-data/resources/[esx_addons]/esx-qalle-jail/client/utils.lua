@@ -1,4 +1,4 @@
-RegisterCommand("jailmenu", function(source, args)
+RegisterCommand("jailmenu", function()
 
 	if PlayerData.job.name == "police" then
 		OpenJailMenu()
@@ -122,7 +122,7 @@ function TeleportPlayer(pos)
 
 		local elements = {}
 
-		for i, v in pairs(Values["goal"]) do
+		for _, v in pairs(Values["goal"]) do
 			table.insert(elements, { label = v, value = v })
 		end
 
@@ -151,9 +151,9 @@ function TeleportPlayer(pos)
 			SetEntityCoords(PlayerPedId(), position["x"], position["y"], position["z"])
 			Wait(250)
 			DoScreenFadeIn(100)
-			
+
 		end,
-		function(data, menu)
+		function(_, menu)
 			menu.close()
 		end)
 	else
