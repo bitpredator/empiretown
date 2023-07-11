@@ -140,7 +140,7 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, id)
 					}, function()
 						MySQL.Async.fetchAll('SELECT * FROM billing WHERE id = @id', {
 							['@id'] = id
-						}, function(result)
+						}, function()
 							if result[1].split == true then
 								print('Society paid invoice with split')
 								local percent = 0.05
@@ -182,7 +182,7 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, id)
 					}, function()
 						MySQL.Async.fetchAll('SELECT * FROM billing WHERE id = @id', {
 							['@id'] = id
-						}, function(result)
+						}, function()
 							if result[1].split == true then
 								xPlayer.removeMoney(amount)
 								account.addMoney(amount*(1-Config.Percent))
@@ -207,7 +207,7 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, id)
 					}, function()
 						MySQL.Async.fetchAll('SELECT * FROM billing WHERE id = @id', {
 							['@id'] = id
-						}, function(result)
+						}, function()
 							if result[1].split == true then
 								xPlayer.removeMoney(amount)
 								account.addMoney(amount*(1-Config.Percent))
