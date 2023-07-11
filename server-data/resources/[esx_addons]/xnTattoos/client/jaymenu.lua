@@ -1,13 +1,3 @@
---[[
-
-    !!!WARNING!!!
-
-    HORRIBLE, STUPID, HACKY AND PREFORMANCE DEGRADING CODE AHEAD
-
-    PROCEED WITH CAUTION
-    
-]]
-
 RequestStreamedTextureDict("CommonMenu")
 
 JayMenu = { }
@@ -17,12 +7,12 @@ JayMenu.debug = false
 
 -- Local variables
 local menus = { }
-local keys = { 
-    up = 172, 
-    down = 173, 
-    left = 174, 
-    right = 175, 
-    select = 176, 
+local keys = {
+    up = 172,
+    down = 173,
+    left = 174,
+    right = 175,
+    select = 176,
     back = 177,
     mup = 181,
     mdown = 180,
@@ -72,24 +62,6 @@ local function isMenuVisible(id)
         return false
     end
 end
-
---[[local function setMenuVisible(id, visible, holdCurrent)
-    if id and menus[id] then
-        setMenuProperty(id, 'visible', visible)
-
-        if not holdCurrent and menus[id] then
-            setMenuProperty(id, 'currentOption', 1)
-        end
-
-        if visible then
-            if id ~= currentMenu and isMenuVisible(currentMenu) then
-                setMenuVisible(currentMenu, false)
-            end
-
-            currentMenu = id
-        end
-    end
-end]]
 
 local function setMenuVisible(id, visible, holdCurrent)
     if id and menus[id] then
@@ -180,14 +152,12 @@ local function drawTitle()
 		if menus[currentMenu].titleFont == "!sprite!" then
 			local color = menus[currentMenu].titleBackgroundColor
 			local textDict, sprite = table.unpack(menus[currentMenu].titleColor)
-			--print("txd:"..textDict.." spr:"..sprite.." col:"..color.r..","..color.g..","..color.b..","..color.a)
 			RequestStreamedTextureDict(textDict, false)
 			HasStreamedTextureDictLoaded(textDict)
 			DrawSprite(textDict, sprite, x, y, menuWidth, titleHeight, 0, color[1], color[2], color[3], color[4])
 		elseif menus[currentMenu].titleFont == "~sprite~" then
 			local color = menus[currentMenu].titleBackgroundColor
 			local textDict, sprite = table.unpack(menus[currentMenu].titleColor)
-			--print("txd:"..textDict.." spr:"..sprite.." col:"..color.r..","..color.g..","..color.b..","..color.a)
 			RequestStreamedTextureDict(textDict, false)
 			HasStreamedTextureDictLoaded(textDict)
 			DrawSprite(textDict, sprite, x, y, menuWidth, titleHeight, 0, color[1], color[2], color[3], color[4])
@@ -197,7 +167,6 @@ local function drawTitle()
                 SetUiLayer(0)
                 DrawSprite("CommonMenu", "interaction_bgd", x, y, menuWidth, titleHeight, 0.0, 255, 255, 255, 255, 0)
             end
-			--drawRect(x, y, menuWidth, titleHeight, menus[currentMenu].titleBackgroundColor)
 			drawText(menus[currentMenu].title, x, y - titleHeight / 2 + titleYOffset, menus[currentMenu].titleFont, menus[currentMenu].titleColor, titleScale, true)
         end
 
@@ -205,30 +174,11 @@ local function drawTitle()
     end
 end
 
--- local function drawSubTitle()
-    -- if menus[currentMenu] then
-        -- local x = menus[currentMenu].x + (menuWidth / 2)
-        -- local y = menus[currentMenu].y + (titleHeight + buttonHeight / 2)
-
-        -- local subTitleColor = { r = menus[currentMenu].titleBackgroundColor.r, g = menus[currentMenu].titleBackgroundColor.g, b = menus[currentMenu].titleBackgroundColor.b, a = 255 }
-        -- local subTitleColor = {255, 255, 255, 255}
-
-        -- drawRect(x, y, menuWidth, buttonHeight, menus[currentMenu].subTitleBackgroundColor)
-        -- drawText(menus[currentMenu].subTitle, menus[currentMenu].x + buttonTextXOffset, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, false, buttonScale, false)
-        -- drawText(tostring(menus[currentMenu].currentOption)..' / '..tostring(optionCount), menus[currentMenu].x + menuWidth, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, false, buttonScale, false, false, true)
-
-        -- local x,y,subTitleColor = nil
-    -- end
--- end
-
 local function drawSubTitle()
     if menus[currentMenu] then
         local x = menus[currentMenu].x + (menuWidth / 2)
         local y = menus[currentMenu].y + (titleHeight + buttonHeight / 2)
         local subtitle = menus[currentMenu].subTitle
-
-        --local subTitleColor = { r = menus[currentMenu].titleBackgroundColor.r, g = menus[currentMenu].titleBackgroundColor.g, b = menus[currentMenu].titleBackgroundColor.b, a = 255 }
-        --local subTitleColor = {255, 255, 255, 255}    
 
         drawRect(x, y, menuWidth, buttonHeight, menus[currentMenu].subTitleBackgroundColor)
         if subtitle:find("|") then
@@ -247,7 +197,7 @@ local function drawDescription()
     if menus[currentMenu] then
         local x = menus[currentMenu].x + menuWidth / 2
 		local menuHeight = buttonHeight*(((optionCount <= menus[currentMenu].maxOptionCount) and optionCount or menus[currentMenu].maxOptionCount + 1) + 1)
-		
+
 		local lines = getLineHeight(currentDesc, buttonFont, menus[currentMenu].menuTextColor, buttonScale, false, true)
 
 		local descriptionHeight = lines*(buttonTextYOffset*5) + buttonTextYOffset*2
@@ -258,7 +208,7 @@ local function drawDescription()
 
         if HasStreamedTextureDictLoaded("CommonMenu") then
 			SetUiLayer(0)
-			
+
 			DrawRect(x, dividerY, menuWidth, buttonTextYOffset, 0, 0, 0, 255)
 			DrawSprite("CommonMenu", "Gradient_Bgd", x, y, menuWidth, descriptionHeight, 0.0, 255, 255, 255, 220, 0)
 
@@ -366,11 +316,6 @@ local function drawDisabledButton(text, subText)
         local subTextColor = HudColourToTable(GetHudColour(5))
         local shadow = false
 
-        --[[if menus[currentMenu].currentOption == optionCount and HasStreamedTextureDictLoaded("CommonMenu") then
-            SetUiLayer(1)
-            DrawSprite("CommonMenu", "Gradient_Nav", x, y, menuWidth, buttonHeight, 0.0, 255, 255, 255, 255, 0)
-        end]]
-        --drawRect(x, y, menuWidth, buttonHeight, backgroundColor)
         drawText(text, menus[currentMenu].x + buttonTextXOffset, y - (buttonHeight / 2) + buttonTextYOffset, buttonFont, textColor, buttonScale, false, shadow)
 
         if subText then
@@ -413,7 +358,7 @@ local function drawSpriteButton(text, textDict, sprite, focusSprite)
             SetUiLayer(1)
             DrawSprite("CommonMenu", "Gradient_Nav", x, y, menuWidth, buttonHeight, 0.0, 255, 255, 255, 255, 0)
         end
-        
+
         drawText(text, menus[currentMenu].x + buttonTextXOffset, y - (buttonHeight / 2) + buttonTextYOffset, buttonFont, textColor, buttonScale, false, shadow)
 
         if textDict and sprite then
@@ -436,12 +381,11 @@ local function drawSpriteButton(text, textDict, sprite, focusSprite)
 end
 
 local function stopConflictingInputs()
-    -- isolates menu navigation buttons and stops jumping, weapon selection and opening of the pause menu
 
     for _,key in pairs(keys) do
         SetInputExclusive(0, key)
     end
-    DisableControlAction(0, 22, true) 
+    DisableControlAction(0, 22, true)
     DisableControlAction(0, 37, true)
     DisableControlAction(0, 38, true)
     DisableControlAction(0, 200, true)
@@ -773,7 +717,7 @@ function JayMenu.MenuButton(text, id, secondtext)
 
             return true, true
 		end
-		
+
 		return false, hovered
     else
         debugPrint('Failed to create '..tostring(text)..' menu button: '..tostring(id)..' submenu doesn\'t exist')
@@ -792,11 +736,6 @@ function JayMenu.SetDescription(text)
 end
 
 function JayMenu.CheckBox(text, bool, callback)
-    --[[local checked = '~r~Off'
-    if bool then
-        checked = '~g~On'
-    end]]
-
     local sprite = bool and "shop_box_tick" or "shop_box_blank"
     local focusSprite = bool and "shop_box_tickb" or "shop_box_blankb"
 

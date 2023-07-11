@@ -2,10 +2,6 @@ TriggerEvent('esx_society:registerSociety', 'dustman', 'Dustman', 'society_dustm
     type = 'public'
 })
 
-if Config.MaxInService ~= -1 then
-    TriggerEvent('esx_service:activateService', 'dustman', Config.MaxInService)
-end
-
 ESX.RegisterServerCallback("bpt_dustmanjob:SpawnVehicle", function(source, cb, model , props)
     local xPlayer = ESX.GetPlayerFromId(source)
 

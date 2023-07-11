@@ -1,6 +1,6 @@
-local HasAlreadyEnteredMarker, CurrentAction,
-    CurrentActionData = false, false, false, false, false, {}
-local LastZone, CurrentActionMsg
+local HasAlreadyEnteredMarker
+local CurrentAction, CurrentActionMsg, CurrentActionData = nil, '', {}
+local LastZone
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
@@ -155,10 +155,6 @@ function DeleteJobVehicle()
     else
         if IsInAuthorizedVehicle() then
             ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
-
-            if Config.MaxInService ~= -1 then
-                TriggerServerEvent('esx_service:disableService', 'dustman')
-            end
         else
             ESX.ShowNotification(_U('only_dustman'))
         end
