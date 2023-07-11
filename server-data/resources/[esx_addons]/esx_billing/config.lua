@@ -1,3 +1,3 @@
 Config = {}
-Config.Locale = 'it'
+Config.Locale = 'en'
 Config.Percent = 0.10
