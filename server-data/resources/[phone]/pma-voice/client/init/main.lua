@@ -29,7 +29,7 @@ function setVolume(volume, volumeType)
 		end
 	else
 		-- _ is here to not mess with global 'type' function
-		for _type, vol in pairs(volumes) do
+		for _type, _ in pairs(volumes) do
 			volumes[_type] = volume
 			LocalPlayer.state:set(_type, volume, true)
 		end
