@@ -1,4 +1,4 @@
-AddEventHandler('chatMessage', function(playerId, playerName, message)
+AddEventHandler('chatMessage', function(playerId, _, message)
 	if string.sub(message, 1, string.len('/')) ~= '/' then
 		CancelEvent()
 
@@ -7,7 +7,7 @@ AddEventHandler('chatMessage', function(playerId, playerName, message)
 	end
 end)
 
-RegisterCommand('me', function(playerId, args, rawCommand)
+RegisterCommand('me', function(playerId, args)
 	if playerId == 0 then
 		print('[^1ERROR^7] This Command Cannot Be Used By The Console!')
 	else
@@ -18,7 +18,7 @@ RegisterCommand('me', function(playerId, args, rawCommand)
 	end
 end, false)
 
-RegisterCommand('do', function(playerId, args, rawCommand)
+RegisterCommand('do', function(playerId, args)
 	if playerId == 0 then
 		print('[^1ERROR^7] This Command Cannot Be Used By The Console!')
 	else
@@ -29,7 +29,7 @@ RegisterCommand('do', function(playerId, args, rawCommand)
 	end
 end, false)
 
-RegisterCommand('msg', function(source, args, user)
+RegisterCommand('msg', function(source, args)
 
 	if GetPlayerName(tonumber(args[1])) then
 		local player = tonumber(args[1])
