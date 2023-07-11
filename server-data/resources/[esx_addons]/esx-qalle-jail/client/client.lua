@@ -1,10 +1,10 @@
 local Keys = {
-	["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57, 
-	["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177, 
+	["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57,
+	["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177,
 	["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
 	["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
 	["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
-	["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70, 
+	["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70,
 	["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
 	["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
@@ -110,7 +110,7 @@ function InJail()
 
 	CreateThread(function()
 		while jailTime > 0 do
-			
+
 			local sleepThread = 500
 			local Packages = Config.PrisonWork["Packages"]
 			local Ped = PlayerPedId()
@@ -154,12 +154,12 @@ end
 function LoadTeleporters()
 	CreateThread(function()
 		while true do
-			
+
 			local sleepThread = 500
 			local Ped = PlayerPedId()
 			local PedCoords = GetEntityCoords(Ped)
 
-			for p, v in pairs(Config.Teleports) do
+			for _, v in pairs(Config.Teleports) do
 
 				local DistanceCheck = GetDistanceBetweenCoords(PedCoords, v["x"], v["y"], v["z"], true)
 
@@ -198,7 +198,7 @@ function PackPackage(packageId)
 	local StartTime = GetGameTimer()
 
 	while Packaging do
-		
+
 		Wait(1)
 
 		local TimeToTake = 60000 * 1.20 -- Minutes
@@ -217,7 +217,7 @@ function PackPackage(packageId)
 		else
 			ESX.Game.Utils.DrawText3D(Package, "Packaging... " .. math.ceil(tonumber(PackPercent)) .. "%", 0.4)
 		end
-		
+
 	end
 end
 
@@ -276,7 +276,7 @@ function OpenJailMenu()
 				{ label = "Jail Closest Person", value = "jail_closest_player" },
 				{ label = "Unjail Person", value = "unjail_player" }
 			}
-		}, 
+		},
 	function(data, menu)
 
 		local action = data.current.value
@@ -285,57 +285,50 @@ function OpenJailMenu()
 
 			menu.close()
 
-			ESX.UI.Menu.Open(
-          		'dialog', GetCurrentResourceName(), 'jail_choose_time_menu',
-          		{
-            		title = "Jail Time (minutes)"
-          		},
-          	function(data2, menu2)
-
-            	local jailTime = tonumber(data2.value)
-
+			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'jail_choose_time_menu',
+			    {
+				 title =  "Jail Time (minutes)"
+			    },
+            function(data2, menu2)
+				local jailTime = tonumber(data2.value)
             	if jailTime == nil then
-				    ESX.ShowNotification(_U('time_minutes'))
+					ESX.ShowNotification(_U('time_minutes'))
             	else
-              		menu2.close()
+					menu2.close()
+					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 
-              		local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
-              		if closestPlayer == -1 or closestDistance > 3.0 then
+					if closestPlayer == -1 or closestDistance > 3.0 then
                         ESX.ShowNotification(_U('players_nearby'))
 					else
-						ESX.UI.Menu.Open(
-							'dialog', GetCurrentResourceName(), 'jail_choose_reason_menu',
+						ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'jail_choose_reason_menu',
 							{
 							  title = "Jail Reason"
 							},
 						function(data3, menu3)
-		  
+
 						  	local reason = data3.value
-		  
-						  	if reason == nil then
+
+							if reason == nil then
 							    ESX.ShowNotification(_U('put_something'))
-						  	else
+							else
 								menu3.close()
-		  
-								local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-		  
+                                local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 								if closestPlayer == -1 or closestDistance > 3.0 then
 								    ESX.ShowNotification(_U('players_nearby'))
 								else
-								  	TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(closestPlayer), jailTime, reason)
+									TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(closestPlayer), jailTime, reason)
 								end
-		  
-						  	end
-		  
-						end, function(data3, menu3)
+
+							end
+
+						end, function(_, menu3)
 							menu3.close()
 						end)
               		end
 
 				end
 
-          	end, function(data2, menu2)
+			end, function(_, menu2)
 				menu2.close()
 			end)
 		elseif action == "unjail_player" then
@@ -353,8 +346,7 @@ function OpenJailMenu()
 					table.insert(elements, {label = "Prisoner: " .. playerArray[i].name .. " | Jail Time: " .. playerArray[i].jailTime .. " minutes", value = playerArray[i].identifier })
 				end
 
-				ESX.UI.Menu.Open(
-					'default', GetCurrentResourceName(), 'jail_unjail_menu',
+				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'jail_unjail_menu',
 					{
 						title = "Unjail Player",
 						align = "center",
@@ -368,14 +360,14 @@ function OpenJailMenu()
 
 					menu2.close()
 
-				end, function(data2, menu2)
+				end, function(_, menu2)
 					menu2.close()
 				end)
 			end)
 
 		end
 
-	end, function(data, menu)
+	end, function(_, menu)
 		menu.close()
-	end)	
+	end)
 end

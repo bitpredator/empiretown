@@ -21,7 +21,7 @@ ESX.RegisterUsableItem("jobcard", function(source)
 	local identifier = ESX.GetPlayerFromId(_source).identifier
     local name       = xPlayer.getName()
 
-	MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', 
+	MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier',
     {['@identifier'] = identifier},
 	function (user)
         TriggerClientEvent("JOBCARD:USE", _source, user, firstname, lastname)

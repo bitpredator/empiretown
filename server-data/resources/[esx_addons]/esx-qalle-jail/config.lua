@@ -45,7 +45,7 @@ Config.Teleports = {
 		["h"] = 92.469093322754,
 		["goal"] = {
 			"Security"
-		} 
+		}
 	},
 
 	["Jail"] = {
@@ -57,7 +57,7 @@ Config.Teleports = {
 			"Prison Work",
 			"Security",
 			"Visitor"
-		} 
+		}
 	},
 
 	["Security"] = {
@@ -68,7 +68,7 @@ Config.Teleports = {
 		["goal"] = {
 			"Jail",
 			"Boiling Broke"
-		} 
+		}
 	},
 
 	["Visitor"] = {

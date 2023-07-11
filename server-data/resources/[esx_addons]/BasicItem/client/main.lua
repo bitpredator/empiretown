@@ -9,7 +9,7 @@ end)
 
 RegisterNetEvent("IDCARD:USE")
 AddEventHandler("IDCARD:USE", function()
-    closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()				
+    closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
     if closestDistance ~= -1 and closestDistance <= 2.0 then
         ESX.ShowNotification((_LConfig.playerReceiveCard):format(GetPlayerName(closestPlayer)))
         TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer))
@@ -22,7 +22,7 @@ end)
 
 RegisterNetEvent("DMVCARD:USE")
 AddEventHandler("DMVCARD:USE", function()
-    closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()				
+    closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
     if closestDistance ~= -1 and closestDistance <= 2.0 then
         ESX.ShowNotification((playerReceiveCard):format(GetPlayerName(closestPlayer)))
         TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer), 'driver')
@@ -35,7 +35,7 @@ end)
 
 RegisterNetEvent("WCARD:USE")
 AddEventHandler("WCARD:USE", function()
-    closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()							
+    closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
     if closestDistance ~= -1 and closestDistance <= 2.0 then
         ESX.ShowNotification((playerReceiveCard):format(GetPlayerName(closestPlayer)))
         TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer), 'weapon')
