@@ -290,7 +290,7 @@ function OpenJailMenu()
 				 title =  "Jail Time (minutes)"
 			    },
             function(data2, menu2)
-            	local jailTime = tonumber(data2.value)
+				local jailTime = tonumber(data2.value)
             	if jailTime == nil then
 					ESX.ShowNotification(_U('time_minutes'))
             	else
@@ -316,19 +316,19 @@ function OpenJailMenu()
 								if closestPlayer == -1 or closestDistance > 3.0 then
 								    ESX.ShowNotification(_U('players_nearby'))
 								else
-								  	TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(closestPlayer), jailTime, reason)
+									TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(closestPlayer), jailTime, reason)
 								end
 
-						  	end
+							end
 
-						end, function(data3, menu3)
+						end, function(_, menu3)
 							menu3.close()
 						end)
               		end
 
 				end
 
-          	end, function(data2, menu2)
+			end, function(_, menu2)
 				menu2.close()
 			end)
 		elseif action == "unjail_player" then
@@ -360,14 +360,14 @@ function OpenJailMenu()
 
 					menu2.close()
 
-				end, function(data2, menu2)
+				end, function(_, menu2)
 					menu2.close()
 				end)
 			end)
 
 		end
 
-	end, function(data, menu)
+	end, function(_, menu)
 		menu.close()
 	end)
 end
