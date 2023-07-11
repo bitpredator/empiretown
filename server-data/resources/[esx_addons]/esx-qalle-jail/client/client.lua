@@ -286,9 +286,9 @@ function OpenJailMenu()
 			menu.close()
 
 			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'jail_choose_time_menu',
-          		{
-            		title = "Jail Time (minutes)"
-          		},
+			    {
+				 title =  "Jail Time (minutes)"
+			    },
           	function(data2, menu2)
 
             	local jailTime = tonumber(data2.value)
@@ -303,8 +303,7 @@ function OpenJailMenu()
               		if closestPlayer == -1 or closestDistance > 3.0 then
                         ESX.ShowNotification(_U('players_nearby'))
 					else
-						ESX.UI.Menu.Open(
-							'dialog', GetCurrentResourceName(), 'jail_choose_reason_menu',
+						ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'jail_choose_reason_menu',
 							{
 							  title = "Jail Reason"
 							},
@@ -352,8 +351,7 @@ function OpenJailMenu()
 					table.insert(elements, {label = "Prisoner: " .. playerArray[i].name .. " | Jail Time: " .. playerArray[i].jailTime .. " minutes", value = playerArray[i].identifier })
 				end
 
-				ESX.UI.Menu.Open(
-					'default', GetCurrentResourceName(), 'jail_unjail_menu',
+				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'jail_unjail_menu',
 					{
 						title = "Unjail Player",
 						align = "center",
