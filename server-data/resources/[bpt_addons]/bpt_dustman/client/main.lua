@@ -155,10 +155,6 @@ function DeleteJobVehicle()
     else
         if IsInAuthorizedVehicle() then
             ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
-
-            if Config.MaxInService ~= -1 then
-                TriggerServerEvent('esx_service:disableService', 'dustman')
-            end
         else
             ESX.ShowNotification(_U('only_dustman'))
         end
