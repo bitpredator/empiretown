@@ -18,9 +18,6 @@ This resource for ESX adds police armories, vehicle garages and ability for cops
 * ESX License Support
   * [esx_license](https://github.com/ESX-Org/esx_license)
 
-* ESX Service Support
-  * [esx_service](https://github.com/ESX-Org/esx_service)
-
 * ESX Status Support
   * [esx_status](https://github.com/ESX-Org/esx_status)
 

@@ -41,14 +41,6 @@ Locales['sv'] = {
   ['vehicleshop_awaiting_model'] = 'fordonet LADDAS NED OCH LADDAS IN var god vänta',
   ['confirm_no'] = 'nej',
   ['confirm_yes'] = 'ja',
-  -- Service
-  ['service_max'] = 'du kan inte gå tjänst, poliser i tjänst: %s/%s',
-  ['service_not'] = 'du är inte i tjänst! Byt om för att gå in i tjänst.',
-  ['service_anonunce'] = 'tjänsteinformation',
-  ['service_in'] = 'du deltog i tjänst, välkommen!',
-  ['service_in_announce'] = 'operatör %s har deltagit tjänst!',
-  ['service_out'] = 'du har lämnat tjänst.',
-  ['service_out_announce'] = 'operatör %s har lämnat deras tjänst.',
   -- Action Menu
   ['citizen_interaction'] = 'handlingar mot civila',
   ['vehicle_interaction'] = 'handlingar på bilar',

@@ -41,14 +41,6 @@ Locales['cs'] = {
   ['vehicleshop_awaiting_model'] = 'vozidlo se prave stahuje a nacita prosim pockej',
   ['confirm_no'] = 'ne',
   ['confirm_yes'] = 'ano',
-  -- Service
-  ['service_max'] = 'nemuzete vstoupit do sluzby, max dustojníci v provozu: %s/%s',
-  ['service_not'] = 'nezadali jste sluzbu! Nejprve se musíte zmenit.',
-  ['service_anonunce'] = 'informace o sluzbe',
-  ['service_in'] = 'vstoupil jsi do sluzby, vitej!',
-  ['service_in_announce'] = 'operator %s se pripojil do sluzby!',
-  ['service_out'] = 'opustil jsi sluzbu.',
-  ['service_out_announce'] = 'operator %s opustil jejich sluzbu.',
   -- Action Menu
   ['citizen_interaction'] = 'Interakce s občanem',
   ['vehicle_interaction'] = 'Interakce vozidla',

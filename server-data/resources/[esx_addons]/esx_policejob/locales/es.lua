@@ -41,14 +41,6 @@ Locales['es'] = {
   ['vehicleshop_awaiting_model'] = 'El vehículo se está DESCARGANDO Y CARGANDO porfavor espere',
   ['confirm_no'] = 'no',
   ['confirm_yes'] = 'si',
-  -- Service
-  ['service_max'] = 'No puedes entrar de servicio porque se ha alcanzado el número máximo: %s/%s',
-  ['service_not'] = '¡No has entrado de servicio! Debes hacerlo primeramente.',
-  ['service_anonunce'] = 'Información de servicio',
-  ['service_in'] = 'Has entrado de servicio. ¡Bienvenido!',
-  ['service_in_announce'] = '¡El agente %s ha entrado de servicio!',
-  ['service_out'] = 'Has salido de servicio.',
-  ['service_out_announce'] = 'El agente %s se ha salido de servicio.',
   -- Action Menu
   ['citizen_interaction'] = 'Interacción ciudadana',
   ['vehicle_interaction'] = 'Interacción vehículo',

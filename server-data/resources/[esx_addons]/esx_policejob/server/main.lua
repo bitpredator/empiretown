@@ -1,9 +1,3 @@
-if Config.EnableESXService then
-	if Config.MaxInService ~= -1 then
-		TriggerEvent('esx_service:activateService', 'police', Config.MaxInService)
-	end
-end
-
 TriggerEvent('esx_society:registerSociety', 'police', 'Police', 'society_police', 'society_police', 'society_police', {type = 'public'})
 
 RegisterNetEvent('esx_policejob:confiscatePlayerItem')
@@ -155,7 +149,7 @@ AddEventHandler('esx_policejob:putStockItems', function(itemName, count)
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, cb, target, notify)
+ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(_, cb, target, notify)
 	local xPlayer = ESX.GetPlayerFromId(target)
 
 	if notify then
@@ -196,14 +190,14 @@ ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, 
 	end
 end)
 
-ESX.RegisterServerCallback('esx_policejob:getFineList', function(source, cb, category)
+ESX.RegisterServerCallback('esx_policejob:getFineList', function(_, cb, category)
 	MySQL.query('SELECT * FROM fine_types WHERE category = ?', {category},
 	function(fines)
 		cb(fines)
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb, plate)
+ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(_, cb, plate)
 	local retrivedInfo = {
 		plate = plate
 	}
@@ -229,7 +223,7 @@ ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb,
 	end
 end)
 
-ESX.RegisterServerCallback('esx_policejob:getArmoryWeapons', function(source, cb)
+ESX.RegisterServerCallback('esx_policejob:getArmoryWeapons', function(_, cb)
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_police', function(store)
 		local weapons = store.get('weapons')
 
@@ -314,7 +308,7 @@ ESX.RegisterServerCallback('esx_policejob:buyJobVehicle', function(source, cb, v
 			xPlayer.removeMoney(price, "Job Vehicle Bought")
 
 			MySQL.insert('INSERT INTO owned_vehicles (owner, vehicle, plate, type, job, `stored`) VALUES (?, ?, ?, ?, ?, ?)', { xPlayer.identifier, json.encode(vehicleProps), vehicleProps.plate, type, xPlayer.job.name, true},
-			function (rowsChanged)
+			function ()
 				cb(true)
 			end)
 		else
@@ -355,7 +349,7 @@ function getPriceFromHash(vehicleHash, jobGrade, type)
 	return 0
 end
 
-ESX.RegisterServerCallback('esx_policejob:getStockItems', function(source, cb)
+ESX.RegisterServerCallback('esx_policejob:getStockItems', function(_, cb)
 	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_police', function(inventory)
 		cb(inventory.items)
 	end)

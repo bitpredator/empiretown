@@ -41,19 +41,10 @@ Locales['si'] = {
   ['vehicleshop_awaiting_model'] = 'vozilo se trenutno POKLJUČUJE in nalaga, počakajte',
   ['confirm_no'] = 'ne',
   ['confirm_yes'] = 'yes',
-  -- storitev
-  ['service_max'] = 'ne morete vstopiti v službo, največje število častnikov v službi: %s/%s',
-  ['service_not'] = 'niste vstopili v službo! Najprej se boste morali zamenjati.',
-  ['service_anonunce'] = 'informacije o službi',
-  ['service_in'] = 'vstopili ste v storitev, dobrodošli!',
-  ['service_in_announce'] = 'operater %s je vstopil v storitev!',
-  ['service_out'] = 'zapustili ste službo.',
-  ['service_out_announce'] = 'operater %s je zapustil svojo službo',
   -- Akcijski meni
   ['citizen_interaction'] = 'interakcija z državljani',
   ['vehicle_interaction'] = 'interakcija z vozilom',
   ['object_spawner'] = 'object Spawner',
-
   ['id_card'] = 'osebna izkaznica',
   ['search'] = 'iskanje',
   ['handcuff'] = 'prikleniti / odkleniti',

@@ -41,14 +41,6 @@ Locales['ko'] = {
   ['vehicleshop_awaiting_model'] = '차량이 현재 다운로드 및 로딩중입니다. 잠시만 기다려주십시오',
   ['confirm_no'] = '아니요',
   ['confirm_yes'] = '예',
-  -- Service
-  ['service_max'] = '서비스에 진입 할 수 없습니다. 최대 임원 : %s/%s',
-  ['service_not'] = '당신은 서비스를 입력하지 않았습니다! 먼저 변경해야합니다.',
-  ['service_anonunce'] = '서비스 정보',
-  ['service_in'] = '당신은 서비스에 들어갔다, 환영합니다!',
-  ['service_in_announce'] = '%s가 서비스에 들어 왔습니다!',
-  ['service_out'] = '당신은 서비스를 떠났습니다.',
-  ['service_out_announce'] = '%s가 서비스를 떠났습니다.',
   -- Action Menu
   ['citizen_interaction'] = '시민 상호 작용',
   ['vehicle_interaction'] = '차량 상호 작용',

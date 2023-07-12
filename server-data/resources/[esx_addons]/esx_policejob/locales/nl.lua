@@ -41,14 +41,6 @@ Locales['nl'] = {
     ['vehicleshop_awaiting_model'] = 'Dit voertuig is momenteel aan het DOWNLOADEN & LADEN, even geduld asjeblieft',
     ['confirm_no'] = 'Nee',
     ['confirm_yes'] = 'Ja',
-    -- Service
-    ['service_max'] = 'Je kan niet in dienst gaan, maximale aantal agenten in dienst: %s/%s',
-    ['service_not'] = 'Je bent niet in dienst! Kleed je eerst om.',
-    ['service_anonunce'] = 'Dienst Informatie',
-    ['service_in'] = 'Je bent nu in dienst, welkom!',
-    ['service_in_announce'] = 'Agent %s is nu in dienst!',
-    ['service_out'] = 'Je bent nu uit dienst, fijne dag.',
-    ['service_out_announce'] = 'Agent %s is nu niet meer in dienst.',
     -- Action Menu
     ['citizen_interaction'] = 'Burger Interacties',
     ['vehicle_interaction'] = 'Voertuig Interacties',

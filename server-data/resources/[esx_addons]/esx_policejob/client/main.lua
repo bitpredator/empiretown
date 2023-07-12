@@ -101,84 +101,6 @@ function OpenCloakroomMenu()
 					TriggerEvent('skinchanger:loadSkin', skin)
 				end)
 			end
-
-			if Config.EnableESXService then
-				ESX.TriggerServerCallback('esx_service:isInService', function(isInService)
-					if isInService then
-						playerInService = false
-
-						local notification = {
-							title    = _U('service_anonunce'),
-							subject  = '',
-							msg      = _U('service_out_announce', GetPlayerName(PlayerId())),
-							iconType = 1
-						}
-
-						TriggerServerEvent('esx_service:notifyAllInService', notification, 'police')
-
-						TriggerServerEvent('esx_service:disableService', 'police')
-						TriggerEvent('esx_policejob:updateBlip')
-						ESX.ShowNotification(_U('service_out'))
-					end
-				end, 'police')
-			end
-		end
-
-		if Config.EnableESXService and data.current.value ~= 'citizen_wear' then
-			local awaitService
-
-			ESX.TriggerServerCallback('esx_service:isInService', function(isInService)
-				if not isInService then
-
-					if Config.MaxInService ~= -1 then
-						ESX.TriggerServerCallback('esx_service:enableService', function(canTakeService, maxInService, inServiceCount)
-							if not canTakeService then
-								ESX.ShowNotification(_U('service_max', inServiceCount, maxInService))
-							else
-								awaitService = true
-								playerInService = true
-
-								local notification = {
-									title    = _U('service_anonunce'),
-									subject  = '',
-									msg      = _U('service_in_announce', GetPlayerName(PlayerId())),
-									iconType = 1
-								}
-
-								TriggerServerEvent('esx_service:notifyAllInService', notification, 'police')
-								TriggerEvent('esx_policejob:updateBlip')
-								ESX.ShowNotification(_U('service_in'))
-							end
-						end, 'police')
-					else
-						awaitService = true
-						playerInService = true
-
-						local notification = {
-							title    = _U('service_anonunce'),
-							subject  = '',
-							msg      = _U('service_in_announce', GetPlayerName(PlayerId())),
-							iconType = 1
-						}
-
-						TriggerServerEvent('esx_service:notifyAllInService', notification, 'police')
-						TriggerEvent('esx_policejob:updateBlip')
-						ESX.ShowNotification(_U('service_in'))
-					end
-
-				else
-					awaitService = true
-				end
-			end, 'police')
-
-			while awaitService == nil do
-				Wait(0)
-			end
-
-			-- if we couldn't enter service don't let the player get changed
-			if not awaitService then
-				return
-			end
 		end
 
 		if data.current.uniform then
@@ -1275,11 +1197,6 @@ AddEventHandler('esx_policejob:updateBlip', function()
 
 	-- Clean the blip table
 	blipsCops = {}
-
-	-- Enable blip?
-	if Config.EnableESXService and not playerInService then
-		return
-	end
 
 	if not Config.EnableJobBlip then
 		return

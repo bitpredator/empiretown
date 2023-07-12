@@ -41,14 +41,6 @@ Locales['tr'] = {
 	['vehicleshop_awaiting_model'] = 'araç Yükleniyor lütfen bekleyiniz',
 	['confirm_no'] = 'hayır',
 	['confirm_yes'] = 'evet',
-	-- Service
-	['service_max'] = 'hizmete Giremezsin,Hizmette yeterli polis var: %s/%s',
-	['service_not'] = 'hizmete Giremedin! İlk Önce Kıyafetlerini Değiştirmelisin.',
-	['service_anonunce'] = 'hizmet Bilgisi',
-	['service_in'] = 'hizmete Giriş Yaptın, Hoşgeldin!',
-	['service_in_announce'] = 'operatör %s servise giriş yaptı!',
-	['service_out'] = 'hizmetten Çıktın.',
-	['service_out_announce'] = 'operatör %s servisten çıkış yaptı.',
 	-- Action Menu
 	['citizen_interaction'] = 'vatandaş Etkileşimi',
 	['vehicle_interaction'] = 'araç Etkileşimi',

@@ -41,14 +41,6 @@ Locales['hu'] = {
   ['vehicleshop_awaiting_model'] = 'A jármű DOWNLOADING & LOADING kérlek várj',
   ['confirm_no'] = 'nem',
   ['confirm_yes'] = 'igen',
-  -- Service
-  ['service_max'] = 'Nem léphet szolgálatba. Maximális létszám: %s/%s',
-  ['service_not'] = 'Elöször vedd fel a szolgálatot...',
-  ['service_anonunce'] = 'információk',
-  ['service_in'] = 'Szolgálatba léptél, üdvözlünk!',
-  ['service_in_announce'] = 'operátor %s szolgálatba lépett!',
-  ['service_out'] = 'elhagytad a szolgálatot.',
-  ['service_out_announce'] = 'operátor %s leadta a szolgálatot.',
   -- Action Menu
   ['citizen_interaction'] = 'Ember interakciók',
   ['vehicle_interaction'] = 'Jármű interakciók',

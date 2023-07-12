@@ -41,14 +41,6 @@ Locales['pl'] = {
   ['vehicleshop_awaiting_model'] = 'the vehicle is currently DOWNLOADING & LOADING please wait',
   ['confirm_no'] = 'no',
   ['confirm_yes'] = 'yes',
-  -- Service
-  ['service_max'] = 'nie możesz wejść do służby, maksymalna liczba oficerów w służbie: %s/%s',
-  ['service_not'] = 'nie rozpoczynasz służby! Najpierw musisz się przebrać.',
-  ['service_anonunce'] = 'informacje o służbie',
-  ['service_in'] = 'rozpoczynasz służbe, Witaj!',
-  ['service_in_announce'] = 'operator %s rozpoczyna służbę!',
-  ['service_out'] = 'opuszczasz służbę.',
-  ['service_out_announce'] = 'operator %s opuszcza służbe.',
   -- Action Menu
   ['citizen_interaction'] = 'interakcja z cywilami',
   ['vehicle_interaction'] = 'interakcja z pojazdami',

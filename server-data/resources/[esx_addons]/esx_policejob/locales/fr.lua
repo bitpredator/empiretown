@@ -41,14 +41,6 @@ Locales['fr'] = {
   ['vehicleshop_awaiting_model'] = 'le véhicule est actuellement en PRÉPARATION veuillez patienter',
   ['confirm_no'] = 'non',
   ['confirm_yes'] = 'oui',
-  -- Service
-  ['service_max'] = 'vous ne pouvez pas entrer en service, officiers en service: %s/%s',
-  ['service_not'] = 'vous n\'êtes pas en service! Vous devez d\'abord enfiler votre tenue.',
-  ['service_anonunce'] = 'prise de service',
-  ['service_in'] = 'vous êtes en service, bon courage!',
-  ['service_in_announce'] = 'l\'officier %s est entré en service!',
-  ['service_out'] = 'vous avez terminé votre service.',
-  ['service_out_announce'] = 'l\'officier %s a quitté son service.',
   -- Action Menu
   ['citizen_interaction'] = 'interaction citoyen',
   ['vehicle_interaction'] = 'interaction véhicule',
