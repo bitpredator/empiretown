@@ -28,7 +28,7 @@ AddEventHandler('esx_billing:sendBill', function(playerId, sharedAccountName, la
 					['@amount']      = amount,
 					['@split']		 = split,
 					['@paid']		 = false
-				}, function(rowsChanged)
+				}, function()
 					TriggerClientEvent('esx:showNotification', xTarget.source, _U('received_invoice'))
 				end)
 			end
@@ -46,7 +46,7 @@ AddEventHandler('esx_billing:sendBill', function(playerId, sharedAccountName, la
 					['@amount']      = amount,
 					['@split']		 = split,
 					['@paid']		 = false
-				}, function(rowsChanged)
+				}, function()
 					TriggerClientEvent('esx:showNotification', xTarget.source, _U('received_invoice'))
 				end)
 			end
@@ -79,7 +79,7 @@ ESX.RegisterServerCallback('esx_billing:getBills', function(source, cb)
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_billing:getTargetBills', function(source, cb, target)
+ESX.RegisterServerCallback('esx_billing:getTargetBills', function(_, cb, target)
 	local xPlayer = ESX.GetPlayerFromId(target)
 
 	MySQL.Async.fetchAll('SELECT * FROM billing WHERE identifier = @identifier', {
@@ -137,10 +137,10 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, id)
 				elseif xPlayer.getBank() >= amount then
 					MySQL.Async.execute('UPDATE billing SET paid = true WHERE id = @id', {
 						['@id'] = id
-					}, function(rowsChanged)
+					}, function()
 						MySQL.Async.fetchAll('SELECT * FROM billing WHERE id = @id', {
 							['@id'] = id
-						}, function(result)
+						}, function()
 							if result[1].split == true then
 								print('Society paid invoice with split')
 								local percent = 0.05
@@ -179,10 +179,10 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, id)
 				if xPlayer.getMoney() >= amount then
 					MySQL.Async.execute('UPDATE billing SET paid = true WHERE id = @id', {
 						['@id'] = id
-					}, function(rowsChanged)
+					}, function()
 						MySQL.Async.fetchAll('SELECT * FROM billing WHERE id = @id', {
 							['@id'] = id
-						}, function(result)
+						}, function()
 							if result[1].split == true then
 								xPlayer.removeMoney(amount)
 								account.addMoney(amount*(1-Config.Percent))
@@ -204,10 +204,10 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, id)
 				elseif xPlayer.getBank() >= amount then
 					MySQL.Async.execute('UPDATE billing SET paid = true WHERE id = @id', {
 						['@id'] = id
-					}, function(rowsChanged)
+					}, function()
 						MySQL.Async.fetchAll('SELECT * FROM billing WHERE id = @id', {
 							['@id'] = id
-						}, function(result)
+						}, function()
 							if result[1].split == true then
 								xPlayer.removeMoney(amount)
 								account.addMoney(amount*(1-Config.Percent))

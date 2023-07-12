@@ -41,7 +41,7 @@ function ShowBillsMenu()
 			ESX.TriggerServerCallback('esx_billing:payBill', function()
 				ShowBillsMenu()
 			end, data.current.billID)
-		end, function(data, menu)
+		end, function(_, menu)
 			menu.close()
 		end)
 	end)
@@ -58,10 +58,10 @@ CreateThread(function()
 	end
 end)
 
-AddEventHandler('esx:onPlayerDeath', function(data)
+AddEventHandler('esx:onPlayerDeath', function()
 	isDead = true
 end)
 
-AddEventHandler('playerSpawned', function(spawn)
+AddEventHandler('playerSpawned', function()
 	isDead = false
 end)
