@@ -1,4 +1,4 @@
-local CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask = {}, {}, {}, {}, {}
+local CurrentActionData, dragStatus, blipsCops, currentTask = {}, {}, {}, {}, {}
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, hasAlreadyJoined, playerInService = false, false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
 dragStatus.isDragged, isInShopMenu = false, false
@@ -58,34 +58,34 @@ function OpenCloakroomMenu()
 	}
 
 	if Config.EnableCustomPeds then
-		for k,v in ipairs(Config.CustomPeds.shared) do
+		for _,v in ipairs(Config.CustomPeds.shared) do
 			elements[#elements+1] = {
 				icon = "fas fa-shirt",
-				title = v.label, 
-				value = 'freemode_ped', 
-				maleModel = v.maleModel, 
+				title = v.label,
+				value = 'freemode_ped',
+				maleModel = v.maleModel,
 				femaleModel = v.femaleModel
 			}
 		end
 
-		for k,v in ipairs(Config.CustomPeds[grade]) do
+		for _,v in ipairs(Config.CustomPeds[grade]) do
 			elements[#elements+1] = {
 				icon = "fas fa-shirt",
-				title = v.label, 
-				value = 'freemode_ped', 
-				maleModel = v.maleModel, 
+				title = v.label,
+				value = 'freemode_ped',
+				maleModel = v.maleModel,
 				femaleModel = v.femaleModel
 			}
 		end
 	end
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(_,element)
 		cleanPlayer(playerPed)
 		local data = {current = element}
 
 		if data.current.value == 'citizen_wear' then
 			if Config.EnableCustomPeds then
-				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 					local isMale = skin.sex == 0
 
 					TriggerEvent('skinchanger:loadDefaultModel', isMale, function()
@@ -186,7 +186,7 @@ function OpenCloakroomMenu()
 		elseif data.current.value == 'freemode_ped' then
 			local modelHash
 
-			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 				if skin.sex == 0 then
 					modelHash = joaat(data.current.maleModel)
 				else
@@ -202,7 +202,7 @@ function OpenCloakroomMenu()
 				end)
 			end)
 		end
-	end, function(menu)
+	end, function()
 		CurrentAction     = 'menu_cloakroom'
 		CurrentActionMsg  = _U('open_cloackroom')
 		CurrentActionData = {}
@@ -217,7 +217,7 @@ function OpenPoliceActionsMenu()
 		{icon = "fas fa-object", title = _U('object_spawner'), value = 'object_spawner'}
 	}
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(_,element)
 		local data = {current = element}
 
 		if data.current.value == 'citizen_interaction' then
@@ -246,7 +246,7 @@ function OpenPoliceActionsMenu()
 				}
 			end
 
-			ESX.OpenContext("right", elements2, function(menu2,element2)
+			ESX.OpenContext("right", elements2, function(_,element2)
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
 					local data2 = {current = element2}
@@ -274,7 +274,7 @@ function OpenPoliceActionsMenu()
 				else
 					ESX.ShowNotification(_U('no_players_nearby'))
 				end
-			end, function(menu)
+			end, function()
 				OpenPoliceActionsMenu()
 			end)
 		elseif data.current.value == 'vehicle_interaction' then
@@ -291,11 +291,11 @@ function OpenPoliceActionsMenu()
 
 			elements3[#elements3+1] = {
 				icon = "fas fa-scroll",
-				title = _U('search_database'), 
+				title = _U('search_database'),
 				value = 'search_database'
 			}
-			
-			ESX.OpenContext("right", elements3, function(menu3,element3)
+
+			ESX.OpenContext("right", elements3, function(_,element3)
 				local data2 = {current = element3}
 				local coords  = GetEntityCoords(playerPed)
 				vehicle = ESX.Game.GetVehicleInDirection()
@@ -340,7 +340,7 @@ function OpenPoliceActionsMenu()
 				else
 					ESX.ShowNotification(_U('no_vehicles_nearby'))
 				end
-			end, function(menu)
+			end, function()
 				OpenPoliceActionsMenu()
 			end)
 		elseif data.current.value == "object_spawner" then
@@ -351,7 +351,7 @@ function OpenPoliceActionsMenu()
 				{icon = "fas fa-cone", title = _U('spikestrips'), model = 'p_ld_stinger_s'}
 			}
 
-			ESX.OpenContext("right", elements4, function(menu4,element4)
+			ESX.OpenContext("right", elements4, function(_,element4)
 				local data2 = {current = element4}
 				local playerPed = PlayerPedId()
 				local coords, forward = GetEntityCoords(playerPed), GetEntityForwardVector(playerPed)
@@ -361,7 +361,7 @@ function OpenPoliceActionsMenu()
 					SetEntityHeading(obj, GetEntityHeading(playerPed))
 					PlaceObjectOnGroundProperly(obj)
 				end)
-			end, function(menu)
+			end, function()
 				OpenPoliceActionsMenu()
 			end)
 		end
@@ -393,8 +393,8 @@ function OpenIdentityCardMenu(player)
 			end
 		end
 
-		ESX.OpenContext("right", elements, nil, function(menu)
-			OpenPoliceActionsMenu()	
+		ESX.OpenContext("right", elements, nil, function()
+			OpenPoliceActionsMenu()
 		end)
 	end, GetPlayerServerId(player))
 end
@@ -449,7 +449,7 @@ function OpenBodySearchMenu(player)
 			end
 		end
 
-		ESX.OpenContext("right", elements, function(menu,element)
+		ESX.OpenContext("right", elements, function(_,element)
 			local data = {current = element}
 			if data.current.value then
 				TriggerServerEvent('esx_policejob:confiscatePlayerItem', GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
@@ -468,7 +468,7 @@ function OpenFineMenu(player)
 		{icon = "fas fa-scroll", title = _U('major_offense'),   value = 3}
 	}
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(_,element)
 		local data = {current = element}
 		OpenFineCategoryMenu(player, data.current.value)
 	end)
@@ -480,7 +480,7 @@ function OpenFineCategoryMenu(player, category)
 			{unselectable = true, icon = "fas fa-scroll", title = _U('fine')}
 		}
 
-		for k,fine in ipairs(fines) do
+		for _,fine in ipairs(fines) do
 			elements[#elements+1] = {
 				icon = "fas fa-scroll",
 				title     = ('%s <span style="color:green;">%s</span>'):format(fine.label, _U('armory_item', ESX.Math.GroupDigits(fine.amount))),
@@ -490,7 +490,7 @@ function OpenFineCategoryMenu(player, category)
 			}
 		end
 
-		ESX.OpenContext("right", elements, function(menu,element)
+		ESX.OpenContext("right", elements, function(_,element)
 			local data = {current = element}
 			if Config.EnablePlayerManagement then
 				TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), 'society_police', _U('fine_total', data.current.fineLabel), data.current.amount)
@@ -521,7 +521,7 @@ function LookupVehicle(elementF)
 			ESX.TriggerServerCallback('esx_policejob:getVehicleInfos', function(retrivedInfo)
 				local elements = {
 					{unselectable = true, icon = "fas fa-car", title = element.title},
-					{unselectable = true, icon = "fas fa-car", title = _U('plate', retrivedInfo.plate)}			
+					{unselectable = true, icon = "fas fa-car", title = _U('plate', retrivedInfo.plate)}
 				}
 
 				if not retrivedInfo.owner then
@@ -530,7 +530,7 @@ function LookupVehicle(elementF)
 					elements[#elements+1] = {unselectable = true, icon = "fas fa-user", title = _U('owner', retrivedInfo.owner)}
 				end
 
-				ESX.OpenContext("right", elements, nil, function(menu)
+				ESX.OpenContext("right", elements, nil, function()
 					OpenPoliceActionsMenu()
 				end)
 			end, data.value)
@@ -556,7 +556,7 @@ function ShowPlayerLicense(player)
 			end
 		end
 
-		ESX.OpenContext("right", elements, function(menu,element)
+		ESX.OpenContext("right", elements, function(_,element)
 			local data = {current = element}
 			ESX.ShowNotification(_U('licence_you_revoked', data.current.label, playerData.name))
 			TriggerServerEvent('esx_policejob:message', GetPlayerServerId(player), _U('license_revoked', data.current.label))
@@ -576,7 +576,7 @@ function OpenUnpaidBillsMenu(player)
 	}
 
 	ESX.TriggerServerCallback('esx_billing:getTargetBills', function(bills)
-		for k,bill in ipairs(bills) do
+		for _,bill in ipairs(bills) do
 			elements[#elements+1] = {
 				unselectable = true,
 				icon = "fas fa-scroll",
@@ -594,7 +594,7 @@ function OpenVehicleInfosMenu(vehicleData)
 		local elements = {
 			{unselectable = true, icon = "fas fa-car", title = _U('vehicle_info')},
 			{icon = "fas fa-car", title = _U('plate', retrivedInfo.plate)}
-			
+
 		}
 
 		if not retrivedInfo.owner then
@@ -611,7 +611,7 @@ function OpenBuyWeaponsMenu()
 
 	local playerPed = PlayerPedId()
 
-	for k,v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
+	for _,v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
 		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
 		local components, label = {}
 		local hasWeapon = HasPedGotWeapon(playerPed, joaat(v.weapon), false)
@@ -684,7 +684,7 @@ function OpenGetStocksMenu()
 			}
 		end
 
-		ESX.OpenContext("right", elements, function(menu,element)
+		ESX.OpenContext("right", elements, function(_,element)
 			local data = {current = element}
 			local itemName = data.current.value
 
@@ -694,7 +694,7 @@ function OpenGetStocksMenu()
 				{icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
 			}
 
-			ESX.OpenContext("right", elements2, function(menu2,element2)
+			ESX.OpenContext("right", elements2, function(menu2)
 				local data2 = {value = menu2.eles[2].inputValue}
 				local count = tonumber(data2.value)
 
@@ -731,7 +731,7 @@ function OpenPutStocksMenu()
 			end
 		end
 
-		ESX.OpenContext("right", elements, function(menu,element)
+		ESX.OpenContext("right", elements, function(_,element)
 			local data = {current = element}
 			local itemName = data.current.value
 
@@ -741,7 +741,7 @@ function OpenPutStocksMenu()
 				{icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
 			}
 
-			ESX.OpenContext("right", elements2, function(menu2,element2)
+			ESX.OpenContext("right", elements2, function(menu2)
 				local data2 = {value = menu2.eles[2].inputValue}
 				local count = tonumber(data2.value)
 
@@ -791,7 +791,7 @@ AddEventHandler('esx_policejob:hasEnteredMarker', function(station, part, partNu
 	end
 end)
 
-AddEventHandler('esx_policejob:hasExitedMarker', function(station, part, partNum)
+AddEventHandler('esx_policejob:hasExitedMarker', function()
 	if not isInShopMenu then
 		ESX.CloseContext()
 	end
@@ -822,7 +822,7 @@ AddEventHandler('esx_policejob:hasEnteredEntityZone', function(entity)
 	end
 end)
 
-AddEventHandler('esx_policejob:hasExitedEntityZone', function(entity)
+AddEventHandler('esx_policejob:hasExitedEntityZone', function()
 	if CurrentAction == 'remove_entity' then
 		CurrentAction = nil
 	end
@@ -1012,7 +1012,7 @@ end)
 
 -- Create blips
 CreateThread(function()
-	for k,v in pairs(Config.PoliceStations) do
+	for _,v in pairs(Config.PoliceStations) do
 		local blip = AddBlipForCoord(v.Blip.Coords)
 
 		SetBlipSprite (blip, v.Blip.Sprite)
@@ -1135,7 +1135,7 @@ CreateThread(function()
 			local GetClosestObjectOfType = GetClosestObjectOfType
 			local DoesEntityExist = DoesEntityExist
 			local playerCoords = GetEntityCoords(ESX.PlayerData.ped)
-	
+
 			local closestDistance = -1
 			local closestEntity   = nil
 
@@ -1170,8 +1170,8 @@ CreateThread(function()
 end)
 
 ESX.RegisterInput("police:interact", "(ESX PoliceJob) Interact", "keyboard", "E", function()
-	if not CurrentAction then 
-		return 
+	if not CurrentAction then
+		return
 	end
 
 	if not ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == 'police') then
@@ -1207,7 +1207,7 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) Interact", "keyboard", "E"
 		ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
 	elseif CurrentAction == 'menu_boss_actions' then
 		ESX.CloseContext()
-		TriggerEvent('esx_society:openBossMenu', 'police', function(data, menu)
+		TriggerEvent('esx_society:openBossMenu', 'police', function(_, menu)
 			menu.close()
 
 			CurrentAction     = 'menu_boss_actions'
@@ -1269,7 +1269,7 @@ RegisterNetEvent('esx_policejob:updateBlip')
 AddEventHandler('esx_policejob:updateBlip', function()
 
 	-- Refresh all blips
-	for k, existingBlip in pairs(blipsCops) do
+	for _, existingBlip in pairs(blipsCops) do
 		RemoveBlip(existingBlip)
 	end
 
@@ -1301,7 +1301,7 @@ AddEventHandler('esx_policejob:updateBlip', function()
 
 end)
 
-AddEventHandler('esx:onPlayerSpawn', function(spawn)
+AddEventHandler('esx:onPlayerSpawn', function()
 	isDead = false
 	TriggerEvent('esx_policejob:unrestrain')
 
@@ -1311,7 +1311,7 @@ AddEventHandler('esx:onPlayerSpawn', function(spawn)
 	hasAlreadyJoined = true
 end)
 
-AddEventHandler('esx:onPlayerDeath', function(data)
+AddEventHandler('esx:onPlayerDeath', function()
 	isDead = true
 end)
 
