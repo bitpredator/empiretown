@@ -190,23 +190,20 @@ end
 function OpenMobileDustmanActionsMenu()
     local elements = {
         {unselectable = true, icon = "fas fa-dustman", title = _U('dustman')},
-        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"},
+        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"}
     }
 
     ESX.OpenContext("right", elements, function(_,element)
         if element.value == "billing" then
-            local elements2 = {
-                {unselectable = true, icon = "fas fa-dustman", title = element.title},
-                {title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = "Amount to bill.."},
-                {icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
-            }
+            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
+                title = _U('invoice_amount')
+            }, function(data, menu)
 
-            ESX.OpenContext("right", function(menu2)
-                local amount = tonumber(menu2.eles[2].inputValue)
+                local amount = tonumber(data.value)
                 if amount == nil then
                     ESX.ShowNotification(_U('amount_invalid'))
                 else
-                    ESX.CloseContext()
+                    menu.close()
                     local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
                     if closestPlayer == -1 or closestDistance > 3.0 then
                         ESX.ShowNotification(_U('no_players_near'))
@@ -216,6 +213,8 @@ function OpenMobileDustmanActionsMenu()
                         ESX.ShowNotification(_U('billing_sent'))
                     end
                 end
+            end, function(_, menu)
+                menu.close()
             end)
         end
     end)
