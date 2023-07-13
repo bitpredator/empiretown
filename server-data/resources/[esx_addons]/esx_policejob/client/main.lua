@@ -517,147 +517,6 @@ function OpenVehicleInfosMenu(vehicleData)
 	end, vehicleData.plate)
 end
 
-function OpenGetWeaponMenu()
-	ESX.TriggerServerCallback('esx_policejob:getArmoryWeapons', function(weapons)
-		local elements = {
-			{unselectable = true, icon = "fas fa-gun", title = _U('get_weapon_menu')}
-		}
-
-		for i=1, #weapons, 1 do
-			if weapons[i].count > 0 then
-				elements[#elements+1] = {
-					icon = "fas fa-gun",
-					title = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
-					value = weapons[i].name
-				}
-			end
-		end
-
-		ESX.OpenContext("right", elements, function(_,element)
-			local data = {current = element}
-			ESX.TriggerServerCallback('esx_policejob:removeArmoryWeapon', function()
-				ESX.CloseContext()
-				OpenGetWeaponMenu()
-			end, data.current.value)
-		end)
-	end)
-end
-
-function OpenPutWeaponMenu()
-	local elements   = {
-		{unselectable = true, icon = "fas fa-gun", title = _U('put_weapon_menu')}
-	}
-	local playerPed  = PlayerPedId()
-	local weaponList = ESX.GetWeaponList()
-
-	for i=1, #weaponList, 1 do
-		local weaponHash = joaat(weaponList[i].name)
-
-		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
-			elements[#elements+1] = {
-				icon = "fas fa-gun",
-				title = weaponList[i].label,
-				value = weaponList[i].name
-			}
-		end
-	end
-
-	ESX.OpenContext("right", elements, function(_,element)
-		local data = {current = element}
-		ESX.TriggerServerCallback('esx_policejob:addArmoryWeapon', function()
-			ESX.CloseContext()
-			OpenPutWeaponMenu()
-		end, data.current.value, true)
-	end)
-end
-
-function OpenBuyWeaponsMenu()
-	local elements = {
-		{unselectable = true, icon = "fas fa-gun", title = _U('armory_weapontitle')}
-	}
-	local playerPed = PlayerPedId()
-
-	for _,v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
-		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
-		local components, label = {}
-		local hasWeapon = HasPedGotWeapon(playerPed, joaat(v.weapon), false)
-
-		if v.components then
-			for i=1, #v.components do
-				if v.components[i] then
-					local component = weapon.components[i]
-					local hasComponent = HasPedGotWeaponComponent(playerPed, joaat(v.weapon), component.hash)
-
-					if hasComponent then
-						label = ('%s: <span style="color:green;">%s</span>'):format(component.label, _U('armory_owned'))
-					else
-						if v.components[i] > 0 then
-							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, _U('armory_item', ESX.Math.GroupDigits(v.components[i])))
-						else
-							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, _U('armory_free'))
-						end
-					end
-
-					components[#components+1] = {
-						icon = "fas fa-gun",
-						title = label,
-						componentLabel = component.label,
-						hash = component.hash,
-						name = component.name,
-						price = v.components[i],
-						hasComponent = hasComponent,
-						componentNum = i
-					}
-				end
-			end
-		end
-
-		if hasWeapon and v.components then
-			label = ('%s: <span style="color:green;">></span>'):format(weapon.label)
-		elseif hasWeapon and not v.components then
-			label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, _U('armory_owned'))
-		else
-			if v.price > 0 then
-				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, _U('armory_item', ESX.Math.GroupDigits(v.price)))
-			else
-				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, _U('armory_free'))
-			end
-		end
-
-		elements[#elements+1] = {
-			icon = "fas fa-gun",
-			title = label,
-			weaponLabel = weapon.label,
-			name = weapon.name,
-			components = components,
-			price = v.price,
-			hasWeapon = hasWeapon
-		}
-	end
-
-	ESX.OpenContext("right", elements, function(menu,element)
-		local data = {current = element}
-		if data.current.hasWeapon then
-			if #data.current.components > 0 then
-				OpenWeaponComponentShop(data.current.components, data.current.name, menu)
-			end
-		else
-			ESX.TriggerServerCallback('esx_policejob:buyWeapon', function(bought)
-				if bought then
-					if data.current.price > 0 then
-						ESX.ShowNotification(_U('armory_bought', data.current.weaponLabel, ESX.Math.GroupDigits(data.current.price)))
-					end
-
-					menu.close()
-					OpenBuyWeaponsMenu()
-				else
-					ESX.ShowNotification(_U('armory_money'))
-				end
-			end, data.current.name, 1)
-		end
-	end)
-end
-
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
 	ESX.PlayerData.job = job
@@ -687,7 +546,7 @@ AddEventHandler('esx_policejob:hasEnteredMarker', function(station, part, partNu
 	end
 end)
 
-AddEventHandler('esx_policejob:hasExitedMarker', function(_, part, partNum)
+AddEventHandler('esx_policejob:hasExitedMarker', function()
 	if not isInShopMenu then
 		ESX.CloseContext()
 	end
@@ -718,7 +577,7 @@ AddEventHandler('esx_policejob:hasEnteredEntityZone', function(entity)
 	end
 end)
 
-AddEventHandler('esx_policejob:hasExitedEntityZone', function(entity)
+AddEventHandler('esx_policejob:hasExitedEntityZone', function()
 	if CurrentAction == 'remove_entity' then
 		CurrentAction = nil
 	end
@@ -924,7 +783,7 @@ end)
 
 -- Create blips
 CreateThread(function()
-	for k,v in pairs(Config.PoliceStations) do
+	for _,v in pairs(Config.PoliceStations) do
 		local blip = AddBlipForCoord(v.Blip.Coords)
 
 		SetBlipSprite (blip, v.Blip.Sprite)
@@ -1084,8 +943,8 @@ CreateThread(function()
 end)
 
 ESX.RegisterInput("police:interact", "(ESX PoliceJob) " .. _U('interaction'), "keyboard", "E", function()
-	if not CurrentAction then 
-		return 
+	if not CurrentAction then
+		return
 	end
 
 	if not ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == 'police') then
@@ -1121,7 +980,7 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) " .. _U('interaction'), "k
 		ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
 	elseif CurrentAction == 'menu_boss_actions' then
 		ESX.CloseContext()
-		TriggerEvent('esx_society:openBossMenu', 'police', function(data, menu)
+		TriggerEvent('esx_society:openBossMenu', 'police', function(_, menu)
 			menu.close()
 
 			CurrentAction     = 'menu_boss_actions'
@@ -1183,7 +1042,7 @@ RegisterNetEvent('esx_policejob:updateBlip')
 AddEventHandler('esx_policejob:updateBlip', function()
 
 	-- Refresh all blips
-	for k, existingBlip in pairs(blipsCops) do
+	for _, existingBlip in pairs(blipsCops) do
 		RemoveBlip(existingBlip)
 	end
 
@@ -1215,7 +1074,7 @@ AddEventHandler('esx_policejob:updateBlip', function()
 
 end)
 
-AddEventHandler('esx:onPlayerSpawn', function(spawn)
+AddEventHandler('esx:onPlayerSpawn', function()
 	isDead = false
 	TriggerEvent('esx_policejob:unrestrain')
 
@@ -1225,7 +1084,7 @@ AddEventHandler('esx:onPlayerSpawn', function(spawn)
 	hasAlreadyJoined = true
 end)
 
-AddEventHandler('esx:onPlayerDeath', function(data)
+AddEventHandler('esx:onPlayerDeath', function()
 	isDead = true
 end)
 
