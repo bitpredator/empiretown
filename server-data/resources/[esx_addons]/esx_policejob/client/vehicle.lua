@@ -1,3 +1,4 @@
+
 local spawnedVehicles = {}
 
 function OpenVehicleSpawnerMenu(type, station, part, partNum)
@@ -9,7 +10,7 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 		{icon = "fas fa-car", title = _U('garage_buyitem'), action = 'buy_vehicle'}
 	}
 
-	ESX.OpenContext("right", elements, function(_,element)
+	ESX.OpenContext("right", elements, function(menu,element)
 		if element.action == "buy_vehicle" then
 			local shopElements = {}
 			local shopCoords = Config.PoliceStations[station][part][partNum].InsideShop
@@ -17,7 +18,7 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 
 			if authorizedVehicles then
 				if #authorizedVehicles > 0 then
-					for _,vehicle in ipairs(authorizedVehicles) do
+					for k,vehicle in ipairs(authorizedVehicles) do
 						if IsModelInCdimage(vehicle.model) then
 							local vehicleLabel = GetLabelText(GetDisplayNameFromVehicleModel(vehicle.model))
 
@@ -53,16 +54,16 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 				if #jobVehicles > 0 then
 					local allVehicleProps = {}
 
-					for _,v in ipairs(jobVehicles) do
+					for k,v in ipairs(jobVehicles) do
 						local props = json.decode(v.vehicle)
 
 						if IsModelInCdimage(props.model) then
 							local vehicleName = GetLabelText(GetDisplayNameFromVehicleModel(props.model))
 							local label = ('%s - <span style="color:darkgoldenrod;">%s</span>: '):format(vehicleName, props.plate)
 
-							if v.stored == 1 then
+							if v.stored == 1 or v.stored == true then
 								label = label .. ('<span style="color:green;">%s</span>'):format(_U('garage_stored'))
-							elseif v.stored == 0 then
+							elseif v.stored == 0 or v.stored == false then
 								label = label .. ('<span style="color:darkred;">%s</span>'):format(_U('garage_notstored'))
 							end
 
@@ -79,8 +80,8 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 					end
 
 					if #garage > 0 then
-						ESX.OpenContext("right", garage, function(_,elementG)
-							if elementG.stored == 1 then
+						ESX.OpenContext("right", garage, function(menuG,elementG)
+							if elementG.stored == 1 or elementG.stored == true then
 								local foundSpawn, spawnPoint = GetAvailableVehicleSpawnPoint(station, part, partNum)
 
 								if foundSpawn then
@@ -117,7 +118,7 @@ function StoreNearbyVehicle(playerCoords)
 	if next(vehicles) then
 		for i = 1, #vehicles do
 			local vehicle = vehicles[i]
-
+			
 			-- Make sure the vehicle we're saving is empty, or else it won't be deleted
 			if GetVehicleNumberOfPassengers(vehicle) == 0 and IsVehicleSeatFree(vehicle, -1) then
 				local plate = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle))
@@ -201,13 +202,13 @@ end
 function OpenShopMenu(elements, restoreCoords, shopCoords)
 	local playerPed = PlayerPedId()
 	isInShopMenu = true
-	ESX.OpenContext("right", elements, function(_,element)
+	ESX.OpenContext("right", elements, function(menu,element)
 		local elements2 = {
 			{unselectable = true, icon = "fas fa-car", title = element.title},
-			{icon = "fas fa-eye", title = "View", value = "view"}
+			{icon = "fas fa-eye", title = _U('view'), value = "view"}
 		}
 
-		ESX.OpenContext("right", elements2, function(_,element2)
+		ESX.OpenContext("right", elements2, function(menu2,element2)
 			if element2.value == "view" then
 				DeleteSpawnedVehicles()
 				WaitForVehicleToLoad(element.model)
@@ -225,11 +226,11 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 
 				local elements3 = {
 					{unselectable = true, icon = "fas fa-car", title = element.title},
-					{icon = "fas fa-check-double", title = "Buy", value = "buy"},
-					{icon = "fas fa-eye", title = "Stop Viewing", value = "stop"}
+					{icon = "fas fa-check-double", title = _U('buy_car'), value = "buy"},
+					{icon = "fas fa-eye", title = _U('stop_view'), value = "stop"}
 				}
 
-				ESX.OpenContext("right", elements3, function(_,element3)
+				ESX.OpenContext("right", elements3, function(menu3,element3)
 					if element3.value == 'stop' then
 						isInShopMenu = false
 						ESX.CloseContext()
@@ -262,6 +263,15 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 							end
 						end, props, element.type)
 					end
+				end, function()
+					isInShopMenu = false
+					ESX.CloseContext()
+
+					DeleteSpawnedVehicles()
+					FreezeEntityPosition(playerPed, false)
+					SetEntityVisible(playerPed, true)
+
+					ESX.Game.Teleport(playerPed, restoreCoords)
 				end)
 			end
 		end)

@@ -4,16 +4,14 @@ Config.DrawDistance               = 10.0 -- How close do you need to be for the 
 Config.MarkerType                 = {Cloakrooms = 20, BossActions = 22, Vehicles = 36, Helicopters = 34}
 Config.MarkerSize                 = {x = 1.5, y = 1.5, z = 0.5}
 Config.MarkerColor                = {r = 50, g = 50, b = 204}
-
 Config.EnablePlayerManagement     = true -- Enable if you want society managing.
-Config.EnableArmoryManagement     = true
+Config.EnableArmoryManagement     = false
 Config.EnableESXIdentity          = true -- Enable if you're using esx_identity.
 Config.EnableESXOptionalneeds     = true -- Enable if you're using esx_optionalneeds
 Config.EnableLicenses             = true -- Enable if you're using esx_license.
-
+Config.EnableHandcuffTimer        = true -- Enable handcuff timer? will unrestrain player after the time ends.
 Config.HandcuffTimer              = 10 * 60000 -- 10 minutes.
-
-Config.EnableJobBlip              = true -- Enable blips for cops on duty, requires esx_society.
+Config.EnableJobBlip              = false -- Enable blips for cops on duty, requires esx_society.
 Config.EnableCustomPeds           = false -- Enable custom peds in cloak room? See Config.CustomPeds below to customize peds.
 
 Config.Locale                     = 'en'
@@ -76,6 +74,50 @@ Config.PoliceStations = {
 
 }
 
+Config.AuthorizedWeapons = {
+	recruit = {
+		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
+		{weapon = 'WEAPON_STUNGUN', price = 1500},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 80}
+	},
+
+	officer = {
+		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
+		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {0, 6000, 1000, 4000, 8000, nil}, price = 50000},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
+		{weapon = 'WEAPON_STUNGUN', price = 500},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 0}
+	},
+
+	sergeant = {
+		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
+		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {0, 6000, 1000, 4000, 8000, nil}, price = 50000},
+		{weapon = 'WEAPON_PUMPSHOTGUN', components = {2000, 6000, nil}, price = 70000},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
+		{weapon = 'WEAPON_STUNGUN', price = 500},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 0}
+	},
+
+	lieutenant = {
+		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
+		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {0, 6000, 1000, 4000, 8000, nil}, price = 50000},
+		{weapon = 'WEAPON_PUMPSHOTGUN', components = {2000, 6000, nil}, price = 70000},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
+		{weapon = 'WEAPON_STUNGUN', price = 500},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 0}
+	},
+
+	boss = {
+		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
+		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {0, 6000, 1000, 4000, 8000, nil}, price = 50000},
+		{weapon = 'WEAPON_PUMPSHOTGUN', components = {2000, 6000, nil}, price = 70000},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
+		{weapon = 'WEAPON_STUNGUN', price = 500},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 0}
+	}
+}
+
 Config.AuthorizedVehicles = {
 	car = {
 		recruit = {},
@@ -116,8 +158,8 @@ Config.AuthorizedVehicles = {
 
 Config.CustomPeds = {
 	shared = {
-		{label = 'Sheriff Ped', maleModel = 's_m_y_sheriff_01', femaleModel = 's_f_y_sheriff_01'},
-		{label = 'Police Ped', maleModel = 's_m_y_cop_01', femaleModel = 's_f_y_cop_01'}
+		{label = _U('s_m_y_sheriff_01'), maleModel = 's_m_y_sheriff_01', femaleModel = 's_f_y_sheriff_01'},
+		{label = _U('s_m_y_cop_01'), maleModel = 's_m_y_cop_01', femaleModel = 's_f_y_cop_01'}
 	},
 
 	recruit = {},
@@ -129,7 +171,7 @@ Config.CustomPeds = {
 	lieutenant = {},
 
 	boss = {
-		{label = 'SWAT Ped', maleModel = 's_m_y_swat_01', femaleModel = 's_m_y_swat_01'}
+		{label = _U('s_m_y_swat_01'), maleModel = 's_m_y_swat_01', femaleModel = 's_m_y_swat_01'}
 	}
 }
 

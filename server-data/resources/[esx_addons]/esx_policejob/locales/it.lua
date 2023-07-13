@@ -116,7 +116,6 @@ Locales['it'] = {
   ['have_deposited'] = 'hai depositato %sx %s',
   ['quantity'] = 'quantità',
   ['inventory'] = 'inventario',
-  ['police_stock'] = 'deposito polizia',
   -- Misc
   ['remove_prop'] = 'premi [E] per eliminare',
   ['map_blip'] = 'polizia',

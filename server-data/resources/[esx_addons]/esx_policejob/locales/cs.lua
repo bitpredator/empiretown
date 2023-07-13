@@ -8,11 +8,23 @@ Locales['cs'] = {
   ['no_outfit'] = 'není zde žádná uniforma, která by ti sedla!',
   ['open_cloackroom'] = 'stiskni [E] pro změnu oblečení.',
   -- Armory
+  ['remove_object'] = 'vzít objekt',
+  ['deposit_object'] = 'odevzdat objekt',
+  ['get_weapon'] = 'vzít zbraň ze zbrojnice',
+  ['put_weapon'] = 'uchovat zbraň ve zbrojnici',
+  ['buy_weapons'] = 'koupit zbraně',
   ['armory'] = 'zbrojnice',
   ['armory_owned'] = 'vlastněno',
   ['armory_free'] = 'zdarma',
   ['armory_item'] = '$%s',
+  ['armory_weapontitle'] = 'zbrojnice',
+  ['armory_componenttitle'] = 'zbrojnice - Příslušenství ke zbraním',
+  ['armory_bought'] = 'zakoupil jsi %s za $%s',
+  ['armory_money'] = 'nemáš dostatek peněz na tuto zbraň',
   ['armory_hascomponent'] = 'toto příslušenství máš již nainstalováno!',
+  ['get_weapon_menu'] = 'zbrojnice - Vzít zbraň',
+  ['put_weapon_menu'] = 'zbrojnice - Uchovat zbraň',
+  ['confirm'] = 'Confirm', --not translated
   -- Vehicles
   ['vehicle_menu'] = 'vozidlo',
   ['vehicle_blocked'] = 'vsechny dostupne spawn pointy jsou blokovany!',
@@ -41,7 +53,11 @@ Locales['cs'] = {
   ['vehicleshop_awaiting_model'] = 'vozidlo se prave stahuje a nacita prosim pockej',
   ['confirm_no'] = 'ne',
   ['confirm_yes'] = 'ano',
+  ['view'] = 'View', --not translated
+  ['buy_car'] = 'Buy', --not translated
+  ['stop_view'] = 'Stop Viewing', --not translated
   -- Action Menu
+  ['menu_title'] = 'Police', --not translated
   ['citizen_interaction'] = 'Interakce s občanem',
   ['vehicle_interaction'] = 'Interakce vozidla',
   ['object_spawner'] = 'Objekty',
@@ -59,9 +75,11 @@ Locales['cs'] = {
   ['licence_you_revoked'] = 'zrusil jsi %s ktery patril %s',
   ['no_players_nearby'] = 'zadny hrac pobliz!',
   ['being_searched'] = 'prave jsi prohledavan policii',
-  ['Jail_Menu'] = 'Jail Menu', -- not translated
+  ['Jail_Menu'] = 'Prison menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = 'informace o vozidle',
+  ['pick_lock'] = 'vypáčit vozidlo',
+  ['vehicle_unlocked'] = 'vozidlo je Odemčeno',
   ['no_vehicles_nearby'] = 'there is no vehicles nearby',
   ['impound'] = 'odtahnout vozidlo',
   ['impound_prompt'] = 'zmackni [E] pro zruseni odtahnuti',
@@ -71,11 +89,15 @@ Locales['cs'] = {
   ['search_database'] = 'informace o  vozidle',
   ['search_database_title'] = 'informace o vozidle - pomocí registracnich cisel',
   ['search_database_error_invalid'] = 'tohle ~r~neni  spravne registracni cislo',
+  ['search_plate'] = 'Enter Plate', --not translated
+  ['lookup_plate'] = 'Lookup Plate', --not translated
   -- Traffic interaction
   ['traffic_interaction'] = 'interakce provozu',
   ['cone'] = 'kuzel',
   ['barrier'] = 'bariera',
   ['spikestrips'] = 'ostnaty pas',
+  ['box'] = 'box',
+  ['cash'] = 'box penez',
   -- ID Card Menu
   ['name'] = 'jméno: %s',
   ['job'] = 'práce: %s',
@@ -115,9 +137,22 @@ Locales['cs'] = {
   ['have_withdrawn'] = 'vybral jsi %sx %s',
   ['have_deposited'] = 'vložil jsi %sx %s',
   ['quantity'] = 'množství',
+  ['quantity_placeholder'] = 'Amount to withdraw..', --not translated
   ['inventory'] = 'inventář',
   ['police_stock'] = 'policejní sklad',
   -- Misc
   ['remove_prop'] = 'stiskni [E] pro odstranění předmětu',
   ['map_blip'] = 'policejní stanice',
+  ['unrestrained_timer'] = 'cítíš, že tvé pouta pomalu ztrácejí přilnavost a padají.',
+  -- Notifications
+  ['alert_police'] = 'policejní poplach',
+  ['phone_police'] = 'policie',
+    -- Keybind
+    ['interaction'] = 'Interact', --not translated
+    ['quick_actions'] = 'Quick Actions', --not translated
+    -- Other
+    ['society_police'] = 'Police', --not translated
+    ['s_m_y_sheriff_01'] = 'Sheriff Ped', --not translated
+    ['s_m_y_cop_01'] = 'Police Ped', -- not translated
+    ['s_m_y_swat_01'] = 'SWAT Ped', --not translated
 }

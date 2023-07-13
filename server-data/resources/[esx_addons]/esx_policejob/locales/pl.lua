@@ -8,11 +8,23 @@ Locales['pl'] = {
   ['no_outfit'] = 'brak ubrania',
   ['open_cloackroom'] = 'naciśnij [E] aby zmienić ubranie.',
   -- Armory
+  ['remove_object'] = 'weź przedmiot',
+  ['deposit_object'] = 'zdeponuj przedmiot',
+  ['get_weapon'] = 'weź broń',
+  ['put_weapon'] = 'odłóż broń',
+  ['buy_weapons'] = 'kup Broń',
   ['armory'] = 'zbrojownia',
   ['armory_owned'] = 'owned',
   ['armory_free'] = 'free',
   ['armory_item'] = '$%s',
+  ['armory_weapontitle'] = 'armory - Buy weapon',
+  ['armory_componenttitle'] = 'armory - Weapon attatchments',
+  ['armory_bought'] = 'you bought an %s for $%s',
+  ['armory_money'] = 'you cannot afford that weapon',
   ['armory_hascomponent'] = 'you have that attatchment equiped!',
+  ['get_weapon_menu'] = 'armory - Withdraw Weapon',
+  ['put_weapon_menu'] = 'armory - Store Weapon',
+  ['confirm'] = 'Confirm', --not translated
   -- Vehicles
   ['vehicle_menu'] = 'vehicle',
   ['vehicle_blocked'] = 'all available spawn points are currently blocked!',
@@ -41,7 +53,11 @@ Locales['pl'] = {
   ['vehicleshop_awaiting_model'] = 'the vehicle is currently DOWNLOADING & LOADING please wait',
   ['confirm_no'] = 'no',
   ['confirm_yes'] = 'yes',
+  ['view'] = 'View', --not translated
+  ['buy_car'] = 'Buy', --not translated
+  ['stop_view'] = 'Stop Viewing', --not translated
   -- Action Menu
+  ['menu_title'] = 'Police', --not translated
   ['citizen_interaction'] = 'interakcja z cywilami',
   ['vehicle_interaction'] = 'interakcja z pojazdami',
   ['object_spawner'] = 'przedmioty do postawienia',
@@ -59,9 +75,11 @@ Locales['pl'] = {
   ['licence_you_revoked'] = 'unieważniasz %s które należały do %s',
   ['no_players_nearby'] = 'brak graczy w pobliżu',
   ['being_searched'] = 'you are being searched by the Police',
-  ['Jail_Menu'] = 'Jail Menu', -- not translated
+  ['Jail_Menu'] = 'Prison menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = 'informacje o pojeździe',
+  ['pick_lock'] = 'odblokuj pojazd',
+  ['vehicle_unlocked'] = 'pojazd Odblokowany',
   ['no_vehicles_nearby'] = 'brak pojazdu w pobliżu',
   ['impound'] = 'zajmij pojazd',
   ['impound_prompt'] = 'naciśnij [E] żeby unieważnić zajęcie',
@@ -71,11 +89,15 @@ Locales['pl'] = {
   ['search_database'] = 'informacje o pojeździe',
   ['search_database_title'] = 'informacjeo pojeździe - przeszukaj używając numeru rejestracyjnego',
   ['search_database_error_invalid'] = 'to ~r~nie jest poprawny rnumer rejestracyjny',
+  ['search_plate'] = 'Enter Plate', --not translated
+  ['lookup_plate'] = 'Lookup Plate', --not translated
   -- Traffic interaction
   ['traffic_interaction'] = 'interakcje dla ruchu drogowego',
   ['cone'] = 'pachołek',
   ['barrier'] = 'barierka',
   ['spikestrips'] = 'kolczatka',
+  ['box'] = 'pudła',
+  ['cash'] = 'paleta z pieniędzmi',
   -- ID Card Menu
   ['name'] = 'name: %s',
   ['job'] = 'praca: %s',
@@ -115,9 +137,22 @@ Locales['pl'] = {
   ['have_withdrawn'] = 'wyjmujesz z depozytu %sx %s',
   ['have_deposited'] = 'zdeponowano %sx %s',
   ['quantity'] = 'ilość',
+  ['quantity_placeholder'] = 'Amount to withdraw..', --not translated
   ['inventory'] = 'ekwipunek',
   ['police_stock'] = 'zapasy policji',
   -- Misc
   ['remove_prop'] = 'naciśnij [E] aby usunąć ten obiekt',
   ['map_blip'] = 'komisariat Policji',
+  ['unrestrained_timer'] = 'czujesz, że twoje kajdanki powoli tracą przyczepność i znikają.',
+  -- Notifications
+  ['alert_police'] = 'ostrzeż policję',
+  ['phone_police'] = 'police',
+  -- Keybind
+  ['interaction'] = 'Interact', --not translated
+  ['quick_actions'] = 'Quick Actions', --not translated
+  -- Other
+  ['society_police'] = 'Police', --not translated
+  ['s_m_y_sheriff_01'] = 'Sheriff Ped', --not translated
+  ['s_m_y_cop_01'] = 'Police Ped', -- not translated
+  ['s_m_y_swat_01'] = 'SWAT Ped', --not translated
 }
