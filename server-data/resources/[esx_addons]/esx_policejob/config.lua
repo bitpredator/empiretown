@@ -11,8 +11,7 @@ Config.EnableESXOptionalneeds     = true -- Enable if you're using esx_optionaln
 Config.EnableLicenses             = true -- Enable if you're using esx_license.
 Config.EnableHandcuffTimer        = true -- Enable handcuff timer? will unrestrain player after the time ends.
 Config.HandcuffTimer              = 10 * 60000 -- 10 minutes.
-Config.EnableJobBlip              = false -- Enable blips for cops on duty, requires esx_society.
-Config.EnableCustomPeds           = false -- Enable custom peds in cloak room? See Config.CustomPeds below to customize peds.
+Config.EnableJobBlip              = true -- Enable blips for cops on duty, requires esx_society.
 
 Config.Locale                     = 'en'
 
@@ -109,25 +108,6 @@ Config.AuthorizedVehicles = {
 		boss = {
 			{model = 'polmav', props = {modLivery = 0}, price = 100000}
 		}
-	}
-}
-
-Config.CustomPeds = {
-	shared = {
-		{label = _U('s_m_y_sheriff_01'), maleModel = 's_m_y_sheriff_01', femaleModel = 's_f_y_sheriff_01'},
-		{label = _U('s_m_y_cop_01'), maleModel = 's_m_y_cop_01', femaleModel = 's_f_y_cop_01'}
-	},
-
-	recruit = {},
-
-	officer = {},
-
-	sergeant = {},
-
-	lieutenant = {},
-
-	boss = {
-		{label = _U('s_m_y_swat_01'), maleModel = 's_m_y_swat_01', femaleModel = 's_m_y_swat_01'}
 	}
 }
 

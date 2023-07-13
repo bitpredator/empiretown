@@ -55,28 +55,6 @@ function OpenCloakroomMenu()
 		{icon = "fas fa-shirt", title = _U('police_wear'), uniform = grade}
 	}
 
-	if Config.EnableCustomPeds then
-		for k,v in ipairs(Config.CustomPeds.shared) do
-			elements[#elements+1] = {
-				icon = "fas fa-shirt",
-				title = v.label, 
-				value = 'freemode_ped', 
-				maleModel = v.maleModel, 
-				femaleModel = v.femaleModel
-			}
-		end
-
-		for k,v in ipairs(Config.CustomPeds[grade]) do
-			elements[#elements+1] = {
-				icon = "fas fa-shirt",
-				title = v.label, 
-				value = 'freemode_ped', 
-				maleModel = v.maleModel, 
-				femaleModel = v.femaleModel
-			}
-		end
-	end
-
 	ESX.OpenContext("right", elements, function(menu,element)
 		cleanPlayer(playerPed)
 		local data = {current = element}

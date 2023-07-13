@@ -149,11 +149,11 @@ Locales['nl'] = {
     ['alert_police'] = 'politie alert',
     ['phone_police'] = 'politie',
     -- Keybind
-    ['interaction'] = 'Interactie', 
+    ['interaction'] = 'Interactie',
     ['quick_actions'] = 'Snelle Acties',
     -- Other
-    ['society_police'] = 'Politie', 
-    ['s_m_y_sheriff_01'] = 'Sheriff Ped', 
-    ['s_m_y_cop_01'] = 'Politie Ped', 
+    ['society_police'] = 'Politie',
+    ['s_m_y_sheriff_01'] = 'Sheriff Ped',
+    ['s_m_y_cop_01'] = 'Politie Ped',
     ['s_m_y_swat_01'] = 'SWAT Ped',
   }

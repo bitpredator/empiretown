@@ -57,7 +57,7 @@ Locales['fi'] = {
   ['buy_car'] = 'Osta',
   ['stop_view'] = 'Lopeta katsominen',
   -- Action Menu
-  ['menu_title'] = 'Poliisi', 
+  ['menu_title'] = 'Poliisi',
   ['citizen_interaction'] = 'siviilin vuorovaikutus',
   ['vehicle_interaction'] = 'ajoneuvon vuorovaikutus',
   ['object_spawner'] = 'objekti spawneri',

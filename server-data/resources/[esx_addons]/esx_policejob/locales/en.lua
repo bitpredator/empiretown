@@ -152,7 +152,7 @@ Locales['en'] = {
   ['quick_actions'] = 'Quick Actions',
   -- Other
   ['society_police'] = 'Police',
-  ['s_m_y_sheriff_01'] = 'Sheriff Ped', 
+  ['s_m_y_sheriff_01'] = 'Sheriff Ped',
   ['s_m_y_cop_01'] = 'Police Ped',
   ['s_m_y_swat_01'] = 'SWAT Ped',
 }
