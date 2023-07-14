@@ -359,7 +359,7 @@ function OpenBodySearchMenu(player)
 			end
 		end
 
-		ESX.OpenContext("right", elements, function(menu,element)
+		ESX.OpenContext("right", elements, function(_,element)
 			local data = {current = element}
 			if data.current.value then
 				TriggerServerEvent('esx_policejob:confiscatePlayerItem', GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
@@ -952,14 +952,6 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) " .. _U('interaction'), "k
 	end
 	if CurrentAction == 'menu_cloakroom' then
 		OpenCloakroomMenu()
-	elseif CurrentAction == 'menu_armory' then
-		if not Config.EnableESXService then
-			OpenArmoryMenu(CurrentActionData.station)
-		elseif playerInService then
-			OpenArmoryMenu(CurrentActionData.station)
-		else
-			ESX.ShowNotification(_U('service_not'))
-		end
 	elseif CurrentAction == 'menu_vehicle_spawner' then
 		if not Config.EnableESXService then
 			OpenVehicleSpawnerMenu('car', CurrentActionData.station, CurrentActionData.part, CurrentActionData.partNum)
