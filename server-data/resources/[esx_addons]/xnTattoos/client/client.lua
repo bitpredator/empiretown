@@ -50,7 +50,7 @@ AddEventHandler('skinchanger:modelLoaded', function()
 			ClearPedDecorations(PlayerPedId())
 			for _, v in pairs(tattooList) do
 				if v.Count ~= nil then
-					for _i = 1, v.Count do
+					for _ = 1, v.Count do
 						SetPedDecoration(PlayerPedId(), v.collection, v.nameHash)
 					end
 				else
@@ -220,7 +220,7 @@ CreateThread(function()
 		JayMenu.SetSubTitle(v[1], v[2])
 	end
 
-    while true do 
+    while true do
         Wait(0)
 		local CanSleep = true
 		if not IsMenuOpen() then
@@ -245,13 +245,13 @@ CreateThread(function()
 
         if JayMenu.IsMenuOpened('tattoo') then
 			CanSleep = false
-            for k, v in ipairs(Config.TattooCats) do
+            for _, v in ipairs(Config.TattooCats) do
 				JayMenu.MenuButton(v[2], v[1])
 			end
 			ClearPedDecorations(PlayerPedId())
-			for k,v in pairs(currentTattoos) do
+			for _,v in pairs(currentTattoos) do
 				if v.Count ~= nil then
-					for i = 1, v.Count do
+					for _ = 1, v.Count do
 						SetPedDecoration(PlayerPedId(), v.collection, v.nameHash)
 					end
 				else
@@ -266,7 +266,7 @@ CreateThread(function()
 			end
 			JayMenu.Display()
         end
-		for k, v in ipairs(Config.TattooCats) do
+		for _, v in ipairs(Config.TattooCats) do
 			if JayMenu.IsMenuOpened(v[1]) then
 				CanSleep = false
 				if not DoesCamExist(cam) then
@@ -310,14 +310,14 @@ CreateThread(function()
 						if GetEntityModel(PlayerPedId()) == `mp_m_freemode_01` then
 							if tattoo.HashNameMale ~= '' then
 								local found = false
-								for k, v in pairs(currentTattoos) do
+								for _, v in pairs(currentTattoos) do
 									if v.nameHash == tattoo.HashNameMale then
 										found = true
 										break
 									end
 								end
 								if found then
-									local clicked, hovered = JayMenu.SpriteButton(GetLabelText(tattoo.Name), "commonmenu", "shop_tattoos_icon_a", "shop_tattoos_icon_b")
+									local clicked = JayMenu.SpriteButton(GetLabelText(tattoo.Name), "commonmenu", "shop_tattoos_icon_a", "shop_tattoos_icon_b")
 									if clicked then
 										RemoveTattoo(tattoo.HashNameMale, tattoo.Name)
 									end
@@ -334,14 +334,14 @@ CreateThread(function()
 						else
 							if tattoo.HashNameFemale ~= '' then
 								local found = false
-								for k, v in pairs(currentTattoos) do
+								for _, v in pairs(currentTattoos) do
 									if v.nameHash == tattoo.HashNameFemale then
 										found = true
 										break
 									end
 								end
 								if found then
-									local clicked, hovered = JayMenu.SpriteButton(GetLabelText(tattoo.Name), "commonmenu", "shop_tattoos_icon_a", "shop_tattoos_icon_b")
+									local clicked = JayMenu.SpriteButton(GetLabelText(tattoo.Name), "commonmenu", "shop_tattoos_icon_a", "shop_tattoos_icon_b")
 									if clicked then
 										RemoveTattoo(tattoo.HashNameFemale, tattoo.Name)
 									end
