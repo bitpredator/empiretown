@@ -41,14 +41,6 @@ Locales['it'] = {
   ['vehicleshop_awaiting_model'] = 'il veicolo è attualmente in DOWNLOAD & LOADING attendere',
   ['confirm_no'] = 'no',
   ['confirm_yes'] = 'si',
-  -- Service
-  ['service_max'] = 'non si può entrare in servizio, max ufficiali in servizio: %s/%s',
-  ['service_not'] = 'non sei entrato in servizio! Dovrai prima cambiarti.',
-  ['service_anonunce'] = 'informazioni di servizio',
-  ['service_in'] = 'sei entrato in servizio, benvenuto!',
-  ['service_in_announce'] = 'operatore %s entrato in servizio!',
-  ['service_out'] = 'sei uscito dal servizio.',
-  ['service_out_announce'] = 'operatore %s uscito dal servizio.',
   -- Action Menu
   ['citizen_interaction'] = 'interazione cittadino',
   ['vehicle_interaction'] = 'interazione veicolo',
@@ -124,7 +116,6 @@ Locales['it'] = {
   ['have_deposited'] = 'hai depositato %sx %s',
   ['quantity'] = 'quantità',
   ['inventory'] = 'inventario',
-  ['police_stock'] = 'deposito polizia',
   -- Misc
   ['remove_prop'] = 'premi [E] per eliminare',
   ['map_blip'] = 'polizia',

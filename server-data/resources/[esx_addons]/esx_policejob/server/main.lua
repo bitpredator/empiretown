@@ -1,10 +1,5 @@
-if Config.EnableESXService then
-	if Config.MaxInService ~= -1 then
-		TriggerEvent('esx_service:activateService', 'police', Config.MaxInService)
-	end
-end
-
-TriggerEvent('esx_society:registerSociety', 'police', 'Police', 'society_police', 'society_police', 'society_police', {type = 'public'})
+TriggerEvent('esx_phone:registerNumber', 'police', _U('alert_police'), true, true)
+TriggerEvent('esx_society:registerSociety', 'police', _U('society_police'), 'society_police', 'society_police', 'society_police', {type = 'public'})
 
 RegisterNetEvent('esx_policejob:confiscatePlayerItem')
 AddEventHandler('esx_policejob:confiscatePlayerItem', function(target, itemType, itemName, amount)
@@ -136,26 +131,7 @@ AddEventHandler('esx_policejob:getStockItem', function(itemName, count)
 	end)
 end)
 
-RegisterNetEvent('esx_policejob:putStockItems')
-AddEventHandler('esx_policejob:putStockItems', function(itemName, count)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	local sourceItem = xPlayer.getInventoryItem(itemName)
-
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_police', function(inventory)
-		local inventoryItem = inventory.getItem(itemName)
-
-		-- does the player have enough of the item?
-		if sourceItem.count >= count and count > 0 then
-			xPlayer.removeInventoryItem(itemName, count)
-			inventory.addItem(itemName, count)
-			xPlayer.showNotification(_U('have_deposited', count, inventoryItem.name))
-		else
-			xPlayer.showNotification(_U('quantity_invalid'))
-		end
-	end)
-end)
-
-ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, cb, target, notify)
+ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(_, cb, target, notify)
 	local xPlayer = ESX.GetPlayerFromId(target)
 
 	if notify then
@@ -196,14 +172,14 @@ ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, 
 	end
 end)
 
-ESX.RegisterServerCallback('esx_policejob:getFineList', function(source, cb, category)
+ESX.RegisterServerCallback('esx_policejob:getFineList', function(_, cb, category)
 	MySQL.query('SELECT * FROM fine_types WHERE category = ?', {category},
 	function(fines)
 		cb(fines)
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb, plate)
+ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(_, cb, plate)
 	local retrivedInfo = {
 		plate = plate
 	}
@@ -229,7 +205,7 @@ ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb,
 	end
 end)
 
-ESX.RegisterServerCallback('esx_policejob:getArmoryWeapons', function(source, cb)
+ESX.RegisterServerCallback('esx_policejob:getArmoryWeapons', function(_, cb)
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_police', function(store)
 		local weapons = store.get('weapons')
 
@@ -301,6 +277,55 @@ ESX.RegisterServerCallback('esx_policejob:removeArmoryWeapon', function(source, 
 	end)
 end)
 
+ESX.RegisterServerCallback('esx_policejob:buyWeapon', function(source, cb, weaponName, type, componentNum)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local authorizedWeapons, selectedWeapon = Config.AuthorizedWeapons[xPlayer.job.grade_name]
+
+	for _,v in ipairs(authorizedWeapons) do
+		if v.weapon == weaponName then
+			selectedWeapon = v
+			break
+		end
+	end
+
+	if not selectedWeapon then
+		print(('[^3WARNING^7] Player ^5%s^7 Attempted To Buy Invalid Weapon - ^5%s^7!'):format(source, weaponName))
+		cb(false)
+	else
+		-- Weapon
+		if type == 1 then
+			if xPlayer.getMoney() >= selectedWeapon.price then
+				xPlayer.removeMoney(selectedWeapon.price, "Weapon Bought")
+				xPlayer.addWeapon(weaponName, 100)
+
+				cb(true)
+			else
+				cb(false)
+			end
+
+		-- Weapon Component
+		elseif type == 2 then
+			local price = selectedWeapon.components[componentNum]
+			local weaponNum, weapon = ESX.GetWeapon(weaponName)
+			local component = weapon.components[componentNum]
+
+			if component then
+				if xPlayer.getMoney() >= price then
+					xPlayer.removeMoney(price, "Weapon Component Bought")
+					xPlayer.addWeaponComponent(weaponName, component.name)
+
+					cb(true)
+				else
+					cb(false)
+				end
+			else
+				print(('[^3WARNING^7] Player ^5%s^7 Attempted To Buy Invalid Weapon Component - ^5%s^7!'):format(source, componentNum))
+				cb(false)
+			end
+		end
+	end
+end)
+
 ESX.RegisterServerCallback('esx_policejob:buyJobVehicle', function(source, cb, vehicleProps, type)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local price = getPriceFromHash(vehicleProps.model, xPlayer.job.grade_name, type)
@@ -314,7 +339,7 @@ ESX.RegisterServerCallback('esx_policejob:buyJobVehicle', function(source, cb, v
 			xPlayer.removeMoney(price, "Job Vehicle Bought")
 
 			MySQL.insert('INSERT INTO owned_vehicles (owner, vehicle, plate, type, job, `stored`) VALUES (?, ?, ?, ?, ?, ?)', { xPlayer.identifier, json.encode(vehicleProps), vehicleProps.plate, type, xPlayer.job.name, true},
-			function (rowsChanged)
+			function ()
 				cb(true)
 			end)
 		else
@@ -354,12 +379,6 @@ function getPriceFromHash(vehicleHash, jobGrade, type)
 
 	return 0
 end
-
-ESX.RegisterServerCallback('esx_policejob:getStockItems', function(source, cb)
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_police', function(inventory)
-		cb(inventory.items)
-	end)
-end)
 
 ESX.RegisterServerCallback('esx_policejob:getPlayerInventory', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -404,5 +423,11 @@ AddEventHandler('onResourceStart', function(resource)
 		for _, xPlayer in pairs(ESX.GetExtendedPlayers('job', 'police')) do
 			TriggerClientEvent('esx_policejob:updateBlip', xPlayer.source)
 		end
+	end
+end)
+
+AddEventHandler('onResourceStop', function(resource)
+	if resource == GetCurrentResourceName() then
+		TriggerEvent('esx_phone:removeNumber', 'police')
 	end
 end)

@@ -8,11 +8,23 @@ Locales['fr'] = {
   ['no_outfit'] = 'il n\'y a pas d\'uniforme à votre taille...',
   ['open_cloackroom'] = 'appuyez sur [E] pour vous changer',
   -- Armory
+  ['remove_object'] = 'prendre Objet',
+  ['deposit_object'] = 'déposer objet',
+  ['get_weapon'] = 'prendre Arme',
+  ['put_weapon'] = 'déposer Arme',
+  ['buy_weapons'] = 'acheter Armes',
   ['armory'] = 'armurerie',
   ['armory_owned'] = 'possédé',
   ['armory_free'] = 'gratuit',
   ['armory_item'] = '$%s',
+  ['armory_weapontitle'] = 'armurerie - Acheter une arme',
+  ['armory_componenttitle'] = 'armurerie - Accessoires d\'armes',
+  ['armory_bought'] = 'vous achetez un %s pour $%s',
+  ['armory_money'] = 'vous ne pouvez pas acheter cette arme',
   ['armory_hascomponent'] = 'vous avez cet accessoire équipé!',
+  ['get_weapon_menu'] = 'armurerie - Retirer arme',
+  ['put_weapon_menu'] = 'armurerie - Stocker arme',
+  ['confirm'] = 'Confirm', --not translated
   -- Vehicles
   ['vehicle_menu'] = 'véhicule',
   ['vehicle_blocked'] = 'tous les points de spawn sont bloqués!',
@@ -41,15 +53,11 @@ Locales['fr'] = {
   ['vehicleshop_awaiting_model'] = 'le véhicule est actuellement en PRÉPARATION veuillez patienter',
   ['confirm_no'] = 'non',
   ['confirm_yes'] = 'oui',
-  -- Service
-  ['service_max'] = 'vous ne pouvez pas entrer en service, officiers en service: %s/%s',
-  ['service_not'] = 'vous n\'êtes pas en service! Vous devez d\'abord enfiler votre tenue.',
-  ['service_anonunce'] = 'prise de service',
-  ['service_in'] = 'vous êtes en service, bon courage!',
-  ['service_in_announce'] = 'l\'officier %s est entré en service!',
-  ['service_out'] = 'vous avez terminé votre service.',
-  ['service_out_announce'] = 'l\'officier %s a quitté son service.',
+  ['view'] = 'View', --not translated
+  ['buy_car'] = 'Buy', --not translated
+  ['stop_view'] = 'Stop Viewing', --not translated
   -- Action Menu
+  ['menu_title'] = 'Police', --not translated
   ['citizen_interaction'] = 'interaction citoyen',
   ['vehicle_interaction'] = 'interaction véhicule',
   ['object_spawner'] = 'placer objets',
@@ -67,9 +75,11 @@ Locales['fr'] = {
   ['licence_you_revoked'] = 'vous avez révoqué un %s qui appartenait à %s',
   ['no_players_nearby'] = 'aucun joueur à proximité',
   ['being_searched'] = 'vous êtes recherché(e) par la Police',
-  ['Jail_Menu'] = 'Jail Menu', -- not translated
+  ['Jail_Menu'] = 'Prison menu', -- not translated
   -- Vehicle interaction
   ['vehicle_info'] = 'infos véhicule',
+  ['pick_lock'] = 'crocheter véhicule',
+  ['vehicle_unlocked'] = 'véhicule déverouillé',
   ['no_vehicles_nearby'] = 'aucun véhicule à proximité',
   ['impound'] = 'véhicule en fourrière',
   ['impound_prompt'] = 'appuyez sur [E] pour annuler la saisie du véhicule',
@@ -79,11 +89,15 @@ Locales['fr'] = {
   ['search_database'] = 'information sur le véhicule',
   ['search_database_title'] = 'informations sur le véhicule - recherche avec numéro d\'enregistrement',
   ['search_database_error_invalid'] = 'Ce n\'est ~r~pas un numéro d\'enregistrement valide',
+  ['search_plate'] = 'Enter Plate', --not translated
+  ['lookup_plate'] = 'Lookup Plate', --not translated
   -- Traffic interaction
   ['traffic_interaction'] = 'interaction routière',
   ['cone'] = 'plot',
   ['barrier'] = 'barrière',
   ['spikestrips'] = 'herse',
+  ['box'] = 'caisse',
+  ['cash'] = 'caisse',
   -- ID Card Menu
   ['name'] = 'nom: %s',
   ['job'] = 'métier: %s',
@@ -123,9 +137,23 @@ Locales['fr'] = {
   ['have_withdrawn'] = 'vous avez retiré %sx %s',
   ['have_deposited'] = 'vous avez déposé %sx %s',
   ['quantity'] = 'quantité',
+  ['quantity_placeholder'] = 'Amount to withdraw..', --not translated
   ['inventory'] = 'inventaire',
   ['police_stock'] = 'coffre de la police',
   -- Misc
   ['remove_prop'] = 'appuyez sur [E] pour enlever l\'objet',
   ['map_blip'] = 'Commissariat',
+  ['unrestrained_timer'] = 'vous sentez que vos menottes deviennent fragiles.',
+  -- Notifications
+  ['alert_police'] = 'alerte police',
+  ['phone_police'] = 'police',
+  -- Keybind
+  ['interaction'] = 'Interact', --not translated
+  ['quick_actions'] = 'Quick Actions', --not translated
+  -- Other
+  ['society_police'] = 'Police', --not translated
+  ['s_m_y_sheriff_01'] = 'Sheriff Ped', --not translated
+  ['s_m_y_cop_01'] = 'Police Ped', -- not translated
+  ['s_m_y_swat_01'] = 'SWAT Ped', --not translated
+  
 }
