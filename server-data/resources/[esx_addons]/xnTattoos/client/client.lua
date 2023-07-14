@@ -12,7 +12,7 @@ end)
 
 CreateThread(function()
 	AddTextEntry("ParaTattoos", "Tattoo Shop")
-	for k, v in pairs(Config.Shops) do
+	for _, v in pairs(Config.Shops) do
 		local blip = AddBlipForCoord(v)
 		SetBlipSprite(blip, 75)
 		SetBlipColour(blip, 1)
@@ -30,9 +30,9 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 	ESX.TriggerServerCallback('SmallTattoos:GetPlayerTattoos', function(tattooList)
 		if tattooList then
 			ClearPedDecorations(PlayerPedId())
-			for k, v in pairs(tattooList) do
+			for _, v in pairs(tattooList) do
 				if v.Count ~= nil then
-					for i = 1, v.Count do
+					for _ = 1, v.Count do
 						SetPedDecoration(PlayerPedId(), v.collection, v.nameHash)
 					end
 				else
@@ -48,9 +48,9 @@ AddEventHandler('skinchanger:modelLoaded', function()
 	ESX.TriggerServerCallback('SmallTattoos:GetPlayerTattoos', function(tattooList)
 		if tattooList then
 			ClearPedDecorations(PlayerPedId())
-			for k, v in pairs(tattooList) do
+			for _, v in pairs(tattooList) do
 				if v.Count ~= nil then
-					for i = 1, v.Count do
+					for _i = 1, v.Count do
 						SetPedDecoration(PlayerPedId(), v.collection, v.nameHash)
 					end
 				else
@@ -69,9 +69,9 @@ CreateThread(function()
 			ESX.TriggerServerCallback('SmallTattoos:GetPlayerTattoos', function(tattooList)
 				if tattooList then
 					ClearPedDecorations(PlayerPedId())
-					for k, v in pairs(tattooList) do
+					for _, v in pairs(tattooList) do
 						if v.Count ~= nil then
-							for i = 1, v.Count do
+							for _ = 1, v.Count do
 								SetPedDecoration(PlayerPedId(), v.collection, v.nameHash)
 							end
 						else
@@ -87,16 +87,16 @@ end)
 
 function DrawTattoo(collection, name)
 	ClearPedDecorations(PlayerPedId())
-	for k, v in pairs(currentTattoos) do
+	for _, v in pairs(currentTattoos) do
 		if v.Count ~= nil then
-			for i = 1, v.Count do
+			for _ = 1, v.Count do
 				SetPedDecoration(PlayerPedId(), v.collection, v.nameHash)
 			end
 		else
 			SetPedDecoration(PlayerPedId(), v.collection, v.nameHash)
 		end
 	end
-	for i = 1, opacity do
+	for _ = 1, opacity do
 		SetPedDecoration(PlayerPedId(), collection, name)
 	end
 end
@@ -138,9 +138,9 @@ function ResetSkin()
 		TriggerEvent('skinchanger:loadSkin', skin)
 	end)
 	ClearPedDecorations(PlayerPedId())
-	for k, v in pairs(currentTattoos) do
+	for _, v in pairs(currentTattoos) do
 		if v.Count ~= nil then
-			for i = 1, v.Count do
+			for _ = 1, v.Count do
 				SetPedDecoration(PlayerPedId(), v.collection, v.nameHash)
 			end
 		else
@@ -178,7 +178,7 @@ function ButtonPress()
 end
 
 function IsMenuOpen()
-	return (JayMenu.IsMenuOpened('tattoo') or string.find(tostring(JayMenu.CurrentMenu() or ""), "ZONE_"))	
+	return (JayMenu.IsMenuOpened('tattoo') or string.find(tostring(JayMenu.CurrentMenu() or ""), "ZONE_"))
 end
 
 function BuyTattoo(collection, name, label, price)
@@ -215,7 +215,7 @@ CreateThread(function()
     end)
     JayMenu.SetSubTitle('tattoo', "Categories")
 
-	for k, v in ipairs(Config.TattooCats) do
+	for _, v in ipairs(Config.TattooCats) do
 		JayMenu.CreateSubMenu(v[1], "tattoo", v[2])
 		JayMenu.SetSubTitle(v[1], v[2])
 	end
