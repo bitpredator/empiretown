@@ -63,7 +63,7 @@ local function isMenuVisible(id)
     end
 end
 
-local function setMenuVisible(id, visible, holdCurrent)
+local function setMenuVisible(id, visible)
     if id and menus[id] then
         setMenuProperty(id, 'visible', visible)
 
@@ -82,7 +82,7 @@ end
 
 function drawText(text, x, y, font, color, scale, center, shadow, alignRight)
     BeginTextCommandDisplayText("STRING")
-        if color then 
+        if color then
             SetTextColour(color[1], color[2], color[3], color[4])
         else
             SetTextColour(255, 255, 255, 255)
@@ -108,7 +108,7 @@ end
 
 function getLineHeight(text, font, color, scale, center, shadow, alignRight)
 	BeginTextCommandLineCount("STRING")
-        if color then 
+        if color then
             SetTextColour(color[1], color[2], color[3], color[4])
         else
             SetTextColour(255, 255, 255, 255)
@@ -170,7 +170,7 @@ local function drawTitle()
 			drawText(menus[currentMenu].title, x, y - titleHeight / 2 + titleYOffset, menus[currentMenu].titleFont, menus[currentMenu].titleColor, titleScale, true)
         end
 
-        local x,y,color,textDict,sprite = nil
+        local color = nil
     end
 end
 
@@ -189,7 +189,7 @@ local function drawSubTitle()
             drawText(tostring(menus[currentMenu].currentOption)..' / '..tostring(optionCount), menus[currentMenu].x + menuWidth, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, false, buttonScale, false, false, true)
         end
 
-        local x,y,subTitleColor = nil
+        local subTitleColor = nil
     end
 end
 
@@ -234,7 +234,7 @@ local function drawMenuBackground()
             RequestStreamedTextureDict("CommonMenu")
         end
 
-        local x,y,menuHeight = nil
+        local menuHeight = nil
     end
 end
 
@@ -251,7 +251,7 @@ local function drawArrows()
         RequestStreamedTextureDict("CommonMenu")
     end
 
-    local x,menuHeight,y,color = nil
+    local menuHeight, y = nil
 end
 
 local function drawButton(text, subText)
@@ -296,7 +296,7 @@ local function drawButton(text, subText)
         end
     end
 
-    local x,y,backgroundColor,textColor,subTextColor,shadow,multiplier = nil
+    local shadow = nil
 end
 
 local function drawDisabledButton(text, subText)
@@ -457,7 +457,6 @@ function JayMenu.CreateSubMenu(id, parent, subTitle, closeCallback)
         setMenuProperty(id, 'menuBackgroundColor', menus[parent].menuBackgroundColor)
         setMenuProperty(id, 'subTitleBackgroundColor', menus[parent].subTitleBackgroundColor)
         setMenuProperty(id, 'closeCallback', closeCallback or function() return true end)
-        -- :(
     else
         debugPrint('Failed to create '..tostring(id)..' submenu: '..tostring(parent)..' parent menu doesn\'t exist')
     end
@@ -477,9 +476,6 @@ function JayMenu.OpenMenu(id)
     if id and menus[id] then
         PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", true)
         setMenuVisible(id, true)
-
-        -- continuity.lastPedWeapon = GetCurrentPedWeapon(PlayerPedId())
-        -- SetPedCurrentWeaponVisible(PlayerPedId(), false, true)
 
         debugPrint(tostring(id)..' menu opened')
     else
@@ -546,7 +542,7 @@ function JayMenu.CloseMenu()
             if continuity.lastPedWeapon then
                 SetCurrentPedWeapon(PlayerPedId(), continuity.lastPedWeapon, true)
             end
-            
+
             continuity = {}
 
             CreateThread(function()
@@ -704,13 +700,12 @@ function JayMenu.ComboBox(text, items, currentIndex, selectedIndex, callback, di
     end
 
     callback(currentIndex, selectedIndex)
-    -- local itemsCount,isCurrent,getDisplayText,selectedItem = nil
     return false, isCurrent
 end
 
 function JayMenu.MenuButton(text, id, secondtext)
     if menus[id] then
-		local clicked, hovered = JayMenu.Button(text, (secondtext and secondtext or "→")) 
+		local clicked, hovered = JayMenu.Button(text, (secondtext and secondtext or "→"))
 		if clicked then
             setMenuVisible(currentMenu, false)
             setMenuVisible(id, true, true)
@@ -747,7 +742,7 @@ function JayMenu.CheckBox(text, bool, callback)
         return true
     end
 
-    local sprite,focusSprite = nil
+    local sprite = nil
 
     return false
 end
