@@ -298,7 +298,6 @@ local function drawButton(text, subText)
 end
 
 local function drawDisabledButton(text, subText)
-    local x = menus[currentMenu].x + menuWidth / 2
     local multiplier = nil
 
     if menus[currentMenu].currentOption <= menus[currentMenu].maxOptionCount and optionCount <= menus[currentMenu].maxOptionCount then
@@ -309,7 +308,6 @@ local function drawDisabledButton(text, subText)
 
     if multiplier then
         local y = menus[currentMenu].y + titleHeight + buttonHeight + (buttonHeight * multiplier) - buttonHeight / 2
-        local backgroundColor = menus[currentMenu].menuBackgroundColor
         local textColor = HudColourToTable(GetHudColour(5))
         local subTextColor = HudColourToTable(GetHudColour(5))
         local shadow = false
@@ -321,7 +319,6 @@ local function drawDisabledButton(text, subText)
         end
     end
 
-    local x,y,backgroundColor,textColor,subTextColor,shadow,multiplier = nil
 end
 
 local function drawSpriteButton(text, textDict, sprite, focusSprite)
@@ -375,7 +372,6 @@ local function drawSpriteButton(text, textDict, sprite, focusSprite)
         end
     end
 
-    local x,y,backgroundColor,textColor,subTextColor,shadow,multiplier = nil
 end
 
 local function stopConflictingInputs()
