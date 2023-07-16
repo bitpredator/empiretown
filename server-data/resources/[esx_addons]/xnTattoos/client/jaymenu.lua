@@ -170,7 +170,6 @@ local function drawTitle()
 			drawText(menus[currentMenu].title, x, y - titleHeight / 2 + titleYOffset, menus[currentMenu].titleFont, menus[currentMenu].titleColor, titleScale, true)
         end
 
-        local color = nil
     end
 end
 
@@ -189,7 +188,6 @@ local function drawSubTitle()
             drawText(tostring(menus[currentMenu].currentOption)..' / '..tostring(optionCount), menus[currentMenu].x + menuWidth, y - buttonHeight / 2 + buttonTextYOffset, buttonFont, false, buttonScale, false, false, true)
         end
 
-        local subTitleColor = nil
     end
 end
 
@@ -596,7 +594,6 @@ function JayMenu.Button(text, subText)
         return false
     end
 
-    local buttonText,isCurrent = nil
 end
 
 function JayMenu.DisabledButton(text, subText)
@@ -627,7 +624,6 @@ function JayMenu.DisabledButton(text, subText)
         return false
     end
 
-    local buttonText,isCurrent = nil
 end
 
 function JayMenu.SpriteButton(text, textDict, sprite, focusSprite)
@@ -657,7 +653,6 @@ function JayMenu.SpriteButton(text, textDict, sprite, focusSprite)
         return false, isCurrent
     end
 
-    local buttonText,isCurrent = nil
 end
 
 function JayMenu.SpriteMenuButton(text, textDict, sprite, focusSprite, id)
@@ -672,7 +667,6 @@ function JayMenu.SpriteMenuButton(text, textDict, sprite, focusSprite, id)
         debugPrint('Failed to create '..tostring(text)..' menu button: '..tostring(id)..' submenu doesn\'t exist')
     end
 
-    local clicked,hovered = nil
 end
 
 function JayMenu.ComboBox(text, items, currentIndex, selectedIndex, callback, displaycb)
@@ -741,8 +735,6 @@ function JayMenu.CheckBox(text, bool, callback)
 
         return true
     end
-
-    local sprite = nil
 
     return false
 end
