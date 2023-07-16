@@ -215,7 +215,7 @@ local function drawDescription()
             RequestStreamedTextureDict("CommonMenu")
         end
 
-        x,y,menuHeight = nil
+        x, y, menuHeight = nil
     end
 end
 
@@ -232,7 +232,6 @@ local function drawMenuBackground()
             RequestStreamedTextureDict("CommonMenu")
         end
 
-        local menuHeight = nil
     end
 end
 
@@ -249,7 +248,6 @@ local function drawArrows()
         RequestStreamedTextureDict("CommonMenu")
     end
 
-    local menuHeight, y = nil
 end
 
 local function drawButton(text, subText)
@@ -294,7 +292,6 @@ local function drawButton(text, subText)
         end
     end
 
-    local shadow = nil
 end
 
 local function drawDisabledButton(text, subText)
