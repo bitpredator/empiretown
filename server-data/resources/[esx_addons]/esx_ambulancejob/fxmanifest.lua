@@ -26,6 +26,5 @@ client_scripts {
 shared_script '@es_extended/imports.lua'
 
 dependencies {
-	'es_extended',
-	'esx_skin'
+	'es_extended'
 }
