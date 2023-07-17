@@ -1,5 +1,5 @@
 ESX = exports["es_extended"]:getSharedObject()
-local shops, savedOutfits = {}, {}
+local shops = {}
 
 -- ESX Events
 RegisterNetEvent('esx:playerLoaded')
@@ -19,7 +19,7 @@ AddEventHandler('esx:setJob', function(job)
 	ESX.PlayerData.job = job
 end)
 
-AddEventHandler('esx:onPlayerDeath', function(data)
+AddEventHandler('esx:onPlayerDeath', function()
     closeMenu()
 end)
 
@@ -241,7 +241,7 @@ CreateThread(function()
 end)
 
 RegisterCommand('propfix', function()
-    for k, v in pairs(GetGamePool('CObject')) do
+    for _, v in pairs(GetGamePool('CObject')) do
         if IsEntityAttachedToEntity(PlayerPedId(), v) then
             SetEntityAsMissionEntity(v, true, true)
             DeleteObject(v)
@@ -256,7 +256,7 @@ RegisterCommand('reloadchar', function()
     end)
 end)
 
---cd_multicharacter compatibility
+-- cd_multicharacter compatibility
 RegisterNetEvent('skinchanger:loadSkin2')
 AddEventHandler('skinchanger:loadSkin2', function(ped, skin)
     if not skin.model then skin.model = 'mp_m_freemode_01' end
@@ -285,7 +285,7 @@ AddEventHandler('skinchanger:loadSkin', function(skin, cb)
 	end
 end)
 
-AddEventHandler('skinchanger:loadDefaultModel', function(loadMale, cb)
+AddEventHandler('skinchanger:loadDefaultModel', function(loadMale)
     if loadMale then
         TriggerEvent('skinchanger:loadSkin',Config.DefaultSkin)
     else
@@ -296,7 +296,7 @@ AddEventHandler('skinchanger:loadDefaultModel', function(loadMale, cb)
 end)
 
 RegisterNetEvent('skinchanger:loadClothes')
-AddEventHandler('skinchanger:loadClothes', function(skin, clothes)
+AddEventHandler('skinchanger:loadClothes', function(_, clothes)
     local playerPed = PlayerPedId()
     local outfit = convertClothes(clothes)
     exports['fivem-appearance']:setPedComponents(playerPed, outfit.Components)

@@ -63,7 +63,7 @@ openShop = function(store, price)
     if store == 'clothing' then
         TriggerEvent('fivem-appearance:clothingShop', price)
     else
-        if store == 'clothing_menu' then 
+        if store == 'clothing_menu' then
             config = {
                 ped = false,
                 headBlend = false,
@@ -100,7 +100,7 @@ openShop = function(store, price)
                     appearance.tattoos = tetovaze
                 end
                 if price then
-                    local paid = lib.callback.await('fivem-appearance:payFunds', 100, price)             
+                    local paid = lib.callback.await('fivem-appearance:payFunds', 100, price)
                     if paid then
                         lib.notify({
                             title = Strings.success,
@@ -119,7 +119,7 @@ openShop = function(store, price)
                             duration = 3500,
                             icon = 'ban',
                             type = 'error'
-                        })                           
+                        })
                         exports['fivem-appearance']:setPlayerAppearance(currentAppearance)
                         InMenu = false
                         TriggerServerEvent('fivem-appearance:save',currentAppearance)
