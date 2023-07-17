@@ -55,9 +55,9 @@ end)
 
 lib.callback.register('fivem-appearance:payFunds', function(source, price)
     local xPlayer = ESX.GetPlayerFromId(source)
-	local xAccountMoney = xPlayer.getAccount(Config.PaymentAccount).money 
-	if xAccountMoney < price then 
-		return false 
+	local xAccountMoney = xPlayer.getAccount(Config.PaymentAccount).money
+	if xAccountMoney < price then
+		return false
 	else
 		xPlayer.removeAccountMoney(Config.PaymentAccount, price)
 		return true
@@ -85,7 +85,7 @@ lib.callback.register('fivem-appearance:getOutfits', function(source)
 end)
 
 -- Commands
-ESX.RegisterCommand('skin', 'admin', function(xPlayer, args, showError)
+ESX.RegisterCommand('skin', 'admin', function(_, args)
 	args.playerId.triggerEvent('fivem-appearance:skinCommand')
 end, false, {help = Strings.skin_command_help, validate = true, arguments = {
 	{name = 'playerId', help = Strings.skin_command_arg_help, type = 'player'}

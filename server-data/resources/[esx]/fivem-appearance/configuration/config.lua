@@ -209,8 +209,8 @@ Config.ClothingShops = {
 			string = 'Clothing Shop'
 		},
 		coords = vec3(461.4, -998.0, 30.2), -- MRPD Cloakroom
-		distance = 7, 
-		price = false, 
+		distance = 7,
+		price = false,
 	},
 
 	{
@@ -303,7 +303,7 @@ Config.BarberShops = {
 			scale = 0.7,
 			string = 'Barber Shop'
 		},
-		coords = vec3(136.8, -1708.4, 28.3), 
+		coords = vec3(136.8, -1708.4, 28.3),
 		distance = 7,
 		price = 50,
 	},
@@ -329,7 +329,7 @@ Config.BarberShops = {
 			scale = 0.7,
 			string = 'Barber Shop'
 		},
-		coords = vec3(1931.5, 3729.7, 31.8), 
+		coords = vec3(1931.5, 3729.7, 31.8),
 		distance = 7,
 		price = 50,
 	},
@@ -355,7 +355,7 @@ Config.BarberShops = {
 			scale = 0.7,
 			string = 'Barber Shop'
 		},
-		coords = vec3(-34.31, -154.99, 55.8), 
+		coords = vec3(-34.31, -154.99, 55.8),
 		distance = 7,
 		price = 50,
 	},
@@ -393,8 +393,8 @@ Config.TattooShops = {
 	{
 		blip = {
 			enabled = true,
-			sprite = 75, 
-			color = 1, 
+			sprite = 75,
+			color = 1,
 			scale = 0.7,
 			string = 'Tattoo Shop'
 		},
