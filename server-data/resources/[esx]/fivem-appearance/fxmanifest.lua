@@ -2,8 +2,8 @@ fx_version "cerulean"
 game "gta5"
 lua54 'yes'
 
-author 'wasabirobby'
-description 'Wasabi fork of fivem-appearance'
+author 'wasabirobby rework by bitpredator'
+description 'Wasabi fork of fivem-appearance rework by bitpredator'
 version '1.3.0'
 
 files {
