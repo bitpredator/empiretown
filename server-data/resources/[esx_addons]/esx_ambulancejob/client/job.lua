@@ -6,14 +6,14 @@ isInShopMenu = false
 function OpenAmbulanceActionsMenu()
 	local elements = {
 		{unselectable = true, icon = "fas fa-shirt", title = "Ambulance Actions"},
-		{icon = "fas fa-shirt", title = _U('cloakroom'), value = 'cloakroom'}	
+		{icon = "fas fa-shirt", title = _U('cloakroom'), value = 'cloakroom'}
 	}
 
 	if Config.EnablePlayerManagement and ESX.PlayerData.job.grade_name == 'boss' then
 		elements[#elements+1] = {
 			icon = "fas fa-ambulance",
 			title = _U('boss_actions'),
-		 	value = 'boss_actions'
+			value = 'boss_actions'
 		}
 	end
 
@@ -21,7 +21,7 @@ function OpenAmbulanceActionsMenu()
 		if element.value == 'cloakroom' then
 			OpenCloakroomMenu()
 		elseif element.value == 'boss_actions' then
-			TriggerEvent('esx_society:openBossMenu', 'ambulance', function(data, menu)
+			TriggerEvent('esx_society:openBossMenu', 'ambulance', function(_, menu)
 				menu.close()
 			end, {wash = false})
 		end
@@ -34,7 +34,7 @@ function OpenMobileAmbulanceActionsMenu()
 		{icon = "fas fa-ambulance", title = _U('ems_menu'), value = "citizen_interaction"}
 	}
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(_,element)
 		if element.value == "citizen_interaction" then
 			local elements2 = {
 				{unselectable = true, icon = "fas fa-ambulance", title = element.title},
@@ -46,7 +46,7 @@ function OpenMobileAmbulanceActionsMenu()
 				{icon = "fas fa-syringe", title = _U('billing'), value = "billing"},
 			}
 
-			ESX.OpenContext("right", elements2, function(menu2,element2)
+			ESX.OpenContext("right", elements2, function(_,element2)
 				if isBusy then return end
 
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
@@ -145,7 +145,7 @@ if billing == 'billing' then
 
 		end
 
-	end, function(data, menu)
+	end, function(_, menu)
 		menu.close()
 	end)
 end
@@ -166,7 +166,7 @@ function revivePlayer(closestPlayer)
 				local lib, anim = 'mini@cpr@char_a@cpr_str', 'cpr_pumpchest'
 				ESX.ShowNotification(_U('revive_inprogress'))
 
-				for i=1, 15 do
+				for _=1, 15 do
 					Wait(900)
 
 					ESX.Streaming.RequestAnimDict(lib, function()
@@ -295,7 +295,7 @@ CreateThread(function()
 
 		for hospitalNum,hospital in pairs(Config.Hospitals) do
 			-- Fast Travels
-			for k,v in ipairs(hospital.FastTravels) do
+			for _,v in ipairs(hospital.FastTravels) do
 				local distance = #(playerCoords - v.From)
 
 				if distance < Config.DrawDistance then
@@ -331,7 +331,7 @@ AddEventHandler('esx_ambulancejob:hasEnteredMarker', function(hospital, part, pa
 	end
 end)
 
-AddEventHandler('esx_ambulancejob:hasExitedMarker', function(hospital, part, partNum)
+AddEventHandler('esx_ambulancejob:hasExitedMarker', function()
 	if not isInShopMenu then
 		ESX.CloseContext()
 	end
@@ -401,9 +401,9 @@ function OpenCloakroomMenu()
 		{icon = "fas fa-shirt", title = _U('ems_clothes_ems'), value = "ambulance_wear"},
 	}
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(_,element)
 		if element.value == "citizen_wear" then
-			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 				TriggerEvent('skinchanger:loadSkin', skin)
 				isOnDuty = false
 
