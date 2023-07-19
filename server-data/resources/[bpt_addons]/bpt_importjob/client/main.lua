@@ -1,6 +1,6 @@
-local HasAlreadyEnteredMarker, CurrentAction,
-    CurrentActionData = false, false, false, false, false, {}
-local LastZone, CurrentActionMsg
+local HasAlreadyEnteredMarker
+local CurrentAction, CurrentActionMsg, CurrentActionData = nil, '', {}
+local LastZone
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
@@ -155,10 +155,6 @@ function DeleteJobVehicle()
     else
         if IsInAuthorizedVehicle() then
             ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
-
-            if Config.MaxInService ~= -1 then
-                TriggerServerEvent('esx_service:disableService', 'import')
-            end
         else
             ESX.ShowNotification(_U('only_import'))
         end
@@ -180,7 +176,7 @@ function OpenImportActionsMenu()
 
     ESX.OpenContext("right", elements, function(_,element)
         if element.value == 'boss_actions' then
-            TriggerEvent('esx_society:openBossMenu', 'import', function(data)
+            TriggerEvent('esx_society:openBossMenu', 'import', function()
                 menu.close()
             end)
         end
