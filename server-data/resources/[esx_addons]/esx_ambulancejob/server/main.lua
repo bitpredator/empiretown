@@ -32,7 +32,7 @@ AddEventHandler('esx_ambulancejob:revive', function(playerId)
 end)
 
 RegisterNetEvent('esx:onPlayerDeath')
-AddEventHandler('esx:onPlayerDeath', function(data)
+AddEventHandler('esx:onPlayerDeath', function()
 	deadPlayers[source] = 'dead'
 	TriggerClientEvent('esx_ambulancejob:setDeadPlayers', -1, deadPlayers)
 end)
@@ -58,7 +58,7 @@ AddEventHandler('esx:onPlayerSpawn', function()
 	end
 end)
 
-AddEventHandler('esx:playerDropped', function(playerId, reason)
+AddEventHandler('esx:playerDropped', function(playerId)
 	if deadPlayers[playerId] then
 		deadPlayers[playerId] = nil
 		TriggerClientEvent('esx_ambulancejob:setDeadPlayers', -1, deadPlayers)
@@ -171,7 +171,7 @@ ESX.RegisterServerCallback('esx_ambulancejob:buyJobVehicle', function(source, cb
 				['@type'] = type,
 				['@job'] = xPlayer.job.name,
 				['@stored'] = true
-			}, function (rowsChanged)
+			}, function ()
 				cb(true)
 			end)
 		else
@@ -217,7 +217,7 @@ end)
 function getPriceFromHash(vehicleHash, jobGrade, type)
 	local vehicles = Config.AuthorizedVehicles[type][jobGrade]
 
-	for k,v in ipairs(vehicles) do
+	for _,v in ipairs(vehicles) do
 		if GetHashKey(v.model) == vehicleHash then
 			return v.price
 		end
@@ -257,7 +257,7 @@ AddEventHandler('esx_ambulancejob:giveItem', function(itemName, amount)
 	end
 end)
 
-ESX.RegisterCommand('revive', 'admin', function(xPlayer, args, showError)
+ESX.RegisterCommand('revive', 'admin', function(_, args)
 	args.playerId.triggerEvent('esx_ambulancejob:revive')
 end, true, {help = _U('revive_help'), validate = true, arguments = {
 	{name = 'playerId', help = 'The player id', type = 'player'}
@@ -295,7 +295,7 @@ ESX.RegisterServerCallback('esx_ambulancejob:getDeathStatus', function(source, c
 	MySQL.Async.fetchScalar('SELECT is_dead FROM users WHERE identifier = @identifier', {
 		['@identifier'] = xPlayer.identifier
 	}, function(isDead)
-				
+
 		if isDead then
 			print(('[esx_ambulancejob] [^2INFO^7] "%s" attempted combat logging'):format(xPlayer.identifier))
 		end

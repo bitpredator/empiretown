@@ -65,7 +65,7 @@ Config.Hospitals = {
 		FastTravels = {
 			-- roof access (ok)
 			{
-				From = vector3(329.393402, -601.081299, 42.282104), 
+				From = vector3(329.393402, -601.081299, 42.282104),
 				To = {coords = vector3(341.076935, -581.604370, 74.150879), heading = 0.0},
 				Marker = {type = 1, x = 1.5, y = 1.5, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false}
 			},
