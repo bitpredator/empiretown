@@ -57,7 +57,7 @@ end)
 
 -- Create blips
 CreateThread(function()
-	for k,v in pairs(Config.Hospitals) do
+	for _,v in pairs(Config.Hospitals) do
 		local blip = AddBlipForCoord(v.Blip.coords)
 
 		SetBlipSprite(blip, v.Blip.sprite)
@@ -356,7 +356,7 @@ function RespawnPed(ped, coords, heading)
 	TriggerEvent('playerSpawned') -- compatibility with old scripts, will be removed soon
 end
 
-AddEventHandler('esx:onPlayerDeath', function(data)
+AddEventHandler('esx:onPlayerDeath', function()
 	OnPlayerDeath()
 end)
 
