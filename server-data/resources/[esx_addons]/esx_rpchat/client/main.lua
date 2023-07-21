@@ -14,15 +14,3 @@ AddEventHandler('esx_rpchat:sendProximityMessage', function(playerId, title, mes
 		end
 	end
 end)
-
-CreateThread(function()
-	TriggerEvent('chat:addSuggestion', '/me',   _U('me_help'),   {{name = _U('generic_argument_name'), help = _U('generic_argument_help')}})
-	TriggerEvent('chat:addSuggestion', '/do',   _U('do_help'),   {{name = _U('generic_argument_name'), help = _U('generic_argument_help')}})
-end)
-
-AddEventHandler('onResourceStop', function(resource)
-	if resource == GetCurrentResourceName() then
-		TriggerEvent('chat:removeSuggestion', '/me')
-		TriggerEvent('chat:removeSuggestion', '/do')
-	end
-end)
