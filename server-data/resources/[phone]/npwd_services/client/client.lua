@@ -24,7 +24,7 @@ if isESX then
 	end)
 end
 
-if isQB then 
+if isQB then
 	RegisterNUICallback("npwd:services:getPlayers", function(_, cb)
 		TriggerServerEvent("npwd:services:getPlayers")
 		RegisterNetEvent("npwd:services:sendPlayers", function(players)
