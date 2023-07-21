@@ -248,6 +248,7 @@
             "discord.com",
             "cdn.discordapp.com",
             "media.discordapp.com",
+            "media.discordapp.net",
             "upload.wikipedia.org",
             "i.projecterror.dev",
             "upcdn.io"
@@ -869,6 +870,9 @@
       onNet("createTweetBroadcast" /* CREATE_TWEET_BROADCAST */, (tweet) => {
         sendTwitterMessage("createTweetBroadcast" /* CREATE_TWEET_BROADCAST */, tweet);
       });
+      onNet("npwd:tweetLikedBroadcast" /* TWEET_LIKED_BROADCAST */, (tweetId, isAddLike, likedByProfileName) => {
+        sendTwitterMessage("npwd:tweetLikedBroadcast" /* TWEET_LIKED_BROADCAST */, { tweetId, isAddLike, likedByProfileName });
+      });
     }
   });
 
@@ -952,6 +956,7 @@
       init_cl_utils();
       var inCameraMode = false;
       var canToggleHUD = false;
+      var canToggleRadar = false;
       function closePhoneTemp() {
         SetNuiFocus(false, false);
         sendMessage("PHONE", "npwd:setVisibility" /* SET_VISIBILITY */, false);
@@ -984,6 +989,12 @@
           DisplayHud(false);
         } else {
           canToggleHUD = false;
+        }
+        if (!IsRadarHidden()) {
+          canToggleRadar = true;
+          DisplayRadar(false);
+        } else {
+          canToggleRadar = false;
         }
         emit("npwd:PhotoModeStarted" /* NPWD_PHOTO_MODE_STARTED */);
         while (inCameraMode) {
@@ -1020,6 +1031,10 @@
           DisplayHud(true);
           canToggleHUD = false;
         }
+        if (canToggleRadar) {
+          DisplayRadar(true);
+          canToggleRadar = false;
+        }
         return resp;
       });
       var handleCameraExit = () => __async(exports, null, function* () {
@@ -1034,6 +1049,10 @@
         if (canToggleHUD) {
           DisplayHud(true);
           canToggleHUD = false;
+        }
+        if (canToggleRadar) {
+          DisplayRadar(true);
+          canToggleRadar = false;
         }
       });
       RegisterNuiProxy("npwd:FetchPhotos" /* FETCH_PHOTOS */);

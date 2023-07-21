@@ -57431,6 +57431,7 @@ var config_default_default = {
       "discord.com",
       "cdn.discordapp.com",
       "media.discordapp.com",
+      "media.discordapp.net",
       "upload.wikipedia.org",
       "i.projecterror.dev",
       "upcdn.io"
@@ -62302,12 +62303,14 @@ var _TwitterService = class {
       const identifier = player_service_default.getIdentifier(reqObj.source);
       const profile = await this.twitterDB.getOrCreateProfile(identifier);
       const likeExists = await this.twitterDB.doesLikeExist(profile.id, reqObj.data.tweetId);
+      const likedByProfileName = profile.profile_name;
       if (likeExists) {
         await this.twitterDB.deleteLike(profile.id, reqObj.data.tweetId);
       } else {
         await this.twitterDB.createLike(profile.id, reqObj.data.tweetId);
       }
       resp({ status: "ok" });
+      emitNet("npwd:tweetLikedBroadcast" /* TWEET_LIKED_BROADCAST */, -1, reqObj.data.tweetId, !likeExists, likedByProfileName);
     } catch (e2) {
       twitterLogger.error(`Like failed, ${e2.message}`, {
         source: reqObj.source
