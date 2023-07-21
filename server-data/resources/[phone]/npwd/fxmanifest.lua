@@ -6,13 +6,11 @@ version("v1.7.2")
 client_scripts({
 	"dist/game/client/client.js",
 	"dist/game/client/*.lua",
-	"apps/game/client/*.lua",
 })
 
 server_script({
 	-- This is a file that lives purely in source code and isn't compiled alongside
 	-- rest of the release. It's used to detect whether a user can read or not.
-	"build-detector.js",
 	"dist/game/server/server.js",
 })
 
