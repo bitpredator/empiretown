@@ -10,7 +10,7 @@ DoomsdayFacility = {
         Interior = {
             ipl = "xm_x17dlc_int_placement_interior_33_x17dlc_int_02_milo_",
 
-            Load = function(color)
+            Load = function()
                 EnableIpl(DoomsdayFacility.Ipl.Interior.ipl, true)
                 SetIplPropState(DoomsdayFacility.interiorId, "set_int_02_shell", true, true)
             end,
@@ -259,7 +259,7 @@ DoomsdayFacility = {
             },
 
             Enable = function(state)
-                for key, glass in pairs(DoomsdayFacility.PrivacyGlass.Lounge.Glasses) do
+                for _, glass in pairs(DoomsdayFacility.PrivacyGlass.Lounge.Glasses) do
                     local handle = GetClosestObjectOfType(glass.entityPos.x, glass.entityPos.y, glass.entityPos.z, 1.0, glass.modelHash, false, false, false)
 
                     if state then
