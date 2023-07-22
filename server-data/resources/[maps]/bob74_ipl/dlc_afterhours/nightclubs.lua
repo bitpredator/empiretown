@@ -192,7 +192,7 @@ AfterHoursNightclubs = {
                     SetIplPropState(AfterHoursNightclubs.interiorId, light, true, refresh)
                 end,
                 Clear = function(refresh)
-                    for :, value in pairs(AfterHoursNightclubs.Interior.Lights.Bands) do
+                    for _, value in pairs(AfterHoursNightclubs.Interior.Lights.Bands) do
                         if type(value) == "string" then
                             SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                         end
