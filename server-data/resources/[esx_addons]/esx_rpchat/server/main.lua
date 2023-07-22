@@ -2,46 +2,11 @@ AddEventHandler('chatMessage', function(playerId, _, message)
 	if string.sub(message, 1, string.len('/')) ~= '/' then
 		CancelEvent()
 
+        local playerName
 		playerName = GetRealPlayerName(playerId)
 		TriggerClientEvent('chat:addMessage', -1, {args = {_U('ooc_prefix', playerName), message}, color = {128, 128, 128}})
 	end
 end)
-
-RegisterCommand('me', function(playerId, args)
-	if playerId == 0 then
-		print('[^1ERROR^7] This Command Cannot Be Used By The Console!')
-	else
-		args = table.concat(args, ' ')
-		local playerName = GetRealPlayerName(playerId)
-
-		TriggerClientEvent('esx_rpchat:sendProximityMessage', -1, playerId, _U('me_prefix', playerName), args, {255, 0, 0})
-	end
-end, false)
-
-RegisterCommand('do', function(playerId, args)
-	if playerId == 0 then
-		print('[^1ERROR^7] This Command Cannot Be Used By The Console!')
-	else
-		args = table.concat(args, ' ')
-		local playerName = GetRealPlayerName(playerId)
-
-		TriggerClientEvent('esx_rpchat:sendProximityMessage', -1, playerId, _U('do_prefix', playerName), args, {0, 0, 255})
-	end
-end, false)
-
-RegisterCommand('msg', function(source, args)
-
-	if GetPlayerName(tonumber(args[1])) then
-		local player = tonumber(args[1])
-		table.remove(args, 1)
-
-		TriggerClientEvent('chat:addMessage', player, {args = {"^1PM from "..GetPlayerName(source).. "[" .. source .. "]: ^7" ..table.concat(args, " ")}, color = {255, 153, 0}})
-		TriggerClientEvent('chat:addMessage', source, {args = {"^1PM SEND TO "..GetPlayerName(player).. "[" .. player .. "]: ^7" ..table.concat(args, " ")}, color = {255, 153, 0}})
-	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Specified Player Does Not Exist!")
-	end
-
-end,false)
 
 function GetRealPlayerName(playerId)
 	local xPlayer = ESX.GetPlayerFromId(playerId)
