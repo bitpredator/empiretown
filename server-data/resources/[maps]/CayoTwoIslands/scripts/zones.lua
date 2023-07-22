@@ -90,11 +90,3 @@ local zones = {
     ["ZP_ORT"] = "Port of South Los Santos",
     ["ZQ_UAR"] = "Davis Quartz",
 }
-
-function GetZoneNameLabel(zoneName)
-    if zones[zoneName] then
-        return zones[zoneName]
-    else
-        return zoneName
-    end
-end
