@@ -1,4 +1,4 @@
-AddEventHandler('chatMessage', function(playerId, playerName, message)
+AddEventHandler('chatMessage', function(playerId, _, message)
 	if string.sub(message, 1, string.len('/')) ~= '/' then
 		CancelEvent()
 
