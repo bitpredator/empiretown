@@ -3,7 +3,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-  while true do 
+  while true do
    Wait(0)
    SetCreateRandomCopsNotOnScenarios(false) -- stop random cops (not in a scenario) from spawning.
 	 SetCreateRandomCopsOnScenarios(false) -- stop random cops (in a scenario) from spawning.
