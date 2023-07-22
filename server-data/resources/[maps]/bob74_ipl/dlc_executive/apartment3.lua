@@ -55,7 +55,7 @@ ExecApartment3 = {
             end
         end,
         Clear = function()
-            for key, value in pairs(ExecApartment3.Style.Theme) do
+            for _, value in pairs(ExecApartment3.Style.Theme) do
                 SetIplPropState(value.interiorId, {
                     "Apart_Hi_Strip_A",
                     "Apart_Hi_Strip_B",
