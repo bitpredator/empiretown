@@ -185,6 +185,8 @@ function HandleMarkers()
 		end
 
 		if CurrentStatus == Status.PLAYER_REACHED_VEHICLE_POINT then
+			local TrunckPos
+			local TrunkForward = TrunkForward
 			if not IsPlayerInsideDeliveryVehicle() then
 				TrunkPos = GetEntityCoords(CurrentVehicle)
 				TrunkForward = GetEntityForwardVector(CurrentVehicle)
@@ -196,8 +198,6 @@ function HandleMarkers()
 					end
 				end
 
-                local TrunckPos
-				local TrunkForward = TrunkForward
 				TrunkPos = TrunkPos - (TrunkForward * ScaleFactor)
 				TrunkHeight = TrunkPos.z
 				TrunkHeight = TrunkPos.z + 0.7
