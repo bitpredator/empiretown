@@ -598,8 +598,8 @@ AfterHoursNightclubs = {
         barrier = "ba_barriers_caseX",
 
         Enable = function(clubId, state)
-            value = AfterHoursNightclubs.Barrier.barrier:gsub("caseX", "case" .. tostring(clubId))
             local value
+            value = AfterHoursNightclubs.Barrier.barrier:gsub("caseX", "case" .. tostring(clubId))
             EnableIpl(value, state)
         end
     },
