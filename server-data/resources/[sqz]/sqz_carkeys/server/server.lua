@@ -1,11 +1,8 @@
 ESX = exports["es_extended"]:getSharedObject()
-
 local vehiclesCache = {}
 
 exports('resetPlate', function(plate)
-
     vehiclesCache[plate] = nil
-
 end)
 
 exports('giveTempKeys', function(plate, identifier, timeout)
@@ -37,7 +34,7 @@ RegisterNetEvent('carkeys:RequestVehicleLock', function(netId, lockstatus)
             vehiclesCache[plate][result[1].owner] = true
             local otherKeys = json.decode(result[1].peopleWithKeys)
             if not otherKeys then otherKeys = {} end
-            for k, v in pairs(otherKeys) do
+            for _, v in pairs(otherKeys) do
                 vehiclesCache[plate][v] = true
             end
         end
