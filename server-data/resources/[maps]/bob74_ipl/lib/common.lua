@@ -159,8 +159,9 @@ function DrawEmptyRect(name, model)
 end
 
 function SetupScaleform(movieId, scaleformFunction, parameters)
-    BeginScaleformMovieMethod(movieId, scaleformFunction)
     local name
+    local N_0x32f34ff7f617643b
+    BeginScaleformMovieMethod(movieId, scaleformFunction)
     ScaleformMovieMethodAddParamTextureNameString_2(name)
 
     if type(parameters) == "table" then
@@ -182,7 +183,6 @@ function SetupScaleform(movieId, scaleformFunction, parameters)
     end
 
     EndScaleformMovieMethod()
-    local N_0x32f34ff7f617643b
     N_0x32f34ff7f617643b(movieId, 1)
 end
 
