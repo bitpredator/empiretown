@@ -64,7 +64,7 @@ end)
 -- Load or remove IPL(s)
 function EnableIpl(ipl, activate)
     if type(ipl) == "table" then
-        for key, value in pairs(ipl) do
+        for _, value in pairs(ipl) do
             EnableIpl(value, activate)
         end
     else
@@ -87,12 +87,12 @@ function SetIplPropState(interiorId, props, state, refresh)
     end
 
     if type(interiorId) == "table" then
-        for key, value in pairs(interiorId) do
+        for _, value in pairs(interiorId) do
             SetIplPropState(value, props, state, refresh)
         end
     else
         if type(props) == "table" then
-            for key, value in pairs(props) do
+            for _, value in pairs(props) do
                 SetIplPropState(interiorId, value, state, refresh)
             end
         else
@@ -159,6 +159,8 @@ function DrawEmptyRect(name, model)
 end
 
 function SetupScaleform(movieId, scaleformFunction, parameters)
+    local name
+    local N_0x32f34ff7f617643b
     BeginScaleformMovieMethod(movieId, scaleformFunction)
     ScaleformMovieMethodAddParamTextureNameString_2(name)
 

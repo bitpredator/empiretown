@@ -1,7 +1,7 @@
 -- Delay between each attempt to open/close the doors corresponding to their state
 local _scanDelay = 500
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         local office = 0
 
@@ -20,6 +20,7 @@ Citizen.CreateThread(function()
             -- Office found, let's check the doors
 
             -- Check left door
+            local doorHandle
             doorHandle = office.Safe.GetDoorHandle(office.currentSafeDoors.hashL)
 
             if doorHandle ~= 0 then
@@ -42,6 +43,6 @@ Citizen.CreateThread(function()
             end
         end
 
-        Citizen.Wait(_scanDelay)
+        Wait(_scanDelay)
     end
 end)

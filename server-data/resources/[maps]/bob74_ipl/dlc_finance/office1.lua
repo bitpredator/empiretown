@@ -79,8 +79,8 @@ FinanceOffice1 = {
             end
         end,
         Clear = function()
-            for themeKey, themeValue in pairs(FinanceOffice1.Style.Theme) do
-                for swagKey, swagValue in pairs(FinanceOffice1.Swag) do
+            for _, themeValue in pairs(FinanceOffice1.Style.Theme) do
+                for _, swagValue in pairs(FinanceOffice1.Swag) do
                     if type(swagValue) == "table" then
                         SetIplPropState(themeValue.interiorId, {
                             swagValue.A,

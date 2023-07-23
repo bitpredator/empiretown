@@ -378,7 +378,7 @@ BikerGang = {
                             EndScaleformMovieMethod()
                         else
                             -- Remove all missions
-                            for key, value in pairs(BikerGang.Clubhouse.MissionsWall.Position) do
+                            for _, value in pairs(BikerGang.Clubhouse.MissionsWall.Position) do
                                 BikerGang.Clubhouse.MissionsWall.RemoveMission(value)
                             end
 
@@ -423,7 +423,7 @@ BikerGang = {
             BikerGang.Clubhouse.MissionsWall.Clear()
             BikerGang.Clubhouse.MissionsWall.loaded = false
 
-            for key, member in pairs(BikerGang.Clubhouse.Members) do
+            for _, member in pairs(BikerGang.Clubhouse.Members) do
                 if type(member) == "table" then
                     member.Clear()
                     member.loaded = false
@@ -480,7 +480,7 @@ Citizen.CreateThread(function()
                 end
 
                 -- Members: President
-                for key, member in pairs(BikerGang.Clubhouse.Members) do
+                for _, member in pairs(BikerGang.Clubhouse.Members) do
                     if type(member) == "table" then
                         if member.needToLoad then
                             DrawMember(member)
