@@ -39,7 +39,7 @@ Config.Rewards = {
 -- Vehicle model
 Config.Models = {
 	scooter = 'faggio3',
-	van     = 's1',      -- Chinese car Wuling hong guang S1
+	van     = 'blista',      -- Chinese car Wuling hong guang S1
 	truck   = 'mule',
 	vehDoor = {
 		-- If this value is true, it will open the vehicle trunk when player remove the goods from the vehicle.

@@ -24,9 +24,9 @@ local FinishedJobs              = 0
 
 -- Make player look like a worker
 function LoadWorkPlayerSkin(deliveryType)
-	
+
 	local playerPed = PlayerPedId()
-	
+
 	if deliveryType == 'scooter' then
 		if IsPedMale(playerPed) then
 			for k, v in pairs(Config.OutfitScooter) do
@@ -59,11 +59,11 @@ end
 
 -- Control the input
 function HandleInput()
-	
+
 	if PlayerJob ~= "delivery" then
 		return
 	end
-	
+
 	if CurrentStatus == Status.PLAYER_REMOVED_GOODS_FROM_VEHICLE then
 		DisableControlAction(0, 21, true)
 	else
@@ -73,14 +73,14 @@ end
 
 -- Main logic handler
 function HandleLogic()
-	
+
 	if PlayerJob ~= "delivery" then
 		return
 	end
-	
+
 	local playerPed = PlayerPedId()
 	local pCoords   = GetEntityCoords(playerPed)
-	
+
 	if CurrentStatus ~= Status.DELIVERY_INACTIVE then
 		if IsPedDeadOrDying(playerPed, true) then
 			FinishDelivery(CurrentType, false)
@@ -89,21 +89,21 @@ function HandleLogic()
 			FinishDelivery(CurrentType, false)
 			return
 		end
-	
+
 		if CurrentStatus == Status.PLAYER_STARTED_DELIVERY then
 			if not IsPlayerInsideDeliveryVehicle() then
 				CurrentSubtitle = _U("get_back_in_vehicle")
 			else
 				CurrentSubtitle = nil
 			end
-			
+
 			if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, DeliveryLocation.Item1.x, DeliveryLocation.Item1.y, DeliveryLocation.Item1.z, true) < 1.5 then
 				CurrentStatus = Status.PLAYER_REACHED_VEHICLE_POINT
 				CurrentSubtitle = _U("remove_goods_subtext")
 				PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", false, 0, true)
 			end
 		end
-		
+
 		if CurrentStatus == Status.PLAYER_REMOVED_GOODS_FROM_VEHICLE then
 			if CurrentType == 'van' or CurrentType == 'truck' then
 				CurrentSubtitle = _U("deliver_inside_shop")
@@ -111,15 +111,15 @@ function HandleLogic()
 					ForceCarryAnimation();
 				end
 			end
-			
+
 			if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, DeliveryLocation.Item2.x, DeliveryLocation.Item2.y, DeliveryLocation.Item2.z, true) < 1.5 then
-				
+
 				TriggerServerEvent("bpt_deliveries:finishDelivery:server", CurrentType)
 				PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", false, 0, true)
 				FinishedJobs = FinishedJobs + 1
-				
+
 				ESX.ShowNotification(_U("finish_job") .. FinishedJobs .. "/" .. #DeliveryRoutes)
-				
+
 				if FinishedJobs >= #DeliveryRoutes then
 				 RemovePlayerProps()
 				 RemoveBlip(CurrentBlip)
@@ -146,14 +146,14 @@ end
 
 -- Handling markers and object status
 function HandleMarkers()
-	
+
 	if PlayerJob ~= "delivery" then
 		return
 	end
-	
+
 	local pCoords = GetEntityCoords(PlayerPedId())
 	local deleter = Config.Base.deleter
-	
+
 	if CurrentStatus ~= Status.DELIVERY_INACTIVE then
 		DrawMarker(20, deleter.x, deleter.y, deleter.z, 0, 0, 0, 0, 180.0, 0, 1.5, 1.5, 1.5, 249, 38, 114, 150, true, true)
 		if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, deleter.x, deleter.y, deleter.z) < 1.5 then
@@ -163,18 +163,18 @@ function HandleMarkers()
 				return
 			end
 		end
-		
+
 		if CurrentStatus == Status.PLAYER_STARTED_DELIVERY then
 			if not IsPlayerInsideDeliveryVehicle() and CurrentVehicle ~= nil then
 				local VehiclePos = GetEntityCoords(CurrentVehicle)
 				local ArrowHeight = VehiclePos.z
-				
+
 				if CurrentType == 'van' then
 					ArrowHeight = ArrowHeight + 1.0
 				elseif CurrentType == 'truck' then
 					ArrowHeight = ArrowHeight + 2.0
 				end
-				
+
 				DrawMarker(20, VehiclePos.x, VehiclePos.y, ArrowHeight, 0, 0, 0, 0, 180.0, 0, 0.8, 0.8, 0.8, 102, 217, 239, 150, true, true)
 			else
 				local dl = DeliveryLocation.Item1
@@ -183,31 +183,33 @@ function HandleMarkers()
 				end
 			end
 		end
-		
+
 		if CurrentStatus == Status.PLAYER_REACHED_VEHICLE_POINT then
+			local TrunckPos
+			local TrunkForward = TrunkForward
 			if not IsPlayerInsideDeliveryVehicle() then
 				TrunkPos = GetEntityCoords(CurrentVehicle)
 				TrunkForward = GetEntityForwardVector(CurrentVehicle)
 				local ScaleFactor = 1.0
-				
+
 				for k, v in pairs(Config.Scales) do
 					if k == CurrentType then
 						ScaleFactor = v
 					end
 				end
-				
+
 				TrunkPos = TrunkPos - (TrunkForward * ScaleFactor)
 				TrunkHeight = TrunkPos.z
 				TrunkHeight = TrunkPos.z + 0.7
-				
+
 				local ArrowSize = {x = 0.8, y = 0.8, z = 0.8}
-				
+
 				if CurrentType == 'scooter' then
 					ArrowSize = {x = 0.15, y = 0.15, z = 0.15}
 				end
-				
+
 				DrawMarker(20, TrunkPos.x, TrunkPos.y, TrunkHeight, 0, 0, 0, 180.0, 0, 0, ArrowSize.x, ArrowSize.y, ArrowSize.z, 102, 217, 239, 150, true, true)
-				
+
 				if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, TrunkPos.x, TrunkPos.y, TrunkHeight, true) < 1.0 then
 					DisplayHelpText(_U("remove_goods"))
 					if IsControlJustReleased(0, 51) then
@@ -218,12 +220,12 @@ function HandleMarkers()
 				end
 			end
 		end
-		
+
 		if CurrentStatus == Status.PLAYER_REMOVED_GOODS_FROM_VEHICLE then
 			local dp = DeliveryLocation.Item2
 			DrawMarker(20, dp.x, dp.y, dp.z, 0, 0, 0, 0, 180.0, 0, 1.5, 1.5, 1.5, 102, 217, 239, 150, true, true)
 		end
-		
+
 		if CurrentStatus == Status.PLAYER_RETURNING_TO_BASE then
 			local dp = Config.Base.deleter
 			DrawMarker(20, dp.x, dp.y, dp.z, 0, 0, 0, 0, 180.0, 0, 1.5, 1.5, 1.5, 102, 217, 239, 150, true, true)
@@ -234,13 +236,13 @@ function HandleMarkers()
 			local ScooterPos = Config.Base.scooter
 			local VanPos     = Config.Base.van
 			local TruckPos   = Config.Base.truck
-			
+
 			DrawMarker(37, ScooterPos.x, ScooterPos.y, ScooterPos.z, 0, 0, 0, 0, 0, 0, 2.5, 2.5, 2.5, 243, 56, 56, 150, true, true)
 			DrawMarker(36, VanPos.x, VanPos.y, VanPos.z, 0, 0, 0, 0, 0, 0, 2.5, 2.5, 2.5, 250, 170, 60, 150, true, true)
 			DrawMarker(39, TruckPos.x, TruckPos.y, TruckPos.z, 0, 0, 0, 0, 0, 0, 2.5, 2.5, 2.5, 230, 219, 91, 150, true, true)
-			
+
 			local SelectType = false
-			
+
 			if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, ScooterPos.x, ScooterPos.y, ScooterPos.z, true) < 1.5 then
 				DisplayHelpText(_U("start_delivery") .. tostring(Config.Safe.scooter))
 				SelectType = 'scooter'
@@ -253,7 +255,7 @@ function HandleMarkers()
 			else
 				SelectType = false
 			end
-			
+
 			if SelectType ~= false then
 				if IsControlJustReleased(0, 51) then
 					StartDelivery(SelectType)
@@ -278,9 +280,9 @@ function PlayTrunkAnimation()
 			if Config.Models.vehDoor.usingTrunkForVan then
 				SetVehicleDoorOpen(CurrentVehicle, 5, false, false)
 			else
-				
+
 			end
-			
+
 		end
 		Wait(1000)
 		if CurrentType == 'truck' then
@@ -304,7 +306,7 @@ end
 -- Create a blip for the location
 function CreateBlipAt(x, y, z)
  local tmpBlip = AddBlipForCoord(x, y, z)
-	
+
  SetBlipSprite(tmpBlip, 1)
  SetBlipColour(tmpBlip, 66)
  SetBlipAsShortRange(tmpBlip, true)
@@ -313,7 +315,7 @@ function CreateBlipAt(x, y, z)
  EndTextCommandSetBlipName(blip)
  SetBlipAsMissionCreatorBlip(tmpBlip, true)
  SetBlipRoute(tmpBlip, true)
-	
+
  return tmpBlip
 end
 
