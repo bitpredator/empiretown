@@ -599,7 +599,7 @@ AfterHoursNightclubs = {
 
         Enable = function(clubId, state)
             value = AfterHoursNightclubs.Barrier.barrier:gsub("caseX", "case" .. tostring(clubId))
-
+            local value
             EnableIpl(value, state)
         end
     },
