@@ -522,7 +522,7 @@ function CreateRoute(deliveryType)
 
 	while #DeliveryRoutes < TotalDeliveries do
 		Wait(1)
-		local PreviousPoint = nil
+		local PreviousPoint = {}
 		if #DeliveryRoutes < 1 then
 			PreviousPoint = GetEntityCoords(PlayerPedId())
 		else
