@@ -185,7 +185,6 @@ function HandleMarkers()
 		end
 
 		if CurrentStatus == Status.PLAYER_REACHED_VEHICLE_POINT then
-			local TrunckPos, TrunkForward = {}, {}
 
 			if not IsPlayerInsideDeliveryVehicle() then
 				TrunkPos = GetEntityCoords(CurrentVehicle)
@@ -639,20 +638,16 @@ end
 
 -- Initialize ESX
 CreateThread(function()
-    while ESX == nil do
-     ESX = exports["es_extended"]:getSharedObject()
-     Wait(0)
-    end
-
+ ESX = exports["es_extended"]:getSharedObject()
     while ESX.GetPlayerData().job == nil do
      Wait(10)
     end
-
     ESX.PlayerData = ESX.GetPlayerData()
 	TriggerServerEvent("bpt_deliveries:getPlayerJob:server")
 end)
 
 -- Main thread
+local blip
 CreateThread(function()
  blip = AddBlipForCoord(Config.Base.coords.x, Config.Base.coords.y, Config.Base.coords.z)
  SetBlipSprite(blip, 85)
