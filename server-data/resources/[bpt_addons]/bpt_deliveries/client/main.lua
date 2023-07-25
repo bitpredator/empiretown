@@ -187,8 +187,8 @@ function HandleMarkers()
 		if CurrentStatus == Status.PLAYER_REACHED_VEHICLE_POINT then
 
 			if not IsPlayerInsideDeliveryVehicle() then
-				TrunkPos = GetEntityCoords(CurrentVehicle)
-				TrunkForward = GetEntityForwardVector(CurrentVehicle)
+				local TrunkPos = GetEntityCoords(CurrentVehicle)
+				local TrunkForward = GetEntityForwardVector(CurrentVehicle)
 				local ScaleFactor = 1.0
 				local TrunkHeight
 
@@ -303,7 +303,7 @@ end
 -- Create a blip for the location
 function CreateBlipAt(x, y, z)
  local tmpBlip = AddBlipForCoord(x, y, z)
- local blip = EndTextCommandSetBlipName(blip)
+ local blip
 
  SetBlipSprite(tmpBlip, 1)
  SetBlipColour(tmpBlip, 66)
