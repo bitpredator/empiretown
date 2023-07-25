@@ -198,7 +198,7 @@ function HandleMarkers()
 					end
 				end
 
-				TrunkPos = TrunkPos - (TrunkForward * ScaleFactor)
+				local TrunkPos = TrunkPos - (TrunkForward * ScaleFactor)
 				TrunkHeight = TrunkPos.z
 				TrunkHeight = TrunkPos.z + 0.7
 
@@ -304,7 +304,7 @@ end
 -- Create a blip for the location
 function CreateBlipAt(x, y, z)
  local tmpBlip = AddBlipForCoord(x, y, z)
- local blip = blip
+ local blip = EndTextCommandSetBlipName(blip)
 
  SetBlipSprite(tmpBlip, 1)
  SetBlipColour(tmpBlip, 66)
