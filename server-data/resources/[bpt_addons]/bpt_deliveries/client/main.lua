@@ -198,7 +198,7 @@ function HandleMarkers()
 					end
 				end
 
-				local TrunkPos = TrunkPos - (TrunkForward * ScaleFactor)
+				TrunkPos = TrunkPos - (TrunkForward * ScaleFactor)
 				TrunkHeight = TrunkPos.z + 0.7
 
 				local ArrowSize = {x = 0.8, y = 0.8, z = 0.8}
@@ -303,18 +303,20 @@ end
 -- Create a blip for the location
 function CreateBlipAt(x, y, z)
  local tmpBlip = AddBlipForCoord(x, y, z)
- local blip
-
  SetBlipSprite(tmpBlip, 1)
  SetBlipColour(tmpBlip, 66)
  SetBlipAsShortRange(tmpBlip, true)
  BeginTextCommandSetBlipName("STRING")
  AddTextComponentString(_U("dst_blip"))
- EndTextCommandSetBlipName(blip)
  SetBlipAsMissionCreatorBlip(tmpBlip, true)
  SetBlipRoute(tmpBlip, true)
 
  return tmpBlip
+end
+
+function blip()
+	local blip
+	EndTextCommandSetBlipName(blip)
 end
 
 -- Let the player carry something
