@@ -632,7 +632,6 @@ CreateThread(function()
 end)
 
 -- Main thread
-local blip
 CreateThread(function()
  blip = AddBlipForCoord(Config.Base.coords.x, Config.Base.coords.y, Config.Base.coords.z)
  SetBlipSprite(blip, 85)
