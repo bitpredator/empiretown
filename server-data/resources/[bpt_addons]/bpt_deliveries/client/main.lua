@@ -510,7 +510,7 @@ end
 function CreateRoute(deliveryType)
 
 	local TotalDeliveries = GetRandomFromRange(Config.Deliveries.min, Config.Deliveries.max)
-	local DeliveryPoints = {}
+	local DeliveryPoints
 
 	if deliveryType == 'scooter' then
 		DeliveryPoints = Config.DeliveryLocationsScooter
