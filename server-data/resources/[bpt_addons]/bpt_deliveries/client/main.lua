@@ -199,7 +199,6 @@ function HandleMarkers()
 				end
 
 				local TrunkPos = TrunkPos - (TrunkForward * ScaleFactor)
-				TrunkHeight = TrunkPos.z
 				TrunkHeight = TrunkPos.z + 0.7
 
 				local ArrowSize = {x = 0.8, y = 0.8, z = 0.8}
