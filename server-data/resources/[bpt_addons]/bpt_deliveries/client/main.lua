@@ -240,7 +240,7 @@ function HandleMarkers()
 			DrawMarker(36, VanPos.x, VanPos.y, VanPos.z, 0, 0, 0, 0, 0, 0, 2.5, 2.5, 2.5, 250, 170, 60, 150, true, true)
 			DrawMarker(39, TruckPos.x, TruckPos.y, TruckPos.z, 0, 0, 0, 0, 0, 0, 2.5, 2.5, 2.5, 230, 219, 91, 150, true, true)
 
-			local SelectType = false
+			local SelectType
 
 			if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, ScooterPos.x, ScooterPos.y, ScooterPos.z, true) < 1.5 then
 				DisplayHelpText(_U("start_delivery") .. tostring(Config.Safe.scooter))
@@ -278,8 +278,6 @@ function PlayTrunkAnimation()
 		elseif CurrentType == 'van' then
 			if Config.Models.vehDoor.usingTrunkForVan then
 				SetVehicleDoorOpen(CurrentVehicle, 5, false, false)
-			else
-
 			end
 
 		end
@@ -305,6 +303,7 @@ end
 -- Create a blip for the location
 function CreateBlipAt(x, y, z)
  local tmpBlip = AddBlipForCoord(x, y, z)
+ local blip
 
  SetBlipSprite(tmpBlip, 1)
  SetBlipColour(tmpBlip, 66)
@@ -337,17 +336,6 @@ function IsPlayerInsideDeliveryVehicle()
 		end
 	end
 	return false
-end
-
--- Is this checkpoint the last checkpoint?
-function IsLastDelivery()
-	local isLast = false
-	local dp1    = DeliveryLocation.Item2
-	local dp2    = DeliveryRoutes[#DeliveryRoutes].Item2
-	if dp1.x == dp2.x and dp1.y == dp2.y and dp1.z == dp2.z then
-		isLast = true
-	end
-	return isLast
 end
 
 -- Remove all object from the player ped
