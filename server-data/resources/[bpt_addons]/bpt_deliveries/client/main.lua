@@ -314,8 +314,9 @@ function CreateBlipAt(x, y, z)
  return tmpBlip
 end
 
+local blip
+
 function blip()
-	local blip
 	EndTextCommandSetBlipName(blip)
 end
 
