@@ -190,6 +190,7 @@ function HandleMarkers()
 				TrunkPos = GetEntityCoords(CurrentVehicle)
 				TrunkForward = GetEntityForwardVector(CurrentVehicle)
 				local ScaleFactor = 1.0
+				local TrunkHeight
 
 				for k, v in pairs(Config.Scales) do
 					if k == CurrentType then
@@ -303,7 +304,7 @@ end
 -- Create a blip for the location
 function CreateBlipAt(x, y, z)
  local tmpBlip = AddBlipForCoord(x, y, z)
- local blip
+ local blip = blip
 
  SetBlipSprite(tmpBlip, 1)
  SetBlipColour(tmpBlip, 66)
