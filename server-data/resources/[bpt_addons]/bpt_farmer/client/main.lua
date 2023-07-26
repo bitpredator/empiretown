@@ -20,7 +20,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 end)
 
 function DrawText3D(x, y, z, text, scale)
-	local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+	onScreen, _x, _y = World3dToScreen2d(x, y, z)
 
 	SetTextScale(scale, scale)
 	SetTextFont(4)
