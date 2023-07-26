@@ -11,9 +11,6 @@ local Keys = {
 }
 
 ESX                             = nil
-local PlayerData                = {}
-local GUI                       = {}
-GUI.Time                        = 0
 local incollect                 = false
 
 ESX = exports["es_extended"]:getSharedObject()
@@ -24,7 +21,6 @@ end)
 
 function DrawText3D(x, y, z, text, scale)
 	local onScreen, _x, _y = World3dToScreen2d(x, y, z)
-	local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
 
 	SetTextScale(scale, scale)
 	SetTextFont(4)
@@ -48,7 +44,6 @@ CreateThread(function()
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 10.0) then
             DrawText3D(2233.21, 5081.3, 48.08, 'Premi ~b~[E] per raccogliere delle patate', 0.4)
-            local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
@@ -69,7 +64,6 @@ CreateThread(function()
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 10.0) then
             DrawText3D(1582.035156, 2167.279053, 79.307007, 'Premi ~b~[E] per raccogliere del cotone', 0.4)
-            local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
