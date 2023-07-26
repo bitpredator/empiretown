@@ -1,3 +1,5 @@
+local playerPed
+
 RegisterNetEvent('farmer:freeze')
 AddEventHandler('farmer:freeze', function()
 	playerPed = PlayerPedId()
