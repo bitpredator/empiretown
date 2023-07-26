@@ -16,13 +16,10 @@ local GUI                       = {}
 GUI.Time                        = 0
 local incollect                 = false
 
+ESX = exports["es_extended"]:getSharedObject()
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
     PlayerData = xPlayer
-end)
- 
-CreateThread(function()
-	ESX = exports["es_extended"]:getSharedObject()
 end)
 
 function DrawText3D(x, y, z, text, scale)
@@ -51,14 +48,12 @@ CreateThread(function()
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 10.0) then
             DrawText3D(2233.21, 5081.3, 48.08, 'Premi ~b~[E] per raccogliere delle patate', 0.4)
-			local coords      = GetEntityCoords(PlayerPedId())
             local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
                         if incollect == false then
                             collectionpotato()
-                        else
                         end
                     end
                 end
@@ -74,14 +69,12 @@ CreateThread(function()
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 10.0) then
             DrawText3D(1582.035156, 2167.279053, 79.307007, 'Premi ~b~[E] per raccogliere del cotone', 0.4)
-			local coords      = GetEntityCoords(PlayerPedId())
             local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
                         if incollect == false then
                             collectioncotton()
-                        else
                         end
                     end
                 end
@@ -97,14 +90,11 @@ CreateThread(function()
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 2343.850586, 4756.087891, 34.806641, true) < 10.0) then
             DrawText3D(2343.850586, 4756.087891, 34.806641, 'Premi ~b~[E] per raccogliere delle mele', 0.4)
-			local coords      = GetEntityCoords(PlayerPedId())
-            local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2343.850586, 4756.087891, 34.806641, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
                         if incollect == false then
                             collectionapple()
-                        else
                         end
                     end
                 end
@@ -120,14 +110,11 @@ CreateThread(function()
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 10.0) then
             DrawText3D(2607.942871, 4399.490234, 40.973633, 'Premi ~b~[E] per raccogliere il grano', 0.4)
-			local coords      = GetEntityCoords(PlayerPedId())
-            local playerPed   = PlayerPedId()
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
                         if incollect == false then
                             collectiongrain()
-                        else
                         end
                     end
                 end
