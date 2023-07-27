@@ -3,13 +3,9 @@ local armor = 0
 local food = 0
 local thirst = 0
 local posi = "bottom"
-local sleep
-
 ESX = nil
 
-CreateThread(function()
-	ESX = exports["es_extended"]:getSharedObject()
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 AddEventHandler('playerSpawned', function()  -- Enable hud only after player spawn
 	CreateThread(function()
