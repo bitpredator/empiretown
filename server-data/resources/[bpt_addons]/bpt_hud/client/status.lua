@@ -10,7 +10,7 @@ ESX = exports["es_extended"]:getSharedObject()
 AddEventHandler('playerSpawned', function()  -- Enable hud only after player spawn
 	CreateThread(function()
 		while true do
-			Wait(sleep)
+			Wait(0)
 			if IsEntityDead(GetPlayerPed(-1)) then
 				health = 0
 			else
