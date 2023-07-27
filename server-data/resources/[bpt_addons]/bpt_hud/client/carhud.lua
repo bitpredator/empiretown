@@ -68,12 +68,12 @@ CreateThread(function()
             cruiseIsOn = false
             seatbeltIsOn = false
         end
-        
+
         -- Display Location and time when in any vehicle or on foot (if enabled)
         if pedInVeh or locationAlwaysOn then
             -- Get time and display
             drawTxt(timeText, 4, locationColorText, 0.4, screenPosX, screenPosY + 0.048)
-        
+
             -- Display remainder of HUD when engine is on and vehicle is not a bicycle
             local vehicleClass = GetVehicleClass(vehicle)
             if pedInVeh and GetIsVehicleEngineRunning(vehicle) and vehicleClass ~= 13 then
@@ -83,7 +83,7 @@ CreateThread(function()
 
                 -- Set PED flags
                 SetPedConfigFlag(PlayerPedId(), 32, true)
-                
+
                 -- Check if seatbelt button pressed, toggle state and handle seatbelt logic
                 if IsControlJustReleased(0, seatbeltInput) and (enableController or GetLastInputMethod(0)) and vehicleClass ~= 8 then
                     -- Toggle seatbelt status and play sound when enabled
@@ -138,7 +138,7 @@ CreateThread(function()
                     drawTxt(("%.3d"):format(math.ceil(speed)), 2, speedColor, 0.8, screenPosX + 0.000, screenPosY + 0.000)
                     drawTxt("MPH", 2, speedColorText, 0.4, screenPosX + 0.030, screenPosY + 0.018)
                 end
-                
+
                 -- Draw fuel gauge
                 local fuelColor = (currentFuel >= fuelWarnLimit) and fuelColorOver or fuelColorUnder
                 drawTxt(("%.3d"):format(math.ceil(currentFuel)), 2, fuelColor, 0.8, screenPosX + 0.055, screenPosY + 0.000)
@@ -165,8 +165,8 @@ CreateThread(function()
         if pedInVeh or locationAlwaysOn then
             -- Get player, position and vehicle
             local player = GetPlayerPed(-1)
-            local position = GetEntityCoords(player)
-            
+            local _ = GetEntityCoords(player)
+
             -- Update fuel when in a vehicle
             if pedInVeh then
                 local vehicle = GetVehiclePedIsIn(player, false)
