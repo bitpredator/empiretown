@@ -10,7 +10,7 @@ ESX.RegisterServerCallback("bpt_importjob:SpawnVehicle", function(source, cb, mo
         return
     end
     local SpawnPoint = vector3(Config.Zones.VehicleSpawnPoint.Pos.x, Config.Zones.VehicleSpawnPoint.Pos.y, Config.Zones.VehicleSpawnPoint.Pos.z)
-    ESX.OneSync.SpawnVehicle(joaat(model), SpawnPoint, Config.Zones.VehicleSpawnPoint.Heading, props, function(vehicle)
+    ESX.OneSync.SpawnVehicle(joaat(model), SpawnPoint, Config.Zones.VehicleSpawnPoint.Heading, props, function()
         local vehicle = NetworkGetEntityFromNetworkId(vehicle)
         while GetVehicleNumberPlateText(vehicle) ~= props.plate do
             Wait(0)

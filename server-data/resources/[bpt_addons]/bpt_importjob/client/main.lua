@@ -177,6 +177,7 @@ function OpenImportActionsMenu()
     ESX.OpenContext("right", elements, function(_,element)
         if element.value == 'boss_actions' then
             TriggerEvent('esx_society:openBossMenu', 'import', function()
+                local menu
                 menu.close()
             end)
         end
