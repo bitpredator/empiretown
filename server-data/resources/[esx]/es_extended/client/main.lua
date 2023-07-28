@@ -263,7 +263,6 @@ if not Config.OxInventory then
 	RegisterNetEvent('esx:setWeaponTint')
 	AddEventHandler('esx:setWeaponTint', function(weapon, weaponTintIndex)
 		SetPedWeaponTintIndex(ESX.PlayerData.ped, joaat(weapon), weaponTintIndex)
-		
 	end)
 
 	RegisterNetEvent('esx:removeWeapon')

@@ -63,7 +63,7 @@ end, false, {help = _U('command_cardel'), validate = false, arguments = {
 
 ESX.RegisterCommand('repair', 'admin', function(xPlayer, args, showError)
 	xPlayer.triggerEvent("esx:repairPedVehicle")
-end, false, {help = _U('command_repair'), validate = false}) 
+end, false, {help = _U('command_repair'), validate = false})
 
 ESX.RegisterCommand('setaccountmoney', 'admin', function(_, args, showError)
     if args.playerId.getAccount(args.account) then
@@ -180,36 +180,6 @@ end, true, { help = _U('command_clearall') })
 ESX.RegisterCommand("refreshjobs", "admin", function(_, _, _)
     ESX.RefreshJobs()
 end, true, { help = _U("command_refreshjobs") })
-
-if not Config.OxInventory then
-    ESX.RegisterCommand('clearinventory', 'admin', function(_, args, _)
-        for _, v in ipairs(args.playerId.inventory) do
-            if v.count > 0 then
-                args.playerId.setInventoryItem(v.name, 0)
-            end
-        end
-        TriggerEvent('esx:playerInventoryCleared', args.playerId)
-    end, true, {
-        help = _U('command_clearinventory'),
-        validate = true,
-        arguments = {
-            { name = 'playerId', help = _U('commandgeneric_playerid'), type = 'player' }
-        }
-    })
-
-    ESX.RegisterCommand('clearloadout', 'admin', function(_, args, _)
-        for i = #args.playerId.loadout, 1, -1 do
-            args.playerId.removeWeapon(args.playerId.loadout[i].name)
-        end
-        TriggerEvent('esx:playerLoadoutCleared', args.playerId)
-    end, true, {
-        help = _U('command_clearloadout'),
-        validate = true,
-        arguments = {
-            { name = 'playerId', help = _U('commandgeneric_playerid'), type = 'player' }
-        }
-    })
-end
 
 ESX.RegisterCommand("setgroup", "admin", function(xPlayer, args, _)
     if not args.playerId then args.playerId = xPlayer.source end
