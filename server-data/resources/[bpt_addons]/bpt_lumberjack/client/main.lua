@@ -31,7 +31,7 @@ end)
 
 local spawnedWood = 0
 local TreeWood = {}
-local Collection, Processing = false, false
+local Collection = false
 
 CreateThread(function()
 	while true do
@@ -47,65 +47,9 @@ CreateThread(function()
 	end
 end)
 
-CreateThread(function()
-	while true do
-		Wait(0)
-		local playerPed = PlayerPedId()
-		local coords = GetEntityCoords(playerPed)
-
-		if GetDistanceBetweenCoords(coords, Config.CircleZones.WoodProcessing.coords, true) < 1 then
-			if not Processing then
-				ESX.ShowHelpNotification(_U('wood_processprompt'))
-			end
-
-			if IsControlJustReleased(0, Keys['E']) and not Processing then
-
-				if Config.LicenseEnable then
-				else
-					ProcessWood()
-				end
-
-			end
-		else
-			Wait(500)
-		end
-	end
-end)
-
-function ProcessingAnimation()
-	local Animated = PlayerPedId()
-	RequestAnimDict("timetable@floyd@clean_kitchen@base")
-	Wait(1000)
-
-	TaskPlayAnim(Animated, "timetable@floyd@clean_kitchen@base", "base", 10.0, 10.0, -1, 0, 0, false, false, false)
-end
-
-function ProcessWood()
-	Processing = true
-	ESX.ShowNotification(_U('wood_processingstarted'))
-	TriggerServerEvent('bpt_woodcutter:processWood')
-	local timeLeft = Config.Delays.WoodProcessing / 1000
-	local playerPed = PlayerPedId()
-	ProcessingAnimation()
-	Wait(950)
-	while timeLeft > 0 do
-		
-		Wait(1000)
-		timeLeft = timeLeft - 1
-
-		if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.CircleZones.WoodProcessing.coords, false) > 4 then
-			ESX.ShowNotification(_U('wood_processingtoofar'))
-			TriggerServerEvent('bpt_woodcutter:cancelProcessing')
-			break
-		end
-	end
-
-	Processing = false
-end
-
 function treecutter()
 	local cut = PlayerPedId()
-	
+
 	RequestAnimDict("melee@hatchet@streamed_core")
 	Wait(1200)
 
@@ -118,10 +62,10 @@ CreateThread(function()
 		local player = PlayerPedId()
 		local coords = GetEntityCoords(player)
 		local treewood
-		
+
 		for i=1, #TreeWood, 1 do
 			if GetDistanceBetweenCoords(coords, GetEntityCoords(TreeWood[i]), false) < 1 then
-				treewood = TreeWood[i], i
+				treewood = TreeWood[i]
 			end
 		end
 
