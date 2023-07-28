@@ -1,7 +1,7 @@
 if cache.game == 'redm' then return end
 
 ---@class VehicleProperties
----@field model? string
+---@field model? number
 ---@field plate? string
 ---@field plateIndex? number
 ---@field bodyHealth? number
@@ -118,9 +118,10 @@ function lib.getVehicleProperties(vehicle)
             end
         end
 
+        local modLiveryCount = GetVehicleLiveryCount(vehicle)
         local modLivery = GetVehicleLivery(vehicle)
 
-        if modLivery == -1 then
+        if modLiveryCount == -1 or modLivery == -1 then
             modLivery = GetVehicleMod(vehicle, 48)
         end
 
@@ -303,6 +304,7 @@ function lib.setVehicleProperties(vehicle, props)
 
     if props.color1 then
         if type(props.color1) == 'number' then
+            ClearVehicleCustomPrimaryColour(vehicle)
             SetVehicleColours(vehicle, props.color1 --[[@as number]], colorSecondary --[[@as number]])
         else
             SetVehicleCustomPrimaryColour(vehicle, props.color1[1], props.color1[2], props.color1[3])
@@ -311,6 +313,7 @@ function lib.setVehicleProperties(vehicle, props)
 
     if props.color2 then
         if type(props.color2) == 'number' then
+            ClearVehicleCustomPrimaryColour(vehicle)
             SetVehicleColours(vehicle, props.color1 or colorPrimary --[[@as number]], props.color2 --[[@as number]])
         else
             SetVehicleCustomSecondaryColour(vehicle, props.color2[1], props.color2[2], props.color2[3])
