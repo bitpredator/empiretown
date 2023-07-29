@@ -161,11 +161,6 @@ function OpenMechanicActionsMenu()
 				TriggerEvent('skinchanger:loadSkin', skin)
 			end)
 
-		elseif Config.OxInventory and (data.current.value == 'put_stock' or data.current.value == 'get_stock') then
-			exports.ox_inventory:openInventory('stash', 'society_mechanic')
-			return ESX.UI.Menu.CloseAll()
-		elseif data.current.value == 'get_stock' then
-			OpenGetStocksMenu()
 		elseif data.current.value == 'boss_actions' then
 			TriggerEvent('esx_society:openBossMenu', 'mechanic', function(data, menu)
 				menu.close()
@@ -391,48 +386,6 @@ function OpenMobileMechanicActionsMenu()
 		end
 	end, function(data, menu)
 		menu.close()
-	end)
-end
-
-function OpenGetStocksMenu()
-	ESX.TriggerServerCallback('esx_mechanicjob:getStockItems', function(items)
-		local elements = {}
-
-		for i=1, #items, 1 do
-			table.insert(elements, {
-				label = 'x' .. items[i].count .. ' ' .. items[i].label,
-				value = items[i].name
-			})
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
-			title    = _U('mechanic_stock'),
-			align    = 'top-left',
-			elements = elements
-		}, function(data, menu)
-			local itemName = data.current.value
-
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count', {
-				title = _U('quantity')
-			}, function(data2, menu2)
-				local count = tonumber(data2.value)
-
-				if count == nil then
-					ESX.ShowNotification(_U('invalid_quantity'))
-				else
-					menu2.close()
-					menu.close()
-					TriggerServerEvent('esx_mechanicjob:getStockItem', itemName, count)
-
-					Wait(1000)
-					OpenGetStocksMenu()
-				end
-			end, function(data2, menu2)
-				menu2.close()
-			end)
-		end, function(data, menu)
-			menu.close()
-		end)
 	end)
 end
 
