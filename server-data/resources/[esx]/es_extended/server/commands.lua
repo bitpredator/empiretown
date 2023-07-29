@@ -23,8 +23,8 @@ end, true, {help = _U('command_setjob'), validate = true, arguments = {
 }})
 
 ESX.RegisterCommand('car', 'admin', function(xPlayer, args, _)
-	local GameBuild = tonumber(GetConvar("sv_enforceGameBuild", 1604))
-	if not args.car then args.car = GameBuild >= 2699 and "draugur" or "prototipo" end
+	local GameBuild = tonumber(GetConvar("sv_enforceGameBuild", 2802))
+	if not args.car then args.car = GameBuild >= 2802 and "draugur" or "prototipo" end
 	local upgrades = Config.MaxAdminVehicles and {
 		plate = "BPT EMP",
 		modEngine = 3,
@@ -63,7 +63,7 @@ end, false, {help = _U('command_cardel'), validate = false, arguments = {
 
 ESX.RegisterCommand('repair', 'admin', function(xPlayer, args, showError)
 	xPlayer.triggerEvent("esx:repairPedVehicle")
-end, false, {help = _U('command_repair'), validate = false}) 
+end, false, {help = _U('command_repair'), validate = false})
 
 ESX.RegisterCommand('setaccountmoney', 'admin', function(_, args, showError)
     if args.playerId.getAccount(args.account) then
@@ -277,7 +277,7 @@ end, true, {
     }
 })
 
-ESX.RegisterCommand('bring', "admin", function(xPlayer, args, _)
+ESX.RegisterCommand('bring', "admin", function(xPlayer, args)
     local playerCoords = xPlayer.getCoords()
     args.playerId.setCoords(playerCoords)
 end, true, {

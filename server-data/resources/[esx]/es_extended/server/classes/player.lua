@@ -3,7 +3,7 @@ local GetEntityCoords = GetEntityCoords
 
 function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, weight, job, loadout, name, coords, metadata)
 	local targetOverrides = Config.PlayerFunctionOverride and Core.PlayerFunctionOverrides[Config.PlayerFunctionOverride] or {}
-	
+
 	local self = {}
 
 	self.accounts = accounts
@@ -23,7 +23,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	if Config.Multichar then self.license = 'license'.. identifier:sub(identifier:find(':'), identifier:len()) else self.license = 'license:'..identifier end
 
 	ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.license, self.group))
-	
+
 	local stateBag = Player(self.source).state
 	stateBag:set("identifier", self.identifier, true)
 	stateBag:set("license", self.license, true)

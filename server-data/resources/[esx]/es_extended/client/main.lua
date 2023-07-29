@@ -263,7 +263,6 @@ if not Config.OxInventory then
 	RegisterNetEvent('esx:setWeaponTint')
 	AddEventHandler('esx:setWeaponTint', function(weapon, weaponTintIndex)
 		SetPedWeaponTintIndex(ESX.PlayerData.ped, joaat(weapon), weaponTintIndex)
-		
 	end)
 
 	RegisterNetEvent('esx:removeWeapon')
@@ -376,71 +375,13 @@ function StartServerSyncLoops()
 	end
 end
 
-if not Config.OxInventory and Config.EnableDefaultInventory then
-	RegisterCommand('showinv', function()
-		if not ESX.PlayerData.dead and not ESX.UI.Menu.IsOpen('default', 'es_extended') then
-			ESX.ShowInventory()
-		end
-	end)
-
-	RegisterKeyMapping('showinv', _U('keymap_showinventory'), 'keyboard', 'F2')
-end
-
 -- disable wanted level
 if not Config.EnableWantedLevel then
 	ClearPlayerWantedLevel(PlayerId())
 	SetMaxWantedLevel(0)
 end
 
-if not Config.OxInventory then
-	CreateThread(function()
-		while true do
-			local Sleep = 1500
-			local playerCoords = GetEntityCoords(ESX.PlayerData.ped)
-			local _, closestDistance = ESX.Game.GetClosestPlayer(playerCoords)
-
-			for pickupId,pickup in pairs(pickups) do
-				local distance = #(playerCoords - pickup.coords)
-
-				if distance < 5 then
-					Sleep = 0
-					local label = pickup.label
-
-					if distance < 1 then
-						if IsControlJustReleased(0, 38) then
-							if IsPedOnFoot(ESX.PlayerData.ped) and (closestDistance == -1 or closestDistance > 3) and not pickup.inRange then
-								pickup.inRange = true
-
-								local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
-								ESX.Streaming.RequestAnimDict(dict)
-								TaskPlayAnim(ESX.PlayerData.ped, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
-								RemoveAnimDict(dict)
-								Wait(1000)
-
-								TriggerServerEvent('esx:onPickup', pickupId)
-								PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
-							end
-						end
-
-						label = ('%s~n~%s'):format(label, _U('threw_pickup_prompt'))
-					end
-
-					ESX.Game.Utils.DrawText3D({
-						x = pickup.coords.x,
-						y = pickup.coords.y,
-						z = pickup.coords.z + 0.25
-					}, label, 1.2, 1)
-				elseif pickup.inRange then
-					pickup.inRange = false
-				end
-			end
-			Wait(Sleep)
-		end
-	end)
-end
-
 ----- Admin commnads from esx_adminplus
-
 RegisterNetEvent("esx:tpm")
 AddEventHandler("esx:tpm", function()
 	local GetEntityCoords = GetEntityCoords
@@ -458,17 +399,17 @@ AddEventHandler("esx:tpm", function()
 			 ESX.ShowNotification(_U('nowaipoint'), true, false, 140)
 			 return 'marker'
 			end
-	
+
 			-- Fade screen to hide how clients get teleported.
 			DoScreenFadeOut(650)
 			while not IsScreenFadedOut() do
 					Wait(0)
 			end
-	
+
 			local ped, coords = ESX.PlayerData.ped, GetBlipInfoIdCoord(blipMarker)
 			local vehicle = GetVehiclePedIsIn(ped, false)
 			local oldCoords = GetEntityCoords(ped)
-	
+
 			-- Unpack coords instead of having to unpack them while iterating.
 			-- 825.0 seems to be the max a player can reach while 0.0 being the lowest.
 			local x, y, groundZ, Z_START = coords['x'], coords['y'], 850.0, 950.0
@@ -478,13 +419,13 @@ AddEventHandler("esx:tpm", function()
 			else
 					FreezeEntityPosition(ped, true)
 			end
-	
+
 			for i = Z_START, 0, -25.0 do
 					local z = i
 					if (i % 2) ~= 0 then
 							z = Z_START - i
 					end
-	
+
 					NewLoadSceneStart(x, y, z, x, y, z, 50.0, 0)
 					local curTime = GetGameTimer()
 					while IsNetworkLoadingScene() do
@@ -495,7 +436,7 @@ AddEventHandler("esx:tpm", function()
 					end
 					NewLoadSceneStop()
 					SetPedCoordsKeepVehicle(ped, x, y, z)
-	
+
 					while not HasCollisionLoadedAroundEntity(ped) do
 							RequestCollisionAtCoord(x, y, z)
 							if GetGameTimer() - curTime > 1000 then
@@ -503,7 +444,7 @@ AddEventHandler("esx:tpm", function()
 							end
 							Wait(0)
 					end
-	
+
 					-- Get ground coord. As mentioned in the natives, this only works if the client is in render distance.
 					found, groundZ = GetGroundZFor_3dCoord(x, y, z, false)
 					if found then
@@ -513,7 +454,7 @@ AddEventHandler("esx:tpm", function()
 					end
 					Wait(0)
 			end
-	
+
 			-- Remove black screen once the loop has ended.
 			DoScreenFadeIn(650)
 			if vehicle > 0 then
@@ -521,14 +462,14 @@ AddEventHandler("esx:tpm", function()
 			else
 				FreezeEntityPosition(ped, false)
 			end
-	
+
 			if not found then
 				-- If we can't find the coords, set the coords to the old ones.
 				-- We don't unpack them before since they aren't in a loop and only called once.
 				SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
 				ESX.ShowNotification(_U('tpm_success'), true, false, 140)
 			end
-	
+
 			-- If Z coord was found, set coords in found coords.
 			SetPedCoordsKeepVehicle(ped, x, y, groundZ)
 			ESX.ShowNotification(_U('tpm_success'), true, false, 140)

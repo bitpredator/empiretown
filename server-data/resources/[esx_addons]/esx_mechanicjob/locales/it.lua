@@ -40,7 +40,6 @@ Locales['it'] = {
   ['veh_det_succ']              = 'veicolo staccato con successo!',
   ['imp_flatbed']               = 'azione impossibile! hai bisogno di un pianale per caricare il veicolo',
   ['objects']                   = 'oggetti',
-  ['toolbox']                   = 'cassetta degli attrezzi',
   ['mechanic_stock']            = 'deposito meccanico',
   ['quantity']                  = 'quantità',
   ['invalid_quantity']          = 'quantità non valida',
