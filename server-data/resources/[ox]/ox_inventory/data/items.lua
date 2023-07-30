@@ -1,34 +1,4 @@
 return {
-	['testburger'] = {
-		label = 'Test Burger',
-		weight = 220,
-		degrade = 60,
-		client = {
-			status = { hunger = 2100000 },
-			anim = 'eating',
-			prop = 'burger',
-			usetime = 2500,
-			export = 'ox_inventory_examples.testburger'
-		},
-		server = {
-			export = 'ox_inventory_examples.testburger',
-			test = 'what an amazingly delicious burger, amirite?'
-		},
-		buttons = {
-			{
-				label = 'Lick it',
-				action = function(slot)
-					print('You licked the burger')
-				end
-			},
-			{
-				label = 'Squeeze it',
-				action = function(slot)
-					print('You squeezed the burger :(')
-				end
-			}
-		}
-	},
 
 	['bandage'] = {
 		label = 'Bandage',
@@ -90,7 +60,7 @@ return {
 			usetime = 1500
 		}
 	},
-	
+
 	['paper'] = {
 		label = 'carta',
 		weight = 100,
@@ -118,7 +88,7 @@ return {
 		stack = true,
 		consume = 0
 	},
-	
+
 	['paperbag'] = {
 		label = 'Paper Bag',
 		weight = 1,
@@ -166,7 +136,7 @@ return {
 		close = false,
 		consume = 0
 	},
-	
+
 	['clothes'] = {
 		label = 'abiti',
 		weight = 1,
@@ -365,7 +335,9 @@ return {
 
 	['fixkit'] = {
 		label = 'kit di riparazione',
-		consume = 0,
+		consume = 1,
+		weight = 100,
+		stack = true,
 	},
 
 	['almonds'] = {
@@ -379,13 +351,13 @@ return {
 		weight = 100,
 		stack = true,
 	},
-	
+
 	['cannabis'] = {
 		label = 'cannabis',
 		weight = 100,
 		stack = true,
 	},
-   
+
     ['marijuana'] = {
 	    label = 'marijuana',
 	    weight = 100,
@@ -415,13 +387,13 @@ return {
 	    weight = 100,
 	    stack = true, 
     },
-    
+
 	['slicedchips'] = {
 	    label = 'Patate affettate',
 	    weight = 100,
 	    stack = true,
     },
-	
+
 	['fishingrod'] = {
 	    label = 'canna da pesca',
 	    weight = 100,
@@ -486,7 +458,7 @@ return {
 			export = 'wasabi_backpack.openBackpack'
 		}
 	},
-	 
+
 	['boar_meat'] = {
 	    label = 'carne di cinghiale',
 	    weight = 3000,
