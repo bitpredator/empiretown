@@ -25,5 +25,10 @@ INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_
 ;
 
 INSERT INTO `items` (name, label, weight) VALUES
-	('fixkit', 'Korjauskitti', 3)
+	('gazbottle', 'Kaasupullo', 2),
+	('fixtool', 'Korjaustyökalut', 2),
+	('carotool', 'Työkalut', 2),
+	('blowpipe', 'Polttoleikkuri', 2),
+	('fixkit', 'Korjauskitti', 3),
+	('carokit', 'Korikitti', 3)
 ;
