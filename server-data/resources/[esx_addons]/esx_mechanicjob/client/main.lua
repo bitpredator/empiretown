@@ -48,48 +48,47 @@ function StopNPCJob(cancel)
 	if cancel then
 		ESX.ShowNotification(_U('mission_canceled'), "error")
 	else
-		TriggerServerEvent('esx_mechanicjob:onNPCJobCompleted')
+		--TriggerServerEvent('esx_mechanicjob:onNPCJobCompleted')
 	end
 end
 
 function OpenMechanicActionsMenu()
 	local elements = {
-		{label = _U('vehicle_list'),   value = 'vehicle_list'},
-		{label = _U('work_wear'),      value = 'cloakroom'},
-		{label = _U('civ_wear'),       value = 'cloakroom2'}
+		{unselectable = true, icon = "fas fa-gear", title = _U('mechanic')},
+		{icon = "fas fa-car",   title = _U('vehicle_list'),   value = 'vehicle_list'},
+		{icon = "fas fa-shirt", title = _U('work_wear'),      value = 'cloakroom'},
+		{icon = "fas fa-shirt", title = _U('civ_wear'),       value = 'cloakroom2'},
+		{icon = "fas fa-box",   title = _U('deposit_stock'),  value = 'put_stock'},
+		{icon = "fas fa-box",   title = _U('withdraw_stock'), value = 'get_stock'}
 	}
 
 	if Config.EnablePlayerManagement and ESX.PlayerData.job and ESX.PlayerData.job.grade_name == 'boss' then
-		table.insert(elements, {label = _U('boss_actions'), value = 'boss_actions'})
+		elements[#elements+1] = {
+			icon = 'fas fa-boss',
+			title = _U('boss_actions'), 
+			value = 'boss_actions'
+		}
 	end
 
-	ESX.UI.Menu.CloseAll()
-
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'mechanic_actions', {
-		title    = _U('mechanic'),
-		align    = 'top-left',
-		elements = elements
-	}, function(data, menu)
-		if data.current.value == 'vehicle_list' then
+	ESX.OpenContext("right", elements, function(menu,element)
+		if element.value == 'vehicle_list' then
 			if Config.EnableSocietyOwnedVehicles then
-
-				local elements = {}
+				local elements2 = {
+					{unselectable = true, icon = "fas fa-car", title = _U('service_vehicle')}
+				}
 
 				ESX.TriggerServerCallback('esx_society:getVehiclesInGarage', function(vehicles)
 					for i=1, #vehicles, 1 do
-						table.insert(elements, {
-							label = GetDisplayNameFromVehicleModel(vehicles[i].model) .. ' [' .. vehicles[i].plate .. ']',
+						elements2[#elements2+1] = {
+							icon = 'fas fa-car',
+							title = GetDisplayNameFromVehicleModel(vehicles[i].model) .. ' [' .. vehicles[i].plate .. ']',
 							value = vehicles[i]
-						})
+						}
 					end
 
-					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_spawner', {
-						title    = _U('service_vehicle'),
-						align    = 'top-left',
-						elements = elements
-					}, function(data, menu)
-						menu.close()
-						local vehicleProps = data.current.value
+					ESX.OpenContext("right", elements2, function(menu2,element2)
+						ESX.CloseContext()
+						local vehicleProps = element.value
 
 						ESX.Game.SpawnVehicle(vehicleProps.model, Config.Zones.VehicleSpawnPoint.Pos, 270.0, function(vehicle)
 							ESX.Game.SetVehicleProperties(vehicle, vehicleProps)
@@ -98,38 +97,35 @@ function OpenMechanicActionsMenu()
 						end)
 
 						TriggerServerEvent('esx_society:removeVehicleFromGarage', 'mechanic', vehicleProps)
-					end, function(data, menu)
-						menu.close()
 					end)
 				end, 'mechanic')
-
 			else
-
-				local elements = {
-					{label = _U('flat_bed'),  value = 'flatbed'},
-					{label = _U('tow_truck'), value = 'towtruck2'}
+				local elements2 = {
+					{unselectable = true, icon = "fas fa-car", title = _U('service_vehicle')},
+					{icon = "fas fa-truck", title = _U('flat_bed'),  value = 'flatbed'},
+					{icon = "fas fa-truck", title = _U('tow_truck'), value = 'towtruck2'}
 				}
 
 				if Config.EnablePlayerManagement and ESX.PlayerData.job and (ESX.PlayerData.job.grade_name == 'boss' or ESX.PlayerData.job.grade_name == 'chief' or ESX.PlayerData.job.grade_name == 'experimente') then
-					table.insert(elements, {label = 'SlamVan', value = 'slamvan3'})
+					elements2[#elements2+1] = {
+						icon = 'fas fa-truck',
+						title = 'Slamvan', 
+						value = 'slamvan3'
+					}
 				end
 
-				ESX.UI.Menu.CloseAll()
-
-				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'spawn_vehicle', {
-					title    = _U('service_vehicle'),
-					align    = 'top-left',
-					elements = elements
-				}, function(data, menu)
+				ESX.OpenContext("right", elements2, function(menu2,element2)
 					if Config.MaxInService == -1 then
-						ESX.Game.SpawnVehicle(data.current.value, Config.Zones.VehicleSpawnPoint.Pos, 90.0, function(vehicle)
+						ESX.CloseContext()
+						ESX.Game.SpawnVehicle(element2.value, Config.Zones.VehicleSpawnPoint.Pos, 90.0, function(vehicle)
 							local playerPed = PlayerPedId()
 							TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 						end)
 					else
 						ESX.TriggerServerCallback('esx_service:enableService', function(canTakeService, maxInService, inServiceCount)
 							if canTakeService then
-								ESX.Game.SpawnVehicle(data.current.value, Config.Zones.VehicleSpawnPoint.Pos, 90.0, function(vehicle)
+								ESX.CloseContext()
+								ESX.Game.SpawnVehicle(element2.value, Config.Zones.VehicleSpawnPoint.Pos, 90.0, function(vehicle)
 									local playerPed = PlayerPedId()
 									TaskWarpPedIntoVehicle(playerPed,  vehicle, -1)
 								end)
@@ -138,16 +134,10 @@ function OpenMechanicActionsMenu()
 							end
 						end, 'mechanic')
 					end
-
-					menu.close()
-				end, function(data, menu)
-					menu.close()
-					OpenMechanicActionsMenu()
 				end)
-
 			end
-		elseif data.current.value == 'cloakroom' then
-			menu.close()
+		elseif element.value == 'cloakroom' then
+			ESX.CloseContext()
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
 				if skin.sex == 0 then
 					TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
@@ -155,47 +145,108 @@ function OpenMechanicActionsMenu()
 					TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
 				end
 			end)
-		elseif data.current.value == 'cloakroom2' then
-			menu.close()
+		elseif element.value == 'cloakroom2' then
+			ESX.CloseContext()
 			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
 				TriggerEvent('skinchanger:loadSkin', skin)
 			end)
-
-		elseif data.current.value == 'boss_actions' then
+		elseif Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
+			exports.ox_inventory:openInventory('stash', 'society_mechanic')
+			return ESX.CloseContext()
+		elseif element.value == 'put_stock' then
+			OpenPutStocksMenu()
+		elseif element.value == 'get_stock' then
+			OpenGetStocksMenu()
+		elseif element.value == 'boss_actions' then
 			TriggerEvent('esx_society:openBossMenu', 'mechanic', function(data, menu)
 				menu.close()
 			end)
 		end
-	end, function(data, menu)
-		menu.close()
-
+	end, function(menu)
 		CurrentAction     = 'mechanic_actions_menu'
 		CurrentActionMsg  = _U('open_actions')
 		CurrentActionData = {}
 	end)
 end
 
-function OpenMobileMechanicActionsMenu()
-	ESX.UI.Menu.CloseAll()
+function OpenMechanicHarvestMenu()
+	if Config.EnablePlayerManagement and ESX.PlayerData.job and ESX.PlayerData.job.grade_name ~= 'recrue' then
+		local elements = {
+			{unselectable = true, icon = "fas fa-gear", title = "Mechanic Harvest Menu"},
+			{icon = "fas fa-gear", title = _U('gas_can'), value = 'gaz_bottle'},
+			{icon = "fas fa-gear", title = _U('repair_tools'), value = 'fix_tool'},
+			{icon = "fas fa-gear", title = _U('body_work_tools'), value = 'caro_tool'}
+		}
 
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'mobile_mechanic_actions', {
-		title    = _U('mechanic'),
-		align    = 'top-left',
-		elements = {
-			{label = _U('billing'),       value = 'billing'},
-			{label = _U('hijack'),        value = 'hijack_vehicle'},
-			{label = _U('clean'),         value = 'clean_vehicle'},
-			{label = _U('imp_veh'),       value = 'del_vehicle'},
-			{label = _U('load_flat'),     value = 'dep_vehicle'},
-			{label = _U('place_objects'), value = 'object_spawner'}
-	}}, function(data, menu)
+		ESX.OpenContext("right", elements, function(menu,element)
+			if element.value == 'gaz_bottle' then
+				TriggerServerEvent('esx_mechanicjob:startHarvest')
+			elseif element.value == 'fix_tool' then
+				TriggerServerEvent('esx_mechanicjob:startHarvest2')
+			elseif element.value == 'caro_tool' then
+				TriggerServerEvent('esx_mechanicjob:startHarvest3')
+			end
+		end, function(menu)
+			CurrentAction     = 'mechanic_harvest_menu'
+			CurrentActionMsg  = _U('harvest_menu')
+			CurrentActionData = {}
+		end)
+	else
+		ESX.ShowNotification(_U('not_experienced_enough'))
+	end
+end
+
+function OpenMechanicCraftMenu()
+	if Config.EnablePlayerManagement and ESX.PlayerData.job and ESX.PlayerData.job.grade_name ~= 'recrue' then
+		local elements = {
+			{unselectable = true, icon = "fas fa-gear", title = "Mechanic Craft Menu"},
+			{icon = "fas fa-gear", title = _U('blowtorch'),  value = 'blow_pipe'},
+			{icon = "fas fa-gear", title = _U('repair_kit'), value = 'fix_kit'},
+			{icon = "fas fa-gear", title = _U('body_kit'),   value = 'caro_kit'}
+		}
+
+		ESX.OpenContext("right", elements, function(menu,element)
+			if element.value == 'blow_pipe' then
+				TriggerServerEvent('esx_mechanicjob:startCraft')
+			elseif element.value == 'fix_kit' then
+				TriggerServerEvent('esx_mechanicjob:startCraft2')
+			elseif element.value == 'caro_kit' then
+				TriggerServerEvent('esx_mechanicjob:startCraft3')
+			end
+		end, function(menu)
+			CurrentAction     = 'mechanic_craft_menu'
+			CurrentActionMsg  = _U('craft_menu')
+			CurrentActionData = {}
+		end)
+	else
+		ESX.ShowNotification(_U('not_experienced_enough'))
+	end
+end
+
+function OpenMobileMechanicActionsMenu()
+	local elements = {
+		{unselectable = true, icon = "fas fa-gear", title = _U('mechanic')},
+		{icon = "fas fa-gear", title = _U('billing'),       value = 'billing'},
+		{icon = "fas fa-gear", title = _U('hijack'),        value = 'hijack_vehicle'},
+		{icon = "fas fa-gear", title = _U('repair'),        value = 'fix_vehicle'},
+		{icon = "fas fa-gear", title = _U('clean'),         value = 'clean_vehicle'},
+		{icon = "fas fa-gear", title = _U('imp_veh'),       value = 'del_vehicle'},
+		{icon = "fas fa-gear", title = _U('flat_bed'),      value = 'dep_vehicle'},
+		{icon = "fas fa-gear", title = _U('place_objects'), value = 'object_spawner'}
+	}
+
+	ESX.OpenContext("right", elements, function(menu,element)
 		if isBusy then return end
 
-		if data.current.value == 'billing' then
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
-				title = _U('invoice_amount')
-			}, function(data, menu)
-				local amount = tonumber(data.value)
+		if element.value == "billing" then
+			local elements2 = {
+				{unselectable = true, icon = "fas fa-scroll", title = element.title},
+				{title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = "Amount to bill.."},
+				{icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+			}
+
+			ESX.OpenContext("right", elements2, function(menu2,element2)
+				local amount = tonumber(menu2.eles[2].inputValue)
 
 				if amount == nil or amount < 0 then
 					ESX.ShowNotification(_U('amount_invalid'), "error")
@@ -208,10 +259,8 @@ function OpenMobileMechanicActionsMenu()
 						TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_mechanic', _U('mechanic'), amount)
 					end
 				end
-			end, function(data, menu)
-				menu.close()
 			end)
-		elseif data.current.value == 'hijack_vehicle' then
+		elseif element.value == "hijack_vehicle" then
 			local playerPed = PlayerPedId()
 			local vehicle = ESX.Game.GetVehicleInDirection()
 			local coords = GetEntityCoords(playerPed)
@@ -237,7 +286,7 @@ function OpenMobileMechanicActionsMenu()
 			else
 				ESX.ShowNotification(_U('no_vehicle_nearby'))
 			end
-		elseif data.current.value == 'fix_vehicle' then
+		elseif element.value == "fix_vehicle" then
 			local playerPed = PlayerPedId()
 			local vehicle   = ESX.Game.GetVehicleInDirection()
 			local coords    = GetEntityCoords(playerPed)
@@ -265,7 +314,7 @@ function OpenMobileMechanicActionsMenu()
 			else
 				ESX.ShowNotification(_U('no_vehicle_nearby'))
 			end
-		elseif data.current.value == 'clean_vehicle' then
+		elseif element.value == "clean_vehicle" then
 			local playerPed = PlayerPedId()
 			local vehicle   = ESX.Game.GetVehicleInDirection()
 			local coords    = GetEntityCoords(playerPed)
@@ -290,7 +339,7 @@ function OpenMobileMechanicActionsMenu()
 			else
 				ESX.ShowNotification(_U('no_vehicle_nearby'))
 			end
-		elseif data.current.value == 'del_vehicle' then
+		elseif element.value == "del_vehicle" then
 			local playerPed = PlayerPedId()
 
 			if IsPedSittingInAnyVehicle(playerPed) then
@@ -312,11 +361,11 @@ function OpenMobileMechanicActionsMenu()
 					ESX.ShowNotification(_U('must_near'))
 				end
 			end
-		elseif data.current.value == 'dep_vehicle' then
+		elseif element.value == "dep_vehicle" then
 			local playerPed = PlayerPedId()
 			local vehicle = GetVehiclePedIsIn(playerPed, true)
 
-			local towmodel = GetHashKey("flatbed")
+			local towmodel = `flatbed`
 			local isVehicleTow = IsVehicleModel(vehicle, towmodel)
 
 			if isVehicleTow then
@@ -378,14 +427,123 @@ function OpenMobileMechanicActionsMenu()
 			else
 				ESX.ShowNotification(_U('imp_flatbed'))
 			end
+		elseif element.value == "object_spawner" then
+			local playerPed = PlayerPedId()
 
 			if IsPedSittingInAnyVehicle(playerPed) then
 				ESX.ShowNotification(_U('inside_vehicle'))
 				return
 			end
+
+			local elements2 = {
+				{unselectable= true, icon = "fas fa-object", title = _U('objects')},
+				{icon = "fas fa-object", title = _U('roadcone'), value = 'prop_roadcone02a'},
+				{icon = "fas fa-object", title = _U('toolbox'),  value = 'prop_toolchest_01'}
+			}
+
+			ESX.OpenContext("right", elements2, function(menuObj,elementObj)
+				local model   = elementObj.value
+				local coords  = GetEntityCoords(playerPed)
+				local forward = GetEntityForwardVector(playerPed)
+				local x, y, z = table.unpack(coords + forward * 1.0)
+
+				if model == 'prop_roadcone02a' then
+					z = z - 2.0
+				elseif model == 'prop_toolchest_01' then
+					z = z - 2.0
+				end
+
+				ESX.Game.SpawnObject(model, {x = x, y = y, z = z}, function(obj)
+					SetEntityHeading(obj, GetEntityHeading(playerPed))
+					PlaceObjectOnGroundProperly(obj)
+				end)
+			end)
 		end
-	end, function(data, menu)
-		menu.close()
+	end)
+end
+
+function OpenGetStocksMenu()
+	ESX.TriggerServerCallback('esx_mechanicjob:getStockItems', function(items)
+		local elements = {
+			{unselectable = true, icon = "fas fa-box", title = _U('mechanic_stock')}
+		}
+
+		for i=1, #items, 1 do
+			elements[#elements+1] = {
+				icon = 'fas fa-box',
+				title = 'x' .. items[i].count .. ' ' .. items[i].label,
+				value = items[i].name
+			}
+		end
+
+		ESX.OpenContext("right", elements, function(menu,element)
+			local itemName = element.value
+
+			local elements2 = {
+				{unselectable = true, icon = "fas fa-box", title = element.title},
+				{title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = "Amount to withdraw.."},
+				{icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+			}
+
+			ESX.OpenContext("right", elements2, function(menu2,element2)
+				local count = tonumber(menu2.eles[2].inputValue)
+
+				if count == nil then
+					ESX.ShowNotification(_U('invalid_quantity'))
+				else
+					ESX.CloseContext()
+					TriggerServerEvent('esx_mechanicjob:getStockItem', itemName, count)
+
+					Wait(1000)
+					OpenGetStocksMenu()
+				end
+			end)
+		end)
+	end)
+end
+
+function OpenPutStocksMenu()
+	ESX.TriggerServerCallback('esx_mechanicjob:getPlayerInventory', function(inventory)
+		local elements = {
+			{unselectable = true, icon = "fas fa-box", title = _U('inventory')}
+		}
+
+		for i=1, #inventory.items, 1 do
+			local item = inventory.items[i]
+
+			if item.count > 0 then
+				elements[#elements+1] = {
+					icon = 'fas fa-box',
+					title = item.label .. ' x' .. item.count,
+					type  = 'item_standard',
+					value = item.name
+				}
+			end
+		end
+
+		ESX.OpenContext("right", elements, function(menu,element)
+			local itemName = element.value
+
+			local elements2 = {
+				{unselectable = true, icon = "fas fa-box", title = element.title},
+				{title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = "Amount to deposit.."},
+				{icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+			}
+
+			ESX.OpenContext("right", elements2, function(menu2,element2)
+				local count = tonumber(menu2.eles[2].inputValue)
+
+				if count == nil then
+					ESX.ShowNotification(_U('invalid_quantity'))
+				else
+					ESX.CloseContext()
+					TriggerServerEvent('esx_mechanicjob:putStockItems', itemName, count)
+
+					Wait(1000)
+					OpenPutStocksMenu()
+				end
+			end)
+		end)
 	end)
 end
 
@@ -425,6 +583,33 @@ AddEventHandler('esx_mechanicjob:onHijack', function()
 					ESX.ShowNotification(_U('hijack_failed'))
 					ClearPedTasksImmediately(playerPed)
 				end
+			end)
+		end
+	end
+end)
+
+RegisterNetEvent('esx_mechanicjob:onCarokit')
+AddEventHandler('esx_mechanicjob:onCarokit', function()
+	local playerPed = PlayerPedId()
+	local coords = GetEntityCoords(playerPed)
+
+	if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 5.0) then
+		local vehicle
+
+		if IsPedInAnyVehicle(playerPed, false) then
+			vehicle = GetVehiclePedIsIn(playerPed, false)
+		else
+			vehicle = GetClosestVehicle(coords.x, coords.y, coords.z, 5.0, 0, 71)
+		end
+
+		if DoesEntityExist(vehicle) then
+			TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_HAMMERING', 0, true)
+			CreateThread(function()
+				Wait(10000)
+				SetVehicleFixed(vehicle)
+				SetVehicleDeformationFixed(vehicle)
+				ClearPedTasksImmediately(playerPed)
+				ESX.ShowNotification(_U('body_repaired'))
 			end)
 		end
 	end
@@ -482,6 +667,10 @@ AddEventHandler('esx_mechanicjob:hasEnteredMarker', function(zone)
 		CurrentAction     = 'mechanic_harvest_menu'
 		CurrentActionMsg  = _U('harvest_menu')
 		CurrentActionData = {}
+	elseif zone == 'Craft' then
+		CurrentAction     = 'mechanic_craft_menu'
+		CurrentActionMsg  = _U('craft_menu')
+		CurrentActionData = {}
 	elseif zone == 'VehicleDeleter' then
 		local playerPed = PlayerPedId()
 
@@ -498,6 +687,10 @@ end)
 AddEventHandler('esx_mechanicjob:hasExitedMarker', function(zone)
 	if zone =='VehicleDelivery' then
 		NPCTargetDeleterZone = false
+	elseif zone == 'Craft' then
+		TriggerServerEvent('esx_mechanicjob:stopCraft')
+		TriggerServerEvent('esx_mechanicjob:stopCraft2')
+		TriggerServerEvent('esx_mechanicjob:stopCraft3')
 	elseif zone == 'Garage' then
 		TriggerServerEvent('esx_mechanicjob:stopHarvest')
 		TriggerServerEvent('esx_mechanicjob:stopHarvest2')
@@ -505,7 +698,7 @@ AddEventHandler('esx_mechanicjob:hasExitedMarker', function(zone)
 	end
 
 	CurrentAction = nil
-	ESX.UI.Menu.CloseAll()
+	ESX.CloseContext()
 end)
 
 AddEventHandler('esx_mechanicjob:hasEnteredEntityZone', function(entity)
@@ -522,6 +715,17 @@ AddEventHandler('esx_mechanicjob:hasExitedEntityZone', function(entity)
 	if CurrentAction == 'remove_entity' then
 		CurrentAction = nil
 	end
+end)
+
+RegisterNetEvent('esx_phone:loaded')
+AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
+	local specialContact = {
+		name       = _U('mechanic'),
+		number     = 'mechanic',
+		base64Icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAA4BJREFUWIXtll9oU3cUx7/nJA02aSSlFouWMnXVB0ejU3wcRteHjv1puoc9rA978cUi2IqgRYWIZkMwrahUGfgkFMEZUdg6C+u21z1o3fbgqigVi7NzUtNcmsac40Npltz7S3rvUHzxQODec87vfD+/e0/O/QFv7Q0beV3QeXqmgV74/7H7fZJvuLwv8q/Xeux1gUrNBpN/nmtavdaqDqBK8VT2RDyV2VHmF1lvLERSBtCVynzYmcp+A9WqT9kcVKX4gHUehF0CEVY+1jYTTIwvt7YSIQnCTvsSUYz6gX5uDt7MP7KOKuQAgxmqQ+neUA+I1B1AiXi5X6ZAvKrabirmVYFwAMRT2RMg7F9SyKspvk73hfrtbkMPyIhA5FVqi0iBiEZMMQdAui/8E4GPv0oAJkpc6Q3+6goAAGpWBxNQmTLFmgL3jSJNgQdGv4pMts2EKm7ICJB/aG0xNdz74VEk13UYCx1/twPR8JjDT8wttyLZtkoAxSb8ZDCz0gdfKxWkFURf2v9qTYH7SK7rQIDn0P3nA0ehixvfwZwE0X9vBE/mW8piohhl1WH18UQBhYnre8N/L8b8xQvlx4ACbB4NnzaeRYDnKm0EALCMLXy84hwuTCXL/ExoB1E7qcK/8NCLIq5HcTT0i6u8TYbXUM1cAyyveVq8Xls7XhYrvY/4n3gC8C+dsmAzL1YUiyfWxvHzsy/w/dNd+KjhW2yvv/RfXr7x9QDcmo1he2RBiCCI1Q8jVj9szPNixVfgz+UiIGyDSrcoRu2J16d3I6e1VYvNSQjXpnucAcEPUOkGYZs/l4uUhowt/3kqu1UIv9n90fAY9jT3YBlbRvFTD4fw++wHjhiTRL/bG75t0jI2ITcHb5om4Xgmhv57xpGOg3d/NIqryOR7z+r+MC6qBJB/ZB2t9Om1D5lFm843G/3E3HI7Yh1xDRAfzLQr5EClBf/HBHK462TG2J0OABXeyWDPZ8VqxmBWYscpyghwtTd4EKpDTjCZdCNmzFM9k+4LHXIFACJN94Z6FiFEpKDQw9HndWsEuhnADVMhAUaYJBp9XrcGQKJ4qFE9k+6r2+MG3k5N8VQ22TVglbX2ZwOzX2VvNKr91zmY6S7N6zqZicVT2WNLyVSehESaBhxnOALfMeYX+K/S2yv7wmMAlvwyuR7FxQUyf0fgc/jztfkJr7XeGgC8BJJgWNV8ImT+AAAAAElFTkSuQmCC'
+	}
+
+	TriggerEvent('esx_phone:addSpecialContact', specialContact.name, specialContact.number, specialContact.base64Icon)
 end)
 
 -- Pop NPC mission vehicle when inside area
@@ -631,6 +835,10 @@ CreateThread(function()
 end)
 
 CreateThread(function()
+	local trackedEntities = {
+		'prop_roadcone02a',
+		'prop_toolchest_01'
+	}
 
 	while true do
 		Wait(500)
@@ -640,6 +848,20 @@ CreateThread(function()
 
 		local closestDistance = -1
 		local closestEntity = nil
+
+		for i=1, #trackedEntities, 1 do
+			local object = GetClosestObjectOfType(coords, 3.0, joaat(trackedEntities[i]), false, false, false)
+
+			if DoesEntityExist(object) then
+				local objCoords = GetEntityCoords(object)
+				local distance  = #(coords - objCoords)
+
+				if closestDistance == -1 or closestDistance > distance then
+					closestDistance = distance
+					closestEntity   = object
+				end
+			end
+		end
 
 		if closestDistance ~= -1 and closestDistance <= 3.0 then
 			if LastEntity ~= closestEntity then
@@ -668,6 +890,8 @@ CreateThread(function()
 					OpenMechanicActionsMenu()
 				elseif CurrentAction == 'mechanic_harvest_menu' then
 					OpenMechanicHarvestMenu()
+				elseif CurrentAction == 'mechanic_craft_menu' then
+					OpenMechanicCraftMenu()
 				elseif CurrentAction == 'delete_vehicle' then
 			if Config.EnableSocietyOwnedVehicles then
 
@@ -676,7 +900,7 @@ CreateThread(function()
 			else
 				local entityModel = GetEntityModel(CurrentActionData.vehicle)
 
-				if entityModel == GetHashKey("flatbed") or	entityModel == GetHashKey("towtruck2") or entityModel == GetHashKey("slamvan3") then
+				if entityModel == `flatbed` or	entityModel == `towtruck2` or entityModel == `slamvan3` then
 					TriggerServerEvent('esx_service:disableService', 'mechanic')
 				end
 			end
@@ -710,7 +934,7 @@ RegisterCommand('mechanicjob', function()
 					ESX.ShowNotification(_U('wait_five'), "error")
 				end
 			else
-				if IsPedInAnyVehicle(playerPed, false) and IsVehicleModel(GetVehiclePedIsIn(playerPed, false), GetHashKey('flatbed')) then
+				if IsPedInAnyVehicle(playerPed, false) and IsVehicleModel(GetVehiclePedIsIn(playerPed, false), `flatbed`) then
 					StartNPCJob()
 				else
 					ESX.ShowNotification(_U('must_in_flatbed'), "error")

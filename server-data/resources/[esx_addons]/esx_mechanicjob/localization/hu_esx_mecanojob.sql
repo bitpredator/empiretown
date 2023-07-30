@@ -25,5 +25,10 @@ INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_
 ;
 
 INSERT INTO `items` (name, label, weight) VALUES
-	('fixkit', 'Javító készlet', 3)
+	('gazbottle', 'Gázpalack', 2),
+	('fixtool', 'Javítószerszámok', 2),
+	('carotool', 'Szerszámok', 2),
+	('blowpipe', 'Fújólámpa', 2),
+	('fixkit', 'Javító készlet', 3),
+	('carokit', 'Body Kit', 3)
 ;

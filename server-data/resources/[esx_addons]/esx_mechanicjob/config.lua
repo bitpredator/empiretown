@@ -1,12 +1,16 @@
 Config                            = {}
-Config.Locale                     = 'it'
+Config.Locale = GetConvar('esx:locale', 'en')
 
 Config.DrawDistance               = 10.0 -- How close you need to be in order for the markers to be drawn (in GTA units).
+Config.MaxInService               = -1
 Config.EnablePlayerManagement     = true -- Enable society managing.
 Config.EnableSocietyOwnedVehicles = false
+
 Config.NPCSpawnDistance           = 500.0
 Config.NPCNextToDistance          = 25.0
 Config.NPCJobEarnings             = { min = 15, max = 40 }
+
+Config.OxInventory                = ESX.GetConfig().OxInventory
 
 Config.Vehicles = {
 	'adder',
@@ -29,6 +33,13 @@ Config.Zones = {
 
 	Garage = {
 		Pos   = vector3(-97.5, 6496.1, 31.4 ),
+		Size  = { x = 1.0, y = 1.0, z = 1.0 },
+		Color = { r = 50, g = 200, b = 50 },
+		Type  = 21
+	},
+
+	Craft = {
+		Pos   = vector3( -323.140, -129.882, 38.999 ),
 		Size  = { x = 1.0, y = 1.0, z = 1.0 },
 		Color = { r = 50, g = 200, b = 50 },
 		Type  = 21
