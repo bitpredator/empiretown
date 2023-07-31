@@ -6,8 +6,6 @@ Locales['it'] = {
 	-- Menu Notification
 	['missing_rights'] = 'Non sei ~r~autorizato~w~',
 	['players_nearby'] = 'Nessun giocatore nelle vicinanze',
-	['you_received_money_cash'] = 'hai ricevuto del denaro',
-    ['you_received_money_bank'] = 'hai ricevuto del denaro in banca',
 	-- Main Menu
 	['mainmenu_subtitle'] = 'MENU INTERAZIONE',
 	['approach'] = 'Approccio: ~b~%s',
@@ -18,11 +16,9 @@ Locales['it'] = {
 	['admin_goto_button'] = 'TP su Player',
 	['admin_bring_button'] = 'TP Player su di me',
 	['admin_noclip_button'] = 'NoClip',
-	['admin_givemoney_button'] = 'Dai denaro ',
 	['admin_godmode_button'] = 'Modalità invincibile',
 	['admin_ghostmode_button'] = 'Modalità invisibile',
 	['admin_flipveh_button'] = 'Rimetti il veicolo in posizione',
-	['admin_givebank_button'] = 'Dai del denaro in banca',
 	['admin_showname_button'] = 'Mostra/Nascondi i nomi dei giocatori',
 	['admin_noclipon'] = 'NoClip  attivato',
 	['admin_noclipoff'] = 'NoClip  disattivato',
