@@ -1,3 +1,6 @@
+local plyPed
+local RenderWalletMenu
+
 local PersonalMenu = {
 	ItemSelected = {},
 	ItemIndex = {},
@@ -30,10 +33,7 @@ Player = {
 }
 
 CreateThread(function()
-	while ESX == nil do
-		ESX = exports["es_extended"]:getSharedObject()
-		Wait(10)
-	end
+	ESX = exports["es_extended"]:getSharedObject()
 
 	while ESX.GetPlayerData().job == nil do
 		Wait(10)
@@ -117,20 +117,6 @@ function getCamDirection()
 	end
 
 	return coords
-end
-
-function CheckQuantity(number)
-	number = tonumber(number)
-
-	if type(number) == 'number' then
-		number = ESX.Math.Round(number)
-
-		if number > 0 then
-			return true, number
-		end
-	end
-
-	return false, number
 end
 
 function RenderPersonalMenu()
