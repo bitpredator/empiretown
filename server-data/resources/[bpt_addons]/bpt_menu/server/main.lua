@@ -117,25 +117,3 @@ AddEventHandler('bpt_menu:Admin_BringS', makeTargetedEventFunction(function(play
 		TriggerClientEvent('bpt_menu:Admin_BringC', playerId, GetEntityCoords(GetPlayerPed(target)))
 	end
 end))
-
-RegisterServerEvent('bpt_menu:Admin_giveCash')
-AddEventHandler('bpt_menu:Admin_giveCash', function(amount)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	local plyGroup = xPlayer.getGroup()
-
-	if isAuthorized(getAdminCommand('givemoney'), plyGroup) then
-		xPlayer.addAccountMoney('cash', amount)
-	    TriggerClientEvent('esx:showNotification', xPlayer.source, _U'you_received_money_cash'):format(amount)
-	end
-end)
-
-RegisterServerEvent('bpt_menu:Admin_giveBank')
-AddEventHandler('bpt_menu:Admin_giveBank', function(amount)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	local plyGroup = xPlayer.getGroup()
-
-	if isAuthorized(getAdminCommand('givebank'), plyGroup) then
-		xPlayer.addAccountMoney('bank', amount)
-        TriggerClientEvent('esx:showNotification', xPlayer.source, _U'you_received_money_bank'):format(amount)
-	end
-end)
