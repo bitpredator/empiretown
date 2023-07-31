@@ -29,8 +29,6 @@ Player = {
 	group = 'user'
 }
 
-local societymoney = nil
-
 CreateThread(function()
 	while ESX == nil do
 		ESX = exports["es_extended"]:getSharedObject()
@@ -42,8 +40,6 @@ CreateThread(function()
 	end
 
 	ESX.PlayerData = ESX.GetPlayerData()
-
-	RefreshMoney()
 
 	RMenu.Add('rageui', 'personal', RageUI.CreateMenu(Config.MenuTitle, _U('mainmenu_subtitle'), 0, 0, 'commonmenu', 'interaction_bgd', 255, 255, 255, 255))
 	RMenu.Add('personal', 'billing', RageUI.CreateSubMenu(RMenu.Get('rageui', 'personal'), _U('bills_title')))
@@ -72,26 +68,11 @@ AddEventHandler('playerSpawned', function()
 	Player.isDead = false
 end)
 
-RegisterNetEvent('esx_addonaccount:setMoney')
-AddEventHandler('esx_addonaccount:setMoney', function(society, money)
-	if ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' and 'society_' .. ESX.PlayerData.job.name == society then
-		societymoney = ESX.Math.GroupDigits(money)
-	end
-end)
-
 -- Admin Menu --
 RegisterNetEvent('bpt_menu:Admin_BringC')
 AddEventHandler('bpt_menu:Admin_BringC', function(plyCoords)
 	SetEntityCoords(plyPed, plyCoords)
 end)
-
-function RefreshMoney()
-	if ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
-		ESX.TriggerServerCallback('esx_society:getSocietyMoney', function(money)
-			societymoney = ESX.Math.GroupDigits(money)
-		end, ESX.PlayerData.job.name)
-	end
-end
 
 --Message text joueur
 function Text(text)
