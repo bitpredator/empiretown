@@ -1,6 +1,6 @@
 local plyPed
 
-local function startPointing(plyPed)
+local function startPointing()
 	ESX.Streaming.RequestAnimDict('anim@mp_point', function()
 		SetPedConfigFlag(plyPed, 36, 1)
 		TaskMoveNetworkByName(plyPed, 'task_mp_pointing', 0.5, 0, 'anim@mp_point', 24)
@@ -25,7 +25,6 @@ CreateThread(function()
 		DisableControlAction(1, Config.Controls.Crouch.keyboard, true)
 
 		if IsDisabledControlJustReleased(1, Config.Controls.Crouch.keyboard) and IsInputDisabled(2) then
-			local plyPed = PlayerPedId()
 
 			if (DoesEntityExist(plyPed)) and (not IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
 				Player.crouched = not Player.crouched
@@ -42,7 +41,6 @@ CreateThread(function()
 		end
 
 		if IsControlJustReleased(1, Config.Controls.HandsUP.keyboard) and IsInputDisabled(2) then
-			local plyPed = PlayerPedId()
 
 			if (DoesEntityExist(plyPed)) and not (IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
 				if Player.pointing then
@@ -63,7 +61,6 @@ CreateThread(function()
 		end
 
 		if IsControlJustReleased(1, Config.Controls.Pointing.keyboard) and IsInputDisabled(2) then
-			local plyPed = PlayerPedId()
 
 			if (DoesEntityExist(plyPed)) and (not IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
 				if Player.handsUp then
@@ -114,7 +111,6 @@ CreateThread(function()
 				SetTaskMoveNetworkSignalFloat(ped, 'Pitch', camPitch)
 				SetTaskMoveNetworkSignalFloat(ped, 'Heading', (camHeading * -1.0) + 1.0)
 				SetTaskMoveNetworkSignalBool(ped, 'isBlocked', blocked)
-				SetTaskMoveNetworkSignalBool(ped, 'isFirstPerson', N_0xee778f8c7e1142e2(N_0x19cafa3c87f7c2ff()) == 4)
 			end
 		end
 	end
