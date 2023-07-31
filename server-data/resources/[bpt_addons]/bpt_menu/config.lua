@@ -9,12 +9,10 @@ local Keys = {
 	['LEFT'] = 174, ['RIGHT'] = 175, ['TOP'] = 27, ['DOWN'] = 173,
 	['NENTER'] = 201, ['N4'] = 108, ['N5'] = 60, ['N6'] = 107, ['N+'] = 96, ['N-'] = 97, ['N7'] = 117, ['N8'] = 61, ['N9'] = 118
 }
+local plyPed
 
 Config = {}
-
--- LANGUAGE --
 Config.Locale = 'it'
-
 -- GENERAL --
 Config.MenuTitle = 'EmpireTown' -- change it to you're server name
 Config.NoclipSpeed = 1.0 -- change it to change the speed in noclip
@@ -39,7 +37,7 @@ Config.Admin = {
 
 			if plyId ~= nil then
 				plyId = tonumber(plyId)
-				
+
 				if type(plyId) == 'number' then
 					TriggerServerEvent('bpt_menu:Admin_BringS', GetPlayerServerId(PlayerId()), plyId)
 				end
@@ -57,7 +55,7 @@ Config.Admin = {
 
 			if plyId ~= nil then
 				plyId = tonumber(plyId)
-				
+
 				if type(plyId) == 'number' then
 					TriggerServerEvent('bpt_menu:Admin_BringS', plyId, GetPlayerServerId(PlayerId()))
 				end
@@ -137,42 +135,6 @@ Config.Admin = {
 
 			SetEntityCoords(closestVeh, newCoords)
 			ESX.ShowNotification(_U('admin_vehicleflip'))
-		end
-	},
-	{
-		name = 'givemoney',
-		label = _U('admin_givemoney_button'),
-		groups = {'admin'},
-		command = function()
-			local amount = KeyboardInput('BPT_BOX_AMOUNT', _U('dialogbox_amount'), '', 8)
-
-			if amount ~= nil then
-				amount = tonumber(amount)
-
-				if type(amount) == 'number' then
-					TriggerServerEvent('bpt_menu:Admin_giveCash', amount)
-				end
-			end
-
-			RageUI.CloseAll()
-		end
-	},
-	{
-		name = 'givebank',
-		label = _U('admin_givebank_button'),
-		groups = {'admin'},
-		command = function()
-			local amount = KeyboardInput('BPT_BOX_AMOUNT', _U('dialogbox_amount'), '', 8)
-
-			if amount ~= nil then
-				amount = tonumber(amount)
-
-				if type(amount) == 'number' then
-					TriggerServerEvent('bpt_menu:Admin_giveBank', amount)
-				end
-			end
-
-			RageUI.CloseAll()
 		end
 	},
 	{
