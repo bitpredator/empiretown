@@ -1,5 +1,4 @@
 local plyPed
-local RenderWalletMenu
 
 local PersonalMenu = {
 	ItemSelected = {},
@@ -195,11 +194,6 @@ CreateThread(function()
 
 		if RageUI.Visible(RMenu.Get('rageui', 'personal')) then
 			RenderPersonalMenu()
-		end
-
-
-		if RageUI.Visible(RMenu.Get('personal', 'wallet')) then
-			RenderWalletMenu()
 		end
 
 		if RageUI.Visible(RMenu.Get('personal', 'billing')) then
