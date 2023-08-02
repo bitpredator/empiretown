@@ -1,6 +1,7 @@
+local plyPed = nil
+
 local function startPointing()
 	ESX.Streaming.RequestAnimDict('anim@mp_point', function()
-		local plyPed
 		SetPedConfigFlag(plyPed, 36, 1)
 		TaskMoveNetworkByName(plyPed, 'task_mp_pointing', 0.5, 0, 'anim@mp_point', 24)
 		RemoveAnimDict('anim@mp_point')
@@ -9,7 +10,6 @@ end
 
 local function stopPointing()
 	RequestTaskMoveNetworkStateTransition(plyPed, 'Stop')
-    local plyPed
 	if not IsPedInjured(plyPed) then
 		ClearPedSecondaryTask(plyPed)
 	end
@@ -24,7 +24,7 @@ CreateThread(function()
 		DisableControlAction(1, Config.Controls.Crouch.keyboard, true)
 
 		if IsDisabledControlJustReleased(1, Config.Controls.Crouch.keyboard) and IsInputDisabled(2) then
-            local plyPed
+
 			if (DoesEntityExist(plyPed)) and (not IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
 				Player.crouched = not Player.crouched
 
@@ -40,7 +40,7 @@ CreateThread(function()
 		end
 
 		if IsControlJustReleased(1, Config.Controls.HandsUP.keyboard) and IsInputDisabled(2) then
-            local plyPed
+
 			if (DoesEntityExist(plyPed)) and not (IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
 				if Player.pointing then
 					Player.pointing = false
@@ -60,7 +60,7 @@ CreateThread(function()
 		end
 
 		if IsControlJustReleased(1, Config.Controls.Pointing.keyboard) and IsInputDisabled(2) then
-            local plyPed
+
 			if (DoesEntityExist(plyPed)) and (not IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
 				if Player.handsUp then
 					Player.handsUp = false
@@ -78,7 +78,6 @@ CreateThread(function()
 
 		if Player.crouched or Player.handsUp or Player.pointing then
 			if not IsPedOnFoot(PlayerPedId()) then
-				local plyPed
 				ResetPedMovementClipset(plyPed, 0)
 				stopPointing()
 				Player.crouched, Player.handsUp, Player.pointing = false, false, false
