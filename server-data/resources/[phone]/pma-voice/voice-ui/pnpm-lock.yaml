@@ -2627,11 +2627,9 @@ packages:
     engines: {node: '>=0.8.x'}
     dev: true
 
-  /eventsource@1.1.0:
-    resolution: {integrity: sha512-VSJjT5oCNrFvCS6igjzPAt5hBzQ2qPBFIbJ03zLI9SE0mxwZpMw6BfJrbFHm1a141AavMEB8JHmBhWAd66PfCg==}
+  /eventsource@1.1.2:
+    resolution: {integrity: sha512-xAH3zWhgO2/3KIniEKYPr8plNSzlGINOUqYj0m0u7AB81iRw8b/3E73W6AuU+6klLbaSFmZnaETQ2lXPfAydrA==}
     engines: {node: '>=0.12.0'}
-    dependencies:
-      original: 1.0.2
     dev: true
 
   /evp_bytestokey@1.0.3:
@@ -4689,12 +4687,6 @@ packages:
       wcwidth: 1.0.1
     dev: true
 
-  /original@1.0.2:
-    resolution: {integrity: sha512-hyBVl6iqqUOJ8FqRe+l/gS8H+kKYjrEndd5Pm1MfBtsEKA038HkkdbAl/72EAXGyonD/PFsvmVG+EvcIpliMBg==}
-    dependencies:
-      url-parse: 1.5.10
-    dev: true
-
   /os-browserify@0.3.0:
     resolution: {integrity: sha1-hUNzx/XCMVkU/Jv8a9gjj92h7Cc=}
     dev: true
@@ -5915,7 +5907,7 @@ packages:
     resolution: {integrity: sha512-ZzRxPBISQE7RpzlH4tKJMQbHM9pabHluk0WBaxAQ+wm/UieeBVBou0p4wVnSQGN9QmpAZygQ0cDIypWuqOFmFQ==}
     dependencies:
       debug: 3.2.7(supports-color@6.1.0)
-      eventsource: 1.1.0
+      eventsource: 1.1.2
       faye-websocket: 0.11.4
       inherits: 2.0.4
       json3: 3.3.3
