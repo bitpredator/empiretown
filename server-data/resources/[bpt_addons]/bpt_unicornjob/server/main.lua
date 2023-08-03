@@ -9,8 +9,8 @@ ESX.RegisterServerCallback("bpt_unicornjob:SpawnVehicle", function(source, cb, m
         return
     end
     local SpawnPoint = vector3(Config.Zones.VehicleSpawnPoint.Pos.x, Config.Zones.VehicleSpawnPoint.Pos.y, Config.Zones.VehicleSpawnPoint.Pos.z)
-    ESX.OneSync.SpawnVehicle(joaat(model), SpawnPoint, Config.Zones.VehicleSpawnPoint.Heading, props, function(vehicle)
-        local vehicle = NetworkGetEntityFromNetworkId(vehicle)
+    ESX.OneSync.SpawnVehicle(joaat(model), SpawnPoint, Config.Zones.VehicleSpawnPoint.Heading, props, function()
+        local vehicle = NetworkGetEntityFromNetworkId()
         while GetVehicleNumberPlateText(vehicle) ~= props.plate do
             Wait(0)
         end
@@ -18,6 +18,3 @@ ESX.RegisterServerCallback("bpt_unicornjob:SpawnVehicle", function(source, cb, m
     end)
     cb()
 end)
-if Config.MaxInService ~= -1 then
-    TriggerEvent('esx_service:activateService', 'unicorn', Config.MaxInService)
-end
