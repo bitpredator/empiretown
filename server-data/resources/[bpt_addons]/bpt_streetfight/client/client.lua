@@ -1,8 +1,7 @@
 ESX = nil
 local betAmount = 0
+local fightStatus
 local STATUS_INITIAL
-local fightStatus = STATUS_INITIAL
-local STATUS_INITIAL = 0
 local STATUS_JOINED = 1
 local STATUS_STARTED = 2
 local blueJoined = false
@@ -14,6 +13,7 @@ local rival = nil
 local Gloves = {}
 local showWinner = false
 local winner = nil
+local id
 
 ESX = exports["es_extended"]:getSharedObject()
 
@@ -268,7 +268,6 @@ CreateThread(function()
                     SetPedCoordsKeepVehicle(GetPlayerPed(-1), -521.58, -1723.58, 19.16)
                     local foundGround = GetGroundZFor_3dCoord(-521.58, -1723.58, 19.16)
                     if foundGround then
-                        local id
                         SetPedCoordsKeepVehicle(GetPlayerPed(id), -521.58, -1723.58, 19.16)
                         break
                     end
