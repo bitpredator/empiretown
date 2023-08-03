@@ -4,4 +4,6 @@ Locales['en'] = {
     ['you_lost'] = 'You have lost the fight',
     ['time out'] = 'The fight is over due to time limit',
     ['step_away'] = 'step away from the ring',
+    ['successfully_signed'] = 'you have successfully signed up',
+    ['not_money'] = 'not enough money',
 }
