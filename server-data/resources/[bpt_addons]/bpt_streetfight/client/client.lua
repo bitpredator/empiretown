@@ -1,6 +1,7 @@
 ESX = nil
 local betAmount = 0
-local fightStatus, STATUS_INITIAL
+local fightStatus = false
+local STATUS_INITIAL = false
 local STATUS_JOINED = 1
 local STATUS_STARTED = 2
 local blueJoined = false
@@ -265,7 +266,7 @@ CreateThread(function()
                     SetPedCoordsKeepVehicle(GetPlayerPed(-1), -521.58, -1723.58, 19.16)
                     local foundGround = GetGroundZFor_3dCoord(-521.58, -1723.58, 19.16)
                     if foundGround then
-                        SetPedCoordsKeepVehicle(GetPlayerPed(id), -521.58, -1723.58, 19.16)
+                        SetPedCoordsKeepVehicle(GetPlayerPed(_), -521.58, -1723.58, 19.16)
                         break
                     end
                     Wait(5)

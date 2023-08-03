@@ -44,10 +44,10 @@ AddEventHandler('bpt_streetfight:join', function(betAmount, side)
 end)
 
 local count = 240
-local actualCount = 0
+local _ = 0
 function countdown(copyFight)
     for i = count, 0, -1 do
-        actualCount = i
+        _ = i
         Wait(1000)
     end
 
@@ -86,7 +86,7 @@ AddEventHandler('bpt_streetfight:pay', function(amount)
 end)
 
 RegisterServerEvent('bpt_streetfight:raiseBet')
-AddEventHandler('bpt_streetfight:raiseBet', function(looser)
+AddEventHandler('bpt_streetfight:raiseBet', function()
     TriggerClientEvent('bpt_streetfight:raiseActualBet', -1)
 end)
 
