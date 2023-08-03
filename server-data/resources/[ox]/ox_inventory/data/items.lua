@@ -1,5 +1,4 @@
 return {
-
 	['bandage'] = {
 		label = 'Bandage',
 		weight = 115,
@@ -60,7 +59,7 @@ return {
 			usetime = 1500
 		}
 	},
-
+	
 	['paper'] = {
 		label = 'carta',
 		weight = 100,
@@ -88,7 +87,7 @@ return {
 		stack = true,
 		consume = 0
 	},
-
+	
 	['paperbag'] = {
 		label = 'Paper Bag',
 		weight = 1,
@@ -136,7 +135,7 @@ return {
 		close = false,
 		consume = 0
 	},
-
+	
 	['clothes'] = {
 		label = 'abiti',
 		weight = 1,
@@ -335,9 +334,7 @@ return {
 
 	['fixkit'] = {
 		label = 'kit di riparazione',
-		consume = 1,
-		weight = 100,
-		stack = true,
+		consume = 0,
 	},
 
 	['almonds'] = {
@@ -351,13 +348,13 @@ return {
 		weight = 100,
 		stack = true,
 	},
-
+	
 	['cannabis'] = {
 		label = 'cannabis',
 		weight = 100,
 		stack = true,
 	},
-
+   
     ['marijuana'] = {
 	    label = 'marijuana',
 	    weight = 100,
@@ -387,13 +384,13 @@ return {
 	    weight = 100,
 	    stack = true, 
     },
-
+    
 	['slicedchips'] = {
 	    label = 'Patate affettate',
 	    weight = 100,
 	    stack = true,
     },
-
+	
 	['fishingrod'] = {
 	    label = 'canna da pesca',
 	    weight = 100,
@@ -450,7 +447,7 @@ return {
 	},
 
 	['backpack'] = {
-		label = 'zainetto',
+		label = 'Backpack',
 		weight = 220,
 		stack = false,
 		consume = 0,
