@@ -1,5 +1,6 @@
 ESX = nil
 local betAmount = 0
+local STATUS_INITIAL
 local fightStatus = STATUS_INITIAL
 local STATUS_INITIAL = 0
 local STATUS_JOINED = 1
@@ -216,7 +217,7 @@ end
 
 function DrawText3D(x, y, z, text, scale)
     local _, _x, _y = World3dToScreen2d(x, y, z)
-    local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
+    local _, _, _ = table.unpack(GetGameplayCamCoords())
     SetTextScale(scale, scale)
     SetTextFont(4)
     SetTextProportional(1)
@@ -263,11 +264,11 @@ CreateThread(function()
             local coords = GetEntityCoords(GetPlayerPed(-1))
             if get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z,coords.x,coords.y,coords.z) < Config.TP_DISTANCE then
                 ESX.ShowNotification(_U('step_away'))
-                for height = 1, 1000 do
+                for _ = 1, 1000 do
                     SetPedCoordsKeepVehicle(GetPlayerPed(-1), -521.58, -1723.58, 19.16)
                     local foundGround = GetGroundZFor_3dCoord(-521.58, -1723.58, 19.16)
-                    local id
                     if foundGround then
+                        local id
                         SetPedCoordsKeepVehicle(GetPlayerPed(id), -521.58, -1723.58, 19.16)
                         break
                     end
