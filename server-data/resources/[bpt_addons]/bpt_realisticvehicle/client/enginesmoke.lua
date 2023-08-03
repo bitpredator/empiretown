@@ -81,7 +81,7 @@ CreateThread(function()
 					fxIds = {}
 				end
 			elseif armourIndex == 2 then -- %60
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -113,7 +113,7 @@ CreateThread(function()
 					fxIds = {}
 				end
 			elseif armourIndex == 1 then -- %40
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -145,7 +145,7 @@ CreateThread(function()
 					fxIds = {}
 				end
 			elseif armourIndex == 0 then -- %20
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -177,7 +177,7 @@ CreateThread(function()
 					fxIds = {}
 				end
 			elseif armourIndex == -1 then -- No Armour
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -210,7 +210,7 @@ CreateThread(function()
 				end
 			end
 		end
- 	end
+	end
 end)
 
 CreateThread(function()
