@@ -6,4 +6,6 @@ Locales['en'] = {
     ['step_away'] = 'step away from the ring',
     ['successfully_signed'] = 'you have successfully signed up',
     ['not_money'] = 'not enough money',
+    ['press_to_join_blue'] = 'press ~INPUT_CONTEXT~ to join the blue side',
+    ['press_to_join_red'] = 'press ~INPUT_CONTEXT~ to join the red side.',
 }
