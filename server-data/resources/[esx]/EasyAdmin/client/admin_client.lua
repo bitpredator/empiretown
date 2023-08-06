@@ -92,7 +92,7 @@ RegisterNetEvent("EasyAdmin:ClaimedReport", function(reportData)
 end)
 
 RegisterNetEvent("EasyAdmin:RemoveReport", function(reportData)
-	reports[reportData.id] = nil 
+	reports[reportData.id] = nil
 end)
 
 
@@ -256,7 +256,7 @@ Citizen.CreateThread( function()
 			local localPlayerPed = PlayerPedId()
 			local targetPed = GetPlayerPed(drawTarget)
 			local targetGod = GetPlayerInvincible(drawTarget)
-			
+
 			local tgtCoords = GetEntityCoords(targetPed)
 			if tgtCoords and tgtCoords.x ~= 0 then
 				SetEntityCoords(localPlayerPed, tgtCoords.x, tgtCoords.y, tgtCoords.z - 10.0, 0, 0, 0, false)
@@ -332,7 +332,7 @@ RegisterNetEvent("EasyAdmin:FreezePlayer", function(toggle)
 	FreezeEntityPosition(playerPed, frozen)
 	if IsPedInAnyVehicle(playerPed, false) then
 		FreezeEntityPosition(GetVehiclePedIsIn(playerPed, false), frozen)
-	end 
+	end
 end)
 
 
@@ -362,7 +362,7 @@ function spectatePlayer(targetPed,target,name)
 		local targetx,targety,targetz = table.unpack(GetEntityCoords(targetPed, false))
 		RequestCollisionAtCoord(targetx,targety,targetz)
 		NetworkSetInSpectatorMode(true, targetPed)
-		
+
 		DrawPlayerInfo(target)
 		TriggerEvent("EasyAdmin:showNotification", string.format(GetLocalisedText("spectatingUser"), name))
 	else
@@ -370,7 +370,7 @@ function spectatePlayer(targetPed,target,name)
 			RequestCollisionAtCoord(oldCoords.x, oldCoords.y, oldCoords.z)
 			Wait(500)
 			SetEntityCoords(playerPed, oldCoords.x, oldCoords.y, oldCoords.z, 0, 0, 0, false)
-			oldCoords=nil
+			oldCoords = nil
 		end
 		NetworkSetInSpectatorMode(false, targetPed)
 		StopDrawPlayerInfo()
@@ -415,10 +415,7 @@ function ShowNotification(text)
 		local showInBrief = false
 		local blink = false
 		EndTextCommandThefeedPostTicker(blink, showInBrief)
-
 	else
-		-- someone who has RedM installed please write some code for this
-		
 	end
 end
 
