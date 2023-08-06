@@ -1,4 +1,4 @@
-CreateThread(function()
+Citizen.CreateThread(function()
 	local diagActive = false
 	RegisterCommand("eaDiag", function(source, args, rawCommand)
 		if diagActive then

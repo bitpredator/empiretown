@@ -41,7 +41,7 @@ RegisterCommand("ea_printIdentifiers", function(source,args,rawCommand)
 	end
 end,false)
 
-CreateThread(function()
+Citizen.CreateThread(function()
 	RegisterCommand("ea_generateSupportFile", function(source, args, rawCommand)
 		if DoesPlayerHavePermission(source, "server") then
 			print("SupportFile is no longer supported, please use eaDiag instead.")

@@ -1,10 +1,10 @@
 fx_version "cerulean"
 
-games {"gta5"}
+games {"rdr3","gta5"}
 
 author 'Blumlaut <blue@furfag.de>'
 description 'EasyAdmin - Admin Menu for FiveM & RedM'
-version '7.01'
+version '7.02'
 
 
 lua54 'yes'
@@ -22,6 +22,7 @@ server_scripts {
 
 client_scripts {
     "dependencies/NativeUI.lua",
+    "dependencies/NativeUI-rdr3.lua",
     "dependencies/Controls.lua",
     "client/*.lua",
     "plugins/**/*_shared.lua",

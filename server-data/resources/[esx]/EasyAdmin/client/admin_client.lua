@@ -126,9 +126,9 @@ RegisterNetEvent('EasyAdmin:SetPlayerMuted', function(player,state)
 	end
 end)
 
-CreateThread( function()
+Citizen.CreateThread( function()
 	while true do
-		Wait(0)
+		Citizen.Wait(0)
 		if frozen then
 			local localPlayerPedId = PlayerPedId()
 			FreezeEntityPosition(localPlayerPedId, frozen)
@@ -136,7 +136,7 @@ CreateThread( function()
 				FreezeEntityPosition(GetVehiclePedIsIn(localPlayerPedId, false), frozen)
 			end 
 		else
-			Wait(200)
+			Citizen.Wait(200)
 		end
 	end
 end)
@@ -185,7 +185,7 @@ RegisterNetEvent("EasyAdmin:requestSpectate", function(playerServerId, tgtCoords
 	stopSpectateUpdate = false 
 end)
 
-CreateThread(function()
+Citizen.CreateThread(function()
 	RegisterNetEvent("EasyAdmin:requestCleanup", function(type, radius)
 
 		local toDelete = {}
@@ -249,9 +249,9 @@ CreateThread(function()
 	end)
 end)
 
-CreateThread( function()
+Citizen.CreateThread( function()
 	while true do
-		Wait(500)
+		Citizen.Wait(500)
 		if drawInfo and not stopSpectateUpdate then
 			local localPlayerPed = PlayerPedId()
 			local targetPed = GetPlayerPed(drawTarget)
@@ -262,7 +262,7 @@ CreateThread( function()
 				SetEntityCoords(localPlayerPed, tgtCoords.x, tgtCoords.y, tgtCoords.z - 10.0, 0, 0, 0, false)
 			end
 		else
-			Wait(1000)
+			Citizen.Wait(1000)
 		end
 	end
 end)
@@ -354,7 +354,7 @@ function spectatePlayer(targetPed,target,name)
 		SetEntityCollision(playerPed, false, false)
 		SetEntityInvincible(playerPed, true)
 		NetworkSetEntityInvisibleToNetwork(playerPed, true)
-		Wait(200) -- to prevent target player seeing you
+		Citizen.Wait(200) -- to prevent target player seeing you
 		if targetPed == playerPed then
 			Wait(500)
 			targetPed = GetPlayerPed(target)
@@ -376,7 +376,7 @@ function spectatePlayer(targetPed,target,name)
 		StopDrawPlayerInfo()
 		TriggerEvent("EasyAdmin:showNotification", GetLocalisedText("stoppedSpectating"))
 		frozen = false
-		Wait(200) -- to prevent staying invisible
+		Citizen.Wait(200) -- to prevent staying invisible
 		SetEntityVisible(playerPed, true, 0)
 		SetEntityCollision(playerPed, true, true)
 		SetEntityInvincible(playerPed, false)

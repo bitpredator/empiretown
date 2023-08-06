@@ -123,7 +123,7 @@ function displayKeyboardInput(title,default,maxLength)
 	alreadyTyping = true
 
 	while not keyboardState do --While typing is not aborted and not finished, this loop waits
-		Wait(0)
+		Citizen.Wait(0)
 	end
 
 	alreadyTyping = false
@@ -133,6 +133,20 @@ function displayKeyboardInput(title,default,maxLength)
 	else
 		return nil
 	end
+--[[ -- default V Input
+	DisplayOnscreenKeyboard(1, title, "", default, "", "", "", maxLength)
+
+	while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do --While typing is not aborted and not finished, this loop waits
+		Citizen.Wait(0)
+	end
+		
+	if UpdateOnscreenKeyboard() ~= 2 then
+		local result = GetOnscreenKeyboardResult()
+		return result
+	else
+		return nil
+	end
+]]
 end
 
 function copyToClipboard(text)

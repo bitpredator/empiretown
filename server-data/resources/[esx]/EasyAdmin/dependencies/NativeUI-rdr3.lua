@@ -1,9 +1,9 @@
 Citizen.CreateThread(function()
 
-    if  CompendiumHorseObserved then
-        return
-    end
-    
+if  not CompendiumHorseObserved then
+    return
+end
+
 
 UIResRectangle = setmetatable({}, UIResRectangle)
 UIResRectangle.__index = UIResRectangle
@@ -94,8 +94,6 @@ BadgeTexture = {
     [20] = function(Selected) if Selected then return "shop_trevor_icon_b" else return "shop_trevor_icon_a" end end,
     [21] = function() return "shop_lock" end,
     [22] = function() return "shop_tick_icon" end,
-    [23] = function() return "badge_dev" end,
-    [24] = function() return "badge_contrib" end,
 }
 
 BadgeDictionary = {
@@ -106,20 +104,12 @@ BadgeDictionary = {
             return "commonmenu"
         end
     end,
-    [23] = function(Selected)
-        return "easyadmin"
-    end,
-    [24] = function(Selected)
-        return "easyadmin"
-    end,
 }
 
 BadgeColour = {
     [5] = function(Selected) if Selected then return 0, 0, 0, 255 else return 255, 255, 255, 255 end end,
     [21] = function(Selected) if Selected then return 0, 0, 0, 255 else return 255, 255, 255, 255 end end,
     [22] = function(Selected) if Selected then return 0, 0, 0, 255 else return 255, 255, 255, 255   end end,
-    [23] = function(Selected) if Selected then return 0,0,0, 255 else return 255,255,255,255 end end,
-    [24] = function(Selected) if Selected then return 0,0,0, 255 else return 255,255,255,255 end end
 }
 
 Colours = {
@@ -347,9 +337,9 @@ Colours = {
 --]]
 
 function GetResolution()
-    local W, H = GetActiveScreenResolution()
+	local W, H = 1920, 1080
     if (W/H) > 3.5 then
-        return GetScreenResolution()
+        return 1920, 1080
     else
         return W, H
     end
@@ -389,7 +379,7 @@ function string.starts(String, Start)
 end
 
 function IsMouseInBounds(X, Y, Width, Height)
-    local MX, MY = math.round(GetControlNormal(0, 239) * 1920), math.round(GetControlNormal(0, 240) * 1080)
+    local MX, MY = math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920), math.round(GetControlNormal(0, "INPUT_CURSOR_Y") * 1080)
     MX, MY = FormatXWYH(MX, MY)
     local X, Y = FormatXWYH(X, Y)
     local Width, Height = FormatXWYH(Width, Height)
@@ -511,7 +501,7 @@ end
 function AddLongStringForAscii(str)
     local maxbytelength = 99
     for i = 0, GetCharacterCount(str), 99 do
-        AddTextComponentSubstringPlayerName(string.sub(str, i, math.min(maxbytelength, GetCharacterCount(str) - i))) --needs changed
+		Citizen.InvokeNative(0x6C188BE134E074AA, string.sub(str, i, math.min(maxbytelength, GetCharacterCount(str) - i)))
     end
 end
 
@@ -520,7 +510,7 @@ function AddLongStringForUtf8(str)
     local bytecount = GetByteCount(str)
 
     if bytecount < maxbytelength then
-        AddTextComponentSubstringPlayerName(str)
+        Citizen.InvokeNative(0x6C188BE134E074AA,str)
         return
     end
 
@@ -529,12 +519,12 @@ function AddLongStringForUtf8(str)
     for i = 0, GetCharacterCount(str), 1 do
         local length = i - startIndex
         if GetByteCount(string.sub(str, startIndex, length)) > maxbytelength then
-            AddTextComponentSubstringPlayerName(string.sub(str, startIndex, length - 1))
+            Citizen.InvokeNative(0x6C188BE134E074AA,string.sub(str, startIndex, length - 1))
             i = i - 1
             startIndex = startIndex + (length - 1)
         end
     end
-    AddTextComponentSubstringPlayerName(string.sub(str, startIndex, GetCharacterCount(str) - startIndex))
+    Citizen.InvokeNative(0x6C188BE134E074AA,string.sub(str, startIndex, GetCharacterCount(str) - startIndex))
 end 
 
 function AddLongString(str)
@@ -547,13 +537,8 @@ function AddLongString(str)
 end
 
 function MeasureStringWidthNoConvert(str, font, scale)
-    BeginTextCommandWidth("STRING")
-    AddLongString(str)
-    SetTextFont(font or 0)
-    SetTextScale(1.0, scale or 0)
-    return EndTextCommandGetWidth(true)
+	return (string.len(str)*scale)*0.02 -- just guess it for now
 end
-
 function MeasureStringWidth(str, font, scale)
     return MeasureStringWidthNoConvert(str, font, scale) * 1920
 end
@@ -606,9 +591,9 @@ function UIResText:Draw()
     local Position = self:Position()
     Position.X, Position.Y = FormatXWYH(Position.X, Position.Y)
 
-    SetTextFont(self.Font)
+	Citizen.InvokeNative(0xADA9255D,self.Font)
     SetTextScale(1.0, self.Scale)
-    SetTextColour(self._Colour.R, self._Colour.G, self._Colour.B, self._Colour.A)
+    SetTextColor(self._Colour.R, self._Colour.G, self._Colour.B, self._Colour.A)
 
     if self.DropShadow then
         SetTextDropShadow()
@@ -620,29 +605,29 @@ function UIResText:Draw()
     if self.Alignment ~= nil then
         if self.Alignment == 1 or self.Alignment == "Center" or self.Alignment == "Centre" then
             SetTextCentre(true)
-        elseif self.Alignment == 2 or self.Alignment == "Right" then
-            SetTextRightJustify(true)
-            SetTextWrap(0, Position.X)
+		elseif self.Alignment == 2 or self.Alignment == "Right" then
+			SetTextCentre(true)
+			--Citizen.InvokeNative(0x6B3C4650BC8BEE47, true)
+			--Citizen.InvokeNative(0x63145D9C883A1A70, 0, Position.X)
         end
     end
 
     if tonumber(self.WordWrap) then
         if tonumber(self.WordWrap) ~= 0 then
-            SetTextWrap(Position.X, Position.X + (tonumber(self.WordWrap) / Resolution.Width))
+            Citizen.InvokeNative(0x63145D9C883A1A70,Position.X, Position.X + (tonumber(self.WordWrap) / Resolution.Width))
         end
     end
 
-    BeginTextCommandDisplayText("STRING")
-    AddLongString(self._Text)
-    EndTextCommandDisplayText(Position.X, Position.Y)
+    local str = CreateVarString(10, "LITERAL_STRING", self._Text)
+	DisplayText(str, Position.X, Position.Y)
 end
 
 function RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, Outline, WordWrap)
-    local Text = tostring(Text)
-    local X, Y = FormatXWYH(X, Y)
-    SetTextFont(Font or 0)
+    Text = tostring(Text)
+    X, Y = FormatXWYH(X, Y)
+    Citizen.InvokeNative(0xADA9255D,Font or 0)
     SetTextScale(1.0, Scale or 0)
-    SetTextColour(R or 255, G or 255, B or 255, A or 255)
+    SetTextColor(R or 255, G or 255, B or 255, A or 255)
 
     if DropShadow then
         SetTextDropShadow()
@@ -654,22 +639,23 @@ function RenderText(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow, 
     if Alignment ~= nil then
         if Alignment == 1 or Alignment == "Center" or Alignment == "Centre" then
             SetTextCentre(true)
-        elseif Alignment == 2 or Alignment == "Right" then
-            SetTextRightJustify(true)
-            SetTextWrap(0, X)
+		elseif Alignment == 2 or Alignment == "Right" then
+			SetTextCentre(true)
+			--Citizen.InvokeNative(0x6B3C4650BC8BEE47, true)
+			--Citizen.InvokeNative(0x63145D9C883A1A70, 0, X)
         end
     end
 
     if tonumber(WordWrap) then
         if tonumber(WordWrap) ~= 0 then
             WordWrap, _ = FormatXWYH(WordWrap, 0)
-            SetTextWrap(WordWrap, X - WordWrap)
+            Citizen.InvokeNative(0x63145D9C883A1A70,WordWrap, X - WordWrap)
         end
     end
 
-    BeginTextCommandDisplayText("STRING")
-    AddLongString(Text)
-    EndTextCommandDisplayText(X, Y)
+	
+	local str = CreateVarString(10, "LITERAL_STRING",Text)
+	DisplayText(str, X, Y)
 end
 
 --[[
@@ -1128,10 +1114,11 @@ function UIMenuListItem.New(Text, Items, Index, Description)
     if Index == 0 then Index = 1 end
     local _UIMenuListItem = {
         Base = UIMenuItem.New(Text or "", Description or ""),
-        Items = Items,
-        LeftArrow = Sprite.New("commonmenu", "arrowleft", 110, 105, 30, 30),
-        RightArrow = Sprite.New("commonmenu", "arrowright", 280, 105, 30, 30),
-        ItemText = UIResText.New("", 290, 104, 0.35, 255, 255, 255, 255, 0, "Right"),
+		Items = Items,
+		ItemText = UIResText.New("", 290, 104, 0.35, 255, 255, 255, 255, 0, "Right"),
+		LeftArrow = UIResText.New("<", 110, 105, 0.35, 255, 255, 255, 255, 0, "Right"),
+        RightArrow = UIResText.New(">", 280, 105, 0.35, 255, 255, 255, 255, 0, "Right"),
+
         _Index = tonumber(Index) or 1,
         Panels = {},
         OnListChanged = function(menu, item, newindex) end,
@@ -1318,9 +1305,9 @@ function UIMenuListItem:Draw()
     if self:Selected() then
         self.LeftArrow:Draw()
         self.RightArrow:Draw()
-        self.ItemText:Position(403 + self.Base._Offset.X + self.Base.ParentMenu.WidthOffset, self.ItemText.Y)
+        self.ItemText:Position(375 + self.Base._Offset.X + self.Base.ParentMenu.WidthOffset, self.ItemText.Y)
     else
-        self.ItemText:Position(418 + self.Base._Offset.X + self.Base.ParentMenu.WidthOffset, self.ItemText.Y)
+        self.ItemText:Position(400 + self.Base._Offset.X + self.Base.ParentMenu.WidthOffset, self.ItemText.Y)
     end
 
     self.ItemText:Draw()
@@ -1804,19 +1791,19 @@ function UIMenuHeritageWindow.New(Mum, Dad)
     if not (Mum >= 0 and Mum <= 21) then Mum = 0 end
     if not tonumber(Dad) then Dad = 0 end
     if not (Dad >= 0 and Dad <= 23) then Dad = 0 end
-    _UIMenuHeritageWindow = {
-        Background = Sprite.New("pause_menu_pages_char_mom_dad", "mumdadbg", 0, 0, 431, 228), -- Background is required, must be a sprite or a rectangle.
+	_UIMenuHeritageWindow = {
+		Background = Sprite.New("pause_menu_pages_char_mom_dad", "mumdadbg", 0, 0, 431, 228), -- Background is required, must be a sprite or a rectangle.
         MumSprite = Sprite.New("char_creator_portraits", ((Mum < 21) and "female_"..Mum or "special_female_"..(tonumber(string.sub(Mum, 2, 2)) - 1)), 0, 0, 228, 228),
         DadSprite = Sprite.New("char_creator_portraits", ((Dad < 21) and "male_"..Dad or "special_male_"..(tonumber(string.sub(Dad, 2, 2)) - 1)), 0, 0, 228, 228),
         Mum = Mum,
         Dad = Dad,
-        _Offset = {X = 0, Y = 0}, -- required
-        ParentMenu = nil, -- required
+        _Offset = {X = 0, Y = 0}, 
+        ParentMenu = nil, 
     }
     return setmetatable(_UIMenuHeritageWindow, UIMenuHeritageWindow)
 end
 
-function UIMenuHeritageWindow:SetParentMenu(Menu) -- required
+function UIMenuHeritageWindow:SetParentMenu(Menu) 
     if Menu() == "UIMenu" then
         self.ParentMenu = Menu
     else
@@ -1824,7 +1811,7 @@ function UIMenuHeritageWindow:SetParentMenu(Menu) -- required
     end
 end
 
-function UIMenuHeritageWindow:Offset(X, Y) -- required
+function UIMenuHeritageWindow:Offset(X, Y) 
     if tonumber(X) or tonumber(Y) then
         if tonumber(X) then
             self._Offset.X = tonumber(X)
@@ -1837,7 +1824,7 @@ function UIMenuHeritageWindow:Offset(X, Y) -- required
     end
 end
 
-function UIMenuHeritageWindow:Position(Y) -- required
+function UIMenuHeritageWindow:Position(Y) 
     if tonumber(Y) then
         self.Background:Position(self._Offset.X, 144 + Y + self._Offset.Y)
         self.MumSprite:Position(self._Offset.X + (self.ParentMenu.WidthOffset/2) + 25, 144 + Y + self._Offset.Y)
@@ -1858,7 +1845,7 @@ function UIMenuHeritageWindow:Index(Mum, Dad)
     self.DadSprite.TxtName = ((self.Dad < 21) and "male_"..self.Dad or "special_male_"..(tonumber(string.sub(Dad, 2, 2)) - 1))
 end
 
-function UIMenuHeritageWindow:Draw() -- required
+function UIMenuHeritageWindow:Draw() 
     self.Background:Size(431 + self.ParentMenu.WidthOffset, 228)
     self.Background:Draw()
     self.DadSprite:Draw()
@@ -1894,7 +1881,7 @@ function UIMenuGridPanel.New(TopText, LeftText, RightText, BottomText)
     return setmetatable(_UIMenuGridPanel, UIMenuGridPanel)
 end
 
-function UIMenuGridPanel:SetParentItem(Item) -- required
+function UIMenuGridPanel:SetParentItem(Item) 
     if Item() == "UIMenuItem" then
         self.ParentItem = Item
     else
@@ -1919,7 +1906,7 @@ function UIMenuGridPanel:CirclePosition(X, Y)
     end
 end
 
-function UIMenuGridPanel:Position(Y) -- required
+function UIMenuGridPanel:Position(Y) 
     if tonumber(Y) then
         local ParentOffsetX, ParentOffsetWidth = self.ParentItem:Offset().X, self.ParentItem:SetParentMenu().WidthOffset
         
@@ -1967,19 +1954,19 @@ end
 function UIMenuGridPanel:Functions()
     local SafeZone = {X = 0, Y = 0}
     if self.ParentItem:SetParentMenu().Settings.ScaleWithSafezone then
-       SafeZone = GetSafeZoneBounds()
+       --SafeZone = GetSafeZoneBounds()
     end
 
     if IsMouseInBounds(self.Grid.X + 20 + SafeZone.X, self.Grid.Y + 20 + SafeZone.Y, self.Grid.Width - 40, self.Grid.Height - 40) then
-        if IsDisabledControlJustPressed(1, 24) and IsInputDisabled(0) then
+        if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
             if not self.Pressed then
                 self.Pressed = true
                 Citizen.CreateThread(function()
                     self.Audio.Id = GetSoundId()
                     PlaySoundFrontend(self.Audio.Id, self.Audio.Slider, self.Audio.Library, 1)
-                    while IsDisabledControlPressed(0, 24) and IsMouseInBounds(self.Grid.X + 20 + SafeZone.X, self.Grid.Y + 20 + SafeZone.Y, self.Grid.Width - 40, self.Grid.Height - 40) do
+                    while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(self.Grid.X + 20 + SafeZone.X, self.Grid.Y + 20 + SafeZone.Y, self.Grid.Width - 40, self.Grid.Height - 40) do
                         Citizen.Wait(0)
-                        local CursorX, CursorY = math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X - (self.Circle.Width/2), math.round(GetControlNormal(0, 240) * 1080) - SafeZone.Y - (self.Circle.Height/2)
+                        local CursorX, CursorY = math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920) - SafeZone.X - (self.Circle.Width/2), math.round(GetControlNormal(0, "INPUT_CURSOR_Y") * 1080) - SafeZone.Y - (self.Circle.Height/2)
 
                         self.Circle:Position(((CursorX > (self.Grid.X + 10 + self.Grid.Width - 40)) and (self.Grid.X + 10 + self.Grid.Width - 40) or ((CursorX < (self.Grid.X + 20 - (self.Circle.Width/2))) and (self.Grid.X + 20 - (self.Circle.Width/2)) or CursorX)), ((CursorY > (self.Grid.Y + 10 + self.Grid.Height - 40)) and (self.Grid.Y + 10 + self.Grid.Height - 40) or ((CursorY < (self.Grid.Y + 20 - (self.Circle.Height/2))) and (self.Grid.Y + 20 - (self.Circle.Height/2)) or CursorY)))
                     end
@@ -1988,7 +1975,7 @@ function UIMenuGridPanel:Functions()
                     self.Pressed = false
                 end)
                 Citizen.CreateThread(function()
-                    while IsDisabledControlPressed(0, 24) and IsMouseInBounds(self.Grid.X + 20 + SafeZone.X, self.Grid.Y + 20 + SafeZone.Y, self.Grid.Width - 40, self.Grid.Height - 40) do
+                    while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(self.Grid.X + 20 + SafeZone.X, self.Grid.Y + 20 + SafeZone.Y, self.Grid.Width - 40, self.Grid.Height - 40) do
                         Citizen.Wait(75)
                         local ResultX, ResultY = math.round((self.Circle.X - (self.Grid.X + 20) + (self.Circle.Width/2))/(self.Grid.Width - 40), 2), math.round((self.Circle.Y - (self.Grid.Y + 20) + (self.Circle.Height/2))/(self.Grid.Height - 40), 2)
 
@@ -2000,7 +1987,7 @@ function UIMenuGridPanel:Functions()
     end
 end
 
-function UIMenuGridPanel:Draw() -- required
+function UIMenuGridPanel:Draw() 
     if self.Data.Enabled then
         self.Background:Size(431 + self.ParentItem:SetParentMenu().WidthOffset, 275)
 
@@ -2063,7 +2050,7 @@ function UIMenuColourPanel.New(Title, Colours)
     return setmetatable(_UIMenuColourPanel, UIMenuColourPanel)
 end
 
-function UIMenuColourPanel:SetParentItem(Item) -- required
+function UIMenuColourPanel:SetParentItem(Item) 
     if Item() == "UIMenuItem" then
         self.ParentItem = Item
     else
@@ -2079,7 +2066,7 @@ function UIMenuColourPanel:Enabled(Enabled)
     end
 end
 
-function UIMenuColourPanel:Position(Y) -- required
+function UIMenuColourPanel:Position(Y) 
     if tonumber(Y) then
         local ParentOffsetX, ParentOffsetWidth = self.ParentItem:Offset().X, self.ParentItem:SetParentMenu().WidthOffset
 
@@ -2167,12 +2154,12 @@ function UIMenuColourPanel:Functions()
 
     local SafeZone = {X = 0, Y = 0}
     if self.ParentItem:SetParentMenu().Settings.ScaleWithSafezone then
-       SafeZone = GetSafeZoneBounds()
+       --SafeZone = GetSafeZoneBounds()
     end
 
 
     if IsMouseInBounds(self.LeftArrow.X + SafeZone.X, self.LeftArrow.Y + SafeZone.Y, self.LeftArrow.Width, self.LeftArrow.Height) then
-        if IsDisabledControlJustPressed(1, 24) and IsInputDisabled(0) then
+        if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
             if #self.Data.Items > self.Data.Pagination.Total + 1 then
                 if self:CurrentSelection() <= self.Data.Pagination.Min + 1 then
                     if self:CurrentSelection() == 1 then
@@ -2199,7 +2186,7 @@ function UIMenuColourPanel:Functions()
     end
 
     if IsMouseInBounds(self.RightArrow.X + SafeZone.X, self.RightArrow.Y + SafeZone.Y, self.RightArrow.Width, self.RightArrow.Height) then
-        if IsDisabledControlJustPressed(1, 24) and IsInputDisabled(0) then
+        if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
             if #self.Data.Items > self.Data.Pagination.Total + 1 then
                 if self:CurrentSelection() >= self.Data.Pagination.Max then
                     if self:CurrentSelection() == #self.Data.Items then
@@ -2226,14 +2213,14 @@ function UIMenuColourPanel:Functions()
 
     for Index = 1, #self.Bar do
         if IsMouseInBounds(self.Bar[Index].X + SafeZone.X, self.Bar[Index].Y + SafeZone.Y, self.Bar[Index].Width, self.Bar[Index].Height) then
-            if IsDisabledControlJustPressed(1, 24) and IsInputDisabled(0) then
+            if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
                 self:CurrentSelection(self.Data.Pagination.Min + Index - 1)
             end
         end
     end
 end
 
-function UIMenuColourPanel:Draw() -- required
+function UIMenuColourPanel:Draw() 
     if self.Data.Enabled then
         self.Background:Size(431 + self.ParentItem:SetParentMenu().WidthOffset, 112)
 
@@ -2271,14 +2258,14 @@ function UIMenuPercentagePanel.New(MinText, MaxText)
             Max = UIResText.New("100%", 0, 0, 0.35, 255, 255, 255, 255, 0, "Centre"),
             Title = UIResText.New(MaxText or "Opacity", 0, 0, 0.35, 255, 255, 255, 255, 0, "Centre"),
         },
-        Audio = {Slider = "CONTINUOUS_SLIDER", Library = "HUD_FRONTEND_DEFAULT_SOUNDSET", Id = nil},
+        Audio = {Slider = "BET_AMOUNT", Library = "HUD_POKER", Id = nil},
         ParentItem = nil,
     }
 
     return setmetatable(_UIMenuPercentagePanel, UIMenuPercentagePanel)
 end
 
-function UIMenuPercentagePanel:SetParentItem(Item) -- required
+function UIMenuPercentagePanel:SetParentItem(Item) 
     if Item() == "UIMenuItem" then
         self.ParentItem = Item
     else
@@ -2294,7 +2281,7 @@ function UIMenuPercentagePanel:Enabled(Enabled)
     end
 end
 
-function UIMenuPercentagePanel:Position(Y) -- required
+function UIMenuPercentagePanel:Position(Y) 
     if tonumber(Y) then
         local ParentOffsetX, ParentOffsetWidth = self.ParentItem:Offset().X, self.ParentItem:SetParentMenu().WidthOffset
         self.Background:Position(ParentOffsetX, Y)
@@ -2313,10 +2300,10 @@ function UIMenuPercentagePanel:Percentage(Value)
     else
         local SafeZone = {X = 0, Y = 0}
         if self.ParentItem:SetParentMenu().Settings.ScaleWithSafezone then
-           SafeZone = GetSafeZoneBounds()
+           --SafeZone = GetSafeZoneBounds()
         end
         
-        local Progress = (math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X) - self.ActiveBar.X
+        local Progress = (math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920) - SafeZone.X) - self.ActiveBar.X
         return math.round(((Progress >= 0 and Progress <= 413) and Progress or ((Progress < 0) and 0 or 413))/self.BackgroundBar.Width, 2)
     end
 end
@@ -2352,19 +2339,19 @@ function UIMenuPercentagePanel:Functions()
 
     local SafeZone = {X = 0, Y = 0}
     if self.ParentItem:SetParentMenu().Settings.ScaleWithSafezone then
-       SafeZone = GetSafeZoneBounds()
+       --SafeZone = GetSafeZoneBounds()
     end
 
     if IsMouseInBounds(self.BackgroundBar.X + SafeZone.X, self.BackgroundBar.Y - 4 + SafeZone.Y, self.BackgroundBar.Width, self.BackgroundBar.Height + 8) then
-        if IsDisabledControlJustPressed(1, 24) and IsInputDisabled(0) then
+        if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
             if not self.Pressed then
                 self.Pressed = true
                 Citizen.CreateThread(function()
                     self.Audio.Id = GetSoundId()
                     PlaySoundFrontend(self.Audio.Id, self.Audio.Slider, self.Audio.Library, 1)
-                    while IsDisabledControlPressed(0, 24) and IsMouseInBounds(self.BackgroundBar.X + SafeZone.X, self.BackgroundBar.Y - 4 + SafeZone.Y, self.BackgroundBar.Width, self.BackgroundBar.Height + 8) do
+                    while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(self.BackgroundBar.X + SafeZone.X, self.BackgroundBar.Y - 4 + SafeZone.Y, self.BackgroundBar.Width, self.BackgroundBar.Height + 8) do
                         Citizen.Wait(0)
-                        local Progress = (math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X) - self.ActiveBar.X
+                        local Progress = (math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920) - SafeZone.X) - self.ActiveBar.X
                         self.ActiveBar:Size(((Progress >= 0 and Progress <= 413) and Progress or ((Progress < 0) and 0 or 413)), self.ActiveBar.Height)
                     end
                     StopSound(self.Audio.Id)
@@ -2372,9 +2359,9 @@ function UIMenuPercentagePanel:Functions()
                     self.Pressed = false
                 end)
                 Citizen.CreateThread(function()
-                    while IsDisabledControlPressed(0, 24) and IsMouseInBounds(self.BackgroundBar.X + SafeZone.X, self.BackgroundBar.Y - 4 + SafeZone.Y, self.BackgroundBar.Width, self.BackgroundBar.Height + 8) do
+                    while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(self.BackgroundBar.X + SafeZone.X, self.BackgroundBar.Y - 4 + SafeZone.Y, self.BackgroundBar.Width, self.BackgroundBar.Height + 8) do
                         Citizen.Wait(75)
-                        local Progress = (math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X) - self.ActiveBar.X
+                        local Progress = (math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920) - SafeZone.X) - self.ActiveBar.X
                         self:UpdateParent(math.round(((Progress >= 0 and Progress <= 413) and Progress or ((Progress < 0) and 0 or 413))/self.BackgroundBar.Width, 2))
                     end
                 end)
@@ -2383,7 +2370,7 @@ function UIMenuPercentagePanel:Functions()
     end
 end
 
-function UIMenuPercentagePanel:Draw() -- required
+function UIMenuPercentagePanel:Draw() 
     if self.Data.Enabled then
         self.Background:Size(431 + self.ParentItem:SetParentMenu().WidthOffset, 76)
         self.Background:Draw()
@@ -2401,22 +2388,17 @@ end
     Menus
 --]]
 
-function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName, titleTxt)
+function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName)
     local X, Y = tonumber(X) or 0, tonumber(Y) or 0
     if Title ~= nil then Title = tostring(Title) or "" else Title = "" end
     if Subtitle ~= nil then Subtitle = tostring(Subtitle) or "" else Subtitle = "" end
     if TxtDictionary ~= nil then TxtDictionary = tostring(TxtDictionary) or "commonmenu" else TxtDictionary = "commonmenu" end
     if TxtName ~= nil then TxtName = tostring(TxtName) or "interaction_bgd" else TxtName = "interaction_bgd" end
-    local thisTitle
-    if titleTxt then
-        thisTitle = Sprite.New(TxtDictionary, titleTxt, 0 + X, 0 + Y, 431, 107)
-    else
-        thisTitle = UIResText.New(Title, 215 + X, 20 + Y, 1.15, 255, 255, 255, 255, 1, 1)
-    end
     local _UIMenu = {
-        Logo = Sprite.New(TxtDictionary, TxtName, 0 + X, 0 + Y, 431, 107),
-        Banner = nil,
-        Title = thisTitle,
+        --Logo = Sprite.New(TxtDictionary, TxtName, 0 + X, 0 + Y, 431, 107),
+		Logo = UIResRectangle.New(0 + X, 0 + Y, 431, 228, 150, 50, 50, 255),
+		Banner = nil,
+        Title = UIResText.New(Title, 215 + X, 20 + Y, 1.15, 255, 255, 255, 255, 1, 1),
         Subtitle = {ExtraY = 0},
         WidthOffset = 0,
         Position = {X = X, Y = Y},
@@ -2427,9 +2409,6 @@ function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName, titleTxt)
         Items = {},
         Windows = {},
         Children = {},
-        TxtDictionary = TxtDictionary,
-        TxtName = TxtName,
-        titleTxt = titleTxt,
         Controls = {
             Back = {
                 Enabled = true,
@@ -2456,7 +2435,7 @@ function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName, titleTxt)
         ActiveItem = 1000,
         Dirty = false;
         ReDraw = true,
-        InstructionalScaleform = RequestScaleformMovie("INSTRUCTIONAL_BUTTONS"),
+        InstructionalScaleform = "",
         InstructionalButtons = {},
         OnIndexChange = function(menu, newindex) end,
         OnListChange = function(menu, list, newindex) end,
@@ -2478,48 +2457,48 @@ function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName, titleTxt)
             MouseEdgeEnabled = true,
             ControlDisablingEnabled = true,
             Audio = {
-                Library = "HUD_FRONTEND_DEFAULT_SOUNDSET",
-                UpDown = "NAV_UP_DOWN",
-                LeftRight = "NAV_LEFT_RIGHT",
-                Select = "SELECT",
-                Back = "BACK",
-                Error = "ERROR",
+                Library = "HUD_DOMINOS_SOUNDSET",
+                UpDown = "NAV_DOWN",
+                LeftRight = "NAV_LEFT",
+                Select = "YES",
+                Back = "NO",
+                Error = "READ",
             },
             EnabledControls = {
                 Controller = {
-                    {0, 2}, -- Look Up and Down
-                    {0, 1}, -- Look Left and Right
-                    {0, 25}, -- Aim
-                    {0, 24}, -- Attack
+                    {0, "INPUT_LOOK_UD"}, -- Look Up and Down
+                    {0, "INPUT_LOOK_LR"}, -- Look Left and Right
+                    {0, "INPUT_AIM"}, -- Aim
+                    {0, "INPUT_ATTACK"}, -- Attack
                 },
                 Keyboard = {
-                    {0, 201}, -- Select
-                    {0, 195}, -- X axis
-                    {0, 196}, -- Y axis
-                    {0, 187}, -- Down
-                    {0, 188}, -- Up
-                    {0, 189}, -- Left
-                    {0, 190}, -- Right
-                    {0, 202}, -- Back
-                    {0, 217}, -- Select
-                    {0, 242}, -- Scroll down
-                    {0, 241}, -- Scroll up
-                    {0, 239}, -- Cursor X
-                    {0, 240}, -- Cursor Y
-                    {0, 31}, -- Move Up and Down
-                    {0, 30}, -- Move Left and Right
-                    {0, 21}, -- Sprint
-                    {0, 22}, -- Jump
-                    {0, 23}, -- Enter
-                    {0, 75}, -- Exit Vehicle
-                    {0, 71}, -- Accelerate Vehicle
-                    {0, 72}, -- Vehicle Brake
-                    {0, 59}, -- Move Vehicle Left and Right
-                    {0, 89}, -- Fly Yaw Left
-                    {0, 9}, -- Fly Left and Right
-                    {0, 8}, -- Fly Up and Down
-                    {0, 90}, -- Fly Yaw Right
-                    {0, 76}, -- Vehicle Handbrake
+                    {0, "INPUT_FRONTEND_ACCEPT"}, -- Select
+                    {0, "INPUT_FRONTEND_AXIS_X"}, -- X axis
+                    {0, "INPUT_FRONTEND_AXIS_Y"}, -- Y axis
+                    {0, "INPUT_FRONTEND_DOWN"}, -- Down
+                    {0, "INPUT_FRONTEND_UP"}, -- Up
+                    {0, "INPUT_FRONTEND_LEFT"}, -- Left
+                    {0, "INPUT_FRONTEND_RIGHT"}, -- Right
+                    {0, "INPUT_FRONTEND_CANCEL"}, -- Back
+                    {0, "INPUT_FRONTEND_SELECT"}, -- Select
+                    {0, "INPUT_CURSOR_SCROLL_DOWN"}, -- Scroll down
+                    {0, "INPUT_CURSOR_SCROLL_UP"}, -- Scroll up
+                    {0, "INPUT_CURSOR_X"}, -- Cursor X
+                    {0, "INPUT_CURSOR_Y"}, -- Cursor Y
+                    {0, "INPUT_MOVE_UD"}, -- Move Up and Down
+                    {0, "INPUT_MOVE_LR"}, -- Move Left and Right
+                    {0, "INPUT_SPRINT"}, -- Sprint
+                    {0, "INPUT_JUMP"}, -- Jump
+                    {0, "INPUT_ENTER"}, -- Enter
+                    {0, "INPUT_VEH_EXIT"}, -- Exit Vehicle
+                    {0, "INPUT_VEH_ACCELERATE"}, -- Accelerate Vehicle
+                    {0, "INPUT_VEH_BRAKE"}, -- Vehicle Brake
+                    {0, "INPUT_VEH_MOVE_LR"}, -- Move Vehicle Left and Right
+                    {0, "INPUT_VEH_FLY_YAW_LEFT"}, -- Fly Yaw Left
+                    {0, "INPUT_SCRIPTED_FLY_LR"}, -- Fly Left and Right
+                    {0, "INPUT_SCRIPTED_FLY_UD"}, -- Fly Up and Down
+                    {0, "INPUT_VEH_FLY_YAW_RIGHT"}, -- Fly Yaw Right
+                    {0, "INPUT_VEH_HANDBRAKE"}, -- Vehicle Handbrake
                 },
             }
         }
@@ -2545,8 +2524,9 @@ function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName, titleTxt)
     _UIMenu.Description.Rectangle = Sprite.New("commonmenu", "gradient_bgd", _UIMenu.Position.X, 127, 431, 30)
     _UIMenu.Description.Text = UIResText.New("Description", _UIMenu.Position.X + 5, 125, 0.35)
 
-    _UIMenu.Background = Sprite.New("commonmenu", "gradient_bgd", _UIMenu.Position.X, 144 + _UIMenu.Position.Y - 37 + _UIMenu.Subtitle.ExtraY, 290, 25)
-
+	_UIMenu.Background = Sprite.New("commonmenu", "gradient_bgd", _UIMenu.Position.X, 144 + _UIMenu.Position.Y - 37 + _UIMenu.Subtitle.ExtraY, 290, 25)
+	
+	--[[
     Citizen.CreateThread(function()
         if not HasScaleformMovieLoaded(_UIMenu.InstructionalScaleform) then
             _UIMenu.InstructionalScaleform = RequestScaleformMovie("INSTRUCTIONAL_BUTTONS")
@@ -2554,7 +2534,8 @@ function UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName, titleTxt)
                 Citizen.Wait(0)
             end
         end
-    end)
+	end)
+	]]
     return setmetatable(_UIMenu, UIMenu)
 end
 
@@ -2562,11 +2543,7 @@ function UIMenu:SetMenuWidthOffset(Offset)
     if tonumber(Offset) then
         self.WidthOffset = math.floor(tonumber(Offset))
         self.Logo:Size(431 + self.WidthOffset, 107)
-        if self.Title.TxtName then
-            self.Title:Position(((self.WidthOffset + 0)/2) + self.Position.X, 0 + self.Position.Y)
-        else
-            self.Title:Position(((self.WidthOffset + 431)/2) + self.Position.X, 20 + self.Position.Y)
-        end
+        self.Title:Position(((self.WidthOffset + 431)/2) + self.Position.X, 20 + self.Position.Y)
         if self.Subtitle.Rectangle ~= nil then
             self.Subtitle.Rectangle:Size(431 + self.WidthOffset + 100, 37)            
             self.PageCounter.Text:Position(425 + self.Position.X + self.WidthOffset, 110 + self.Position.Y)
@@ -2790,6 +2767,8 @@ function UIMenu:RefreshIndexRecursively()
     end
 end
 
+
+
 function UIMenu:Clear()
     self.Items = {}
     self.ReDraw = true
@@ -2875,18 +2854,16 @@ function UIMenu:Visible(bool)
         self.JustOpened = tobool(bool)
         self.Dirty = tobool(bool)
         self:UpdateScaleform()
-        if tobool(bool) == true then
-            ttsSpeechItem(self.Items[self:CurrentSelection()])
-        end
         if self.ParentMenu ~= nil or tobool(bool) == false then
             return
         end
         if self.Settings.ResetCursorOnOpen then
-            local W, H = GetScreenResolution()
-            SetCursorLocation(W / 2, H / 2)
-            SetCursorSprite(1)
+			local W, H = 1920, 1080
+			--SetCursorLocation(W / 2, H / 2)
+			--Citizen.InvokeNative(0xFC695459D4D0E219, W / 2, H / 2)
+            --SetCursorSprite(1)
         end
-        collectgarbage()
+				collectgarbage()
     else
         return self._Visible
     end
@@ -2901,12 +2878,8 @@ function UIMenu:ProcessControl()
         self.JustOpened = false
         return
     end
-    
-    local isInputZeroDisabled = IsInputDisabled(0)
-
-    if self.Controls.Back.Enabled and (IsDisabledControlJustReleased(2, 177) or IsDisabledControlJustReleased(2, 199) ) and isInputZeroDisabled then
+    if self.Controls.Back.Enabled and (IsDisabledControlJustReleased(0, "INPUT_FRONTEND_CANCEL") or IsDisabledControlJustReleased(2, "INPUT_FRONTEND_BACK") ) and IsInputDisabled(0) then
         self:GoBack()
-
     end
     
     if #self.Items == 0 then
@@ -2914,7 +2887,7 @@ function UIMenu:ProcessControl()
     end
 
     if not self.UpPressed then
-        if self.Controls.Up.Enabled and (IsDisabledControlJustPressed(1, 172) or IsDisabledControlJustPressed(1, 241)) and isInputZeroDisabled then
+        if self.Controls.Up.Enabled and (IsDisabledControlJustPressed(0, "INPUT_FRONTEND_UP") or IsDisabledControlJustPressed(1, "INPUT_CURSOR_SCROLL_UP")) and IsInputDisabled(0) then
             Citizen.CreateThread(function()
                 self.UpPressed = true
                 if #self.Items > self.Pagination.Total + 1 then
@@ -2924,7 +2897,7 @@ function UIMenu:ProcessControl()
                 end
                 self:UpdateScaleform()
                 Citizen.Wait(175)
-                while self.Controls.Up.Enabled and (IsDisabledControlPressed(2, 172) or IsDisabledControlPressed(2, 241)) and isInputZeroDisabled do
+                while self.Controls.Up.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_UP") or IsDisabledControlPressed(2, "INPUT_CURSOR_SCROLL_UP")) and IsInputDisabled(0) do
                     if #self.Items > self.Pagination.Total + 1 then
                         self:GoUpOverflow()
                     else
@@ -2939,7 +2912,7 @@ function UIMenu:ProcessControl()
     end
 
     if not self.DownPressed then
-        if self.Controls.Down.Enabled and (IsDisabledControlJustPressed(1, 173) or IsDisabledControlJustPressed(1, 242)) and isInputZeroDisabled then
+        if self.Controls.Down.Enabled and (IsDisabledControlJustPressed(0, "INPUT_FRONTEND_DOWN") or IsDisabledControlJustPressed(1, "INPUT_CURSOR_SCROLL_DOWN")) and IsInputDisabled(0) then
             Citizen.CreateThread(function()
                 self.DownPressed = true
                 if #self.Items > self.Pagination.Total + 1 then
@@ -2949,7 +2922,7 @@ function UIMenu:ProcessControl()
                 end
                 self:UpdateScaleform()
                 Citizen.Wait(175)
-                while self.Controls.Down.Enabled and (IsDisabledControlPressed(2, 173) or IsDisabledControlPressed(2, 242)) and isInputZeroDisabled do
+                while self.Controls.Down.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_DOWN") or IsDisabledControlPressed(2, "INPUT_CURSOR_SCROLL_DOWN")) and IsInputDisabled(0) do
                     if #self.Items > self.Pagination.Total + 1 then
                         self:GoDownOverflow()
                     else
@@ -2964,14 +2937,14 @@ function UIMenu:ProcessControl()
     end
 
     if not self.LeftPressed then
-        if self.Controls.Left.Enabled and (IsDisabledControlPressed(2, 174)) and isInputZeroDisabled then
+        if self.Controls.Left.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_LEFT")) and IsInputDisabled(0) then
             Citizen.CreateThread(function()
                 if not self.LeftPressed then
                     self.LeftPressed = true
                     self:GoLeft()
                     Citizen.Wait(150)
-                    while self.Controls.Left.Enabled and (IsDisabledControlPressed(2, 174)) and isInputZeroDisabled do
-                    self:GoLeft()
+                    while self.Controls.Left.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_LEFT")) and IsInputDisabled(0) do
+                        self:GoLeft()
                         Citizen.Wait(200)
                     end
                     self.LeftPressed = false
@@ -2981,13 +2954,13 @@ function UIMenu:ProcessControl()
     end
 
     if not self.RightPressed then
-        if self.Controls.Right.Enabled and (IsDisabledControlPressed(2, 175)) and isInputZeroDisabled then
+        if self.Controls.Right.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_RIGHT")) and IsInputDisabled(0) then
             Citizen.CreateThread(function()
                 if not self.RightPressed then
                     self.RightPressed = true
                     self:GoRight()
                     Citizen.Wait(150)
-                    while self.Controls.Right.Enabled and (IsDisabledControlPressed(2, 175)) and isInputZeroDisabled do
+                    while self.Controls.Right.Enabled and (IsDisabledControlPressed(0, "INPUT_FRONTEND_RIGHT")) and IsInputDisabled(0) do
                         self:GoRight()
                         Citizen.Wait(200)
                     end
@@ -2997,7 +2970,7 @@ function UIMenu:ProcessControl()
         end
     end
 
-    if self.Controls.Select.Enabled and (IsDisabledControlJustPressed(1, 201) and isInputZeroDisabled) then
+    if self.Controls.Select.Enabled and (IsDisabledControlJustPressed(1, "INPUT_FRONTEND_ACCEPT") and IsInputDisabled(0)) then
         self:SelectItem()
     end
 end
@@ -3027,7 +3000,7 @@ function UIMenu:GoUpOverflow()
         self.ActiveItem = self.ActiveItem - 1
         self.Items[self:CurrentSelection()]:Selected(true)
     end
-    PlaySoundFrontend(-1, self.Settings.Audio.UpDown, self.Settings.Audio.Library, true)
+    --PlaySoundFrontend(self.Settings.Audio.UpDown, self.Settings.Audio.Library, true, 0)
     self.OnIndexChange(self, self:CurrentSelection())
     self.ReDraw = true
 end
@@ -3039,10 +3012,7 @@ function UIMenu:GoUp()
     self.Items[self:CurrentSelection()]:Selected(false)
     self.ActiveItem = self.ActiveItem - 1
     self.Items[self:CurrentSelection()]:Selected(true)
-    PlaySoundFrontend(-1, self.Settings.Audio.UpDown, self.Settings.Audio.Library, true)
-
-    ttsSpeechItem(self.Items[self:CurrentSelection()])
-
+    --PlaySoundFrontend(self.Settings.Audio.UpDown, self.Settings.Audio.Library, true, 0)
     self.OnIndexChange(self, self:CurrentSelection())
     self.ReDraw = true
 end
@@ -3071,7 +3041,7 @@ function UIMenu:GoDownOverflow()
         self.ActiveItem = self.ActiveItem + 1
         self.Items[self:CurrentSelection()]:Selected(true)
     end
-    PlaySoundFrontend(-1, self.Settings.Audio.UpDown, self.Settings.Audio.Library, true)
+    --PlaySoundFrontend(self.Settings.Audio.UpDown, self.Settings.Audio.Library, true)
     self.OnIndexChange(self, self:CurrentSelection())
     self.ReDraw = true
 end
@@ -3084,10 +3054,7 @@ function UIMenu:GoDown()
     self.Items[self:CurrentSelection()]:Selected(false)
     self.ActiveItem = self.ActiveItem + 1
     self.Items[self:CurrentSelection()]:Selected(true) 
-    PlaySoundFrontend(-1, self.Settings.Audio.UpDown, self.Settings.Audio.Library, true)
-
-    ttsSpeechItem(self.Items[self:CurrentSelection()])
-
+    --PlaySoundFrontend(self.Settings.Audio.UpDown, self.Settings.Audio.Library, true)
     self.OnIndexChange(self, self:CurrentSelection())
     self.ReDraw = true
 end
@@ -3099,7 +3066,7 @@ function UIMenu:GoLeft()
     end
 
     if not self.Items[self:CurrentSelection()]:Enabled() then
-        PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.Error, self.Settings.Audio.Library, true)
         return
     end
     
@@ -3108,20 +3075,19 @@ function UIMenu:GoLeft()
         Item:Index(Item._Index - 1)
         self.OnListChange(self, Item, Item._Index)
         Item.OnListChanged(self, Item, Item._Index)
-        ttsSpeechText(Item.Items[Item._Index])
-        PlaySoundFrontend(-1, self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
     elseif subtype == "UIMenuSliderItem" then
         local Item = self.Items[self:CurrentSelection()]
         Item:Index(Item._Index - 1)
         self.OnSliderChange(self, Item, Item:Index())
         Item.OnSliderChanged(self, Item, Item._Index)
-        PlaySoundFrontend(-1, self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
     elseif subtype == "UIMenuProgressItem" then
         local Item = self.Items[self:CurrentSelection()]
         Item:Index(Item.Data.Index - 1)
         self.OnProgressChange(self, Item, Item.Data.Index)
         Item.OnProgressChanged(self, Item, Item.Data.Index)
-        PlaySoundFrontend(-1, self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
     end
 end
 
@@ -3132,7 +3098,7 @@ function UIMenu:GoRight()
     end
 
     if not self.Items[self:CurrentSelection()]:Enabled() then
-        PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.Error, self.Settings.Audio.Library, true)
         return
     end
 
@@ -3141,55 +3107,49 @@ function UIMenu:GoRight()
         Item:Index(Item._Index + 1)
         self.OnListChange(self, Item, Item._Index)
         Item.OnListChanged(self, Item, Item._Index)
-        ttsSpeechText(Item.Items[Item._Index])
-        PlaySoundFrontend(-1, self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
     elseif subtype == "UIMenuSliderItem" then
         local Item = self.Items[self:CurrentSelection()]
         Item:Index(Item._Index + 1)
         self.OnSliderChange(self, Item, Item:Index())
         Item.OnSliderChanged(self, Item, Item._Index)
-        PlaySoundFrontend(-1, self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
     elseif subtype == "UIMenuProgressItem" then
         local Item = self.Items[self:CurrentSelection()]
         Item:Index(Item.Data.Index + 1)
         self.OnProgressChange(self, Item, Item.Data.Index)
         Item.OnProgressChanged(self, Item, Item.Data.Index)
-        PlaySoundFrontend(-1, self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.LeftRight, self.Settings.Audio.Library, true)
     end
 end
 
 function UIMenu:SelectItem()
     if not self.Items[self:CurrentSelection()]:Enabled() then
-        PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.Error, self.Settings.Audio.Library, true)
         return
     end
     local Item = self.Items[self:CurrentSelection()]
     local type, subtype = Item()
     if subtype == "UIMenuCheckboxItem" then
         Item.Checked = not Item.Checked
-        ttsSpeechText(Item.Checked and "Checked" or "Unchecked")
-        PlaySoundFrontend(-1, self.Settings.Audio.Select, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.Select, self.Settings.Audio.Library, true)
         self.OnCheckboxChange(self, Item, Item.Checked)
         Item.CheckboxEvent(self, Item, Item.Checked)
     elseif subtype == "UIMenuListItem" then
-        PlaySoundFrontend(-1, self.Settings.Audio.Select, self.Settings.Audio.Library, true)
-        ttsSpeechText("Selected")
+        PlaySoundFrontend(self.Settings.Audio.Select, self.Settings.Audio.Library, true)
         self.OnListSelect(self, Item, Item._Index)
         Item.OnListSelected(self, Item, Item._Index)
     elseif subtype == "UIMenuSliderItem" then
-        PlaySoundFrontend(-1, self.Settings.Audio.Select, self.Settings.Audio.Library, true)
-        ttsSpeechText("Selected")
+        PlaySoundFrontend(self.Settings.Audio.Select, self.Settings.Audio.Library, true)
         self.OnSliderSelect(self, Item, Item._Index)
         Item.OnSliderSelected(Item._Index)
     elseif subtype == "UIMenuProgressItem" then
-        PlaySoundFrontend(-1, self.Settings.Audio.Select, self.Settings.Audio.Library, true)
-        ttsSpeechText("Selected")
+        PlaySoundFrontend(self.Settings.Audio.Select, self.Settings.Audio.Library, true)
         self.OnProgressSelect(self, Item, Item.Data.Index)
         Item.OnProgressSelected(Item.Data.Index)        
     else
-        PlaySoundFrontend(-1, self.Settings.Audio.Select, self.Settings.Audio.Library, true)
+        PlaySoundFrontend(self.Settings.Audio.Select, self.Settings.Audio.Library, true)
         self.OnItemSelect(self, Item, self:CurrentSelection())
-        ttsSpeechItem(Item)
         Item.Activated(self, Item)
         if not self.Children[Item] then
             return
@@ -3197,19 +3157,19 @@ function UIMenu:SelectItem()
         self:Visible(false)
         self.Children[Item]:Visible(true)
         self.OnMenuChanged(self, self.Children[self.Items[self:CurrentSelection()]], true)
-        
     end
 end
 
 function UIMenu:GoBack()
-    PlaySoundFrontend(-1, self.Settings.Audio.Back, self.Settings.Audio.Library, true)
-    self:Visible(false)
+    PlaySoundFrontend(self.Settings.Audio.Back, self.Settings.Audio.Library, true)
+	self:Visible(false)
     if self.ParentMenu ~= nil then
         self.ParentMenu:Visible(true)
         self.OnMenuChanged(self, self.ParentMenu, false)
         if self.Settings.ResetCursorOnOpen then
-            local W, H = GetActiveScreenResolution()
-            SetCursorLocation(W / 2, H / 2)
+			local W, H = 1920, 1080
+			--SetCursorLocation(W / 2, H / 2)
+			Citizen.InvokeNative(0xFC695459D4D0E219, W / 2, H / 2)
         end
     end
     self.OnMenuClosed(self)
@@ -3240,19 +3200,21 @@ function UIMenu:Draw()
         return
     end
 
-    HideHudComponentThisFrame(19)
+    --HideHudComponentThisFrame(19)
 
     if self.Settings.ControlDisablingEnabled then
         self:DisEnableControls(false)
     end
 
     if self.Settings.InstructionalButtons then
-        DrawScaleformMovieFullscreen(self.InstructionalScaleform, 255, 255, 255, 255, 0)
+        --DrawScaleformMovieFullscreen(self.InstructionalScaleform, 255, 255, 255, 255, 0)
     end
 
-    if self.Settings.ScaleWithSafezone then
-        ScreenDrawPositionBegin(76, 84)
-        ScreenDrawPositionRatio(0, 0, 0, 0)
+	if self.Settings.ScaleWithSafezone then
+	   -- ScreenDrawPositionBegin(76, 84)
+	   Citizen.InvokeNative(0xB8A850F20A067EB6, 76, 84)
+	   -- ScreenDrawPositionRatio(0, 0, 0, 0)
+	   Citizen.InvokeNative(0xF5A2C681787E579D, 0, 0, 0, 0)
     end
 
     if self.ReDraw then
@@ -3264,7 +3226,7 @@ function UIMenu:Draw()
     elseif self.Banner then
         self.Banner:Draw()
     end
-    
+
     self.Title:Draw()
 
     if self.Subtitle.Rectangle then
@@ -3290,7 +3252,8 @@ function UIMenu:Draw()
 
     if #self.Items == 0 then
         if self.Settings.ScaleWithSafezone then
-            ScreenDrawPositionEnd()
+			--ScreenDrawPositionEnd()
+			Citizen.InvokeNative(0xE3A3DB414A373DAB)
         end
         return
     end
@@ -3350,16 +3313,17 @@ function UIMenu:Draw()
     end
 
     if self.Settings.ScaleWithSafezone then
-        ScreenDrawPositionEnd()
+		--ScreenDrawPositionEnd()
+		Citizen.InvokeNative(0xE3A3DB414A373DAB)
     end
 end
 
 function UIMenu:ProcessMouse()
     if not self._Visible or self.JustOpened or #self.Items == 0 or tobool(Controller()) or not self.Settings.MouseControlsEnabled then
-        EnableControlAction(0, 2, true)
-        EnableControlAction(0, 1, true)
-        EnableControlAction(0, 25, true)
-        EnableControlAction(0, 24, true)
+        EnableControlAction(0, "INPUT_LOOK_UD", true)
+        EnableControlAction(0, "INPUT_LOOK_LR", true)
+        EnableControlAction(0, "INPUT_AIM", true)
+        EnableControlAction(0, "INPUT_ATTACK", true)
         if self.Dirty then
             for _, Item in pairs(self.Items) do
                 if Item:Hovered() then
@@ -3373,7 +3337,7 @@ function UIMenu:ProcessMouse()
     local SafeZone = {X = 0, Y = 0}
     local WindowHeight = self:CalculateWindowHeight()
     if self.Settings.ScaleWithSafezone then
-       SafeZone = GetSafeZoneBounds()
+       --SafeZone = GetSafeZoneBounds()
     end
 
     local Limit = #self.Items
@@ -3404,7 +3368,7 @@ function UIMenu:ProcessMouse()
         if IsMouseInBounds(X, Y, Width, Height) then
             Item:Hovered(true)
             if not self.Controls.MousePressed then
-                if IsDisabledControlJustPressed(1, 24) and IsInputDisabled(0) then
+                if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
                     Citizen.CreateThread(function()
                         local _X, _Y, _Width, _Height = X, Y, Width, Height
                         self.Controls.MousePressed = true
@@ -3433,7 +3397,7 @@ function UIMenu:ProcessMouse()
                                 end
                             elseif SubType == "UIMenuProgressItem" then
                                 if IsMouseInBounds(Item.Bar.X + SafeZone.X, Item.Bar.Y + SafeZone.Y - 12, Item.Data.Max, Item.Bar.Height + 24) then
-                                    Item:CalculateProgress(math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X)
+                                    Item:CalculateProgress(math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920) - SafeZone.X)
                                     self.OnProgressChange(self, Item, Item.Data.Index)
                                     Item.OnProgressChanged(self, Item, Item.Data.Index)
                                 else
@@ -3444,15 +3408,15 @@ function UIMenu:ProcessMouse()
                             end
                         elseif not Item:Selected() then
                             self:CurrentSelection(i-1)
-                            PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
+                            PlaySoundFrontend(self.Settings.Audio.Error, self.Settings.Audio.Library, true)
                             self.OnIndexChange(self, self:CurrentSelection())
                             self.ReDraw = true
                             self:UpdateScaleform()
                         elseif not Item:Enabled() and Item:Selected() then
-                            PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
+                            PlaySoundFrontend(self.Settings.Audio.Error, self.Settings.Audio.Library, true)
                         end
                         Citizen.Wait(175)
-                        while IsDisabledControlPressed(0, 24) and IsMouseInBounds(_X, _Y, _Width, _Height) do
+                        while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(_X, _Y, _Width, _Height) do
                             if Item:Selected() and Item:Enabled() then
                                 if SubType == "UIMenuListItem" then
                                     if IsMouseInBounds(Item.LeftArrow.X + SafeZone.X, Item.LeftArrow.Y + SafeZone.Y, Item.LeftArrow.Width, Item.LeftArrow.Height) then
@@ -3470,7 +3434,7 @@ function UIMenu:ProcessMouse()
                                     end
                                 elseif SubType == "UIMenuProgressItem" then
                                     if IsMouseInBounds(Item.Bar.X + SafeZone.X, Item.Bar.Y + SafeZone.Y - 12, Item.Data.Max, Item.Bar.Height + 24) then
-                                        Item:CalculateProgress(math.round(GetControlNormal(0, 239) * 1920) - SafeZone.X)
+                                        Item:CalculateProgress(math.round(GetControlNormal(0, "INPUT_CURSOR_X") * 1920) - SafeZone.X)
                                         self.OnProgressChange(self, Item, Item.Data.Index)
                                         Item.OnProgressChanged(self, Item, Item.Data.Index)
                                     else
@@ -3479,12 +3443,12 @@ function UIMenu:ProcessMouse()
                                 end
                             elseif not Item:Selected() then
                                 self:CurrentSelection(i-1)
-                                PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
+                                PlaySoundFrontend(self.Settings.Audio.Error, self.Settings.Audio.Library, true)
                                 self.OnIndexChange(self, self:CurrentSelection())
                                 self.ReDraw = true
                                 self:UpdateScaleform()
                             elseif not Item:Enabled() and Item:Selected() then
-                                PlaySoundFrontend(-1, self.Settings.Audio.Error, self.Settings.Audio.Library, true)
+                                PlaySoundFrontend(self.Settings.Audio.Error, self.Settings.Audio.Library, true)
                             end
                             Citizen.Wait(125)                       
                         end
@@ -3505,7 +3469,7 @@ function UIMenu:ProcessMouse()
     if IsMouseInBounds(ExtraX, ExtraY, 431 + self.WidthOffset, 18) then
         self.Extra.Up:Colour(30, 30, 30, 255)
         if not self.Controls.MousePressed then
-            if IsDisabledControlJustPressed(1, 24) and IsInputDisabled(0) then
+            if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
                 Citizen.CreateThread(function()
                     local _ExtraX, _ExtraY = ExtraX, ExtraY
                     self.Controls.MousePressed = true
@@ -3515,7 +3479,7 @@ function UIMenu:ProcessMouse()
                         self:GoUp()
                     end
                     Citizen.Wait(175)
-                    while IsDisabledControlPressed(0, 24) and IsMouseInBounds(_ExtraX, _ExtraY, 431 + self.WidthOffset, 18) do
+                    while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(_ExtraX, _ExtraY, 431 + self.WidthOffset, 18) do
                         if #self.Items > self.Pagination.Total + 1 then
                             self:GoUpOverflow()
                         else
@@ -3534,7 +3498,7 @@ function UIMenu:ProcessMouse()
     if IsMouseInBounds(ExtraX, ExtraY + 18, 431 + self.WidthOffset, 18) then
         self.Extra.Down:Colour(30, 30, 30, 255)
         if not self.Controls.MousePressed then
-            if IsDisabledControlJustPressed(1, 24) and IsInputDisabled(0) then
+            if IsDisabledControlJustPressed(1, "INPUT_ATTACK") and IsInputDisabled(0) then
                 Citizen.CreateThread(function()
                     local _ExtraX, _ExtraY = ExtraX, ExtraY
                     self.Controls.MousePressed = true
@@ -3544,7 +3508,7 @@ function UIMenu:ProcessMouse()
                         self:GoDown()
                     end
                     Citizen.Wait(175)
-                    while IsDisabledControlPressed(0, 24) and IsMouseInBounds(_ExtraX, _ExtraY + 18, 431 + self.WidthOffset, 18) do
+                    while IsDisabledControlPressed(0, "INPUT_ATTACK") and IsMouseInBounds(_ExtraX, _ExtraY + 18, 431 + self.WidthOffset, 18) do
                         if #self.Items > self.Pagination.Total + 1 then
                             self:GoDownOverflow()
                         else
@@ -3600,8 +3564,9 @@ function UIMenu:RemoveEnabledControl(Inputgroup, Control, Controller)
     end
 end
 
+--[[
 function UIMenu:UpdateScaleform()
-    if not self._Visible or not self.Settings.InstructionalButtons then
+	if not self._Visible or not self.Settings.InstructionalButtons then
         return
     end
     
@@ -3648,6 +3613,11 @@ function UIMenu:UpdateScaleform()
     PushScaleformMovieFunctionParameterInt(-1)
     PopScaleformMovieFunction()
 end
+--]]
+
+function UIMenu:UpdateScaleform()
+ -- lol
+end
 
 --[[
     MenuPool.lua
@@ -3666,19 +3636,10 @@ function MenuPool:AddSubMenu(Menu, Text, Description, KeepPosition, KeepBanner)
         local Item = UIMenuItem.New(tostring(Text), Description or "")
         Menu:AddItem(Item)
         local SubMenu
-
         if KeepPosition then
-            if Menu.Title.TxtName then
-                SubMenu = UIMenu.New("", Text, Menu.Position.X, Menu.Position.Y, Menu.TxtDictionary, Menu.TxtName, Menu.titleTxt)
-            else
-                SubMenu = UIMenu.New(Menu.Title._Text, Text, Menu.Position.X, Menu.Position.Y, Menu.TxtDictionary, Menu.TxtName)
-            end
+            SubMenu = UIMenu.New(Menu.Title:Text(), Text, Menu.Position.X, Menu.Position.Y)
         else
-            if Menu.Title.TxtName then
-                SubMenu = UIMenu.New("", Text, 0, 0, Menu.TxtDictionary, Menu.TxtName, Menu.titleTxt)
-            else
-                SubMenu = UIMenu.New(Menu.Title._Text, Text, 0, 0, Menu.TxtDictionary, Menu.TxtName, Menu.titleTxt)
-            end
+            SubMenu = UIMenu.New(Menu.Title:Text(), Text)
         end
         if KeepBanner then
             if Menu.Logo ~= nil then
@@ -3794,9 +3755,7 @@ end
 
 function MenuPool:ProcessMenus()
     self:ProcessControl()
-    if false then
-        self:ProcessMouse()
-    end
+    self:ProcessMouse()
     self:Draw()
 end
 
@@ -3804,7 +3763,6 @@ function MenuPool:ProcessControl()
     for _, Menu in pairs(self.Menus) do
         if Menu:Visible() then
             Menu:ProcessControl()
-            break
         end
     end
 end
@@ -3813,7 +3771,6 @@ function MenuPool:ProcessMouse()
     for _, Menu in pairs(self.Menus) do
         if Menu:Visible() then
             Menu:ProcessMouse()
-            break
         end
     end
 end
@@ -3822,7 +3779,6 @@ function MenuPool:Draw()
     for _, Menu in pairs(self.Menus) do
         if Menu:Visible() then
             Menu:Draw()
-            break
         end
     end
 end
@@ -3843,7 +3799,6 @@ function MenuPool:CloseAllMenus()
         if Menu:Visible() then
             Menu:Visible(false)
             Menu.OnMenuClosed(Menu)
-            break
         end
     end
 end
@@ -3879,8 +3834,8 @@ function NativeUI.CreatePool()
     return MenuPool.New()
 end
 
-function NativeUI.CreateMenu(Title, Subtitle, X, Y, TxtDictionary, TxtName, titleTxt)
-    return UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName, titleTxt)
+function NativeUI.CreateMenu(Title, Subtitle, X, Y, TxtDictionary, TxtName)
+    return UIMenu.New(Title, Subtitle, X, Y, TxtDictionary, TxtName)
 end
 
 function NativeUI.CreateItem(Text, Description)
