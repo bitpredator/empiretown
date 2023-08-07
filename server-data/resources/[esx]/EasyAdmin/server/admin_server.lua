@@ -167,15 +167,14 @@ exports('IsPlayerAdmin', IsPlayerAdmin)
 
 
 Citizen.CreateThread(function()
-	
+
 	if not CachedPlayers or GetVersion() == nil then
 		print("^7--------------------------------------------------------------")
 		print("^1EasyAdmin self-test failed! Your EasyAdmin **will not work**, likely you edited some files and broke EasyAdmin in the progress, please reinstall EasyAdmin.")
 		print("^7--------------------------------------------------------------")
 		return 
 	end
-	
-	
+
 	if GetConvar("gamename", "gta5") == "rdr3" then 
 		RedM = true
 		PrintDebugMessage("Starting in rdr3 Mode.", 4)
@@ -334,13 +333,12 @@ Citizen.CreateThread(function()
 	end
 	exports('cleanupArea', cleanupArea)
 
-
 	RegisterServerEvent("EasyAdmin:requestCleanup", function(type, radius, deep)
 		local source=source
 		if DoesPlayerHavePermission(source, "server.cleanup."..type) then
 			PrintDebugMessage("Player "..getName(source,true).." Requested Cleanup for "..type, 3)
 			cleanupArea(type, radius, source)
-			
+
 			if deep then
 				TriggerClientEvent("EasyAdmin:requestCleanup", source, type, radius)
 			end
@@ -349,7 +347,7 @@ Citizen.CreateThread(function()
 			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('admincleanedup'), getName(source, false, true), type, radius), "cleanup", 16777214)
 		end
 	end)
-	
+
 	RegisterServerEvent("EasyAdmin:SetGameType", function(text)
 		if DoesPlayerHavePermission(source, "server.convars") then
 			PrintDebugMessage("Player "..getName(source,true).." set Gametype to "..text, 3)
@@ -358,7 +356,7 @@ Citizen.CreateThread(function()
 			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('adminchangedconvar'), getName(source, false, true), "gametype", text), "settings", 16777214)
 		end
 	end)
-	
+
 	RegisterServerEvent("EasyAdmin:SetMapName", function(text)
 		if DoesPlayerHavePermission(source, "server.convars") then
 			PrintDebugMessage("Player "..getName(source,true).." set Map Name to "..text, 3)
@@ -367,7 +365,7 @@ Citizen.CreateThread(function()
 			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('adminchangedconvar'), getName(source, false, true), "mapname", text), "settings", 16777214)
 		end
 	end)
-	
+
 	RegisterServerEvent("EasyAdmin:StartResource", function(text)
 		if DoesPlayerHavePermission(source, "server.resources.start") then
 			PrintDebugMessage("Player "..getName(source,true).." started Resource "..text, 3)
@@ -376,7 +374,7 @@ Citizen.CreateThread(function()
 			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('adminstartedresource'), getName(source, false, true), text), "settings", 65280)
 		end
 	end)
-	
+
 	RegisterServerEvent("EasyAdmin:StopResource", function(text)
 		if DoesPlayerHavePermission(source, "server.resources.stop") then
 			PrintDebugMessage("Player "..getName(source,true).." stopped Resource "..text, 3)
@@ -385,7 +383,7 @@ Citizen.CreateThread(function()
 			SendWebhookMessage(preferredWebhook,string.format(GetLocalisedText('adminstoppedresource'), getName(source, false, true), text), "settings", 16711680)
 		end
 	end)
-	
+
 	RegisterServerEvent("EasyAdmin:SetConvar", function(convarname, convarvalue)
 		if DoesPlayerHavePermission(source, "server.convars") then
 			PrintDebugMessage("Player "..getName(source,true).." set convar "..convarname.. " to "..convarvalue, 3)
@@ -416,7 +414,7 @@ Citizen.CreateThread(function()
 			TriggerClientEvent("EasyAdmin:TeleportRequest", playerId, false, tgtCoords)
 		end
 	end)
-	
+
 	RegisterServerEvent("EasyAdmin:TeleportAdminToPlayer", function(id)
 		if not CachedPlayers[id].dropped and DoesPlayerHavePermission(source, "player.teleport.single") then
 			local tgtPed = GetPlayerPed(id)
@@ -428,7 +426,7 @@ Citizen.CreateThread(function()
 			PrintDebugMessage('EASYADMIN FAILED TO TELEPORT'..source..' TO ID: '..id, 2)
 		end
 	end)
-	
+
 	RegisterServerEvent("EasyAdmin:TeleportPlayerBack", function(id)
 		if not CachedPlayers[id].dropped and DoesPlayerHavePermission(source, "player.teleport.single") then
 			TriggerClientEvent('EasyAdmin:TeleportPlayerBack', id)
@@ -444,7 +442,7 @@ Citizen.CreateThread(function()
 		end
 	end
 	exports('slapPlayer', slapPlayer)
-	
+
 	RegisterServerEvent("EasyAdmin:SlapPlayer", function(playerId,slapAmount)
 		if DoesPlayerHavePermission(source, "player.slap") and slapPlayer(playerId, slapAmount) then
 			PrintDebugMessage("Player "..getName(source,true).." slapped "..getName(playerId,true).." for "..slapAmount.." HP", 3)
@@ -454,7 +452,6 @@ Citizen.CreateThread(function()
 			TriggerClientEvent("EasyAdmin:showNotification", source, GetLocalisedText("adminimmune"))
 		end
 	end)
-	
 
 	function freezePlayer(playerId, toggle)
 		if not toggle then toggle = not FrozenPlayers[playerId] end
@@ -486,7 +483,6 @@ Citizen.CreateThread(function()
 			TriggerClientEvent("EasyAdmin:showNotification", source, GetLocalisedText("adminimmune"))
 		end
 	end)
-	
 
 	scrinprogress = false
 
@@ -506,14 +502,14 @@ Citizen.CreateThread(function()
 		if GetInvokingResource() and GetInvokingResource() ~= GetCurrentResourceName() then
 			invokingResource = "`"..GetInvokingResource().."`"
 		end
-		
+
 		if DoesPlayerHavePermission(source, "player.screenshot") then
 			scrinprogress = true
 			thistemporaryevent = RegisterServerEvent("EasyAdmin:TookScreenshot", function(result)
 				if result == "ERROR" then return false end
-				
+
 				res = matchURL(tostring(result)) 
-				
+
 				PrintDebugMessage("Screenshot taken, result:\n "..res, 4)
 				SendWebhookMessage(moderationNotification, string.format(GetLocalisedText("admintookscreenshot"), invokingResource or getName(src), getName(playerId, true, true), res), "screenshot", 16777214, "Screenshot Captured", res)
 				TriggerClientEvent('chat:addMessage', src, { template = '<img src="{0}" style="max-width: 400px;" />', args = { res } })
@@ -522,7 +518,7 @@ Citizen.CreateThread(function()
 				scrinprogress = false
 				RemoveEventHandler(thistemporaryevent)
 			end)
-			
+
 			TriggerClientEvent("EasyAdmin:CaptureScreenshot", playerId)
 			local timeoutwait = 0
 			repeat
@@ -537,7 +533,7 @@ Citizen.CreateThread(function()
 			until not scrinprogress
 		end
 	end)
-	
+
 	RegisterServerEvent("EasyAdmin:mutePlayer", function(playerId)
 		local src = source
 		if DoesPlayerHavePermission(src,"player.mute") and not CachedPlayers[playerId].immune then
@@ -587,7 +583,7 @@ Citizen.CreateThread(function()
 		end
 	end
 	exports('mutePlayer', mutePlayer)
-	
+
 	RegisterServerEvent("EasyAdmin:SetAnonymous", function(playerId)
 		if DoesPlayerHavePermission(source, "anon") then
 			if AnonymousAdmins[source] then
@@ -600,7 +596,6 @@ Citizen.CreateThread(function()
 		end
 	end)
 
-	
 	-- Very basic function that turns "source" into a useable player name.
 	function getName(src,anonymousdisabled,identifierenabled)
 		local identifierPref = GetConvar("ea_logIdentifier", "steam,discord,license")
@@ -664,7 +659,7 @@ Citizen.CreateThread(function()
 		end
 	end
 	exports('getName', getName)
-	
+
 	RegisterServerEvent("EasyAdmin:warnPlayer", function(id, reason)
 		local src = source
 		if DoesPlayerHavePermission(src,"player.warn") and not CachedPlayers[id].immune then
@@ -689,18 +684,16 @@ Citizen.CreateThread(function()
 					local bannedIdentifiers = CachedPlayers[id].identifiers or getAllPlayerIdentifiers(id)
 					local bannedUsername = CachedPlayers[id].name or getName(id, true)
 					local expires = os.time()+GetConvarInt("ea_warningBanTime", 604800)
-					
+
 					reason = GetLocalisedText("warnbanned").. string.format(GetLocalisedText("reasonadd"), CachedPlayers[id].name, getName(source, true) )
 					local ban = {banid = GetFreshBanId(), name = bannedUsername,identifiers = bannedIdentifiers,  banner = getName(source, true), reason = reason, expire = expires }
 					updateBlacklist( ban )
-					
-					
-					
+
 					PrintDebugMessage("Player "..getName(source,true).." warnbanned player "..CachedPlayers[id].name.." for "..reason, 3)
 					SendWebhookMessage(moderationNotification,string.format(GetLocalisedText("adminbannedplayer"), getName(source, false, true), bannedUsername, reason, formatDateString( expires ), tostring(ban.banid) ), "ban", 16711680)
 					DropPlayer(id, string.format(GetLocalisedText("banned"), reason, formatDateString( expires ) ) )
 					WarnedPlayers[id] = nil
-					
+
 				end
 			end
 		elseif CachedPlayers[id].immune then
@@ -748,23 +741,19 @@ Citizen.CreateThread(function()
 		end
 	end
 	exports('getPlayerWarnings', getPlayerWarnings)
-	
+
 	AddEventHandler("EasyAdmin:GetVersion", function(cb)
 		cb(GetVersion())
 	end)
-	
-	
-	
+
 	local chatEventsSupported = false
-	
+
 	pcall(function() -- this will prevent our script from erroring if the exports are missing, also mutes any errors.
 		if exports.chat.registerMessageHook and exports.chat.registerMode then
 			chatEventsSupported = true
 		end
 	end)
-	
-	
-	
+
 	if chatEventsSupported then
 		exports.chat:registerMessageHook(function(source, outMessage, hookRef)
 			if MutedPlayers[source] then
@@ -781,8 +770,7 @@ Citizen.CreateThread(function()
 			end
 		end)
 	end
-	
-	
+
 	if GetConvar("ea_enableChat", "true") == "true" and chatEventsSupported then
 		exports.chat:registerMode({
 			name = "admins",
@@ -793,7 +781,7 @@ Citizen.CreateThread(function()
 				cbs.updateMessage({
 					template = "^5[ADMIN CHAT]^7" .. ' {}'
 				})
-				
+
 				cbs.setSeObject("easyadmin.server.chat")
 			end
 		})
@@ -801,44 +789,36 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-	while true do
-		PerformHttpRequest("https://api.github.com/repos/Blumlaut/EasyAdmin/releases/latest", checkVersion, "GET")
-		Wait(3600000)
-	end
-end)
-
-Citizen.CreateThread(function()
 	function HTTPRequest(url, ...)
 		local err,response,headers
-		
+
 		PerformHttpRequest(url, function(e,r,h)
 			err,response,headers = e,r,h
 		end, ...)
 		repeat
 			Wait(10)
 		until (response)
-		
+
 		return response
 	end
 	exports('HTTPRequest', HTTPRequest)
 end)
 
 Citizen.CreateThread(function()
-	
 	AddEventHandler('playerConnecting', function(playerName, setKickReason, deferrals)
 		local player = source
 		local numIds = getAllPlayerIdentifiers(player)
 		local matchingIdentifierCount = 0
 		local matchingIdentifiers = {}
 		local showProgress = GetConvar("ea_presentDeferral", "true")
-		
+
 		deferrals.defer()
 		Wait(0)
 		local deferralText = string.format(GetLocalisedText("deferral"), 0)
 		if showProgress == "false" then
 			deferralText = deferralText:sub(1, -6)
 		end
-		
+
 		deferrals.update(deferralText)
 		PrintDebugMessage(getName(player).."'s Identifiers:\n "..table_to_string(numIds), 3)
 		if not blacklist then
@@ -850,7 +830,7 @@ Citizen.CreateThread(function()
 			return
 		end
 		Wait(0)
-		
+
 		local lastPercentage = 0
 		for bi,blacklisted in ipairs(blacklist) do
 			if showProgress == "true" then
@@ -882,7 +862,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-		
+
 		if GetConvar("ea_enableAllowlist", "false") == "true" then
 			deferrals.update(GetLocalisedText("checkingallowlist"))
 			local allowlistAttempts = 0
@@ -892,7 +872,7 @@ Citizen.CreateThread(function()
 				allowlistAttempts = allowlistAttempts+1
 				Wait(100)
 			until (allowlistAttempts >= 15 or allowlisted == true)
-			
+
 			if DoesPlayerHavePermission(player, "player.allowlist") then
 				deferrals.done()
 			else
@@ -902,11 +882,9 @@ Citizen.CreateThread(function()
 		else
 			deferrals.done()
 		end
-		
-	end)
-	
-end)
 
+	end)
+end)
 
 curVersion, isMaster = GetVersion()
 local resourceName = "EasyAdmin ("..GetCurrentResourceName()..")"
@@ -925,7 +903,7 @@ function checkVersion()
 			'.yarn.installed',
 			'server/bot/notifications.js'
 		}
-	
+
 		for i,file in pairs(legacyFiles) do
 			local fileExists = LoadResourceFile(GetCurrentResourceName(), file)
 			if fileExists then
@@ -935,7 +913,7 @@ function checkVersion()
 		end
 
 		PrintDebugMessage('EasyAdmin has been updated, or just been installed for the first time, please restart EasyAdmin to ensure smooth operation.', 1)
-		
+
 		SetResourceKvpNoSync('currentVersion', curVersion)
 	end
 
@@ -950,52 +928,26 @@ function checkVersion()
 	elseif tonumber(curVersion) > tonumber(remoteVersion) then
 		PrintDebugMessage("Your version of "..resourceName.." seems to be higher than the current stable version.", 2)
 	end
-	
+
 	if GetResourceState("screenshot-basic") == "missing" then 
 		PrintDebugMessage("screenshot-basic is not installed, screenshots unavailable", 3)
 	else
 		StartResource("screenshot-basic")
 		screenshots = true
 	end
-	
+
 	local onesync = GetConvar("onesync", "off")
 	if (onesync ~= "off" and onesync ~= "legacy") then 
 		PrintDebugMessage("Onesync is Infinity", 3)
 		infinity = true
 	end
-	
+
 	if GetConvar("ea_defaultKey", "none") == "none" and RedM then
 		PrintDebugMessage("ea_defaultKey is not defined, EasyAdmin can only be opened using the /easyadmin command, to define a key:\nhttps://easyadmin.readthedocs.io/en/latest", 1)
 	end
-	
+
 	readAcePermissions()
 end
-
-
-Citizen.CreateThread(function()
-	function getLatestVersion()
-		local latestVersion,latestURL
-		
-		PerformHttpRequest("https://api.github.com/repos/Blumlaut/EasyAdmin/releases/latest", function(err,response,headers)
-			if err == 200 then
-				local data = json.decode(response)
-				latestVersion = data.tag_name
-				latestURL = data.html_url
-			else
-				latestVersion = GetVersion()
-				latestURL = "https://github.com/Blumlaut/EasyAdmin"
-			end		
-			PrintDebugMessage("Version check returned "..err..", Local Version: "..GetVersion()..", Remote Version: "..latestVersion, 4)
-		end, "GET")
-		
-		repeat
-			Wait(50)
-		until (latestVersion and latestURL)
-		return latestVersion, latestURL
-	end
-	exports('getLatestVersion', getLatestVersion)
-
-end)
 
 Citizen.CreateThread(function()
 	repeat
@@ -1006,17 +958,6 @@ Citizen.CreateThread(function()
 		Wait(300000)
 	end
 end)
-
-
----------------------------------- END USEFUL
-
-if GetConvar("ea_enableSplash", "true") == "true" then
-	local version,master = GetVersion()
-	if master then version = version.." (UNSTABLE PRE-RELEASE!)" end
-	print("\n _______ _______ _______ __   __ _______ ______  _______ _____ __   _\n |______ |_____| |______   \\_/   |_____| |     \\ |  |  |   |   | \\  |\n |______ |     | ______|    |    |     | |_____/ |  |  | __|__ |  \\_|\n                           Version ^3"..version.."^7")
-	PrintDebugMessage("Initialised.", 4)
-end
-
 
 -- DO NOT TOUCH THESE
 -- DO NOT TOUCH THESE
