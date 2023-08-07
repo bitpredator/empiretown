@@ -27,7 +27,7 @@ local vehicleInfo = {
 RegisterNetEvent("EasyAdmin:adminresponse", function(perms)
 	permissions = perms
 
-	for perm, val in pairs(perms) do
+	for _, val in pairs(perms) do
 		if val == true then
 			isAdmin = true
 		end
@@ -75,9 +75,10 @@ end)
 
 RegisterNetEvent("EasyAdmin:ClaimedReport", function(reportData)
 	reports[reportData.id] = reportData
+	local _menuPool
 	if _menuPool and _menuPool:IsAnyMenuOpen() then
 		for i, menu in pairs(reportMenus) do
-			for o,item in pairs(menu.Items) do 
+			for o,item in pairs(menu.Items) do
 				if getMenuItemTitle(item) == GetLocalisedText("claimreport") then
 					setMenuItemTitle(item, GetLocalisedText("claimedby"))
 					item:RightLabel(reportData.claimedName)
@@ -296,7 +297,7 @@ end)
 
 
 RegisterCommand("kick", function(source, args, rawCommand)
-	local source=source
+	local source = source
 	local reason = ""
 	for i,theArg in pairs(args) do
 		if i ~= 1 then -- make sure we are not adding the kicked player as a reason
@@ -339,9 +340,10 @@ RegisterNetEvent("EasyAdmin:CaptureScreenshot", function(toggle, url, field)
 end)
 
 function spectatePlayer(targetPed,target,name)
+	local oldCoords
 	local playerPed = PlayerPedId() -- yourself
 	enable = true
-	if (target == PlayerId() or target == -1) then 
+	if (target == PlayerId() or target == -1) then
 		enable = false
 	end
 
@@ -411,7 +413,6 @@ function ShowNotification(text)
 		local showInBrief = false
 		local blink = false
 		EndTextCommandThefeedPostTicker(blink, showInBrief)
-	else
 	end
 end
 
