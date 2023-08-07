@@ -16,7 +16,6 @@ permissions = {
 	["player.reports.view"] = false,
 	["player.reports.claim"] = false,
 	["player.reports.process"] = false,
-	
 	["server.cleanup.cars"] = false,
 	["server.cleanup.props"] = false,
 	["server.cleanup.peds"] = false,
@@ -29,7 +28,6 @@ permissions = {
 	["server.resources.start"] = false,
 	["server.resources.stop"] = false,
 	["server.chat"] = false,
-	
 	["immune"] = false,
 	["anon"] = false,
 }
@@ -38,7 +36,7 @@ permissions = {
 function PrintDebugMessage(msg,level)
 	loglevel = (GetConvarInt("ea_logLevel", 1))
 	if not level or not tonumber(level) then level = 3 end
-	
+
 	if level == 1 and loglevel >= level then -- ERROR Loglevel
 		Citizen.Trace("^1"..GetCurrentResourceName().."^7: "..msg.."^7\n")
 
@@ -104,11 +102,11 @@ if not IsDuplicityVersion() then
 		end
 		SendNUIMessage({action= "speak", text=ttsText})
 	end
-	
+
 	function ttsSpeechText(text)
 		if not text or GetResourceKvpInt('ea_tts') == 0 then return end
 		SendNUIMessage({action= "speak", text=text})
-	end	
+	end
 end
 
 
@@ -133,20 +131,6 @@ function displayKeyboardInput(title,default,maxLength)
 	else
 		return nil
 	end
---[[ -- default V Input
-	DisplayOnscreenKeyboard(1, title, "", default, "", "", "", maxLength)
-
-	while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do --While typing is not aborted and not finished, this loop waits
-		Citizen.Wait(0)
-	end
-		
-	if UpdateOnscreenKeyboard() ~= 2 then
-		local result = GetOnscreenKeyboardResult()
-		return result
-	else
-		return nil
-	end
-]]
 end
 
 function copyToClipboard(text)
@@ -160,11 +144,11 @@ function DoesPlayerHavePermission(player, object)
 		if (player == 0 or player == "") then
 			return true
 		end-- Console. It's assumed this will be an admin with access.
-		
+
 		if not string.find(object, "easyadmin.") then -- compatability with outdated plugins
 			object = "easyadmin."..object
 		end
-		
+
 		if IsPlayerAceAllowed(player,object) then -- check if the player has access to this permission
 			haspermission = true
 			PrintDebugMessage(getName(player, true).." has Permissions for "..object..".", 4)
@@ -249,7 +233,6 @@ function formatRightString(thisstring, customWidth)
 	return thisstring
 end
 
-
 -- some util funcs so i dont have to mess with NativeUI Source Code.
 function getMenuItemTitle(item)
 	if (item.Base and type(item.Base.Text) == "table" and item.Base.Text._Text) then
@@ -306,8 +289,7 @@ end
 
 function string.startswith(string,start)
 	return string:sub(1,string.len(start))==start
- end
-
+end
 
 --- http://www.lua.org/pil/11.5.html
 function Set (list)
@@ -332,9 +314,9 @@ end
 
 -- terrible function to look for URLs in a string
 function matchURL(text_with_URLs)
-	
+
 	local domains = [[.ac.ad.ae.aero.af.ag.ai.al.am.an.ao.aq.ar.arpa.as.asia.at.au.aw.ax.az.ba.bb.bd.be.bf.bg.bh.bi.biz.bj.bm.bn.bo.br.bs.bt.bv.bw.by.bz.ca.cat.cc.cd.cf.cg.ch.ci.ck.cl.cm.cn.co.com.coop.cr.cs.cu.cv.cx.cy.cz.dd.de.dj.dk.dm.do.dz.ec.edu.ee.eg.eh.er.es.et.eu.fi.firm.fj.fk.fm.fo.fr.fx.ga.gb.gd.ge.gf.gh.gi.gl.gm.gn.gov.gp.gq.gr.gs.gt.gu.gw.gy.hk.hm.hn.hr.ht.hu.id.ie.il.im.in.info.int.io.iq.ir.is.it.je.jm.jo.jobs.jp.ke.kg.kh.ki.km.kn.kp.kr.kw.ky.kz.la.lb.lc.li.lk.lr.ls.lt.lu.lv.ly.ma.mc.md.me.mg.mh.mil.mk.ml.mm.mn.mo.mobi.mp.mq.mr.ms.mt.mu.museum.mv.mw.mx.my.mz.na.name.nato.nc.ne.net.nf.ng.ni.nl.no.nom.np.nr.nt.nu.nz.om.org.pa.pe.pf.pg.ph.pk.pl.pm.pn.post.pr.pro.ps.pt.pw.py.qa.re.ro.ru.rw.sa.sb.sc.sd.se.sg.sh.si.sj.sk.sl.sm.sn.so.sr.ss.st.store.su.sv.sy.sz.tc.td.tel.tf.tg.th.tj.tk.tl.tm.tn.to.tp.tr.travel.tt.tv.tw.tz.ua.ug.uk.um.us.uy.va.vc.ve.vg.vi.vn.vu.web.wf.ws.xxx.ye.yt.yu.za.zm.zr.zw]]
-		
+
 	local tlds = {}
 	for tld in domains:gmatch'%w+' do
 		tlds[tld] = true
@@ -342,7 +324,7 @@ function matchURL(text_with_URLs)
 	local function max4(a,b,c,d) return math.max(a+0, b+0, c+0, d+0) end
 	local protocols = {[''] = 0, ['http://'] = 0, ['https://'] = 0, ['ftp://'] = 0}
 	local finished = {}
-	
+
 	for pos_start, url, prot, subd, tld, colon, port, slash, path in
 	text_with_URLs:gmatch'()(([%w_.~!*:@&+$/?%%#-]-)(%w[-.%w]*%.)(%w+)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
 	do
@@ -355,7 +337,7 @@ function matchURL(text_with_URLs)
 			return url
 		end
 	end
-	
+
 	for pos_start, url, prot, dom, colon, port, slash, path in
 	text_with_URLs:gmatch'()((%f[%w]%a+://)(%w[-.%w]*)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))'
 	do
