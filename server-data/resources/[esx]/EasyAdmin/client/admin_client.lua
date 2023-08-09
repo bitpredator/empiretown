@@ -77,8 +77,8 @@ RegisterNetEvent("EasyAdmin:ClaimedReport", function(reportData)
 	reports[reportData.id] = reportData
 	local _menuPool
 	if _menuPool and _menuPool:IsAnyMenuOpen() then
-		for i, menu in pairs(reportMenus) do
-			for o,item in pairs(menu.Items) do
+		for _, menu in pairs(reportMenus) do
+			for _,item in pairs(menu.Items) do
 				if getMenuItemTitle(item) == GetLocalisedText("claimreport") then
 					setMenuItemTitle(item, GetLocalisedText("claimedby"))
 					item:RightLabel(reportData.claimedName)
@@ -101,7 +101,7 @@ RegisterNetEvent('EasyAdmin:SetPlayerFrozen', function(player,state)
 	FrozenPlayers[player] = state
 	if _menuPool and _menuPool:IsAnyMenuOpen() then
 		if playerMenus[tostring(player)].menu then
-			for o,item in pairs(playerMenus[tostring(player)].menu.Items) do 
+			for _,item in pairs(playerMenus[tostring(player)].menu.Items) do
 				if getMenuItemTitle(item) == GetLocalisedText("setplayerfrozen") then
 					item.Checked = state
 				end
@@ -114,7 +114,7 @@ RegisterNetEvent('EasyAdmin:SetPlayerMuted', function(player,state)
 	MutedPlayers[player] = state
 	if _menuPool and _menuPool:IsAnyMenuOpen() then
 		if playerMenus[tostring(player)].menu then
-			for o,item in pairs(playerMenus[tostring(player)].menu.Items) do 
+			for _,item in pairs(playerMenus[tostring(player)].menu.Items) do
 				if getMenuItemTitle(item) == GetLocalisedText("mute") then
 					item.Checked = state
 				end
@@ -131,7 +131,7 @@ Citizen.CreateThread( function()
 			FreezeEntityPosition(localPlayerPedId, frozen)
 			if IsPedInAnyVehicle(localPlayerPedId, true) then
 				FreezeEntityPosition(GetVehiclePedIsIn(localPlayerPedId, false), frozen)
-			end 
+			end
 		else
 			Citizen.Wait(200)
 		end
@@ -154,7 +154,8 @@ RegisterNetEvent("EasyAdmin:requestSpectate", function(playerServerId, tgtCoords
 	end
 
 	if ((not tgtCoords) or (tgtCoords.z == 0.0)) then tgtCoords = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(playerServerId))) end
-	if playerServerId == GetPlayerServerId(PlayerId()) then 
+	if playerServerId == GetPlayerServerId(PlayerId()) then
+		local oldCoords
 		if oldCoords then
 			RequestCollisionAtCoord(oldCoords.x, oldCoords.y, oldCoords.z)
 			Wait(500)
@@ -163,7 +164,7 @@ RegisterNetEvent("EasyAdmin:requestSpectate", function(playerServerId, tgtCoords
 		end
 		spectatePlayer(localPlayerPed,GetPlayerFromServerId(PlayerId()),GetPlayerName(PlayerId()))
 		frozen = false
-		return 
+		return
 	else
 		if not oldCoords then
 			oldCoords = GetEntityCoords(localPlayerPed)
@@ -179,7 +180,7 @@ RegisterNetEvent("EasyAdmin:requestSpectate", function(playerServerId, tgtCoords
 		playerId = GetPlayerFromServerId(playerServerId)
 	until ((GetPlayerPed(playerId) > 0) and (playerId ~= -1))
 	spectatePlayer(GetPlayerPed(playerId),playerId,GetPlayerName(playerId))
-	stopSpectateUpdate = false 
+	stopSpectateUpdate = false
 end)
 
 Citizen.CreateThread(function()
@@ -204,7 +205,7 @@ Citizen.CreateThread(function()
 				if (type == "cars" and not IsPedAPlayer(GetPedInVehicleSeat(entity, -1))) then
 					if not NetworkHasControlOfEntity(entity) then
 						local i=0
-						repeat 
+						repeat
 							NetworkRequestControlOfEntity(entity)
 							i=i+1
 							Wait(150)
@@ -309,7 +310,7 @@ RegisterCommand("kick", function(source, args, rawCommand)
 	end
 end, false)
 
-RegisterCommand("ban", function(source, args, rawCommand)
+RegisterCommand("ban", function(_, args)
 	if args[1] and tonumber(args[1]) then
 		local reason = ""
 		for i,theArg in pairs(args) do
@@ -333,7 +334,7 @@ RegisterNetEvent("EasyAdmin:FreezePlayer", function(toggle)
 end)
 
 
-RegisterNetEvent("EasyAdmin:CaptureScreenshot", function(toggle, url, field)
+RegisterNetEvent("EasyAdmin:CaptureScreenshot", function()
 	exports['screenshot-basic']:requestScreenshotUpload(GetConvar("ea_screenshoturl", 'https://wew.wtf/upload.php'), GetConvar("ea_screenshotfield", 'files[]'), function(data)
 		TriggerLatentServerEvent("EasyAdmin:TookScreenshot", 100000, data)
 	end)
