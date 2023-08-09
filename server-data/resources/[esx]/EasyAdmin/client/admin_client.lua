@@ -18,6 +18,7 @@ add_aces, add_principals = {}, {}
 MessageShortcuts = {}
 FrozenPlayers = {}
 MutedPlayers = {}
+local _menuPool
 
 local vehicleInfo = {
 	netId = nil,
@@ -75,7 +76,6 @@ end)
 
 RegisterNetEvent("EasyAdmin:ClaimedReport", function(reportData)
 	reports[reportData.id] = reportData
-	local _menuPool
 	if _menuPool and _menuPool:IsAnyMenuOpen() then
 		for _, menu in pairs(reportMenus) do
 			for _,item in pairs(menu.Items) do
@@ -266,7 +266,7 @@ Citizen.CreateThread( function()
 end)
 
 
-RegisterNetEvent("EasyAdmin:TeleportPlayerBack", function(id, tgtCoords)
+RegisterNetEvent("EasyAdmin:TeleportPlayerBack", function()
 	if lastLocation then
 		SetEntityCoords(PlayerPedId(), lastLocation,0,0,0, false)
 		lastLocation=nil
@@ -297,8 +297,7 @@ RegisterNetEvent("EasyAdmin:SlapPlayer", function(slapAmount)
 end)
 
 
-RegisterCommand("kick", function(source, args, rawCommand)
-	local source = source
+RegisterCommand("kick", function(source, args)
 	local reason = ""
 	for i,theArg in pairs(args) do
 		if i ~= 1 then -- make sure we are not adding the kicked player as a reason
@@ -341,7 +340,6 @@ RegisterNetEvent("EasyAdmin:CaptureScreenshot", function()
 end)
 
 function spectatePlayer(targetPed,target,name)
-	local oldCoords
 	local playerPed = PlayerPedId() -- yourself
 	enable = true
 	if (target == PlayerId() or target == -1) then
@@ -358,18 +356,18 @@ function spectatePlayer(targetPed,target,name)
 			Wait(500)
 			targetPed = GetPlayerPed(target)
 		end
-		local targetx,targety,targetz = table.unpack(GetEntityCoords(targetPed, false))
+		local targetx, targety, targetz = table.unpack(GetEntityCoords(targetPed, false))
 		RequestCollisionAtCoord(targetx,targety,targetz)
 		NetworkSetInSpectatorMode(true, targetPed)
 
 		DrawPlayerInfo(target)
 		TriggerEvent("EasyAdmin:showNotification", string.format(GetLocalisedText("spectatingUser"), name))
 	else
+		local oldCoords
 		if oldCoords then
 			RequestCollisionAtCoord(oldCoords.x, oldCoords.y, oldCoords.z)
 			Wait(500)
 			SetEntityCoords(playerPed, oldCoords.x, oldCoords.y, oldCoords.z, 0, 0, 0, false)
-			oldCoords = nil
 		end
 		NetworkSetInSpectatorMode(false, targetPed)
 		StopDrawPlayerInfo()
@@ -417,7 +415,7 @@ function ShowNotification(text)
 	end
 end
 
-RegisterNetEvent("EasyAdmin:showNotification", function(text, important)
+RegisterNetEvent("EasyAdmin:showNotification", function(text)
 	TriggerEvent("EasyAdmin:receivedNotification")
 	if not WasEventCanceled() then
 		ShowNotification(text)
