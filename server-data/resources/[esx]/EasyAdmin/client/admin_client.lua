@@ -18,7 +18,6 @@ add_aces, add_principals = {}, {}
 MessageShortcuts = {}
 FrozenPlayers = {}
 MutedPlayers = {}
-local _menuPool
 
 local vehicleInfo = {
 	netId = nil,
@@ -91,7 +90,6 @@ end)
 RegisterNetEvent("EasyAdmin:RemoveReport", function(reportData)
 	reports[reportData.id] = nil
 end)
-
 
 RegisterNetEvent("EasyAdmin:fillShortcuts", function (shortcuts)
 	MessageShortcuts = shortcuts
@@ -173,7 +171,7 @@ RegisterNetEvent("EasyAdmin:requestSpectate", function(playerServerId, tgtCoords
 	SetEntityCoords(localPlayerPed, tgtCoords.x, tgtCoords.y, tgtCoords.z - 10.0, 0, 0, 0, false)
 	frozen = true
 	stopSpectateUpdate = true
-	local adminPed = localPlayerPed
+
 	local playerId = GetPlayerFromServerId(playerServerId)
 	repeat
 		Wait(200)
@@ -253,7 +251,6 @@ Citizen.CreateThread( function()
 		if drawInfo and not stopSpectateUpdate then
 			local localPlayerPed = PlayerPedId()
 			local targetPed = GetPlayerPed(drawTarget)
-			local targetGod = GetPlayerInvincible(drawTarget)
 
 			local tgtCoords = GetEntityCoords(targetPed)
 			if tgtCoords and tgtCoords.x ~= 0 then
@@ -297,7 +294,7 @@ RegisterNetEvent("EasyAdmin:SlapPlayer", function(slapAmount)
 end)
 
 
-RegisterCommand("kick", function(source, args)
+RegisterCommand("kick", function(_, args)
 	local reason = ""
 	for i,theArg in pairs(args) do
 		if i ~= 1 then -- make sure we are not adding the kicked player as a reason
@@ -339,7 +336,7 @@ RegisterNetEvent("EasyAdmin:CaptureScreenshot", function()
 	end)
 end)
 
-function spectatePlayer(targetPed,target,name)
+function spectatePlayer(targetPed, target, name)
 	local playerPed = PlayerPedId() -- yourself
 	enable = true
 	if (target == PlayerId() or target == -1) then
