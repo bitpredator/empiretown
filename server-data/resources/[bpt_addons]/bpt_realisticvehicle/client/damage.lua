@@ -24,6 +24,11 @@ local healthPetrolTankNew = 1000.0
 local healthPetrolTankDelta = 0.0
 local healthPetrolTankDeltaScaled = 0.0
 local tireBurstLuckyNumber
+local zeroRefCurVal
+local OriginalRange
+local normalizedCurVal
+local NewRange
+local rangedValue
 
 math.randomseed(GetGameTimer());
 

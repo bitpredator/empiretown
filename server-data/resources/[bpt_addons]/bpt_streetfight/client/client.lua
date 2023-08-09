@@ -1,7 +1,7 @@
 ESX = nil
 local betAmount = 0
-local fightStatus = STATUS_INITIAL
-local STATUS_INITIAL = 0
+local fightStatus = false
+local STATUS_INITIAL = false
 local STATUS_JOINED = 1
 local STATUS_STARTED = 2
 local blueJoined = false
@@ -14,39 +14,37 @@ local Gloves = {}
 local showWinner = false
 local winner = nil
 
+ESX = exports["es_extended"]:getSharedObject()
+
 CreateThread(function()
-    while ESX == nil do
-     ESX = exports["es_extended"]:getSharedObject()
-     Wait(0)
-    end
-    CreateBlip(Config.BLIP.coords, Config.BLIP.text, Config.BLIP.sprite, Config.BLIP.color, Config.BLIP.scale)
-    RunThread()
+ CreateBlip(Config.BLIP.coords, Config.BLIP.text, Config.BLIP.sprite, Config.BLIP.color, Config.BLIP.scale)
+  RunThread()
 end)
 
 RegisterNetEvent('bpt_streetfight:playerJoined')
 AddEventHandler('bpt_streetfight:playerJoined', function(side, id)
 
-        if side == 1 then
-            blueJoined = true
-        else
-            redJoined = true
-        end
+    if side == 1 then
+        blueJoined = true
+    else
+        redJoined = true
+    end
 
-        if id == GetPlayerServerId(PlayerId()) then
-            participating = true
-            putGloves()
-        end
-        players = players + 1
-        fightStatus = STATUS_JOINED
+    if id == GetPlayerServerId(PlayerId()) then
+        participating = true
+        putGloves()
+    end
+    players = players + 1
+    fightStatus = STATUS_JOINED
 
 end)
 
 RegisterNetEvent('bpt_streetfight:startFight')
 AddEventHandler('bpt_streetfight:startFight', function(fightData)
 
-    for index,value in ipairs(fightData) do
+    for _,value in ipairs(fightData) do
         if(value.id ~= GetPlayerServerId(PlayerId())) then
-            rival = value.id      
+            rival = value.id
         elseif value.id == GetPlayerServerId(PlayerId()) then
             participating = true
         end
@@ -86,16 +84,16 @@ AddEventHandler('bpt_streetfight:fightFinished', function(looser)
             ESX.ShowNotification(_U('you_win') .. (betAmount * 2) .. '$')
             SetPedMaxHealth(PlayerPedId(), 200)
             SetEntityHealth(PlayerPedId(), 200)
-    
+
             TriggerServerEvent('bpt_streetfight:showWinner', GetPlayerServerId(PlayerId()))
         end
-    
+
         if(looser == GetPlayerServerId(PlayerId()) and looser ~= -2) then
             ESX.ShowNotification(_U('you_lost') .. betAmount .. '$' )
             SetPedMaxHealth(PlayerPedId(), 200)
             SetEntityHealth(PlayerPedId(), 200)
         end
-    
+
         if looser == -2 then
             ESX.ShowNotification(_U('time_out'))
             SetPedMaxHealth(PlayerPedId(), 200)
@@ -144,8 +142,8 @@ end
 function putGloves()
     local ped = GetPlayerPed(-1)
     local hash = GetHashKey('prop_boxing_glove_01')
-    while not HasModelLoaded(hash) do RequestModel(hash); 
-        Wait(0); 
+    while not HasModelLoaded(hash) do RequestModel(hash);
+        Wait(0);
     end
     local pos = GetEntityCoords(ped)
     local gloveA = CreateObject(hash, pos.x,pos.y,pos.z + 0.50, true,false,false)
@@ -165,16 +163,15 @@ function putGloves()
 end
 
 function removeGloves()
-    for k,v in pairs(Gloves) do DeleteObject(v); end
+    for _,v in pairs(Gloves) do DeleteObject(v); end
 end
 
 function spawnMarker(coords)
     local centerRing = GetDistanceBetweenCoords(coords, vector3(-517.61,-1712.04,20.46), true)
     if centerRing < Config.DISTANCE and fightStatus ~= STATUS_STARTED then
-        
+
         DrawMarker(1, Config.BETZONE.x, Config.BETZONE.y, Config.BETZONE.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.0, 204,204, 0, 100, false, true, 2, false, false, false, false)
         DrawText3D(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z +1.5, 'Giocatori: ~r~' .. players .. '/2 \n ~w~Scommessa: ~r~'.. betAmount ..'$ ', 0.8)
-
         local blueZone = GetDistanceBetweenCoords(coords, vector3(Config.BLUEZONE.x, Config.BLUEZONE.y, Config.BLUEZONE.z), true)
         local redZone = GetDistanceBetweenCoords(coords, vector3(Config.REDZONE.x, Config.REDZONE.y, Config.REDZONE.z), true)
         local betZone = GetDistanceBetweenCoords(coords, vector3(Config.BETZONE.x, Config.BETZONE.y, Config.BETZONE.z), true)
@@ -182,7 +179,7 @@ function spawnMarker(coords)
         if blueJoined == false then
             DrawText3D(Config.BLUEZONE.x, Config.BLUEZONE.y, Config.BLUEZONE.z +1.5, 'unisciti alla lotta [~b~E~w~]', 0.4)
             if blueZone < Config.DISTANCE_INTERACTION then
-                ESX.ShowHelpNotification("premi ~INPUT_CONTEXT~ per unirti al lato blu.")
+                ESX.ShowHelpNotification(_U('press_to_join_blue'))
                 if IsControlJustReleased(0, Config.E_KEY) and participating == false then
                     TriggerServerEvent('bpt_streetfight:join', betAmount, 0 )
                 end
@@ -192,7 +189,7 @@ function spawnMarker(coords)
         if redJoined == false then
             DrawText3D(Config.REDZONE.x, Config.REDZONE.y, Config.REDZONE.z +1.5, 'unisciti alla lotta [~r~E~w~]', 0.4)
             if redZone < Config.DISTANCE_INTERACTION then
-                ESX.ShowHelpNotification("premi ~INPUT_CONTEXT~ per unirti al lato rosso.")
+                ESX.ShowHelpNotification(_U('press_to_join_red'))
                 if IsControlJustReleased(0, Config.E_KEY) and participating == false then
                     TriggerServerEvent('bpt_streetfight:join', betAmount, 1)
                 end
@@ -217,8 +214,8 @@ function get3DDistance(x1, y1, z1, x2, y2, z2)
 end
 
 function DrawText3D(x, y, z, text, scale)
-    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
-    local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
+    local _, _x, _y = World3dToScreen2d(x, y, z)
+    local _, _, _ = table.unpack(GetGameplayCamCoords())
     SetTextScale(scale, scale)
     SetTextFont(4)
     SetTextProportional(1)
@@ -240,7 +237,7 @@ function CreateBlip(coords, text, sprite, color, scale)
 	EndTextCommandSetBlipName(blip)
 end
 
-function reset() 
+function reset()
     redJoined = false
     blueJoined = false
     participating = false
@@ -265,11 +262,11 @@ CreateThread(function()
             local coords = GetEntityCoords(GetPlayerPed(-1))
             if get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z,coords.x,coords.y,coords.z) < Config.TP_DISTANCE then
                 ESX.ShowNotification(_U('step_away'))
-                for height = 1, 1000 do
+                for _ = 1, 1000 do
                     SetPedCoordsKeepVehicle(GetPlayerPed(-1), -521.58, -1723.58, 19.16)
-                    local foundGround, zPos = GetGroundZFor_3dCoord(-521.58, -1723.58, 19.16)
+                    local foundGround = GetGroundZFor_3dCoord(-521.58, -1723.58, 19.16)
                     if foundGround then
-                        SetPedCoordsKeepVehicle(GetPlayerPed(id), -521.58, -1723.58, 19.16)
+                        SetPedCoordsKeepVehicle(GetPlayerPed(_), -521.58, -1723.58, 19.16)
                         break
                     end
                     Wait(5)
@@ -292,7 +289,7 @@ CreateThread(function()
                 fightStatus = STATUS_INITIAL
             end
         end
-       
+
         if participating == true then
             local coords = GetEntityCoords(GetPlayerPed(-1))
             if get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z,coords.x,coords.y,coords.z) > Config.LEAVE_FIGHT_DISTANCE then
