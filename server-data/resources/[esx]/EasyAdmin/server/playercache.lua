@@ -12,7 +12,7 @@
 
 CachedPlayers = {} -- DO NOT TOUCH THIS
 
-CreateThread(function()
+Citizen.CreateThread(function()
 	while true do 
 		Wait(20000)
 		local osTime = os.time()

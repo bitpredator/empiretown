@@ -5,11 +5,11 @@ module.exports = {
 		.setName('warn')
 		.setDescription('Warn a User')
 		.addStringOption(option =>
-		    option.setName('user')
+			option.setName('user')
 				.setDescription('Username or ID')
 				.setRequired(true))
 		.addStringOption(option =>
-		    option.setName('reason')
+			option.setName('reason')
 				.setDescription('Reason Text')
 				.setRequired(true)),
 	async execute(interaction, exports) {
@@ -20,17 +20,18 @@ module.exports = {
 		const user = await findPlayerFromUserInput(userOrId)
 
 		if (!user || user.dropped) {
-			interaction.reply({ content: "Sorry, i couldn't find any user with the infos you provided.", ephemeral: true})
+			interaction.reply({ content: 'Sorry, i couldn\'t find any user with the infos you provided.', ephemeral: true})
 			return
 		}
 		
 		var src = interaction.member.user.tag
 		var ret = await exports[EasyAdmin].warnPlayer(src, user.id, reason)
+		var embed
 		if (ret) {
-			var embed = await prepareGenericEmbed(`Successfully warned **${user.name}** for **${reason}**`);
+			embed = await prepareGenericEmbed(`Successfully warned **${user.name}** for **${reason}**`)
 		} else {
-			var embed = await prepareGenericEmbed('Could not warn this user. (Maybe this user is immune)')
+			embed = await prepareGenericEmbed('Could not warn this user. (Maybe this user is immune)')
 		}
-		await interaction.reply({ embeds: [embed]});
+		await interaction.reply({ embeds: [embed]})
 	},
-};
+}
