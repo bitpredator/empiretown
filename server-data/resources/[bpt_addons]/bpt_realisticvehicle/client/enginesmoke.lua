@@ -7,16 +7,17 @@ local secondThreshold = 350.0 -- Second threshold value at which the engine will
 local firstDelay = 20000 -- When the engine starts to smoke less, the time required for the engine to turn on and off every 20 seconds, the engine will turn off and on every 20 seconds.
 local secondDelay = 10000 -- When the engine starts to smoke a lot, the time required for the engine to turn on and off every 10 seconds, the engine will turn off and on every 10 seconds.
 local isStarted = false
+local fxId
 local fxIds = {}
 
 CreateThread(function()
- 	while true do
- 		Wait(0)
+	while true do
+     Wait(0)
 		if IsPedInAnyVehicle(PlayerPedId(), false) then
 			local veh = GetVehiclePedIsUsing(PlayerPedId())
 			local armourIndex = GetVehicleMod(veh, 16)
 			if armourIndex == 4 then -- %100
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -48,7 +49,7 @@ CreateThread(function()
 					fxIds = {}
 				end
 			elseif armourIndex == 3 then -- %80
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -80,7 +81,7 @@ CreateThread(function()
 					fxIds = {}
 				end
 			elseif armourIndex == 2 then -- %60
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -112,7 +113,7 @@ CreateThread(function()
 					fxIds = {}
 				end
 			elseif armourIndex == 1 then -- %40
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -144,7 +145,7 @@ CreateThread(function()
 					fxIds = {}
 				end
 			elseif armourIndex == 0 then -- %20
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -176,7 +177,7 @@ CreateThread(function()
 					fxIds = {}
 				end
 			elseif armourIndex == -1 then -- No Armour
-				local damage = damageMultip
+				local damage
 				RequestNamedPtfxAsset(particleDict)
 				while not HasNamedPtfxAssetLoaded(particleDict) do
 					Wait(0)
@@ -209,7 +210,7 @@ CreateThread(function()
 				end
 			end
 		end
- 	end
+	end
 end)
 
 CreateThread(function()

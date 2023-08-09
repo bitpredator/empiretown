@@ -1,0 +1,16 @@
+name: Greetings
+
+on: [pull_request_target, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: "Hello, thank you for opening this issue, you will receive this message only the first time you open the issue, please fill in all the above fields correctly in order to have as much information as possible. Greetings"
+        pr-message: "Hi, thanks for your pull request and welcome to Empiretown's Open Source code, you will only get this message the first time you open the pull request, if your pull request resolves any reported issues please link them. Greetings"

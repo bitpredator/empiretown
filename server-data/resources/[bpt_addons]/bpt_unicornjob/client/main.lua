@@ -1,5 +1,4 @@
-local HasAlreadyEnteredMarker, CurrentAction,
-    CurrentActionData = false, false, false, false, false, {}
+local HasAlreadyEnteredMarker, CurrentAction, CurrentActionData = false, false, false
 local LastZone, CurrentActionMsg
 
 RegisterNetEvent('esx:playerLoaded')
@@ -155,10 +154,6 @@ function DeleteJobVehicle()
     else
         if IsInAuthorizedVehicle() then
             ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
-
-            if Config.MaxInService ~= -1 then
-                TriggerServerEvent('esx_service:disableService', 'unicorn')
-            end
         else
             ESX.ShowNotification(_U('only_unicorn'))
         end
