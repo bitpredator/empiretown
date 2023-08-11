@@ -1353,6 +1353,17 @@ AddEventHandler('onResourceStop', function(resourceName)
     end
 end)
 
+AddEventHandler('onResourceStop', function(resourceName)
+    for i = 1, #ESX.UI.Menu.Opened, 1 do
+        if ESX.UI.Menu.Opened[i] then
+            if ESX.UI.Menu.Opened[i].namespace == resourceName then
+                ESX.UI.Menu.Opened[i].close()
+                ESX.UI.Menu.Opened[i] = nil
+            end
+        end
+    end
+end)
+
 -- SetTimeout
 CreateThread(function()
     while true do
