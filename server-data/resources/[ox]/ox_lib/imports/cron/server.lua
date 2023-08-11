@@ -41,22 +41,26 @@ end
 ---@return string | number | false | nil
 local function getTimeUnit(value, unit)
     local currentTime = currentDate[unit]
+
+    if not value then
+        return unit == 'min' and currentTime + 1 or currentTime
+    end
+
     local unitMax = maxUnits[unit]
 
     if type(value) == 'string' then
         local stepValue = string.match(value, '*/(%d+)')
 
         if stepValue then
+            -- */10 * * * * is equal to a list of 0,10,20,30,40,50
+            -- best suited to factors of unitMax (excluding the highest and lowest numbers)
+            -- i.e. for minutes - 2, 3, 4, 5, 6, 10, 12, 15, 20, 30
             for i = currentTime + 1, unitMax do
-                -- return the current minute if it is divisible by the stepvalue
-                -- i.e. */10 * * * * is equal to a list of 0,10,20,30,40,50
-                -- best suited to numbers evenly divided by unitMax
-                if i % stepValue == 0 then
-                    return i
-                end
+                -- if i is divisible by stepValue
+                if i % stepValue == 0 then return i end
             end
 
-            return 0
+            return stepValue + unitMax
         end
 
         local range = string.match(value, '%d+-%d+')
@@ -99,15 +103,11 @@ local function getTimeUnit(value, unit)
         return false
     end
 
-    if value then
-        if unit == 'min' then
-            return value <= currentTime and value + unitMax or value
-        end
-
-        return value < currentTime and value + unitMax or value
+    if unit == 'min' then
+        return value <= currentTime and value + unitMax or value
     end
 
-    return currentTime
+    return value < currentTime and value + unitMax or value
 end
 
 ---Get a timestamp for the next time to run the task today.
@@ -141,12 +141,21 @@ function OxTask:getNextTime()
 
     if not hour then return end
 
-    if minute >= 60 then
-        minute = 0
-        hour += 1
+    if minute >= maxUnits.min then
+        if not self.hour then
+            hour += math.floor(minute / maxUnits.min)
+        end
+
+        minute = minute % maxUnits.min
     end
 
-    if hour >= 24 and day then return end
+    if hour >= maxUnits.hour and day then
+        if not self.day then
+            day += math.floor(hour / maxUnits.hour)
+        end
+
+        hour = hour % maxUnits.hour
+    end
 
     return os.time({
         min = minute,
@@ -157,7 +166,7 @@ function OxTask:getNextTime()
     })
 end
 
--- Get timestamp for next time to run task at any day.
+---Get timestamp for next time to run task at any day.
 ---@return number
 function OxTask:getAbsoluteNextTime()
     local minute = getTimeUnit(self.minute, 'min')
@@ -206,18 +215,14 @@ function OxTask:scheduleTask()
     local runAt = self:getNextTime()
 
     if not runAt then
-        return self:stop()
+        return self:stop('getNextTime returned no value')
     end
 
     local currentTime = os.time()
     local sleep = runAt - currentTime
 
     if sleep < 0 then
-        if self.day or self.weekday then
-            return self:stop()
-        end
-
-        sleep += 60
+        return self:stop(self.debug and ('scheduled time expired %s seconds ago'):format(-sleep))
     end
 
     if self.debug then
@@ -239,7 +244,7 @@ function OxTask:scheduleTask()
             print(('(%s/%s/%s %s:%s) ran task %s'):format(currentDate.year, currentDate.month, currentDate.day, currentDate.hour, currentDate.min, self.id))
         end
 
-        Wait(30000)
+        Wait(1000)
 
         return true
     end
@@ -256,12 +261,16 @@ function OxTask:run()
     end)
 end
 
-function OxTask:stop()
+function OxTask:stop(msg)
+    self.isActive = false
+
     if self.debug then
+        if msg then
+            return print(('stopping task %s (%s)'):format(self.id, msg))
+        end
+
         print(('stopping task %s'):format(self.id))
     end
-
-    self.isActive = false
 end
 
 ---@param value string
