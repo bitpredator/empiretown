@@ -1,9 +1,7 @@
 ESX = nil
 local Status, isPaused = {}, false
 
-Citizen.CreateThread(function()
-	ESX = exports["es_extended"]:getSharedObject()
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 function GetStatusData(minimal)
 	local status = {}
@@ -147,7 +145,7 @@ Citizen.CreateThread(function()
 			isPaused = true
 			TriggerEvent('esx_status:setDisplay', 0.0)
 		elseif not IsPauseMenuActive() and isPaused then
-			isPaused = false 
+			isPaused = false
 			TriggerEvent('esx_status:setDisplay', 0.5)
 		end
 	end
