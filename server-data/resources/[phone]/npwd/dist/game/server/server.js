@@ -57434,7 +57434,8 @@ var config_default_default = {
       "media.discordapp.net",
       "upload.wikipedia.org",
       "i.projecterror.dev",
-      "upcdn.io"
+      "upcdn.io",
+      "i.fivemanage.com"
     ]
   },
   profanityFilter: {
@@ -61871,6 +61872,7 @@ var _PhotoService = class {
               const res = await webhookPhotoUpload(this.TOKEN, filePath, blob, player);
               const identifier2 = player_service_default.getIdentifier(reqObj.source);
               const photo2 = await this.photoDB.uploadPhoto(identifier2, res);
+              fs2.rmSync(filePath);
               return resp({ status: "ok", data: photo2 });
             } catch (err2) {
               photoLogger.error(`Failed to upload photo`, {
@@ -62291,6 +62293,7 @@ var _TwitterService = class {
       const identifier = player_service_default.getIdentifier(reqObj.source);
       await this.twitterDB.deleteTweet(identifier, reqObj.data.tweetId);
       resp({ status: "ok" });
+      emitNet("npwd:deleteTweetBroadcast" /* DELETE_TWEET_BROADCAST */, -1, reqObj.data.tweetId);
     } catch (e2) {
       twitterLogger.error(`Delete tweet failed, ${e2.message}`, {
         source: reqObj.source
