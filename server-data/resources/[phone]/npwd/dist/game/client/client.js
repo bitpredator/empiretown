@@ -251,7 +251,8 @@
             "media.discordapp.net",
             "upload.wikipedia.org",
             "i.projecterror.dev",
-            "upcdn.io"
+            "upcdn.io",
+            "i.fivemanage.com"
           ]
         },
         profanityFilter: {
@@ -872,6 +873,9 @@
       });
       onNet("npwd:tweetLikedBroadcast" /* TWEET_LIKED_BROADCAST */, (tweetId, isAddLike, likedByProfileName) => {
         sendTwitterMessage("npwd:tweetLikedBroadcast" /* TWEET_LIKED_BROADCAST */, { tweetId, isAddLike, likedByProfileName });
+      });
+      onNet("npwd:deleteTweetBroadcast" /* DELETE_TWEET_BROADCAST */, (tweetId) => {
+        sendTwitterMessage("npwd:deleteTweetBroadcast" /* DELETE_TWEET_BROADCAST */, tweetId);
       });
     }
   });
