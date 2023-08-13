@@ -39,7 +39,7 @@ AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
 	end)
 end)
 
-AddEventHandler('esx:playerDropped', function(playerId, reason)
+AddEventHandler('esx:playerDropped', function(playerId)
 	local xPlayer = ESX.GetPlayerFromId(playerId)
 	local status = xPlayer.get('status')
 
