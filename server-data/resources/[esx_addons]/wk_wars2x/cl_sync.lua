@@ -245,7 +245,7 @@ SYNC = {}
 	Sync functions
 ----------------------------------------------------------------------------------]]--
 -- Returns if the given player has the remote open
-function SYNC:IsRemoteAlreadyOpen( ply )
+function SYNC:IsRemoteAlreadyOpen(ply)
 	if (not RADAR:IsPassengerViewAllowed() ) then
 		return false
 	else
@@ -263,7 +263,7 @@ end
 -- Used to get the other ped (driver/passenger) in a vehicle and calls the given callback. This function will only work
 -- if the player can control the radar, it also ensures that the other ped (if found) exists and is a player. The other
 -- player's server ID is passed to the given callback as an argument.
-function SYNC:SyncData( cb )
+function SYNC:SyncData(cb)
 	if ( PLY:CanControlRadar() ) then
 		local otherPly = PLY:GetOtherPedServerId()
 

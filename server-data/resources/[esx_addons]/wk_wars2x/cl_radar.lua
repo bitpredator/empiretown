@@ -1,5 +1,4 @@
 -- Cache some of the main Lua functions and libraries
-local next = next
 local dot = dot
 local table = table
 local type = type

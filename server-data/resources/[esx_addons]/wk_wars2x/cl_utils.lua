@@ -67,11 +67,11 @@ end
 -- Returns if a target vehicle is coming towards or going away from the patrol vehicle, it has a range
 -- so if a vehicle is sideways compared to the patrol vehicle, the directional arrows won't light up
 function UTIL:GetEntityRelativeDirection( myAng, tarAng )
-	local angleDiff = math.abs( ( myAng - tarAng + 180 ) % 360 - 180 )
+	local angleDiff = math.abs(( myAng - tarAng + 180 ) % 360 - 180)
 
-	if ( angleDiff < 45 ) then
+	if (angleDiff < 45) then
 		return 1
-	elseif ( angleDiff > 135 ) then
+	elseif (angleDiff > 135) then
 		return 2
 	end
 
@@ -79,12 +79,12 @@ function UTIL:GetEntityRelativeDirection( myAng, tarAng )
 end
 
 -- Returns if there is a player in the given vehicle
-function UTIL:IsPlayerInVeh( veh )
+function UTIL:IsPlayerInVeh(veh)
 	for i = -1, GetVehicleMaxNumberOfPassengers( veh ) + 1, 1 do
 		local ped = GetPedInVehicleSeat( veh, i )
 
-		if ( DoesEntityExist( ped ) ) then
-			if ( IsPedAPlayer( ped ) ) then return true end
+		if (DoesEntityExist(ped)) then
+			if (IsPedAPlayer(ped)) then return true end
 		end
 	end
 
@@ -92,10 +92,10 @@ function UTIL:IsPlayerInVeh( veh )
 end
 
 -- Your everyday GTA notification function
-function UTIL:Notify( text )
-	SetNotificationTextEntry( "STRING" )
-	AddTextComponentSubstringPlayerName( text )
-	DrawNotification( false, true )
+function UTIL:Notify(text)
+	SetNotificationTextEntry("STRING")
+	AddTextComponentSubstringPlayerName(text)
+	DrawNotification(false, true)
 end
 
 -- Prints the given message to the client console
