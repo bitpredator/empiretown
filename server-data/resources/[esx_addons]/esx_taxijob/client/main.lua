@@ -40,18 +40,18 @@ function ShowLoadingPromt(msg, time, type)
 end
 
 function GetRandomWalkingNPC()
-        local search = {}
-        local peds = GetGamePool("CPed")
+    local search = {}
+    local peds = GetGamePool("CPed")
 
-        for i = 1, #peds, 1 do
-            if IsPedHuman(peds[i]) and IsPedWalking(peds[i]) and not IsPedAPlayer(peds[i]) then
-                search[#search+1] = peds[i]
-            end
+    for i = 1, #peds, 1 do
+        if IsPedHuman(peds[i]) and IsPedWalking(peds[i]) and not IsPedAPlayer(peds[i]) then
+            search[#search+1] = peds[i]
         end
+    end
 
-        if #search > 0 then
-            return search[math.random(#search)]
-        end
+    if #search > 0 then
+        return search[math.random(#search)]
+    end
 end
 
 function ClearCurrentMission()
