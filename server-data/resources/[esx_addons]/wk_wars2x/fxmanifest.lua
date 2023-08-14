@@ -25,8 +25,7 @@ ui_page "nui/radar.html"
 
 server_script {
 	'sv_exports.lua',
-	'sv_sync.lua',
-	'TogglePlateLock'
+	'sv_sync.lua'
 }
 
 client_script{
