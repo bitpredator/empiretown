@@ -8,6 +8,7 @@ dependencies {
     'es_extended',
     'mysql-async'
 }
+
 shared_scripts {
     '@es_extended/locale.lua',
     'locales/*.lua',
@@ -17,10 +18,12 @@ shared_scripts {
     'lib/cropstate.lua',
     '@es_extended/imports.lua',
 }
+
 client_scripts {
     'lib/debug.lua',
     'cl_uteknark.lua',
 }
+
 server_scripts {
     '@mysql-async/lib/MySQL.lua',
     'sv_uteknark.lua',
