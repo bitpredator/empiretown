@@ -121,7 +121,7 @@ function inChat(target, message)
 end
 
 function plantSeed(location, soil)
-    
+
     local hits = cropstate.octree:searchSphere(location, Config.Distance.Space)
     if #hits > 0 then
         return false
@@ -224,8 +224,7 @@ CreateThread(function()
     local ESXTries = 60
     local itemsLoaded = false
     while not itemsLoaded and ESXTries > 0 do
-        TriggerEvent('esx:getSharedObject', function(obj)
-            ESX = obj
+        ESX = exports["es_extended"]:getSharedObject()
             if keyCount(ESX.Items) > 0 then
                 itemsLoaded = true
                 for forWhat,itemName in pairs(Config.Items) do
@@ -250,7 +249,6 @@ CreateThread(function()
                     end
                 end)
             end
-        end)
         Wait(1000)
         ESXTries = ESXTries - 1
     end
