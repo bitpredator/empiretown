@@ -10,8 +10,8 @@ end
 local ox_lib = 'ox_lib'
 local export = exports[ox_lib]
 
-if not GetResourceState(ox_lib):find('start') then
-    error('^1ox_lib should be started before this resource.^0', 2)
+if GetResourceState(ox_lib) ~= 'started' then
+    error('^1ox_lib must be started before this resource.^0', 0)
 end
 
 local status = export.hasLoaded()
@@ -40,7 +40,7 @@ local function loadModule(self, module)
     end
 
     if chunk then
-        local fn, err = load(chunk, ('@@ox_lib/%s/%s.lua'):format(module, context))
+        local fn, err = load(chunk, ('@@ox_lib/imports/%s/%s.lua'):format(module, context))
 
         if not fn or err then
             return error(('\n^1Error importing module (%s): %s^0'):format(dir, err), 3)
