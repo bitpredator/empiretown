@@ -13,6 +13,10 @@ Config.Accounts = {
 	money = {
 		label = _U('account_money'),
 		round = true
+	},
+	crypto = {
+		label = _('crypto_currency'),
+		round = false
 	}
 }
 

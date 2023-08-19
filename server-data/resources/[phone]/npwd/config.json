@@ -38,7 +38,7 @@
     "useWebhook": true
   },
   "apps": [
-    "npwd_services"
+    "npwd_services","npwd_crypto"
   ],
   "voiceMessage": {
     "enabled": false,
