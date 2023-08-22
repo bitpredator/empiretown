@@ -14,7 +14,7 @@ RegisterNetEvent('esx_billing:sendBill', function(playerId, sharedAccountName, l
 			TriggerEvent('esx_addonaccount:getSharedAccount', sharedAccountName, function(account)
 				if account then
 					MySQL.insert('INSERT INTO billing (identifier, sender, target_type, target, label, amount) VALUES (?, ?, ?, ?, ?, ?)', {xTarget.identifier, xPlayer.identifier, 'society', sharedAccountName, label, amount},
-					function(rowsChanged)
+					function()
 						xTarget.showNotification(_U('received_invoice'))
 					end)
 				else
@@ -23,7 +23,7 @@ RegisterNetEvent('esx_billing:sendBill', function(playerId, sharedAccountName, l
 			end)
 		else
 			MySQL.insert('INSERT INTO billing (identifier, sender, target_type, target, label, amount) VALUES (?, ?, ?, ?, ?, ?)', {xTarget.identifier, xPlayer.identifier, 'player', xPlayer.identifier, label, amount},
-			function(rowsChanged)
+			function()
 				xTarget.showNotification(_U('received_invoice'))
 			end)
 		end
@@ -39,7 +39,7 @@ ESX.RegisterServerCallback('esx_billing:getBills', function(source, cb)
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_billing:getTargetBills', function(source, cb, target)
+ESX.RegisterServerCallback('esx_billing:getTargetBills', function(_, cb, target)
 	local xPlayer = ESX.GetPlayerFromId(target)
 
 	if xPlayer then
