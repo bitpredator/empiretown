@@ -4,7 +4,6 @@
 Press `[F7]` To show the billing menu
 
 When payment trigger is called , pass a boolean at the end to convert payment into split payment.
-Config file has defined global variable with % that is sent to issuer.
 ```lua
 TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_mechanic', _U('mechanic'), amount, true)
 ```
