@@ -1,3 +1,2 @@
 Config = {}
-Config.Locale = 'en'
-Config.Percent = 0.10
+Config.Locale = GetConvar('esx:locale', 'en')
