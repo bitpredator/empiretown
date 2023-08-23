@@ -27,7 +27,7 @@ local vehicleInfo = {
 RegisterNetEvent("EasyAdmin:adminresponse", function(perms)
 	permissions = perms
 
-	for perm, val in pairs(perms) do
+	for _, val in pairs(perms) do
 		if val == true then
 			isAdmin = true
 		end
@@ -37,10 +37,6 @@ end)
 RegisterNetEvent("EasyAdmin:SetSetting", function(setting,state)
 	settings[setting] = state
 end)
-
-if not RedM then
-	RegisterKeyMapping('easyadmin', 'Open EasyAdmin', 'keyboard', "")
-end
 
 AddEventHandler('EasyAdmin:SetLanguage', function(newstrings)
 	strings = newstrings
@@ -80,8 +76,8 @@ end)
 RegisterNetEvent("EasyAdmin:ClaimedReport", function(reportData)
 	reports[reportData.id] = reportData
 	if _menuPool and _menuPool:IsAnyMenuOpen() then
-		for i, menu in pairs(reportMenus) do
-			for o,item in pairs(menu.Items) do 
+		for _, menu in pairs(reportMenus) do
+			for _,item in pairs(menu.Items) do
 				if getMenuItemTitle(item) == GetLocalisedText("claimreport") then
 					setMenuItemTitle(item, GetLocalisedText("claimedby"))
 					item:RightLabel(reportData.claimedName)
@@ -92,9 +88,8 @@ RegisterNetEvent("EasyAdmin:ClaimedReport", function(reportData)
 end)
 
 RegisterNetEvent("EasyAdmin:RemoveReport", function(reportData)
-	reports[reportData.id] = nil 
+	reports[reportData.id] = nil
 end)
-
 
 RegisterNetEvent("EasyAdmin:fillShortcuts", function (shortcuts)
 	MessageShortcuts = shortcuts
@@ -104,7 +99,7 @@ RegisterNetEvent('EasyAdmin:SetPlayerFrozen', function(player,state)
 	FrozenPlayers[player] = state
 	if _menuPool and _menuPool:IsAnyMenuOpen() then
 		if playerMenus[tostring(player)].menu then
-			for o,item in pairs(playerMenus[tostring(player)].menu.Items) do 
+			for _,item in pairs(playerMenus[tostring(player)].menu.Items) do
 				if getMenuItemTitle(item) == GetLocalisedText("setplayerfrozen") then
 					item.Checked = state
 				end
@@ -117,7 +112,7 @@ RegisterNetEvent('EasyAdmin:SetPlayerMuted', function(player,state)
 	MutedPlayers[player] = state
 	if _menuPool and _menuPool:IsAnyMenuOpen() then
 		if playerMenus[tostring(player)].menu then
-			for o,item in pairs(playerMenus[tostring(player)].menu.Items) do 
+			for _,item in pairs(playerMenus[tostring(player)].menu.Items) do
 				if getMenuItemTitle(item) == GetLocalisedText("mute") then
 					item.Checked = state
 				end
@@ -126,17 +121,17 @@ RegisterNetEvent('EasyAdmin:SetPlayerMuted', function(player,state)
 	end
 end)
 
-CreateThread( function()
+Citizen.CreateThread( function()
 	while true do
-		Wait(0)
+		Citizen.Wait(0)
 		if frozen then
 			local localPlayerPedId = PlayerPedId()
 			FreezeEntityPosition(localPlayerPedId, frozen)
 			if IsPedInAnyVehicle(localPlayerPedId, true) then
 				FreezeEntityPosition(GetVehiclePedIsIn(localPlayerPedId, false), frozen)
-			end 
+			end
 		else
-			Wait(200)
+			Citizen.Wait(200)
 		end
 	end
 end)
@@ -157,7 +152,8 @@ RegisterNetEvent("EasyAdmin:requestSpectate", function(playerServerId, tgtCoords
 	end
 
 	if ((not tgtCoords) or (tgtCoords.z == 0.0)) then tgtCoords = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(playerServerId))) end
-	if playerServerId == GetPlayerServerId(PlayerId()) then 
+	if playerServerId == GetPlayerServerId(PlayerId()) then
+		local oldCoords
 		if oldCoords then
 			RequestCollisionAtCoord(oldCoords.x, oldCoords.y, oldCoords.z)
 			Wait(500)
@@ -166,7 +162,7 @@ RegisterNetEvent("EasyAdmin:requestSpectate", function(playerServerId, tgtCoords
 		end
 		spectatePlayer(localPlayerPed,GetPlayerFromServerId(PlayerId()),GetPlayerName(PlayerId()))
 		frozen = false
-		return 
+		return
 	else
 		if not oldCoords then
 			oldCoords = GetEntityCoords(localPlayerPed)
@@ -175,17 +171,17 @@ RegisterNetEvent("EasyAdmin:requestSpectate", function(playerServerId, tgtCoords
 	SetEntityCoords(localPlayerPed, tgtCoords.x, tgtCoords.y, tgtCoords.z - 10.0, 0, 0, 0, false)
 	frozen = true
 	stopSpectateUpdate = true
-	local adminPed = localPlayerPed
+
 	local playerId = GetPlayerFromServerId(playerServerId)
 	repeat
 		Wait(200)
 		playerId = GetPlayerFromServerId(playerServerId)
 	until ((GetPlayerPed(playerId) > 0) and (playerId ~= -1))
 	spectatePlayer(GetPlayerPed(playerId),playerId,GetPlayerName(playerId))
-	stopSpectateUpdate = false 
+	stopSpectateUpdate = false
 end)
 
-CreateThread(function()
+Citizen.CreateThread(function()
 	RegisterNetEvent("EasyAdmin:requestCleanup", function(type, radius)
 
 		local toDelete = {}
@@ -207,7 +203,7 @@ CreateThread(function()
 				if (type == "cars" and not IsPedAPlayer(GetPedInVehicleSeat(entity, -1))) then
 					if not NetworkHasControlOfEntity(entity) then
 						local i=0
-						repeat 
+						repeat
 							NetworkRequestControlOfEntity(entity)
 							i=i+1
 							Wait(150)
@@ -249,26 +245,25 @@ CreateThread(function()
 	end)
 end)
 
-CreateThread( function()
+Citizen.CreateThread( function()
 	while true do
-		Wait(500)
+		Citizen.Wait(500)
 		if drawInfo and not stopSpectateUpdate then
 			local localPlayerPed = PlayerPedId()
 			local targetPed = GetPlayerPed(drawTarget)
-			local targetGod = GetPlayerInvincible(drawTarget)
-			
+
 			local tgtCoords = GetEntityCoords(targetPed)
 			if tgtCoords and tgtCoords.x ~= 0 then
 				SetEntityCoords(localPlayerPed, tgtCoords.x, tgtCoords.y, tgtCoords.z - 10.0, 0, 0, 0, false)
 			end
 		else
-			Wait(1000)
+			Citizen.Wait(1000)
 		end
 	end
 end)
 
 
-RegisterNetEvent("EasyAdmin:TeleportPlayerBack", function(id, tgtCoords)
+RegisterNetEvent("EasyAdmin:TeleportPlayerBack", function()
 	if lastLocation then
 		SetEntityCoords(PlayerPedId(), lastLocation,0,0,0, false)
 		lastLocation=nil
@@ -299,8 +294,7 @@ RegisterNetEvent("EasyAdmin:SlapPlayer", function(slapAmount)
 end)
 
 
-RegisterCommand("kick", function(source, args, rawCommand)
-	local source=source
+RegisterCommand("kick", function(_, args)
 	local reason = ""
 	for i,theArg in pairs(args) do
 		if i ~= 1 then -- make sure we are not adding the kicked player as a reason
@@ -312,7 +306,7 @@ RegisterCommand("kick", function(source, args, rawCommand)
 	end
 end, false)
 
-RegisterCommand("ban", function(source, args, rawCommand)
+RegisterCommand("ban", function(_, args)
 	if args[1] and tonumber(args[1]) then
 		local reason = ""
 		for i,theArg in pairs(args) do
@@ -332,20 +326,20 @@ RegisterNetEvent("EasyAdmin:FreezePlayer", function(toggle)
 	FreezeEntityPosition(playerPed, frozen)
 	if IsPedInAnyVehicle(playerPed, false) then
 		FreezeEntityPosition(GetVehiclePedIsIn(playerPed, false), frozen)
-	end 
+	end
 end)
 
 
-RegisterNetEvent("EasyAdmin:CaptureScreenshot", function(toggle, url, field)
+RegisterNetEvent("EasyAdmin:CaptureScreenshot", function()
 	exports['screenshot-basic']:requestScreenshotUpload(GetConvar("ea_screenshoturl", 'https://wew.wtf/upload.php'), GetConvar("ea_screenshotfield", 'files[]'), function(data)
 		TriggerLatentServerEvent("EasyAdmin:TookScreenshot", 100000, data)
 	end)
 end)
 
-function spectatePlayer(targetPed,target,name)
+function spectatePlayer(targetPed, target, name)
 	local playerPed = PlayerPedId() -- yourself
 	enable = true
-	if (target == PlayerId() or target == -1) then 
+	if (target == PlayerId() or target == -1) then
 		enable = false
 	end
 
@@ -354,29 +348,29 @@ function spectatePlayer(targetPed,target,name)
 		SetEntityCollision(playerPed, false, false)
 		SetEntityInvincible(playerPed, true)
 		NetworkSetEntityInvisibleToNetwork(playerPed, true)
-		Wait(200) -- to prevent target player seeing you
+		Citizen.Wait(200) -- to prevent target player seeing you
 		if targetPed == playerPed then
 			Wait(500)
 			targetPed = GetPlayerPed(target)
 		end
-		local targetx,targety,targetz = table.unpack(GetEntityCoords(targetPed, false))
+		local targetx, targety, targetz = table.unpack(GetEntityCoords(targetPed, false))
 		RequestCollisionAtCoord(targetx,targety,targetz)
 		NetworkSetInSpectatorMode(true, targetPed)
-		
+
 		DrawPlayerInfo(target)
 		TriggerEvent("EasyAdmin:showNotification", string.format(GetLocalisedText("spectatingUser"), name))
 	else
+		local oldCoords
 		if oldCoords then
 			RequestCollisionAtCoord(oldCoords.x, oldCoords.y, oldCoords.z)
 			Wait(500)
 			SetEntityCoords(playerPed, oldCoords.x, oldCoords.y, oldCoords.z, 0, 0, 0, false)
-			oldCoords=nil
 		end
 		NetworkSetInSpectatorMode(false, targetPed)
 		StopDrawPlayerInfo()
 		TriggerEvent("EasyAdmin:showNotification", GetLocalisedText("stoppedSpectating"))
 		frozen = false
-		Wait(200) -- to prevent staying invisible
+		Citizen.Wait(200) -- to prevent staying invisible
 		SetEntityVisible(playerPed, true, 0)
 		SetEntityCollision(playerPed, true, true)
 		SetEntityInvincible(playerPed, false)
@@ -415,14 +409,10 @@ function ShowNotification(text)
 		local showInBrief = false
 		local blink = false
 		EndTextCommandThefeedPostTicker(blink, showInBrief)
-
-	else
-		-- someone who has RedM installed please write some code for this
-		
 	end
 end
 
-RegisterNetEvent("EasyAdmin:showNotification", function(text, important)
+RegisterNetEvent("EasyAdmin:showNotification", function(text)
 	TriggerEvent("EasyAdmin:receivedNotification")
 	if not WasEventCanceled() then
 		ShowNotification(text)
