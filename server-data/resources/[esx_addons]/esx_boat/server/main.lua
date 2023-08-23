@@ -30,7 +30,7 @@ ESX.RegisterServerCallback('esx_boat:buyBoat', function(source, cb, vehicleProps
 				['@vehicle'] = json.encode(vehicleProps),
 				['@type']    = 'boat',
 				['@stored']  = true
-			}, function(rowsChanged)
+			}, function()
 				cb(true)
 			end)
 		else
@@ -100,7 +100,7 @@ ESX.RegisterServerCallback('esx_boat:buyBoatLicense', function(source, cb)
 end)
 
 function getPriceFromModel(model)
-	for k,v in ipairs(Config.Vehicles) do
+	for _,v in ipairs(Config.Vehicles) do
 		if GetHashKey(v.model) == model then
 			return v.price
 		end
