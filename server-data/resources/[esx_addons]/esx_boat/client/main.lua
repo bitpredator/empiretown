@@ -7,7 +7,7 @@ function OpenBoatShop(shop)
 	local playerPed = PlayerPedId()
 	local elements  = {}
 
-	for k,v in ipairs(Config.Vehicles) do
+	for _,v in ipairs(Config.Vehicles) do
 		table.insert(elements, {
 			label = ('%s - <span style="color:green;">$%s</span>'):format(v.label, ESX.Math.GroupDigits(v.price)),
 			name  = v.label,
@@ -21,7 +21,7 @@ function OpenBoatShop(shop)
 		title    = _U('boat_shop'),
 		align    = 'top-left',
 		elements = elements
-	}, function (data, menu)
+	}, function (data)
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'boat_shop_confirm', {
 			title    = _U('boat_shop_confirm', data.current.name, ESX.Math.GroupDigits(data.current.price)),
 			align    = 'top-left',
@@ -57,10 +57,10 @@ function OpenBoatShop(shop)
 			else
 				menu2.close()
 			end
-		end, function (data2, menu2)
+		end, function (_, menu2)
 			menu2.close()
 		end)
-	end, function (data, menu)
+	end, function (_, menu)
 		menu.close()
 		isInShopMenu = false
 		DeleteSpawnedVehicles()
@@ -71,7 +71,7 @@ function OpenBoatShop(shop)
 		FreezeEntityPosition(playerPed, false)
 		SetEntityVisible(playerPed, true)
 		SetEntityCoords(playerPed, shop.Outside.x, shop.Outside.y, shop.Outside.z)
-	end, function (data, menu)
+	end, function (data)
 		DeleteSpawnedVehicles()
 
 		ESX.Game.SpawnLocalVehicle(data.current.model, shop.Inside, shop.Inside.w, function (vehicle)
@@ -137,7 +137,7 @@ function OpenBoatGarage(garage)
 				else
 					ESX.ShowNotification(_U('garage_blocked'))
 				end
-			end, function (data, menu)
+			end, function (_, menu)
 				menu.close()
 
 				CurrentAction     = 'garage_out'
@@ -171,7 +171,7 @@ function OpenLicenceMenu(shop)
 			CurrentActionMsg = _U('boat_shop_open')
 			menu.close()
 		end
-	end, function (data, menu)
+	end, function (_, menu)
 		CurrentAction    = 'boat_shop'
 		CurrentActionMsg = _U('boat_shop_open')
 		menu.close()

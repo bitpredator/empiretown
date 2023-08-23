@@ -52,11 +52,11 @@ AddEventHandler('esx_boat:hasEnteredMarker', function(zone, zoneNum)
 		CurrentActionData = { zoneNum = zoneNum }
 	elseif zone == 'garage_in' then
 		local playerPed = PlayerPedId()
-		local coords    = GetEntityCoords(playerPed)
-	
+		local _    = GetEntityCoords(playerPed)
+
 		if IsPedInAnyVehicle(playerPed, false) then
 			local vehicle = GetVehiclePedIsIn(playerPed, false)
-	
+
 			if DoesEntityExist(vehicle) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
 				CurrentAction     = 'garage_in'
 				CurrentActionMsg  = _U('garage_store')
@@ -126,6 +126,8 @@ CreateThread(function()
 				currentZoneNum = i
 			end
 		end
+
+		local LastZoneNum
 
 		if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastZone ~= currentZone or LastZoneNum ~= currentZoneNum)) then
 			if
