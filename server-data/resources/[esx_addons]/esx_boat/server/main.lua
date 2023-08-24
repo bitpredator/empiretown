@@ -30,7 +30,7 @@ ESX.RegisterServerCallback('esx_boat:buyBoat', function(source, cb, vehicleProps
 				['@vehicle'] = json.encode(vehicleProps),
 				['@type']    = 'boat',
 				['@stored']  = true
-			}, function(rowsChanged)
+			}, function()
 				cb(true)
 			end)
 		else

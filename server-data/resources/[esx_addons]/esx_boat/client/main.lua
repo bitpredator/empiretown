@@ -9,7 +9,7 @@ function OpenBoatShop(shop)
 		{unselectable = true, icon = "fas fa-ship", title = _U('boat_shop')}
 	}
 
-	for k,v in ipairs(Config.Vehicles) do
+	for _,v in ipairs(Config.Vehicles) do
 		elements[#elements+1] = {
 			icon = "fas fa-ship",
 			title = ('%s - <span style="color:green;">$%s</span>'):format(v.label, ESX.Math.GroupDigits(v.price)),
@@ -20,13 +20,13 @@ function OpenBoatShop(shop)
 		}
 	end
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(_,element)
 		local elements2 = {
 			{unselectable = true, icon = "fas fa-ship", title = element.title},
 			{icon = "fas fa-eye", title = "View", val = "view"}
 		}
 
-		ESX.OpenContext("right", elements2, function(menu2,element2)
+		ESX.OpenContext("right", elements2, function(_,element2)
 			if element2.val == "view" then
 				DeleteSpawnedVehicles()
 
@@ -45,10 +45,10 @@ function OpenBoatShop(shop)
 						{icon = "fas fa-eye", title = "Stop Viewing", value = "stop"}
 					}
 
-					ESX.OpenContext("right", elements3, function(menu3,element3)
+					ESX.OpenContext("right", elements3, function(_,element3)
 						if element3.value == "buy" then
 							local plate = exports['esx_vehicleshop']:GeneratePlate()
-							local vehicle = GetVehiclePedIsIn(playerPed, false)
+							local _ = GetVehiclePedIsIn(playerPed, false)
 							local props = ESX.Game.GetVehicleProperties(vehicle)
 							props.plate = plate
 
@@ -78,12 +78,12 @@ function OpenBoatShop(shop)
 					end)
 				end)
 			end
-		end, function(menu)
+		end, function()
 			isInShopMenu = false
 			CurrentAction    = 'boat_shop'
 			CurrentActionMsg = _U('boat_shop_open')
 		end)
-	end, function(menu)
+	end, function()
 		isInShopMenu = false
 		CurrentAction    = 'boat_shop'
 		CurrentActionMsg = _U('boat_shop_open')
@@ -109,7 +109,7 @@ function OpenBoatGarage(garage)
 				}
 			end
 
-			ESX.OpenContext("right", elements, function(menu,element)
+			ESX.OpenContext("right", elements, function(_,element)
 				local playerPed = PlayerPedId()
 				local vehicleProps = element.vehicleProps
 
@@ -126,7 +126,7 @@ function OpenBoatGarage(garage)
 				else
 					ESX.ShowNotification(_U('garage_blocked'))
 				end
-			end, function(menu)
+			end, function()
 				CurrentAction     = 'garage_out'
 				CurrentActionMsg  = _U('garage_open')
 			end)
@@ -140,14 +140,14 @@ function OpenLicenceMenu(shop)
 		{icon = "fas fa-ship", title = "Purchase Boat License"}
 	}
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(_,element)
 		local elements2 = {
 			{unselectable = true, icon = "fas fa-ship", title = element.title},
 			{icon = "fas fa-check-double", title = _U('license_buy_yes', Config.LicensePrice), val = "yes"},
 			{icon = "fas fa-window-close", title = _U('license_buy_no'), val = "no"}
 		}
 
-		ESX.OpenContext("right", elements2, function(menu2,element2)
+		ESX.OpenContext("right", elements2, function(_,element2)
 			-- If the value is no, close the menu and stop the script. 
 			if element2.val == "no" then
                 ESX.CloseContext()
@@ -164,12 +164,12 @@ function OpenLicenceMenu(shop)
 					ESX.ShowNotification(_U('license_nomoney'))
 				end
 			end)
-		end, function(menu)
+		end, function()
 			CurrentAction = 'boat_shop'
 			CurrentActionMsg = _U('boat_shop_open')
 		end)
-	end, function(menu)
-		CurrentAction = 'boat_shop'	
+	end, function()
+		CurrentAction = 'boat_shop'
 		CurrentActionMsg = _U('boat_shop_open')
 	end)
 end
