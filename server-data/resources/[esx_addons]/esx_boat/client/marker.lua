@@ -11,8 +11,6 @@ CreateThread(function()
 		Wait(0)
 
 		if CurrentAction then
-			ESX.ShowHelpNotification(CurrentActionMsg)
-
 			if IsControlJustReleased(0, 38) then
 				if CurrentAction == 'boat_shop' then
 					if not Config.LicenseEnable then
@@ -34,6 +32,7 @@ CreateThread(function()
 				end
 
 				CurrentAction = nil
+				ESX.HideUI()
 			end
 		else
 			Wait(500)
@@ -52,11 +51,11 @@ AddEventHandler('esx_boat:hasEnteredMarker', function(zone, zoneNum)
 		CurrentActionData = { zoneNum = zoneNum }
 	elseif zone == 'garage_in' then
 		local playerPed = PlayerPedId()
-		local coords    = GetEntityCoords(playerPed)
-	
+		local _   = GetEntityCoords(playerPed)
+
 		if IsPedInAnyVehicle(playerPed, false) then
 			local vehicle = GetVehiclePedIsIn(playerPed, false)
-	
+
 			if DoesEntityExist(vehicle) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
 				CurrentAction     = 'garage_in'
 				CurrentActionMsg  = _U('garage_store')
@@ -64,14 +63,16 @@ AddEventHandler('esx_boat:hasEnteredMarker', function(zone, zoneNum)
 			end
 		end
 	end
+	ESX.TextUI(CurrentActionMsg)
 end)
 
 AddEventHandler('esx_boat:hasExitedMarker', function()
 	if not isInShopMenu then
-		ESX.UI.Menu.CloseAll()
+		ESX.CloseContext()
 	end
 
 	CurrentAction = nil
+	ESX.HideUI()
 end)
 
 -- Enter / Exit marker events
