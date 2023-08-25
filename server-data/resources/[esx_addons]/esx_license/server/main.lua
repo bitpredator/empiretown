@@ -97,7 +97,7 @@ end)
 RegisterNetEvent('esx_license:removeLicense')
 AddEventHandler('esx_license:removeLicense', function(target, licenseType, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	if xPlayer then 
+	if xPlayer then
 		if Config.allowedJobs[xPlayer.getJob().name] then
 			local xTarget = ESX.GetPlayerFromId(target)
 			if xTarget then
@@ -138,20 +138,20 @@ ESX.RegisterServerCallback('esx_license:getLicense', function(source, cb, licens
 	end
 end)
 
-ESX.RegisterServerCallback('esx_license:getLicenses', function(source, cb, target)
+ESX.RegisterServerCallback('esx_license:getLicenses', function(_, cb, target)
 	local xPlayer = ESX.GetPlayerFromId(target)
 	if xPlayer then
 		GetLicenses(xPlayer.getIdentifier(), cb)
 	end
 end)
 
-ESX.RegisterServerCallback('esx_license:checkLicense', function(source, cb, target, licenseType)
+ESX.RegisterServerCallback('esx_license:checkLicense', function(_, cb, target, licenseType)
 	local xPlayer = ESX.GetPlayerFromId(target)
 	if xPlayer then
 		CheckLicense(xPlayer.getIdentifier(), licenseType, cb)
 	end
 end)
 
-ESX.RegisterServerCallback('esx_license:getLicensesList', function(source, cb)
+ESX.RegisterServerCallback('esx_license:getLicensesList', function(_, cb)
 	GetLicensesList(cb)
 end)
