@@ -58,7 +58,7 @@ Locales['en'] = {
   ['ems_menu_small'] = 'heal small wounds',
   ['ems_menu_big'] = 'treat serious injuries',
   ['ems_menu_search'] = 'patient not found',
-  -- Fatture
+  -- billing
   ['billing'] = 'billing',
   ['invoice_amount'] = 'invoice amount',
   ['no_players_near'] = 'no players nearby',

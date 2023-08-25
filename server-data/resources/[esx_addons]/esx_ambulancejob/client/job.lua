@@ -17,7 +17,7 @@ function OpenAmbulanceActionsMenu()
 		}
 	end
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(_,element)
 		if element.value == 'cloakroom' then
 			OpenCloakroomMenu()
 		elseif element.value == 'boss_actions' then
@@ -122,7 +122,8 @@ function OpenMobileAmbulanceActionsMenu()
 	end)
 end
 
--- Fattura 
+-- billing
+local billing
 
 if billing == 'billing' then
 
@@ -149,10 +150,7 @@ if billing == 'billing' then
 		menu.close()
 	end)
 end
-
-
-
--- Fine Fattura 
+-- end billing
 
 function revivePlayer(closestPlayer)
 	isBusy = true
@@ -293,7 +291,7 @@ CreateThread(function()
 		Wait(0)
 		local playerCoords, letSleep = GetEntityCoords(PlayerPedId()), true
 
-		for hospitalNum,hospital in pairs(Config.Hospitals) do
+		for _,hospital in pairs(Config.Hospitals) do
 			-- Fast Travels
 			for _,v in ipairs(hospital.FastTravels) do
 				local distance = #(playerCoords - v.From)
