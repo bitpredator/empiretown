@@ -103,6 +103,10 @@ AddEventHandler('esx:playerLoaded', function(xPlayer, isNew, skin)
 					DisableControlAction(0, 37, true)
 				end
 
+				if Config.DisableDisplayAmmo then
+					DisplayAmmoThisFrame(false)
+				end
+
 				if Config.DisableAimAssist then
 					if IsPedArmed(ESX.PlayerData.ped, 4) then
 						SetPlayerLockonRangeOverride(playerId, 2.0)
