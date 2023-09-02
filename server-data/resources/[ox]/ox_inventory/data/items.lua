@@ -384,13 +384,13 @@ return {
 	    weight = 100,
 	    stack = true, 
     },
-    
+
 	['slicedchips'] = {
 	    label = 'Patate affettate',
 	    weight = 100,
 	    stack = true,
     },
-	
+
 	['fishingrod'] = {
 	    label = 'canna da pesca',
 	    weight = 100,
@@ -559,6 +559,13 @@ return {
 
 	['coke'] = {
 		label = 'cocaina',
+		weight = 220,
+		stack = true,
+		consume = 1,
+	},
+
+	['salmon_fillet'] = {
+		label = 'filetto di salmone',
 		weight = 220,
 		stack = true,
 		consume = 1,
