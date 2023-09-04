@@ -16,7 +16,7 @@
 
 
 -- Dump della struttura del database es_extended
-CREATE DATABASE IF NOT EXISTS `es_extended` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+CREATE DATABASE IF NOT EXISTS `es_extended` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `es_extended`;
 
 -- Dump della struttura di tabella es_extended.addon_account
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `addon_account` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.addon_account: ~14 rows (circa)
+-- Dump dei dati della tabella es_extended.addon_account: ~15 rows (circa)
 INSERT INTO `addon_account` (`name`, `label`, `shared`) VALUES
 	('bank_savings', 'Livret Bleu', 0),
 	('caution', 'caution', 0),
@@ -38,6 +38,7 @@ INSERT INTO `addon_account` (`name`, `label`, `shared`) VALUES
 	('society_cardealer', 'Cardealer', 1),
 	('society_driving', 'Driving', 1),
 	('society_dustman', 'Dustman', 1),
+	('society_fisherman', 'Fisherman', 1),
 	('society_import', 'Import', 1),
 	('society_mechanic', 'Mechanic', 1),
 	('society_police', 'Police', 1),
@@ -53,13 +54,13 @@ CREATE TABLE IF NOT EXISTS `addon_account_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_addon_account_data_account_name_owner` (`account_name`,`owner`),
   KEY `index_addon_account_data_account_name` (`account_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella es_extended.addon_account_data: ~16 rows (circa)
 INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(1, 'society_cardealer', 0, NULL),
 	(2, 'society_police', 0, NULL),
-	(4, 'society_mechanic', 0, NULL),
+	(4, 'society_mechanic', 50, NULL),
 	(5, 'society_taxi', 0, NULL),
 	(14, 'society_import', 0, NULL),
 	(16, 'society_ambulance', 0, NULL),
@@ -70,7 +71,8 @@ INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(22, 'society_ballas', 0, NULL),
 	(27, 'society_baker', 0, NULL),
 	(28, 'society_unicorn', 0, NULL),
-	(34, 'society_driving', 0, NULL);
+	(34, 'society_driving', 0, NULL),
+	(35, 'society_fisherman', 0, NULL);
 
 -- Dump della struttura di tabella es_extended.addon_inventory
 CREATE TABLE IF NOT EXISTS `addon_inventory` (
@@ -80,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `addon_inventory` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.addon_inventory: ~0 rows (circa)
+-- Dump dei dati della tabella es_extended.addon_inventory: ~1 rows (circa)
 
 -- Dump della struttura di tabella es_extended.addon_inventory_items
 CREATE TABLE IF NOT EXISTS `addon_inventory_items` (
@@ -133,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `bpt_items` (
   `label` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.bpt_items: ~71 rows (circa)
+-- Dump dei dati della tabella es_extended.bpt_items: ~73 rows (circa)
 INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('bandage', 'benda'),
 	('cottonforbandages', 'cotone per bende'),
@@ -205,7 +207,9 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('deer_meat', 'carne di cervo'),
 	('fry_oil', 'olio per friggere'),
 	('wood', 'Legna'),
-	('choppedwood', 'Assi di legno');
+	('choppedwood', 'Assi di legno'),
+	('salmon_fillet', 'filetto di salmone'),
+	('salmon', 'salmone');
 
 -- Dump della struttura di tabella es_extended.cardealer_vehicles
 CREATE TABLE IF NOT EXISTS `cardealer_vehicles` (
@@ -225,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `datastore` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.datastore: ~15 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore: ~16 rows (circa)
 INSERT INTO `datastore` (`name`, `label`, `shared`) VALUES
 	('property', 'Property', 0),
 	('society_ambulance', 'Ambulance', 1),
@@ -233,6 +237,7 @@ INSERT INTO `datastore` (`name`, `label`, `shared`) VALUES
 	('society_baker', 'Baker', 1),
 	('society_ballas', 'Ballas', 1),
 	('society_dustman', 'Dustman', 1),
+	('society_fisherman', 'Fisherman', 1),
 	('society_import', 'Import', 1),
 	('society_mechanic', 'Mechanic', 1),
 	('society_police', 'Police', 1),
@@ -252,9 +257,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1475 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1632 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~1.460 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~1.617 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -1705,7 +1710,164 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1471, 'property', NULL, '{}'),
 	(1472, 'property', NULL, '{}'),
 	(1473, 'property', NULL, '{}'),
-	(1474, 'property', NULL, '{}');
+	(1474, 'property', NULL, '{}'),
+	(1475, 'property', NULL, '{}'),
+	(1476, 'property', NULL, '{}'),
+	(1477, 'property', NULL, '{}'),
+	(1478, 'property', NULL, '{}'),
+	(1479, 'property', NULL, '{}'),
+	(1480, 'property', NULL, '{}'),
+	(1481, 'property', NULL, '{}'),
+	(1482, 'property', NULL, '{}'),
+	(1483, 'property', NULL, '{}'),
+	(1484, 'property', NULL, '{}'),
+	(1485, 'property', NULL, '{}'),
+	(1486, 'property', NULL, '{}'),
+	(1487, 'property', NULL, '{}'),
+	(1488, 'property', NULL, '{}'),
+	(1489, 'property', NULL, '{}'),
+	(1490, 'property', NULL, '{}'),
+	(1491, 'property', NULL, '{}'),
+	(1492, 'property', NULL, '{}'),
+	(1493, 'property', NULL, '{}'),
+	(1494, 'property', NULL, '{}'),
+	(1495, 'property', NULL, '{}'),
+	(1496, 'property', NULL, '{}'),
+	(1497, 'property', NULL, '{}'),
+	(1498, 'property', NULL, '{}'),
+	(1499, 'property', NULL, '{}'),
+	(1500, 'property', NULL, '{}'),
+	(1501, 'property', NULL, '{}'),
+	(1502, 'property', NULL, '{}'),
+	(1503, 'property', NULL, '{}'),
+	(1504, 'property', NULL, '{}'),
+	(1505, 'property', NULL, '{}'),
+	(1506, 'property', NULL, '{}'),
+	(1507, 'property', NULL, '{}'),
+	(1508, 'property', NULL, '{}'),
+	(1509, 'property', NULL, '{}'),
+	(1510, 'property', NULL, '{}'),
+	(1511, 'property', NULL, '{}'),
+	(1512, 'property', NULL, '{}'),
+	(1513, 'property', NULL, '{}'),
+	(1514, 'property', NULL, '{}'),
+	(1515, 'property', NULL, '{}'),
+	(1516, 'property', NULL, '{}'),
+	(1517, 'property', NULL, '{}'),
+	(1518, 'property', NULL, '{}'),
+	(1519, 'property', NULL, '{}'),
+	(1520, 'property', NULL, '{}'),
+	(1521, 'property', NULL, '{}'),
+	(1522, 'property', NULL, '{}'),
+	(1523, 'property', NULL, '{}'),
+	(1524, 'property', NULL, '{}'),
+	(1525, 'property', NULL, '{}'),
+	(1526, 'property', NULL, '{}'),
+	(1527, 'property', NULL, '{}'),
+	(1528, 'property', NULL, '{}'),
+	(1529, 'property', NULL, '{}'),
+	(1530, 'property', NULL, '{}'),
+	(1531, 'property', NULL, '{}'),
+	(1532, 'property', NULL, '{}'),
+	(1533, 'property', NULL, '{}'),
+	(1534, 'property', NULL, '{}'),
+	(1535, 'property', NULL, '{}'),
+	(1536, 'property', NULL, '{}'),
+	(1537, 'property', NULL, '{}'),
+	(1538, 'property', NULL, '{}'),
+	(1539, 'property', NULL, '{}'),
+	(1540, 'property', NULL, '{}'),
+	(1541, 'property', NULL, '{}'),
+	(1542, 'property', NULL, '{}'),
+	(1543, 'property', NULL, '{}'),
+	(1544, 'property', NULL, '{}'),
+	(1545, 'property', NULL, '{}'),
+	(1546, 'property', NULL, '{}'),
+	(1547, 'property', NULL, '{}'),
+	(1548, 'property', NULL, '{}'),
+	(1549, 'property', NULL, '{}'),
+	(1550, 'property', NULL, '{}'),
+	(1551, 'property', NULL, '{}'),
+	(1552, 'property', NULL, '{}'),
+	(1553, 'property', NULL, '{}'),
+	(1554, 'property', NULL, '{}'),
+	(1555, 'property', NULL, '{}'),
+	(1556, 'property', NULL, '{}'),
+	(1557, 'property', NULL, '{}'),
+	(1558, 'property', NULL, '{}'),
+	(1559, 'property', NULL, '{}'),
+	(1560, 'property', NULL, '{}'),
+	(1561, 'property', NULL, '{}'),
+	(1562, 'property', NULL, '{}'),
+	(1563, 'property', NULL, '{}'),
+	(1564, 'property', NULL, '{}'),
+	(1565, 'property', NULL, '{}'),
+	(1566, 'property', NULL, '{}'),
+	(1567, 'property', NULL, '{}'),
+	(1568, 'property', NULL, '{}'),
+	(1569, 'property', NULL, '{}'),
+	(1570, 'property', NULL, '{}'),
+	(1571, 'property', NULL, '{}'),
+	(1572, 'property', NULL, '{}'),
+	(1573, 'property', NULL, '{}'),
+	(1574, 'property', NULL, '{}'),
+	(1575, 'property', NULL, '{}'),
+	(1576, 'property', NULL, '{}'),
+	(1577, 'property', NULL, '{}'),
+	(1578, 'property', NULL, '{}'),
+	(1579, 'property', NULL, '{}'),
+	(1580, 'property', NULL, '{}'),
+	(1581, 'property', NULL, '{}'),
+	(1582, 'property', NULL, '{}'),
+	(1583, 'property', NULL, '{}'),
+	(1584, 'property', NULL, '{}'),
+	(1585, 'property', NULL, '{}'),
+	(1586, 'property', NULL, '{}'),
+	(1587, 'property', NULL, '{}'),
+	(1588, 'property', NULL, '{}'),
+	(1589, 'property', NULL, '{}'),
+	(1590, 'property', NULL, '{}'),
+	(1591, 'property', NULL, '{}'),
+	(1592, 'property', NULL, '{}'),
+	(1593, 'property', NULL, '{}'),
+	(1594, 'property', NULL, '{}'),
+	(1595, 'property', NULL, '{}'),
+	(1596, 'property', NULL, '{}'),
+	(1597, 'property', NULL, '{}'),
+	(1598, 'property', NULL, '{}'),
+	(1599, 'property', NULL, '{}'),
+	(1600, 'property', NULL, '{}'),
+	(1601, 'property', NULL, '{}'),
+	(1602, 'property', NULL, '{}'),
+	(1603, 'property', NULL, '{}'),
+	(1604, 'property', NULL, '{}'),
+	(1605, 'property', NULL, '{}'),
+	(1606, 'property', NULL, '{}'),
+	(1607, 'property', NULL, '{}'),
+	(1608, 'property', NULL, '{}'),
+	(1609, 'property', NULL, '{}'),
+	(1610, 'property', NULL, '{}'),
+	(1611, 'property', NULL, '{}'),
+	(1612, 'property', NULL, '{}'),
+	(1613, 'property', NULL, '{}'),
+	(1614, 'property', NULL, '{}'),
+	(1615, 'property', NULL, '{}'),
+	(1616, 'property', NULL, '{}'),
+	(1617, 'property', NULL, '{}'),
+	(1618, 'society_fisherman', NULL, '\'{}\''),
+	(1619, 'property', NULL, '{}'),
+	(1620, 'property', NULL, '{}'),
+	(1621, 'property', NULL, '{}'),
+	(1622, 'property', NULL, '{}'),
+	(1623, 'property', NULL, '{}'),
+	(1624, 'property', NULL, '{}'),
+	(1625, 'property', NULL, '{}'),
+	(1626, 'property', NULL, '{}'),
+	(1627, 'property', NULL, '{}'),
+	(1628, 'property', NULL, '{}'),
+	(1629, 'property', NULL, '{}'),
+	(1630, 'property', NULL, '{}'),
+	(1631, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -1791,7 +1953,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.jobs: ~14 rows (circa)
+-- Dump dei dati della tabella es_extended.jobs: ~15 rows (circa)
 INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 	('ambulance', 'EMS', 1),
 	('ammu', 'Armeria', 1),
@@ -1799,8 +1961,9 @@ INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 	('ballas', 'Ballas', 1),
 	('cardealer', 'Cardealer', 1),
 	('delivery', 'Delivery', 0),
-	('driving', 'Driving School', 0),
+	('driving', 'Driving School', 1),
 	('dustman', 'Dustman', 1),
+	('fisherman', 'Fisherman', 1),
 	('import', 'Import', 1),
 	('mechanic', 'Mechanic', 1),
 	('police', 'LSPD', 1),
@@ -1819,10 +1982,11 @@ CREATE TABLE IF NOT EXISTS `job_grades` (
   `skin_male` longtext NOT NULL,
   `skin_female` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.job_grades: ~60 rows (circa)
+-- Dump dei dati della tabella es_extended.job_grades: ~66 rows (circa)
 INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, `skin_male`, `skin_female`) VALUES
+	(1, 'unemployed', 0, 'unemployed', 'Unemployed', 200, '{}', '{}'),
 	(2, 'police', 0, 'recruit', 'Recrue', 20, '{}', '{}'),
 	(3, 'police', 1, 'officer', 'Officier', 40, '{}', '{}'),
 	(4, 'police', 2, 'sergeant', 'Sergent', 60, '{}', '{}'),
@@ -1882,7 +2046,12 @@ INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, 
 	(99, 'driving', 1, 'carinstr', 'Car Instructor', 70, '{}', '{}'),
 	(100, 'driving', 2, 'truckinstr', 'Truck Instructor', 120, '{}', '{}'),
 	(101, 'driving', 3, 'examiner', 'Examiner', 200, '{}', '{}'),
-	(102, 'driving', 4, 'boss', 'Boss', 350, '{}', '{}');
+	(102, 'driving', 4, 'boss', 'Boss', 350, '{}', '{}'),
+	(103, 'fisherman', 0, 'ontrial', 'in prova', 12, '{"hair_2":0,"hair_color_2":0,"torso_1":32,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":31,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":0,"age_2":0,"glasses_2":0,"ears_2":0,"arms":27,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
+	(104, 'fisherman', 1, 'employee', 'dipendente', 24, '{"hair_2":0,"hair_color_2":0,"torso_1":32,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":31,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":0,"age_2":0,"glasses_2":0,"ears_2":0,"arms":27,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
+	(105, 'fisherman', 2, 'driver', 'autista', 36, '{"hair_2":0,"hair_color_2":0,"torso_1":26,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":57,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":4,"age_2":0,"glasses_2":0,"ears_2":0,"arms":11,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":0,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
+	(106, 'fisherman', 3, 'responsible', 'responsabile', 48, '{"hair_2":0,"hair_color_2":0,"torso_1":26,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":57,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":4,"age_2":0,"glasses_2":0,"ears_2":0,"arms":11,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":0,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
+	(107, 'fisherman', 4, 'boss', 'Direttore', 0, '{"hair_2":0,"hair_color_2":0,"torso_1":29,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":31,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":4,"age_2":0,"glasses_2":0,"ears_2":0,"arms":1,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":0,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":4,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}');
 
 -- Dump della struttura di tabella es_extended.licenses
 CREATE TABLE IF NOT EXISTS `licenses` (
@@ -1925,6 +2094,20 @@ CREATE TABLE IF NOT EXISTS `npwd_calls` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella es_extended.npwd_calls: ~0 rows (circa)
+
+-- Dump della struttura di tabella es_extended.npwd_crypto_transactions
+CREATE TABLE IF NOT EXISTS `npwd_crypto_transactions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `identifier` varchar(46) DEFAULT NULL,
+  `type` varchar(20) DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `worth` float DEFAULT NULL,
+  `sentTo` varchar(20) DEFAULT NULL,
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dump dei dati della tabella es_extended.npwd_crypto_transactions: ~9 rows (circa)
 
 -- Dump della struttura di tabella es_extended.npwd_darkchat_channels
 CREATE TABLE IF NOT EXISTS `npwd_darkchat_channels` (
@@ -2279,7 +2462,7 @@ CREATE TABLE IF NOT EXISTS `ox_inventory` (
   UNIQUE KEY `owner` (`owner`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.ox_inventory: ~4 rows (circa)
+-- Dump dei dati della tabella es_extended.ox_inventory: ~6 rows (circa)
 
 -- Dump della struttura di tabella es_extended.rented_vehicles
 CREATE TABLE IF NOT EXISTS `rented_vehicles` (
@@ -2359,7 +2542,7 @@ CREATE TABLE IF NOT EXISTS `uteknark1` (
   `soil` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `stage` (`stage`,`time`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella es_extended.uteknark1: ~0 rows (circa)
 
