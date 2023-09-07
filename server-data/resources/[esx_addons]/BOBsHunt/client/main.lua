@@ -2,9 +2,7 @@ ESX = nil
 CreateThread(function()
     while ESX == nil do
         Wait(5)
-		ESX = exports["es_extended"]:getSharedObject(), function(library)
-			ESX = library
-		end
+		ESX = exports["es_extended"]:getSharedObject()
     end
     if ESX.IsPlayerLoaded() then
 		ESX.PlayerData = ESX.GetPlayerData()
@@ -34,11 +32,11 @@ CreateThread(function()
 			local pos = GetEntityCoords(ped)
 			local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerpos.x, playerpos.y, playerpos.z, true)
 			if distance < 2 and CanSlaughterPed(ped) then
-			drawText3D(pos.x, pos.y, pos.z + 0.6, '⚙️')		
+			drawText3D(pos.x, pos.y, pos.z + 0.6, '⚙️')	
             while IsControlPressed(0, 38) do
 			drawText3D(pos.x, pos.y, pos.z + 0.5, '[H] ~b~Skin Animal~s~')
 			break
-				end	
+				end
 					if IsControlJustPressed(1,74) then
 						if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey('WEAPON_KNIFE') then
 						oldped = ped
@@ -94,19 +92,19 @@ CreateThread(function()
 									local p_name = 'Rabbit meat'
 									TriggerServerEvent('esx_bobhunt:getPelt', item,  p_name)
 								end
-						
+
 						Wait(10)
 						SetPedAsNoLongerNeeded(oldped)
 						if DoesEntityExist(ped) then
-						DeleteEntity(ped)
-						end						
+						  DeleteEntity(ped)
+						end
 						Wait(1000)
 						break
 					else
 					ESX.showNotification(_U('knife_uses'))
 					end
 					end
-				end	
+				end
 		until not success
 		EndFindPed(handle)
 	end
