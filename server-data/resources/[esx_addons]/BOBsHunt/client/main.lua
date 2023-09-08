@@ -70,27 +70,27 @@ CreateThread(function()
 						Wait(5000)
 
 						ClearPedTasks(PlayerPedId())
-								if GetEntityModel(ped) == GetHashKey("a_c_boar") then
-									local item = 'boar_meat'
-									local p_name = 'boar meat'
-									TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
-								elseif GetEntityModel(ped) == GetHashKey("a_c_mtlion") then
-									local item = 'pelt_mtnlion'
-									local p_name = 'Mountain Lion pelt'
-									TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
-								elseif GetEntityModel(ped) == GetHashKey("a_c_deer") then
-									local item = 'deer_meat'
-									local p_name = 'deer meat'
-									TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
-								elseif GetEntityModel(ped) == GetHashKey("a_c_coyote") then
-									local item = 'pelt_coyote'
-									local p_name = 'Coyote pelt'
-									TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
-								elseif GetEntityModel(ped) == GetHashKey("a_c_rabbit_01") then
-									local item = 'rabbit_meat'
-									local p_name = 'Rabbit meat'
-									TriggerServerEvent('esx_bobhunt:getPelt', item,  p_name)
-								end
+						if GetEntityModel(ped) == GetHashKey("a_c_boar") then
+							local item = 'boar_meat'
+							local p_name = 'boar meat'
+							TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
+						elseif GetEntityModel(ped) == GetHashKey("a_c_mtlion") then
+							local item = 'pelt_mtnlion'
+							local p_name = 'Mountain Lion pelt'
+							TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
+						elseif GetEntityModel(ped) == GetHashKey("a_c_deer") then
+							local item = 'deer_meat'
+							local p_name = 'deer meat'
+							TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
+						elseif GetEntityModel(ped) == GetHashKey("a_c_coyote") then
+							local item = 'pelt_coyote'
+							local p_name = 'Coyote pelt'
+							TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
+						elseif GetEntityModel(ped) == GetHashKey("a_c_rabbit_01") then
+							local item = 'rabbit_meat'
+							local p_name = 'Rabbit meat'
+							TriggerServerEvent('esx_bobhunt:getPelt', item,  p_name)
+						end
 
 						Wait(10)
 						SetPedAsNoLongerNeeded(oldped)
@@ -109,6 +109,7 @@ CreateThread(function()
 	end
 end)
 
+local oldped
 function CanSlaughterPed(ped)
 	if not IsPedAPlayer(ped) and not IsPedInAnyVehicle(ped,false) and not IsPedHuman(ped) and IsEntityDead(ped) and ped ~= oldped and GetEntityModel(ped) == GetHashKey("a_c_boar") or GetEntityModel(ped) == GetHashKey("a_c_coyote") or GetEntityModel(ped) == GetHashKey("a_c_deer") or GetEntityModel(ped) == GetHashKey("a_c_mtlion") or GetEntityModel(ped) == GetHashKey("a_c_rabbit_01") then
 		return true
