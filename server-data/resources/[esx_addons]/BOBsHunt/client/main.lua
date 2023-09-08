@@ -32,78 +32,78 @@ CreateThread(function()
 			if distance < 2 and CanSlaughterPed(ped) then
 			drawText3D(pos.x, pos.y, pos.z + 0.6, '⚙️ [H] ~b~Skin Animal~s~')
 			while IsControlPressed(0, 38) do
-			break
-				end
-					if IsControlJustPressed(1,74) then
-						if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey('WEAPON_KNIFE') then
-						local oldped = ped
-						SetEntityHeading(ped,GetHeadingFromVector_2d(pos.x-playerpos.x,pos.y-playerpos.y)+180)
-						SetEntityHeading(oPlayer,GetHeadingFromVector_2d(pos.x-playerpos.x,pos.y-playerpos.y))
-						exports.rprogress:Custom({
-							Async = true,
-							x = 0.5,
-							y = 0.5,
-							From = 0,
-							To = 100,
-							Duration = 5000,
-							Radius = 60,
-							Stroke = 10,
-							MaxAngle = 360,
-							Rotation = 0,
-							Easing = "easeLinear",
-							Label = "SKINNING",
-							LabelPosition = "right",
-							Color = "rgba(255, 255, 255, 1.0)",
-							BGColor = "rgba(107, 109, 110, 0.95)",
-							Animation = {
-							--scenario = "CODE_HUMAN_MEDIC_TEND_TO_DEAD", -- https://pastebin.com/6mrYTdQv
-							animationDictionary = "anim@heists@narcotics@funding@gang_idle", -- https://alexguirre.github.io/animations-list/
-							animationName = "gang_chatting_idle01",
-							},
+				break
+			end
+				if IsControlJustPressed(1,74) then
+					if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey('WEAPON_KNIFE') then
+					local oldped = ped
+					SetEntityHeading(ped,GetHeadingFromVector_2d(pos.x-playerpos.x,pos.y-playerpos.y)+180)
+					SetEntityHeading(oPlayer,GetHeadingFromVector_2d(pos.x-playerpos.x,pos.y-playerpos.y))
+					exports.rprogress:Custom({
+						Async = true,
+						x = 0.5,
+						y = 0.5,
+						From = 0,
+						To = 100,
+						Duration = 5000,
+						Radius = 60,
+						Stroke = 10,
+						MaxAngle = 360,
+						Rotation = 0,
+						Easing = "easeLinear",
+						Label = "SKINNING",
+						LabelPosition = "right",
+						Color = "rgba(255, 255, 255, 1.0)",
+						BGColor = "rgba(107, 109, 110, 0.95)",
+						Animation = {
+						--scenario = "CODE_HUMAN_MEDIC_TEND_TO_DEAD", -- https://pastebin.com/6mrYTdQv
+						animationDictionary = "anim@heists@narcotics@funding@gang_idle", -- https://alexguirre.github.io/animations-list/
+						animationName = "gang_chatting_idle01",
+						},
 
-							DisableControls = {
-								Mouse = false,
-								Player = true,
-								Vehicle = true
-							},
-							})
-						Wait(5000)
+						DisableControls = {
+							Mouse = false,
+							Player = true,
+							Vehicle = true
+						},
+						})
+					Wait(5000)
 
-						ClearPedTasks(PlayerPedId())
-						if GetEntityModel(ped) == GetHashKey("a_c_boar") then
-							local item = 'boar_meat'
-							local p_name = 'boar meat'
-							TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
-						elseif GetEntityModel(ped) == GetHashKey("a_c_mtlion") then
-							local item = 'pelt_mtnlion'
-							local p_name = 'Mountain Lion pelt'
-							TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
-						elseif GetEntityModel(ped) == GetHashKey("a_c_deer") then
-							local item = 'deer_meat'
-							local p_name = 'deer meat'
-							TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
-						elseif GetEntityModel(ped) == GetHashKey("a_c_coyote") then
-							local item = 'pelt_coyote'
-							local p_name = 'Coyote pelt'
-							TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
-						elseif GetEntityModel(ped) == GetHashKey("a_c_rabbit_01") then
-							local item = 'rabbit_meat'
-							local p_name = 'Rabbit meat'
-							TriggerServerEvent('esx_bobhunt:getPelt', item,  p_name)
-						end
-
-						Wait(10)
-						SetPedAsNoLongerNeeded(oldped)
-						if DoesEntityExist(ped) then
-						  DeleteEntity(ped)
-						end
-						Wait(1000)
-						break
-					else
-					  ESX.showNotification(_U('knife_uses'))
+					ClearPedTasks(PlayerPedId())
+					if GetEntityModel(ped) == GetHashKey("a_c_boar") then
+						local item = 'boar_meat'
+						local p_name = 'boar meat'
+						TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
+					elseif GetEntityModel(ped) == GetHashKey("a_c_mtlion") then
+						local item = 'pelt_mtnlion'
+						local p_name = 'Mountain Lion pelt'
+						TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
+					elseif GetEntityModel(ped) == GetHashKey("a_c_deer") then
+						local item = 'deer_meat'
+						local p_name = 'deer meat'
+						TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
+					elseif GetEntityModel(ped) == GetHashKey("a_c_coyote") then
+						local item = 'pelt_coyote'
+						local p_name = 'Coyote pelt'
+						TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
+					elseif GetEntityModel(ped) == GetHashKey("a_c_rabbit_01") then
+						local item = 'rabbit_meat'
+						local p_name = 'Rabbit meat'
+						TriggerServerEvent('esx_bobhunt:getPelt', item,  p_name)
 					end
+
+					Wait(10)
+					SetPedAsNoLongerNeeded(oldped)
+					if DoesEntityExist(ped) then
+					  DeleteEntity(ped)
 					end
+					Wait(1000)
+					break
+				else
+				  ESX.showNotification(_U('knife_uses'))
 				end
+				end
+			end
 		until not success
 		EndFindPed(handle)
 	end

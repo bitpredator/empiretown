@@ -1,7 +1,6 @@
 drawText3D = function(x, y, z, text)
 	local onScreen, _x, _y = World3dToScreen2d(x,y,z)
 	local _, _, _ = table.unpack(GetGameplayCamCoords())
-
 	local scale = 0.30
 
 	if onScreen then
@@ -15,6 +14,5 @@ drawText3D = function(x, y, z, text)
 		AddTextComponentString(text)
         DrawText(_x,_y)
         local _ = (string.len(text)) / 650
-        --DrawRect(_x, _y + 0.0120, 0.030 + factor , 0.030, 66, 66, 66, 100)
 	end
 end
