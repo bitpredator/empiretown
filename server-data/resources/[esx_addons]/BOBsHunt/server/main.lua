@@ -1,8 +1,5 @@
 ESX = nil
-
-ESX = exports["es_extended"]:getSharedObject(), function(response)
-    ESX = response
-end
+ESX = exports["es_extended"]:getSharedObject()
 
 RegisterServerEvent('esx_bobhunt:getPelt')
 AddEventHandler('esx_bobhunt:getPelt', function(item, p_name)
