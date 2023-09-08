@@ -30,9 +30,8 @@ CreateThread(function()
 			local pos = GetEntityCoords(ped)
 			local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerpos.x, playerpos.y, playerpos.z, true)
 			if distance < 2 and CanSlaughterPed(ped) then
-			drawText3D(pos.x, pos.y, pos.z + 0.6, '⚙️')
-            while IsControlPressed(0, 38) do
-			drawText3D(pos.x, pos.y, pos.z + 0.5, '[H] ~b~Skin Animal~s~')
+			drawText3D(pos.x, pos.y, pos.z + 0.6, '⚙️ [H] ~b~Skin Animal~s~')
+			while IsControlPressed(0, 38) do
 			break
 				end
 					if IsControlJustPressed(1,74) then
@@ -41,33 +40,35 @@ CreateThread(function()
 						SetEntityHeading(ped,GetHeadingFromVector_2d(pos.x-playerpos.x,pos.y-playerpos.y)+180)
 						SetEntityHeading(oPlayer,GetHeadingFromVector_2d(pos.x-playerpos.x,pos.y-playerpos.y))
 						exports.rprogress:Custom({
-								Async = true,
-								x = 0.5,
-								y = 0.5,
-								From = 0,
-								To = 100,
-								Duration = 5000,
-								Radius = 60,
-								Stroke = 10,
-								MaxAngle = 360,
-								Rotation = 0,
-								Easing = "easeLinear",
-								Label = "SKINNING",
-								LabelPosition = "right",
-								Color = "rgba(255, 255, 255, 1.0)",
-								BGColor = "rgba(107, 109, 110, 0.95)",
-								Animation = {
-								--scenario = "CODE_HUMAN_MEDIC_TEND_TO_DEAD", -- https://pastebin.com/6mrYTdQv
-								animationDictionary = "anim@heists@narcotics@funding@gang_idle", -- https://alexguirre.github.io/animations-list/
-								animationName = "gang_chatting_idle01",
-								},
-								DisableControls = {
+							Async = true,
+							x = 0.5,
+							y = 0.5,
+							From = 0,
+							To = 100,
+							Duration = 5000,
+							Radius = 60,
+							Stroke = 10,
+							MaxAngle = 360,
+							Rotation = 0,
+							Easing = "easeLinear",
+							Label = "SKINNING",
+							LabelPosition = "right",
+							Color = "rgba(255, 255, 255, 1.0)",
+							BGColor = "rgba(107, 109, 110, 0.95)",
+							Animation = {
+							--scenario = "CODE_HUMAN_MEDIC_TEND_TO_DEAD", -- https://pastebin.com/6mrYTdQv
+							animationDictionary = "anim@heists@narcotics@funding@gang_idle", -- https://alexguirre.github.io/animations-list/
+							animationName = "gang_chatting_idle01",
+							},
+
+							DisableControls = {
 								Mouse = false,
 								Player = true,
 								Vehicle = true
-								},
-								})
+							},
+							})
 						Wait(5000)
+
 						ClearPedTasks(PlayerPedId())
 								if GetEntityModel(ped) == GetHashKey("a_c_boar") then
 									local item = 'boar_meat'
