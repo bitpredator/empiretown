@@ -126,7 +126,7 @@ function OpenLSMenu(elems, menuName, menuTitle, parent)
 
         if parent == nil then
             lsMenuIsShowed = false
-            local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+            local _ = GetVehiclePedIsIn(PlayerPedId(), false)
             FreezeEntityPosition(vehicle, false)
             TriggerServerEvent('esx_lscustom:stopModing', myCar.plate)
             myCar = {}
@@ -263,28 +263,28 @@ function GetAction(data)
 
                 if v.modType == 14 then -- HORNS
                     for j = 0, 51, 1 do
-                        local _label = ''
+                        local _label
                         if j == currentMods.modHorns then
                             _label = GetHornName(j) .. ' - <span style="color:cornflowerblue;">' .. _U('installed') ..
                                          '</span>'
                         else
-                            price = math.floor(vehiclePrice * v.price / 100)
+                         local price = math.floor(vehiclePrice * v.price / 100)
                             _label = GetHornName(j) .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         end
                         elements[#elements + 1] = {
                             label = _label,
                             modType = k,
                             modNum = j
-                       }
+                        }
                     end
                 elseif v.modType == 'plateIndex' then -- PLATES
                     for j = 0, 4, 1 do
-                        local _label = ''
+                        local _label
                         if j == currentMods.plateIndex then
                             _label = GetPlatesName(j) .. ' - <span style="color:cornflowerblue;">' .. _U('installed') ..
                                          '</span>'
                         else
-                            price = math.floor(vehiclePrice * v.price / 100)
+                         local price = math.floor(vehiclePrice * v.price / 100)
                             _label = GetPlatesName(j) .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         end
                         elements[#elements + 1] = {
@@ -308,7 +308,7 @@ function GetAction(data)
                    }
                 elseif v.modType == 'xenonColor' then -- XENON COLOR
                     local xenonColors = GetXenonColors()
-                    price = math.floor(vehiclePrice * v.price / 100)
+                    local price = math.floor(vehiclePrice * v.price / 100)
                     for i = 1, #xenonColors, 1 do
                         elements[#elements + 1] = {
                             label = xenonColors[i].label .. ' - <span style="color:green;">$' .. price .. '</span>',
@@ -332,13 +332,13 @@ function GetAction(data)
                     local colors = GetColors(data.color)
                     for j = 1, #colors, 1 do
                         local _label = ''
-                        price = math.floor(vehiclePrice * v.price / 100)
+                        local price = math.floor(vehiclePrice * v.price / 100)
                         _label = colors[j].label .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         elements[#elements + 1] = {
                             label = _label,
                             modType = k,
                             modNum = colors[j].index
-                       }
+                        }
                     end
                 elseif v.modType == 'windowTint' then -- WINDOWS TINT
                     for j = 1, 5, 1 do
@@ -347,14 +347,14 @@ function GetAction(data)
                             _label = GetWindowName(j) .. ' - <span style="color:cornflowerblue;">' .. _U('installed') ..
                                          '</span>'
                         else
-                            price = math.floor(vehiclePrice * v.price / 100)
+                            local price = math.floor(vehiclePrice * v.price / 100)
                             _label = GetWindowName(j) .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         end
                         elements[#elements + 1] = {
                             label = _label,
                             modType = k,
                             modNum = j
-                       }
+                        }
                     end
                 elseif v.modType == 23 then -- WHEELS RIM & TYPE
                     local props = {}
@@ -381,7 +381,7 @@ function GetAction(data)
                                 modNum = j,
                                 wheelType = v.wheelType,
                                 price = v.price
-                           }
+                            }
                         end
                     end
                 elseif v.modType == 11 or v.modType == 12 or v.modType == 13 or v.modType == 15 or v.modType == 16 then
@@ -394,7 +394,7 @@ function GetAction(data)
                                 _U('level', j + 1) .. ' - <span style="color:cornflowerblue;">' .. _U('installed') ..
                                     '</span>'
                         else
-                            price = math.floor(vehiclePrice * v.price[j + 1] / 100)
+                            local price = math.floor(vehiclePrice * v.price[j + 1] / 100)
                             _label = _U('level', j + 1) .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         end
                         elements[#elements + 1] = {
@@ -430,7 +430,7 @@ function GetAction(data)
                                 _label = GetLabelText(modName) .. ' - <span style="color:cornflowerblue;">' ..
                                              _U('installed') .. '</span>'
                             else
-                                price = math.floor(vehiclePrice * v.price / 100)
+                                local price = math.floor(vehiclePrice * v.price / 100)
                                 _label = GetLabelText(modName) .. ' - <span style="color:green;">$' .. price ..
                                              ' </span>'
                             end

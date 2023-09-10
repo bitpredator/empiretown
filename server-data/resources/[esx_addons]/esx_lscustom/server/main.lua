@@ -22,7 +22,7 @@ AddEventHandler('esx:playerDropped', function(src)
     src = tostring(src)
 	local playersCount = #GetPlayers()
     if Customs[src] then
-        for k, v in pairs(Customs[src]) do
+        for _, v in pairs(Customs[src]) do
             local entity = NetworkGetEntityFromNetworkId(v.netId)
             if DoesEntityExist(entity) then
                 if playersCount > 0 then
@@ -108,7 +108,7 @@ RegisterNetEvent('esx_lscustom:refreshOwnedVehicle', function(vehicleProps, netI
 	end)
 end)
 
-ESX.RegisterServerCallback('esx_lscustom:getVehiclesPrices', function(source, cb)
+ESX.RegisterServerCallback('esx_lscustom:getVehiclesPrices', function(_, cb)
 	if not Vehicles then
 		Vehicles = MySQL.query.await('SELECT model, price FROM vehicles')
 	end
