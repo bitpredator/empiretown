@@ -294,11 +294,11 @@ function GetAction(data)
                         }
                     end
                 elseif v.modType == 22 then -- NEON
-                    local _label = ''
+                    local _label
                     if currentMods.modXenon then
                         _label = _U('neon') .. ' - <span style="color:cornflowerblue;">' .. _U('installed') .. '</span>'
                     else
-                        price = math.floor(vehiclePrice * v.price / 100)
+                        local price = math.floor(vehiclePrice * v.price / 100)
                         _label = _U('neon') .. ' - <span style="color:green;">$' .. price .. ' </span>'
                     end
                     elements[#elements + 1] = {
@@ -318,7 +318,7 @@ function GetAction(data)
                     end
                 elseif v.modType == 'neonColor' or v.modType == 'tyreSmokeColor' then -- NEON & SMOKE COLOR
                     local neons = GetNeons()
-                    price = math.floor(vehiclePrice * v.price / 100)
+                    local price = math.floor(vehiclePrice * v.price / 100)
                     for i = 1, #neons, 1 do
                         elements[#elements + 1] = {
                             label = '<span style="color:rgb(' .. neons[i].r .. ',' .. neons[i].g .. ',' .. neons[i].b ..
@@ -331,7 +331,7 @@ function GetAction(data)
                     'wheelColor' then -- RESPRAYS
                     local colors = GetColors(data.color)
                     for j = 1, #colors, 1 do
-                        local _label = ''
+                        local _label
                         local price = math.floor(vehiclePrice * v.price / 100)
                         _label = colors[j].label .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         elements[#elements + 1] = {
@@ -342,7 +342,7 @@ function GetAction(data)
                     end
                 elseif v.modType == 'windowTint' then -- WINDOWS TINT
                     for j = 1, 5, 1 do
-                        local _label = ''
+                        local _label
                         if j == currentMods.modHorns then
                             _label = GetWindowName(j) .. ' - <span style="color:cornflowerblue;">' .. _U('installed') ..
                                          '</span>'
@@ -366,12 +366,12 @@ function GetAction(data)
                     for j = 0, modCount, 1 do
                         local modName = GetModTextLabel(vehicle, v.modType, j)
                         if modName then
-                            local _label = ''
+                            local _label
                             if j == currentMods.modFrontWheels then
                                 _label = GetLabelText(modName) .. ' - <span style="color:cornflowerblue;">' ..
                                              _U('installed') .. '</span>'
                             else
-                                price = math.floor(vehiclePrice * v.price / 100)
+                                local price = math.floor(vehiclePrice * v.price / 100)
                                 _label = GetLabelText(modName) .. ' - <span style="color:green;">$' .. price ..
                                              ' </span>'
                             end
@@ -388,7 +388,7 @@ function GetAction(data)
                     SetVehicleModKit(vehicle, 0)
                     local modCount = GetNumVehicleMods(vehicle, v.modType) -- UPGRADES
                     for j = 0, modCount, 1 do
-                        local _label = ''
+                        local _label
                         if j == currentMods[k] then
                             _label =
                                 _U('level', j + 1) .. ' - <span style="color:cornflowerblue;">' .. _U('installed') ..
@@ -407,7 +407,7 @@ function GetAction(data)
                         end
                     end
                 elseif v.modType == 17 then -- TURBO
-                    local _label = ''
+                    local _label
                     if currentMods[k] then
                         _label = 'Turbo - <span style="color:cornflowerblue;">' .. _U('installed') .. '</span>'
                     else
@@ -425,7 +425,7 @@ function GetAction(data)
                     for j = 0, modCount, 1 do
                         local modName = GetModTextLabel(vehicle, v.modType, j)
                         if modName then
-                            local _label = ''
+                            local _label
                             if j == currentMods[k] then
                                 _label = GetLabelText(modName) .. ' - <span style="color:cornflowerblue;">' ..
                                              _U('installed') .. '</span>'
@@ -548,7 +548,7 @@ CreateThread(function()
                                 -- Prevent Free Tunning Bug
                                 CreateThread(function()
                                     while true do
-                                        local Sleep = 1000
+                                        local _ = 1000
                                         if lsMenuIsShowed then
                                             Sleep = 0
                                             DisableControlAction(2, 288, true)
