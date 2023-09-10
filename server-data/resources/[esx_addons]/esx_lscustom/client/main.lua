@@ -1,5 +1,5 @@
 local Vehicles, myCar = {}, {}
-local lsMenuIsShowed, HintDisplayed, isInLSMarker = false, false, false
+local lsMenuIsShowed, HintDisplayed = false, false
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function()
@@ -82,6 +82,7 @@ function OpenLSMenu(elems, menuName, menuTitle, parent)
                     TriggerServerEvent('esx_lscustom:refreshOwnedVehicle', myCar, NetworkGetNetworkIdFromEntity(vehicle))
                 else
                     local vehiclePrice = 50000
+                    local price
 
                     for i = 1, #Vehicles, 1 do
                         if GetEntityModel(vehicle) == joaat(Vehicles[i].model) then
@@ -89,7 +90,7 @@ function OpenLSMenu(elems, menuName, menuTitle, parent)
                             break
                         end
                     end
-                    
+
                     if isRimMod then
                         price = math.floor(vehiclePrice * data.current.price / 100)
                         TriggerServerEvent('esx_lscustom:buyMod', price)
@@ -115,7 +116,7 @@ function OpenLSMenu(elems, menuName, menuTitle, parent)
         if not found then
             GetAction(data.current)
         end
-    end, function(data, menu) -- on cancel
+    end, function(_, menu) -- on cancel
         menu.close()
         TriggerEvent('esx_lscustom:cancelInstallMod')
 
@@ -130,7 +131,7 @@ function OpenLSMenu(elems, menuName, menuTitle, parent)
             TriggerServerEvent('esx_lscustom:stopModing', myCar.plate)
             myCar = {}
         end
-    end, function(data, menu) -- on change
+    end, function(data) -- on change
         UpdateMods(data.current)
     end)
 end
@@ -223,13 +224,13 @@ function GetAction(data)
                         label = " " .. _U('by_default'),
                         modType = k,
                         modNum = false
-                   }
+                    }
                 elseif v.modType == 'neonColor' or v.modType == 'tyreSmokeColor' then -- disable neon
                     elements[#elements + 1] = {
                         label = " " .. _U('by_default'),
                         modType = k,
                         modNum = {0, 0, 0}
-                   }
+                    }
                 elseif v.modType == 'color1' or v.modType == 'color2' or v.modType == 'pearlescentColor' or v.modType ==
                     'wheelColor' then
                     local num = myCar[v.modType]
@@ -237,13 +238,13 @@ function GetAction(data)
                         label = " " .. _U('by_default'),
                         modType = k,
                         modNum = num
-                   }
+                    }
                 elseif v.modType == 17 then
                     elements[#elements + 1] = {
                         label = " " .. _U('no_turbo'),
                         modType = k,
                         modNum = false
-                   }
+                    }
                 elseif v.modType == 23 then
                     elements[#elements + 1] = {
                         label = " " .. _U('by_default'),
@@ -251,13 +252,13 @@ function GetAction(data)
                         modNum = -1,
                         wheelType = -1,
                         price = Config.DefaultWheelsPriceMultiplier
-                   }
+                    }
                 else
                     elements[#elements + 1] = {
                         label = " " .. _U('by_default'),
                         modType = k,
                         modNum = -1
-                   }
+                    }
                 end
 
                 if v.modType == 14 then -- HORNS
@@ -313,7 +314,7 @@ function GetAction(data)
                             label = xenonColors[i].label .. ' - <span style="color:green;">$' .. price .. '</span>',
                             modType = k,
                             modNum = xenonColors[i].index
-                       }
+                        }
                     end
                 elseif v.modType == 'neonColor' or v.modType == 'tyreSmokeColor' then -- NEON & SMOKE COLOR
                     local neons = GetNeons()
@@ -324,7 +325,7 @@ function GetAction(data)
                                 ');">' .. neons[i].label .. ' - <span style="color:green;">$' .. price .. '</span>',
                             modType = k,
                             modNum = {neons[i].r, neons[i].g, neons[i].b}
-                       }
+                        }
                     end
                 elseif v.modType == 'color1' or v.modType == 'color2' or v.modType == 'pearlescentColor' or v.modType ==
                     'wheelColor' then -- RESPRAYS
@@ -400,7 +401,7 @@ function GetAction(data)
                             label = _label,
                             modType = k,
                             modNum = j
-                       }
+                        }
                         if j == modCount - 1 then
                             break
                         end
@@ -418,7 +419,7 @@ function GetAction(data)
                         label = _label,
                         modType = k,
                         modNum = true
-                   }
+                    }
                 else
                     local modCount = GetNumVehicleMods(vehicle, v.modType) -- BODYPARTS
                     for j = 0, modCount, 1 do
@@ -437,7 +438,7 @@ function GetAction(data)
                                 label = _label,
                                 modType = k,
                                 modNum = j
-                           }
+                            }
                         end
                     end
                 end
@@ -450,19 +451,19 @@ function GetAction(data)
                                 label = Config.Colors[i].label,
                                 value = 'color1',
                                 color = Config.Colors[i].value
-                           }
+                            }
                         elseif data.value == 'secondaryRespray' then
                             elements[#elements + 1] = {
                                 label = Config.Colors[i].label,
                                 value = 'color2',
                                 color = Config.Colors[i].value
-                           }
+                            }
                         elseif data.value == 'pearlescentRespray' then
                             elements[#elements + 1] = {
                                 label = Config.Colors[i].label,
                                 value = 'pearlescentColor',
                                 color = Config.Colors[i].value
-                           }
+                            }
                         elseif data.value == 'modFrontWheelsColor' then
                             elements[#elements + 1] = {
                                 label = Config.Colors[i].label,
@@ -477,7 +478,7 @@ function GetAction(data)
                             elements[#elements + 1] = {
                                 label = w,
                                 value = l
-                           }
+                            }
                         end
                     end
                 end
@@ -495,7 +496,7 @@ end
 
 -- Blips
 CreateThread(function()
-    for k, v in pairs(Config.Zones) do
+    for _, v in pairs(Config.Zones) do
         local blip = AddBlipForCoord(v.Pos.x, v.Pos.y, v.Pos.z)
 
         SetBlipSprite(blip, 72)
@@ -517,10 +518,9 @@ CreateThread(function()
 
         if IsPedInAnyVehicle(playerPed, false) then
             local coords = GetEntityCoords(playerPed)
-            local currentZone, zone, lastZone
 
             if (ESX.PlayerData.job and ESX.PlayerData.job.name == 'mechanic') or not Config.IsMechanicJobOnly then
-                for k, v in pairs(Config.Zones) do
+                for _, v in pairs(Config.Zones) do
                     local zonePos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
                     if #(coords - zonePos) < 10.0 then
                         Near = true
@@ -536,7 +536,7 @@ CreateThread(function()
                                 local vehicle = GetVehiclePedIsIn(playerPed, false)
                                 FreezeEntityPosition(vehicle, true)
                                 myCar = ESX.Game.GetVehicleProperties(vehicle)
-                                
+
                                 local netId = NetworkGetNetworkIdFromEntity(vehicle)
                                 TriggerServerEvent('esx_lscustom:startModing', myCar, netId)
 
