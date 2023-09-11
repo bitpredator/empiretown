@@ -201,7 +201,7 @@ ESX.RegisterServerCallback('esx_society:getSocietyMoney', function(source, cb, s
 	end
 end)
 
-ESX.RegisterServerCallback('esx_society:getEmployees', function(source, cb, society)
+ESX.RegisterServerCallback('esx_society:getEmployees', function(_, cb, society)
 	local employees = {}
 
 	local xPlayers = ESX.GetExtendedPlayers('job', society)
@@ -225,7 +225,7 @@ ESX.RegisterServerCallback('esx_society:getEmployees', function(source, cb, soci
 			}
 		})
 	end
-		
+
 	local query = "SELECT identifier, job_grade FROM `users` WHERE `job`= ? ORDER BY job_grade DESC"
 
 	if Config.EnableESXIdentity then
@@ -248,9 +248,9 @@ ESX.RegisterServerCallback('esx_society:getEmployees', function(source, cb, soci
 				local name = "Name not found." -- maybe this should be a locale instead ¯\_(ツ)_/¯
 
 				if Config.EnableESXIdentity then
-					name = row.firstname .. ' ' .. row.lastname 
+					name = row.firstname .. ' ' .. row.lastname
 				end
-				
+
 				table.insert(employees, {
 					name = name,
 					identifier = identifier,
@@ -379,7 +379,7 @@ local getOnlinePlayers, onlinePlayers = false, {}
 ESX.RegisterServerCallback('esx_society:getOnlinePlayers', function(source, cb)
 	if getOnlinePlayers == false and next(onlinePlayers) == nil then -- Prevent multiple xPlayer loops from running in quick succession
 		getOnlinePlayers, onlinePlayers = true, {}
-		
+
 		local xPlayers = ESX.GetExtendedPlayers()
 		for i=1, #(xPlayers) do 
 			local xPlayer = xPlayers[i]
@@ -427,7 +427,7 @@ function isPlayerBoss(playerId, job)
 	end
 end
 
-function WashMoneyCRON(d, h, m)
+function WashMoneyCRON()
 	MySQL.query('SELECT * FROM society_moneywash', function(result)
 		for i=1, #result, 1 do
 			local society = GetSociety(result[i].society)
