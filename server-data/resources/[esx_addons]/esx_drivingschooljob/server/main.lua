@@ -1,11 +1,9 @@
-ESX = nil
 ESX = exports["es_extended"]:getSharedObject()
 
 if Config.MaxInService ~= -1 then
   TriggerEvent('esx_service:activateService', 'driving', Config.MaxInService)
 end
 
--- TriggerEvent('esx_phone:registerNumber', 'driving', _U('alert_driving'), true, true)
 TriggerEvent('esx_society:registerSociety', 'driving', 'Driving', 'society_driving', 'society_driving', 'society_driving', {type = 'public'})
 
 ESX.RegisterServerCallback('esx_drivingschooljob:getPlayerInventory', function(source, cb)
