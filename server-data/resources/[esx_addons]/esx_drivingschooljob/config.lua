@@ -9,7 +9,7 @@ Config.TheoryPrice  = 200
 Config.Locale = 'en'
 
 Config.Zones = {
-       
+
 	DrivingActions = {
 		Pos   = {x = 212.584625, y = -1399.859375, z = 30.577271},
 		Size  = {x = 1.0, y = 1.0, z = 1.0},
@@ -17,7 +17,6 @@ Config.Zones = {
 		Type  = 20
 	},
 
-        
 	VehicleDeleter = {
 		Pos   = {x = 216.87, y = -1381.1, z = 30.2},
 		Size  = {x = 1.5, y = 1.5, z = 1.0},
@@ -35,7 +34,7 @@ Config.Zones = {
 }
 
 Config.Theory = {
-   DMVSchool = {
+	DMVSchool = {
 		Pos   = {x = 207.745056, y = -1384.219727, z = 30.577271},
 		Size  = {x = 1.5, y = 1.5, z = 1.0},
 		Color = {r = 204, g = 204, b = 0},
@@ -44,11 +43,11 @@ Config.Theory = {
 }
 
 Config.Blip = {
-   Blip = {
-      Pos     = {x = 212.38, y = -1397.26, z = 30.58},
-      Sprite  = 530,
-      Display = 4,
-      Scale   = 1.2,
-      Colour  = 29,
-    }
+	Blip = {
+		Pos     = {x = 212.38, y = -1397.26, z = 30.58},
+		Sprite  = 530,
+		Display = 4,
+		Scale   = 1.2,
+		Colour  = 29,
+	}
 }

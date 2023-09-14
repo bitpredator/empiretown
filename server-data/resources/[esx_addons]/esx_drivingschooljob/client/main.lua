@@ -10,29 +10,18 @@ local Keys = {
   ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-local PlayerData              = {}
-local GUI                     = {}
+
 local HasAlreadyEnteredMarker = false
 local LastZone                = nil
 local CurrentAction           = nil
 local CurrentActionMsg        = ''
 local CurrentActionData       = {}
-local TargetCoords            = nil
-local Blips                   = {}
 local Licenses                = {}
 local CurrentTest             = nil
-local CurrentTestType         = nil
-
-ESX                           = nil
+local GUI                     = {}
 GUI.Time                      = 0
 
-CreateThread(function()
-  ESX = exports["es_extended"]:getSharedObject()
-	  while ESX.GetPlayerData().job == nil do
-		  Wait(10)
-	  end
-	  ESX.PlayerData = ESX.GetPlayerData()
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 function OpenDrivingSchoolMenu()
 	ESX.UI.Menu.CloseAll()
@@ -44,29 +33,29 @@ function OpenDrivingSchoolMenu()
 			{label = _U('give'), value = 'give'},
 			{label = _U('retrieve'), value = 'remove'},
 			{label = _U('billing'), value = 'bill'}
-}}, function(data, menu)
+}}, function(data)
 
 if data.current.value == 'give' then
-			local elements = {
-                {label = _U('traffic_give'), value = 'trg'}}
+  local elements = {
+    {label = _U('traffic_give'), value = 'trg'}}
 
-      if ESX.PlayerData.job.grade_name == 'examiner' then
-				table.insert(elements, {label = _U('car_give'), value = 'carg'})
-			end
-			
-			if ESX.PlayerData.job.grade_name == 'examiner' then
-				table.insert(elements, {label = _U('motor_give'), value = 'motg'})
-			end
-			
-			if ESX.PlayerData.job.grade_name == 'examiner' then
-				table.insert(elements, {label = _U('truck_give'), value = 'truckg'})
-			end
+  if ESX.PlayerData.job.grade_name == 'examiner' then
+    table.insert(elements, {label = _U('car_give'), value = 'carg'})
+  end
+
+  if ESX.PlayerData.job.grade_name == 'examiner' then
+    table.insert(elements, {label = _U('motor_give'), value = 'motg'})
+  end
+
+  if ESX.PlayerData.job.grade_name == 'examiner' then
+    table.insert(elements, {label = _U('truck_give'), value = 'truckg'})
+  end
 
 ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'give', {
 				title    = _U('give'),
 				align    = 'top-left',
 				elements = elements
-			}, function(data2, menu2)
+			}, function(data2)
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
 					local action = data2.current.value
@@ -83,7 +72,7 @@ ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'give', {
                      else
                          ESX.ShowNotification(_U('no_players_nearby'))
                          end
-                     end, function(data2, menu2)
+                     end, function(_, menu2)
 				menu2.close()
 	             end)
 elseif data.current.value == 'remove' then
@@ -93,11 +82,11 @@ elseif data.current.value == 'remove' then
       if ESX.PlayerData.job.grade_name == 'carinstr' or ESX.PlayerData.job.grade_name == 'examiner' then
 				table.insert(elements, {label = _U('car_remove'), value = 'carr'})
 			end
-			
+
 			if ESX.PlayerData.job.grade_name == 'motorinstr' or ESX.PlayerData.job.grade_name == 'examiner' then
 				table.insert(elements, {label = _U('motor_remove'), value = 'motr'})
 			end
-			
+
 			if ESX.PlayerData.job.grade_name == 'truckinstr' or ESX.PlayerData.job.grade_name == 'examiner' then
 				table.insert(elements, {label = _U('truck_remove'), value = 'truckrr'})
 			end
@@ -106,7 +95,7 @@ ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'remove', {
 				title    = _U('retrieve'),
 				align    = 'top-left',
 				elements = elements
-			}, function(data2, menu2)
+			}, function(data2)
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
 					local action = data2.current.value
@@ -121,26 +110,25 @@ ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'remove', {
                     elseif action == 'truckr' then
                         TriggerServerEvent('esx_license:removeLicense',GetPlayerServerId(closestplayer), 'drive_truck')
                                 end
-                         else
+                          else
                             ESX.ShowNotification(_U('no_players_nearby'))
-                         end
-                     end, function(data2, menu2)
+                          end
+                     end, function(_, menu2)
 				menu2.close()
 	             end)
 elseif data.current.value == 'bill' then
-            OpenBillingMenu()
+  OpenBillingMenu()
 end
-end, function(data, menu)
+end, function(_, menu)
   menu.close()
 end)
 end
-
 
 function OpenBillingMenu()
   ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'bil', {
       title = 'billing_amount'
     }, function(data, menu)
-    
+
       local amount = tonumber(data.value)
       local player, distance = ESX.Game.GetClosestPlayer()
 
@@ -148,15 +136,15 @@ function OpenBillingMenu()
         menu.close()
 
         if amount == nil then
-            ESX.ShowNotification(_U('amount_invalid'))
+          ESX.ShowNotification(_U('amount_invalid'))
         else
-            TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), 'society_driving', _U('billing'), amount)
+          TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), 'society_driving', _U('billing'), amount)
         end
       else
         ESX.ShowNotification(_U('no_players_nearby'))
       end
-    end, function(data, menu)
-        menu.close()
+    end, function(_, menu)
+      menu.close()
     end)
 end
 
@@ -206,7 +194,7 @@ function OpenDMVSchoolMenu()
 			label = (('%s: <span style="color:green;">%s</span>'):format(_U('theory_test'), _U('school_item', ESX.Math.GroupDigits(Config.TheoryPrice)))),
 			value = 'theory_test'
 		})
-	
+
 	end
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'dmvschool_actions', {
@@ -218,7 +206,7 @@ function OpenDMVSchoolMenu()
 			menu.close()
 			StartTheoryTest()
 		end
-	end, function(data, menu)
+	end, function(_, menu)
 		menu.close()
 
 		CurrentAction     = 'theory_menu'
@@ -227,19 +215,19 @@ function OpenDMVSchoolMenu()
 end)
 end
 
-RegisterNUICallback('question', function(data, cb)
+RegisterNUICallback('question', function(_, cb)
 	SendNUIMessage({
 		openSection = 'question'
 	})
 	cb()
 end)
 
-RegisterNUICallback('close', function(data, cb)
+RegisterNUICallback('close', function(_, cb)
 	StopTheoryTest(true)
 	cb()
 end)
 
-RegisterNUICallback('kick', function(data, cb)
+RegisterNUICallback('kick', function(_, cb)
 	StopTheoryTest(false)
 	cb()
 end)
@@ -257,13 +245,12 @@ function OpenDrivingActionsMenu()
   end
 
   ESX.UI.Menu.CloseAll()
-  ESX.UI.Menu.Open(
-    'default', GetCurrentResourceName(), 'driving_actions',
+  ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'driving_actions',
     {
       title    = _U('vehicle_list'),
       elements = elements
     },
-    function(data, menu)
+    function(data)
       if data.current.value == 'vehicle_list' then
 
         if Config.EnableSocietyOwnedVehicles then
@@ -276,8 +263,7 @@ function OpenDrivingActionsMenu()
                 table.insert(elements, {label = GetDisplayNameFromVehicleModel(vehicles[i].model) .. ' [' .. vehicles[i].plate .. ']', value = vehicles[i]})
               end
 
-              ESX.UI.Menu.Open(
-                'default', GetCurrentResourceName(), 'vehicle_spawner',
+              ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_spawner',
                 {
                   title    = _U('service_vehicle'),
                   align    = 'top-left',
@@ -298,7 +284,7 @@ function OpenDrivingActionsMenu()
                   TriggerServerEvent('esx_society:removeVehicleFromGarage', 'driving', vehicleProps)
 
                 end,
-                function(data, menu)
+                function(_, menu)
                   menu.close()
                 end
               )
@@ -306,21 +292,20 @@ function OpenDrivingActionsMenu()
             end, 'driving')
 
           else
-
             local elements = {
 			        {label = 'Car', value = 'blista'},
               {label = 'Motor', value = 'sanchez'},
               {label = 'Truck', value = 'mule'}
             }
-			
+
 			if ESX.PlayerData.job.grade_name == 'carinstr' then
 				table.insert(elements, {label = _U('car'), value = 'issi2'})
 			end
-			
+
 			if ESX.PlayerData.job.grade_name == 'motorinstr' then
 				table.insert(elements, {label = _U('motor'), value = 'esskey'})
 			end
-			
+
 			if ESX.PlayerData.job.grade_name == 'truckinstr' then
 				table.insert(elements, {label = _U('truck'), value = 'packer'})
 			end
@@ -334,7 +319,7 @@ function OpenDrivingActionsMenu()
                 elements = elements
               },
               function(data, menu)
-                for i=1, #elements, 1 do
+                for _ = 1, #elements, 1 do
                   if Config.MaxInService == -1 then
                     ESX.Game.SpawnVehicle(data.current.value, Config.Zones.VehicleSpawnPoint.Pos, 90.0, function(vehicle)
                       local playerPed = GetPlayerPed(-1)
@@ -357,7 +342,7 @@ function OpenDrivingActionsMenu()
                 end
                 menu.close()
               end,
-              function(data, menu)
+              function(_, menu)
                 menu.close()
                 OpenDrivingActionsMenu()
               end
@@ -367,13 +352,13 @@ function OpenDrivingActionsMenu()
       end
 
       if data.current.value == 'boss_actions' then
-        TriggerEvent('esx_society:openBossMenu', 'driving', function(data, menu)
+        TriggerEvent('esx_society:openBossMenu', 'driving', function(_, menu)
           menu.close()
         end)
       end
 
     end,
-    function(data, menu)
+    function(_, menu)
       menu.close()
       CurrentAction     = 'driving_actions_menu'
       CurrentActionMsg  = _U('open_actions')
@@ -422,7 +407,7 @@ AddEventHandler('esx_drivingschooljob:hasEnteredMarker', function(zone)
 
 end)
 
-AddEventHandler('esx_drivingschooljob:hasExitedMarker', function(zone)
+AddEventHandler('esx_drivingschooljob:hasExitedMarker', function()
   CurrentAction = nil
   ESX.UI.Menu.CloseAll()
 end)
@@ -434,7 +419,7 @@ end)
 
 --Blip
 CreateThread(function()
-  for k,v in pairs(Config.Blip) do
+  for _,v in pairs(Config.Blip) do
 
     local blip = AddBlipForCoord(v.Pos.x, v.Pos.y, v.Pos.z)
 
@@ -455,15 +440,15 @@ CreateThread(function()
         Wait(0)
 	      local coords = GetEntityCoords(GetPlayerPed(-1))
 
-    	  for k,v in pairs(Config.Theory) do
-            if(v.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < Config.DrawDistance) then
-              DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, v.Size.x, v.Size.y, v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, true, 2, false, false, false, false)
-            end
+        for _, v in pairs(Config.Theory) do
+          if(v.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < Config.DrawDistance) then
+            DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, v.Size.x, v.Size.y, v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, true, 2, false, false, false, false)
+          end
         end
 
         if ESX.PlayerData.job ~= nil and ESX.PlayerData.job.name == 'driving' then
             local coords = GetEntityCoords(GetPlayerPed(-1))
-            for k,v in pairs(Config.Zones) do
+            for _,v in pairs(Config.Zones) do
                 if(v.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < Config.DrawDistance) then
                   DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, v.Size.x, v.Size.y, v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, true, 2, false, false, false, false)
                 end
@@ -479,7 +464,7 @@ CreateThread(function()
 	local coords      = GetEntityCoords(GetPlayerPed(-1))
       local isInMarker  = false
       local currentZone = nil
-	
+
     if ESX.PlayerData.job ~= nil and ESX.PlayerData.job.name == 'driving' then
       local coords      = GetEntityCoords(GetPlayerPed(-1))
       local isInMarker  = false
@@ -499,7 +484,7 @@ CreateThread(function()
         HasAlreadyEnteredMarker = false
         TriggerEvent('esx_drivingschooljob:hasExitedMarker', LastZone)
       end
-	else 
+	else
 		for a,v in pairs(Config.Theory) do
 			if(GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < v.Size.x) then
 			  isInMarker  = true
@@ -526,15 +511,15 @@ CreateThread(function()
 		    Wait(1)
 
     		if CurrentTest == 'theory' then
-    		    local playerPed = PlayerPedId()
+          local playerPed = PlayerPedId()
 
-    			  DisableControlAction(0, 1, true) -- LookLeftRight
-      			DisableControlAction(0, 2, true) -- LookUpDown
-      			DisablePlayerFiring(playerPed, true) -- Disable weapon firing
-      			DisableControlAction(0, 142, true) -- MeleeAttackAlternate
-      			DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
+          DisableControlAction(0, 1, true) -- LookLeftRight
+          DisableControlAction(0, 2, true) -- LookUpDown
+          DisablePlayerFiring(playerPed, true) -- Disable weapon firing
+          DisableControlAction(0, 142, true) -- MeleeAttackAlternate
+          DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
     		else
-    			  Wait(500)
+    			Wait(500)
         end
     end
 end)
@@ -542,14 +527,14 @@ end)
 -- Key Controls
 CreateThread(function()
     while true do
-        Wait(1)
+      Wait(1)
 
-        if CurrentAction ~= nil then
+      if CurrentAction ~= nil then
 
-          SetTextComponentFormat('STRING')
-          AddTextComponentString(CurrentActionMsg)
-          DisplayHelpTextFromStringLabel(0, 0, 1, -1)
-		  
+        SetTextComponentFormat('STRING')
+        AddTextComponentString(CurrentActionMsg)
+        DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+
 		if IsControlJustReleased(0, 206) then
 		  if CurrentAction == 'theory_menu' then
 				OpenDMVSchoolMenu()
@@ -559,9 +544,8 @@ CreateThread(function()
           if IsControlJustReleased(0, 38) and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.name == 'driving' then
 
             if CurrentAction == 'driving_actions_menu' then
-                OpenDrivingActionsMenu()
+              OpenDrivingActionsMenu()
             end
- 
 
             if CurrentAction == 'delete_vehicle' then
 
@@ -590,8 +574,6 @@ CreateThread(function()
 
         if IsControlJustReleased(0, Keys['F6']) and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.name == 'driving' then
           OpenDrivingSchoolMenu()
-        else
-        	--Citizen.Wait(100)
-        end        
+        end
     end
 end)
