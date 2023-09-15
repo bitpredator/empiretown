@@ -1,0 +1,10 @@
+# FiveM Artifact
+server
+
+# Cache
+server-data/.replxx_history
+server-data/cache/files
+server-data/cache/files/BasicItem
+server-data/cache/chat
+server-data/cache/yarn-cache
+server-data/db/default
