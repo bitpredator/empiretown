@@ -1,6 +1,9 @@
 # FiveM Artifact
 server
 
+# Starter
+server-data/start.bat
+
 # Cache
 server-data/.replxx_history
 server-data/cache/files
