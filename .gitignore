@@ -1,9 +1,6 @@
 # FiveM Artifact
 server
 
-# Starter
-server-data/start.bat
-
 # Cache
 server-data/.replxx_history
 server-data/cache/files
@@ -11,3 +8,12 @@ server-data/cache/files/BasicItem
 server-data/cache/chat
 server-data/cache/yarn-cache
 server-data/db/default
+
+# Resources
+server-data/resources/\[gameplay]
+server-data/resources/\[managers]
+server-data/resources/\[system]
+server-data/resources/\[system]/\[builders]
+
+# Resources log
+server-data/resources/\[phone]/npwd/sv_npwd.log
