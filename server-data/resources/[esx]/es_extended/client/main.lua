@@ -519,7 +519,6 @@ end)
 
 RegisterNetEvent("esx:GetVehicleType", function(Model, Request)
 	local ReturnedType = "automobile"
-	local Model = Model
 	local IsValidModel = IsModelInCdimage(Model)
 	if IsValidModel == true or IsValidModel == 1 then
 		local VehicleType = GetVehicleClassFromName(Model)
