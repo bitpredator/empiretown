@@ -10,7 +10,7 @@ end, false, {
 	}
 })
 
-ESX.RegisterCommand('setjob', 'admin', function(xPlayer, args, showError)
+ESX.RegisterCommand('setjob', 'admin', function(_, args, showError)
 	if not ESX.DoesJobExist(args.job, args.grade) then
 		return showError(_U('command_setjob_invalid'))
 	end
@@ -120,7 +120,7 @@ end, true, {
 	}
 })
 
-ESX.RegisterCommand('setaccountmoney', 'admin', function(xPlayer, args, showError)
+ESX.RegisterCommand('setaccountmoney', 'admin', function(_, args, showError)
 	if not args.playerId.getAccount(args.account) then
 		return showError(_U('command_giveaccountmoney_invalid'))
 	end
@@ -135,7 +135,7 @@ end, true, {
 	}
 })
 
-ESX.RegisterCommand('giveaccountmoney', 'admin', function(xPlayer, args, showError)
+ESX.RegisterCommand('giveaccountmoney', 'admin', function(_, args, showError)
 	if not args.playerId.getAccount(args.account) then
 		return showError(_U('command_giveaccountmoney_invalid'))
 	end
@@ -150,7 +150,7 @@ end, true, {
 	}
 })
 
-ESX.RegisterCommand('removeaccountmoney', 'admin', function(xPlayer, args, showError)
+ESX.RegisterCommand('removeaccountmoney', 'admin', function(_, args, showError)
 	if not args.playerId.getAccount(args.account) then
 		return showError(_U('command_removeaccountmoney_invalid'))
 	end
@@ -166,7 +166,7 @@ end, true, {
 })
 
 if not Config.OxInventory then
-	ESX.RegisterCommand('giveitem', 'admin', function(xPlayer, args)
+	ESX.RegisterCommand('giveitem', 'admin', function(_, args)
 		args.playerId.addInventoryItem(args.item, args.count)
 	end, true, {
 		help = _U('command_giveitem'),
@@ -178,7 +178,7 @@ if not Config.OxInventory then
 		}
 	})
 
-	ESX.RegisterCommand('giveweapon', 'admin', function(xPlayer, args, showError)
+	ESX.RegisterCommand('giveweapon', 'admin', function(_, args, showError)
 		if args.playerId.hasWeapon(args.weapon) then
 			return showError(_U('command_giveweapon_hasalready'))
 		end
@@ -193,7 +193,7 @@ if not Config.OxInventory then
 		}
 	})
 
-	ESX.RegisterCommand('giveammo', 'admin', function(xPlayer, args, showError)
+	ESX.RegisterCommand('giveammo', 'admin', function(_, args, showError)
 		if not args.playerId.hasWeapon(args.weapon) then
 			return showError(_U("command_giveammo_noweapon_found"))
 		end
@@ -208,7 +208,7 @@ if not Config.OxInventory then
 		}
 	})
 
-	ESX.RegisterCommand('giveweaponcomponent', 'admin', function(xPlayer, args, showError)
+	ESX.RegisterCommand('giveweaponcomponent', 'admin', function(_, args, showError)
 		if args.playerId.hasWeapon(args.weaponName) then
 			local component = ESX.GetWeaponComponent(args.weaponName, args.componentName)
 
@@ -239,7 +239,7 @@ ESX.RegisterCommand({ 'clear', 'cls' }, 'user', function(xPlayer)
 	xPlayer.triggerEvent('chat:clear')
 end, false, { help = _U('command_clear') })
 
-ESX.RegisterCommand({ 'clearall', 'clsall' }, 'admin', function(xPlayer)
+ESX.RegisterCommand({ 'clearall', 'clsall' }, 'admin', function()
 	TriggerClientEvent('chat:clear', -1)
 end, true, { help = _U('command_clearall') })
 
@@ -248,7 +248,7 @@ ESX.RegisterCommand("refreshjobs", 'admin', function()
 end, true, { help = _U('command_clearall') })
 
 if not Config.OxInventory then
-	ESX.RegisterCommand('clearinventory', 'admin', function(xPlayer, args)
+	ESX.RegisterCommand('clearinventory', 'admin', function(_, args)
 		for _, v in ipairs(args.playerId.inventory) do
 			if v.count > 0 then
 				args.playerId.setInventoryItem(v.name, 0)
@@ -263,7 +263,7 @@ if not Config.OxInventory then
 		}
 	})
 
-	ESX.RegisterCommand('clearloadout', 'admin', function(xPlayer, args)
+	ESX.RegisterCommand('clearloadout', 'admin', function(_, args)
 		for i = #args.playerId.loadout, 1, -1 do
 			args.playerId.removeWeapon(args.playerId.loadout[i].name)
 		end
@@ -358,7 +358,7 @@ end, true, {
 	}
 })
 
-ESX.RegisterCommand('kill', "admin", function(xPlayer, args)
+ESX.RegisterCommand('kill', "admin", function(_, args)
 	args.playerId.triggerEvent("esx:killPlayer")
 end, true, {
 	help = _U('command_kill'),
@@ -368,7 +368,7 @@ end, true, {
 	}
 })
 
-ESX.RegisterCommand('freeze', "admin", function(xPlayer, args)
+ESX.RegisterCommand('freeze', "admin", function(_, args)
 	args.playerId.triggerEvent('esx:freezePlayer', "freeze")
 end, true, {
 	help = _U('command_freeze'),
@@ -378,7 +378,7 @@ end, true, {
 	}
 })
 
-ESX.RegisterCommand('unfreeze', "admin", function(xPlayer, args)
+ESX.RegisterCommand('unfreeze', "admin", function(_, args)
 	args.playerId.triggerEvent('esx:freezePlayer', "unfreeze")
 end, true, {
 	help = _U('command_unfreeze'),
@@ -397,6 +397,6 @@ ESX.RegisterCommand('players', "admin", function()
 	print(('^5%s^2 online player(s)^0'):format(#xPlayers))
     for i = 1, #(xPlayers) do
 		local xPlayer = xPlayers[i]
-        print(('^1[^2ID: ^5%s^0 | ^2Name : ^5%s^0 | ^2Group : ^5%s^0 | ^2Identifier : ^5%s^1]^0\n'):format(xPlayer.source, xPlayer.getName(), xPlayer.getGroup(), xPlayer.identifier))     
+        print(('^1[^2ID: ^5%s^0 | ^2Name : ^5%s^0 | ^2Group : ^5%s^0 | ^2Identifier : ^5%s^1]^0\n'):format(xPlayer.source, xPlayer.getName(), xPlayer.getGroup(), xPlayer.identifier))
     end
 end, true)
