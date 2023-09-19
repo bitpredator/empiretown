@@ -20,7 +20,8 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	self.weight = weight
 	self.maxWeight = Config.MaxWeight
 	self.metadata = metadata
-	if Config.Multichar then self.license = 'license'.. identifier:sub(identifier:find(':'), identifier:len()) else self.license = 'license:'..identifier end
+    self.admin = Core.IsPlayerAdmin(playerId)
+	if Config.Multichar then self.license = 'license' .. identifier:sub(identifier:find(':'), identifier:len()) else self.license = 'license:' .. identifier end
 
 	ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.license, self.group))
 
@@ -36,76 +37,55 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		TriggerClientEvent(eventName, self.source, ...)
 	end
 
-    ---Sets the current player coords
-    ---@param coords table | vector3 | vector4
-    function self.setCoords(coords)
-        local ped = GetPlayerPed(self.source)
-        local vector = vector4(coords?.x, coords?.y, coords?.z, coords?.w or coords?.heading or 0.0)
-
-        if not vector then return end
-
-        SetEntityCoords(ped, vector.x, vector.y, vector.z, false, false, false, false)
-        SetEntityHeading(ped, vector.w)
-    end
+	function self.setCoords(coordinates)
+		local Ped = GetPlayerPed(self.source)
+		local vector = type(coordinates) == "vector4" and coordinates or type(coordinates) == "vector3" and vector4(coordinates, 0.0) or
+			vec(coordinates.x, coordinates.y, coordinates.z, coordinates.heading or 0.0)
+		SetEntityCoords(Ped, vector.xyz, false, false, false, false)
+		SetEntityHeading(Ped, vector.w)
+	end
 
 	function self.getCoords(vector)
 		local ped = GetPlayerPed(self.source)
-		local coords = GetEntityCoords(ped)
+		local coordinates = GetEntityCoords(ped)
 
 		if vector then
-			return coords
+			return coordinates
 		else
 			return {
-				x = coords.x,
-				y = coords.y,
-				z = coords.z,
+				x = coordinates.x,
+				y = coordinates.y,
+				z = coordinates.z,
 			}
 		end
 	end
 
-    ---Kicks the current player out with the specified reason
-    ---@param reason? string
-    function self.kick(reason)
-        DropPlayer(tostring(self.source), reason --[[@as string]])
-    end
+	function self.kick(reason)
+		DropPlayer(self.source, reason)
+	end
 
-    ---Sets the current player money to the specified value
-    ---@param money integer | number
-    ---@return boolean
-    function self.setMoney(money)
-        money = ESX.Math.Round(money)
-        return self.setAccountMoney("money", money)
-    end
+	function self.setMoney(money)
+		money = ESX.Math.Round(money)
+		self.setAccountMoney('money', money)
+	end
 
-    ---Gets the current player money value
-    ---@return integer | number
-    function self.getMoney()
-        return self.getAccount("money")?.money
-    end
+	function self.getMoney()
+		return self.getAccount('money').money
+	end
 
-    ---Adds the specified value to the current player money
-    ---@param money integer | number
-    ---@param reason? string
-    ---@return boolean
-    function self.addMoney(money, reason)
-        money = ESX.Math.Round(money)
-        return self.addAccountMoney("money", money, reason)
-    end
+	function self.addMoney(money, reason)
+		money = ESX.Math.Round(money)
+		self.addAccountMoney('money', money, reason)
+	end
 
-    ---Removes the specified value from the current player money
-    ---@param money integer | number
-    ---@param reason? string
-    ---@return boolean
-    function self.removeMoney(money, reason)
-        money = ESX.Math.Round(money)
-        return self.removeAccountMoney("money", money, reason)
-    end
+	function self.removeMoney(money, reason)
+		money = ESX.Math.Round(money)
+		self.removeAccountMoney('money', money, reason)
+	end
 
-    ---Gets the current player identifier
-    ---@return string
-    function self.getIdentifier()
-        return self.identifier
-    end
+	function self.getIdentifier()
+		return self.identifier
+	end
 
 	function self.setGroup(newGroup)
 		ExecuteCommand(('remove_principal identifier.%s group.%s'):format(self.license, self.group))
@@ -134,7 +114,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 		local minimalAccounts = {}
 
-		for i=1, #self.accounts do
+		for i = 1, #self.accounts do
 			minimalAccounts[self.accounts[i].name] = self.accounts[i].money
 		end
 
@@ -142,11 +122,12 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	function self.getAccount(account)
-		for i=1, #self.accounts do
+		for i = 1, #self.accounts do
 			if self.accounts[i].name == account then
 				return self.accounts[i]
 			end
 		end
+		return nil
 	end
 
 	function self.getInventory(minimal)
@@ -175,14 +156,14 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 		local minimalLoadout = {}
 
-		for _,v in ipairs(self.loadout) do
-			minimalLoadout[v.name] = {ammo = v.ammo}
+		for _, v in ipairs(self.loadout) do
+			minimalLoadout[v.name] = { ammo = v.ammo }
 			if v.tintIndex > 0 then minimalLoadout[v.name].tintIndex = v.tintIndex end
 
 			if #v.components > 0 then
 				local components = {}
 
-				for _,component in ipairs(v.components) do
+				for _, component in ipairs(v.components) do
 					if component ~= 'clip_default' then
 						components[#components + 1] = component
 					end
@@ -239,7 +220,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			local account = self.getAccount(accountName)
 			if account then
 				money = account.round and ESX.Math.Round(money) or money
-				self.accounts[account.index].money += money
+				self.accounts[account.index].money = self.accounts[account.index].money + money
 
 				self.triggerEvent('esx:setAccountMoney', account)
 				TriggerEvent('esx:addAccountMoney', self.source, accountName, money, reason)
@@ -251,152 +232,103 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 	end
 
-	---Removes money from the specified account of the current player
-    ---@param accountName string
-    ---@param money integer | number
-    ---@param reason? string
-    ---@return boolean
-    function self.removeAccountMoney(accountName, money, reason)
-        money = tonumber(money) --[[@as number]]
-        reason = reason or "Unknown"
+	function self.removeAccountMoney(accountName, money, reason)
+		reason = reason or 'Unknown'
+		if not tonumber(money) then
+			print(('[^1ERROR^7] Tried To Set Account ^5%s^0 For Player ^5%s^0 To An Invalid Number -> ^5%s^7'):format(accountName, self.playerId, money))
+			return
+		end
+		if money > 0 then
+			local account = self.getAccount(accountName)
 
-        if not money or money <= 0 then
-            print(("[^1ERROR^7] Tried to remove account ^5%s^0 for Player ^5%s^0 with an invalid value -> ^5%s^7"):format(accountName, self.playerId, money))
-            return false
-        end
+			if account then
+				money = account.round and ESX.Math.Round(money) or money
+				self.accounts[account.index].money = self.accounts[account.index].money - money
 
-        local account = self.getAccount(accountName)
+				self.triggerEvent('esx:setAccountMoney', account)
+				TriggerEvent('esx:removeAccountMoney', self.source, accountName, money, reason)
+			else
+				print(('[^1ERROR^7] Tried To Set Add To Invalid Account ^5%s^0 For Player ^5%s^0!'):format(accountName, self.playerId))
+			end
+		else
+			print(('[^1ERROR^7] Tried To Set Account ^5%s^0 For Player ^5%s^0 To An Invalid Number -> ^5%s^7'):format(accountName, self.playerId, money))
+		end
+	end
 
-        if not account then
-            print(("[^1ERROR^7] Tried to remove money from an invalid account ^5%s^0 for Player ^5%s^0"):format(accountName, self.playerId))
-            return false
-        end
+	function self.getInventoryItem(itemName)
+		for _, v in ipairs(self.inventory) do
+			if v.name == itemName then
+				return v
+			end
+		end
+	end
 
-        money = account.round and ESX.Math.Round(money) or money
-        self.accounts[account.index].money = self.accounts[account.index].money - money
+	function self.addInventoryItem(itemName, count)
+		local item = self.getInventoryItem(itemName)
 
-        TriggerEvent("esx:removeAccountMoney", self.source, accountName, money, reason)
-        self.triggerSafeEvent("esx:setAccountMoney", {account = account, accountName = accountName, money = self.accounts[account.index].money, reason = reason})
+		if item then
+			count = ESX.Math.Round(count)
+			item.count = item.count + count
+			self.weight = self.weight + (item.weight * count)
 
-        return true
-    end
+			TriggerEvent('esx:onAddInventoryItem', self.source, item.name, item.count)
+			self.triggerEvent('esx:addInventoryItem', item.name, item.count)
+		end
+	end
 
-    ---Gets the specified item data from the current player
-    ---@param itemName string
-    ---@return table?
-    function self.getInventoryItem(itemName)
-        local itemData
+	function self.removeInventoryItem(itemName, count)
+		local item = self.getInventoryItem(itemName)
 
-        for _, item in ipairs(self.inventory) do
-            if item.name == itemName then
-                itemData = item
-                break
-            end
-        end
+		if item then
+			count = ESX.Math.Round(count)
+			if count > 0 then
+				local newCount = item.count - count
 
-        return itemData
-    end
+				if newCount >= 0 then
+					item.count = newCount
+					self.weight = self.weight - (item.weight * count)
 
-    ---Adds the specified item to the current player
-    ---@param itemName string
-    ---@param itemCount? integer | number defaults to 1 if not provided
-    ---@return boolean
-    function self.addInventoryItem(itemName, itemCount)
-        local item = self.getInventoryItem(itemName)
+					TriggerEvent('esx:onRemoveInventoryItem', self.source, item.name, item.count)
+					self.triggerEvent('esx:removeInventoryItem', item.name, item.count)
+				end
+			else
+				print(('[^1ERROR^7] Player ID:^5%s Tried remove a Invalid count -> %s of %s'):format(self.playerId, count, itemName))
+			end
+		end
+	end
 
-        if not item then return false end
+	function self.setInventoryItem(itemName, count)
+		local item = self.getInventoryItem(itemName)
 
-        itemCount = type(itemCount) == "number" and ESX.Math.Round(itemCount) or 1
-        item.count += itemCount
-        self.weight += (item.weight * itemCount)
+		if item and count >= 0 then
+			count = ESX.Math.Round(count)
 
-        TriggerEvent("esx:onAddInventoryItem", self.source, item.name, item.count)
-        self.triggerSafeEvent("esx:addInventoryItem", {itemName = item.name, itemCount = item.count})
+			if count > item.count then
+				self.addInventoryItem(item.name, count - item.count)
+			else
+				self.removeInventoryItem(item.name, item.count - count)
+			end
+		end
+	end
 
-        return true
-    end
+	function self.getWeight()
+		return self.weight
+	end
 
-	---Removes the specified item from the current player
-    ---@param itemName string
-    ---@param itemCount? integer | number defaults to 1 if not provided
-    ---@return boolean
-    function self.removeInventoryItem(itemName, itemCount)
-        local item = self.getInventoryItem(itemName)
+	function self.getMaxWeight()
+		return self.maxWeight
+	end
 
-        if not item then return false end
+	function self.canCarryItem(itemName, count)
+		if ESX.Items[itemName] then
+			local currentWeight, itemWeight = self.weight, ESX.Items[itemName].weight
+			local newWeight = currentWeight + (itemWeight * count)
 
-        itemCount = type(itemCount) == "number" and ESX.Math.Round(itemCount) or 1
-
-        local newCount = item.count - itemCount
-
-        if newCount < 0 then print(("[^1ERROR^7] Tried to remove non-existance count(%s) of %s item for Player ^5%s^0"):format(itemCount, itemName, self.playerId)) return false end
-
-        item.count = newCount
-        self.weight = self.weight - (item.weight * itemCount)
-
-        TriggerEvent("esx:onRemoveInventoryItem", self.source, item.name, item.count)
-        self.triggerSafeEvent("esx:removeInventoryItem", {itemName = item.name, itemCount = item.count})
-
-        return true
-    end
-
-    ---Set the specified item count for the current player
-    ---@param itemName string
-    ---@param itemCount integer | number
-    ---@return boolean
-    function self.setInventoryItem(itemName, itemCount)
-        local item = self.getInventoryItem(itemName)
-        itemCount = type(itemCount) == "number" and ESX.Math.Round(itemCount) --[[@as number]]
-
-        if not item or not itemCount or itemCount <= 0 then return false end
-
-        return itemCount > item.count and self.addInventoryItem(item.name, itemCount - item.count) or self.removeInventoryItem(item.name, item.count - itemCount)
-    end
-
-    ---Gets the current player inventory weight
-    ---@return integer | number
-    function self.getWeight()
-        return self.weight
-    end
-
-    ---Gets the current player max inventory weight
-    ---@return integer | number
-    function self.getMaxWeight()
-        return self.maxWeight
-    end
-
-    ---Sets the current player max inventory weight
-    ---@param newWeight integer | number
-    function self.setMaxWeight(newWeight)
-        self.maxWeight = newWeight
-        self.triggerSafeEvent("esx:setMaxWeight", {maxWeight = newWeight}, {server = true, client = true})
-    end
-
-    ---Checks if the current player does have enough space in inventory to carry the specified item count(s)
-    ---@param itemName string
-    ---@param itemCount integer | number
-    ---@return boolean
-    function self.canCarryItem(itemName, itemCount)
-        if not ESX.Items[itemName] then print(("[^3WARNING^7] Item ^5'%s'^7 was used but does not exist!"):format(itemName)) return false end
-
-        local currentWeight, itemWeight = self.weight, ESX.Items[itemName].weight
-        local newWeight = currentWeight + (itemWeight * itemCount)
-
-        return newWeight <= self.maxWeight
-    end
-
-    ---Checks if the current player does have enough space in inventory to carry the specified item count(s)
-    ---@param itemName string
-    ---@param itemCount integer | number
-    ---@return boolean
-    function self.canCarryItem(itemName, itemCount)
-        if not ESX.Items[itemName] then print(("[^3WARNING^7] Item ^5'%s'^7 was used but does not exist!"):format(itemName)) return false end
-
-        local currentWeight, itemWeight = self.weight, ESX.Items[itemName].weight
-        local newWeight = currentWeight + (itemWeight * itemCount)
-
-        return newWeight <= self.maxWeight
-    end
+			return newWeight <= self.maxWeight
+		else
+			print(('[^3WARNING^7] Item ^5"%s"^7 was used but does not exist!'):format(itemName))
+		end
+	end
 
 	function self.canSwapItem(firstItem, firstItemCount, testItem, testItemCount)
 		local firstItemObject = self.getInventoryItem(firstItem)
@@ -417,21 +349,21 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		self.triggerEvent('esx:setMaxWeight', self.maxWeight)
 	end
 
-	function self.setJob(job, grade)
+	function self.setJob(newJob, grade)
 		grade = tostring(grade)
 		local lastJob = json.decode(json.encode(self.job))
 
-		if ESX.DoesJobExist(job, grade) then
-			local jobObject, gradeObject = ESX.Jobs[job], ESX.Jobs[job].grades[grade]
+		if ESX.DoesJobExist(newJob, grade) then
+			local jobObject, gradeObject = ESX.Jobs[newJob], ESX.Jobs[newJob].grades[grade]
 
-			self.job.id    = jobObject.id
-			self.job.name  = jobObject.name
-			self.job.label = jobObject.label
+			self.job.id                  = jobObject.id
+			self.job.name                = jobObject.name
+			self.job.label               = jobObject.label
 
-			self.job.grade        = tonumber(grade)
-			self.job.grade_name   = gradeObject.name
-			self.job.grade_label  = gradeObject.label
-			self.job.grade_salary = gradeObject.salary
+			self.job.grade               = tonumber(grade)
+			self.job.grade_name          = gradeObject.name
+			self.job.grade_label         = gradeObject.label
+			self.job.grade_salary        = gradeObject.salary
 
 			if gradeObject.skin_male then
 				self.job.skin_male = json.decode(gradeObject.skin_male)
@@ -487,76 +419,66 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 	end
 
-	---Adds ammo to the current player's specified weapon
-    ---@param weaponName string
-    ---@param ammoCount integer | number
-    ---@return boolean
-    function self.addWeaponAmmo(weaponName, ammoCount)
-        local _, weapon = self.getWeapon(weaponName)
+	function self.addWeaponAmmo(weaponName, ammoCount)
+		local _, weapon = self.getWeapon(weaponName)
 
-        if not weapon then return false end
+		if weapon then
+			weapon.ammo = weapon.ammo + ammoCount
+			SetPedAmmo(GetPlayerPed(self.source), joaat(weaponName), weapon.ammo)
+		end
+	end
 
-        weapon.ammo += ammoCount
-        SetPedAmmo(GetPlayerPed(self.source), joaat(weaponName), weapon.ammo)
+	function self.updateWeaponAmmo(weaponName, ammoCount)
+		local _, weapon = self.getWeapon(weaponName)
 
-        return true
-    end
+		if weapon then
+			weapon.ammo = ammoCount
+		end
+	end
 
-    ---Sets ammo to the current player's specified weapon
-    ---@param weaponName string
-    ---@param ammoCount integer | number
-    ---@return boolean
-    function self.updateWeaponAmmo(weaponName, ammoCount)
-        local _, weapon = self.getWeapon(weaponName)
+	function self.setWeaponTint(weaponName, weaponTintIndex)
+		local loadoutNum, weapon = self.getWeapon(weaponName)
 
-        if not weapon then return false end
+		if weapon then
+			local _, weaponObject = ESX.GetWeapon(weaponName)
 
-        weapon.ammo = ammoCount
-        SetPedAmmo(GetPlayerPed(self.source), joaat(weaponName), weapon.ammo)
+			if weaponObject.tints and weaponObject.tints[weaponTintIndex] then
+				self.loadout[loadoutNum].tintIndex = weaponTintIndex
+				self.triggerEvent('esx:setWeaponTint', weaponName, weaponTintIndex)
+				self.triggerEvent('esx:addInventoryItem', weaponObject.tints[weaponTintIndex], false, true)
+			end
+		end
+	end
 
-        return true
-    end
+	function self.getWeaponTint(weaponName)
+		local _, weapon = self.getWeapon(weaponName)
 
-	---Sets tint to the current player's specified weapon
-    ---@param weaponName string
-    ---@param weaponTintIndex integer | number
-    ---@return boolean
-    function self.setWeaponTint(weaponName, weaponTintIndex)
-        local loadoutNum, weapon = self.getWeapon(weaponName)
+		if weapon then
+			return weapon.tintIndex
+		end
 
-        if not weapon then return false end
-
-        local _, weaponObject = ESX.GetWeapon(weaponName)
-
-        if not weaponObject?.tints or weaponObject?.tints?[weaponTintIndex] then return false end
-
-        self.loadout[loadoutNum].tintIndex = weaponTintIndex
-
-        self.triggerSafeEvent("esx:setWeaponTint", {weaponName = weaponName, weaponTintIndex = weaponTintIndex})
-        self.triggerSafeEvent("esx:addInventoryItem", {itemName = weaponObject.tints[weaponTintIndex], itemCount = false, showNotification = true})
-
-        return true
-    end
-
-    ---Gets the tint index of the current player's specified weapon
-    ---@param weaponName any
-    ---@return integer | number
-    function self.getWeaponTint(weaponName)
-        local _, weapon = self.getWeapon(weaponName)
-
-        return weapon?.tintIndex or 0
-    end
+		return 0
+	end
 
 	function self.removeWeapon(weaponName)
-		local weaponLabel
+		local weaponLabel, playerPed = nil, GetPlayerPed(self.source)
 
-		for k,v in ipairs(self.loadout) do
+		if not playerPed then
+			return print("[^1ERROR^7] xPlayer.removeWeapon ^5invalid^7 player ped!")
+		end
+
+		for k, v in ipairs(self.loadout) do
 			if v.name == weaponName then
 				weaponLabel = v.label
 
-				for _,v2 in ipairs(v.components) do
+				for _, v2 in ipairs(v.components) do
 					self.removeWeaponComponent(weaponName, v2)
 				end
+
+				local weaponHash = joaat(v.name)
+
+				RemoveWeaponFromPed(playerPed, weaponHash)
+				SetPedAmmo(playerPed, weaponHash, 0)
 
 				table.remove(self.loadout, k)
 				break
@@ -564,7 +486,6 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 
 		if weaponLabel then
-			self.triggerEvent('esx:removeWeapon', weaponName)
 			self.triggerEvent('esx:removeInventoryItem', weaponLabel, false, true)
 		end
 	end
@@ -577,7 +498,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 			if component then
 				if self.hasWeaponComponent(weaponName, weaponComponent) then
-					for k,v in ipairs(self.loadout[loadoutNum].components) do
+					for k, v in ipairs(self.loadout[loadoutNum].components) do
 						if v == weaponComponent then
 							table.remove(self.loadout[loadoutNum].components, k)
 							break
@@ -591,41 +512,33 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 	end
 
-    ---Removes ammo from the current player's specified weapon
-    ---@param weaponName string
-    ---@param ammoCount integer | number
-    ---@return boolean
-    function self.removeWeaponAmmo(weaponName, ammoCount)
-        local _, weapon = self.getWeapon(weaponName)
+	function self.removeWeaponAmmo(weaponName, ammoCount)
+		local _, weapon = self.getWeapon(weaponName)
 
-        if not weapon then return false end
+		if weapon then
+			weapon.ammo = weapon.ammo - ammoCount
+			self.triggerEvent('esx:setWeaponAmmo', weaponName, weapon.ammo)
+		end
+	end
 
-        weapon.ammo = weapon.ammo - ammoCount
-        self.updateWeaponAmmo(weaponName, weapon.ammo)
+	function self.hasWeaponComponent(weaponName, weaponComponent)
+		local _, weapon = self.getWeapon(weaponName)
 
-        return true
-    end
+		if weapon then
+			for _, v in ipairs(weapon.components) do
+				if v == weaponComponent then
+					return true
+				end
+			end
 
-	---Checks if the current player has the specified component for the weapon
-    ---@param weaponName any
-    ---@param weaponComponent any
-    ---@return boolean
-    function self.hasWeaponComponent(weaponName, weaponComponent)
-        local _, weapon = self.getWeapon(weaponName)
-
-        if weapon then
-            for _, v in ipairs(weapon.components) do
-                if v == weaponComponent then
-                    return true
-                end
-            end
-        end
-
-        return false
-    end
+			return false
+		else
+			return false
+		end
+	end
 
 	function self.hasWeapon(weaponName)
-		for _,v in ipairs(self.loadout) do
+		for _, v in ipairs(self.loadout) do
 			if v.name == weaponName then
 				return true
 			end
@@ -634,29 +547,26 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		return false
 	end
 
-    ---Checks if the current player has the specified item
-    ---@param itemName string
-    ---@return false | table, integer | number | nil
-    function self.hasItem(itemName)
-        for _, v in ipairs(self.inventory) do
-            if (v.name == itemName) and (v.count >= 1) then
-                return v, v.count
-            end
-        end
+	function self.hasItem(item)
+		for _, v in ipairs(self.inventory) do
+			if (v.name == item) and (v.count >= 1) then
+				return v, v.count
+			end
+		end
 
-        return false
-    end
+		return false
+	end
 
 	function self.getWeapon(weaponName)
-		for k,v in ipairs(self.loadout) do
+		for k, v in ipairs(self.loadout) do
 			if v.name == weaponName then
 				return k, v
 			end
 		end
 	end
 
-	function self.showNotification(msg)
-		self.triggerEvent('esx:showNotification', msg)
+	function self.showNotification(msg, notifyType, length)
+		self.triggerEvent('esx:showNotification', msg, notifyType, length)
 	end
 
 	function self.showAdvancedNotification(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
@@ -668,47 +578,44 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	function self.getMeta(index, subIndex)
-		if index then
+		if not (index) then return self.metadata end
 
-			if type(index) ~= "string" then
-				return print("[^1ERROR^7] xPlayer.getMeta ^5index^7 should be ^5string^7!")
-			end
-
-			if self.metadata[index] then
-
-				if subIndex and type(self.metadata[index]) == "table" then
-					local _type = type(subIndex)
-
-					if _type == "string" then
-						if self.metadata[index][subIndex] then
-							return self.metadata[index][subIndex]
-						end
-						return
-					end
-
-					if _type == "table" then
-						local returnValues = {}
-						for i = 1, #subIndex do
-							if self.metadata[index][subIndex[i]] then
-								returnValues[subIndex[i]] = self.metadata[index][subIndex[i]]
-							else
-								print(("[^1ERROR^7] xPlayer.getMeta ^5%s^7 not esxist on ^5%s^7!"):format(subIndex[i], index))
-							end
-						end
-
-						return returnValues
-					end
-
-				end
-
-				return self.metadata[index]
-			else
-				return print(("[^1ERROR^7] xPlayer.getMeta ^5%s^7 not exist!"):format(index))
-			end
-
+		if type(index) ~= "string" then
+			return print("[^1ERROR^7] xPlayer.getMeta ^5index^7 should be ^5string^7!")
 		end
 
-		return self.metadata
+		local metaData = self.metadata[index]
+		if (metaData == nil) then
+			return Config.EnableDebug and print(("[^1ERROR^7] xPlayer.getMeta ^5%s^7 not exist!"):format(index)) or nil
+		end
+
+		if (subIndex and type(metaData) == "table") then
+			local _type = type(subIndex)
+
+			if (_type == "string") then
+				local value = metaData[subIndex]
+				return value
+			end
+
+			if (_type == "table") then
+				local returnValues = {}
+
+				for i = 1, #subIndex do
+					local key = subIndex[i]
+					if (type(key) == "string") then
+						returnValues[key] = self.getMeta(index, key)
+					else
+						print(("[^1ERROR^7] xPlayer.getMeta subIndex should be ^5string^7 or ^5table^7! that contains ^5string^7, received ^5%s^7!, skipping..."):format(type(key)))
+					end
+				end
+
+				return returnValues
+			end
+
+			return print(("[^1ERROR^7] xPlayer.getMeta subIndex should be ^5string^7 or ^5table^7!, received ^5%s^7!"):format(_type))
+		end
+
+		return metaData
 	end
 
 	function self.setMeta(index, value, subValue)
@@ -727,49 +634,73 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		local _type = type(value)
 
 		if not subValue then
-
 			if _type ~= "number" and _type ~= "string" and _type ~= "table" then
 				return print(("[^1ERROR^7] xPlayer.setMeta ^5%s^7 should be ^5number^7 or ^5string^7 or ^5table^7!"):format(value))
 			end
 
 			self.metadata[index] = value
 		else
-
 			if _type ~= "string" then
 				return print(("[^1ERROR^7] xPlayer.setMeta ^5value^7 should be ^5string^7 as a subIndex!"):format(value))
 			end
 
+            if not self.metadata[index] or type(self.metadata[index]) ~= "table" then
+				self.metadata[index] = { }
+			end
+
+			self.metadata[index] = type(self.metadata[index]) == 'table' and self.metadata[index] or {}
 			self.metadata[index][value] = subValue
 		end
 
-
-		self.triggerEvent('esx:updatePlayerData', 'metadata', self.metadata)
 		Player(self.source).state:set('metadata', self.metadata, true)
 	end
 
-	function self.clearMeta(index)
+	function self.clearMeta(index, subValues)
 		if not index then
-			return print(("[^1ERROR^7] xPlayer.clearMeta ^5%s^7 is Missing!"):format(index))
+			return print("[^1ERROR^7] xPlayer.clearMeta ^5index^7 is Missing!")
 		end
 
-		if type(index) == 'table' then
-			for _, val in pairs(index) do
-				self.clearMeta(val)
+		if type(index) ~= "string" then
+			return print("[^1ERROR^7] xPlayer.clearMeta ^5index^7 should be ^5string^7!")
+		end
+
+		local metaData = self.metadata[index]
+		if metaData == nil then
+			return Config.EnableDebug and print(("[^1ERROR^7] xPlayer.clearMeta ^5%s^7 does not exist!"):format(index)) or nil
+		end
+
+		if not subValues then
+			-- If no subValues is provided, we will clear the entire value in the metaData table
+			self.metadata[index] = nil
+		elseif type(subValues) == "string" then
+			-- If subValues is a string, we will clear the specific subValue within the table
+			if type(metaData) == "table" then
+				metaData[subValues] = nil
+			else
+				return print(("[^1ERROR^7] xPlayer.clearMeta ^5%s^7 is not a table! Cannot clear subValue ^5%s^7."):format(index, subValues))
 			end
-
-			return
+		elseif type(subValues) == "table" then
+			-- If subValues is a table, we will clear multiple subValues within the table
+			for i = 1, #subValues do
+				local subValue = subValues[i]
+				if type(subValue) == "string" then
+					if type(metaData) == "table" then
+						metaData[subValue] = nil
+					else
+						print(("[^1ERROR^7] xPlayer.clearMeta ^5%s^7 is not a table! Cannot clear subValue ^5%s^7."):format(index, subValue))
+					end
+				else
+					print(("[^1ERROR^7] xPlayer.clearMeta subValues should contain ^5string^7, received ^5%s^7, skipping..."):format(type(subValue)))
+				end
+			end
+		else
+			return print(("[^1ERROR^7] xPlayer.clearMeta ^5subValues^7 should be ^5string^7 or ^5table^7, received ^5%s^7!"):format(type(subValues)))
 		end
 
-		if not self.metadata[index] then
-			return print(("[^1ERROR^7] xPlayer.clearMeta ^5%s^7 not exist!"):format(index))
-		end
-
-		self.metadata[index] = nil
-		self.triggerEvent('esx:updatePlayerData', 'metadata', self.metadata)
 		Player(self.source).state:set('metadata', self.metadata, true)
 	end
 
-	for fnName,fn in pairs(targetOverrides) do
+	for fnName, fn in pairs(targetOverrides) do
 		self[fnName] = fn(self)
 	end
 
