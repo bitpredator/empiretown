@@ -271,7 +271,7 @@ function OpenPromoteMenu(society, employee, options)
 
 		elements[#elements+1] = {icon = "fas fa-arrow-left", title = "Return", value = "return"}
 
-		ESX.OpenContext("right", elements, function(menu,element)
+		ESX.OpenContext("right", elements, function(_, element)
 			if element.value == "return" then
 				OpenEmployeeList(society, options)
 			else
@@ -281,7 +281,7 @@ function OpenPromoteMenu(society, employee, options)
 					OpenEmployeeList(society, options)
 				end, employee.identifier, society, element.value, 'promote')
 			end
-		end, function(menu)
+		end, function()
 			OpenEmployeeList(society, options)
 		end)
 	end, society)
