@@ -45,7 +45,7 @@ function UpdateSocietyMoneyHUDElement(money)
 	TriggerEvent('esx_society:setSocietyMoney', money)
 end
 
-function OpenBossMenu(society, close, options)
+function OpenBossMenu(society, _, options)
 	options = options or {}
 	local elements = {
 		{unselectable = true, icon = "fas fa-user", title = _U('boss_menu')}
@@ -165,11 +165,11 @@ function OpenManageEmployeesMenu(society, options)
 
 	elements[#elements+1] = {icon = "fas fa-arrow-left", title = "Return", value = "return"}
 
-	ESX.OpenContext("right", elements, function(_,element)
+	ESX.OpenContext("right", elements, function(_, element)
 		if element.value == "employee_list" then
 			OpenEmployeeList(society, options)
 		elseif element.value == "recruit" then
-			OpenRecruitMenu(society, options)	
+			OpenRecruitMenu(society, options)
 		elseif element.value == "return" then
 			OpenBossMenu(society, nil, options)
 		end
@@ -190,7 +190,7 @@ function OpenEmployeeList(society, options)
 
 		elements[#elements+1] = {icon = "fas fa-arrow-left", title = "Return", value = "return"}
 
-		ESX.OpenContext("right", elements, function(menu,element) 
+		ESX.OpenContext("right", elements, function(_,element)
 			if element.value == "return" then
 				OpenManageEmployeesMenu(society, options)
 			else
@@ -200,7 +200,7 @@ function OpenEmployeeList(society, options)
 					{icon = "fas fa-user", title = "Fire", value = "fire"},
 					{icon = "fas fa-arrow-left", title = "Return", value = "return"}
 				}
-				ESX.OpenContext("right", elements2, function(menu2,element2)
+				ESX.OpenContext("right", elements2, function(_,element2)
 					local employee = element.data
 					if element2.value == "promote" then
 						ESX.CloseContext()
