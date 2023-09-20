@@ -26,7 +26,7 @@ AddEventHandler('esx:onPlayerSpawn', function(spawn)
 		TriggerEvent('esx_basicneeds:resetStatus')
 	end
 
-	IsDead = false	
+	IsDead = false
 end)
 
 AddEventHandler('esx_status:loaded', function(status)
@@ -47,7 +47,7 @@ AddEventHandler('esx_status:onTick', function(data)
 	local playerPed  = PlayerPedId()
 	local prevHealth = GetEntityHealth(playerPed)
 	local health     = prevHealth
-	
+
 	for k, v in pairs(data) do
 		if v.name == 'hunger' and v.percent == 0 then
 			if prevHealth <= 150 then
@@ -63,7 +63,7 @@ AddEventHandler('esx_status:onTick', function(data)
 			end
 		end
 	end
-	
+
 	if health ~= prevHealth then SetEntityHealth(playerPed, health) end
 end)
 
