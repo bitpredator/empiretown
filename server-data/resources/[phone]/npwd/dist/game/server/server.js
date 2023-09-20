@@ -57455,7 +57455,6 @@ var config_default_default = {
     enableEmojis: true,
     enableImages: true,
     maxImages: 1,
-    allowNoMessage: false,
     resultsLimit: 25
   },
   match: {
