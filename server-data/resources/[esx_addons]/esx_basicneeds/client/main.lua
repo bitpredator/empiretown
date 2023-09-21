@@ -21,7 +21,7 @@ AddEventHandler('esx:onPlayerDeath', function()
 	IsDead = true
 end)
 
-AddEventHandler('esx:onPlayerSpawn', function(spawn)
+AddEventHandler('esx:onPlayerSpawn', function()
 	if IsDead then
 		TriggerEvent('esx_basicneeds:resetStatus')
 	end
@@ -29,14 +29,14 @@ AddEventHandler('esx:onPlayerSpawn', function(spawn)
 	IsDead = false
 end)
 
-AddEventHandler('esx_status:loaded', function(status)
-	TriggerEvent('esx_status:registerStatus', 'hunger', 1000000, '#CFAD0F', function(status)
+AddEventHandler('esx_status:loaded', function()
+	TriggerEvent('esx_status:registerStatus', 'hunger', 1000000, '#CFAD0F', function()
 		return Config.Visible
 	end, function(status)
 		status.remove(100)
 	end)
 
-	TriggerEvent('esx_status:registerStatus', 'thirst', 1000000, '#0C98F1', function(status)
+	TriggerEvent('esx_status:registerStatus', 'thirst', 1000000, '#0C98F1', function()
 		return Config.Visible
 	end, function(status)
 		status.remove(75)
@@ -48,7 +48,7 @@ AddEventHandler('esx_status:onTick', function(data)
 	local prevHealth = GetEntityHealth(playerPed)
 	local health     = prevHealth
 
-	for k, v in pairs(data) do
+	for _, v in pairs(data) do
 		if v.name == 'hunger' and v.percent == 0 then
 			if prevHealth <= 150 then
 				health = health - 5
