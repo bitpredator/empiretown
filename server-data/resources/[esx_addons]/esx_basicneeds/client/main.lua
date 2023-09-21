@@ -1,10 +1,5 @@
-ESX          = nil
 local IsDead = false
 local IsAnimated = false
-
-Citizen.CreateThread(function()
-	ESX = exports["es_extended"]:getSharedObject()
-end)
 
 AddEventHandler('esx_basicneeds:resetStatus', function()
 	TriggerEvent('esx_status:set', 'hunger', 500000)
@@ -26,7 +21,7 @@ AddEventHandler('esx:onPlayerDeath', function()
 	IsDead = true
 end)
 
-AddEventHandler('esx:onPlayerSpawn', function(spawn)
+AddEventHandler('esx:onPlayerSpawn', function()
 	if IsDead then
 		TriggerEvent('esx_basicneeds:resetStatus')
 	end
@@ -34,53 +29,42 @@ AddEventHandler('esx:onPlayerSpawn', function(spawn)
 	IsDead = false
 end)
 
-AddEventHandler('esx_status:loaded', function(status)
-
-	TriggerEvent('esx_status:registerStatus', 'hunger', 1000000, '#CFAD0F', function(status)
+AddEventHandler('esx_status:loaded', function()
+	TriggerEvent('esx_status:registerStatus', 'hunger', 1000000, '#CFAD0F', function()
 		return Config.Visible
 	end, function(status)
 		status.remove(100)
 	end)
 
-	TriggerEvent('esx_status:registerStatus', 'thirst', 1000000, '#0C98F1', function(status)
+	TriggerEvent('esx_status:registerStatus', 'thirst', 1000000, '#0C98F1', function()
 		return Config.Visible
 	end, function(status)
 		status.remove(75)
 	end)
+end)
 
-	Citizen.CreateThread(function()
-		while true do
-			Citizen.Wait(1000)
+AddEventHandler('esx_status:onTick', function(data)
+	local playerPed  = PlayerPedId()
+	local prevHealth = GetEntityHealth(playerPed)
+	local health     = prevHealth
 
-			local playerPed  = PlayerPedId()
-			local prevHealth = GetEntityHealth(playerPed)
-			local health     = prevHealth
-
-			TriggerEvent('esx_status:getStatus', 'hunger', function(status)
-				if status.val == 0 then
-					if prevHealth <= 150 then
-						health = health - 5
-					else
-						health = health - 1
-					end
-				end
-			end)
-
-			TriggerEvent('esx_status:getStatus', 'thirst', function(status)
-				if status.val == 0 then
-					if prevHealth <= 150 then
-						health = health - 5
-					else
-						health = health - 1
-					end
-				end
-			end)
-
-			if health ~= prevHealth then
-				SetEntityHealth(playerPed, health)
+	for _, v in pairs(data) do
+		if v.name == 'hunger' and v.percent == 0 then
+			if prevHealth <= 150 then
+				health = health - 5
+			else
+				health = health - 1
+			end
+		elseif v.name == 'thirst' and v.percent == 0 then
+			if prevHealth <= 150 then
+				health = health - 5
+			else
+				health = health - 1
 			end
 		end
-	end)
+	end
+
+	if health ~= prevHealth then SetEntityHealth(playerPed, health) end
 end)
 
 AddEventHandler('esx_basicneeds:isEating', function(cb)
