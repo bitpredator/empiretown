@@ -1,4 +1,4 @@
-ESX.RegisterCommand('heal', 'admin', function(xPlayer, args, showError)
+ESX.RegisterCommand('heal', 'admin', function(_, args)
 	args.playerId.triggerEvent('esx_basicneeds:healPlayer')
 	args.playerId.showNotification(_U('got_healed'))
 end, true, {help = 'Heal a player, or yourself - restores thirst, hunger and health.', validate = true, arguments = {
