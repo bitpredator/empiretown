@@ -54,13 +54,13 @@ CREATE TABLE IF NOT EXISTS `addon_account_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_addon_account_data_account_name_owner` (`account_name`,`owner`),
   KEY `index_addon_account_data_account_name` (`account_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.addon_account_data: ~16 rows (circa)
+-- Dump dei dati della tabella es_extended.addon_account_data: ~17 rows (circa)
 INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(1, 'society_cardealer', 0, NULL),
 	(2, 'society_police', 0, NULL),
-	(4, 'society_mechanic', 50, NULL),
+	(4, 'society_mechanic', 53, NULL),
 	(5, 'society_taxi', 0, NULL),
 	(14, 'society_import', 0, NULL),
 	(16, 'society_ambulance', 0, NULL),
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `banking` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.banking: ~2 rows (circa)
+-- Dump dei dati della tabella es_extended.banking: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.billing
 CREATE TABLE IF NOT EXISTS `billing` (
@@ -128,6 +128,28 @@ CREATE TABLE IF NOT EXISTS `billing` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella es_extended.billing: ~0 rows (circa)
+
+-- Dump della struttura di tabella es_extended.bpt_doorlock
+CREATE TABLE IF NOT EXISTS `bpt_doorlock` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `data` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dump dei dati della tabella es_extended.bpt_doorlock: ~11 rows (circa)
+INSERT INTO `bpt_doorlock` (`id`, `name`, `data`) VALUES
+	(1, 'mrpd locker rooms', '{"maxDistance":2,"heading":90,"coords":{"x":450.1041259765625,"y":-985.7384033203125,"z":30.83930206298828},"groups":{"police":0},"state":1,"model":1557126584,"hideUi":false}'),
+	(2, 'mrpd cells/briefing', '{"maxDistance":2,"coords":{"x":444.7078552246094,"y":-989.4454345703125,"z":30.83930206298828},"doors":[{"model":185711165,"coords":{"x":446.0079345703125,"y":-989.4454345703125,"z":30.83930206298828},"heading":0},{"model":185711165,"coords":{"x":443.40777587890627,"y":-989.4454345703125,"z":30.83930206298828},"heading":180}],"groups":{"police":0},"state":1,"hideUi":false}'),
+	(3, 'mrpd cell 3', '{"maxDistance":2,"heading":90,"coords":{"x":461.8065185546875,"y":-1001.9515380859375,"z":25.06442832946777},"lockSound":"metal-locker","groups":{"police":0},"state":1,"unlockSound":"metallic-creak","model":631614199,"hideUi":false}'),
+	(4, 'mrpd back entrance', '{"maxDistance":2,"coords":{"x":468.6697692871094,"y":-1014.4520263671875,"z":26.5362319946289},"doors":[{"model":-2023754432,"coords":{"x":467.37164306640627,"y":-1014.4520263671875,"z":26.5362319946289},"heading":0},{"model":-2023754432,"coords":{"x":469.9678955078125,"y":-1014.4520263671875,"z":26.5362319946289},"heading":180}],"groups":{"police":0},"state":1,"hideUi":false}'),
+	(5, 'mrpd cells security door', '{"maxDistance":2,"heading":0,"coords":{"x":464.1282958984375,"y":-1003.5386962890625,"z":25.00598907470703},"autolock":5,"groups":{"police":0},"state":1,"model":-1033001619,"hideUi":false}'),
+	(6, 'mrpd cell 2', '{"maxDistance":2,"heading":90,"coords":{"x":461.8064880371094,"y":-998.3082885742188,"z":25.06442832946777},"lockSound":"metal-locker","groups":{"police":0},"state":1,"unlockSound":"metallic-creak","model":631614199,"hideUi":false}'),
+	(7, 'mrpd captain\'s office', '{"maxDistance":2,"heading":180,"coords":{"x":446.57281494140627,"y":-980.0105590820313,"z":30.83930206298828},"groups":{"police":0},"state":1,"model":-1320876379,"hideUi":false}'),
+	(8, 'mrpd gate', '{"maxDistance":6,"heading":90,"coords":{"x":488.894775390625,"y":-1017.2102661132813,"z":27.14714050292968},"groups":{"police":0},"auto":true,"state":1,"model":-1603817716,"hideUi":false}'),
+	(9, 'mrpd cell 1', '{"maxDistance":2,"heading":270,"coords":{"x":461.8065185546875,"y":-993.7586059570313,"z":25.06442832946777},"lockSound":"metal-locker","groups":{"police":0},"state":1,"unlockSound":"metallic-creak","model":631614199,"hideUi":false}'),
+	(10, 'mrpd cells main', '{"maxDistance":2,"heading":360,"coords":{"x":463.92010498046877,"y":-992.6640625,"z":25.06442832946777},"lockSound":"metal-locker","groups":{"police":0},"state":1,"unlockSound":"metallic-creak","model":631614199,"hideUi":false}'),
+	(11, 'mrpd armoury', '{"maxDistance":2,"heading":270,"coords":{"x":453.08428955078127,"y":-982.5794677734375,"z":30.81926536560058},"autolock":5,"groups":{"police":0},"state":1,"model":749848321,"hideUi":false}');
 
 -- Dump della struttura di tabella es_extended.bpt_items
 CREATE TABLE IF NOT EXISTS `bpt_items` (
@@ -257,9 +279,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1632 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1713 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~1.617 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~1.698 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -1867,7 +1889,88 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1628, 'property', NULL, '{}'),
 	(1629, 'property', NULL, '{}'),
 	(1630, 'property', NULL, '{}'),
-	(1631, 'property', NULL, '{}');
+	(1631, 'property', NULL, '{}'),
+	(1632, 'property', NULL, '{}'),
+	(1633, 'property', NULL, '{}'),
+	(1634, 'property', NULL, '{}'),
+	(1635, 'property', NULL, '{}'),
+	(1636, 'property', NULL, '{}'),
+	(1637, 'property', NULL, '{}'),
+	(1638, 'property', NULL, '{}'),
+	(1639, 'property', NULL, '{}'),
+	(1640, 'property', NULL, '{}'),
+	(1641, 'property', NULL, '{}'),
+	(1642, 'property', NULL, '{}'),
+	(1643, 'property', NULL, '{}'),
+	(1644, 'property', NULL, '{}'),
+	(1645, 'property', NULL, '{}'),
+	(1646, 'property', NULL, '{}'),
+	(1647, 'property', NULL, '{}'),
+	(1648, 'property', NULL, '{}'),
+	(1649, 'property', NULL, '{}'),
+	(1650, 'property', NULL, '{}'),
+	(1651, 'property', NULL, '{}'),
+	(1652, 'property', NULL, '{}'),
+	(1653, 'property', NULL, '{}'),
+	(1654, 'property', NULL, '{}'),
+	(1655, 'property', NULL, '{}'),
+	(1656, 'property', NULL, '{}'),
+	(1657, 'property', NULL, '{}'),
+	(1658, 'property', NULL, '{}'),
+	(1659, 'property', NULL, '{}'),
+	(1660, 'property', NULL, '{}'),
+	(1661, 'property', NULL, '{}'),
+	(1662, 'property', NULL, '{}'),
+	(1663, 'property', NULL, '{}'),
+	(1664, 'property', NULL, '{}'),
+	(1665, 'property', NULL, '{}'),
+	(1666, 'property', NULL, '{}'),
+	(1667, 'property', NULL, '{}'),
+	(1668, 'property', NULL, '{}'),
+	(1669, 'property', NULL, '{}'),
+	(1670, 'property', NULL, '{}'),
+	(1671, 'property', NULL, '{}'),
+	(1672, 'property', NULL, '{}'),
+	(1673, 'property', NULL, '{}'),
+	(1674, 'property', NULL, '{}'),
+	(1675, 'property', NULL, '{}'),
+	(1676, 'property', NULL, '{}'),
+	(1677, 'property', NULL, '{}'),
+	(1678, 'property', NULL, '{}'),
+	(1679, 'property', NULL, '{}'),
+	(1680, 'property', NULL, '{}'),
+	(1681, 'property', NULL, '{}'),
+	(1682, 'property', NULL, '{}'),
+	(1683, 'property', NULL, '{}'),
+	(1684, 'property', NULL, '{}'),
+	(1685, 'property', NULL, '{}'),
+	(1686, 'property', NULL, '{}'),
+	(1687, 'property', NULL, '{}'),
+	(1688, 'property', NULL, '{}'),
+	(1689, 'property', NULL, '{}'),
+	(1690, 'property', NULL, '{}'),
+	(1691, 'property', NULL, '{}'),
+	(1692, 'property', NULL, '{}'),
+	(1693, 'property', NULL, '{}'),
+	(1694, 'property', NULL, '{}'),
+	(1695, 'property', NULL, '{}'),
+	(1696, 'property', NULL, '{}'),
+	(1697, 'property', NULL, '{}'),
+	(1698, 'property', NULL, '{}'),
+	(1699, 'property', NULL, '{}'),
+	(1700, 'property', NULL, '{}'),
+	(1701, 'property', NULL, '{}'),
+	(1702, 'property', NULL, '{}'),
+	(1703, 'property', NULL, '{}'),
+	(1704, 'property', NULL, '{}'),
+	(1705, 'property', NULL, '{}'),
+	(1706, 'property', NULL, '{}'),
+	(1707, 'property', NULL, '{}'),
+	(1708, 'property', NULL, '{}'),
+	(1709, 'property', NULL, '{}'),
+	(1710, 'property', NULL, '{}'),
+	(1711, 'property', NULL, '{}'),
+	(1712, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -1963,7 +2066,7 @@ INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 	('delivery', 'Delivery', 0),
 	('driving', 'Driving School', 1),
 	('dustman', 'Dustman', 1),
-	('fisherman', 'Fisherman', 1),
+	('fisherman', 'Fisherman', 0),
 	('import', 'Import', 1),
 	('mechanic', 'Mechanic', 1),
 	('police', 'LSPD', 1),
@@ -2000,7 +2103,7 @@ INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, 
 	(23, 'ambulance', 1, 'doctor', 'EMT', 40, '{"tshirt_2":0,"hair_color_1":5,"glasses_2":3,"shoes":9,"torso_2":3,"hair_color_2":0,"pants_1":24,"glasses_1":4,"hair_1":2,"sex":0,"decals_2":0,"tshirt_1":15,"helmet_1":8,"helmet_2":0,"arms":92,"face":19,"decals_1":60,"torso_1":13,"hair_2":0,"skin":34,"pants_2":5}', '{"tshirt_2":3,"decals_2":0,"glasses":0,"hair_1":2,"torso_1":73,"shoes":1,"hair_color_2":0,"glasses_1":19,"skin":13,"face":6,"pants_2":5,"tshirt_1":75,"pants_1":37,"helmet_1":57,"torso_2":0,"arms":14,"sex":1,"glasses_2":0,"decals_1":0,"hair_2":0,"helmet_2":0,"hair_color_1":0}'),
 	(24, 'ambulance', 2, 'chief_doctor', 'Sr. EMT', 60, '{"tshirt_2":0,"hair_color_1":5,"glasses_2":3,"shoes":9,"torso_2":3,"hair_color_2":0,"pants_1":24,"glasses_1":4,"hair_1":2,"sex":0,"decals_2":0,"tshirt_1":15,"helmet_1":8,"helmet_2":0,"arms":92,"face":19,"decals_1":60,"torso_1":13,"hair_2":0,"skin":34,"pants_2":5}', '{"tshirt_2":3,"decals_2":0,"glasses":0,"hair_1":2,"torso_1":73,"shoes":1,"hair_color_2":0,"glasses_1":19,"skin":13,"face":6,"pants_2":5,"tshirt_1":75,"pants_1":37,"helmet_1":57,"torso_2":0,"arms":14,"sex":1,"glasses_2":0,"decals_1":0,"hair_2":0,"helmet_2":0,"hair_color_1":0}'),
 	(25, 'ambulance', 3, 'boss', 'EMT Supervisor', 80, '{"tshirt_2":0,"hair_color_1":5,"glasses_2":3,"shoes":9,"torso_2":3,"hair_color_2":0,"pants_1":24,"glasses_1":4,"hair_1":2,"sex":0,"decals_2":0,"tshirt_1":15,"helmet_1":8,"helmet_2":0,"arms":92,"face":19,"decals_1":60,"torso_1":13,"hair_2":0,"skin":34,"pants_2":5}', '{"tshirt_2":3,"decals_2":0,"glasses":0,"hair_1":2,"torso_1":73,"shoes":1,"hair_color_2":0,"glasses_1":19,"skin":13,"face":6,"pants_2":5,"tshirt_1":75,"pants_1":37,"helmet_1":57,"torso_2":0,"arms":14,"sex":1,"glasses_2":0,"decals_1":0,"hair_2":0,"helmet_2":0,"hair_color_1":0}'),
-	(26, 'mechanic', 0, 'recrue', 'Recruit', 12, '{}', '{}'),
+	(26, 'mechanic', 0, 'recrue', 'Recruit', 90, '{}', '{}'),
 	(27, 'mechanic', 1, 'novice', 'Novice', 24, '{}', '{}'),
 	(28, 'mechanic', 2, 'experimente', 'Experienced', 36, '{}', '{}'),
 	(29, 'mechanic', 3, 'chief', 'Leader', 10, '{}', '{}'),
@@ -2381,78 +2484,6 @@ CREATE TABLE IF NOT EXISTS `owned_vehicles` (
 
 -- Dump dei dati della tabella es_extended.owned_vehicles: ~5 rows (circa)
 
--- Dump della struttura di tabella es_extended.ox_doorlock
-CREATE TABLE IF NOT EXISTS `ox_doorlock` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Dump dei dati della tabella es_extended.ox_doorlock: ~61 rows (circa)
-INSERT INTO `ox_doorlock` (`id`, `name`, `data`) VALUES
-	(1, 'community_mrpd 1', '{"coords":{"x":434.7478942871094,"y":-981.916748046875,"z":30.83926963806152},"groups":{"police":0,"offpolice":0},"maxDistance":2.5,"state":0,"doors":[{"coords":{"x":434.7478942871094,"y":-980.618408203125,"z":30.83926963806152},"model":-1215222675,"heading":270},{"coords":{"x":434.7478942871094,"y":-983.215087890625,"z":30.83926963806152},"model":320433149,"heading":270}],"hideUi":false}'),
-	(2, 'community_mrpd 2', '{"coords":{"x":468.6697998046875,"y":-1014.4520263671875,"z":26.53623962402343},"groups":{"police":0},"maxDistance":2.5,"state":1,"doors":[{"coords":{"x":469.9679870605469,"y":-1014.4520263671875,"z":26.53623962402343},"model":-2023754432,"heading":180},{"coords":{"x":467.3716125488281,"y":-1014.4520263671875,"z":26.53623962402343},"model":-2023754432,"heading":0}],"hideUi":false}'),
-	(3, 'community_mrpd 3', '{"coords":{"x":463.4783020019531,"y":-1003.5380249023438,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
-	(4, 'community_mrpd 4', '{"coords":{"x":488.8948059082031,"y":-1017.2100219726563,"z":27.14863014221191},"auto":true,"lockSound":"button-remote","groups":{"police":0},"heading":90,"maxDistance":5,"state":1,"model":-1603817716,"hideUi":false}'),
-	(5, 'community_mrpd 5', '{"coords":{"x":431.4056091308594,"y":-1001.1690063476563,"z":26.71261024475097},"auto":true,"lockSound":"button-remote","groups":{"police":0},"heading":0,"maxDistance":5,"state":1,"model":-190780785,"hideUi":false}'),
-	(6, 'community_mrpd 6', '{"coords":{"x":436.223388671875,"y":-1001.1690063476563,"z":26.71261024475097},"auto":true,"lockSound":"button-remote","groups":{"police":0},"heading":0,"maxDistance":5,"state":1,"model":-190780785,"hideUi":false}'),
-	(7, 'community_mrpd 7', '{"coords":{"x":450.10418701171877,"y":-985.7384033203125,"z":30.83930969238281},"model":1557126584,"groups":{"police":0,"offpolice":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
-	(8, 'community_mrpd 8', '{"coords":{"x":464.15838623046877,"y":-1011.260009765625,"z":33.01121139526367},"model":507213820,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
-	(9, 'community_mrpd 9', '{"coords":{"x":461.2864990234375,"y":-985.3206176757813,"z":30.83926963806152},"model":749848321,"groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
-	(10, 'community_mrpd 10', '{"coords":{"x":446.57281494140627,"y":-980.0106201171875,"z":30.83930969238281},"model":-1320876379,"groups":{"police":0},"heading":180,"maxDistance":2,"state":1,"hideUi":false}'),
-	(11, 'community_mrpd 11', '{"coords":{"x":453.09381103515627,"y":-983.2293701171875,"z":30.83926963806152},"model":-1033001619,"groups":{"police":0},"heading":91,"maxDistance":2,"state":1,"hideUi":false}'),
-	(12, 'community_mrpd 12', '{"coords":{"x":464.36138916015627,"y":-984.677978515625,"z":43.83443832397461},"model":-340230128,"groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
-	(13, 'community_mrpd 13', '{"coords":{"x":442.6625061035156,"y":-988.2412719726563,"z":26.81977081298828},"model":-131296141,"groups":{"police":0},"heading":179,"maxDistance":2,"state":1,"hideUi":false}'),
-	(14, 'community_mrpd 14', '{"coords":{"x":471.3153991699219,"y":-986.1090698242188,"z":25.05794906616211},"model":-131296141,"groups":{"police":0},"heading":270,"maxDistance":2,"state":1,"hideUi":false}'),
-	(15, 'community_mrpd 15', '{"coords":{"x":467.5935974121094,"y":-977.9932861328125,"z":25.05794906616211},"model":-131296141,"groups":{"police":0},"heading":180,"maxDistance":2,"state":1,"hideUi":false}'),
-	(16, 'community_mrpd 16', '{"coords":{"x":463.6145935058594,"y":-980.5814208984375,"z":25.05794906616211},"model":-131296141,"groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
-	(17, 'community_mrpd 17', '{"coords":{"x":464.5701904296875,"y":-992.6641235351563,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
-	(18, 'community_mrpd 18', '{"coords":{"x":461.8064880371094,"y":-994.4086303710938,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":270,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
-	(19, 'community_mrpd 19', '{"coords":{"x":461.8064880371094,"y":-997.6583862304688,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
-	(20, 'community_mrpd 20', '{"coords":{"x":461.8064880371094,"y":-1001.302001953125,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
-	(21, 'community_mrpd 21', '{"coords":{"x":467.19219970703127,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
-	(22, 'community_mrpd 22', '{"coords":{"x":471.4754943847656,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
-	(23, 'community_mrpd 23', '{"coords":{"x":475.7543029785156,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
-	(24, 'community_mrpd 24', '{"coords":{"x":480.03009033203127,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
-	(25, 'community_mrpd 25', '{"coords":{"x":468.4872131347656,"y":-1003.5479736328125,"z":25.01313972473144},"model":-1033001619,"groups":{"police":0},"heading":180,"maxDistance":2,"state":1,"hideUi":false}'),
-	(26, 'community_mrpd 26', '{"coords":{"x":471.4747009277344,"y":-1003.5380249023438,"z":25.01222991943359},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
-	(27, 'community_mrpd 27', '{"coords":{"x":477.0495910644531,"y":-1003.552001953125,"z":25.01203918457031},"auto":false,"groups":{"police":0},"heading":179,"lockpick":false,"maxDistance":2,"state":1,"model":-1033001619,"hideUi":false}'),
-	(28, 'community_mrpd 28', '{"coords":{"x":480.03009033203127,"y":-1003.5380249023438,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
-	(29, 'community_mrpd 29', '{"coords":{"x":444.7078857421875,"y":-989.4453735351563,"z":30.83930969238281},"groups":{"police":0},"maxDistance":2.5,"state":1,"doors":[{"coords":{"x":443.4078063964844,"y":-989.4453735351563,"z":30.83930969238281},"model":185711165,"heading":180},{"coords":{"x":446.00799560546877,"y":-989.4453735351563,"z":30.83930969238281},"model":185711165,"heading":0}],"hideUi":false}'),
-	(30, 'community_mrpd 30', '{"coords":{"x":445.9197998046875,"y":-999.0016479492188,"z":30.7890396118164},"groups":{"police":0},"maxDistance":2.5,"state":1,"doors":[{"coords":{"x":447.2184143066406,"y":-999.0023193359375,"z":30.78941917419433},"model":-1033001619,"heading":180},{"coords":{"x":444.6211853027344,"y":-999.0009765625,"z":30.78866004943847},"model":-1033001619,"heading":0}],"hideUi":false}'),
-	(31, 'community_mrpd 31', '{"coords":{"x":445.9298400878906,"y":-997.044677734375,"z":30.84351921081543},"groups":{"police":0},"maxDistance":2.5,"state":0,"doors":[{"coords":{"x":444.62939453125,"y":-997.044677734375,"z":30.84351921081543},"model":-2023754432,"heading":0},{"coords":{"x":447.23028564453127,"y":-997.044677734375,"z":30.84351921081543},"model":-2023754432,"heading":180}],"hideUi":false}'),
-	(33, 'gabz_mrpd 2', '{"maxDistance":2,"state":1,"groups":{"police":0,"offpolice":0},"doors":[{"heading":180,"coords":{"x":458.2087097167969,"y":-972.2542724609375,"z":30.81529998779297},"model":-1547307588},{"heading":0,"coords":{"x":455.8861999511719,"y":-972.2542724609375,"z":30.81529998779297},"model":-1547307588}],"coords":{"x":457.0474548339844,"y":-972.2542724609375,"z":30.81529998779297},"hideUi":false}'),
-	(34, 'gabz_mrpd 3', '{"maxDistance":2,"state":1,"groups":{"police":0,"offpolice":0},"doors":[{"heading":0,"coords":{"x":440.73919677734377,"y":-998.7462158203125,"z":30.81529998779297},"model":-1547307588},{"heading":180,"coords":{"x":443.0617980957031,"y":-998.7462158203125,"z":30.81529998779297},"model":-1547307588}],"coords":{"x":441.9005126953125,"y":-998.7462158203125,"z":30.81529998779297},"hideUi":false}'),
-	(35, 'gabz_mrpd 4', '{"coords":{"x":441.1300048828125,"y":-977.9299926757813,"z":30.82319068908691},"state":1,"model":-1406685646,"heading":0,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(36, 'gabz_mrpd 5', '{"coords":{"x":440.5201110839844,"y":-986.2335205078125,"z":30.82319068908691},"state":1,"model":-96679321,"heading":180,"groups":{"police":0,"offpolice":0},"maxDistance":2,"hideUi":false}'),
-	(37, 'gabz_mrpd 6', '{"coords":{"x":464.1590881347656,"y":-974.6655883789063,"z":26.37070083618164},"state":1,"model":1830360419,"heading":270,"groups":{"police":0,"offpolice":0},"maxDistance":2,"hideUi":false}'),
-	(38, 'gabz_mrpd 7', '{"coords":{"x":464.1565856933594,"y":-997.50927734375,"z":26.37070083618164},"state":1,"model":1830360419,"heading":90,"groups":{"police":0,"offpolice":0},"maxDistance":2,"hideUi":false}'),
-	(39, 'gabz_mrpd 8', '{"coords":{"x":431.4118957519531,"y":-1000.77197265625,"z":26.69660949707031},"state":1,"model":2130672747,"heading":0,"groups":{"police":0,"offpolice":0},"auto":true,"lockSound":"button-remote","maxDistance":6,"hideUi":false}'),
-	(40, 'gabz_mrpd 9', '{"coords":{"x":452.3005065917969,"y":-1000.77197265625,"z":26.69660949707031},"state":1,"model":2130672747,"heading":0,"groups":{"police":0,"offpolice":0},"auto":true,"lockSound":"button-remote","maxDistance":6,"hideUi":false}'),
-	(41, 'gabz_mrpd 10', '{"coords":{"x":488.8948059082031,"y":-1017.2119750976563,"z":27.14934921264648},"state":1,"model":-1603817716,"heading":90,"groups":{"police":0,"offpolice":0},"auto":true,"lockSound":"button-remote","maxDistance":6,"hideUi":false}'),
-	(42, 'gabz_mrpd 11', '{"maxDistance":2,"state":1,"groups":{"police":0,"offpolice":0},"doors":[{"heading":0,"coords":{"x":467.36859130859377,"y":-1014.406005859375,"z":26.48381996154785},"model":-692649124},{"heading":180,"coords":{"x":469.7742919921875,"y":-1014.406005859375,"z":26.48381996154785},"model":-692649124}],"coords":{"x":468.5714416503906,"y":-1014.406005859375,"z":26.48381996154785},"hideUi":false}'),
-	(43, 'gabz_mrpd 12', '{"coords":{"x":475.9538879394531,"y":-1010.8189697265625,"z":26.40638923645019},"state":1,"model":-1406685646,"heading":180,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(44, 'gabz_mrpd 13', '{"coords":{"x":476.6156921386719,"y":-1008.875,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":270,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
-	(45, 'gabz_mrpd 14', '{"coords":{"x":481.0083923339844,"y":-1004.1179809570313,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":180,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
-	(46, 'gabz_mrpd 15', '{"coords":{"x":477.91259765625,"y":-1012.1890258789063,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":0,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
-	(47, 'gabz_mrpd 16', '{"coords":{"x":480.9128112792969,"y":-1012.1890258789063,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":0,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
-	(48, 'gabz_mrpd 17', '{"coords":{"x":483.9126892089844,"y":-1012.1890258789063,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":0,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
-	(49, 'gabz_mrpd 18', '{"coords":{"x":486.9130859375,"y":-1012.1890258789063,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":0,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
-	(50, 'gabz_mrpd 19', '{"coords":{"x":484.1763916015625,"y":-1007.7340087890625,"z":26.48004913330078},"unlockSound":"metallic-creak","state":1,"model":-53345114,"heading":180,"groups":{"police":0},"maxDistance":2,"lockSound":"metal-locker","hideUi":false}'),
-	(51, 'gabz_mrpd 20', '{"coords":{"x":479.05999755859377,"y":-1003.1729736328125,"z":26.4064998626709},"state":1,"model":-288803980,"heading":90,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(52, 'gabz_mrpd 21', '{"coords":{"x":482.6694030761719,"y":-983.98681640625,"z":26.40547943115234},"state":1,"model":-1406685646,"heading":270,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(53, 'gabz_mrpd 22', '{"coords":{"x":482.67010498046877,"y":-987.5792236328125,"z":26.40547943115234},"state":1,"model":-1406685646,"heading":270,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(54, 'gabz_mrpd 23', '{"coords":{"x":482.6698913574219,"y":-992.299072265625,"z":26.40547943115234},"state":1,"model":-1406685646,"heading":270,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(55, 'gabz_mrpd 24', '{"coords":{"x":482.6702880859375,"y":-995.728515625,"z":26.40547943115234},"state":1,"model":-1406685646,"heading":270,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(56, 'gabz_mrpd 25', '{"coords":{"x":475.8323059082031,"y":-990.48388671875,"z":26.40547943115234},"state":1,"model":-692649124,"heading":135,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(57, 'gabz_mrpd 26', '{"coords":{"x":479.7507019042969,"y":-999.6290283203125,"z":30.78927040100097},"state":1,"model":-692649124,"heading":90,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(58, 'gabz_mrpd 27', '{"coords":{"x":487.43780517578127,"y":-1000.1890258789063,"z":30.7869701385498},"state":1,"model":-692649124,"heading":181,"groups":{"police":0},"maxDistance":2,"hideUi":false}'),
-	(59, 'gabz_mrpd 28', '{"maxDistance":2,"state":1,"groups":{"police":0},"doors":[{"heading":0,"coords":{"x":485.6133117675781,"y":-1002.9019775390625,"z":30.7869701385498},"model":-692649124},{"heading":180,"coords":{"x":488.0184020996094,"y":-1002.9019775390625,"z":30.7869701385498},"model":-692649124}],"coords":{"x":486.81585693359377,"y":-1002.9019775390625,"z":30.7869701385498},"hideUi":false}'),
-	(60, 'gabz_mrpd 29', '{"coords":{"x":464.30859375,"y":-984.5283813476563,"z":43.771240234375},"state":1,"model":-692649124,"heading":90,"groups":{"police":0},"auto":false,"maxDistance":2,"lockpick":false,"hideUi":false}'),
-	(61, 'gabz_mrpd 30', '{"coords":{"x":410.0257873535156,"y":-1024.219970703125,"z":29.22019958496093},"state":1,"model":-1635161509,"heading":270,"groups":{"police":0},"lockSound":"button-remote","auto":true,"maxDistance":6,"lockpick":false,"hideUi":false}'),
-	(62, 'gabz_mrpd 31', '{"coords":{"x":410.0257873535156,"y":-1024.2259521484376,"z":29.2202205657959},"state":1,"model":-1868050792,"heading":270,"groups":{"police":0},"lockSound":"button-remote","auto":true,"maxDistance":6,"lockpick":false,"hideUi":false}');
-
 -- Dump della struttura di tabella es_extended.ox_inventory
 CREATE TABLE IF NOT EXISTS `ox_inventory` (
   `owner` varchar(46) DEFAULT NULL,
@@ -2462,7 +2493,7 @@ CREATE TABLE IF NOT EXISTS `ox_inventory` (
   UNIQUE KEY `owner` (`owner`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.ox_inventory: ~6 rows (circa)
+-- Dump dei dati della tabella es_extended.ox_inventory: ~7 rows (circa)
 
 -- Dump della struttura di tabella es_extended.rented_vehicles
 CREATE TABLE IF NOT EXISTS `rented_vehicles` (
@@ -2484,9 +2515,9 @@ CREATE TABLE IF NOT EXISTS `society_moneywash` (
   `society` varchar(60) NOT NULL,
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.society_moneywash: ~0 rows (circa)
+-- Dump dei dati della tabella es_extended.society_moneywash: ~1 rows (circa)
 
 -- Dump della struttura di tabella es_extended.users
 CREATE TABLE IF NOT EXISTS `users` (
