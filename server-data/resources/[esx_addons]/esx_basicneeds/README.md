@@ -21,8 +21,6 @@ esx_basicneeds - thirst and hunger system
 
 Copyright (C) 2022-2023 bitpredator
 
-This program is a project for the fivem community, you have legal permission to distribute and / or modify it only if you have forked this repository, if it is not a fork repository, the version will be removed from the DMCA request.
-
 ATTENTION: You are not authorized to change the name of the resource and the resources within it.
 
 If you want to contribute you can open a pull request.
