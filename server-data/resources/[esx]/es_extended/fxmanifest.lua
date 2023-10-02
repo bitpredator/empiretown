@@ -46,25 +46,13 @@ client_scripts {
 	'dependencies/hardcap/client/*.lua'
 }
 
-ui_page {
-	'html/ui.html'
-}
-
 files {
 	'imports.lua',
-	'locale.js',
-	'html/ui.html',
-	'html/css/app.css',
-	'html/js/mustache.min.js',
-	'html/js/wrapper.js',
-	'html/js/app.js',
-	'html/fonts/pdown.ttf',
-	'html/fonts/bankgothic.ttf'
+	'locale.js'
 }
 
 dependencies {
-	'/server:5949',
-	'/onesync',
+	'/native:0x6AE51D4B',
 	'oxmysql',
 	'spawnmanager',
 }
