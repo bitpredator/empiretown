@@ -75,7 +75,7 @@ AddEventHandler('esx:playerLoaded', function(xPlayer, isNew, skin)
 
 	-- DisableVehicleRewards
 	if Config.DisableVehicleRewards then
-		AddEventHandler('esx:enteredVehicle', function(vehicle, _, _, _, _)
+		AddEventHandler('esx:enteredVehicle', function(vehicle)
 			if GetVehicleClass(vehicle) == 18 then
 				CreateThread(function()
 					while true do
@@ -358,7 +358,7 @@ function StartServerSyncLoops()
 						local sleep = 1500
 						if GetSelectedPedWeapon(ESX.PlayerData.ped) ~= -1569615261 then
 							sleep = 1000
-							local _,weaponHash = GetCurrentPedWeapon(ESX.PlayerData.ped, true)
+							local _, weaponHash = GetCurrentPedWeapon(ESX.PlayerData.ped, true)
 							local weapon = ESX.GetWeaponFromHash(weaponHash)
 							if weapon then
 								local ammoCount = GetAmmoInPedWeapon(ESX.PlayerData.ped, weaponHash)
@@ -374,7 +374,7 @@ function StartServerSyncLoops()
 							end
 						end
 					Wait(sleep)
-					end
+				end
 			end)
 	end
 end
@@ -419,34 +419,34 @@ AddEventHandler("esx:tpm", function()
 			local x, y, groundZ, Z_START = coords['x'], coords['y'], 850.0, 950.0
 			local found = false
 			if vehicle > 0 then
-					FreezeEntityPosition(vehicle, true)
+				FreezeEntityPosition(vehicle, true)
 			else
-					FreezeEntityPosition(ped, true)
+				FreezeEntityPosition(ped, true)
 			end
 
 			for i = Z_START, 0, -25.0 do
 					local z = i
 					if (i % 2) ~= 0 then
-							z = Z_START - i
+						z = Z_START - i
 					end
 
 					NewLoadSceneStart(x, y, z, x, y, z, 50.0, 0)
 					local curTime = GetGameTimer()
 					while IsNetworkLoadingScene() do
-							if GetGameTimer() - curTime > 1000 then
-									break
-							end
-							Wait(0)
+						if GetGameTimer() - curTime > 1000 then
+						break
+					end
+					Wait(0)
 					end
 					NewLoadSceneStop()
 					SetPedCoordsKeepVehicle(ped, x, y, z)
 
 					while not HasCollisionLoadedAroundEntity(ped) do
-							RequestCollisionAtCoord(x, y, z)
-							if GetGameTimer() - curTime > 1000 then
-									break
-							end
-							Wait(0)
+						RequestCollisionAtCoord(x, y, z)
+						if GetGameTimer() - curTime > 1000 then
+							break
+						end
+						Wait(0)
 					end
 
 					-- Get ground coord. As mentioned in the natives, this only works if the client is in render distance.

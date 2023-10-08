@@ -308,11 +308,11 @@ ESX.RegisterCommand('saveall', 'admin', function()
 	Core.SavePlayers()
 end, true, { help = _U('command_saveall') })
 
-ESX.RegisterCommand('group', { "user", "admin" }, function(xPlayer, _, _)
+ESX.RegisterCommand('group', { "user", "admin" }, function(xPlayer)
 	print(('%s, you are currently: ^5%s^0'):format(xPlayer.getName(), xPlayer.getGroup()))
 end, true)
 
-ESX.RegisterCommand('job', { "user", "admin" }, function(xPlayer, _, _)
+ESX.RegisterCommand('job', { "user", "admin" }, function(xPlayer)
 	print(('%s, your job is: ^5%s^0 - ^5%s^0'):format(xPlayer.getName(), xPlayer.getJob().name,
 		xPlayer.getJob().grade_label))
 end, true)
