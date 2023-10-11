@@ -114,6 +114,8 @@ AddStateBagChangeHandler('setVehicleProperties', '', function(bagName, _, value)
 end)
 ]]
 
+local gameBuild = GetGameBuildNumber()
+
 ---@param vehicle number
 ---@return VehicleProperties?
 function lib.getVehicleProperties(vehicle)
@@ -269,7 +271,7 @@ function lib.getVehicleProperties(vehicle)
             doors = damage.doors,
             tyres = damage.tyres,
             bulletProofTyres = GetVehicleTyresCanBurst(vehicle),
-            driftTyres = GetDriftTyresEnabled(vehicle),
+            driftTyres = gameBuild >= 2372 and GetDriftTyresEnabled(vehicle),
             -- no setters?
             -- leftHeadlight = GetIsLeftVehicleHeadlightDamaged(vehicle),
             -- rightHeadlight = GetIsRightVehicleHeadlightDamaged(vehicle),
@@ -298,16 +300,12 @@ function lib.setVehicleProperties(vehicle, props, fixVehicle)
     local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
 
     SetVehicleModKit(vehicle, 0)
-    SetVehicleAutoRepairDisabled(vehicle, true)
+    -- SetVehicleAutoRepairDisabled(vehicle, true)
 
     if props.extras then
         for id, disable in pairs(props.extras) do
             SetVehicleExtra(vehicle, tonumber(id) --[[@as number]], disable == 1)
         end
-    end
-
-    if fixVehicle then
-        SetVehicleFixed(vehicle)
     end
 
     if props.plate then
@@ -637,8 +635,12 @@ function lib.setVehicleProperties(vehicle, props, fixVehicle)
         SetVehicleTyresCanBurst(vehicle, props.bulletProofTyres)
     end
 
-    if props.driftTyres then
+    if gameBuild >= 2372 and props.driftTyres then
         SetDriftTyresEnabled(vehicle, true)
+    end
+
+    if fixVehicle then
+        SetVehicleFixed(vehicle)
     end
 
     return true
