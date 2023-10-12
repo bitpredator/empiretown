@@ -1,4 +1,5 @@
 <h1 align='center'>EMPIRETOWN - FRAMEWORK FOR FIVEM</a></h1>
+<p align='center'><a href='https://discord.gg/ksGfNvDEfq'>Discord</a>
 
 This program is a project for the fivem community, you have legal permission to distribute and / or modify it .
 
