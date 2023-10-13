@@ -1,8 +1,8 @@
 fx_version 'adamant'
 game 'gta5'
-author 'qalle-git; refactor bitpredator'
+author 'qalle-git; rework by: bitpredator'
 lua54 'yes'
-version '0.0.4'
+version '1.0.0'
 description "Jail Script With Working Job"
 
 shared_script '@es_extended/imports.lua'

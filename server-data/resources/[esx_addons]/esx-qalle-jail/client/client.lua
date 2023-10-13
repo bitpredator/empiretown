@@ -267,8 +267,7 @@ function DeliverPackage(packageId)
 end
 
 function OpenJailMenu()
-	ESX.UI.Menu.Open(
-		'default', GetCurrentResourceName(), 'jail_prison_menu',
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'jail_prison_menu',
 		{
 			title    = "Prison Menu",
 			align    = 'center',
