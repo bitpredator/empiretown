@@ -10,10 +10,7 @@ local Keys = {
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-ESX = nil
-
 PlayerData = {}
-
 local jailTime = 0
 
 CreateThread(function()
@@ -55,14 +52,12 @@ end)
 RegisterNetEvent("esx-qalle-jail:jailPlayer")
 AddEventHandler("esx-qalle-jail:jailPlayer", function(newJailTime)
 	jailTime = newJailTime
-
 	Cutscene()
 end)
 
 RegisterNetEvent("esx-qalle-jail:unJailPlayer")
 AddEventHandler("esx-qalle-jail:unJailPlayer", function()
 	jailTime = 0
-
 	UnJail()
 end)
 
@@ -75,7 +70,6 @@ end
 
 function UnJail()
 	InJail()
-
 	ESX.Game.Teleport(PlayerPedId(), Config.Teleports["Boiling Broke"])
 
 	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
@@ -87,7 +81,6 @@ end
 function InJail()
 
 	--Jail Timer--
-
 	CreateThread(function()
 		while jailTime > 0 do
 			jailTime = jailTime - 1
@@ -103,11 +96,9 @@ function InJail()
 		end
 
 	end)
-
 	--Jail Timer--
 
 	--Prison Work--
-
 	CreateThread(function()
 		while jailTime > 0 do
 
@@ -176,9 +167,7 @@ function LoadTeleporters()
 					end
 				end
 			end
-
 			Wait(sleepThread)
-
 		end
 	end)
 end
@@ -261,9 +250,7 @@ function DeliverPackage(packageId)
 				end
 			end
 		end
-
 	end
-
 end
 
 function OpenJailMenu()
@@ -317,16 +304,12 @@ function OpenJailMenu()
 								else
 									TriggerServerEvent("esx-qalle-jail:jailPlayer", GetPlayerServerId(closestPlayer), jailTime, reason)
 								end
-
 							end
-
 						end, function(_, menu3)
 							menu3.close()
 						end)
               		end
-
 				end
-
 			end, function(_, menu2)
 				menu2.close()
 			end)
@@ -363,9 +346,7 @@ function OpenJailMenu()
 					menu2.close()
 				end)
 			end)
-
 		end
-
 	end, function(_, menu)
 		menu.close()
 	end)
