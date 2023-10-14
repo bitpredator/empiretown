@@ -72,7 +72,6 @@ Locales['it'] = {
   ['search_database_title'] = 'informazioni sul veicolo - ricerca con numero di targa',
   ['search_database_error_invalid'] = 'questo ~r~non è un numero di registrazione valido',
   -- Traffic interaction
-  ['traffic_interaction'] = 'interazione Traffico',
   ['cone'] = 'cono',
   ['barrier'] = 'barriere',
   ['spikestrips'] = 'strisce chiodate',
@@ -113,9 +112,7 @@ Locales['it'] = {
   ['open_bossmenu'] = 'premi [E] per aprire il menu',
   ['quantity_invalid'] = 'quantità non valida',
   ['have_withdrawn'] = 'hai prelevato %sx %s',
-  ['have_deposited'] = 'hai depositato %sx %s',
   ['quantity'] = 'quantità',
-  ['inventory'] = 'inventario',
   -- Misc
   ['remove_prop'] = 'premi [E] per eliminare',
   ['map_blip'] = 'polizia',

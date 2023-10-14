@@ -1,4 +1,3 @@
-TriggerEvent('esx_phone:registerNumber', 'police', _U('alert_police'), true, true)
 TriggerEvent('esx_society:registerSociety', 'police', _U('society_police'), 'society_police', 'society_police', 'society_police', {type = 'public'})
 
 RegisterNetEvent('esx_policejob:confiscatePlayerItem')
@@ -245,7 +244,7 @@ ESX.RegisterServerCallback('esx_policejob:addArmoryWeapon', function(source, cb,
 
 		store.set('weapons', weapons)
 		cb()
-		end)
+	end)
 end)
 
 ESX.RegisterServerCallback('esx_policejob:removeArmoryWeapon', function(source, cb, weaponName)

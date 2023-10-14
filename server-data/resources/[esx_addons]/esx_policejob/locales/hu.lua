@@ -92,12 +92,9 @@ Locales['hu'] = {
   ['search_plate'] = 'Enter Plate', --not translated
   ['lookup_plate'] = 'Lookup Plate', --not translated
   -- Traffic interaction
-  ['traffic_interaction'] = 'Útzárak',
   ['cone'] = 'bólya',
   ['barrier'] = 'útakadály',
   ['spikestrips'] = 'szögesdrót',
-  ['box'] = 'doboz',
-  ['cash'] = 'pénzesdoboz',
   -- ID Card Menu
   ['name'] = 'név: %s',
   ['job'] = 'munka: %s',
@@ -136,24 +133,16 @@ Locales['hu'] = {
   ['open_bossmenu'] = 'Nyomj [E] gombot a menü eléréséhez',
   ['quantity_invalid'] = 'érvénytelen mennyiség',
   ['have_withdrawn'] = 'Kivetted %sx %s',
-  ['have_deposited'] = 'Beraktad %sx %s',
   ['quantity'] = 'mennyiség',
   ['quantity_placeholder'] = 'Amount to withdraw..', --not translated
-  ['inventory'] = 'leltár',
   ['police_stock'] = 'Állomány',
   -- Misc
   ['remove_prop'] = 'Nyomj [E] gombot az objektum törléséhez',
   ['map_blip'] = 'Rendőrség',
   ['unrestrained_timer'] = '...',
-  -- Notifications
-  ['alert_police'] = 'riasztás',
-  ['phone_police'] = 'rendörség',
   -- Keybind
   ['interaction'] = 'Interakció', --not translated
   ['quick_actions'] = 'Gyorsmenü', --not translated
   -- Other
   ['society_police'] = 'Rendőrség', --not translated
-  ['s_m_y_sheriff_01'] = 'Sheriff Ped', --not translated
-  ['s_m_y_cop_01'] = 'Rendőr Ped', -- not translated
-  ['s_m_y_swat_01'] = 'SWAT Ped', --not translated
 }
