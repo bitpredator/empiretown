@@ -92,12 +92,9 @@ Locales['pl'] = {
   ['search_plate'] = 'Enter Plate', --not translated
   ['lookup_plate'] = 'Lookup Plate', --not translated
   -- Traffic interaction
-  ['traffic_interaction'] = 'interakcje dla ruchu drogowego',
   ['cone'] = 'pachołek',
   ['barrier'] = 'barierka',
   ['spikestrips'] = 'kolczatka',
-  ['box'] = 'pudła',
-  ['cash'] = 'paleta z pieniędzmi',
   -- ID Card Menu
   ['name'] = 'name: %s',
   ['job'] = 'praca: %s',
@@ -135,24 +132,16 @@ Locales['pl'] = {
   ['open_bossmenu'] = 'naciśnij [E] aby otworzyć menu',
   ['quantity_invalid'] = 'nieprawidłowa ilość',
   ['have_withdrawn'] = 'wyjmujesz z depozytu %sx %s',
-  ['have_deposited'] = 'zdeponowano %sx %s',
   ['quantity'] = 'ilość',
   ['quantity_placeholder'] = 'Amount to withdraw..', --not translated
-  ['inventory'] = 'ekwipunek',
   ['police_stock'] = 'zapasy policji',
   -- Misc
   ['remove_prop'] = 'naciśnij [E] aby usunąć ten obiekt',
   ['map_blip'] = 'komisariat Policji',
   ['unrestrained_timer'] = 'czujesz, że twoje kajdanki powoli tracą przyczepność i znikają.',
-  -- Notifications
-  ['alert_police'] = 'ostrzeż policję',
-  ['phone_police'] = 'police',
   -- Keybind
   ['interaction'] = 'Interact', --not translated
   ['quick_actions'] = 'Quick Actions', --not translated
   -- Other
   ['society_police'] = 'Police', --not translated
-  ['s_m_y_sheriff_01'] = 'Sheriff Ped', --not translated
-  ['s_m_y_cop_01'] = 'Police Ped', -- not translated
-  ['s_m_y_swat_01'] = 'SWAT Ped', --not translated
 }

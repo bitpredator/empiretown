@@ -92,12 +92,9 @@ Locales['fi'] = {
   ['search_plate'] = 'Kirjoita rekisteritunnus',
   ['lookup_plate'] = 'Tarkista rekisteritunnus',
   -- Traffic interaction
-  ['traffic_interaction'] = 'liikenteen vuorovaikutus',
   ['cone'] = 'kartio',
   ['barrier'] = 'este',
   ['spikestrips'] = 'piikkimatto',
-  ['box'] = 'laatikko',
-  ['cash'] = 'rahalaatikko',
   -- ID Card Menu
   ['name'] = 'nimi: %s',
   ['job'] = 'työ: %s',
@@ -135,25 +132,16 @@ Locales['fi'] = {
   ['open_bossmenu'] = 'paina [E] avataksesi valikon',
   ['quantity_invalid'] = 'invalid quantity',
   ['have_withdrawn'] = 'sinä otit varastosta %sx %s',
-  ['have_deposited'] = 'sinä talletit varastoon %sx %s',
   ['quantity'] = 'määrä',
   ['quantity_placeholder'] = 'Määrä mitä otat..',
-  ['inventory'] = 'varasto',
   ['police_stock'] = 'poliisin Varasto',
   -- Misc
   ['remove_prop'] = 'paina [E] poistaaksesi objektin',
   ['map_blip'] = 'poliisilaitos',
   ['unrestrained_timer'] = 'tunnet kuinka hitaasti käsiraudat alkavat löystyä ja irtoavat',
-  -- Notifications
-  ['alert_police'] = 'hälyytys Poliisi',
-  ['phone_police'] = 'poliisi',
   -- Keybind
   ['interaction'] = 'Vuorovaikuta',
   ['quick_actions'] = 'Pikavalinnat',
   -- Other
   ['society_police'] = 'Poliisi',
-  ['s_m_y_sheriff_01'] = 'Sheriffi npc',
-  ['s_m_y_cop_01'] = 'Poliisi npc',
-  ['s_m_y_swat_01'] = 'SWAT npc',
-  
 }

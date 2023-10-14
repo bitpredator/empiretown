@@ -92,12 +92,9 @@ Locales['de'] = {
   -- Traffic interaction
   ['search_plate'] = 'Kennzeichen Eingeben',
   ['lookup_plate'] = 'Kennzeichen Suchen',
-  ['traffic_interaction'] = 'Vehrkehrs Interaktionen',
   ['cone'] = 'Hütchen',
   ['barrier'] = 'Barriere',
   ['spikestrips'] = 'Nagelband',
-  ['box'] = 'Box',
-  ['cash'] = 'Box mit Geld',
   -- ID Card Menu
   ['name'] = 'Name: %s',
   ['job'] = 'Job: %s',
@@ -135,24 +132,16 @@ Locales['de'] = {
   ['open_bossmenu'] = 'Drücke [E] um das Menü zu öffnen',
   ['quantity_invalid'] = 'Ungültige Anzahl',
   ['have_withdrawn'] = 'Du zahlst ~y~%sx~s~ ~b~%s~s~ aus',
-  ['have_deposited'] = 'Du zahlst ~y~%sx~s~ ~b~%s~s~ ein',
   ['quantity'] = 'Anzahl',
   ['quantity_placeholder'] = 'Anzahl zum Einzahlen..',
-  ['inventory'] = 'Inventar',
   ['police_stock'] = 'Polizeilager',
   -- Misc
   ['remove_prop'] = 'Drücke [E] um das Objekt zu entfernen',
   ['map_blip'] = 'Polizeiwache',
   ['unrestrained_timer'] = 'Du fühlst wie du aus deinen Handschellen langsam rausgleitest! Renn!',
-  -- Notifications
-  ['alert_police'] = 'Polizei Alarmieren',
-  ['phone_police'] = 'Polizei',
   -- Keybind
   ['interaction'] = 'Interagieren',
   ['quick_actions'] = 'Schnelle Aktionen',
   -- Other
   ['society_police'] = 'Polizei',
-  ['s_m_y_sheriff_01'] = 'Sheriff Charakter',
-  ['s_m_y_cop_01'] = 'Polizei Charakter',
-  ['s_m_y_swat_01'] = 'SWAT Charakter',
 }

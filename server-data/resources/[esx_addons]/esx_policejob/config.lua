@@ -12,8 +12,8 @@ Config.EnableLicenses             = true -- Enable if you're using esx_license.
 Config.EnableHandcuffTimer        = true -- Enable handcuff timer? will unrestrain player after the time ends.
 Config.HandcuffTimer              = 10 * 60000 -- 10 minutes.
 Config.EnableJobBlip              = true -- Enable blips for cops on duty, requires esx_society.
-
 Config.Locale                     = 'en'
+
 
 Config.OxInventory                = ESX.GetConfig().OxInventory
 

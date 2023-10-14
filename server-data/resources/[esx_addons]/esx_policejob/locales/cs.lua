@@ -92,12 +92,9 @@ Locales['cs'] = {
   ['search_plate'] = 'Enter Plate', --not translated
   ['lookup_plate'] = 'Lookup Plate', --not translated
   -- Traffic interaction
-  ['traffic_interaction'] = 'interakce provozu',
   ['cone'] = 'kuzel',
   ['barrier'] = 'bariera',
   ['spikestrips'] = 'ostnaty pas',
-  ['box'] = 'box',
-  ['cash'] = 'box penez',
   -- ID Card Menu
   ['name'] = 'jméno: %s',
   ['job'] = 'práce: %s',
@@ -135,24 +132,16 @@ Locales['cs'] = {
   ['open_bossmenu'] = 'stiskni [E] pro otevření menu',
   ['quantity_invalid'] = 'neplatné množství',
   ['have_withdrawn'] = 'vybral jsi %sx %s',
-  ['have_deposited'] = 'vložil jsi %sx %s',
   ['quantity'] = 'množství',
   ['quantity_placeholder'] = 'Amount to withdraw..', --not translated
-  ['inventory'] = 'inventář',
   ['police_stock'] = 'policejní sklad',
   -- Misc
   ['remove_prop'] = 'stiskni [E] pro odstranění předmětu',
   ['map_blip'] = 'policejní stanice',
   ['unrestrained_timer'] = 'cítíš, že tvé pouta pomalu ztrácejí přilnavost a padají.',
-  -- Notifications
-  ['alert_police'] = 'policejní poplach',
-  ['phone_police'] = 'policie',
-    -- Keybind
-    ['interaction'] = 'Interact', --not translated
-    ['quick_actions'] = 'Quick Actions', --not translated
-    -- Other
-    ['society_police'] = 'Police', --not translated
-    ['s_m_y_sheriff_01'] = 'Sheriff Ped', --not translated
-    ['s_m_y_cop_01'] = 'Police Ped', -- not translated
-    ['s_m_y_swat_01'] = 'SWAT Ped', --not translated
+  -- Keybind
+  ['interaction'] = 'Interact', --not translated
+  ['quick_actions'] = 'Quick Actions', --not translated
+  -- Other
+  ['society_police'] = 'Police', --not translated
 }
