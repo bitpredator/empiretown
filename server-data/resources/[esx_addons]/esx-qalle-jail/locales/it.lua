@@ -10,4 +10,7 @@ Locales['it'] = {
     ['put_something'] = 'Devi mettere qualcosa qui!',
     ['jail_empty'] = 'La tua prigione è vuota!',
     ['not_officer'] = 'Non sei un ufficiale!',
+    ['invalid_time'] = 'Questo tempo non è valido',
+    ['id_not_online'] = 'Questo ID non è online',
+    ['money_for_food'] = 'Eccoti un po\' di soldi per il cibo!',
 }

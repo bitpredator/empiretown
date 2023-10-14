@@ -10,4 +10,7 @@ Locales['en'] = {
     ['put_something'] = 'You need to put something here!',
     ['jail_empty'] = 'Your jail is empty!',
     ['not_officer'] = 'You are not an officer!',
+    ['invalid_time'] = 'This time is invalid',
+    ['id_not_online'] = 'This ID is not online',
+    ['money_for_food'] = 'Here you have som cash for food!'
 }
