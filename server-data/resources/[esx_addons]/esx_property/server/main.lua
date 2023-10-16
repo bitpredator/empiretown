@@ -1,27 +1,12 @@
---[[
-      ESX Property - Properties Made Right!
-    Copyright (C) 2022 ESX-Framework
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-]] local function Log(title, color, fields, Level)
+local function Log(title, color, fields, Level)
   if Level <= Config.Logs.LogLevel then
     local webHook = Config.Logs.Webhook
-    local embedData = {{['title'] = title, ['color'] = color, ['footer'] = {['text'] = "ESX-Property | " .. os.date(),
-                                                                            ['icon_url'] = 'https://cdn.discordapp.com/attachments/944789399852417096/1004915039414788116/imageedit_1_2564956129.png'},
-                        ['fields'] = fields, ['description'] = "", ['author'] = {['name'] = "ESX-Framework | Log Level " .. Level,
-                                                                                 ['icon_url'] = 'https://cdn.discordapp.com/emojis/939245183621558362.webp?size=128&quality=lossless'}}}
-    PerformHttpRequest(webHook, function(err, text, headers)
+    local embedData = {{
+      ['title'] = title, ['color'] = color, ['footer'] = {['text'] = "ESX-Property | " .. os.date(),
+      ['icon_url'] = 'https://cdn.discordapp.com/attachments/944789399852417096/1004915039414788116/imageedit_1_2564956129.png'},
+      ['fields'] = fields, ['description'] = "", ['author'] = {['name'] = "ESX-Framework | Log Level " .. Level,
+      ['icon_url'] = 'https://cdn.discordapp.com/emojis/939245183621558362.webp?size=128&quality=lossless'}}}
+    PerformHttpRequest(webHook, function()
     end, 'POST', json.encode({username = 'ESX-Framework', embeds = embedData}), {['Content-Type'] = 'application/json'})
   end
 end
@@ -66,7 +51,7 @@ function PropertiesRefresh()
     end
     local Players = ESX.GetExtendedPlayers()
     Log("ESX-Property Loaded", 11141375, {{name = "Property Count", value = #Properties, inline = true},
-                                               {name = "OX Inventory", value = Config.OxInventory and "Enabled" or "Disabled", inline = true}}, 1)
+      {name = "OX Inventory", value = Config.OxInventory and "Enabled" or "Disabled", inline = true}}, 1)
     for _, xPlayer in pairs(Players) do
       TriggerClientEvent("esx_property:syncProperties", xPlayer.source, Properties, xPlayer.get("lastProperty"))
     end
@@ -161,11 +146,11 @@ AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
 end)
 
 --- Commands
-ESX.RegisterCommand(_("refresh_name"), Config.AllowedGroups, function(xPlayer)
+ESX.RegisterCommand(_U("refresh_name"), Config.AllowedGroups, function()
   PropertiesRefresh()
 end, false, {help = _U("refresh_desc")})
 
-ESX.RegisterCommand(_("create_name"), "user", function(xPlayer)
+ESX.RegisterCommand(_U("create_name"), "user", function(xPlayer)
   if IsPlayerAdmin(xPlayer.source) or (PM.Enabled and xPlayer.job.name == PM.job) then
     xPlayer.triggerEvent("esx_property:CreateProperty")
   end
@@ -430,7 +415,7 @@ ESX.RegisterServerCallback("esx_property:SetPropertyName", function(source, cb, 
   cb((xPlayer.identifier == Owner or IsPlayerAdmin(source, "SetPropertyName")) and name and #name <= Config.MaxNameLength)
 end)
 
-ESX.RegisterServerCallback("esx_property:KnockOnDoor", function(source, cb, PropertyId, name)
+ESX.RegisterServerCallback("esx_property:KnockOnDoor", function(source, cb, PropertyId)
   local xPlayer = ESX.GetPlayerFromId(source)
   local Property = Properties[PropertyId]
   local Owner = ESX.GetPlayerFromIdentifier(Property.Owner)
@@ -450,7 +435,7 @@ ESX.RegisterServerCallback("esx_property:KnockOnDoor", function(source, cb, Prop
   end
 end)
 
-ESX.RegisterServerCallback("esx_property:RemoveCustomName", function(source, cb, PropertyId, name)
+ESX.RegisterServerCallback("esx_property:RemoveCustomName", function(source, cb, PropertyId)
   local Property = Properties[PropertyId]
   local xPlayer = ESX.GetPlayerFromId(source)
   if IsPlayerAdmin(source, "RemovePropertyName") then
@@ -571,7 +556,7 @@ ESX.RegisterServerCallback("esx_property:editFurniture", function(source, cb, Pr
   cb(xPlayer.identifier == Owner or IsPlayerAdmin(source) or (Properties[PropertyId].Keys and Properties[PropertyId].Keys[xPlayer.identifier]))
 end)
 
-ESX.RegisterServerCallback("esx_property:evictOwner", function(source, cb, PropertyId, Interior)
+ESX.RegisterServerCallback("esx_property:evictOwner", function(source, cb, PropertyId)
   local xPlayer = ESX.GetPlayerFromId(source)
   if IsPlayerAdmin(source, "EvictOwner") then
     local xOwner = ESX.GetPlayerFromIdentifier(Properties[PropertyId].Owner)
@@ -604,7 +589,7 @@ ESX.RegisterServerCallback("esx_property:evictOwner", function(source, cb, Prope
   cb(IsPlayerAdmin(source, "EvictOwner"))
 end)
 
-ESX.RegisterServerCallback("esx_property:CanRaid", function(source, cb, PropertyId, Interior)
+ESX.RegisterServerCallback("esx_property:CanRaid", function(source, cb, PropertyId)
   local xPlayer = ESX.GetPlayerFromId(source)
   local Can = false
   if Config.Raiding.Enabled then
@@ -732,7 +717,7 @@ ESX.RegisterServerCallback('esx_property:GetInsidePlayers', function(source, cb,
   local xPlayer = ESX.GetPlayerFromId(source)
   local NearbyPlayers = Property.plysinside
 
-  for k, v in pairs(NearbyPlayers) do
+  for _, v in pairs(NearbyPlayers) do
     local xPlayer = ESX.GetPlayerFromId(v)
     if not Properties[property].Keys then
       Properties[property].Keys = {}
@@ -750,7 +735,7 @@ ESX.RegisterServerCallback('esx_property:GetNearbyPlayers', function(source, cb,
   local xPlayer = ESX.GetPlayerFromId(source)
   local NearbyPlayers = ESX.OneSync.GetPlayersInArea(vector3(Property.Entrance.x, Property.Entrance.y, Property.Entrance.z), 5.0)
   Wait(100)
-    for k, v in pairs(NearbyPlayers) do
+    for _, v in pairs(NearbyPlayers) do
       local xTarget = ESX.GetPlayerFromId(v.id)
       if xPlayer.identifier ~= xTarget.identifier then
         Players[#Players + 1] = {name = xTarget.getName(), source = xTarget.source}
@@ -773,11 +758,11 @@ ESX.RegisterServerCallback('esx_property:ShouldHaveKey', function(source, cb, pr
   cb(Properties[property].Keys[xPlayer.identifier])
 end)
 
-ESX.RegisterServerCallback('esx_property:GetWebhook', function(source, cb, property)
+ESX.RegisterServerCallback('esx_property:GetWebhook', function(_, cb)
   cb(Config.CCTV.PictureWebook)
 end)
 
-ESX.RegisterServerCallback('esx_property:RemoveLastProperty', function(source, cb, property)
+ESX.RegisterServerCallback('esx_property:RemoveLastProperty', function(source, cb)
   local xPlayer = ESX.GetPlayerFromId(source)
   MySQL.query("UPDATE `users` SET `last_property` = NULL WHERE `identifier` = ?", {xPlayer.identifier}) -- Remove Saved Data
   SetPlayerRoutingBucket(source, 0) -- Reset Routing Bucket
@@ -861,7 +846,7 @@ ESX.RegisterServerCallback('esx_property:StoreVehicle', function(source, cb, Pro
      {name = "**Vehicle Name**", value = VehicleProperties.DisplayName, inline = true}}, 2)
 end)
 
-ESX.RegisterServerCallback('esx_property:AccessGarage', function(source, cb, PropertyId, VehicleProperties)
+ESX.RegisterServerCallback('esx_property:AccessGarage', function(source, cb, PropertyId)
   local xPlayer = ESX.GetPlayerFromId(source)
   local Property = Properties[PropertyId]
 
