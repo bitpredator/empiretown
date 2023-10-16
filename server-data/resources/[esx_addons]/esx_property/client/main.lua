@@ -1,20 +1,4 @@
---[[
-      ESX Property - Properties Made Right!
-    Copyright (C) 2022 ESX-Framework
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-]] local GameBuild = GetGameBuildNumber()
+local GameBuild = GetGameBuildNumber()
 Properties = {}
 CurrentId = 0
 local CurrentDrawing = {}
@@ -207,7 +191,8 @@ function ManageKeys(Property)
   local Elements = {{unselectable = true, title = _U("key_management"), icon = "fas fa-key"},
                     {title = _U("back"), icon = "fas fa-arrow-left", value = "go_back"},
                     {title = _U("give_keys"), icon = "fas fa-plus", value = "give_keys"},
-                    {title = _U("remove_keys"), icon = "fas fa-minus", value = "remove_keys"}}
+                    {title = _U("remove_keys"), icon = "fas fa-minus", value = "remove_keys"}
+  }
 
   ESX.OpenContext("right", Elements, function(menu, element)
     if element.value == "go_back" then
@@ -226,7 +211,8 @@ function SetPropertyName(Property)
   local Name = Properties[Property].setName ~= "" and Properties[Property].setName or Properties[Property].Name
   local Elements = {{unselectable = true, title = _U("name_edit"), icon = "fa-solid fa-signature"},
                     {icon = "", title = _U("name"), input = true, inputType = "text", inputValue = Name, inputPlaceholder = Properties[Property].Name,
-                     name = "setName"}, {icon = "fa-solid fa-check", title = _U("confirm"), name = "confirm"}}
+                     name = "setName"}, {icon = "fa-solid fa-check", title = _U("confirm"), name = "confirm"}
+  }
 
   ESX.OpenContext("right", Elements, function(menu, element)
     if element.name == "confirm" then
@@ -281,7 +267,7 @@ function PropertyMenuElements(PropertyId)
                                   value = 'property_wardrobe'})
         end
         table.insert(elements,
-          {title = _U("Furniture_title"), description = _U("Furniture_desc"), icon = "fas fa-boxes-stacked", value = 'property_furniture'})
+          {title = _U("furniture_title"), description = _U("furniture_desc"), icon = "fas fa-boxes-stacked", value = 'property_furniture'})
       end
     end
     if (not Property.Locked or Config.OwnerCanAlwaysEnter and ESX.PlayerData.identifier == Property.Owner) and not InProperty then
@@ -454,7 +440,7 @@ function OpenPropertyMenu(PropertyId)
                   local eles = PropertyMenuElements(PropertyId)
                   exports["esx_context"]:Refresh(eles)
                 else
-                  ESX.ShowNotification(_U("cannot_Sell"), "error")
+                  ESX.ShowNotification(_U("cannot_sell"), "error")
                 end
               end, PropertyId, element.value)
             end
@@ -476,7 +462,7 @@ function OpenPropertyMenu(PropertyId)
           local eles = PropertyMenuElements(PropertyId)
           exports["esx_context"]:Refresh(eles)
         else
-          ESX.ShowNotification(_U("cannot_Sell"), "error")
+          ESX.ShowNotification(_U("cannot_sell"), "error")
         end
       end, PropertyId)
     end
@@ -521,6 +507,9 @@ RegisterCommand("getoffset", function(source)
     local Property = Properties[CurrentId]
     local Interior = GetInteriorValues(Property.Interior)
     print(vector3(Property.Entrance.x, Property.Entrance.y, 2000) - Pcoords)
+    SendNUIMessage({
+      link = tostring(vector3(Property.Entrance.x, Property.Entrance.y, 2000) - Pcoords)
+    })
   end
 end)
 
@@ -944,7 +933,7 @@ RegisterNetEvent("esx_property:CreateProperty", function()
                         {value = 0, title = _U("element_title1"), icon = "fas fa-list-ol", description = _U("element_description1"), input = true,
                          inputType = "number", inputPlaceholder = "Number...", inputValue = nil, inputMin = 1, inputMax = 90000, index = "hnumber"},
                         {title = _U("element_title2"), icon = "fas fa-dollar-sign", input = true, inputType = "number",description = _U("element_description2"),
-                         inputPlaceholder = "Price...", inputValue = nil, inputMin = 1, inputMax = 50000000, index = "price"},
+                         inputPlaceholder = "Price...", inputValue = SuggestedPrice, inputMin = 1, inputMax = 900000000, index = "price"},
                         {title = _U("element_title3"), description = _U("element_description3"), icon = "fas fa-home", index = "interior"},
                         {title = _U("element_title4"), description = _U("element_description4"), icon = "fas fa-warehouse", value = {enabled = false},
                          index = "garage", disabled = not (Config.Garage.Enabled)},
@@ -1513,4 +1502,3 @@ RegisterNetEvent("esx_property:AdminMenu", function()
     end
   end)
 end)
-

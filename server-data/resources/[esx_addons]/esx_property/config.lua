@@ -57,7 +57,7 @@ Config.Garage = {
 }
 
 --------------------- Log Settings ---------------------------------
-if IsDuplicityVersion() then 
+if IsDuplicityVersion() then
   Config.Logs = {
     Webhook = "",
     LogLevel = 1
@@ -98,7 +98,7 @@ Config.CCTV = {
   HeightAboveDoor = 2.5, -- Height above the door to place the cctv camera
   FOV = 80.0, -- Camera Field of View
   MaxLeftRotation = 80,
-  MaxZoom = 30, 
+  MaxZoom = 30,
   MinZoom = 100,
   MaxRightRotation = -50,
   MaxUpRotation = 10,
@@ -125,34 +125,34 @@ Config.AllowedGroups = {
 }
 
 ------------------Interacting With Wardrobe Markers ------------------------------
-Config.WardrobeInteraction = function(PropertyId, Interaction)
+Config.WardrobeInteraction = function()
   ESX.TriggerServerCallback('esx_property:getPlayerDressing', function(dressing)
     local elements = {{unselectable = true, icon = "fas fa-tshirt", title = "Wardrobe"}}
 
     for i=1, #dressing, 1 do
-        elements[#elements + 1] = {
-            title = dressing[i],
-            value = i
-        }
+      elements[#elements + 1] = {
+        title = dressing[i],
+        value = i
+      }
     end
-    
-    ESX.OpenContext("left", elements, function(menu, element)
-        TriggerEvent('skinchanger:getSkin', function(skin)
-            ESX.TriggerServerCallback('esx_property:getPlayerOutfit', function(clothes)
-                TriggerEvent('skinchanger:loadClothes', skin, clothes)
-                TriggerEvent('esx_skin:setLastSkin', skin)
 
-                TriggerEvent('skinchanger:getSkin', function(skin)
-                    TriggerServerEvent('esx_skin:save', skin)
-                end)
-            end, element.value)
-        end)
+    ESX.OpenContext("left", elements, function(_, element)
+      TriggerEvent('skinchanger:getSkin', function(skin)
+        ESX.TriggerServerCallback('esx_property:getPlayerOutfit', function(clothes)
+          TriggerEvent('skinchanger:loadClothes', skin, clothes)
+          TriggerEvent('esx_skin:setLastSkin', skin)
+
+          TriggerEvent('skinchanger:getSkin', function()
+            TriggerServerEvent('esx_skin:save', skin)
+          end)
+        end, element.value)
+      end)
     end)
-end)
+  end)
 end
 
 --------------------- Real Estate Settings ----------
-Config.PlayerManagement = {                          
+Config.PlayerManagement = {
   Enabled = false, -- Enable/Disable Player Management Default: true
   job = "realestateagent", -- Job Required to Manage Players Default: "realestateagent"                 
   joblabel = "Estate Agent", -- Job Label Default: "Estate Agent"          
@@ -201,7 +201,7 @@ Config.PlayerManagement = {
     Exit = vector3( -141.226, -614.166,  167.820 ), -- Exit Location (Interior Location) Default: vector3( -141.226, -614.166,  167.820 )
     Properties = vector3(-138.9228, -634.1255, 167.8504), -- Property Management Menu Default: vector3(-138.9228, -634.1255, 167.8504)
   }
-}        
+}
 
 ----------------------Long Lists----------------------------------------
 Config.FurnitureStores = {
@@ -401,266 +401,261 @@ Config.Interiors = {
   }
 }
 
-Config.FurnitureCatagories = 
-{Decorations = {{name = "apa_mp_h_acc_bottle_01", title = "Bottle", price = 700},
-                {name = "apa_mp_h_acc_candles_01", title = "Candles", price = 700},
-                {name = "p_int_jewel_mirror", title = "Mirror", price = 700},
-                {name = "apa_mp_h_acc_dec_plate_01", title = "Decorative Plate", price = 700},
-                {name = "apa_mp_h_acc_vase_01", title = "Vase", price = 700},
-                {name = "v_res_desktidy", title = "Desk Supplies", price = 700},
-                {name = "ex_prop_ashtray_luxe_02", title = "Ashtray", price = 700},
-                {name = "v_res_mp_ashtrayb", title = "Ashtray 2", price = 300},
-                {name = "prop_bong_01", title = "Bong", price = 700},
-                {name = "prop_mr_rasberryclean", title = "Mr Rasberry Clean", price = 700},
-                {name = "prop_acc_guitar_01", title = "Guitar", price = 1000},
-                {name = "p_planning_board_04", title = "Planning Board", price = 500},
-                {name = "prop_hotel_clock_01", title = "Hotel Clock", price = 500},
-                {name = "p_cs_pamphlet_01_s", title = "Pamphlet", price = 700},
-                {name = "prop_big_clock_01", title = "Big Clock", price = 500},
-                {name = "prop_egg_clock_01", title = "Egg Clock", price = 500},
-                {name = "prop_ld_greenscreen_01", title = "Green Screen", price = 100},
-                {name = "prop_dart_bd_cab_01", title = "Dart", price = 500},
-                {name = "prop_dart_bd_01", title = "Dart 2", price = 500},
-                {name = "prop_exercisebike", title = "Exercise Bike", price = 500},
-                {name = "p_laz_j02_s", title = "Laz", price = 500},
-                {name = "v_res_cherubvase", title = "White Vase", price = 500},
-                {name = "v_res_d_paddedwall", title = "Padded Wall", price = 500},
-                {name = "prop_dummy_01", title = "Dummy", price = 100},
-                {name = "prop_el_guitar_01", title = "E Guitar 1", price = 100},
-                {name = "prop_el_guitar_02", title = "E Guitar 2", price = 100},
-                {name = "prop_el_guitar_03", title = "E Guitar 2", price = 100},
-                {name = "v_res_mbowlornate", title = "Ornate Bowl", price = 300},
-                {name = "v_res_mbronzvase", title = "Bronze Vase", price = 300},
-                {name = "prop_ceramic_jug_01", title = "Ceramic Jug", price = 100},
-                {name = "v_res_m_candle", title = "Candle Large 1", price = 300},
-                {name = "v_res_m_candlelrg", title = "Candle Large 2", price = 300},
-                {name = "apa_mp_h_acc_candles_06", title = "Candles 1", price = 50},
-                {name = "apa_mp_h_acc_candles_05", title = "Candles 2", price = 50},
-                {name = "apa_mp_h_acc_candles_04", title = "Candles 3", price = 50},
-                {name = "apa_mp_h_acc_rugwools_01", title = "Rug 1", price = 300},
-                {name = "apa_mp_h_acc_rugwoolm_01", title = "Rug 2", price = 300},
-                {name = "apa_mp_h_acc_rugwooll_04", title = "Rug 3", price = 300},
-                {name = "apa_mp_h_acc_rugwooll_03", title = "Rug 4", price = 300},
-                {name = "apa_mp_h_acc_rugwoolm_04", title = "Rug 5", price = 300},
-                {name = "apa_mp_h_acc_rugwools_03", title = "Rug 6", price = 300},
-                {name = "v_res_fh_pouf", title = "Pouf", price = 300},
-                {name = "v_res_fh_sculptmod", title = "Sculpture", price = 300},
-                {name = "prop_v_5_bclock", title = "Vintage Clock", price = 300},
-                {name = "prop_v_15_cars_clock", title = "American Flag Clock", price = 300},
-                {name = "prop_sm_19_clock", title = "Modern Clock", price = 300},
-                {name = "prop_sports_clock_01", title = "Sports Clock", price = 300},
-                {name = "prop_mem_candle_01", title = "Candle 1", price = 300},
-                {name = "prop_game_clock_01", title = "Crown Clock", price = 300},
-                {name = "prop_game_clock_02", title = "Kronos Clock", price = 300},
-                {name = "prop_id2_20_clock", title = "Modern Clock 2", price = 300},
-                {name = "ex_office_citymodel_01", title = "CIty name", price = 300},
-                {name = "apa_mp_h_acc_dec_head_01", title = "Mask", price = 300},
-                {name = "ex_mp_h_acc_vase_06", title = "Vase 1", price = 300},
-                {name = "ex_mp_h_acc_vase_02", title = "Red Vase", price = 300},
-                {name = "hei_prop_hei_bust_01", title = "Bust", price = 300},
-                {name = "prop_arcade_01", title = "Arcade Machine", price = 300},
-                {price = 6500, name = 'prop_beer_neon_01', title = 'Neon Sign 1'},
-                {price = 6500, name = 'prop_beer_neon_02', title = 'Neon Sign 2'},
-                {price = 6500, name = 'prop_beer_neon_03', title = 'Neon Sign 3'},
-                {price = 6500, name = 'prop_beer_neon_04', title = 'Neon Sign 3'},
-                {price = 6500, name = 'prop_patriotneon', title = 'Neon Sign Patriot'},
-                {price = 6500, name = 'prop_barrachneon', title = 'Neon Sign Pussy Beer'}},
- Electronics = {{price = 0, title = 'Lamp', name = 'prop_cd_lamp'},
-                {price = 1800, title = 'Shredder', name = 'v_ret_gc_shred'},
-                {price = 800, title = 'Antique telephone', name = 'apa_mp_h_acc_phone_01'},
-                {price = 14700, title = 'TV wall white-gray with electronics', name = 'apa_mp_h_str_avunitl_04'},
-                {price = 6700, title = 'TV wooden wall with television', name = 'apa_mp_h_str_avunitl_01_b'},
-                {price = 14300, title = 'Television with yellow speakers', name = 'apa_mp_h_str_avunitm_01'},
-                {price = 12000, title = 'TV with white speakers', name = 'apa_mp_h_str_avunitm_03'},
-                {price = 12900, title = 'Television with accessories', name = 'apa_mp_h_str_avunits_01'},
-                {price = 6900, title = 'TV on a metal table', name = 'apa_mp_h_str_avunits_01'},
-                {price = 5500, title = 'Notebook', name = 'bkr_prop_clubhouse_laptop_01a'},
-                {price = 4400, title = 'Notebook', name = 'bkr_prop_clubhouse_laptop_01b'},
-                {price = 12400, title = 'Money counter', name = 'bkr_prop_money_counter'},
-                {price = 700, title = 'Large upright fan', name = 'bkr_prop_weed_fan_floor_01a'},
-                {price = 2400, title = 'Tvsmash', name = 'des_tvsmash_start'},
-                {price = 2700, title = 'Wall TV', name = 'ex_prop_ex_tv_flat_01'},
-                {price = 3500, title = 'Desktop monitor with keyboard', name = 'ex_prop_monitor_01_ex'},
-                {price = 4700, title = 'Desktop monitor with keyboard', name = 'ex_prop_trailer_monitor_01'},
-                {price = 200, title = 'TV driver', name = 'ex_prop_tv_settop_remote'},
-                {price = 2200, title = 'TV box', name = 'ex_prop_tv_settop_box'},
-                {price = 1000, title = 'Table fan', name = 'gr_prop_bunker_deskfan_01a'},
-                {price = 8400, title = 'Television with speakers and all equipment', name = 'hei_heist_str_avunitl_03'},
-                {price = 1700, title = 'telephone landline', name = 'hei_prop_hei_bank_phone_01'},
-                {price = 3800, title = 'Alarm', name = 'hei_prop_hei_bio_panel'},
-                {price = 2100, title = 'Keyboard', name = 'hei_prop_hei_cs_keyboard'},
-                {price = 8900, title = 'Project board', name = 'hei_prop_hei_muster_01'},
-                {price = 1800, title = 'WIFI', name = 'hei_prop_server_piece_01'},
-                {price = 3300, title = 'White notebook', name = 'p_laptop_02_s'},
-                {price = 10500, title = 'Safe', name = 'p_v_43_safe_s'},
-                {price = 7900, title = 'Table Hockey', name = 'prop_airhockey_01'},
-                {price = 2400, title = 'Portable Radio', name = 'prop_boombox_01'},
-                {price = 2500, title = 'DVD player', name = 'prop_cctv_cont_03'},
-                {price = 3300, title = 'CD player', name = 'prop_cctv_cont_04'},
-                {price = 900, title = 'PC Mouse', name = 'prop_cs_mouse_01'},
-                {price = 900, title = 'Wall clock', name = 'prop_game_clock_01'},
-                {price = 600, title = 'Wall clock black', name = 'prop_game_clock_02'},
-                {price = 3400, title = 'HiFi system', name = 'prop_hifi_01'},
-                {price = 1500, title = 'square clock', name = 'prop_hotel_clock_01'},
-                {price = 1500, title = 'Clock', name = 'prop_id2_20_clock'},
-                {price = 3400, title = 'Nikon Handheld Camera', name = 'prop_ing_camera_01'},
-                {price = 1700, title = 'White keyboard', name = 'prop_keyboard_01a'},
-                {price = 1600, title = 'Router', name = 'prop_ld_armour'},
-                {price = 1700, title = 'Old monitor', name = 'prop_ld_monitor_01'},
-                {price = 2300, title = 'Small old monitor', name = 'prop_monitor_01b'},
-                {price = 400, title = 'RETRO monitor', name = 'prop_monitor_03b'},
-                {price = 5900, title = 'Monitor', name = 'prop_monitor_w_large'},
-                {price = 4800, title = 'Repráček', name = 'prop_mp3_dock'},
-                {price = 4000, title = 'White PC', name = 'prop_pc_01a'},
-                {price = 4800, title = 'Black PC', name = 'prop_pc_02a'},
-                {price = 2500, title = 'Mobile', name = 'prop_phone_ing'},
-                {price = 2100, title = 'Mobile', name = 'prop_phone_ing_02'},
-                {price = 2000, title = 'Mobile', name = 'prop_phone_ing_02_lod'},
-                {price = 2300, title = 'Mobile', name = 'prop_phone_ing_03'},
-                {price = 1000, title = 'RETRO radio', name = 'prop_radio_01'},
-                {price = 1100, title = 'Small speaker', name = 'prop_speaker_05'},
-                {price = 1000, title = 'Speaker', name = 'prop_speaker_06'},
-                {price = 1900, title = 'Speaker', name = 'prop_speaker_08'},
-                {price = 2000, title = 'Old TV', name = 'prop_trev_tv_01'},
-                {price = 500, title = 'Old TV', name = 'prop_tv_03'},
-                {price = 300, title = 'Old TV', name = 'prop_tv_01'},
-                {price = 400, title = 'RETRO TV', name = 'prop_tv_04'},
-                {price = 1700, title = 'Old TV', name = 'prop_tv_06'},
-                {price = 6500, title = 'Plasma big screen', name = 'prop_tv_flat_01'},
-                {price = 12500, title = 'Plasma thin TV', name = 'prop_tv_flat_01_screen'},
-                {price = 1600, title = 'Plasma small television', name = 'prop_tv_flat_02'},
-                {price = 2100, title = 'Plasma small television', name = 'prop_tv_flat_02b'},
-                {price = 900, title = 'Small TV with stand', name = 'prop_tv_flat_03'},
-                {price = 300, title = 'Small TV on the wall', name = 'prop_tv_flat_03b'},
-                {price = 9200, title = 'Television Michael 50cm', name = 'prop_tv_flat_michael'},
-                {price = 1000, title = 'Little US Clock', name = 'prop_v_15_cars_clock'},
-                {price = 4000, title = 'Professional camera', name = 'prop_v_cam_01'},
-                {price = 4700, title = 'VET player RETRO', name = 'prop_vcr_01'},
-                {price = 9900, title = 'Mixing desk', name = 'v_club_vu_deckcase'},
-                {price = 1500, title = 'RETRO Laptop', name = 'v_ind_ss_laptop'},
-                {price = 2500, title = 'CD seda', name = 'v_res_cdstorage'},
-                {price = 3300, title = 'Ipod', name = 'v_res_ipoddock'},
-                {price = 2800, title = 'Silver Monitor', name = 'v_res_monitorwidelarge'},
-                {price = 2400, title = 'Mouse and as a gift pad', name = 'v_res_mousemat'},
-                {price = 100, title = 'PC Headphones', name = 'v_res_pcheadset'},
-                {price = 1200, title = 'PC speaker', name = 'v_res_pcspeaker'},
-                {price = 5000, title = 'VHS white RETRO player', name = 'v_res_vhsplayer'},
-                {price = 2200, title = 'Vacuum Cleaner', name = 'v_res_vacuum'},
-                {price = 5400, title = 'Shredder', name = 'v_ret_gc_shred'},
-                {price = 100, title = 'Stapler', name = 'v_ret_gc_staple'},
-                {price = 1900, title = 'Hardisk', name = 'xm_prop_x17_harddisk_01a'},
-                {price = 5300, title = 'Computer', name = 'xm_prop_x17_res_pctower'},
-                {price = 12900, title = 'Plasma TV', name = 'xm_prop_x17_tv_flat_01'},
-                {price = 6600, title = 'Plasma TV', name = 'xm_prop_x17_tv_flat_02'},
-                {price = 14000, title = 'Jukebox', name = 'bkr_prop_clubhouse_jukebox_01b'},
-                {price = 1700, title = 'USB', name = 'hei_prop_hst_usb_drive'},
-                {price = 700, title = 'Flashlight', name = 'p_cs_police_torch_s'},
-                {price = 1000, title = 'Microphone', name = 'p_ing_microphonel_01'},
-                {price = 1600, title = 'Radio', name = 'prop_tapeplayer_01'},
-                {price = 4500, title = 'Multifunction Laser Printer', name = 'prop_printer_01'},
-                {price = 11200, title = 'Multifunction Laser Printer', name = 'prop_printer_02'},
-                {price = 20300, title = 'Jukebox 2', name = 'prop_50s_jukebox'},
-                {price = 21200, title = 'Arcade games', name = 'prop_arcade_01'},
-                {price = 19400, title = 'Safe', name = 'prop_ld_int_safe_01'},
-                {price = 3800, title = 'Astronomical Clock', name = 'prop_v_5_bclock'},
-                {price = 22200, title = 'Table with three monitors', name = 'xm_prop_base_staff_desk_01'},
-                {price = 17900, title = 'Table with three monitors', name = 'xm_prop_base_staff_desk_02'},
-                {price = 1500, title = 'Napkin machine', name = 'prop_handdry_01'},
-                {price = 2700, title = 'Washing Machine', name = 'prop_washer_02'},
-                {price = 600, title = 'Washing machine with its years', name = 'prop_washer_03'},
-                {price = 700, title = 'RETRO washing machine', name = 'v_ret_fh_dryer'}},
-  Tables = {{price = 5600, title = 'Glass table', name = 'apa_mp_h_din_table_04'},
-            {price = 5000, title = 'Glass table', name = 'apa_mp_h_din_table_11'},
-            {price = 5300, title = 'Glass table', name = 'apa_mp_h_tab_sidelrg_07'},
-            {price = 1200, title = 'Black Round Table', name = 'apa_mp_h_tab_sidelrg_04'},
-            {price = 1600, title = 'Glass table', name = 'apa_mp_h_tab_sidelrg_01'},
-            {price = 5700, title = 'Decorative glass table', name = 'apa_mp_h_tab_sidelrg_02'},
-            {price = 2600, title = 'Black coffee table', name = 'apa_mp_h_yacht_coffee_table_01'},
-            {price = 4200, title = 'Square table', name = 'apa_mp_h_yacht_side_table_01'},
-            {price = 3400, title = 'Small table', name = 'gr_dlc_gr_yacht_props_table_01'},
-            {price = 4700, title = 'Long table', name = 'gr_dlc_gr_yacht_props_table_02'},
-            {price = 1000, title = 'Particleboard table', name = 'prop_rub_table_01'},
-            {price = 700, title = 'Particleboard dining table', name = 'prop_rub_table_02'},
-            {price = 700, title = 'TV table', name = 'prop_tv_cabinet_03'},
-            {price = 300, title = 'TV table', name = 'prop_tv_cabinet_04'},
-            {price = 800, title = 'TV table', name = 'prop_tv_cabinet_05'},
-            {price = 5300, title = 'Black modern table', name = 'v_ilev_liconftable_sml'},
-            {price = 4100, title = 'Bar', name = 'xm_prop_lab_desk_01'}},
-  Sofas = {{price = 11500, title = 'Couch with pillows', name = 'prop_couch_01'},
-           {price = 6500, title = 'Padded bench', name = 'prop_wait_bench_01'},
-           {price = 4400, title = 'White leather sofa', name = 'xm_lab_sofa_01'}},
-  Kitchen = {{price = 800, title = 'Kitchen scale', name = 'bkr_prop_coke_scale_01'},
-             {price = 1000, title = 'Home coffee maker', name = 'prop_coffee_mac_02'},
-             {price = 5200, title = 'Automatic juice mixer', name = 'prop_juice_dispenser'},
-             {price = 200, title = 'White wall phone', name = 'prop_office_phone_tnt'},
-             {price = 2300, title = 'Fruit Blender', name = 'p_kitch_juicer_s'},
-             {price = 1500, title = 'Kettle', name = 'prop_kettle_01'},
-             {price = 2600, title = 'Crushing machine', name = 'prop_slush_dispenser'},
-             {price = 700, title = 'Coffee pot', name = 'xm_prop_x17_coffee_jug'},
-             {price = 3700, title = 'Mini bar fridge', name = 'prop_bar_fridge_03'},
-             {price = 800, title = 'Plastic red cup', name = 'apa_prop_cs_plastic_cup_01'},
-             {price = 1000, title = 'Trash', name = 'prop_bin_10a'},
-             {price = 400, title = 'Universal Cleaner', name = 'prop_blox_spray'},
-             {price = 200, title = 'Green bucket', name = 'prop_buck_spade_05'},
-             {price = 400, title = 'Blue bucket', name = 'prop_buck_spade_06'},
-             {price = 200, title = 'Red bucket', name = 'prop_buck_spade_07'},
-             {price = 700, title = 'Cups', name = 'prop_food_cups2'},
-             {price = 400, title = 'White Cup', name = 'prop_mug_02'},
-             {price = 800, title = 'Bowl with donut lid', name = 'v_res_cakedome'},
-             {price = 1000, title = 'Loose tea container', name = 'v_res_fa_pottea'},
-             {price = 300, title = 'Deep Plate', name = 'v_res_mbowl'},
-             {price = 500, title = 'Paper napkins', name = 'v_ret_ta_paproll'},
-             {price = 400, title = 'Glasses', name = 'p_w_grass_gls_s'},
-             {price = 300, title = 'Glasses', name = 'prop_cocktail'},
-             {price = 600, title = 'Knife', name = 'prop_cs_bowie_knife'}},
-  Bedroom = {{price = 3300, title = 'Single bed', name = 'v_res_msonbed'},
-             {price = 100, title = 'Double bed', name = 'p_lestersbed_s'},
-             {price = 600, title = 'Double bed', name = 'p_v_res_tt_bed_s'},
-             {price = 400, title = 'Double modern bed', name = 'apa_mp_h_bed_double_08'},
-             {price = 1100, title = 'Double modern bed', name = 'apa_mp_h_bed_wide_05'},
-             {price = 2200, title = 'Double modern bed', name = 'apa_mp_h_yacht_bed_02'},
-             {price = 700, title = 'Single sofa bed', name = 'ex_prop_exec_bed_01'},
-             {price = 3100, title = 'Double modern bed', name = 'hei_heist_bed_double_08'},
-             {price = 4400, title = 'Chest of drawers', name = 'apa_mp_h_bed_chestdrawer_02'},
-             {price = 400, title = 'RETRO wardrobe', name = 'apa_mp_h_str_shelffloorm_02'},
-             {price = 100, title = 'RETRO chest of drawers low', name = 'apa_mp_h_str_sideboardl_11'},
-             {price = 2500, title = 'Gray-white low cabinet', name = 'apa_mp_h_str_sideboardl_13'},
-             {price = 700, title = 'Wooden chest of drawers', name = 'apa_mp_h_str_sideboardl_14'},
-             {price = 500, title = 'Wood brindle feather duster', name = 'apa_mp_h_str_sideboardm_02'},
-             {price = 900, title = 'Iron open cabinet', name = 'p_cs_locker_01'},
-             {price = 300, title = 'Iron used closed cabinet', name = 'p_cs_locker_01_s'}}}
+Config.FurnitureCatagories ={
+  Decorations = {
+    {name = "apa_mp_h_acc_bottle_01", title = "Bottle", price = 700},
+    {name = "apa_mp_h_acc_candles_01", title = "Candles", price = 700},
+    {name = "p_int_jewel_mirror", title = "Mirror", price = 700},
+    {name = "apa_mp_h_acc_dec_plate_01", title = "Decorative Plate", price = 700},
+    {name = "apa_mp_h_acc_vase_01", title = "Vase", price = 700},
+    {name = "v_res_desktidy", title = "Desk Supplies", price = 700},
+    {name = "ex_prop_ashtray_luxe_02", title = "Ashtray", price = 700},
+    {name = "v_res_mp_ashtrayb", title = "Ashtray 2", price = 300},
+    {name = "prop_bong_01", title = "Bong", price = 700},
+    {name = "prop_mr_rasberryclean", title = "Mr Rasberry Clean", price = 700},
+    {name = "prop_acc_guitar_01", title = "Guitar", price = 1000},
+    {name = "p_planning_board_04", title = "Planning Board", price = 500},
+    {name = "prop_hotel_clock_01", title = "Hotel Clock", price = 500},
+    {name = "p_cs_pamphlet_01_s", title = "Pamphlet", price = 700},
+    {name = "prop_big_clock_01", title = "Big Clock", price = 500},
+    {name = "prop_egg_clock_01", title = "Egg Clock", price = 500},
+    {name = "prop_ld_greenscreen_01", title = "Green Screen", price = 100},
+    {name = "prop_dart_bd_cab_01", title = "Dart", price = 500},
+    {name = "prop_dart_bd_01", title = "Dart 2", price = 500},
+    {name = "prop_exercisebike", title = "Exercise Bike", price = 500},
+    {name = "p_laz_j02_s", title = "Laz", price = 500},
+    {name = "v_res_cherubvase", title = "White Vase", price = 500},
+    {name = "v_res_d_paddedwall", title = "Padded Wall", price = 500},
+    {name = "prop_dummy_01", title = "Dummy", price = 100},
+    {name = "prop_el_guitar_01", title = "E Guitar 1", price = 100},
+    {name = "prop_el_guitar_02", title = "E Guitar 2", price = 100},
+    {name = "prop_el_guitar_03", title = "E Guitar 2", price = 100},
+    {name = "v_res_mbowlornate", title = "Ornate Bowl", price = 300},
+    {name = "v_res_mbronzvase", title = "Bronze Vase", price = 300},
+    {name = "prop_ceramic_jug_01", title = "Ceramic Jug", price = 100},
+    {name = "v_res_m_candle", title = "Candle Large 1", price = 300},
+    {name = "v_res_m_candlelrg", title = "Candle Large 2", price = 300},
+    {name = "apa_mp_h_acc_candles_06", title = "Candles 1", price = 50},
+    {name = "apa_mp_h_acc_candles_05", title = "Candles 2", price = 50},
+    {name = "apa_mp_h_acc_candles_04", title = "Candles 3", price = 50},
+    {name = "apa_mp_h_acc_rugwools_01", title = "Rug 1", price = 300},
+    {name = "apa_mp_h_acc_rugwoolm_01", title = "Rug 2", price = 300},
+    {name = "apa_mp_h_acc_rugwooll_04", title = "Rug 3", price = 300},
+    {name = "apa_mp_h_acc_rugwooll_03", title = "Rug 4", price = 300},
+    {name = "apa_mp_h_acc_rugwoolm_04", title = "Rug 5", price = 300},
+    {name = "apa_mp_h_acc_rugwools_03", title = "Rug 6", price = 300},
+    {name = "v_res_fh_pouf", title = "Pouf", price = 300},
+    {name = "v_res_fh_sculptmod", title = "Sculpture", price = 300},
+    {name = "prop_v_5_bclock", title = "Vintage Clock", price = 300},
+    {name = "prop_v_15_cars_clock", title = "American Flag Clock", price = 300},
+    {name = "prop_sm_19_clock", title = "Modern Clock", price = 300},
+    {name = "prop_sports_clock_01", title = "Sports Clock", price = 300},
+    {name = "prop_mem_candle_01", title = "Candle 1", price = 300},
+    {name = "prop_game_clock_01", title = "Crown Clock", price = 300},
+    {name = "prop_game_clock_02", title = "Kronos Clock", price = 300},
+    {name = "prop_id2_20_clock", title = "Modern Clock 2", price = 300},
+    {name = "ex_office_citymodel_01", title = "CIty name", price = 300},
+    {name = "apa_mp_h_acc_dec_head_01", title = "Mask", price = 300},
+    {name = "ex_mp_h_acc_vase_06", title = "Vase 1", price = 300},
+    {name = "ex_mp_h_acc_vase_02", title = "Red Vase", price = 300},
+    {name = "hei_prop_hei_bust_01", title = "Bust", price = 300},
+    {name = "prop_arcade_01", title = "Arcade Machine", price = 300},
+    {price = 6500, name = 'prop_beer_neon_01', title = 'Neon Sign 1'},
+    {price = 6500, name = 'prop_beer_neon_02', title = 'Neon Sign 2'},
+    {price = 6500, name = 'prop_beer_neon_03', title = 'Neon Sign 3'},
+    {price = 6500, name = 'prop_beer_neon_04', title = 'Neon Sign 3'},
+    {price = 6500, name = 'prop_patriotneon', title = 'Neon Sign Patriot'},
+    {price = 6500, name = 'prop_barrachneon', title = 'Neon Sign Pussy Beer'}
+  },
 
+  Electronics = {
+    {price = 0, title = 'Lamp', name = 'prop_cd_lamp'},
+    {price = 1800, title = 'Shredder', name = 'v_ret_gc_shred'},
+    {price = 800, title = 'Antique telephone', name = 'apa_mp_h_acc_phone_01'},
+    {price = 14700, title = 'TV wall white-gray with electronics', name = 'apa_mp_h_str_avunitl_04'},
+    {price = 6700, title = 'TV wooden wall with television', name = 'apa_mp_h_str_avunitl_01_b'},
+    {price = 14300, title = 'Television with yellow speakers', name = 'apa_mp_h_str_avunitm_01'},
+    {price = 12000, title = 'TV with white speakers', name = 'apa_mp_h_str_avunitm_03'},
+    {price = 12900, title = 'Television with accessories', name = 'apa_mp_h_str_avunits_01'},
+    {price = 6900, title = 'TV on a metal table', name = 'apa_mp_h_str_avunits_01'},
+    {price = 5500, title = 'Notebook', name = 'bkr_prop_clubhouse_laptop_01a'},
+    {price = 4400, title = 'Notebook', name = 'bkr_prop_clubhouse_laptop_01b'},
+    {price = 12400, title = 'Money counter', name = 'bkr_prop_money_counter'},
+    {price = 700, title = 'Large upright fan', name = 'bkr_prop_weed_fan_floor_01a'},
+    {price = 2400, title = 'Tvsmash', name = 'des_tvsmash_start'},
+    {price = 2700, title = 'Wall TV', name = 'ex_prop_ex_tv_flat_01'},
+    {price = 3500, title = 'Desktop monitor with keyboard', name = 'ex_prop_monitor_01_ex'},
+    {price = 4700, title = 'Desktop monitor with keyboard', name = 'ex_prop_trailer_monitor_01'},
+    {price = 200, title = 'TV driver', name = 'ex_prop_tv_settop_remote'},
+    {price = 2200, title = 'TV box', name = 'ex_prop_tv_settop_box'},
+    {price = 1000, title = 'Table fan', name = 'gr_prop_bunker_deskfan_01a'},
+    {price = 8400, title = 'Television with speakers and all equipment', name = 'hei_heist_str_avunitl_03'},
+    {price = 1700, title = 'telephone landline', name = 'hei_prop_hei_bank_phone_01'},
+    {price = 3800, title = 'Alarm', name = 'hei_prop_hei_bio_panel'},
+    {price = 2100, title = 'Keyboard', name = 'hei_prop_hei_cs_keyboard'},
+    {price = 8900, title = 'Project board', name = 'hei_prop_hei_muster_01'},
+    {price = 1800, title = 'WIFI', name = 'hei_prop_server_piece_01'},
+    {price = 3300, title = 'White notebook', name = 'p_laptop_02_s'},
+    {price = 10500, title = 'Safe', name = 'p_v_43_safe_s'},
+    {price = 7900, title = 'Table Hockey', name = 'prop_airhockey_01'},
+    {price = 2400, title = 'Portable Radio', name = 'prop_boombox_01'},
+    {price = 2500, title = 'DVD player', name = 'prop_cctv_cont_03'},
+    {price = 3300, title = 'CD player', name = 'prop_cctv_cont_04'},
+    {price = 900, title = 'PC Mouse', name = 'prop_cs_mouse_01'},
+    {price = 900, title = 'Wall clock', name = 'prop_game_clock_01'},
+    {price = 600, title = 'Wall clock black', name = 'prop_game_clock_02'},
+    {price = 3400, title = 'HiFi system', name = 'prop_hifi_01'},
+    {price = 1500, title = 'square clock', name = 'prop_hotel_clock_01'},
+    {price = 1500, title = 'Clock', name = 'prop_id2_20_clock'},
+    {price = 3400, title = 'Nikon Handheld Camera', name = 'prop_ing_camera_01'},
+    {price = 1700, title = 'White keyboard', name = 'prop_keyboard_01a'},
+    {price = 1600, title = 'Router', name = 'prop_ld_armour'},
+    {price = 1700, title = 'Old monitor', name = 'prop_ld_monitor_01'},
+    {price = 2300, title = 'Small old monitor', name = 'prop_monitor_01b'},
+    {price = 400, title = 'RETRO monitor', name = 'prop_monitor_03b'},
+    {price = 5900, title = 'Monitor', name = 'prop_monitor_w_large'},
+    {price = 4800, title = 'Repráček', name = 'prop_mp3_dock'},
+    {price = 4000, title = 'White PC', name = 'prop_pc_01a'},
+    {price = 4800, title = 'Black PC', name = 'prop_pc_02a'},
+    {price = 2500, title = 'Mobile', name = 'prop_phone_ing'},
+    {price = 2100, title = 'Mobile', name = 'prop_phone_ing_02'},
+    {price = 2000, title = 'Mobile', name = 'prop_phone_ing_02_lod'},
+    {price = 2300, title = 'Mobile', name = 'prop_phone_ing_03'},
+    {price = 1000, title = 'RETRO radio', name = 'prop_radio_01'},
+    {price = 1100, title = 'Small speaker', name = 'prop_speaker_05'},
+    {price = 1000, title = 'Speaker', name = 'prop_speaker_06'},
+    {price = 1900, title = 'Speaker', name = 'prop_speaker_08'},
+    {price = 2000, title = 'Old TV', name = 'prop_trev_tv_01'},
+    {price = 500, title = 'Old TV', name = 'prop_tv_03'},
+    {price = 300, title = 'Old TV', name = 'prop_tv_01'},
+    {price = 400, title = 'RETRO TV', name = 'prop_tv_04'},
+    {price = 1700, title = 'Old TV', name = 'prop_tv_06'},
+    {price = 6500, title = 'Plasma big screen', name = 'prop_tv_flat_01'},
+    {price = 12500, title = 'Plasma thin TV', name = 'prop_tv_flat_01_screen'},
+    {price = 1600, title = 'Plasma small television', name = 'prop_tv_flat_02'},
+    {price = 2100, title = 'Plasma small television', name = 'prop_tv_flat_02b'},
+    {price = 900, title = 'Small TV with stand', name = 'prop_tv_flat_03'},
+    {price = 300, title = 'Small TV on the wall', name = 'prop_tv_flat_03b'},
+    {price = 9200, title = 'Television Michael 50cm', name = 'prop_tv_flat_michael'},
+    {price = 1000, title = 'Little US Clock', name = 'prop_v_15_cars_clock'},
+    {price = 4000, title = 'Professional camera', name = 'prop_v_cam_01'},
+    {price = 4700, title = 'VET player RETRO', name = 'prop_vcr_01'},
+    {price = 9900, title = 'Mixing desk', name = 'v_club_vu_deckcase'},
+    {price = 1500, title = 'RETRO Laptop', name = 'v_ind_ss_laptop'},
+    {price = 2500, title = 'CD seda', name = 'v_res_cdstorage'},
+    {price = 3300, title = 'Ipod', name = 'v_res_ipoddock'},
+    {price = 2800, title = 'Silver Monitor', name = 'v_res_monitorwidelarge'},
+    {price = 2400, title = 'Mouse and as a gift pad', name = 'v_res_mousemat'},
+    {price = 100, title = 'PC Headphones', name = 'v_res_pcheadset'},
+    {price = 1200, title = 'PC speaker', name = 'v_res_pcspeaker'},
+    {price = 5000, title = 'VHS white RETRO player', name = 'v_res_vhsplayer'},
+    {price = 2200, title = 'Vacuum Cleaner', name = 'v_res_vacuum'},
+    {price = 5400, title = 'Shredder', name = 'v_ret_gc_shred'},
+    {price = 100, title = 'Stapler', name = 'v_ret_gc_staple'},
+    {price = 1900, title = 'Hardisk', name = 'xm_prop_x17_harddisk_01a'},
+    {price = 5300, title = 'Computer', name = 'xm_prop_x17_res_pctower'},
+    {price = 12900, title = 'Plasma TV', name = 'xm_prop_x17_tv_flat_01'},
+    {price = 6600, title = 'Plasma TV', name = 'xm_prop_x17_tv_flat_02'},
+    {price = 14000, title = 'Jukebox', name = 'bkr_prop_clubhouse_jukebox_01b'},
+    {price = 1700, title = 'USB', name = 'hei_prop_hst_usb_drive'},
+    {price = 700, title = 'Flashlight', name = 'p_cs_police_torch_s'},
+    {price = 1000, title = 'Microphone', name = 'p_ing_microphonel_01'},
+    {price = 1600, title = 'Radio', name = 'prop_tapeplayer_01'},
+    {price = 4500, title = 'Multifunction Laser Printer', name = 'prop_printer_01'},
+    {price = 11200, title = 'Multifunction Laser Printer', name = 'prop_printer_02'},
+    {price = 20300, title = 'Jukebox 2', name = 'prop_50s_jukebox'},
+    {price = 21200, title = 'Arcade games', name = 'prop_arcade_01'},
+    {price = 19400, title = 'Safe', name = 'prop_ld_int_safe_01'},
+    {price = 3800, title = 'Astronomical Clock', name = 'prop_v_5_bclock'},
+    {price = 22200, title = 'Table with three monitors', name = 'xm_prop_base_staff_desk_01'},
+    {price = 17900, title = 'Table with three monitors', name = 'xm_prop_base_staff_desk_02'},
+    {price = 1500, title = 'Napkin machine', name = 'prop_handdry_01'},
+    {price = 2700, title = 'Washing Machine', name = 'prop_washer_02'},
+    {price = 600, title = 'Washing machine with its years', name = 'prop_washer_03'},
+    {price = 700, title = 'RETRO washing machine', name = 'v_ret_fh_dryer'}
+  },
 
+  Tables = {
+    {price = 5600, title = 'Glass table', name = 'apa_mp_h_din_table_04'},
+    {price = 5000, title = 'Glass table', name = 'apa_mp_h_din_table_11'},
+    {price = 5300, title = 'Glass table', name = 'apa_mp_h_tab_sidelrg_07'},
+    {price = 1200, title = 'Black Round Table', name = 'apa_mp_h_tab_sidelrg_04'},
+    {price = 1600, title = 'Glass table', name = 'apa_mp_h_tab_sidelrg_01'},
+    {price = 5700, title = 'Decorative glass table', name = 'apa_mp_h_tab_sidelrg_02'},
+    {price = 2600, title = 'Black coffee table', name = 'apa_mp_h_yacht_coffee_table_01'},
+    {price = 4200, title = 'Square table', name = 'apa_mp_h_yacht_side_table_01'},
+    {price = 3400, title = 'Small table', name = 'gr_dlc_gr_yacht_props_table_01'},
+    {price = 4700, title = 'Long table', name = 'gr_dlc_gr_yacht_props_table_02'},
+    {price = 1000, title = 'Particleboard table', name = 'prop_rub_table_01'},
+    {price = 700, title = 'Particleboard dining table', name = 'prop_rub_table_02'},
+    {price = 700, title = 'TV table', name = 'prop_tv_cabinet_03'},
+    {price = 300, title = 'TV table', name = 'prop_tv_cabinet_04'},
+    {price = 800, title = 'TV table', name = 'prop_tv_cabinet_05'},
+    {price = 5300, title = 'Black modern table', name = 'v_ilev_liconftable_sml'},
+    {price = 4100, title = 'Bar', name = 'xm_prop_lab_desk_01'}
+  },
+
+  Sofas = {
+    {price = 11500, title = 'Couch with pillows', name = 'prop_couch_01'},
+    {price = 6500, title = 'Padded bench', name = 'prop_wait_bench_01'},
+    {price = 4400, title = 'White leather sofa', name = 'xm_lab_sofa_01'}
+  },
+
+  Kitchen = {
+    {price = 800, title = 'Kitchen scale', name = 'bkr_prop_coke_scale_01'},
+    {price = 1000, title = 'Home coffee maker', name = 'prop_coffee_mac_02'},
+    {price = 5200, title = 'Automatic juice mixer', name = 'prop_juice_dispenser'},
+    {price = 200, title = 'White wall phone', name = 'prop_office_phone_tnt'},
+    {price = 2300, title = 'Fruit Blender', name = 'p_kitch_juicer_s'},
+    {price = 1500, title = 'Kettle', name = 'prop_kettle_01'},
+    {price = 2600, title = 'Crushing machine', name = 'prop_slush_dispenser'},
+    {price = 700, title = 'Coffee pot', name = 'xm_prop_x17_coffee_jug'},
+    {price = 3700, title = 'Mini bar fridge', name = 'prop_bar_fridge_03'},
+    {price = 800, title = 'Plastic red cup', name = 'apa_prop_cs_plastic_cup_01'},
+    {price = 1000, title = 'Trash', name = 'prop_bin_10a'},
+    {price = 400, title = 'Universal Cleaner', name = 'prop_blox_spray'},
+    {price = 200, title = 'Green bucket', name = 'prop_buck_spade_05'},
+    {price = 400, title = 'Blue bucket', name = 'prop_buck_spade_06'},
+    {price = 200, title = 'Red bucket', name = 'prop_buck_spade_07'},
+    {price = 700, title = 'Cups', name = 'prop_food_cups2'},
+    {price = 400, title = 'White Cup', name = 'prop_mug_02'},
+    {price = 800, title = 'Bowl with donut lid', name = 'v_res_cakedome'},
+    {price = 1000, title = 'Loose tea container', name = 'v_res_fa_pottea'},
+    {price = 300, title = 'Deep Plate', name = 'v_res_mbowl'},
+    {price = 500, title = 'Paper napkins', name = 'v_ret_ta_paproll'},
+    {price = 400, title = 'Glasses', name = 'p_w_grass_gls_s'},
+    {price = 300, title = 'Glasses', name = 'prop_cocktail'},
+    {price = 600, title = 'Knife', name = 'prop_cs_bowie_knife'}
+  },
+
+  Bedroom = {
+    {price = 3300, title = 'Single bed', name = 'v_res_msonbed'},
+    {price = 100, title = 'Double bed', name = 'p_lestersbed_s'},
+    {price = 600, title = 'Double bed', name = 'p_v_res_tt_bed_s'},
+    {price = 400, title = 'Double modern bed', name = 'apa_mp_h_bed_double_08'},
+    {price = 1100, title = 'Double modern bed', name = 'apa_mp_h_bed_wide_05'},
+    {price = 2200, title = 'Double modern bed', name = 'apa_mp_h_yacht_bed_02'},
+    {price = 700, title = 'Single sofa bed', name = 'ex_prop_exec_bed_01'},
+    {price = 3100, title = 'Double modern bed', name = 'hei_heist_bed_double_08'},
+    {price = 4400, title = 'Chest of drawers', name = 'apa_mp_h_bed_chestdrawer_02'},
+    {price = 400, title = 'RETRO wardrobe', name = 'apa_mp_h_str_shelffloorm_02'},
+    {price = 100, title = 'RETRO chest of drawers low', name = 'apa_mp_h_str_sideboardl_11'},
+    {price = 2500, title = 'Gray-white low cabinet', name = 'apa_mp_h_str_sideboardl_13'},
+    {price = 700, title = 'Wooden chest of drawers', name = 'apa_mp_h_str_sideboardl_14'},
+    {price = 500, title = 'Wood brindle feather duster', name = 'apa_mp_h_str_sideboardm_02'},
+    {price = 900, title = 'Iron open cabinet', name = 'p_cs_locker_01'},
+    {price = 300, title = 'Iron used closed cabinet', name = 'p_cs_locker_01_s'}
+  }
+}
 
 -------------------DONT TOUCH -------------------------
-Config.OxInventory = ESX.GetConfig().OxInventory     --
-                                                     --
-function GetInteriorValues(Interior)                 --
-  for _,type in pairs(Config.Interiors) do           --
-    for _, interior in pairs(type) do                --
-      if interior.value == Interior then             --
-        return interior                              --  
-      end                                            --
-    end                                              --
-  end                                                --
-end                                                  --
---------------------------------------------------------
-
-
---[[
-      ESX Property - Properties Made Right!
-    Copyright (C) 2022 ESX-Framework
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-]] 
+Config.OxInventory = ESX.GetConfig().OxInventory
+function GetInteriorValues(Interior)
+  for _,type in pairs(Config.Interiors) do
+    for _, interior in pairs(type) do
+      if interior.value == Interior then
+        return interior
+      end
+    end
+  end
+end
