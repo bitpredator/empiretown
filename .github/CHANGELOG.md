@@ -12,3 +12,4 @@
    [esx_property\client\main.lua]: add copy to clipboard to /getoffset @bitpredator
    [esx_property\locales\en.lua & it.lua]: corrected typos @bitpredator
    [esx_property\server\main.lua]: correction of lint errors @bitpredator
+   [esx_property\config.lua]: correction of lint errors @bitpredator

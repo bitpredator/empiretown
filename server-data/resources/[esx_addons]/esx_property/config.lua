@@ -125,7 +125,7 @@ Config.AllowedGroups = {
 }
 
 ------------------Interacting With Wardrobe Markers ------------------------------
-Config.WardrobeInteraction = function(PropertyId, Interaction)
+Config.WardrobeInteraction = function()
   ESX.TriggerServerCallback('esx_property:getPlayerDressing', function(dressing)
     local elements = {{unselectable = true, icon = "fas fa-tshirt", title = "Wardrobe"}}
 
@@ -136,13 +136,13 @@ Config.WardrobeInteraction = function(PropertyId, Interaction)
       }
     end
 
-    ESX.OpenContext("left", elements, function(menu, element)
+    ESX.OpenContext("left", elements, function(_, element)
       TriggerEvent('skinchanger:getSkin', function(skin)
         ESX.TriggerServerCallback('esx_property:getPlayerOutfit', function(clothes)
           TriggerEvent('skinchanger:loadClothes', skin, clothes)
           TriggerEvent('esx_skin:setLastSkin', skin)
 
-          TriggerEvent('skinchanger:getSkin', function(skin)
+          TriggerEvent('skinchanger:getSkin', function()
             TriggerServerEvent('esx_skin:save', skin)
           end)
         end, element.value)
@@ -152,7 +152,7 @@ Config.WardrobeInteraction = function(PropertyId, Interaction)
 end
 
 --------------------- Real Estate Settings ----------
-Config.PlayerManagement = {                          
+Config.PlayerManagement = {
   Enabled = false, -- Enable/Disable Player Management Default: true
   job = "realestateagent", -- Job Required to Manage Players Default: "realestateagent"                 
   joblabel = "Estate Agent", -- Job Label Default: "Estate Agent"          
