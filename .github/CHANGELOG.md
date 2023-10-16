@@ -9,4 +9,5 @@
 1. [.github\PULL_REQUEST_TEMPLATE.md]: update the pull request template file @bitpredator
 2. [esx_property\config.lua]: improves code formatting @bitpredator
    [esx_property\client\html\copy.html]: remove jquery @bitpredator
-   
+   [esx_property\client\main.lua]: add copy to clipboard to /getoffset
+   [esx_property\locales\en.lua & it.lua]: corrected typos
