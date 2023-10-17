@@ -16,5 +16,6 @@
 3. [esx_license\server\main.lua]: Replaced print in esx_license:addLicense
    [esx_license\fxmanifest.lua]: Update fxmanifest.lua to version 1.0.0
    [esx_license\README.md]: update reference links in README.md
+   [esx_license\LICENSE]: updates the copyright reference year
 
       
