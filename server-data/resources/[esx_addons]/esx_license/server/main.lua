@@ -83,13 +83,14 @@ local function isValidLicense(licenseType)
 	return flag
 end
 
+RegisterNetEvent('esx_license:addLicense')
 AddEventHandler('esx_license:addLicense', function(target, licenseType, cb)
 	local xPlayer = ESX.GetPlayerFromId(target)
 	if xPlayer then
 		if isValidLicense(licenseType) then
 			AddLicense(xPlayer.getIdentifier(), licenseType, cb)
 		else
-			print('[esx_license] : missing license type in db ' .. licenseType .. ' or someone try to use lua executor id : ' .. target)
+			print(('[esx_license]: Missing license type in db ^5%s^0 or someone try to use lua executor ID: ^5%s^0'):format(licenseType, target))
 		end
 	end
 end)
