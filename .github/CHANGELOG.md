@@ -15,5 +15,6 @@
    [esx_property\config.lua]: correction of lint errors @bitpredator
 3. [esx_license\server\main.lua]: Replaced print in esx_license:addLicense
    [esx_license\fxmanifest.lua]: Update fxmanifest.lua to version 1.0.0
+   [esx_license\README.md]: update reference links in README.md
 
       
