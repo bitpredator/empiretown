@@ -13,9 +13,12 @@
    [esx_property\locales\en.lua & it.lua]: corrected typos @bitpredator
    [esx_property\server\main.lua]: correction of lint errors @bitpredator
    [esx_property\config.lua]: correction of lint errors @bitpredator
-3. [esx_license\server\main.lua]: Replaced print in esx_license:addLicense
-   [esx_license\fxmanifest.lua]: Update fxmanifest.lua to version 1.0.0
-   [esx_license\README.md]: update reference links in README.md
-   [esx_license\LICENSE]: updates the copyright reference year
-
-      
+3. [esx_license\server\main.lua]: Replaced print in esx_license:addLicense @bitpredator
+   [esx_license\fxmanifest.lua]: Update fxmanifest.lua to version 1.0.0 @bitpredator
+   [esx_license\README.md]: update reference links in README.md @bitpredator
+   [esx_license\LICENSE]: updates the copyright reference year @bitpredator
+4. [pma-voice/voice-ui/pnpm-lock.yaml]: chore: (deps-dev) bump url-parse + bump minimatch + bump terser @bitpredator
+   [pma-voice/client/module/phone.lua]: fix(phone): fix getting re-added to radios if perfectly hit
+   [pma-voice/client/init/main.lua]: fix(radio): fix oversight with function call
+   [pma-voice/workflows/dependency-review.yml]: chore(deps): bump actions/checkout from 3 to 4 @bitpredator
+   [pma-voice/voice-ui/pnpm-lock.yaml]: chore(deps-dev): bump follow-redirects in /voice-ui @bitpredator
