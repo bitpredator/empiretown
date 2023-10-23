@@ -22,3 +22,4 @@
    [pma-voice/client/init/main.lua]: fix(radio): fix oversight with function call
    [pma-voice/workflows/dependency-review.yml]: chore(deps): bump actions/checkout from 3 to 4 @bitpredator
    [pma-voice/voice-ui/pnpm-lock.yaml]: chore(deps-dev): bump follow-redirects in /voice-ui @bitpredator
+5. [.github\PULL_REQUEST_TEMPLATE.md]: fix: corrected pull request form template @bitpredator
