@@ -2,6 +2,11 @@ local radioChannel = 0
 local radioNames = {}
 local disableRadioAnim = false
 
+---@return boolean isEnabled if radioEnabled is true and LocalPlayer.state.disableRadio is 0 (no bits set)
+function isRadioEnabled()
+	return radioEnabled and LocalPlayer.state.disableRadio == 0
+end
+
 --- event syncRadioData
 --- syncs the current players on the radio to the client
 ---@param radioTable table the table of the current players on the radio
@@ -15,14 +20,15 @@ function syncRadioData(radioTable, localPlyRadioName)
 		print('-----------------------------')
 	end
 
-	local isRadioEnabled = radioEnabled and LocalPlayer.state.disableRadio == 0
-	if isRadioEnabled then
+	local isEnabled = isRadioEnabled()
+
+	if isEnabled then
 		handleRadioAndCallInit()
 	end
 
 	sendUIMessage({
 		radioChannel = radioChannel,
-		radioEnabled = isRadioEnabled
+		radioEnabled = isEnabled
 	})
 	if GetConvarInt("voice_syncPlayerNames", 0) == 1 then
 		radioNames[playerServerId] = localPlyRadioName
@@ -37,15 +43,13 @@ RegisterNetEvent('pma-voice:syncRadioData', syncRadioData)
 ---@param enabled boolean whether the player is talking or not.
 function setTalkingOnRadio(plySource, enabled)
 	radioData[plySource] = enabled
-	-- if we don't have radioEnabled don't actually set them as talking (we still want the state to enable people talking later)
-	if not radioEnabled or LocalPlayer.state.disableRadio ~= 0 then return logger.info("[radio] Ignoring setTalkingOnRadio. radioEnabled: %s disableRadio: %s", radioEnabled, LocalPlayer.state.disableRadio) end
+
+	if not isRadioEnabled() then return logger.info("[radio] Ignoring setTalkingOnRadio. radioEnabled: %s disableRadio: %s", radioEnabled, LocalPlayer.state.disableRadio) end
 	-- If we're on a call we don't want to toggle their voice disabled this will break calls.
-	if not callData[plySource] then
-		toggleVoice(plySource, enabled, 'radio')
-	end
+	local enabled = enabled or callData[plySource]
+	toggleVoice(plySource, enabled, 'radio')
 	playMicClicks(enabled)
 end
-
 RegisterNetEvent('pma-voice:setTalkingOnRadio', setTalkingOnRadio)
 
 --- event addPlayerToRadio
@@ -62,7 +66,6 @@ function addPlayerToRadio(plySource, plyRadioName)
 		addVoiceTargets(radioData, callData)
 	end
 end
-
 RegisterNetEvent('pma-voice:addPlayerToRadio', addPlayerToRadio)
 
 --- event removePlayerFromRadio
@@ -181,8 +184,9 @@ end
 
 RegisterCommand('+radiotalk', function()
 	if GetConvarInt('voice_enableRadios', 1) ~= 1 then return end
-	if isDead() or LocalPlayer.state.disableRadio ~= 0 then return end
-	if not radioPressed and radioEnabled then
+	if isDead() then return end
+	if not isRadioEnabled() then return end
+	if not radioPressed then
 		if radioChannel > 0 then
 			logger.info('[radio] Start broadcasting, update targets and notify server.')
 			addVoiceTargets(radioData, callData)
@@ -198,7 +202,7 @@ RegisterCommand('+radiotalk', function()
 				LocalPlayer.state:set("radioActive", true, true);
 				local checkFailed = false
 				while radioPressed do
-					if radioChannel < 0 or not radioEnabled or isDead() or LocalPlayer.state.disableRadio ~= 0 then
+					if radioChannel < 0 or isDead() or not isRadioEnabled() then
 						checkFailed = true
 						break
 					end
@@ -231,7 +235,7 @@ RegisterCommand('+radiotalk', function()
 end, false)
 
 RegisterCommand('-radiotalk', function()
-	if (radioChannel > 0 or radioEnabled) and radioPressed then
+	if radioChannel > 0 and radioPressed then
 		radioPressed = false
 		MumbleClearVoiceTargetPlayers(voiceTarget)
 		addVoiceTargets(callData)
@@ -256,7 +260,6 @@ function syncRadio(_radioChannel)
 	logger.info('[radio] radio set serverside update to radio %s', radioChannel)
 	radioChannel = _radioChannel
 end
-
 RegisterNetEvent('pma-voice:clSetPlayerRadio', syncRadio)
 
 
