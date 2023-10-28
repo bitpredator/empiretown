@@ -23,3 +23,9 @@
    [pma-voice/workflows/dependency-review.yml]: chore(deps): bump actions/checkout from 3 to 4 @bitpredator
    [pma-voice/voice-ui/pnpm-lock.yaml]: chore(deps-dev): bump follow-redirects in /voice-ui @bitpredator
 5. [.github\PULL_REQUEST_TEMPLATE.md]: fix: corrected pull request form template @bitpredator
+6. [voice-ui/pnpm-lock.yaml]: chore: (deps-dev) bump url-parse + bump minimatch + bump terser @bitpredator
+   [client/module/phone.lua]: fix(phone): fix getting re-added to radios if perfectly hit
+   [client/init/main.lua]: fix(radio): fix oversight with function call
+   [workflows/dependency-review.yml]: chore(deps): bump actions/checkout from 3 to 4
+   [voice-ui/pnpm-lock.yaml]: chore(deps-dev): bump follow-redirects in /voice-ui
+   [voice-ui/pnpm-lock.yaml]: chore(deps-dev): bump browserify-sign from 4.2.1 to 4.2.2 in /voice-ui
