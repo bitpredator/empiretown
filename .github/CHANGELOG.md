@@ -32,3 +32,5 @@
 7. [npwd + es_extended]: chore: removed support for npwd_crypto @bitpredator
 8. [ox_lib]: chore: ox_lib update to version '3.11.0' @bitpredator
 9. [esx_addons]: chore: replace esx_drivingschooljob with esx_dmvschool @bitpredator
+10.[SQL]: chore: update database @bitpredator
+11.[maps]: delete: remove maps verpi_driving_school @bitpredator
