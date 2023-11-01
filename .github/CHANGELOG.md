@@ -31,3 +31,4 @@
    [voice-ui/pnpm-lock.yaml]: chore(deps-dev): bump browserify-sign from 4.2.1 to 4.2.2 in /voice-ui
 7. [npwd + es_extended]: chore: removed support for npwd_crypto @bitpredator
 8. [ox_lib]: chore: ox_lib update to version '3.11.0' @bitpredator
+9. [esx_addons]: chore: replace esx_drivingschooljob with esx_dmvschool @bitpredator
