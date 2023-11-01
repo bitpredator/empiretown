@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `addon_account` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.addon_account: ~15 rows (circa)
+-- Dump dei dati della tabella es_extended.addon_account: ~14 rows (circa)
 INSERT INTO `addon_account` (`name`, `label`, `shared`) VALUES
 	('bank_savings', 'Livret Bleu', 0),
 	('caution', 'caution', 0),
@@ -36,7 +36,6 @@ INSERT INTO `addon_account` (`name`, `label`, `shared`) VALUES
 	('society_baker', 'Baker', 1),
 	('society_ballas', 'Ballas', 1),
 	('society_cardealer', 'Cardealer', 1),
-	('society_driving', 'Driving', 1),
 	('society_dustman', 'Dustman', 1),
 	('society_fisherman', 'Fisherman', 1),
 	('society_import', 'Import', 1),
@@ -56,23 +55,22 @@ CREATE TABLE IF NOT EXISTS `addon_account_data` (
   KEY `index_addon_account_data_account_name` (`account_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.addon_account_data: ~17 rows (circa)
+-- Dump dei dati della tabella es_extended.addon_account_data: ~16 rows (circa)
 INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
 	(1, 'society_cardealer', 0, NULL),
 	(2, 'society_police', 0, NULL),
-	(4, 'society_mechanic', 53, NULL),
-	(5, 'society_taxi', 0, NULL),
-	(14, 'society_import', 0, NULL),
-	(16, 'society_ambulance', 0, NULL),
-	(17, 'society_ammu', 0, NULL),
-	(19, 'society_dustman', 0, NULL),
-	(20, 'caution', 0, ''),
-	(21, 'bank_savings', 0, ''),
-	(22, 'society_ballas', 0, NULL),
-	(27, 'society_baker', 0, NULL),
-	(28, 'society_unicorn', 0, NULL),
-	(34, 'society_driving', 0, NULL),
-	(35, 'society_fisherman', 0, NULL);
+	(3, 'society_mechanic', 53, NULL),
+	(4, 'society_taxi', 0, NULL),
+	(5, 'society_import', 0, NULL),
+	(6, 'society_ambulance', 200, NULL),
+	(7, 'society_ammu', 0, NULL),
+	(9, 'society_dustman', 0, NULL),
+	(10, 'caution', 0, ''),
+	(11, 'bank_savings', 0, ''),
+	(12, 'society_ballas', 0, NULL),
+	(13, 'society_baker', 0, NULL),
+	(14, 'society_unicorn', 0, NULL),
+	(15, 'society_fisherman', 0, NULL),
 
 -- Dump della struttura di tabella es_extended.addon_inventory
 CREATE TABLE IF NOT EXISTS `addon_inventory` (
@@ -82,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `addon_inventory` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.addon_inventory: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.addon_inventory: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.addon_inventory_items
 CREATE TABLE IF NOT EXISTS `addon_inventory_items` (
@@ -135,21 +133,52 @@ CREATE TABLE IF NOT EXISTS `bpt_doorlock` (
   `name` varchar(50) NOT NULL,
   `data` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dump dei dati della tabella es_extended.bpt_doorlock: ~11 rows (circa)
+-- Dump dei dati della tabella es_extended.bpt_doorlock: ~31 rows (circa)
 INSERT INTO `bpt_doorlock` (`id`, `name`, `data`) VALUES
-	(1, 'mrpd locker rooms', '{"maxDistance":2,"heading":90,"coords":{"x":450.1041259765625,"y":-985.7384033203125,"z":30.83930206298828},"groups":{"police":0},"state":1,"model":1557126584,"hideUi":false}'),
-	(2, 'mrpd cells/briefing', '{"maxDistance":2,"coords":{"x":444.7078552246094,"y":-989.4454345703125,"z":30.83930206298828},"doors":[{"model":185711165,"coords":{"x":446.0079345703125,"y":-989.4454345703125,"z":30.83930206298828},"heading":0},{"model":185711165,"coords":{"x":443.40777587890627,"y":-989.4454345703125,"z":30.83930206298828},"heading":180}],"groups":{"police":0},"state":1,"hideUi":false}'),
-	(3, 'mrpd cell 3', '{"maxDistance":2,"heading":90,"coords":{"x":461.8065185546875,"y":-1001.9515380859375,"z":25.06442832946777},"lockSound":"metal-locker","groups":{"police":0},"state":1,"unlockSound":"metallic-creak","model":631614199,"hideUi":false}'),
-	(4, 'mrpd back entrance', '{"maxDistance":2,"coords":{"x":468.6697692871094,"y":-1014.4520263671875,"z":26.5362319946289},"doors":[{"model":-2023754432,"coords":{"x":467.37164306640627,"y":-1014.4520263671875,"z":26.5362319946289},"heading":0},{"model":-2023754432,"coords":{"x":469.9678955078125,"y":-1014.4520263671875,"z":26.5362319946289},"heading":180}],"groups":{"police":0},"state":1,"hideUi":false}'),
-	(5, 'mrpd cells security door', '{"maxDistance":2,"heading":0,"coords":{"x":464.1282958984375,"y":-1003.5386962890625,"z":25.00598907470703},"autolock":5,"groups":{"police":0},"state":1,"model":-1033001619,"hideUi":false}'),
-	(6, 'mrpd cell 2', '{"maxDistance":2,"heading":90,"coords":{"x":461.8064880371094,"y":-998.3082885742188,"z":25.06442832946777},"lockSound":"metal-locker","groups":{"police":0},"state":1,"unlockSound":"metallic-creak","model":631614199,"hideUi":false}'),
-	(7, 'mrpd captain\'s office', '{"maxDistance":2,"heading":180,"coords":{"x":446.57281494140627,"y":-980.0105590820313,"z":30.83930206298828},"groups":{"police":0},"state":1,"model":-1320876379,"hideUi":false}'),
-	(8, 'mrpd gate', '{"maxDistance":6,"heading":90,"coords":{"x":488.894775390625,"y":-1017.2102661132813,"z":27.14714050292968},"groups":{"police":0},"auto":true,"state":1,"model":-1603817716,"hideUi":false}'),
-	(9, 'mrpd cell 1', '{"maxDistance":2,"heading":270,"coords":{"x":461.8065185546875,"y":-993.7586059570313,"z":25.06442832946777},"lockSound":"metal-locker","groups":{"police":0},"state":1,"unlockSound":"metallic-creak","model":631614199,"hideUi":false}'),
-	(10, 'mrpd cells main', '{"maxDistance":2,"heading":360,"coords":{"x":463.92010498046877,"y":-992.6640625,"z":25.06442832946777},"lockSound":"metal-locker","groups":{"police":0},"state":1,"unlockSound":"metallic-creak","model":631614199,"hideUi":false}'),
-	(11, 'mrpd armoury', '{"maxDistance":2,"heading":270,"coords":{"x":453.08428955078127,"y":-982.5794677734375,"z":30.81926536560058},"autolock":5,"groups":{"police":0},"state":1,"model":749848321,"hideUi":false}');
+	(1, 'community_mrpd 1', '{"coords":{"x":434.7478942871094,"y":-981.916748046875,"z":30.83926963806152},"groups":{"police":0,"offpolice":0},"maxDistance":2.5,"state":0,"doors":[{"coords":{"x":434.7478942871094,"y":-980.618408203125,"z":30.83926963806152},"model":-1215222675,"heading":270},{"coords":{"x":434.7478942871094,"y":-983.215087890625,"z":30.83926963806152},"model":320433149,"heading":270}],"hideUi":false}'),
+	(2, 'community_mrpd 2', '{"coords":{"x":468.6697998046875,"y":-1014.4520263671875,"z":26.53623962402343},"groups":{"police":0},"maxDistance":2.5,"state":1,"doors":[{"coords":{"x":469.9679870605469,"y":-1014.4520263671875,"z":26.53623962402343},"model":-2023754432,"heading":180},{"coords":{"x":467.3716125488281,"y":-1014.4520263671875,"z":26.53623962402343},"model":-2023754432,"heading":0}],"hideUi":false}'),
+	(3, 'community_mrpd 3', '{"coords":{"x":463.4783020019531,"y":-1003.5380249023438,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(4, 'community_mrpd 4', '{"coords":{"x":488.8948059082031,"y":-1017.2100219726563,"z":27.14863014221191},"auto":true,"lockSound":"button-remote","groups":{"police":0},"heading":90,"maxDistance":5,"state":1,"model":-1603817716,"hideUi":false}'),
+	(5, 'community_mrpd 5', '{"coords":{"x":431.4056091308594,"y":-1001.1690063476563,"z":26.71261024475097},"auto":true,"lockSound":"button-remote","groups":{"police":0},"heading":0,"maxDistance":5,"state":1,"model":-190780785,"hideUi":false}'),
+	(6, 'community_mrpd 6', '{"coords":{"x":436.223388671875,"y":-1001.1690063476563,"z":26.71261024475097},"auto":true,"lockSound":"button-remote","groups":{"police":0},"heading":0,"maxDistance":5,"state":1,"model":-190780785,"hideUi":false}'),
+	(7, 'community_mrpd 7', '{"coords":{"x":450.10418701171877,"y":-985.7384033203125,"z":30.83930969238281},"model":1557126584,"groups":{"police":0,"offpolice":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
+	(8, 'community_mrpd 8', '{"coords":{"x":464.15838623046877,"y":-1011.260009765625,"z":33.01121139526367},"model":507213820,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(9, 'community_mrpd 9', '{"coords":{"x":461.2864990234375,"y":-985.3206176757813,"z":30.83926963806152},"model":749848321,"groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
+	(10, 'community_mrpd 10', '{"coords":{"x":446.57281494140627,"y":-980.0106201171875,"z":30.83930969238281},"model":-1320876379,"groups":{"police":0},"heading":180,"maxDistance":2,"state":1,"hideUi":false}'),
+	(11, 'community_mrpd 11', '{"coords":{"x":453.09381103515627,"y":-983.2293701171875,"z":30.83926963806152},"model":-1033001619,"groups":{"police":0},"heading":91,"maxDistance":2,"state":1,"hideUi":false}'),
+	(12, 'community_mrpd 12', '{"coords":{"x":464.36138916015627,"y":-984.677978515625,"z":43.83443832397461},"model":-340230128,"groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
+	(13, 'community_mrpd 13', '{"coords":{"x":442.6625061035156,"y":-988.2412719726563,"z":26.81977081298828},"model":-131296141,"groups":{"police":0},"heading":179,"maxDistance":2,"state":1,"hideUi":false}'),
+	(14, 'community_mrpd 14', '{"coords":{"x":471.3153991699219,"y":-986.1090698242188,"z":25.05794906616211},"model":-131296141,"groups":{"police":0},"heading":270,"maxDistance":2,"state":1,"hideUi":false}'),
+	(15, 'community_mrpd 15', '{"coords":{"x":467.5935974121094,"y":-977.9932861328125,"z":25.05794906616211},"model":-131296141,"groups":{"police":0},"heading":180,"maxDistance":2,"state":1,"hideUi":false}'),
+	(16, 'community_mrpd 16', '{"coords":{"x":463.6145935058594,"y":-980.5814208984375,"z":25.05794906616211},"model":-131296141,"groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"hideUi":false}'),
+	(17, 'community_mrpd 17', '{"coords":{"x":464.5701904296875,"y":-992.6641235351563,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
+	(18, 'community_mrpd 18', '{"coords":{"x":461.8064880371094,"y":-994.4086303710938,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":270,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
+	(19, 'community_mrpd 19', '{"coords":{"x":461.8064880371094,"y":-997.6583862304688,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
+	(20, 'community_mrpd 20', '{"coords":{"x":461.8064880371094,"y":-1001.302001953125,"z":25.0644302368164},"model":631614199,"lockSound":"metal-locker","groups":{"police":0},"heading":90,"maxDistance":2,"state":1,"unlockSound":"metallic-creak","hideUi":false}'),
+	(21, 'community_mrpd 21', '{"coords":{"x":467.19219970703127,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(22, 'community_mrpd 22', '{"coords":{"x":471.4754943847656,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(23, 'community_mrpd 23', '{"coords":{"x":475.7543029785156,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(24, 'community_mrpd 24', '{"coords":{"x":480.03009033203127,"y":-996.4594116210938,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(25, 'community_mrpd 25', '{"coords":{"x":468.4872131347656,"y":-1003.5479736328125,"z":25.01313972473144},"model":-1033001619,"groups":{"police":0},"heading":180,"maxDistance":2,"state":1,"hideUi":false}'),
+	(26, 'community_mrpd 26', '{"coords":{"x":471.4747009277344,"y":-1003.5380249023438,"z":25.01222991943359},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(27, 'community_mrpd 27', '{"coords":{"x":477.0495910644531,"y":-1003.552001953125,"z":25.01203918457031},"auto":false,"groups":{"police":0},"heading":179,"lockpick":false,"maxDistance":2,"state":1,"model":-1033001619,"hideUi":false}'),
+	(28, 'community_mrpd 28', '{"coords":{"x":480.03009033203127,"y":-1003.5380249023438,"z":25.00598907470703},"model":-1033001619,"groups":{"police":0},"heading":0,"maxDistance":2,"state":1,"hideUi":false}'),
+	(29, 'community_mrpd 29', '{"coords":{"x":444.7078857421875,"y":-989.4453735351563,"z":30.83930969238281},"groups":{"police":0},"maxDistance":2.5,"state":1,"doors":[{"coords":{"x":443.4078063964844,"y":-989.4453735351563,"z":30.83930969238281},"model":185711165,"heading":180},{"coords":{"x":446.00799560546877,"y":-989.4453735351563,"z":30.83930969238281},"model":185711165,"heading":0}],"hideUi":false}'),
+	(30, 'community_mrpd 30', '{"coords":{"x":445.9197998046875,"y":-999.0016479492188,"z":30.7890396118164},"groups":{"police":0},"maxDistance":2.5,"state":1,"doors":[{"coords":{"x":447.2184143066406,"y":-999.0023193359375,"z":30.78941917419433},"model":-1033001619,"heading":180},{"coords":{"x":444.6211853027344,"y":-999.0009765625,"z":30.78866004943847},"model":-1033001619,"heading":0}],"hideUi":false}'),
+	(31, 'community_mrpd 31', '{"coords":{"x":445.9298400878906,"y":-997.044677734375,"z":30.84351921081543},"groups":{"police":0},"maxDistance":2.5,"state":0,"doors":[{"coords":{"x":444.62939453125,"y":-997.044677734375,"z":30.84351921081543},"model":-2023754432,"heading":0},{"coords":{"x":447.23028564453127,"y":-997.044677734375,"z":30.84351921081543},"model":-2023754432,"heading":180}],"hideUi":false}');
+
+-- Dump della struttura di tabella es_extended.bpt_inventory
+CREATE TABLE IF NOT EXISTS `bpt_inventory` (
+  `owner` varchar(46) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `data` longtext DEFAULT NULL,
+  `lastupdated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  UNIQUE KEY `owner` (`owner`,`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dump dei dati della tabella es_extended.bpt_inventory: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.bpt_items
 CREATE TABLE IF NOT EXISTS `bpt_items` (
@@ -279,9 +308,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1713 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1799 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~1.698 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~1.705 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_police', NULL, '{}'),
 	(2, 'society_ambulance', NULL, '{}'),
@@ -1970,7 +1999,93 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1709, 'property', NULL, '{}'),
 	(1710, 'property', NULL, '{}'),
 	(1711, 'property', NULL, '{}'),
-	(1712, 'property', NULL, '{}');
+	(1712, 'property', NULL, '{}'),
+	(1713, 'property', NULL, '{}'),
+	(1714, 'property', NULL, '{}'),
+	(1715, 'property', NULL, '{}'),
+	(1716, 'property', NULL, '{}'),
+	(1717, 'property', NULL, '{}'),
+	(1718, 'property', NULL, '{}'),
+	(1719, 'property', NULL, '{}'),
+	(1720, 'property', NULL, '{}'),
+	(1721, 'property', NULL, '{}'),
+	(1722, 'property', NULL, '{}'),
+	(1723, 'property', NULL, '{}'),
+	(1724, 'property', NULL, '{}'),
+	(1725, 'property', NULL, '{}'),
+	(1726, 'property', NULL, '{}'),
+	(1727, 'property', NULL, '{}'),
+	(1728, 'property', NULL, '{}'),
+	(1729, 'property', NULL, '{}'),
+	(1730, 'property', NULL, '{}'),
+	(1731, 'property', NULL, '{}'),
+	(1732, 'property', NULL, '{}'),
+	(1733, 'property', NULL, '{}'),
+	(1734, 'property', NULL, '{}'),
+	(1735, 'property', NULL, '{}'),
+	(1736, 'property', NULL, '{}'),
+	(1737, 'property', NULL, '{}'),
+	(1738, 'property', NULL, '{}'),
+	(1739, 'property', NULL, '{}'),
+	(1740, 'property', NULL, '{}'),
+	(1741, 'property', NULL, '{}'),
+	(1742, 'property', NULL, '{}'),
+	(1743, 'property', NULL, '{}'),
+	(1744, 'property', NULL, '{}'),
+	(1745, 'property', NULL, '{}'),
+	(1746, 'property', NULL, '{}'),
+	(1747, 'property', NULL, '{}'),
+	(1748, 'property', NULL, '{}'),
+	(1749, 'property', NULL, '{}'),
+	(1750, 'property', NULL, '{}'),
+	(1751, 'property', NULL, '{}'),
+	(1752, 'property', NULL, '{}'),
+	(1753, 'property', NULL, '{}'),
+	(1754, 'property', NULL, '{}'),
+	(1755, 'property', NULL, '{}'),
+	(1756, 'property', NULL, '{}'),
+	(1757, 'property', NULL, '{}'),
+	(1758, 'property', NULL, '{}'),
+	(1759, 'property', NULL, '{}'),
+	(1760, 'property', NULL, '{}'),
+	(1761, 'property', NULL, '{}'),
+	(1762, 'property', NULL, '{}'),
+	(1763, 'property', NULL, '{}'),
+	(1764, 'property', NULL, '{}'),
+	(1765, 'property', NULL, '{}'),
+	(1766, 'property', NULL, '{}'),
+	(1767, 'property', NULL, '{}'),
+	(1768, 'property', NULL, '{}'),
+	(1769, 'property', NULL, '{}'),
+	(1770, 'property', NULL, '{}'),
+	(1771, 'property', NULL, '{}'),
+	(1772, 'property', NULL, '{}'),
+	(1773, 'property', NULL, '{}'),
+	(1774, 'property', NULL, '{}'),
+	(1775, 'property', NULL, '{}'),
+	(1776, 'property', NULL, '{}'),
+	(1777, 'property', NULL, '{}'),
+	(1778, 'property', NULL, '{}'),
+	(1779, 'property', NULL, '{}'),
+	(1780, 'property', NULL, '{}'),
+	(1781, 'property', NULL, '{}'),
+	(1782, 'property', NULL, '{}'),
+	(1783, 'property', NULL, '{}'),
+	(1784, 'property', NULL, '{}'),
+	(1785, 'property', NULL, '{}'),
+	(1786, 'property', NULL, '{}'),
+	(1787, 'property', NULL, '{}'),
+	(1788, 'property', NULL, '{}'),
+	(1789, 'property', NULL, '{}'),
+	(1790, 'property', NULL, '{}'),
+	(1791, 'property', NULL, '{}'),
+	(1792, 'property', NULL, '{}'),
+	(1793, 'property', NULL, '{}'),
+	(1794, 'property', NULL, '{}'),
+	(1795, 'property', NULL, '{}'),
+	(1796, 'property', NULL, '{}'),
+	(1797, 'property', NULL, '{}'),
+	(1798, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -2056,7 +2171,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.jobs: ~15 rows (circa)
+-- Dump dei dati della tabella es_extended.jobs: ~14 rows (circa)
 INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 	('ambulance', 'EMS', 1),
 	('ammu', 'Armeria', 1),
@@ -2064,7 +2179,6 @@ INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 	('ballas', 'Ballas', 1),
 	('cardealer', 'Cardealer', 1),
 	('delivery', 'Delivery', 0),
-	('driving', 'Driving School', 1),
 	('dustman', 'Dustman', 1),
 	('fisherman', 'Fisherman', 0),
 	('import', 'Import', 1),
@@ -2087,7 +2201,7 @@ CREATE TABLE IF NOT EXISTS `job_grades` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.job_grades: ~66 rows (circa)
+-- Dump dei dati della tabella es_extended.job_grades: ~61 rows (circa)
 INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, `skin_male`, `skin_female`) VALUES
 	(1, 'unemployed', 0, 'unemployed', 'Unemployed', 200, '{}', '{}'),
 	(2, 'police', 0, 'recruit', 'Recrue', 20, '{}', '{}'),
@@ -2145,11 +2259,6 @@ INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, 
 	(90, 'unicorn', 3, 'responsible', 'responsabile', 48, '{}', '{}'),
 	(91, 'unicorn', 4, 'boss', 'Direttore', 0, '{}', '{}'),
 	(97, 'delivery', 0, 'delivery', 'Delivery', 0, '{}', '{}'),
-	(98, 'driving', 0, 'motorinstr', 'Motor Instructor', 50, '{}', '{}'),
-	(99, 'driving', 1, 'carinstr', 'Car Instructor', 70, '{}', '{}'),
-	(100, 'driving', 2, 'truckinstr', 'Truck Instructor', 120, '{}', '{}'),
-	(101, 'driving', 3, 'examiner', 'Examiner', 200, '{}', '{}'),
-	(102, 'driving', 4, 'boss', 'Boss', 350, '{}', '{}'),
 	(103, 'fisherman', 0, 'ontrial', 'in prova', 12, '{"hair_2":0,"hair_color_2":0,"torso_1":32,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":31,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":0,"age_2":0,"glasses_2":0,"ears_2":0,"arms":27,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
 	(104, 'fisherman', 1, 'employee', 'dipendente', 24, '{"hair_2":0,"hair_color_2":0,"torso_1":32,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":31,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":0,"age_2":0,"glasses_2":0,"ears_2":0,"arms":27,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
 	(105, 'fisherman', 2, 'driver', 'autista', 36, '{"hair_2":0,"hair_color_2":0,"torso_1":26,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":57,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":4,"age_2":0,"glasses_2":0,"ears_2":0,"arms":11,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":0,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":0,"bproof_1":0,"mask_1":0,"decals_1":0,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":10,"pants_1":24}', '{"hair_2":0,"hair_color_2":0,"torso_1":57,"bags_1":0,"helmet_2":0,"chain_2":0,"eyebrows_3":0,"makeup_3":0,"makeup_2":0,"tshirt_1":38,"makeup_1":0,"bags_2":0,"makeup_4":0,"eyebrows_4":0,"chain_1":0,"lipstick_4":0,"bproof_2":0,"hair_color_1":0,"decals_2":0,"pants_2":1,"age_2":0,"glasses_2":0,"ears_2":0,"arms":21,"lipstick_1":0,"ears_1":-1,"mask_2":0,"sex":1,"lipstick_3":0,"helmet_1":-1,"shoes_2":0,"beard_2":0,"beard_1":0,"lipstick_2":0,"beard_4":0,"glasses_1":5,"bproof_1":0,"mask_1":0,"decals_1":1,"hair_1":0,"eyebrows_2":0,"beard_3":0,"age_1":0,"tshirt_2":0,"skin":0,"torso_2":0,"eyebrows_1":0,"face":0,"shoes_1":49,"pants_1":11}'),
@@ -2198,20 +2307,6 @@ CREATE TABLE IF NOT EXISTS `npwd_calls` (
 
 -- Dump dei dati della tabella es_extended.npwd_calls: ~0 rows (circa)
 
--- Dump della struttura di tabella es_extended.npwd_crypto_transactions
-CREATE TABLE IF NOT EXISTS `npwd_crypto_transactions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `identifier` varchar(46) DEFAULT NULL,
-  `type` varchar(20) DEFAULT NULL,
-  `amount` float DEFAULT NULL,
-  `worth` float DEFAULT NULL,
-  `sentTo` varchar(20) DEFAULT NULL,
-  `createdAt` timestamp NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Dump dei dati della tabella es_extended.npwd_crypto_transactions: ~9 rows (circa)
-
 -- Dump della struttura di tabella es_extended.npwd_darkchat_channels
 CREATE TABLE IF NOT EXISTS `npwd_darkchat_channels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -2221,7 +2316,7 @@ CREATE TABLE IF NOT EXISTS `npwd_darkchat_channels` (
   UNIQUE KEY `darkchat_channels_channel_identifier_uindex` (`channel_identifier`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.npwd_darkchat_channels: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_darkchat_channels: ~0 rows (circa)
 INSERT INTO `npwd_darkchat_channels` (`id`, `channel_identifier`, `label`) VALUES
 	(20, '3', '3');
 
@@ -2234,7 +2329,9 @@ CREATE TABLE IF NOT EXISTS `npwd_darkchat_channel_members` (
   CONSTRAINT `npwd_darkchat_channel_members_npwd_darkchat_channels_id_fk` FOREIGN KEY (`channel_id`) REFERENCES `npwd_darkchat_channels` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.npwd_darkchat_channel_members: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_darkchat_channel_members: ~0 rows (circa)
+INSERT INTO `npwd_darkchat_channel_members` (`channel_id`, `user_identifier`, `is_owner`) VALUES
+;
 
 -- Dump della struttura di tabella es_extended.npwd_darkchat_messages
 CREATE TABLE IF NOT EXISTS `npwd_darkchat_messages` (
@@ -2249,7 +2346,8 @@ CREATE TABLE IF NOT EXISTS `npwd_darkchat_messages` (
   CONSTRAINT `darkchat_messages_darkchat_channels_id_fk` FOREIGN KEY (`channel_id`) REFERENCES `npwd_darkchat_channels` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.npwd_darkchat_messages: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_darkchat_messages: ~0 rows (circa)
+INSERT INTO `npwd_darkchat_messages` (`id`, `channel_id`, `message`, `user_identifier`, `createdAt`, `is_image`) VALUES
 
 -- Dump della struttura di tabella es_extended.npwd_marketplace_listings
 CREATE TABLE IF NOT EXISTS `npwd_marketplace_listings` (
@@ -2287,7 +2385,8 @@ CREATE TABLE IF NOT EXISTS `npwd_match_profiles` (
   UNIQUE KEY `identifier_UNIQUE` (`identifier`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.npwd_match_profiles: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_match_profiles: ~0 rows (circa)
+INSERT INTO `npwd_match_profiles` (`id`, `identifier`, `name`, `image`, `bio`, `location`, `job`, `tags`, `voiceMessage`, `createdAt`, `updatedAt`) VALUES
 
 -- Dump della struttura di tabella es_extended.npwd_match_views
 CREATE TABLE IF NOT EXISTS `npwd_match_views` (
@@ -2386,6 +2485,7 @@ CREATE TABLE IF NOT EXISTS `npwd_phone_gallery` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella es_extended.npwd_phone_gallery: ~3 rows (circa)
+INSERT INTO `npwd_phone_gallery` (`id`, `identifier`, `image`) VALUES
 
 -- Dump della struttura di tabella es_extended.npwd_twitter_likes
 CREATE TABLE IF NOT EXISTS `npwd_twitter_likes` (
@@ -2415,7 +2515,8 @@ CREATE TABLE IF NOT EXISTS `npwd_twitter_profiles` (
   KEY `identifier` (`identifier`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.npwd_twitter_profiles: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_twitter_profiles: ~0 rows (circa)
+INSERT INTO `npwd_twitter_profiles` (`id`, `profile_name`, `identifier`, `avatar_url`, `createdAt`, `updatedAt`) VALUES
 
 -- Dump della struttura di tabella es_extended.npwd_twitter_reports
 CREATE TABLE IF NOT EXISTS `npwd_twitter_reports` (
@@ -2463,7 +2564,8 @@ CREATE TABLE IF NOT EXISTS `outfits` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dump dei dati della tabella es_extended.outfits: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.outfits: ~0 rows (circa)
+INSERT INTO `outfits` (`id`, `identifier`, `name`, `ped`, `components`, `props`) VALUES
 
 -- Dump della struttura di tabella es_extended.owned_vehicles
 CREATE TABLE IF NOT EXISTS `owned_vehicles` (
@@ -2483,6 +2585,7 @@ CREATE TABLE IF NOT EXISTS `owned_vehicles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella es_extended.owned_vehicles: ~5 rows (circa)
+INSERT INTO `owned_vehicles` (`owner`, `plate`, `vehicle`, `type`, `job`, `stored`, `parking`, `pound`, `trunk`, `glovebox`, `peopleWithKeys`, `mileage`) VALUES
 
 -- Dump della struttura di tabella es_extended.ox_inventory
 CREATE TABLE IF NOT EXISTS `ox_inventory` (
@@ -2493,7 +2596,8 @@ CREATE TABLE IF NOT EXISTS `ox_inventory` (
   UNIQUE KEY `owner` (`owner`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.ox_inventory: ~7 rows (circa)
+-- Dump dei dati della tabella es_extended.ox_inventory: ~6 rows (circa)
+INSERT INTO `ox_inventory` (`owner`, `name`, `data`, `lastupdated`) VALUES
 
 -- Dump della struttura di tabella es_extended.rented_vehicles
 CREATE TABLE IF NOT EXISTS `rented_vehicles` (
@@ -2517,7 +2621,8 @@ CREATE TABLE IF NOT EXISTS `society_moneywash` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.society_moneywash: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.society_moneywash: ~0 rows (circa)
+INSERT INTO `society_moneywash` (`id`, `identifier`, `society`, `amount`) VALUES
 
 -- Dump della struttura di tabella es_extended.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -2550,7 +2655,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.users: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.users: ~0 rows (circa)
+INSERT INTO `users` (`identifier`, `accounts`, `group`, `inventory`, `job`, `job_grade`, `loadout`, `crafting_level`, `position`, `firstname`, `lastname`, `dateofbirth`, `sex`, `height`, `skin`, `status`, `is_dead`, `id`, `disabled`, `last_property`, `pincode`, `tattoos`, `iban`, `jail`, `phone_number`) VALUES
 
 -- Dump della struttura di tabella es_extended.user_licenses
 CREATE TABLE IF NOT EXISTS `user_licenses` (
@@ -2561,6 +2667,7 @@ CREATE TABLE IF NOT EXISTS `user_licenses` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella es_extended.user_licenses: ~2 rows (circa)
+INSERT INTO `user_licenses` (`id`, `type`, `owner`) VALUES
 
 -- Dump della struttura di tabella es_extended.uteknark1
 CREATE TABLE IF NOT EXISTS `uteknark1` (
