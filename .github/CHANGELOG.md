@@ -34,4 +34,5 @@
 9. [esx_addons]: chore: replace esx_drivingschooljob with esx_dmvschool @bitpredator
 10. [SQL]: chore: update database @bitpredator
 11. [maps]: delete: remove maps verpi_driving_school @bitpredator
-12. [ox_inventory] chore: remove store dmvshool @bitpredator
+12. [ox_inventory]: chore: remove store dmvshool @bitpredator
+13. [BasicItem]: chore: code cleanup and fixes @bitpredator
