@@ -1,5 +1,5 @@
-ESX = nil
 ESX = exports["es_extended"]:getSharedObject()
+
 ESX.RegisterUsableItem('idcard', function(source)
     local _source = source
     TriggerClientEvent("IDCARD:USE", _source)

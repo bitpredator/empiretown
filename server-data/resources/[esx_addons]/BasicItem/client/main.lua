@@ -1,11 +1,4 @@
-ESX = nil
-CreateThread(function()
-    ESX = exports["es_extended"]:getSharedObject()
-    while ESX.GetPlayerData().job == nil do
-        Wait(10)
-    end
-    ESX.PlayerData = ESX.GetPlayerData()
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 RegisterNetEvent("IDCARD:USE")
 AddEventHandler("IDCARD:USE", function()
