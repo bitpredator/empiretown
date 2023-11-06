@@ -1,6 +1,6 @@
 drawText3D = function(x, y, z, text)
 	local onScreen, _x, _y = World3dToScreen2d(x,y,z)
-	local _, _, _ = table.unpack(GetGameplayCamCoords())
+	local _ = table.unpack(GetGameplayCamCoords())
 	local scale = 0.30
 
 	if onScreen then

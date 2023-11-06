@@ -1,13 +1,4 @@
-ESX = nil
-CreateThread(function()
-    while ESX == nil do
-        Wait(5)
-		ESX = exports["es_extended"]:getSharedObject()
-    end
-    if ESX.IsPlayerLoaded() then
-		ESX.PlayerData = ESX.GetPlayerData()
-	end
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 local oPlayer = false
 local playerpos = false
