@@ -37,3 +37,4 @@
 12. [ox_inventory]: chore: remove store dmvshool @bitpredator
 13. [BasicItem]: chore: code cleanup and fixes @bitpredator
 14. [BOBHunt]: refactor: code cleaning, various corrections to the code as well as license updates @bitpredator
+15. [BOBHunt]: refactor: supports all translations natively @bitpredator
