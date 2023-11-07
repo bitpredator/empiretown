@@ -1,13 +1,4 @@
-ESX = nil
-CreateThread(function()
-    while ESX == nil do
-        Wait(5)
-		ESX = exports["es_extended"]:getSharedObject()
-    end
-    if ESX.IsPlayerLoaded() then
-		ESX.PlayerData = ESX.GetPlayerData()
-	end
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 local oPlayer = false
 local playerpos = false
@@ -72,23 +63,23 @@ CreateThread(function()
 					ClearPedTasks(PlayerPedId())
 					if GetEntityModel(ped) == GetHashKey("a_c_boar") then
 						local item = 'boar_meat'
-						local p_name = 'boar meat'
+						local p_name = _U('boar_meat')
 						TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
 					elseif GetEntityModel(ped) == GetHashKey("a_c_mtlion") then
 						local item = 'pelt_mtnlion'
-						local p_name = 'Mountain Lion pelt'
+					    local p_name = _U('pelt_mtnlion')
 						TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
 					elseif GetEntityModel(ped) == GetHashKey("a_c_deer") then
 						local item = 'deer_meat'
-						local p_name = 'deer meat'
+						local p_name = _U('deer_meat')
 						TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
 					elseif GetEntityModel(ped) == GetHashKey("a_c_coyote") then
 						local item = 'pelt_coyote'
-						local p_name = 'Coyote pelt'
+						local p_name = _U('pelt_coyote')
 						TriggerServerEvent('esx_bobhunt:getPelt', item, p_name)
 					elseif GetEntityModel(ped) == GetHashKey("a_c_rabbit_01") then
 						local item = 'rabbit_meat'
-						local p_name = 'Rabbit meat'
+						local p_name = _U('rabbit_meat')
 						TriggerServerEvent('esx_bobhunt:getPelt', item,  p_name)
 					end
 
