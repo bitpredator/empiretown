@@ -1,5 +1,3 @@
-
-
 CREATE TABLE `society_moneywash` (
 	`id` int NOT NULL AUTO_INCREMENT,
 	`identifier` varchar(60) NOT NULL,
