@@ -38,3 +38,7 @@
 13. [BasicItem]: chore: code cleanup and fixes @bitpredator
 14. [BOBHunt]: refactor: code cleaning, various corrections to the code as well as license updates @bitpredator
 15. [BOBHunt]: refactor: supports all translations natively @bitpredator
+16. [SQL]: chore: removed white strings inside some sql @bitpredator
+17. [esx_addoninventory]: delete: removed the .editorconfig file @bitpredator
+18. [ox_inventory]: fix: corrected the weight of the items @bitpredator
+19. [esx_identity]: chore: update the code version and improve the formatting @bitpredator

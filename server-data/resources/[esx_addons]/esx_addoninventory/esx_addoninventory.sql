@@ -1,5 +1,3 @@
-
-
 CREATE TABLE `addon_inventory` (
 	`name` VARCHAR(60) NOT NULL,
 	`label` VARCHAR(100) NOT NULL,

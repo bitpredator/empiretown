@@ -1,5 +1,3 @@
-
-
 INSERT INTO `addon_account` (name, label, shared) VALUES
 	('society_unicorn', 'Unicorn', 1)
 ;
