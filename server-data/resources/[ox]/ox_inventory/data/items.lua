@@ -458,7 +458,7 @@ return {
 
 	['boar_meat'] = {
 	    label = 'carne di cinghiale',
-	    weight = 3000,
+	    weight = 500,
 	    stack = true,
     },
 
@@ -470,7 +470,7 @@ return {
 
 	['deer_meat'] = {
 	    label = 'carne di cervo',
-	    weight = 3000,
+	    weight = 500,
 	    stack = true,
     },
 
@@ -488,7 +488,7 @@ return {
 
 	['gunpowder'] = {
 	    label = 'polvere da sparo',
-	    weight = 500,
+	    weight = 100,
 	    stack = true,
     },
 
@@ -569,5 +569,12 @@ return {
 		weight = 220,
 		stack = true,
 		consume = 1,
+	},
+
+	["medikit"] = {
+		label = "Medikit",
+		weight = 2,
+		stack = true,
+		close = true,
 	},
 }

@@ -40,3 +40,4 @@
 15. [BOBHunt]: refactor: supports all translations natively @bitpredator
 16. [SQL]: chore: removed white strings inside some sql @bitpredator
 17. [esx_addoninventory]: delete: removed the .editorconfig file @bitpredator
+18. [ox_inventory]: fix: corrected the weight of the items @bitpredator
