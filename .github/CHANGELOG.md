@@ -41,3 +41,4 @@
 16. [SQL]: chore: removed white strings inside some sql @bitpredator
 17. [esx_addoninventory]: delete: removed the .editorconfig file @bitpredator
 18. [ox_inventory]: fix: corrected the weight of the items @bitpredator
+19. [esx_identity]: chore: update the code version and improve the formatting @bitpredator
