@@ -1,5 +1,5 @@
-ESX = nil
 ESX = exports["es_extended"]:getSharedObject()
+
 -- collection potato
 RegisterServerEvent('farmer:collectionpotato')
 AddEventHandler('farmer:collectionpotato', function()
