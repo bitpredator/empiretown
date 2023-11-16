@@ -1,5 +1,3 @@
-ESX = nil
-
 local bluePlayerReady = false
 local redPlayerReady = false
 local fight = {}
