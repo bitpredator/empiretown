@@ -47,3 +47,4 @@
 22. [bpt_farmer]: chore: clean up the code @bitpredator
 23. [bpt_teleport]: chore: clean up the code @bitpredator
 24. [mythic_notify]: fix: removed unused variables @bitpredator
+25. [esx_status]: refactor: remove jquery + Remove some shitty lines @bitpredator
