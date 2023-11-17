@@ -33,5 +33,4 @@ TriggerEvent('esx_status:registerStatus', name, default, color,
 	{remove = 200} -- Client action (add / remove) so the client can be in sync with server
 )
 
-
 ```
