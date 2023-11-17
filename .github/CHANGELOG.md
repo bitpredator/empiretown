@@ -45,4 +45,5 @@
 20. [esx_addons]: fix: replace bpt_realisticvehicle with esx_RealisticVehicleFailure to fix repair issues @bitpredator
 21. [bpt_streetfight]: chore: clean up the code @bitpredator
 22. [bpt_farmer]: chore: clean up the code @bitpredator
-23. [bpt_teleport] chore: clean up the code @bitpredator
+23. [bpt_teleport]: chore: clean up the code @bitpredator
+24. [mythic_notify]: fix: removed unused variables @bitpredator
