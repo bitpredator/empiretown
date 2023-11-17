@@ -1,4 +1,3 @@
-ESX = nil
 local betAmount = 0
 local fightStatus = false
 local STATUS_INITIAL = false

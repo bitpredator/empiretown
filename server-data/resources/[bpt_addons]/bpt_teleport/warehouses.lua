@@ -1,7 +1,4 @@
-ESX = nil
-CreateThread(function()
-    ESX = exports["es_extended"]:getSharedObject()
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 CreateThread(function()
     while true do
