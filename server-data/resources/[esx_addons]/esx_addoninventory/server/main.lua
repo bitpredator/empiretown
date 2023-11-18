@@ -76,6 +76,7 @@ MySQL.ready(function()
 
 			local addonInventory    = CreateAddonInventory(name, nil, items)
 			SharedInventories[name] = addonInventory
+			GlobalState.SharedInventories = SharedInventories
 		end
 	end
 end)
@@ -92,6 +93,20 @@ function GetSharedInventory(name)
 	return SharedInventories[name]
 end
 
+function AddSharedInventory(society)
+    if type(society) ~= 'table' or not society?.name or not society?.label then
+		return
+	end
+    -- society (array) containing name (string) and label (string)
+    -- addon inventory:
+    MySQL.Async.execute('INSERT INTO addon_inventory (name, label, shared) VALUES (@name, @label, @shared)', {
+        ['name'] = society.name,
+        ['label'] = society.label,
+        ['shared'] = 1
+    })
+    SharedInventories[society.name] = CreateAddonInventory(society.name, nil, {})
+end
+
 AddEventHandler('esx_addoninventory:getInventory', function(name, owner, cb)
 	cb(GetInventory(name, owner))
 end)
@@ -100,7 +115,7 @@ AddEventHandler('esx_addoninventory:getSharedInventory', function(name, cb)
 	cb(GetSharedInventory(name))
 end)
 
-AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
+AddEventHandler('esx:playerLoaded', function(_, xPlayer)
 	local addonInventories = {}
 
 	for i=1, #InventoriesIndex, 1 do
