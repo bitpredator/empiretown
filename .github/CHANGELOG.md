@@ -49,3 +49,4 @@
 24. [mythic_notify]: fix: removed unused variables @bitpredator
 25. [esx_status]: refactor: remove jquery + Remove some shitty lines @bitpredator
 26. [esx_status/server]: fix: unused argument @bitpredator
+27. [esx_addoninventory]: chore: check for nil society @bitpredator
