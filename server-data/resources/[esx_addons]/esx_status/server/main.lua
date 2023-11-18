@@ -8,7 +8,7 @@ end
 
 AddEventHandler('onResourceStart', function(resourceName)
 	if (GetCurrentResourceName() ~= resourceName) then
-	  	return
+		return
 	end
 
 	for _, xPlayer in pairs(ESX.Players) do
@@ -18,13 +18,13 @@ AddEventHandler('onResourceStart', function(resourceName)
 	end
 end)
 
-AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
+AddEventHandler('esx:playerLoaded', function(_, xPlayer)
 	MySQL.scalar('SELECT status FROM users WHERE identifier = ?', { xPlayer.identifier }, function(result)
 		setPlayerStatus(xPlayer, result)
 	end)
 end)
 
-AddEventHandler('esx:playerDropped', function(playerId, reason)
+AddEventHandler('esx:playerDropped', function(playerId)
 	local xPlayer = ESX.GetPlayerFromId(playerId)
 	local status = ESX.Players[xPlayer.source]
 
