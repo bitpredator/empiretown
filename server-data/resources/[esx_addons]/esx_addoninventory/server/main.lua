@@ -94,7 +94,7 @@ function GetSharedInventory(name)
 end
 
 function AddSharedInventory(society)
-    if type(society) ~= 'table' or not society?.name or not society?.label then 
+    if type(society) ~= 'table' or not society?.name or not society?.label then
 		return
 	end
     -- society (array) containing name (string) and label (string)
@@ -115,7 +115,7 @@ AddEventHandler('esx_addoninventory:getSharedInventory', function(name, cb)
 	cb(GetSharedInventory(name))
 end)
 
-AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
+AddEventHandler('esx:playerLoaded', function(_, xPlayer)
 	local addonInventories = {}
 
 	for i=1, #InventoriesIndex, 1 do
