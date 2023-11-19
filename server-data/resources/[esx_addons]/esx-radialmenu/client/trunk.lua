@@ -23,7 +23,6 @@ local disabledTrunk = {
 }
 
 -- Functions
-
 local function DrawText3Ds(x, y, z, text)
 	SetTextScale(0.35, 0.35)
     SetTextFont(4)
@@ -44,7 +43,7 @@ local function getNearestVeh()
     local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
 
     local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-    local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+    local vehicleHandle = GetRaycastResult(rayHandle)
     return vehicleHandle
 end
 
@@ -70,7 +69,6 @@ local function TrunkCam(bool)
 end
 
 -- Events
-
 RegisterNetEvent('esx_kidnapping:client:SetKidnapping', function(bool)
     isKidnapping = bool
 end)
@@ -207,7 +205,6 @@ RegisterNetEvent('esx-trunk:client:GetIn', function()
 end)
 
 -- Threads
-
 CreateThread(function()
     while true do
         local sleep = 1000

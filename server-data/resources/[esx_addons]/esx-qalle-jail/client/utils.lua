@@ -126,8 +126,7 @@ function TeleportPlayer(pos)
 			table.insert(elements, { label = v, value = v })
 		end
 
-		ESX.UI.Menu.Open(
-			'default', GetCurrentResourceName(), 'teleport_jail',
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'teleport_jail',
 			{
 				title    = "Choose Position",
 				align    = 'center',

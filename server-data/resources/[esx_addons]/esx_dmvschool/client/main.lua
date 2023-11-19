@@ -131,7 +131,7 @@ function OpenDMVSchoolMenu()
 		end
 	end
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(_, element)
 		if element.value == "theory_test" then
 			ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
 				if haveMoney then
@@ -151,26 +151,26 @@ function OpenDMVSchoolMenu()
 				end
 			end, element.type)
 		end
-	end, function(menu)
+	end, function()
 		CurrentAction     = 'dmvschool_menu'
 		CurrentActionMsg  = _U('press_open_menu')
 		CurrentActionData = {}
 	end)
 end
 
-RegisterNUICallback('question', function(data, cb)
+RegisterNUICallback('question', function(_, cb)
 	SendNUIMessage({
 		openSection = 'question'
 	})
 	cb()
 end)
 
-RegisterNUICallback('close', function(data, cb)
+RegisterNUICallback('close', function(_, cb)
 	StopTheoryTest(true)
 	cb()
 end)
 
-RegisterNUICallback('kick', function(data, cb)
+RegisterNUICallback('kick', function(_, cb)
 	StopTheoryTest(false)
 	cb()
 end)
@@ -183,7 +183,7 @@ AddEventHandler('esx_dmvschool:hasEnteredMarker', function(zone)
 	end
 end)
 
-AddEventHandler('esx_dmvschool:hasExitedMarker', function(zone)
+AddEventHandler('esx_dmvschool:hasExitedMarker', function()
 	CurrentAction = nil
 	ESX.CloseContext()
 end)
@@ -214,7 +214,7 @@ CreateThread(function()
 		local playerPed = PlayerPedId()
 		local coords = GetEntityCoords(playerPed)
 
-		for k,v in pairs(Config.Zones) do
+		for _, v in pairs(Config.Zones) do
 			local Pos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
 			if(v.Type ~= -1 and #(coords - Pos) < Config.DrawDistance) then
 				sleep = 0

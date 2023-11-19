@@ -1,4 +1,3 @@
-ESX = nil
 local Status = {
 	DELIVERY_INACTIVE                 = 0,
 	PLAYER_STARTED_DELIVERY           = 1,
