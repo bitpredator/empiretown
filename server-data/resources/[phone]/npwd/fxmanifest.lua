@@ -2,13 +2,17 @@ fx_version("cerulean")
 game("gta5")
 description("js runtime monkaW")
 authors({ "itschip", "erik-sn", "TasoOneAsia", "kidz", "RockySouthpaw", "SamShanks", "c-wide", "mojito" })
-version("v1.7.4")
+version("1.8.6")
 client_scripts({
 	"dist/game/client/client.js",
 	"dist/game/client/*.lua",
+	"apps/game/client/*.lua",
 })
 
 server_script({
+	-- This is a file that lives purely in source code and isn't compiled alongside
+	-- rest of the release. It's used to detect whether a user can read or not.
+	"build-detector.js",
 	"dist/game/server/server.js",
 })
 
