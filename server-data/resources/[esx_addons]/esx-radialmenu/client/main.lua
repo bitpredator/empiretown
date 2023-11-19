@@ -41,7 +41,7 @@ local function getNearestVeh()
     local pos = GetEntityCoords(PlayerPedId())
     local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 20.0, 0.0)
     local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-    local _, _, _, _, vehicleHandle = GetRaycastResult(rayHandle)
+    local vehicleHandle = GetRaycastResult(rayHandle)
     return vehicleHandle
 end
 
@@ -250,7 +250,7 @@ RegisterKeyMapping('radialmenu',  _U("command_description"), 'keyboard', Config.
 -- Events
 
 -- Sets the metadata when the player spawns
-RegisterNetEvent('esx:playerLoaded', function(xPlayer, isNew)
+RegisterNetEvent('esx:playerLoaded', function(xPlayer)
 	ESX.PlayerData = xPlayer
 	ESX.PlayerLoaded = true
 end)
@@ -360,25 +360,7 @@ RegisterNetEvent('esx-radialmenu:client:ChangeSeat', function(data)
     end
 end)
 
-RegisterNetEvent('esx-radialmenu:flipVehicle', function()
-    TriggerEvent('animations:client:EmoteCommandStart', {"mechanic"})
-    QBCore.Functions.Progressbar("pick_grape",  _U("progress.flipping_car"), Config.Fliptime, false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-    }, {}, {}, {}, function() -- Done
-        local vehicle = getNearestVeh()
-        SetVehicleOnGroundProperly(vehicle)
-        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-    end, function() -- Cancel
-        ESX.ShowNotification( _U("task.cancel_task"), "error")
-        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-    end)
-end)
-
 -- NUI Callbacks
-
 RegisterNUICallback('closeRadial', function(data, cb)
     setRadialState(false, false, data.delay)
     cb('ok')
@@ -396,8 +378,6 @@ RegisterNUICallback('selectItem', function(inData, cb)
             TriggerServerEvent(data.event, data)
         elseif data.type == 'command' then
             ExecuteCommand(data.event)
-        -- elseif data.type == 'qbcommand' then
-        --     TriggerServerEvent('QBCore:CallCommand', data.event, data)
         end
     end
     cb('ok')
