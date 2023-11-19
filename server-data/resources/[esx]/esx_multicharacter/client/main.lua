@@ -159,9 +159,9 @@ if ESX.GetConfig().Multichar then
 	end
 
 	function CharacterOptions(Characters, slots, SelectedCharacter)
-		local elements = {{title = _U('character', Characters[SelectedCharacter.value].firstname .. " ".. Characters[SelectedCharacter.value].lastname),icon = "fa-regular fa-user", unselectable = true}, 
+		local elements = {{title = _U('character', Characters[SelectedCharacter.value].firstname .. " ".. Characters[SelectedCharacter.value].lastname),icon = "fa-regular fa-user", unselectable = true},
 		{title = _U('return'), unselectable = false,icon = "fa-solid fa-arrow-left",description = _U('return_description'), action = "return"}}
-		if not Characters[SelectedCharacter.value].disabled then 
+		if not Characters[SelectedCharacter.value].disabled then
 			elements[3] = {title = _U('char_play'), description = _U('char_play_description'), icon ="fa-solid fa-play",action = 'play', value = SelectedCharacter.value}
 		else
 			elements[3] = {title = _U('char_disabled'), value = SelectedCharacter.value, icon ="fa-solid fa-xmark", description = _U('char_disabled_description'),}

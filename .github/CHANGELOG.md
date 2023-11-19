@@ -54,3 +54,4 @@
 29. [bpt_deliveries]: chore: clean up the code @bitpredator
 30. [esx-radialmenu]: chore:  fix lint error + clean up the code @bitpredator
 31. [esx-qalle-jail]: fix: fix lint error @bitpredator
+32. [esx_multicaracter]: fix: fix lint error @bitpredator
