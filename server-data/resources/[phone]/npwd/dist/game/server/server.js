@@ -8162,7 +8162,7 @@ var require_fecha_umd = __commonJS({
         var requiredFields = {};
         newFormat = regexEscape(newFormat).replace(token, function($0) {
           var info = parseFlags[$0];
-          var field2 = info[0], regex2 = info[1], requiredField = info[3];
+          var field2 = info[0], regex = info[1], requiredField = info[3];
           if (specifiedFields[field2]) {
             throw new Error("Invalid format. " + field2 + " specified twice in format");
           }
@@ -8171,7 +8171,7 @@ var require_fecha_umd = __commonJS({
             requiredFields[requiredField] = true;
           }
           parseInfo.push(info);
-          return "(" + regex2 + ")";
+          return "(" + regex + ")";
         });
         Object.keys(requiredFields).forEach(function(field2) {
           if (!specifiedFields[field2]) {
@@ -16719,660 +16719,1021 @@ var require_denque = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/yallist@4.0.0/node_modules/yallist/iterator.js
-var require_iterator2 = __commonJS({
-  "../../node_modules/.pnpm/yallist@4.0.0/node_modules/yallist/iterator.js"(exports, module2) {
-    "use strict";
-    module2.exports = function(Yallist) {
-      Yallist.prototype[Symbol.iterator] = function* () {
-        for (let walker = this.head; walker; walker = walker.next) {
-          yield walker.value;
-        }
-      };
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/yallist@4.0.0/node_modules/yallist/yallist.js
-var require_yallist = __commonJS({
-  "../../node_modules/.pnpm/yallist@4.0.0/node_modules/yallist/yallist.js"(exports, module2) {
-    "use strict";
-    module2.exports = Yallist;
-    Yallist.Node = Node;
-    Yallist.create = Yallist;
-    function Yallist(list) {
-      var self2 = this;
-      if (!(self2 instanceof Yallist)) {
-        self2 = new Yallist();
-      }
-      self2.tail = null;
-      self2.head = null;
-      self2.length = 0;
-      if (list && typeof list.forEach === "function") {
-        list.forEach(function(item) {
-          self2.push(item);
-        });
-      } else if (arguments.length > 0) {
-        for (var i2 = 0, l = arguments.length; i2 < l; i2++) {
-          self2.push(arguments[i2]);
-        }
-      }
-      return self2;
-    }
-    Yallist.prototype.removeNode = function(node) {
-      if (node.list !== this) {
-        throw new Error("removing node which does not belong to this list");
-      }
-      var next = node.next;
-      var prev = node.prev;
-      if (next) {
-        next.prev = prev;
-      }
-      if (prev) {
-        prev.next = next;
-      }
-      if (node === this.head) {
-        this.head = next;
-      }
-      if (node === this.tail) {
-        this.tail = prev;
-      }
-      node.list.length--;
-      node.next = null;
-      node.prev = null;
-      node.list = null;
-      return next;
-    };
-    Yallist.prototype.unshiftNode = function(node) {
-      if (node === this.head) {
-        return;
-      }
-      if (node.list) {
-        node.list.removeNode(node);
-      }
-      var head = this.head;
-      node.list = this;
-      node.next = head;
-      if (head) {
-        head.prev = node;
-      }
-      this.head = node;
-      if (!this.tail) {
-        this.tail = node;
-      }
-      this.length++;
-    };
-    Yallist.prototype.pushNode = function(node) {
-      if (node === this.tail) {
-        return;
-      }
-      if (node.list) {
-        node.list.removeNode(node);
-      }
-      var tail = this.tail;
-      node.list = this;
-      node.prev = tail;
-      if (tail) {
-        tail.next = node;
-      }
-      this.tail = node;
-      if (!this.head) {
-        this.head = node;
-      }
-      this.length++;
-    };
-    Yallist.prototype.push = function() {
-      for (var i2 = 0, l = arguments.length; i2 < l; i2++) {
-        push(this, arguments[i2]);
-      }
-      return this.length;
-    };
-    Yallist.prototype.unshift = function() {
-      for (var i2 = 0, l = arguments.length; i2 < l; i2++) {
-        unshift(this, arguments[i2]);
-      }
-      return this.length;
-    };
-    Yallist.prototype.pop = function() {
-      if (!this.tail) {
-        return void 0;
-      }
-      var res = this.tail.value;
-      this.tail = this.tail.prev;
-      if (this.tail) {
-        this.tail.next = null;
-      } else {
-        this.head = null;
-      }
-      this.length--;
-      return res;
-    };
-    Yallist.prototype.shift = function() {
-      if (!this.head) {
-        return void 0;
-      }
-      var res = this.head.value;
-      this.head = this.head.next;
-      if (this.head) {
-        this.head.prev = null;
-      } else {
-        this.tail = null;
-      }
-      this.length--;
-      return res;
-    };
-    Yallist.prototype.forEach = function(fn, thisp) {
-      thisp = thisp || this;
-      for (var walker = this.head, i2 = 0; walker !== null; i2++) {
-        fn.call(thisp, walker.value, i2, this);
-        walker = walker.next;
-      }
-    };
-    Yallist.prototype.forEachReverse = function(fn, thisp) {
-      thisp = thisp || this;
-      for (var walker = this.tail, i2 = this.length - 1; walker !== null; i2--) {
-        fn.call(thisp, walker.value, i2, this);
-        walker = walker.prev;
-      }
-    };
-    Yallist.prototype.get = function(n) {
-      for (var i2 = 0, walker = this.head; walker !== null && i2 < n; i2++) {
-        walker = walker.next;
-      }
-      if (i2 === n && walker !== null) {
-        return walker.value;
-      }
-    };
-    Yallist.prototype.getReverse = function(n) {
-      for (var i2 = 0, walker = this.tail; walker !== null && i2 < n; i2++) {
-        walker = walker.prev;
-      }
-      if (i2 === n && walker !== null) {
-        return walker.value;
-      }
-    };
-    Yallist.prototype.map = function(fn, thisp) {
-      thisp = thisp || this;
-      var res = new Yallist();
-      for (var walker = this.head; walker !== null; ) {
-        res.push(fn.call(thisp, walker.value, this));
-        walker = walker.next;
-      }
-      return res;
-    };
-    Yallist.prototype.mapReverse = function(fn, thisp) {
-      thisp = thisp || this;
-      var res = new Yallist();
-      for (var walker = this.tail; walker !== null; ) {
-        res.push(fn.call(thisp, walker.value, this));
-        walker = walker.prev;
-      }
-      return res;
-    };
-    Yallist.prototype.reduce = function(fn, initial) {
-      var acc;
-      var walker = this.head;
-      if (arguments.length > 1) {
-        acc = initial;
-      } else if (this.head) {
-        walker = this.head.next;
-        acc = this.head.value;
-      } else {
-        throw new TypeError("Reduce of empty list with no initial value");
-      }
-      for (var i2 = 0; walker !== null; i2++) {
-        acc = fn(acc, walker.value, i2);
-        walker = walker.next;
-      }
-      return acc;
-    };
-    Yallist.prototype.reduceReverse = function(fn, initial) {
-      var acc;
-      var walker = this.tail;
-      if (arguments.length > 1) {
-        acc = initial;
-      } else if (this.tail) {
-        walker = this.tail.prev;
-        acc = this.tail.value;
-      } else {
-        throw new TypeError("Reduce of empty list with no initial value");
-      }
-      for (var i2 = this.length - 1; walker !== null; i2--) {
-        acc = fn(acc, walker.value, i2);
-        walker = walker.prev;
-      }
-      return acc;
-    };
-    Yallist.prototype.toArray = function() {
-      var arr = new Array(this.length);
-      for (var i2 = 0, walker = this.head; walker !== null; i2++) {
-        arr[i2] = walker.value;
-        walker = walker.next;
-      }
-      return arr;
-    };
-    Yallist.prototype.toArrayReverse = function() {
-      var arr = new Array(this.length);
-      for (var i2 = 0, walker = this.tail; walker !== null; i2++) {
-        arr[i2] = walker.value;
-        walker = walker.prev;
-      }
-      return arr;
-    };
-    Yallist.prototype.slice = function(from, to) {
-      to = to || this.length;
-      if (to < 0) {
-        to += this.length;
-      }
-      from = from || 0;
-      if (from < 0) {
-        from += this.length;
-      }
-      var ret = new Yallist();
-      if (to < from || to < 0) {
-        return ret;
-      }
-      if (from < 0) {
-        from = 0;
-      }
-      if (to > this.length) {
-        to = this.length;
-      }
-      for (var i2 = 0, walker = this.head; walker !== null && i2 < from; i2++) {
-        walker = walker.next;
-      }
-      for (; walker !== null && i2 < to; i2++, walker = walker.next) {
-        ret.push(walker.value);
-      }
-      return ret;
-    };
-    Yallist.prototype.sliceReverse = function(from, to) {
-      to = to || this.length;
-      if (to < 0) {
-        to += this.length;
-      }
-      from = from || 0;
-      if (from < 0) {
-        from += this.length;
-      }
-      var ret = new Yallist();
-      if (to < from || to < 0) {
-        return ret;
-      }
-      if (from < 0) {
-        from = 0;
-      }
-      if (to > this.length) {
-        to = this.length;
-      }
-      for (var i2 = this.length, walker = this.tail; walker !== null && i2 > to; i2--) {
-        walker = walker.prev;
-      }
-      for (; walker !== null && i2 > from; i2--, walker = walker.prev) {
-        ret.push(walker.value);
-      }
-      return ret;
-    };
-    Yallist.prototype.splice = function(start, deleteCount, ...nodes) {
-      if (start > this.length) {
-        start = this.length - 1;
-      }
-      if (start < 0) {
-        start = this.length + start;
-      }
-      for (var i2 = 0, walker = this.head; walker !== null && i2 < start; i2++) {
-        walker = walker.next;
-      }
-      var ret = [];
-      for (var i2 = 0; walker && i2 < deleteCount; i2++) {
-        ret.push(walker.value);
-        walker = this.removeNode(walker);
-      }
-      if (walker === null) {
-        walker = this.tail;
-      }
-      if (walker !== this.head && walker !== this.tail) {
-        walker = walker.prev;
-      }
-      for (var i2 = 0; i2 < nodes.length; i2++) {
-        walker = insert(this, walker, nodes[i2]);
-      }
-      return ret;
-    };
-    Yallist.prototype.reverse = function() {
-      var head = this.head;
-      var tail = this.tail;
-      for (var walker = head; walker !== null; walker = walker.prev) {
-        var p = walker.prev;
-        walker.prev = walker.next;
-        walker.next = p;
-      }
-      this.head = tail;
-      this.tail = head;
-      return this;
-    };
-    function insert(self2, node, value) {
-      var inserted = node === self2.head ? new Node(value, null, node, self2) : new Node(value, node, node.next, self2);
-      if (inserted.next === null) {
-        self2.tail = inserted;
-      }
-      if (inserted.prev === null) {
-        self2.head = inserted;
-      }
-      self2.length++;
-      return inserted;
-    }
-    function push(self2, item) {
-      self2.tail = new Node(item, self2.tail, null, self2);
-      if (!self2.head) {
-        self2.head = self2.tail;
-      }
-      self2.length++;
-    }
-    function unshift(self2, item) {
-      self2.head = new Node(item, null, self2.head, self2);
-      if (!self2.tail) {
-        self2.tail = self2.head;
-      }
-      self2.length++;
-    }
-    function Node(value, prev, next, list) {
-      if (!(this instanceof Node)) {
-        return new Node(value, prev, next, list);
-      }
-      this.list = list;
-      this.value = value;
-      if (prev) {
-        prev.next = this;
-        this.prev = prev;
-      } else {
-        this.prev = null;
-      }
-      if (next) {
-        next.prev = this;
-        this.next = next;
-      } else {
-        this.next = null;
-      }
-    }
-    try {
-      require_iterator2()(Yallist);
-    } catch (er) {
-    }
-  }
-});
-
-// ../../node_modules/.pnpm/lru-cache@6.0.0/node_modules/lru-cache/index.js
+// ../../node_modules/.pnpm/lru-cache@7.18.3/node_modules/lru-cache/index.js
 var require_lru_cache = __commonJS({
-  "../../node_modules/.pnpm/lru-cache@6.0.0/node_modules/lru-cache/index.js"(exports, module2) {
-    "use strict";
-    var Yallist = require_yallist();
-    var MAX = Symbol("max");
-    var LENGTH = Symbol("length");
-    var LENGTH_CALCULATOR = Symbol("lengthCalculator");
-    var ALLOW_STALE = Symbol("allowStale");
-    var MAX_AGE = Symbol("maxAge");
-    var DISPOSE = Symbol("dispose");
-    var NO_DISPOSE_ON_SET = Symbol("noDisposeOnSet");
-    var LRU_LIST = Symbol("lruList");
-    var CACHE = Symbol("cache");
-    var UPDATE_AGE_ON_GET = Symbol("updateAgeOnGet");
-    var naiveLength = () => 1;
-    var LRUCache = class {
-      constructor(options) {
-        if (typeof options === "number")
-          options = { max: options };
-        if (!options)
-          options = {};
-        if (options.max && (typeof options.max !== "number" || options.max < 0))
-          throw new TypeError("max must be a non-negative number");
-        const max = this[MAX] = options.max || Infinity;
-        const lc = options.length || naiveLength;
-        this[LENGTH_CALCULATOR] = typeof lc !== "function" ? naiveLength : lc;
-        this[ALLOW_STALE] = options.stale || false;
-        if (options.maxAge && typeof options.maxAge !== "number")
-          throw new TypeError("maxAge must be a number");
-        this[MAX_AGE] = options.maxAge || 0;
-        this[DISPOSE] = options.dispose;
-        this[NO_DISPOSE_ON_SET] = options.noDisposeOnSet || false;
-        this[UPDATE_AGE_ON_GET] = options.updateAgeOnGet || false;
-        this.reset();
+  "../../node_modules/.pnpm/lru-cache@7.18.3/node_modules/lru-cache/index.js"(exports, module2) {
+    var perf = typeof performance === "object" && performance && typeof performance.now === "function" ? performance : Date;
+    var hasAbortController = typeof AbortController === "function";
+    var AC = hasAbortController ? AbortController : class AbortController {
+      constructor() {
+        this.signal = new AS();
       }
-      set max(mL) {
-        if (typeof mL !== "number" || mL < 0)
-          throw new TypeError("max must be a non-negative number");
-        this[MAX] = mL || Infinity;
-        trim(this);
+      abort(reason = new Error("This operation was aborted")) {
+        this.signal.reason = this.signal.reason || reason;
+        this.signal.aborted = true;
+        this.signal.dispatchEvent({
+          type: "abort",
+          target: this.signal
+        });
       }
-      get max() {
-        return this[MAX];
+    };
+    var hasAbortSignal = typeof AbortSignal === "function";
+    var hasACAbortSignal = typeof AC.AbortSignal === "function";
+    var AS = hasAbortSignal ? AbortSignal : hasACAbortSignal ? AC.AbortController : class AbortSignal {
+      constructor() {
+        this.reason = void 0;
+        this.aborted = false;
+        this._listeners = [];
       }
-      set allowStale(allowStale) {
-        this[ALLOW_STALE] = !!allowStale;
-      }
-      get allowStale() {
-        return this[ALLOW_STALE];
-      }
-      set maxAge(mA) {
-        if (typeof mA !== "number")
-          throw new TypeError("maxAge must be a non-negative number");
-        this[MAX_AGE] = mA;
-        trim(this);
-      }
-      get maxAge() {
-        return this[MAX_AGE];
-      }
-      set lengthCalculator(lC) {
-        if (typeof lC !== "function")
-          lC = naiveLength;
-        if (lC !== this[LENGTH_CALCULATOR]) {
-          this[LENGTH_CALCULATOR] = lC;
-          this[LENGTH] = 0;
-          this[LRU_LIST].forEach((hit) => {
-            hit.length = this[LENGTH_CALCULATOR](hit.value, hit.key);
-            this[LENGTH] += hit.length;
-          });
-        }
-        trim(this);
-      }
-      get lengthCalculator() {
-        return this[LENGTH_CALCULATOR];
-      }
-      get length() {
-        return this[LENGTH];
-      }
-      get itemCount() {
-        return this[LRU_LIST].length;
-      }
-      rforEach(fn, thisp) {
-        thisp = thisp || this;
-        for (let walker = this[LRU_LIST].tail; walker !== null; ) {
-          const prev = walker.prev;
-          forEachStep(this, fn, walker, thisp);
-          walker = prev;
+      dispatchEvent(e2) {
+        if (e2.type === "abort") {
+          this.aborted = true;
+          this.onabort(e2);
+          this._listeners.forEach((f4) => f4(e2), this);
         }
       }
-      forEach(fn, thisp) {
-        thisp = thisp || this;
-        for (let walker = this[LRU_LIST].head; walker !== null; ) {
-          const next = walker.next;
-          forEachStep(this, fn, walker, thisp);
-          walker = next;
+      onabort() {
+      }
+      addEventListener(ev, fn) {
+        if (ev === "abort") {
+          this._listeners.push(fn);
         }
       }
-      keys() {
-        return this[LRU_LIST].toArray().map((k) => k.key);
-      }
-      values() {
-        return this[LRU_LIST].toArray().map((k) => k.value);
-      }
-      reset() {
-        if (this[DISPOSE] && this[LRU_LIST] && this[LRU_LIST].length) {
-          this[LRU_LIST].forEach((hit) => this[DISPOSE](hit.key, hit.value));
+      removeEventListener(ev, fn) {
+        if (ev === "abort") {
+          this._listeners = this._listeners.filter((f4) => f4 !== fn);
         }
-        this[CACHE] = /* @__PURE__ */ new Map();
-        this[LRU_LIST] = new Yallist();
-        this[LENGTH] = 0;
       }
-      dump() {
-        return this[LRU_LIST].map((hit) => isStale(this, hit) ? false : {
-          k: hit.key,
-          v: hit.value,
-          e: hit.now + (hit.maxAge || 0)
-        }).toArray().filter((h3) => h3);
+    };
+    var warned = /* @__PURE__ */ new Set();
+    var deprecatedOption = (opt, instead) => {
+      const code = `LRU_CACHE_OPTION_${opt}`;
+      if (shouldWarn(code)) {
+        warn(code, `${opt} option`, `options.${instead}`, LRUCache);
       }
-      dumpLru() {
-        return this[LRU_LIST];
+    };
+    var deprecatedMethod = (method, instead) => {
+      const code = `LRU_CACHE_METHOD_${method}`;
+      if (shouldWarn(code)) {
+        const { prototype } = LRUCache;
+        const { get } = Object.getOwnPropertyDescriptor(prototype, method);
+        warn(code, `${method} method`, `cache.${instead}()`, get);
       }
-      set(key, value, maxAge) {
-        maxAge = maxAge || this[MAX_AGE];
-        if (maxAge && typeof maxAge !== "number")
-          throw new TypeError("maxAge must be a number");
-        const now = maxAge ? Date.now() : 0;
-        const len = this[LENGTH_CALCULATOR](value, key);
-        if (this[CACHE].has(key)) {
-          if (len > this[MAX]) {
-            del(this, this[CACHE].get(key));
-            return false;
-          }
-          const node = this[CACHE].get(key);
-          const item = node.value;
-          if (this[DISPOSE]) {
-            if (!this[NO_DISPOSE_ON_SET])
-              this[DISPOSE](key, item.value);
-          }
-          item.now = now;
-          item.maxAge = maxAge;
-          item.value = value;
-          this[LENGTH] += len - item.length;
-          item.length = len;
-          this.get(key);
-          trim(this);
-          return true;
+    };
+    var deprecatedProperty = (field, instead) => {
+      const code = `LRU_CACHE_PROPERTY_${field}`;
+      if (shouldWarn(code)) {
+        const { prototype } = LRUCache;
+        const { get } = Object.getOwnPropertyDescriptor(prototype, field);
+        warn(code, `${field} property`, `cache.${instead}`, get);
+      }
+    };
+    var emitWarning = (...a) => {
+      typeof process === "object" && process && typeof process.emitWarning === "function" ? process.emitWarning(...a) : console.error(...a);
+    };
+    var shouldWarn = (code) => !warned.has(code);
+    var warn = (code, what, instead, fn) => {
+      warned.add(code);
+      const msg = `The ${what} is deprecated. Please use ${instead} instead.`;
+      emitWarning(msg, "DeprecationWarning", code, fn);
+    };
+    var isPosInt = (n) => n && n === Math.floor(n) && n > 0 && isFinite(n);
+    var getUintArray = (max) => !isPosInt(max) ? null : max <= Math.pow(2, 8) ? Uint8Array : max <= Math.pow(2, 16) ? Uint16Array : max <= Math.pow(2, 32) ? Uint32Array : max <= Number.MAX_SAFE_INTEGER ? ZeroArray : null;
+    var ZeroArray = class extends Array {
+      constructor(size) {
+        super(size);
+        this.fill(0);
+      }
+    };
+    var Stack = class {
+      constructor(max) {
+        if (max === 0) {
+          return [];
         }
-        const hit = new Entry(key, value, len, now, maxAge);
-        if (hit.length > this[MAX]) {
-          if (this[DISPOSE])
-            this[DISPOSE](key, value);
-          return false;
-        }
-        this[LENGTH] += hit.length;
-        this[LRU_LIST].unshift(hit);
-        this[CACHE].set(key, this[LRU_LIST].head);
-        trim(this);
-        return true;
+        const UintArray = getUintArray(max);
+        this.heap = new UintArray(max);
+        this.length = 0;
       }
-      has(key) {
-        if (!this[CACHE].has(key))
-          return false;
-        const hit = this[CACHE].get(key).value;
-        return !isStale(this, hit);
-      }
-      get(key) {
-        return get(this, key, true);
-      }
-      peek(key) {
-        return get(this, key, false);
+      push(n) {
+        this.heap[this.length++] = n;
       }
       pop() {
-        const node = this[LRU_LIST].tail;
-        if (!node)
-          return null;
-        del(this, node);
-        return node.value;
+        return this.heap[--this.length];
       }
-      del(key) {
-        del(this, this[CACHE].get(key));
+    };
+    var LRUCache = class {
+      constructor(options = {}) {
+        const {
+          max = 0,
+          ttl,
+          ttlResolution = 1,
+          ttlAutopurge,
+          updateAgeOnGet,
+          updateAgeOnHas,
+          allowStale,
+          dispose,
+          disposeAfter,
+          noDisposeOnSet,
+          noUpdateTTL,
+          maxSize = 0,
+          maxEntrySize = 0,
+          sizeCalculation,
+          fetchMethod,
+          fetchContext,
+          noDeleteOnFetchRejection,
+          noDeleteOnStaleGet,
+          allowStaleOnFetchRejection,
+          allowStaleOnFetchAbort,
+          ignoreFetchAbort
+        } = options;
+        const { length, maxAge, stale } = options instanceof LRUCache ? {} : options;
+        if (max !== 0 && !isPosInt(max)) {
+          throw new TypeError("max option must be a nonnegative integer");
+        }
+        const UintArray = max ? getUintArray(max) : Array;
+        if (!UintArray) {
+          throw new Error("invalid max value: " + max);
+        }
+        this.max = max;
+        this.maxSize = maxSize;
+        this.maxEntrySize = maxEntrySize || this.maxSize;
+        this.sizeCalculation = sizeCalculation || length;
+        if (this.sizeCalculation) {
+          if (!this.maxSize && !this.maxEntrySize) {
+            throw new TypeError(
+              "cannot set sizeCalculation without setting maxSize or maxEntrySize"
+            );
+          }
+          if (typeof this.sizeCalculation !== "function") {
+            throw new TypeError("sizeCalculation set to non-function");
+          }
+        }
+        this.fetchMethod = fetchMethod || null;
+        if (this.fetchMethod && typeof this.fetchMethod !== "function") {
+          throw new TypeError(
+            "fetchMethod must be a function if specified"
+          );
+        }
+        this.fetchContext = fetchContext;
+        if (!this.fetchMethod && fetchContext !== void 0) {
+          throw new TypeError(
+            "cannot set fetchContext without fetchMethod"
+          );
+        }
+        this.keyMap = /* @__PURE__ */ new Map();
+        this.keyList = new Array(max).fill(null);
+        this.valList = new Array(max).fill(null);
+        this.next = new UintArray(max);
+        this.prev = new UintArray(max);
+        this.head = 0;
+        this.tail = 0;
+        this.free = new Stack(max);
+        this.initialFill = 1;
+        this.size = 0;
+        if (typeof dispose === "function") {
+          this.dispose = dispose;
+        }
+        if (typeof disposeAfter === "function") {
+          this.disposeAfter = disposeAfter;
+          this.disposed = [];
+        } else {
+          this.disposeAfter = null;
+          this.disposed = null;
+        }
+        this.noDisposeOnSet = !!noDisposeOnSet;
+        this.noUpdateTTL = !!noUpdateTTL;
+        this.noDeleteOnFetchRejection = !!noDeleteOnFetchRejection;
+        this.allowStaleOnFetchRejection = !!allowStaleOnFetchRejection;
+        this.allowStaleOnFetchAbort = !!allowStaleOnFetchAbort;
+        this.ignoreFetchAbort = !!ignoreFetchAbort;
+        if (this.maxEntrySize !== 0) {
+          if (this.maxSize !== 0) {
+            if (!isPosInt(this.maxSize)) {
+              throw new TypeError(
+                "maxSize must be a positive integer if specified"
+              );
+            }
+          }
+          if (!isPosInt(this.maxEntrySize)) {
+            throw new TypeError(
+              "maxEntrySize must be a positive integer if specified"
+            );
+          }
+          this.initializeSizeTracking();
+        }
+        this.allowStale = !!allowStale || !!stale;
+        this.noDeleteOnStaleGet = !!noDeleteOnStaleGet;
+        this.updateAgeOnGet = !!updateAgeOnGet;
+        this.updateAgeOnHas = !!updateAgeOnHas;
+        this.ttlResolution = isPosInt(ttlResolution) || ttlResolution === 0 ? ttlResolution : 1;
+        this.ttlAutopurge = !!ttlAutopurge;
+        this.ttl = ttl || maxAge || 0;
+        if (this.ttl) {
+          if (!isPosInt(this.ttl)) {
+            throw new TypeError(
+              "ttl must be a positive integer if specified"
+            );
+          }
+          this.initializeTTLTracking();
+        }
+        if (this.max === 0 && this.ttl === 0 && this.maxSize === 0) {
+          throw new TypeError(
+            "At least one of max, maxSize, or ttl is required"
+          );
+        }
+        if (!this.ttlAutopurge && !this.max && !this.maxSize) {
+          const code = "LRU_CACHE_UNBOUNDED";
+          if (shouldWarn(code)) {
+            warned.add(code);
+            const msg = "TTL caching without ttlAutopurge, max, or maxSize can result in unbounded memory consumption.";
+            emitWarning(msg, "UnboundedCacheWarning", code, LRUCache);
+          }
+        }
+        if (stale) {
+          deprecatedOption("stale", "allowStale");
+        }
+        if (maxAge) {
+          deprecatedOption("maxAge", "ttl");
+        }
+        if (length) {
+          deprecatedOption("length", "sizeCalculation");
+        }
       }
-      load(arr) {
-        this.reset();
-        const now = Date.now();
-        for (let l = arr.length - 1; l >= 0; l--) {
-          const hit = arr[l];
-          const expiresAt = hit.e || 0;
-          if (expiresAt === 0)
-            this.set(hit.k, hit.v);
-          else {
-            const maxAge = expiresAt - now;
-            if (maxAge > 0) {
-              this.set(hit.k, hit.v, maxAge);
+      getRemainingTTL(key) {
+        return this.has(key, { updateAgeOnHas: false }) ? Infinity : 0;
+      }
+      initializeTTLTracking() {
+        this.ttls = new ZeroArray(this.max);
+        this.starts = new ZeroArray(this.max);
+        this.setItemTTL = (index, ttl, start = perf.now()) => {
+          this.starts[index] = ttl !== 0 ? start : 0;
+          this.ttls[index] = ttl;
+          if (ttl !== 0 && this.ttlAutopurge) {
+            const t2 = setTimeout(() => {
+              if (this.isStale(index)) {
+                this.delete(this.keyList[index]);
+              }
+            }, ttl + 1);
+            if (t2.unref) {
+              t2.unref();
+            }
+          }
+        };
+        this.updateItemAge = (index) => {
+          this.starts[index] = this.ttls[index] !== 0 ? perf.now() : 0;
+        };
+        this.statusTTL = (status, index) => {
+          if (status) {
+            status.ttl = this.ttls[index];
+            status.start = this.starts[index];
+            status.now = cachedNow || getNow();
+            status.remainingTTL = status.now + status.ttl - status.start;
+          }
+        };
+        let cachedNow = 0;
+        const getNow = () => {
+          const n = perf.now();
+          if (this.ttlResolution > 0) {
+            cachedNow = n;
+            const t2 = setTimeout(
+              () => cachedNow = 0,
+              this.ttlResolution
+            );
+            if (t2.unref) {
+              t2.unref();
+            }
+          }
+          return n;
+        };
+        this.getRemainingTTL = (key) => {
+          const index = this.keyMap.get(key);
+          if (index === void 0) {
+            return 0;
+          }
+          return this.ttls[index] === 0 || this.starts[index] === 0 ? Infinity : this.starts[index] + this.ttls[index] - (cachedNow || getNow());
+        };
+        this.isStale = (index) => {
+          return this.ttls[index] !== 0 && this.starts[index] !== 0 && (cachedNow || getNow()) - this.starts[index] > this.ttls[index];
+        };
+      }
+      updateItemAge(_index) {
+      }
+      statusTTL(_status, _index) {
+      }
+      setItemTTL(_index, _ttl, _start2) {
+      }
+      isStale(_index) {
+        return false;
+      }
+      initializeSizeTracking() {
+        this.calculatedSize = 0;
+        this.sizes = new ZeroArray(this.max);
+        this.removeItemSize = (index) => {
+          this.calculatedSize -= this.sizes[index];
+          this.sizes[index] = 0;
+        };
+        this.requireSize = (k, v, size, sizeCalculation) => {
+          if (this.isBackgroundFetch(v)) {
+            return 0;
+          }
+          if (!isPosInt(size)) {
+            if (sizeCalculation) {
+              if (typeof sizeCalculation !== "function") {
+                throw new TypeError("sizeCalculation must be a function");
+              }
+              size = sizeCalculation(v, k);
+              if (!isPosInt(size)) {
+                throw new TypeError(
+                  "sizeCalculation return invalid (expect positive integer)"
+                );
+              }
+            } else {
+              throw new TypeError(
+                "invalid size value (must be positive integer). When maxSize or maxEntrySize is used, sizeCalculation or size must be set."
+              );
+            }
+          }
+          return size;
+        };
+        this.addItemSize = (index, size, status) => {
+          this.sizes[index] = size;
+          if (this.maxSize) {
+            const maxSize = this.maxSize - this.sizes[index];
+            while (this.calculatedSize > maxSize) {
+              this.evict(true);
+            }
+          }
+          this.calculatedSize += this.sizes[index];
+          if (status) {
+            status.entrySize = size;
+            status.totalCalculatedSize = this.calculatedSize;
+          }
+        };
+      }
+      removeItemSize(_index) {
+      }
+      addItemSize(_index, _size2) {
+      }
+      requireSize(_k, _v, size, sizeCalculation) {
+        if (size || sizeCalculation) {
+          throw new TypeError(
+            "cannot set size without setting maxSize or maxEntrySize on cache"
+          );
+        }
+      }
+      *indexes({ allowStale = this.allowStale } = {}) {
+        if (this.size) {
+          for (let i2 = this.tail; true; ) {
+            if (!this.isValidIndex(i2)) {
+              break;
+            }
+            if (allowStale || !this.isStale(i2)) {
+              yield i2;
+            }
+            if (i2 === this.head) {
+              break;
+            } else {
+              i2 = this.prev[i2];
             }
           }
         }
       }
-      prune() {
-        this[CACHE].forEach((value, key) => get(this, key, false));
-      }
-    };
-    var get = (self2, key, doUse) => {
-      const node = self2[CACHE].get(key);
-      if (node) {
-        const hit = node.value;
-        if (isStale(self2, hit)) {
-          del(self2, node);
-          if (!self2[ALLOW_STALE])
-            return void 0;
-        } else {
-          if (doUse) {
-            if (self2[UPDATE_AGE_ON_GET])
-              node.value.now = Date.now();
-            self2[LRU_LIST].unshiftNode(node);
+      *rindexes({ allowStale = this.allowStale } = {}) {
+        if (this.size) {
+          for (let i2 = this.head; true; ) {
+            if (!this.isValidIndex(i2)) {
+              break;
+            }
+            if (allowStale || !this.isStale(i2)) {
+              yield i2;
+            }
+            if (i2 === this.tail) {
+              break;
+            } else {
+              i2 = this.next[i2];
+            }
           }
         }
-        return hit.value;
       }
-    };
-    var isStale = (self2, hit) => {
-      if (!hit || !hit.maxAge && !self2[MAX_AGE])
-        return false;
-      const diff = Date.now() - hit.now;
-      return hit.maxAge ? diff > hit.maxAge : self2[MAX_AGE] && diff > self2[MAX_AGE];
-    };
-    var trim = (self2) => {
-      if (self2[LENGTH] > self2[MAX]) {
-        for (let walker = self2[LRU_LIST].tail; self2[LENGTH] > self2[MAX] && walker !== null; ) {
-          const prev = walker.prev;
-          del(self2, walker);
-          walker = prev;
+      isValidIndex(index) {
+        return index !== void 0 && this.keyMap.get(this.keyList[index]) === index;
+      }
+      *entries() {
+        for (const i2 of this.indexes()) {
+          if (this.valList[i2] !== void 0 && this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield [this.keyList[i2], this.valList[i2]];
+          }
         }
       }
-    };
-    var del = (self2, node) => {
-      if (node) {
-        const hit = node.value;
-        if (self2[DISPOSE])
-          self2[DISPOSE](hit.key, hit.value);
-        self2[LENGTH] -= hit.length;
-        self2[CACHE].delete(hit.key);
-        self2[LRU_LIST].removeNode(node);
+      *rentries() {
+        for (const i2 of this.rindexes()) {
+          if (this.valList[i2] !== void 0 && this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield [this.keyList[i2], this.valList[i2]];
+          }
+        }
       }
-    };
-    var Entry = class {
-      constructor(key, value, length, now, maxAge) {
-        this.key = key;
-        this.value = value;
-        this.length = length;
-        this.now = now;
-        this.maxAge = maxAge || 0;
+      *keys() {
+        for (const i2 of this.indexes()) {
+          if (this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield this.keyList[i2];
+          }
+        }
       }
-    };
-    var forEachStep = (self2, fn, node, thisp) => {
-      let hit = node.value;
-      if (isStale(self2, hit)) {
-        del(self2, node);
-        if (!self2[ALLOW_STALE])
-          hit = void 0;
+      *rkeys() {
+        for (const i2 of this.rindexes()) {
+          if (this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield this.keyList[i2];
+          }
+        }
       }
-      if (hit)
-        fn.call(thisp, hit.value, hit.key, self2);
+      *values() {
+        for (const i2 of this.indexes()) {
+          if (this.valList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield this.valList[i2];
+          }
+        }
+      }
+      *rvalues() {
+        for (const i2 of this.rindexes()) {
+          if (this.valList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield this.valList[i2];
+          }
+        }
+      }
+      [Symbol.iterator]() {
+        return this.entries();
+      }
+      find(fn, getOptions) {
+        for (const i2 of this.indexes()) {
+          const v = this.valList[i2];
+          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+          if (value === void 0)
+            continue;
+          if (fn(value, this.keyList[i2], this)) {
+            return this.get(this.keyList[i2], getOptions);
+          }
+        }
+      }
+      forEach(fn, thisp = this) {
+        for (const i2 of this.indexes()) {
+          const v = this.valList[i2];
+          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+          if (value === void 0)
+            continue;
+          fn.call(thisp, value, this.keyList[i2], this);
+        }
+      }
+      rforEach(fn, thisp = this) {
+        for (const i2 of this.rindexes()) {
+          const v = this.valList[i2];
+          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+          if (value === void 0)
+            continue;
+          fn.call(thisp, value, this.keyList[i2], this);
+        }
+      }
+      get prune() {
+        deprecatedMethod("prune", "purgeStale");
+        return this.purgeStale;
+      }
+      purgeStale() {
+        let deleted = false;
+        for (const i2 of this.rindexes({ allowStale: true })) {
+          if (this.isStale(i2)) {
+            this.delete(this.keyList[i2]);
+            deleted = true;
+          }
+        }
+        return deleted;
+      }
+      dump() {
+        const arr = [];
+        for (const i2 of this.indexes({ allowStale: true })) {
+          const key = this.keyList[i2];
+          const v = this.valList[i2];
+          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+          if (value === void 0)
+            continue;
+          const entry = { value };
+          if (this.ttls) {
+            entry.ttl = this.ttls[i2];
+            const age = perf.now() - this.starts[i2];
+            entry.start = Math.floor(Date.now() - age);
+          }
+          if (this.sizes) {
+            entry.size = this.sizes[i2];
+          }
+          arr.unshift([key, entry]);
+        }
+        return arr;
+      }
+      load(arr) {
+        this.clear();
+        for (const [key, entry] of arr) {
+          if (entry.start) {
+            const age = Date.now() - entry.start;
+            entry.start = perf.now() - age;
+          }
+          this.set(key, entry.value, entry);
+        }
+      }
+      dispose(_v, _k, _reason) {
+      }
+      set(k, v, {
+        ttl = this.ttl,
+        start,
+        noDisposeOnSet = this.noDisposeOnSet,
+        size = 0,
+        sizeCalculation = this.sizeCalculation,
+        noUpdateTTL = this.noUpdateTTL,
+        status
+      } = {}) {
+        size = this.requireSize(k, v, size, sizeCalculation);
+        if (this.maxEntrySize && size > this.maxEntrySize) {
+          if (status) {
+            status.set = "miss";
+            status.maxEntrySizeExceeded = true;
+          }
+          this.delete(k);
+          return this;
+        }
+        let index = this.size === 0 ? void 0 : this.keyMap.get(k);
+        if (index === void 0) {
+          index = this.newIndex();
+          this.keyList[index] = k;
+          this.valList[index] = v;
+          this.keyMap.set(k, index);
+          this.next[this.tail] = index;
+          this.prev[index] = this.tail;
+          this.tail = index;
+          this.size++;
+          this.addItemSize(index, size, status);
+          if (status) {
+            status.set = "add";
+          }
+          noUpdateTTL = false;
+        } else {
+          this.moveToTail(index);
+          const oldVal = this.valList[index];
+          if (v !== oldVal) {
+            if (this.isBackgroundFetch(oldVal)) {
+              oldVal.__abortController.abort(new Error("replaced"));
+            } else {
+              if (!noDisposeOnSet) {
+                this.dispose(oldVal, k, "set");
+                if (this.disposeAfter) {
+                  this.disposed.push([oldVal, k, "set"]);
+                }
+              }
+            }
+            this.removeItemSize(index);
+            this.valList[index] = v;
+            this.addItemSize(index, size, status);
+            if (status) {
+              status.set = "replace";
+              const oldValue = oldVal && this.isBackgroundFetch(oldVal) ? oldVal.__staleWhileFetching : oldVal;
+              if (oldValue !== void 0)
+                status.oldValue = oldValue;
+            }
+          } else if (status) {
+            status.set = "update";
+          }
+        }
+        if (ttl !== 0 && this.ttl === 0 && !this.ttls) {
+          this.initializeTTLTracking();
+        }
+        if (!noUpdateTTL) {
+          this.setItemTTL(index, ttl, start);
+        }
+        this.statusTTL(status, index);
+        if (this.disposeAfter) {
+          while (this.disposed.length) {
+            this.disposeAfter(...this.disposed.shift());
+          }
+        }
+        return this;
+      }
+      newIndex() {
+        if (this.size === 0) {
+          return this.tail;
+        }
+        if (this.size === this.max && this.max !== 0) {
+          return this.evict(false);
+        }
+        if (this.free.length !== 0) {
+          return this.free.pop();
+        }
+        return this.initialFill++;
+      }
+      pop() {
+        if (this.size) {
+          const val = this.valList[this.head];
+          this.evict(true);
+          return val;
+        }
+      }
+      evict(free) {
+        const head = this.head;
+        const k = this.keyList[head];
+        const v = this.valList[head];
+        if (this.isBackgroundFetch(v)) {
+          v.__abortController.abort(new Error("evicted"));
+        } else {
+          this.dispose(v, k, "evict");
+          if (this.disposeAfter) {
+            this.disposed.push([v, k, "evict"]);
+          }
+        }
+        this.removeItemSize(head);
+        if (free) {
+          this.keyList[head] = null;
+          this.valList[head] = null;
+          this.free.push(head);
+        }
+        this.head = this.next[head];
+        this.keyMap.delete(k);
+        this.size--;
+        return head;
+      }
+      has(k, { updateAgeOnHas = this.updateAgeOnHas, status } = {}) {
+        const index = this.keyMap.get(k);
+        if (index !== void 0) {
+          if (!this.isStale(index)) {
+            if (updateAgeOnHas) {
+              this.updateItemAge(index);
+            }
+            if (status)
+              status.has = "hit";
+            this.statusTTL(status, index);
+            return true;
+          } else if (status) {
+            status.has = "stale";
+            this.statusTTL(status, index);
+          }
+        } else if (status) {
+          status.has = "miss";
+        }
+        return false;
+      }
+      peek(k, { allowStale = this.allowStale } = {}) {
+        const index = this.keyMap.get(k);
+        if (index !== void 0 && (allowStale || !this.isStale(index))) {
+          const v = this.valList[index];
+          return this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+        }
+      }
+      backgroundFetch(k, index, options, context) {
+        const v = index === void 0 ? void 0 : this.valList[index];
+        if (this.isBackgroundFetch(v)) {
+          return v;
+        }
+        const ac = new AC();
+        if (options.signal) {
+          options.signal.addEventListener(
+            "abort",
+            () => ac.abort(options.signal.reason)
+          );
+        }
+        const fetchOpts = {
+          signal: ac.signal,
+          options,
+          context
+        };
+        const cb = (v2, updateCache = false) => {
+          const { aborted } = ac.signal;
+          const ignoreAbort = options.ignoreFetchAbort && v2 !== void 0;
+          if (options.status) {
+            if (aborted && !updateCache) {
+              options.status.fetchAborted = true;
+              options.status.fetchError = ac.signal.reason;
+              if (ignoreAbort)
+                options.status.fetchAbortIgnored = true;
+            } else {
+              options.status.fetchResolved = true;
+            }
+          }
+          if (aborted && !ignoreAbort && !updateCache) {
+            return fetchFail(ac.signal.reason);
+          }
+          if (this.valList[index] === p) {
+            if (v2 === void 0) {
+              if (p.__staleWhileFetching) {
+                this.valList[index] = p.__staleWhileFetching;
+              } else {
+                this.delete(k);
+              }
+            } else {
+              if (options.status)
+                options.status.fetchUpdated = true;
+              this.set(k, v2, fetchOpts.options);
+            }
+          }
+          return v2;
+        };
+        const eb = (er) => {
+          if (options.status) {
+            options.status.fetchRejected = true;
+            options.status.fetchError = er;
+          }
+          return fetchFail(er);
+        };
+        const fetchFail = (er) => {
+          const { aborted } = ac.signal;
+          const allowStaleAborted = aborted && options.allowStaleOnFetchAbort;
+          const allowStale = allowStaleAborted || options.allowStaleOnFetchRejection;
+          const noDelete = allowStale || options.noDeleteOnFetchRejection;
+          if (this.valList[index] === p) {
+            const del = !noDelete || p.__staleWhileFetching === void 0;
+            if (del) {
+              this.delete(k);
+            } else if (!allowStaleAborted) {
+              this.valList[index] = p.__staleWhileFetching;
+            }
+          }
+          if (allowStale) {
+            if (options.status && p.__staleWhileFetching !== void 0) {
+              options.status.returnedStale = true;
+            }
+            return p.__staleWhileFetching;
+          } else if (p.__returned === p) {
+            throw er;
+          }
+        };
+        const pcall = (res, rej) => {
+          this.fetchMethod(k, v, fetchOpts).then((v2) => res(v2), rej);
+          ac.signal.addEventListener("abort", () => {
+            if (!options.ignoreFetchAbort || options.allowStaleOnFetchAbort) {
+              res();
+              if (options.allowStaleOnFetchAbort) {
+                res = (v2) => cb(v2, true);
+              }
+            }
+          });
+        };
+        if (options.status)
+          options.status.fetchDispatched = true;
+        const p = new Promise(pcall).then(cb, eb);
+        p.__abortController = ac;
+        p.__staleWhileFetching = v;
+        p.__returned = null;
+        if (index === void 0) {
+          this.set(k, p, { ...fetchOpts.options, status: void 0 });
+          index = this.keyMap.get(k);
+        } else {
+          this.valList[index] = p;
+        }
+        return p;
+      }
+      isBackgroundFetch(p) {
+        return p && typeof p === "object" && typeof p.then === "function" && Object.prototype.hasOwnProperty.call(
+          p,
+          "__staleWhileFetching"
+        ) && Object.prototype.hasOwnProperty.call(p, "__returned") && (p.__returned === p || p.__returned === null);
+      }
+      async fetch(k, {
+        allowStale = this.allowStale,
+        updateAgeOnGet = this.updateAgeOnGet,
+        noDeleteOnStaleGet = this.noDeleteOnStaleGet,
+        ttl = this.ttl,
+        noDisposeOnSet = this.noDisposeOnSet,
+        size = 0,
+        sizeCalculation = this.sizeCalculation,
+        noUpdateTTL = this.noUpdateTTL,
+        noDeleteOnFetchRejection = this.noDeleteOnFetchRejection,
+        allowStaleOnFetchRejection = this.allowStaleOnFetchRejection,
+        ignoreFetchAbort = this.ignoreFetchAbort,
+        allowStaleOnFetchAbort = this.allowStaleOnFetchAbort,
+        fetchContext = this.fetchContext,
+        forceRefresh = false,
+        status,
+        signal
+      } = {}) {
+        if (!this.fetchMethod) {
+          if (status)
+            status.fetch = "get";
+          return this.get(k, {
+            allowStale,
+            updateAgeOnGet,
+            noDeleteOnStaleGet,
+            status
+          });
+        }
+        const options = {
+          allowStale,
+          updateAgeOnGet,
+          noDeleteOnStaleGet,
+          ttl,
+          noDisposeOnSet,
+          size,
+          sizeCalculation,
+          noUpdateTTL,
+          noDeleteOnFetchRejection,
+          allowStaleOnFetchRejection,
+          allowStaleOnFetchAbort,
+          ignoreFetchAbort,
+          status,
+          signal
+        };
+        let index = this.keyMap.get(k);
+        if (index === void 0) {
+          if (status)
+            status.fetch = "miss";
+          const p = this.backgroundFetch(k, index, options, fetchContext);
+          return p.__returned = p;
+        } else {
+          const v = this.valList[index];
+          if (this.isBackgroundFetch(v)) {
+            const stale = allowStale && v.__staleWhileFetching !== void 0;
+            if (status) {
+              status.fetch = "inflight";
+              if (stale)
+                status.returnedStale = true;
+            }
+            return stale ? v.__staleWhileFetching : v.__returned = v;
+          }
+          const isStale = this.isStale(index);
+          if (!forceRefresh && !isStale) {
+            if (status)
+              status.fetch = "hit";
+            this.moveToTail(index);
+            if (updateAgeOnGet) {
+              this.updateItemAge(index);
+            }
+            this.statusTTL(status, index);
+            return v;
+          }
+          const p = this.backgroundFetch(k, index, options, fetchContext);
+          const hasStale = p.__staleWhileFetching !== void 0;
+          const staleVal = hasStale && allowStale;
+          if (status) {
+            status.fetch = hasStale && isStale ? "stale" : "refresh";
+            if (staleVal && isStale)
+              status.returnedStale = true;
+          }
+          return staleVal ? p.__staleWhileFetching : p.__returned = p;
+        }
+      }
+      get(k, {
+        allowStale = this.allowStale,
+        updateAgeOnGet = this.updateAgeOnGet,
+        noDeleteOnStaleGet = this.noDeleteOnStaleGet,
+        status
+      } = {}) {
+        const index = this.keyMap.get(k);
+        if (index !== void 0) {
+          const value = this.valList[index];
+          const fetching = this.isBackgroundFetch(value);
+          this.statusTTL(status, index);
+          if (this.isStale(index)) {
+            if (status)
+              status.get = "stale";
+            if (!fetching) {
+              if (!noDeleteOnStaleGet) {
+                this.delete(k);
+              }
+              if (status)
+                status.returnedStale = allowStale;
+              return allowStale ? value : void 0;
+            } else {
+              if (status) {
+                status.returnedStale = allowStale && value.__staleWhileFetching !== void 0;
+              }
+              return allowStale ? value.__staleWhileFetching : void 0;
+            }
+          } else {
+            if (status)
+              status.get = "hit";
+            if (fetching) {
+              return value.__staleWhileFetching;
+            }
+            this.moveToTail(index);
+            if (updateAgeOnGet) {
+              this.updateItemAge(index);
+            }
+            return value;
+          }
+        } else if (status) {
+          status.get = "miss";
+        }
+      }
+      connect(p, n) {
+        this.prev[n] = p;
+        this.next[p] = n;
+      }
+      moveToTail(index) {
+        if (index !== this.tail) {
+          if (index === this.head) {
+            this.head = this.next[index];
+          } else {
+            this.connect(this.prev[index], this.next[index]);
+          }
+          this.connect(this.tail, index);
+          this.tail = index;
+        }
+      }
+      get del() {
+        deprecatedMethod("del", "delete");
+        return this.delete;
+      }
+      delete(k) {
+        let deleted = false;
+        if (this.size !== 0) {
+          const index = this.keyMap.get(k);
+          if (index !== void 0) {
+            deleted = true;
+            if (this.size === 1) {
+              this.clear();
+            } else {
+              this.removeItemSize(index);
+              const v = this.valList[index];
+              if (this.isBackgroundFetch(v)) {
+                v.__abortController.abort(new Error("deleted"));
+              } else {
+                this.dispose(v, k, "delete");
+                if (this.disposeAfter) {
+                  this.disposed.push([v, k, "delete"]);
+                }
+              }
+              this.keyMap.delete(k);
+              this.keyList[index] = null;
+              this.valList[index] = null;
+              if (index === this.tail) {
+                this.tail = this.prev[index];
+              } else if (index === this.head) {
+                this.head = this.next[index];
+              } else {
+                this.next[this.prev[index]] = this.next[index];
+                this.prev[this.next[index]] = this.prev[index];
+              }
+              this.size--;
+              this.free.push(index);
+            }
+          }
+        }
+        if (this.disposed) {
+          while (this.disposed.length) {
+            this.disposeAfter(...this.disposed.shift());
+          }
+        }
+        return deleted;
+      }
+      clear() {
+        for (const index of this.rindexes({ allowStale: true })) {
+          const v = this.valList[index];
+          if (this.isBackgroundFetch(v)) {
+            v.__abortController.abort(new Error("deleted"));
+          } else {
+            const k = this.keyList[index];
+            this.dispose(v, k, "delete");
+            if (this.disposeAfter) {
+              this.disposed.push([v, k, "delete"]);
+            }
+          }
+        }
+        this.keyMap.clear();
+        this.valList.fill(null);
+        this.keyList.fill(null);
+        if (this.ttls) {
+          this.ttls.fill(0);
+          this.starts.fill(0);
+        }
+        if (this.sizes) {
+          this.sizes.fill(0);
+        }
+        this.head = 0;
+        this.tail = 0;
+        this.initialFill = 1;
+        this.free.length = 0;
+        this.calculatedSize = 0;
+        this.size = 0;
+        if (this.disposed) {
+          while (this.disposed.length) {
+            this.disposeAfter(...this.disposed.shift());
+          }
+        }
+      }
+      get reset() {
+        deprecatedMethod("reset", "clear");
+        return this.clear;
+      }
+      get length() {
+        deprecatedProperty("length", "size");
+        return this.size;
+      }
+      static get AbortController() {
+        return AC;
+      }
+      static get AbortSignal() {
+        return AS;
+      }
     };
     module2.exports = LRUCache;
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/errors.js
+// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/errors.js
 var require_errors3 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/errors.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/errors.js"(exports) {
     "use strict";
     exports.EE_CANTCREATEFILE = 1;
     exports.EE_READ = 2;
@@ -19453,851 +19814,591 @@ var require_errors3 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/long@4.0.0/node_modules/long/src/long.js
-var require_long = __commonJS({
-  "../../node_modules/.pnpm/long@4.0.0/node_modules/long/src/long.js"(exports, module2) {
-    module2.exports = Long;
-    var wasm = null;
-    try {
-      wasm = new WebAssembly.Instance(new WebAssembly.Module(new Uint8Array([
-        0,
-        97,
-        115,
-        109,
-        1,
-        0,
-        0,
-        0,
-        1,
-        13,
-        2,
-        96,
-        0,
-        1,
-        127,
-        96,
-        4,
-        127,
-        127,
-        127,
-        127,
-        1,
-        127,
-        3,
-        7,
-        6,
-        0,
-        1,
-        1,
-        1,
-        1,
-        1,
-        6,
-        6,
-        1,
-        127,
-        1,
-        65,
-        0,
-        11,
-        7,
-        50,
-        6,
-        3,
-        109,
-        117,
-        108,
-        0,
-        1,
-        5,
-        100,
-        105,
-        118,
-        95,
-        115,
-        0,
-        2,
-        5,
-        100,
-        105,
-        118,
-        95,
-        117,
-        0,
-        3,
-        5,
-        114,
-        101,
-        109,
-        95,
-        115,
-        0,
-        4,
-        5,
-        114,
-        101,
-        109,
-        95,
-        117,
-        0,
-        5,
-        8,
-        103,
-        101,
-        116,
-        95,
-        104,
-        105,
-        103,
-        104,
-        0,
-        0,
-        10,
-        191,
-        1,
-        6,
-        4,
-        0,
-        35,
-        0,
-        11,
-        36,
-        1,
-        1,
-        126,
-        32,
-        0,
-        173,
-        32,
-        1,
-        173,
-        66,
-        32,
-        134,
-        132,
-        32,
-        2,
-        173,
-        32,
-        3,
-        173,
-        66,
-        32,
-        134,
-        132,
-        126,
-        34,
-        4,
-        66,
-        32,
-        135,
-        167,
-        36,
-        0,
-        32,
-        4,
-        167,
-        11,
-        36,
-        1,
-        1,
-        126,
-        32,
-        0,
-        173,
-        32,
-        1,
-        173,
-        66,
-        32,
-        134,
-        132,
-        32,
-        2,
-        173,
-        32,
-        3,
-        173,
-        66,
-        32,
-        134,
-        132,
-        127,
-        34,
-        4,
-        66,
-        32,
-        135,
-        167,
-        36,
-        0,
-        32,
-        4,
-        167,
-        11,
-        36,
-        1,
-        1,
-        126,
-        32,
-        0,
-        173,
-        32,
-        1,
-        173,
-        66,
-        32,
-        134,
-        132,
-        32,
-        2,
-        173,
-        32,
-        3,
-        173,
-        66,
-        32,
-        134,
-        132,
-        128,
-        34,
-        4,
-        66,
-        32,
-        135,
-        167,
-        36,
-        0,
-        32,
-        4,
-        167,
-        11,
-        36,
-        1,
-        1,
-        126,
-        32,
-        0,
-        173,
-        32,
-        1,
-        173,
-        66,
-        32,
-        134,
-        132,
-        32,
-        2,
-        173,
-        32,
-        3,
-        173,
-        66,
-        32,
-        134,
-        132,
-        129,
-        34,
-        4,
-        66,
-        32,
-        135,
-        167,
-        36,
-        0,
-        32,
-        4,
-        167,
-        11,
-        36,
-        1,
-        1,
-        126,
-        32,
-        0,
-        173,
-        32,
-        1,
-        173,
-        66,
-        32,
-        134,
-        132,
-        32,
-        2,
-        173,
-        32,
-        3,
-        173,
-        66,
-        32,
-        134,
-        132,
-        130,
-        34,
-        4,
-        66,
-        32,
-        135,
-        167,
-        36,
-        0,
-        32,
-        4,
-        167,
-        11
-      ])), {}).exports;
-    } catch (e2) {
-    }
-    function Long(low, high, unsigned) {
-      this.low = low | 0;
-      this.high = high | 0;
-      this.unsigned = !!unsigned;
-    }
-    Long.prototype.__isLong__;
-    Object.defineProperty(Long.prototype, "__isLong__", { value: true });
-    function isLong(obj) {
-      return (obj && obj["__isLong__"]) === true;
-    }
-    Long.isLong = isLong;
-    var INT_CACHE = {};
-    var UINT_CACHE = {};
-    function fromInt(value, unsigned) {
-      var obj, cachedObj, cache;
-      if (unsigned) {
-        value >>>= 0;
-        if (cache = 0 <= value && value < 256) {
-          cachedObj = UINT_CACHE[value];
-          if (cachedObj)
-            return cachedObj;
-        }
-        obj = fromBits(value, (value | 0) < 0 ? -1 : 0, true);
-        if (cache)
-          UINT_CACHE[value] = obj;
-        return obj;
-      } else {
-        value |= 0;
-        if (cache = -128 <= value && value < 128) {
-          cachedObj = INT_CACHE[value];
-          if (cachedObj)
-            return cachedObj;
-        }
-        obj = fromBits(value, value < 0 ? -1 : 0, false);
-        if (cache)
-          INT_CACHE[value] = obj;
-        return obj;
+// ../../node_modules/.pnpm/long@5.2.3/node_modules/long/umd/index.js
+var require_umd = __commonJS({
+  "../../node_modules/.pnpm/long@5.2.3/node_modules/long/umd/index.js"(exports, module2) {
+    var Long = function(exports2) {
+      "use strict";
+      Object.defineProperty(exports2, "__esModule", {
+        value: true
+      });
+      exports2.default = void 0;
+      var wasm = null;
+      try {
+        wasm = new WebAssembly.Instance(new WebAssembly.Module(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 13, 2, 96, 0, 1, 127, 96, 4, 127, 127, 127, 127, 1, 127, 3, 7, 6, 0, 1, 1, 1, 1, 1, 6, 6, 1, 127, 1, 65, 0, 11, 7, 50, 6, 3, 109, 117, 108, 0, 1, 5, 100, 105, 118, 95, 115, 0, 2, 5, 100, 105, 118, 95, 117, 0, 3, 5, 114, 101, 109, 95, 115, 0, 4, 5, 114, 101, 109, 95, 117, 0, 5, 8, 103, 101, 116, 95, 104, 105, 103, 104, 0, 0, 10, 191, 1, 6, 4, 0, 35, 0, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 126, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 127, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 128, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 129, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 130, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11])), {}).exports;
+      } catch (e2) {
       }
-    }
-    Long.fromInt = fromInt;
-    function fromNumber(value, unsigned) {
-      if (isNaN(value))
-        return unsigned ? UZERO : ZERO;
-      if (unsigned) {
-        if (value < 0)
-          return UZERO;
-        if (value >= TWO_PWR_64_DBL)
-          return MAX_UNSIGNED_VALUE;
-      } else {
-        if (value <= -TWO_PWR_63_DBL)
-          return MIN_VALUE;
-        if (value + 1 >= TWO_PWR_63_DBL)
-          return MAX_VALUE;
+      function Long2(low, high, unsigned) {
+        this.low = low | 0;
+        this.high = high | 0;
+        this.unsigned = !!unsigned;
       }
-      if (value < 0)
-        return fromNumber(-value, unsigned).neg();
-      return fromBits(value % TWO_PWR_32_DBL | 0, value / TWO_PWR_32_DBL | 0, unsigned);
-    }
-    Long.fromNumber = fromNumber;
-    function fromBits(lowBits, highBits, unsigned) {
-      return new Long(lowBits, highBits, unsigned);
-    }
-    Long.fromBits = fromBits;
-    var pow_dbl = Math.pow;
-    function fromString(str, unsigned, radix) {
-      if (str.length === 0)
-        throw Error("empty string");
-      if (str === "NaN" || str === "Infinity" || str === "+Infinity" || str === "-Infinity")
-        return ZERO;
-      if (typeof unsigned === "number") {
-        radix = unsigned, unsigned = false;
-      } else {
-        unsigned = !!unsigned;
+      Long2.prototype.__isLong__;
+      Object.defineProperty(Long2.prototype, "__isLong__", {
+        value: true
+      });
+      function isLong(obj) {
+        return (obj && obj["__isLong__"]) === true;
       }
-      radix = radix || 10;
-      if (radix < 2 || 36 < radix)
-        throw RangeError("radix");
-      var p;
-      if ((p = str.indexOf("-")) > 0)
-        throw Error("interior hyphen");
-      else if (p === 0) {
-        return fromString(str.substring(1), unsigned, radix).neg();
+      function ctz32(value) {
+        var c2 = Math.clz32(value & -value);
+        return value ? 31 - c2 : c2;
       }
-      var radixToPower = fromNumber(pow_dbl(radix, 8));
-      var result = ZERO;
-      for (var i2 = 0; i2 < str.length; i2 += 8) {
-        var size = Math.min(8, str.length - i2), value = parseInt(str.substring(i2, i2 + size), radix);
-        if (size < 8) {
-          var power = fromNumber(pow_dbl(radix, size));
-          result = result.mul(power).add(fromNumber(value));
-        } else {
-          result = result.mul(radixToPower);
-          result = result.add(fromNumber(value));
-        }
-      }
-      result.unsigned = unsigned;
-      return result;
-    }
-    Long.fromString = fromString;
-    function fromValue(val, unsigned) {
-      if (typeof val === "number")
-        return fromNumber(val, unsigned);
-      if (typeof val === "string")
-        return fromString(val, unsigned);
-      return fromBits(val.low, val.high, typeof unsigned === "boolean" ? unsigned : val.unsigned);
-    }
-    Long.fromValue = fromValue;
-    var TWO_PWR_16_DBL = 1 << 16;
-    var TWO_PWR_24_DBL = 1 << 24;
-    var TWO_PWR_32_DBL = TWO_PWR_16_DBL * TWO_PWR_16_DBL;
-    var TWO_PWR_64_DBL = TWO_PWR_32_DBL * TWO_PWR_32_DBL;
-    var TWO_PWR_63_DBL = TWO_PWR_64_DBL / 2;
-    var TWO_PWR_24 = fromInt(TWO_PWR_24_DBL);
-    var ZERO = fromInt(0);
-    Long.ZERO = ZERO;
-    var UZERO = fromInt(0, true);
-    Long.UZERO = UZERO;
-    var ONE = fromInt(1);
-    Long.ONE = ONE;
-    var UONE = fromInt(1, true);
-    Long.UONE = UONE;
-    var NEG_ONE = fromInt(-1);
-    Long.NEG_ONE = NEG_ONE;
-    var MAX_VALUE = fromBits(4294967295 | 0, 2147483647 | 0, false);
-    Long.MAX_VALUE = MAX_VALUE;
-    var MAX_UNSIGNED_VALUE = fromBits(4294967295 | 0, 4294967295 | 0, true);
-    Long.MAX_UNSIGNED_VALUE = MAX_UNSIGNED_VALUE;
-    var MIN_VALUE = fromBits(0, 2147483648 | 0, false);
-    Long.MIN_VALUE = MIN_VALUE;
-    var LongPrototype = Long.prototype;
-    LongPrototype.toInt = function toInt() {
-      return this.unsigned ? this.low >>> 0 : this.low;
-    };
-    LongPrototype.toNumber = function toNumber() {
-      if (this.unsigned)
-        return (this.high >>> 0) * TWO_PWR_32_DBL + (this.low >>> 0);
-      return this.high * TWO_PWR_32_DBL + (this.low >>> 0);
-    };
-    LongPrototype.toString = function toString(radix) {
-      radix = radix || 10;
-      if (radix < 2 || 36 < radix)
-        throw RangeError("radix");
-      if (this.isZero())
-        return "0";
-      if (this.isNegative()) {
-        if (this.eq(MIN_VALUE)) {
-          var radixLong = fromNumber(radix), div = this.div(radixLong), rem1 = div.mul(radixLong).sub(this);
-          return div.toString(radix) + rem1.toInt().toString(radix);
-        } else
-          return "-" + this.neg().toString(radix);
-      }
-      var radixToPower = fromNumber(pow_dbl(radix, 6), this.unsigned), rem = this;
-      var result = "";
-      while (true) {
-        var remDiv = rem.div(radixToPower), intval = rem.sub(remDiv.mul(radixToPower)).toInt() >>> 0, digits = intval.toString(radix);
-        rem = remDiv;
-        if (rem.isZero())
-          return digits + result;
-        else {
-          while (digits.length < 6)
-            digits = "0" + digits;
-          result = "" + digits + result;
-        }
-      }
-    };
-    LongPrototype.getHighBits = function getHighBits() {
-      return this.high;
-    };
-    LongPrototype.getHighBitsUnsigned = function getHighBitsUnsigned() {
-      return this.high >>> 0;
-    };
-    LongPrototype.getLowBits = function getLowBits() {
-      return this.low;
-    };
-    LongPrototype.getLowBitsUnsigned = function getLowBitsUnsigned() {
-      return this.low >>> 0;
-    };
-    LongPrototype.getNumBitsAbs = function getNumBitsAbs() {
-      if (this.isNegative())
-        return this.eq(MIN_VALUE) ? 64 : this.neg().getNumBitsAbs();
-      var val = this.high != 0 ? this.high : this.low;
-      for (var bit = 31; bit > 0; bit--)
-        if ((val & 1 << bit) != 0)
-          break;
-      return this.high != 0 ? bit + 33 : bit + 1;
-    };
-    LongPrototype.isZero = function isZero() {
-      return this.high === 0 && this.low === 0;
-    };
-    LongPrototype.eqz = LongPrototype.isZero;
-    LongPrototype.isNegative = function isNegative() {
-      return !this.unsigned && this.high < 0;
-    };
-    LongPrototype.isPositive = function isPositive() {
-      return this.unsigned || this.high >= 0;
-    };
-    LongPrototype.isOdd = function isOdd() {
-      return (this.low & 1) === 1;
-    };
-    LongPrototype.isEven = function isEven() {
-      return (this.low & 1) === 0;
-    };
-    LongPrototype.equals = function equals(other) {
-      if (!isLong(other))
-        other = fromValue(other);
-      if (this.unsigned !== other.unsigned && this.high >>> 31 === 1 && other.high >>> 31 === 1)
-        return false;
-      return this.high === other.high && this.low === other.low;
-    };
-    LongPrototype.eq = LongPrototype.equals;
-    LongPrototype.notEquals = function notEquals(other) {
-      return !this.eq(other);
-    };
-    LongPrototype.neq = LongPrototype.notEquals;
-    LongPrototype.ne = LongPrototype.notEquals;
-    LongPrototype.lessThan = function lessThan(other) {
-      return this.comp(other) < 0;
-    };
-    LongPrototype.lt = LongPrototype.lessThan;
-    LongPrototype.lessThanOrEqual = function lessThanOrEqual(other) {
-      return this.comp(other) <= 0;
-    };
-    LongPrototype.lte = LongPrototype.lessThanOrEqual;
-    LongPrototype.le = LongPrototype.lessThanOrEqual;
-    LongPrototype.greaterThan = function greaterThan(other) {
-      return this.comp(other) > 0;
-    };
-    LongPrototype.gt = LongPrototype.greaterThan;
-    LongPrototype.greaterThanOrEqual = function greaterThanOrEqual(other) {
-      return this.comp(other) >= 0;
-    };
-    LongPrototype.gte = LongPrototype.greaterThanOrEqual;
-    LongPrototype.ge = LongPrototype.greaterThanOrEqual;
-    LongPrototype.compare = function compare(other) {
-      if (!isLong(other))
-        other = fromValue(other);
-      if (this.eq(other))
-        return 0;
-      var thisNeg = this.isNegative(), otherNeg = other.isNegative();
-      if (thisNeg && !otherNeg)
-        return -1;
-      if (!thisNeg && otherNeg)
-        return 1;
-      if (!this.unsigned)
-        return this.sub(other).isNegative() ? -1 : 1;
-      return other.high >>> 0 > this.high >>> 0 || other.high === this.high && other.low >>> 0 > this.low >>> 0 ? -1 : 1;
-    };
-    LongPrototype.comp = LongPrototype.compare;
-    LongPrototype.negate = function negate() {
-      if (!this.unsigned && this.eq(MIN_VALUE))
-        return MIN_VALUE;
-      return this.not().add(ONE);
-    };
-    LongPrototype.neg = LongPrototype.negate;
-    LongPrototype.add = function add(addend) {
-      if (!isLong(addend))
-        addend = fromValue(addend);
-      var a48 = this.high >>> 16;
-      var a32 = this.high & 65535;
-      var a16 = this.low >>> 16;
-      var a00 = this.low & 65535;
-      var b48 = addend.high >>> 16;
-      var b32 = addend.high & 65535;
-      var b16 = addend.low >>> 16;
-      var b00 = addend.low & 65535;
-      var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
-      c00 += a00 + b00;
-      c16 += c00 >>> 16;
-      c00 &= 65535;
-      c16 += a16 + b16;
-      c32 += c16 >>> 16;
-      c16 &= 65535;
-      c32 += a32 + b32;
-      c48 += c32 >>> 16;
-      c32 &= 65535;
-      c48 += a48 + b48;
-      c48 &= 65535;
-      return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
-    };
-    LongPrototype.subtract = function subtract(subtrahend) {
-      if (!isLong(subtrahend))
-        subtrahend = fromValue(subtrahend);
-      return this.add(subtrahend.neg());
-    };
-    LongPrototype.sub = LongPrototype.subtract;
-    LongPrototype.multiply = function multiply(multiplier) {
-      if (this.isZero())
-        return ZERO;
-      if (!isLong(multiplier))
-        multiplier = fromValue(multiplier);
-      if (wasm) {
-        var low = wasm.mul(
-          this.low,
-          this.high,
-          multiplier.low,
-          multiplier.high
-        );
-        return fromBits(low, wasm.get_high(), this.unsigned);
-      }
-      if (multiplier.isZero())
-        return ZERO;
-      if (this.eq(MIN_VALUE))
-        return multiplier.isOdd() ? MIN_VALUE : ZERO;
-      if (multiplier.eq(MIN_VALUE))
-        return this.isOdd() ? MIN_VALUE : ZERO;
-      if (this.isNegative()) {
-        if (multiplier.isNegative())
-          return this.neg().mul(multiplier.neg());
-        else
-          return this.neg().mul(multiplier).neg();
-      } else if (multiplier.isNegative())
-        return this.mul(multiplier.neg()).neg();
-      if (this.lt(TWO_PWR_24) && multiplier.lt(TWO_PWR_24))
-        return fromNumber(this.toNumber() * multiplier.toNumber(), this.unsigned);
-      var a48 = this.high >>> 16;
-      var a32 = this.high & 65535;
-      var a16 = this.low >>> 16;
-      var a00 = this.low & 65535;
-      var b48 = multiplier.high >>> 16;
-      var b32 = multiplier.high & 65535;
-      var b16 = multiplier.low >>> 16;
-      var b00 = multiplier.low & 65535;
-      var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
-      c00 += a00 * b00;
-      c16 += c00 >>> 16;
-      c00 &= 65535;
-      c16 += a16 * b00;
-      c32 += c16 >>> 16;
-      c16 &= 65535;
-      c16 += a00 * b16;
-      c32 += c16 >>> 16;
-      c16 &= 65535;
-      c32 += a32 * b00;
-      c48 += c32 >>> 16;
-      c32 &= 65535;
-      c32 += a16 * b16;
-      c48 += c32 >>> 16;
-      c32 &= 65535;
-      c32 += a00 * b32;
-      c48 += c32 >>> 16;
-      c32 &= 65535;
-      c48 += a48 * b00 + a32 * b16 + a16 * b32 + a00 * b48;
-      c48 &= 65535;
-      return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
-    };
-    LongPrototype.mul = LongPrototype.multiply;
-    LongPrototype.divide = function divide(divisor) {
-      if (!isLong(divisor))
-        divisor = fromValue(divisor);
-      if (divisor.isZero())
-        throw Error("division by zero");
-      if (wasm) {
-        if (!this.unsigned && this.high === -2147483648 && divisor.low === -1 && divisor.high === -1) {
-          return this;
-        }
-        var low = (this.unsigned ? wasm.div_u : wasm.div_s)(
-          this.low,
-          this.high,
-          divisor.low,
-          divisor.high
-        );
-        return fromBits(low, wasm.get_high(), this.unsigned);
-      }
-      if (this.isZero())
-        return this.unsigned ? UZERO : ZERO;
-      var approx, rem, res;
-      if (!this.unsigned) {
-        if (this.eq(MIN_VALUE)) {
-          if (divisor.eq(ONE) || divisor.eq(NEG_ONE))
-            return MIN_VALUE;
-          else if (divisor.eq(MIN_VALUE))
-            return ONE;
-          else {
-            var halfThis = this.shr(1);
-            approx = halfThis.div(divisor).shl(1);
-            if (approx.eq(ZERO)) {
-              return divisor.isNegative() ? ONE : NEG_ONE;
-            } else {
-              rem = this.sub(divisor.mul(approx));
-              res = approx.add(rem.div(divisor));
-              return res;
-            }
+      Long2.isLong = isLong;
+      var INT_CACHE = {};
+      var UINT_CACHE = {};
+      function fromInt(value, unsigned) {
+        var obj, cachedObj, cache;
+        if (unsigned) {
+          value >>>= 0;
+          if (cache = 0 <= value && value < 256) {
+            cachedObj = UINT_CACHE[value];
+            if (cachedObj)
+              return cachedObj;
           }
-        } else if (divisor.eq(MIN_VALUE))
-          return this.unsigned ? UZERO : ZERO;
-        if (this.isNegative()) {
-          if (divisor.isNegative())
-            return this.neg().div(divisor.neg());
-          return this.neg().div(divisor).neg();
-        } else if (divisor.isNegative())
-          return this.div(divisor.neg()).neg();
-        res = ZERO;
-      } else {
-        if (!divisor.unsigned)
-          divisor = divisor.toUnsigned();
-        if (divisor.gt(this))
-          return UZERO;
-        if (divisor.gt(this.shru(1)))
-          return UONE;
-        res = UZERO;
-      }
-      rem = this;
-      while (rem.gte(divisor)) {
-        approx = Math.max(1, Math.floor(rem.toNumber() / divisor.toNumber()));
-        var log2 = Math.ceil(Math.log(approx) / Math.LN2), delta = log2 <= 48 ? 1 : pow_dbl(2, log2 - 48), approxRes = fromNumber(approx), approxRem = approxRes.mul(divisor);
-        while (approxRem.isNegative() || approxRem.gt(rem)) {
-          approx -= delta;
-          approxRes = fromNumber(approx, this.unsigned);
-          approxRem = approxRes.mul(divisor);
+          obj = fromBits(value, 0, true);
+          if (cache)
+            UINT_CACHE[value] = obj;
+          return obj;
+        } else {
+          value |= 0;
+          if (cache = -128 <= value && value < 128) {
+            cachedObj = INT_CACHE[value];
+            if (cachedObj)
+              return cachedObj;
+          }
+          obj = fromBits(value, value < 0 ? -1 : 0, false);
+          if (cache)
+            INT_CACHE[value] = obj;
+          return obj;
         }
-        if (approxRes.isZero())
-          approxRes = ONE;
-        res = res.add(approxRes);
-        rem = rem.sub(approxRem);
       }
-      return res;
-    };
-    LongPrototype.div = LongPrototype.divide;
-    LongPrototype.modulo = function modulo(divisor) {
-      if (!isLong(divisor))
-        divisor = fromValue(divisor);
-      if (wasm) {
-        var low = (this.unsigned ? wasm.rem_u : wasm.rem_s)(
-          this.low,
-          this.high,
-          divisor.low,
-          divisor.high
+      Long2.fromInt = fromInt;
+      function fromNumber(value, unsigned) {
+        if (isNaN(value))
+          return unsigned ? UZERO : ZERO;
+        if (unsigned) {
+          if (value < 0)
+            return UZERO;
+          if (value >= TWO_PWR_64_DBL)
+            return MAX_UNSIGNED_VALUE;
+        } else {
+          if (value <= -TWO_PWR_63_DBL)
+            return MIN_VALUE;
+          if (value + 1 >= TWO_PWR_63_DBL)
+            return MAX_VALUE;
+        }
+        if (value < 0)
+          return fromNumber(-value, unsigned).neg();
+        return fromBits(value % TWO_PWR_32_DBL | 0, value / TWO_PWR_32_DBL | 0, unsigned);
+      }
+      Long2.fromNumber = fromNumber;
+      function fromBits(lowBits, highBits, unsigned) {
+        return new Long2(lowBits, highBits, unsigned);
+      }
+      Long2.fromBits = fromBits;
+      var pow_dbl = Math.pow;
+      function fromString(str, unsigned, radix) {
+        if (str.length === 0)
+          throw Error("empty string");
+        if (typeof unsigned === "number") {
+          radix = unsigned;
+          unsigned = false;
+        } else {
+          unsigned = !!unsigned;
+        }
+        if (str === "NaN" || str === "Infinity" || str === "+Infinity" || str === "-Infinity")
+          return unsigned ? UZERO : ZERO;
+        radix = radix || 10;
+        if (radix < 2 || 36 < radix)
+          throw RangeError("radix");
+        var p;
+        if ((p = str.indexOf("-")) > 0)
+          throw Error("interior hyphen");
+        else if (p === 0) {
+          return fromString(str.substring(1), unsigned, radix).neg();
+        }
+        var radixToPower = fromNumber(pow_dbl(radix, 8));
+        var result = ZERO;
+        for (var i2 = 0; i2 < str.length; i2 += 8) {
+          var size = Math.min(8, str.length - i2), value = parseInt(str.substring(i2, i2 + size), radix);
+          if (size < 8) {
+            var power = fromNumber(pow_dbl(radix, size));
+            result = result.mul(power).add(fromNumber(value));
+          } else {
+            result = result.mul(radixToPower);
+            result = result.add(fromNumber(value));
+          }
+        }
+        result.unsigned = unsigned;
+        return result;
+      }
+      Long2.fromString = fromString;
+      function fromValue(val, unsigned) {
+        if (typeof val === "number")
+          return fromNumber(val, unsigned);
+        if (typeof val === "string")
+          return fromString(val, unsigned);
+        return fromBits(val.low, val.high, typeof unsigned === "boolean" ? unsigned : val.unsigned);
+      }
+      Long2.fromValue = fromValue;
+      var TWO_PWR_16_DBL = 1 << 16;
+      var TWO_PWR_24_DBL = 1 << 24;
+      var TWO_PWR_32_DBL = TWO_PWR_16_DBL * TWO_PWR_16_DBL;
+      var TWO_PWR_64_DBL = TWO_PWR_32_DBL * TWO_PWR_32_DBL;
+      var TWO_PWR_63_DBL = TWO_PWR_64_DBL / 2;
+      var TWO_PWR_24 = fromInt(TWO_PWR_24_DBL);
+      var ZERO = fromInt(0);
+      Long2.ZERO = ZERO;
+      var UZERO = fromInt(0, true);
+      Long2.UZERO = UZERO;
+      var ONE = fromInt(1);
+      Long2.ONE = ONE;
+      var UONE = fromInt(1, true);
+      Long2.UONE = UONE;
+      var NEG_ONE = fromInt(-1);
+      Long2.NEG_ONE = NEG_ONE;
+      var MAX_VALUE = fromBits(4294967295 | 0, 2147483647 | 0, false);
+      Long2.MAX_VALUE = MAX_VALUE;
+      var MAX_UNSIGNED_VALUE = fromBits(4294967295 | 0, 4294967295 | 0, true);
+      Long2.MAX_UNSIGNED_VALUE = MAX_UNSIGNED_VALUE;
+      var MIN_VALUE = fromBits(0, 2147483648 | 0, false);
+      Long2.MIN_VALUE = MIN_VALUE;
+      var LongPrototype = Long2.prototype;
+      LongPrototype.toInt = function toInt() {
+        return this.unsigned ? this.low >>> 0 : this.low;
+      };
+      LongPrototype.toNumber = function toNumber() {
+        if (this.unsigned)
+          return (this.high >>> 0) * TWO_PWR_32_DBL + (this.low >>> 0);
+        return this.high * TWO_PWR_32_DBL + (this.low >>> 0);
+      };
+      LongPrototype.toString = function toString(radix) {
+        radix = radix || 10;
+        if (radix < 2 || 36 < radix)
+          throw RangeError("radix");
+        if (this.isZero())
+          return "0";
+        if (this.isNegative()) {
+          if (this.eq(MIN_VALUE)) {
+            var radixLong = fromNumber(radix), div = this.div(radixLong), rem1 = div.mul(radixLong).sub(this);
+            return div.toString(radix) + rem1.toInt().toString(radix);
+          } else
+            return "-" + this.neg().toString(radix);
+        }
+        var radixToPower = fromNumber(pow_dbl(radix, 6), this.unsigned), rem = this;
+        var result = "";
+        while (true) {
+          var remDiv = rem.div(radixToPower), intval = rem.sub(remDiv.mul(radixToPower)).toInt() >>> 0, digits = intval.toString(radix);
+          rem = remDiv;
+          if (rem.isZero())
+            return digits + result;
+          else {
+            while (digits.length < 6)
+              digits = "0" + digits;
+            result = "" + digits + result;
+          }
+        }
+      };
+      LongPrototype.getHighBits = function getHighBits() {
+        return this.high;
+      };
+      LongPrototype.getHighBitsUnsigned = function getHighBitsUnsigned() {
+        return this.high >>> 0;
+      };
+      LongPrototype.getLowBits = function getLowBits() {
+        return this.low;
+      };
+      LongPrototype.getLowBitsUnsigned = function getLowBitsUnsigned() {
+        return this.low >>> 0;
+      };
+      LongPrototype.getNumBitsAbs = function getNumBitsAbs() {
+        if (this.isNegative())
+          return this.eq(MIN_VALUE) ? 64 : this.neg().getNumBitsAbs();
+        var val = this.high != 0 ? this.high : this.low;
+        for (var bit = 31; bit > 0; bit--)
+          if ((val & 1 << bit) != 0)
+            break;
+        return this.high != 0 ? bit + 33 : bit + 1;
+      };
+      LongPrototype.isZero = function isZero() {
+        return this.high === 0 && this.low === 0;
+      };
+      LongPrototype.eqz = LongPrototype.isZero;
+      LongPrototype.isNegative = function isNegative() {
+        return !this.unsigned && this.high < 0;
+      };
+      LongPrototype.isPositive = function isPositive() {
+        return this.unsigned || this.high >= 0;
+      };
+      LongPrototype.isOdd = function isOdd() {
+        return (this.low & 1) === 1;
+      };
+      LongPrototype.isEven = function isEven() {
+        return (this.low & 1) === 0;
+      };
+      LongPrototype.equals = function equals(other) {
+        if (!isLong(other))
+          other = fromValue(other);
+        if (this.unsigned !== other.unsigned && this.high >>> 31 === 1 && other.high >>> 31 === 1)
+          return false;
+        return this.high === other.high && this.low === other.low;
+      };
+      LongPrototype.eq = LongPrototype.equals;
+      LongPrototype.notEquals = function notEquals(other) {
+        return !this.eq(
+          other
         );
-        return fromBits(low, wasm.get_high(), this.unsigned);
-      }
-      return this.sub(this.div(divisor).mul(divisor));
-    };
-    LongPrototype.mod = LongPrototype.modulo;
-    LongPrototype.rem = LongPrototype.modulo;
-    LongPrototype.not = function not() {
-      return fromBits(~this.low, ~this.high, this.unsigned);
-    };
-    LongPrototype.and = function and(other) {
-      if (!isLong(other))
-        other = fromValue(other);
-      return fromBits(this.low & other.low, this.high & other.high, this.unsigned);
-    };
-    LongPrototype.or = function or(other) {
-      if (!isLong(other))
-        other = fromValue(other);
-      return fromBits(this.low | other.low, this.high | other.high, this.unsigned);
-    };
-    LongPrototype.xor = function xor(other) {
-      if (!isLong(other))
-        other = fromValue(other);
-      return fromBits(this.low ^ other.low, this.high ^ other.high, this.unsigned);
-    };
-    LongPrototype.shiftLeft = function shiftLeft(numBits) {
-      if (isLong(numBits))
-        numBits = numBits.toInt();
-      if ((numBits &= 63) === 0)
-        return this;
-      else if (numBits < 32)
-        return fromBits(this.low << numBits, this.high << numBits | this.low >>> 32 - numBits, this.unsigned);
-      else
-        return fromBits(0, this.low << numBits - 32, this.unsigned);
-    };
-    LongPrototype.shl = LongPrototype.shiftLeft;
-    LongPrototype.shiftRight = function shiftRight(numBits) {
-      if (isLong(numBits))
-        numBits = numBits.toInt();
-      if ((numBits &= 63) === 0)
-        return this;
-      else if (numBits < 32)
-        return fromBits(this.low >>> numBits | this.high << 32 - numBits, this.high >> numBits, this.unsigned);
-      else
-        return fromBits(this.high >> numBits - 32, this.high >= 0 ? 0 : -1, this.unsigned);
-    };
-    LongPrototype.shr = LongPrototype.shiftRight;
-    LongPrototype.shiftRightUnsigned = function shiftRightUnsigned(numBits) {
-      if (isLong(numBits))
-        numBits = numBits.toInt();
-      numBits &= 63;
-      if (numBits === 0)
-        return this;
-      else {
-        var high = this.high;
-        if (numBits < 32) {
-          var low = this.low;
-          return fromBits(low >>> numBits | high << 32 - numBits, high >>> numBits, this.unsigned);
-        } else if (numBits === 32)
-          return fromBits(high, 0, this.unsigned);
+      };
+      LongPrototype.neq = LongPrototype.notEquals;
+      LongPrototype.ne = LongPrototype.notEquals;
+      LongPrototype.lessThan = function lessThan(other) {
+        return this.comp(
+          other
+        ) < 0;
+      };
+      LongPrototype.lt = LongPrototype.lessThan;
+      LongPrototype.lessThanOrEqual = function lessThanOrEqual(other) {
+        return this.comp(
+          other
+        ) <= 0;
+      };
+      LongPrototype.lte = LongPrototype.lessThanOrEqual;
+      LongPrototype.le = LongPrototype.lessThanOrEqual;
+      LongPrototype.greaterThan = function greaterThan(other) {
+        return this.comp(
+          other
+        ) > 0;
+      };
+      LongPrototype.gt = LongPrototype.greaterThan;
+      LongPrototype.greaterThanOrEqual = function greaterThanOrEqual(other) {
+        return this.comp(
+          other
+        ) >= 0;
+      };
+      LongPrototype.gte = LongPrototype.greaterThanOrEqual;
+      LongPrototype.ge = LongPrototype.greaterThanOrEqual;
+      LongPrototype.compare = function compare(other) {
+        if (!isLong(other))
+          other = fromValue(other);
+        if (this.eq(other))
+          return 0;
+        var thisNeg = this.isNegative(), otherNeg = other.isNegative();
+        if (thisNeg && !otherNeg)
+          return -1;
+        if (!thisNeg && otherNeg)
+          return 1;
+        if (!this.unsigned)
+          return this.sub(other).isNegative() ? -1 : 1;
+        return other.high >>> 0 > this.high >>> 0 || other.high === this.high && other.low >>> 0 > this.low >>> 0 ? -1 : 1;
+      };
+      LongPrototype.comp = LongPrototype.compare;
+      LongPrototype.negate = function negate() {
+        if (!this.unsigned && this.eq(MIN_VALUE))
+          return MIN_VALUE;
+        return this.not().add(ONE);
+      };
+      LongPrototype.neg = LongPrototype.negate;
+      LongPrototype.add = function add(addend) {
+        if (!isLong(addend))
+          addend = fromValue(addend);
+        var a48 = this.high >>> 16;
+        var a32 = this.high & 65535;
+        var a16 = this.low >>> 16;
+        var a00 = this.low & 65535;
+        var b48 = addend.high >>> 16;
+        var b32 = addend.high & 65535;
+        var b16 = addend.low >>> 16;
+        var b00 = addend.low & 65535;
+        var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
+        c00 += a00 + b00;
+        c16 += c00 >>> 16;
+        c00 &= 65535;
+        c16 += a16 + b16;
+        c32 += c16 >>> 16;
+        c16 &= 65535;
+        c32 += a32 + b32;
+        c48 += c32 >>> 16;
+        c32 &= 65535;
+        c48 += a48 + b48;
+        c48 &= 65535;
+        return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
+      };
+      LongPrototype.subtract = function subtract(subtrahend) {
+        if (!isLong(subtrahend))
+          subtrahend = fromValue(subtrahend);
+        return this.add(subtrahend.neg());
+      };
+      LongPrototype.sub = LongPrototype.subtract;
+      LongPrototype.multiply = function multiply(multiplier) {
+        if (this.isZero())
+          return this;
+        if (!isLong(multiplier))
+          multiplier = fromValue(multiplier);
+        if (wasm) {
+          var low = wasm["mul"](this.low, this.high, multiplier.low, multiplier.high);
+          return fromBits(low, wasm["get_high"](), this.unsigned);
+        }
+        if (multiplier.isZero())
+          return this.unsigned ? UZERO : ZERO;
+        if (this.eq(MIN_VALUE))
+          return multiplier.isOdd() ? MIN_VALUE : ZERO;
+        if (multiplier.eq(MIN_VALUE))
+          return this.isOdd() ? MIN_VALUE : ZERO;
+        if (this.isNegative()) {
+          if (multiplier.isNegative())
+            return this.neg().mul(multiplier.neg());
+          else
+            return this.neg().mul(multiplier).neg();
+        } else if (multiplier.isNegative())
+          return this.mul(multiplier.neg()).neg();
+        if (this.lt(TWO_PWR_24) && multiplier.lt(TWO_PWR_24))
+          return fromNumber(this.toNumber() * multiplier.toNumber(), this.unsigned);
+        var a48 = this.high >>> 16;
+        var a32 = this.high & 65535;
+        var a16 = this.low >>> 16;
+        var a00 = this.low & 65535;
+        var b48 = multiplier.high >>> 16;
+        var b32 = multiplier.high & 65535;
+        var b16 = multiplier.low >>> 16;
+        var b00 = multiplier.low & 65535;
+        var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
+        c00 += a00 * b00;
+        c16 += c00 >>> 16;
+        c00 &= 65535;
+        c16 += a16 * b00;
+        c32 += c16 >>> 16;
+        c16 &= 65535;
+        c16 += a00 * b16;
+        c32 += c16 >>> 16;
+        c16 &= 65535;
+        c32 += a32 * b00;
+        c48 += c32 >>> 16;
+        c32 &= 65535;
+        c32 += a16 * b16;
+        c48 += c32 >>> 16;
+        c32 &= 65535;
+        c32 += a00 * b32;
+        c48 += c32 >>> 16;
+        c32 &= 65535;
+        c48 += a48 * b00 + a32 * b16 + a16 * b32 + a00 * b48;
+        c48 &= 65535;
+        return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
+      };
+      LongPrototype.mul = LongPrototype.multiply;
+      LongPrototype.divide = function divide(divisor) {
+        if (!isLong(divisor))
+          divisor = fromValue(divisor);
+        if (divisor.isZero())
+          throw Error("division by zero");
+        if (wasm) {
+          if (!this.unsigned && this.high === -2147483648 && divisor.low === -1 && divisor.high === -1) {
+            return this;
+          }
+          var low = (this.unsigned ? wasm["div_u"] : wasm["div_s"])(this.low, this.high, divisor.low, divisor.high);
+          return fromBits(low, wasm["get_high"](), this.unsigned);
+        }
+        if (this.isZero())
+          return this.unsigned ? UZERO : ZERO;
+        var approx, rem, res;
+        if (!this.unsigned) {
+          if (this.eq(MIN_VALUE)) {
+            if (divisor.eq(ONE) || divisor.eq(NEG_ONE))
+              return MIN_VALUE;
+            else if (divisor.eq(MIN_VALUE))
+              return ONE;
+            else {
+              var halfThis = this.shr(1);
+              approx = halfThis.div(divisor).shl(1);
+              if (approx.eq(ZERO)) {
+                return divisor.isNegative() ? ONE : NEG_ONE;
+              } else {
+                rem = this.sub(divisor.mul(approx));
+                res = approx.add(rem.div(divisor));
+                return res;
+              }
+            }
+          } else if (divisor.eq(MIN_VALUE))
+            return this.unsigned ? UZERO : ZERO;
+          if (this.isNegative()) {
+            if (divisor.isNegative())
+              return this.neg().div(divisor.neg());
+            return this.neg().div(divisor).neg();
+          } else if (divisor.isNegative())
+            return this.div(divisor.neg()).neg();
+          res = ZERO;
+        } else {
+          if (!divisor.unsigned)
+            divisor = divisor.toUnsigned();
+          if (divisor.gt(this))
+            return UZERO;
+          if (divisor.gt(this.shru(1)))
+            return UONE;
+          res = UZERO;
+        }
+        rem = this;
+        while (rem.gte(divisor)) {
+          approx = Math.max(1, Math.floor(rem.toNumber() / divisor.toNumber()));
+          var log2 = Math.ceil(Math.log(approx) / Math.LN2), delta = log2 <= 48 ? 1 : pow_dbl(2, log2 - 48), approxRes = fromNumber(approx), approxRem = approxRes.mul(divisor);
+          while (approxRem.isNegative() || approxRem.gt(rem)) {
+            approx -= delta;
+            approxRes = fromNumber(approx, this.unsigned);
+            approxRem = approxRes.mul(divisor);
+          }
+          if (approxRes.isZero())
+            approxRes = ONE;
+          res = res.add(approxRes);
+          rem = rem.sub(approxRem);
+        }
+        return res;
+      };
+      LongPrototype.div = LongPrototype.divide;
+      LongPrototype.modulo = function modulo(divisor) {
+        if (!isLong(divisor))
+          divisor = fromValue(divisor);
+        if (wasm) {
+          var low = (this.unsigned ? wasm["rem_u"] : wasm["rem_s"])(this.low, this.high, divisor.low, divisor.high);
+          return fromBits(low, wasm["get_high"](), this.unsigned);
+        }
+        return this.sub(this.div(divisor).mul(divisor));
+      };
+      LongPrototype.mod = LongPrototype.modulo;
+      LongPrototype.rem = LongPrototype.modulo;
+      LongPrototype.not = function not() {
+        return fromBits(~this.low, ~this.high, this.unsigned);
+      };
+      LongPrototype.countLeadingZeros = function countLeadingZeros() {
+        return this.high ? Math.clz32(this.high) : Math.clz32(this.low) + 32;
+      };
+      LongPrototype.clz = LongPrototype.countLeadingZeros;
+      LongPrototype.countTrailingZeros = function countTrailingZeros() {
+        return this.low ? ctz32(this.low) : ctz32(this.high) + 32;
+      };
+      LongPrototype.ctz = LongPrototype.countTrailingZeros;
+      LongPrototype.and = function and(other) {
+        if (!isLong(other))
+          other = fromValue(other);
+        return fromBits(this.low & other.low, this.high & other.high, this.unsigned);
+      };
+      LongPrototype.or = function or(other) {
+        if (!isLong(other))
+          other = fromValue(other);
+        return fromBits(this.low | other.low, this.high | other.high, this.unsigned);
+      };
+      LongPrototype.xor = function xor(other) {
+        if (!isLong(other))
+          other = fromValue(other);
+        return fromBits(this.low ^ other.low, this.high ^ other.high, this.unsigned);
+      };
+      LongPrototype.shiftLeft = function shiftLeft(numBits) {
+        if (isLong(numBits))
+          numBits = numBits.toInt();
+        if ((numBits &= 63) === 0)
+          return this;
+        else if (numBits < 32)
+          return fromBits(this.low << numBits, this.high << numBits | this.low >>> 32 - numBits, this.unsigned);
         else
-          return fromBits(high >>> numBits - 32, 0, this.unsigned);
-      }
-    };
-    LongPrototype.shru = LongPrototype.shiftRightUnsigned;
-    LongPrototype.shr_u = LongPrototype.shiftRightUnsigned;
-    LongPrototype.toSigned = function toSigned() {
-      if (!this.unsigned)
-        return this;
-      return fromBits(this.low, this.high, false);
-    };
-    LongPrototype.toUnsigned = function toUnsigned() {
-      if (this.unsigned)
-        return this;
-      return fromBits(this.low, this.high, true);
-    };
-    LongPrototype.toBytes = function toBytes(le) {
-      return le ? this.toBytesLE() : this.toBytesBE();
-    };
-    LongPrototype.toBytesLE = function toBytesLE() {
-      var hi = this.high, lo = this.low;
-      return [
-        lo & 255,
-        lo >>> 8 & 255,
-        lo >>> 16 & 255,
-        lo >>> 24,
-        hi & 255,
-        hi >>> 8 & 255,
-        hi >>> 16 & 255,
-        hi >>> 24
-      ];
-    };
-    LongPrototype.toBytesBE = function toBytesBE() {
-      var hi = this.high, lo = this.low;
-      return [
-        hi >>> 24,
-        hi >>> 16 & 255,
-        hi >>> 8 & 255,
-        hi & 255,
-        lo >>> 24,
-        lo >>> 16 & 255,
-        lo >>> 8 & 255,
-        lo & 255
-      ];
-    };
-    Long.fromBytes = function fromBytes(bytes, unsigned, le) {
-      return le ? Long.fromBytesLE(bytes, unsigned) : Long.fromBytesBE(bytes, unsigned);
-    };
-    Long.fromBytesLE = function fromBytesLE(bytes, unsigned) {
-      return new Long(
-        bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24,
-        bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24,
-        unsigned
-      );
-    };
-    Long.fromBytesBE = function fromBytesBE(bytes, unsigned) {
-      return new Long(
-        bytes[4] << 24 | bytes[5] << 16 | bytes[6] << 8 | bytes[7],
-        bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3],
-        unsigned
-      );
-    };
+          return fromBits(0, this.low << numBits - 32, this.unsigned);
+      };
+      LongPrototype.shl = LongPrototype.shiftLeft;
+      LongPrototype.shiftRight = function shiftRight(numBits) {
+        if (isLong(numBits))
+          numBits = numBits.toInt();
+        if ((numBits &= 63) === 0)
+          return this;
+        else if (numBits < 32)
+          return fromBits(this.low >>> numBits | this.high << 32 - numBits, this.high >> numBits, this.unsigned);
+        else
+          return fromBits(this.high >> numBits - 32, this.high >= 0 ? 0 : -1, this.unsigned);
+      };
+      LongPrototype.shr = LongPrototype.shiftRight;
+      LongPrototype.shiftRightUnsigned = function shiftRightUnsigned(numBits) {
+        if (isLong(numBits))
+          numBits = numBits.toInt();
+        if ((numBits &= 63) === 0)
+          return this;
+        if (numBits < 32)
+          return fromBits(this.low >>> numBits | this.high << 32 - numBits, this.high >>> numBits, this.unsigned);
+        if (numBits === 32)
+          return fromBits(this.high, 0, this.unsigned);
+        return fromBits(this.high >>> numBits - 32, 0, this.unsigned);
+      };
+      LongPrototype.shru = LongPrototype.shiftRightUnsigned;
+      LongPrototype.shr_u = LongPrototype.shiftRightUnsigned;
+      LongPrototype.rotateLeft = function rotateLeft(numBits) {
+        var b;
+        if (isLong(numBits))
+          numBits = numBits.toInt();
+        if ((numBits &= 63) === 0)
+          return this;
+        if (numBits === 32)
+          return fromBits(this.high, this.low, this.unsigned);
+        if (numBits < 32) {
+          b = 32 - numBits;
+          return fromBits(this.low << numBits | this.high >>> b, this.high << numBits | this.low >>> b, this.unsigned);
+        }
+        numBits -= 32;
+        b = 32 - numBits;
+        return fromBits(this.high << numBits | this.low >>> b, this.low << numBits | this.high >>> b, this.unsigned);
+      };
+      LongPrototype.rotl = LongPrototype.rotateLeft;
+      LongPrototype.rotateRight = function rotateRight(numBits) {
+        var b;
+        if (isLong(numBits))
+          numBits = numBits.toInt();
+        if ((numBits &= 63) === 0)
+          return this;
+        if (numBits === 32)
+          return fromBits(this.high, this.low, this.unsigned);
+        if (numBits < 32) {
+          b = 32 - numBits;
+          return fromBits(this.high << b | this.low >>> numBits, this.low << b | this.high >>> numBits, this.unsigned);
+        }
+        numBits -= 32;
+        b = 32 - numBits;
+        return fromBits(this.low << b | this.high >>> numBits, this.high << b | this.low >>> numBits, this.unsigned);
+      };
+      LongPrototype.rotr = LongPrototype.rotateRight;
+      LongPrototype.toSigned = function toSigned() {
+        if (!this.unsigned)
+          return this;
+        return fromBits(this.low, this.high, false);
+      };
+      LongPrototype.toUnsigned = function toUnsigned() {
+        if (this.unsigned)
+          return this;
+        return fromBits(this.low, this.high, true);
+      };
+      LongPrototype.toBytes = function toBytes(le) {
+        return le ? this.toBytesLE() : this.toBytesBE();
+      };
+      LongPrototype.toBytesLE = function toBytesLE() {
+        var hi = this.high, lo = this.low;
+        return [lo & 255, lo >>> 8 & 255, lo >>> 16 & 255, lo >>> 24, hi & 255, hi >>> 8 & 255, hi >>> 16 & 255, hi >>> 24];
+      };
+      LongPrototype.toBytesBE = function toBytesBE() {
+        var hi = this.high, lo = this.low;
+        return [hi >>> 24, hi >>> 16 & 255, hi >>> 8 & 255, hi & 255, lo >>> 24, lo >>> 16 & 255, lo >>> 8 & 255, lo & 255];
+      };
+      Long2.fromBytes = function fromBytes(bytes, unsigned, le) {
+        return le ? Long2.fromBytesLE(bytes, unsigned) : Long2.fromBytesBE(bytes, unsigned);
+      };
+      Long2.fromBytesLE = function fromBytesLE(bytes, unsigned) {
+        return new Long2(bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24, bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24, unsigned);
+      };
+      Long2.fromBytesBE = function fromBytesBE(bytes, unsigned) {
+        return new Long2(bytes[4] << 24 | bytes[5] << 16 | bytes[6] << 8 | bytes[7], bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3], unsigned);
+      };
+      var _default = Long2;
+      exports2.default = _default;
+      return "default" in exports2 ? exports2.default : exports2;
+    }({});
+    if (typeof define === "function" && define.amd)
+      define([], function() {
+        return Long;
+      });
+    else if (typeof module2 === "object" && typeof exports === "object")
+      module2.exports = Long;
   }
 });
 
@@ -23884,11351 +23985,8 @@ var require_lib = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/parsers/string.js
-var require_string2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/parsers/string.js"(exports) {
-    "use strict";
-    var Iconv = require_lib();
-    exports.decode = function(buffer, encoding, start, end, options) {
-      if (Buffer.isEncoding(encoding)) {
-        return buffer.toString(encoding, start, end);
-      }
-      const decoder = Iconv.getDecoder(encoding, options || {});
-      const res = decoder.write(buffer.slice(start, end));
-      const trail = decoder.end();
-      return trail ? res + trail : res;
-    };
-    exports.encode = function(string, encoding, options) {
-      if (Buffer.isEncoding(encoding)) {
-        return Buffer.from(string, encoding);
-      }
-      const encoder = Iconv.getEncoder(encoding, options || {});
-      const res = encoder.write(string);
-      const trail = encoder.end();
-      return trail && trail.length > 0 ? Buffer.concat([res, trail]) : res;
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/packet.js
-var require_packet = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/packet.js"(exports, module2) {
-    "use strict";
-    var ErrorCodeToName = require_errors3();
-    var NativeBuffer = require("buffer").Buffer;
-    var Long = require_long();
-    var StringParser = require_string2();
-    var INVALID_DATE = new Date(NaN);
-    var pad = "000000000000";
-    function leftPad(num, value) {
-      const s2 = value.toString();
-      if (s2.length >= num) {
-        return s2;
-      }
-      return (pad + s2).slice(-num);
-    }
-    var minus = "-".charCodeAt(0);
-    var plus = "+".charCodeAt(0);
-    var dot = ".".charCodeAt(0);
-    var exponent = "e".charCodeAt(0);
-    var exponentCapital = "E".charCodeAt(0);
-    var Packet = class {
-      constructor(id, buffer, start, end) {
-        this.sequenceId = id;
-        this.numPackets = 1;
-        this.buffer = buffer;
-        this.start = start;
-        this.offset = start + 4;
-        this.end = end;
-      }
-      reset() {
-        this.offset = this.start + 4;
-      }
-      length() {
-        return this.end - this.start;
-      }
-      slice() {
-        return this.buffer.slice(this.start, this.end);
-      }
-      dump() {
-        console.log(
-          [this.buffer.asciiSlice(this.start, this.end)],
-          this.buffer.slice(this.start, this.end),
-          this.length(),
-          this.sequenceId
-        );
-      }
-      haveMoreData() {
-        return this.end > this.offset;
-      }
-      skip(num) {
-        this.offset += num;
-      }
-      readInt8() {
-        return this.buffer[this.offset++];
-      }
-      readInt16() {
-        this.offset += 2;
-        return this.buffer.readUInt16LE(this.offset - 2);
-      }
-      readInt24() {
-        return this.readInt16() + (this.readInt8() << 16);
-      }
-      readInt32() {
-        this.offset += 4;
-        return this.buffer.readUInt32LE(this.offset - 4);
-      }
-      readSInt8() {
-        return this.buffer.readInt8(this.offset++);
-      }
-      readSInt16() {
-        this.offset += 2;
-        return this.buffer.readInt16LE(this.offset - 2);
-      }
-      readSInt32() {
-        this.offset += 4;
-        return this.buffer.readInt32LE(this.offset - 4);
-      }
-      readInt64JSNumber() {
-        const word0 = this.readInt32();
-        const word1 = this.readInt32();
-        const l = new Long(word0, word1, true);
-        return l.toNumber();
-      }
-      readSInt64JSNumber() {
-        const word0 = this.readInt32();
-        const word1 = this.readInt32();
-        if (!(word1 & 2147483648)) {
-          return word0 + 4294967296 * word1;
-        }
-        const l = new Long(word0, word1, false);
-        return l.toNumber();
-      }
-      readInt64String() {
-        const word0 = this.readInt32();
-        const word1 = this.readInt32();
-        const res = new Long(word0, word1, true);
-        return res.toString();
-      }
-      readSInt64String() {
-        const word0 = this.readInt32();
-        const word1 = this.readInt32();
-        const res = new Long(word0, word1, false);
-        return res.toString();
-      }
-      readInt64() {
-        const word0 = this.readInt32();
-        const word1 = this.readInt32();
-        let res = new Long(word0, word1, true);
-        const resNumber = res.toNumber();
-        const resString = res.toString();
-        res = resNumber.toString() === resString ? resNumber : resString;
-        return res;
-      }
-      readSInt64() {
-        const word0 = this.readInt32();
-        const word1 = this.readInt32();
-        let res = new Long(word0, word1, false);
-        const resNumber = res.toNumber();
-        const resString = res.toString();
-        res = resNumber.toString() === resString ? resNumber : resString;
-        return res;
-      }
-      isEOF() {
-        return this.buffer[this.offset] === 254 && this.length() < 13;
-      }
-      eofStatusFlags() {
-        return this.buffer.readInt16LE(this.offset + 3);
-      }
-      eofWarningCount() {
-        return this.buffer.readInt16LE(this.offset + 1);
-      }
-      readLengthCodedNumber(bigNumberStrings, signed) {
-        const byte1 = this.buffer[this.offset++];
-        if (byte1 < 251) {
-          return byte1;
-        }
-        return this.readLengthCodedNumberExt(byte1, bigNumberStrings, signed);
-      }
-      readLengthCodedNumberSigned(bigNumberStrings) {
-        return this.readLengthCodedNumber(bigNumberStrings, true);
-      }
-      readLengthCodedNumberExt(tag, bigNumberStrings, signed) {
-        let word0, word1;
-        let res;
-        if (tag === 251) {
-          return null;
-        }
-        if (tag === 252) {
-          return this.readInt8() + (this.readInt8() << 8);
-        }
-        if (tag === 253) {
-          return this.readInt8() + (this.readInt8() << 8) + (this.readInt8() << 16);
-        }
-        if (tag === 254) {
-          word0 = this.readInt32();
-          word1 = this.readInt32();
-          if (word1 === 0) {
-            return word0;
-          }
-          if (word1 < 2097152) {
-            return word1 * 4294967296 + word0;
-          }
-          res = new Long(word0, word1, !signed);
-          const resNumber = res.toNumber();
-          const resString = res.toString();
-          res = resNumber.toString() === resString ? resNumber : resString;
-          return bigNumberStrings ? resString : res;
-        }
-        console.trace();
-        throw new Error(`Should not reach here: ${tag}`);
-      }
-      readFloat() {
-        const res = this.buffer.readFloatLE(this.offset);
-        this.offset += 4;
-        return res;
-      }
-      readDouble() {
-        const res = this.buffer.readDoubleLE(this.offset);
-        this.offset += 8;
-        return res;
-      }
-      readBuffer(len) {
-        if (typeof len === "undefined") {
-          len = this.end - this.offset;
-        }
-        this.offset += len;
-        return this.buffer.slice(this.offset - len, this.offset);
-      }
-      readDateTime(timezone) {
-        if (!timezone || timezone === "Z" || timezone === "local") {
-          const length = this.readInt8();
-          if (length === 251) {
-            return null;
-          }
-          let y = 0;
-          let m2 = 0;
-          let d = 0;
-          let H = 0;
-          let M = 0;
-          let S2 = 0;
-          let ms = 0;
-          if (length > 3) {
-            y = this.readInt16();
-            m2 = this.readInt8();
-            d = this.readInt8();
-          }
-          if (length > 6) {
-            H = this.readInt8();
-            M = this.readInt8();
-            S2 = this.readInt8();
-          }
-          if (length > 10) {
-            ms = this.readInt32() / 1e3;
-          }
-          if (y + m2 + d + H + M + S2 + ms === 0) {
-            return INVALID_DATE;
-          }
-          if (timezone === "Z") {
-            return new Date(Date.UTC(y, m2 - 1, d, H, M, S2, ms));
-          }
-          return new Date(y, m2 - 1, d, H, M, S2, ms);
-        }
-        let str = this.readDateTimeString(6, "T");
-        if (str.length === 10) {
-          str += "T00:00:00";
-        }
-        return new Date(str + timezone);
-      }
-      readDateTimeString(decimals, timeSep) {
-        const length = this.readInt8();
-        let y = 0;
-        let m2 = 0;
-        let d = 0;
-        let H = 0;
-        let M = 0;
-        let S2 = 0;
-        let ms = 0;
-        let str;
-        if (length > 3) {
-          y = this.readInt16();
-          m2 = this.readInt8();
-          d = this.readInt8();
-          str = [leftPad(4, y), leftPad(2, m2), leftPad(2, d)].join("-");
-        }
-        if (length > 6) {
-          H = this.readInt8();
-          M = this.readInt8();
-          S2 = this.readInt8();
-          str += `${timeSep || " "}${[
-            leftPad(2, H),
-            leftPad(2, M),
-            leftPad(2, S2)
-          ].join(":")}`;
-        }
-        if (length > 10) {
-          ms = this.readInt32();
-          str += ".";
-          if (decimals) {
-            ms = leftPad(6, ms);
-            if (ms.length > decimals) {
-              ms = ms.substring(0, decimals);
-            }
-          }
-          str += ms;
-        }
-        return str;
-      }
-      readTimeString(convertTtoMs) {
-        const length = this.readInt8();
-        if (length === 0) {
-          return "00:00:00";
-        }
-        const sign = this.readInt8() ? -1 : 1;
-        let d = 0;
-        let H = 0;
-        let M = 0;
-        let S2 = 0;
-        let ms = 0;
-        if (length > 6) {
-          d = this.readInt32();
-          H = this.readInt8();
-          M = this.readInt8();
-          S2 = this.readInt8();
-        }
-        if (length > 10) {
-          ms = this.readInt32();
-        }
-        if (convertTtoMs) {
-          H += d * 24;
-          M += H * 60;
-          S2 += M * 60;
-          ms += S2 * 1e3;
-          ms *= sign;
-          return ms;
-        }
-        return (sign === -1 ? "-" : "") + [leftPad(2, d * 24 + H), leftPad(2, M), leftPad(2, S2)].join(":") + (ms ? `.${ms}`.replace(/0+$/, "") : "");
-      }
-      readLengthCodedString(encoding) {
-        const len = this.readLengthCodedNumber();
-        if (len === null) {
-          return null;
-        }
-        this.offset += len;
-        return StringParser.decode(
-          this.buffer,
-          encoding,
-          this.offset - len,
-          this.offset
-        );
-      }
-      readLengthCodedBuffer() {
-        const len = this.readLengthCodedNumber();
-        if (len === null) {
-          return null;
-        }
-        return this.readBuffer(len);
-      }
-      readNullTerminatedString(encoding) {
-        const start = this.offset;
-        let end = this.offset;
-        while (this.buffer[end]) {
-          end = end + 1;
-        }
-        this.offset = end + 1;
-        return StringParser.decode(this.buffer, encoding, start, end);
-      }
-      readString(len, encoding) {
-        if (typeof len === "string" && typeof encoding === "undefined") {
-          encoding = len;
-          len = void 0;
-        }
-        if (typeof len === "undefined") {
-          len = this.end - this.offset;
-        }
-        this.offset += len;
-        return StringParser.decode(
-          this.buffer,
-          encoding,
-          this.offset - len,
-          this.offset
-        );
-      }
-      parseInt(len, supportBigNumbers) {
-        if (len === null) {
-          return null;
-        }
-        if (len >= 14 && !supportBigNumbers) {
-          const s2 = this.buffer.toString("ascii", this.offset, this.offset + len);
-          this.offset += len;
-          return Number(s2);
-        }
-        let result = 0;
-        const start = this.offset;
-        const end = this.offset + len;
-        let sign = 1;
-        if (len === 0) {
-          return 0;
-        }
-        if (this.buffer[this.offset] === minus) {
-          this.offset++;
-          sign = -1;
-        }
-        let str;
-        const numDigits = end - this.offset;
-        if (supportBigNumbers) {
-          if (numDigits >= 15) {
-            str = this.readString(end - this.offset, "binary");
-            result = parseInt(str, 10);
-            if (result.toString() === str) {
-              return sign * result;
-            }
-            return sign === -1 ? `-${str}` : str;
-          }
-          if (numDigits > 16) {
-            str = this.readString(end - this.offset);
-            return sign === -1 ? `-${str}` : str;
-          }
-        }
-        if (this.buffer[this.offset] === plus) {
-          this.offset++;
-        }
-        while (this.offset < end) {
-          result *= 10;
-          result += this.buffer[this.offset] - 48;
-          this.offset++;
-        }
-        const num = result * sign;
-        if (!supportBigNumbers) {
-          return num;
-        }
-        str = this.buffer.toString("ascii", start, end);
-        if (num.toString() === str) {
-          return num;
-        }
-        return str;
-      }
-      parseIntNoBigCheck(len) {
-        if (len === null) {
-          return null;
-        }
-        let result = 0;
-        const end = this.offset + len;
-        let sign = 1;
-        if (len === 0) {
-          return 0;
-        }
-        if (this.buffer[this.offset] === minus) {
-          this.offset++;
-          sign = -1;
-        }
-        if (this.buffer[this.offset] === plus) {
-          this.offset++;
-        }
-        while (this.offset < end) {
-          result *= 10;
-          result += this.buffer[this.offset] - 48;
-          this.offset++;
-        }
-        return result * sign;
-      }
-      parseGeometryValue() {
-        const buffer = this.readLengthCodedBuffer();
-        let offset = 4;
-        if (buffer === null || !buffer.length) {
-          return null;
-        }
-        function parseGeometry() {
-          let x2, y, i2, j, numPoints, line;
-          let result = null;
-          const byteOrder = buffer.readUInt8(offset);
-          offset += 1;
-          const wkbType = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
-          offset += 4;
-          switch (wkbType) {
-            case 1:
-              x2 = byteOrder ? buffer.readDoubleLE(offset) : buffer.readDoubleBE(offset);
-              offset += 8;
-              y = byteOrder ? buffer.readDoubleLE(offset) : buffer.readDoubleBE(offset);
-              offset += 8;
-              result = { x: x2, y };
-              break;
-            case 2:
-              numPoints = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
-              offset += 4;
-              result = [];
-              for (i2 = numPoints; i2 > 0; i2--) {
-                x2 = byteOrder ? buffer.readDoubleLE(offset) : buffer.readDoubleBE(offset);
-                offset += 8;
-                y = byteOrder ? buffer.readDoubleLE(offset) : buffer.readDoubleBE(offset);
-                offset += 8;
-                result.push({ x: x2, y });
-              }
-              break;
-            case 3:
-              const numRings = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
-              offset += 4;
-              result = [];
-              for (i2 = numRings; i2 > 0; i2--) {
-                numPoints = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
-                offset += 4;
-                line = [];
-                for (j = numPoints; j > 0; j--) {
-                  x2 = byteOrder ? buffer.readDoubleLE(offset) : buffer.readDoubleBE(offset);
-                  offset += 8;
-                  y = byteOrder ? buffer.readDoubleLE(offset) : buffer.readDoubleBE(offset);
-                  offset += 8;
-                  line.push({ x: x2, y });
-                }
-                result.push(line);
-              }
-              break;
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-              const num = byteOrder ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
-              offset += 4;
-              result = [];
-              for (i2 = num; i2 > 0; i2--) {
-                result.push(parseGeometry());
-              }
-              break;
-          }
-          return result;
-        }
-        return parseGeometry();
-      }
-      parseDate(timezone) {
-        const strLen = this.readLengthCodedNumber();
-        if (strLen === null) {
-          return null;
-        }
-        if (strLen !== 10) {
-          return new Date(NaN);
-        }
-        const y = this.parseInt(4);
-        this.offset++;
-        const m2 = this.parseInt(2);
-        this.offset++;
-        const d = this.parseInt(2);
-        if (!timezone || timezone === "local") {
-          return new Date(y, m2 - 1, d);
-        }
-        if (timezone === "Z") {
-          return new Date(Date.UTC(y, m2 - 1, d));
-        }
-        return new Date(
-          `${leftPad(4, y)}-${leftPad(2, m2)}-${leftPad(2, d)}T00:00:00${timezone}`
-        );
-      }
-      parseDateTime(timezone) {
-        const str = this.readLengthCodedString("binary");
-        if (str === null) {
-          return null;
-        }
-        if (!timezone || timezone === "local") {
-          return new Date(str);
-        }
-        return new Date(`${str}${timezone}`);
-      }
-      parseFloat(len) {
-        if (len === null) {
-          return null;
-        }
-        let result = 0;
-        const end = this.offset + len;
-        let factor = 1;
-        let pastDot = false;
-        let charCode = 0;
-        if (len === 0) {
-          return 0;
-        }
-        if (this.buffer[this.offset] === minus) {
-          this.offset++;
-          factor = -1;
-        }
-        if (this.buffer[this.offset] === plus) {
-          this.offset++;
-        }
-        while (this.offset < end) {
-          charCode = this.buffer[this.offset];
-          if (charCode === dot) {
-            pastDot = true;
-            this.offset++;
-          } else if (charCode === exponent || charCode === exponentCapital) {
-            this.offset++;
-            const exponentValue = this.parseInt(end - this.offset);
-            return result / factor * Math.pow(10, exponentValue);
-          } else {
-            result *= 10;
-            result += this.buffer[this.offset] - 48;
-            this.offset++;
-            if (pastDot) {
-              factor = factor * 10;
-            }
-          }
-        }
-        return result / factor;
-      }
-      parseLengthCodedIntNoBigCheck() {
-        return this.parseIntNoBigCheck(this.readLengthCodedNumber());
-      }
-      parseLengthCodedInt(supportBigNumbers) {
-        return this.parseInt(this.readLengthCodedNumber(), supportBigNumbers);
-      }
-      parseLengthCodedIntString() {
-        return this.readLengthCodedString("binary");
-      }
-      parseLengthCodedFloat() {
-        return this.parseFloat(this.readLengthCodedNumber());
-      }
-      peekByte() {
-        return this.buffer[this.offset];
-      }
-      isAlt() {
-        return this.peekByte() === 254;
-      }
-      isError() {
-        return this.peekByte() === 255;
-      }
-      asError(encoding) {
-        this.reset();
-        this.readInt8();
-        const errorCode = this.readInt16();
-        let sqlState = "";
-        if (this.buffer[this.offset] === 35) {
-          this.skip(1);
-          sqlState = this.readBuffer(5).toString();
-        }
-        const message = this.readString(void 0, encoding);
-        const err = new Error(message);
-        err.code = ErrorCodeToName[errorCode];
-        err.errno = errorCode;
-        err.sqlState = sqlState;
-        err.sqlMessage = message;
-        return err;
-      }
-      writeInt32(n) {
-        this.buffer.writeUInt32LE(n, this.offset);
-        this.offset += 4;
-      }
-      writeInt24(n) {
-        this.writeInt8(n & 255);
-        this.writeInt16(n >> 8);
-      }
-      writeInt16(n) {
-        this.buffer.writeUInt16LE(n, this.offset);
-        this.offset += 2;
-      }
-      writeInt8(n) {
-        this.buffer.writeUInt8(n, this.offset);
-        this.offset++;
-      }
-      writeDouble(n) {
-        this.buffer.writeDoubleLE(n, this.offset);
-        this.offset += 8;
-      }
-      writeBuffer(b) {
-        b.copy(this.buffer, this.offset);
-        this.offset += b.length;
-      }
-      writeNull() {
-        this.buffer[this.offset] = 251;
-        this.offset++;
-      }
-      writeNullTerminatedString(s2, encoding) {
-        const buf = StringParser.encode(s2, encoding);
-        this.buffer.length && buf.copy(this.buffer, this.offset);
-        this.offset += buf.length;
-        this.writeInt8(0);
-      }
-      writeString(s2, encoding) {
-        if (s2 === null) {
-          this.writeInt8(251);
-          return;
-        }
-        if (s2.length === 0) {
-          return;
-        }
-        const buf = StringParser.encode(s2, encoding);
-        this.buffer.length && buf.copy(this.buffer, this.offset);
-        this.offset += buf.length;
-      }
-      writeLengthCodedString(s2, encoding) {
-        const buf = StringParser.encode(s2, encoding);
-        this.writeLengthCodedNumber(buf.length);
-        this.buffer.length && buf.copy(this.buffer, this.offset);
-        this.offset += buf.length;
-      }
-      writeLengthCodedBuffer(b) {
-        this.writeLengthCodedNumber(b.length);
-        b.copy(this.buffer, this.offset);
-        this.offset += b.length;
-      }
-      writeLengthCodedNumber(n) {
-        if (n < 251) {
-          return this.writeInt8(n);
-        }
-        if (n < 65535) {
-          this.writeInt8(252);
-          return this.writeInt16(n);
-        }
-        if (n < 16777215) {
-          this.writeInt8(253);
-          return this.writeInt24(n);
-        }
-        if (n === null) {
-          return this.writeInt8(251);
-        }
-        this.writeInt8(254);
-        this.buffer.writeUInt32LE(n, this.offset);
-        this.offset += 4;
-        this.buffer.writeUInt32LE(n >> 32, this.offset);
-        this.offset += 4;
-        return this.offset;
-      }
-      writeDate(d, timezone) {
-        this.buffer.writeUInt8(11, this.offset);
-        if (!timezone || timezone === "local") {
-          this.buffer.writeUInt16LE(d.getFullYear(), this.offset + 1);
-          this.buffer.writeUInt8(d.getMonth() + 1, this.offset + 3);
-          this.buffer.writeUInt8(d.getDate(), this.offset + 4);
-          this.buffer.writeUInt8(d.getHours(), this.offset + 5);
-          this.buffer.writeUInt8(d.getMinutes(), this.offset + 6);
-          this.buffer.writeUInt8(d.getSeconds(), this.offset + 7);
-          this.buffer.writeUInt32LE(d.getMilliseconds() * 1e3, this.offset + 8);
-        } else {
-          if (timezone !== "Z") {
-            const offset = (timezone[0] === "-" ? -1 : 1) * (parseInt(timezone.substring(1, 3), 10) * 60 + parseInt(timezone.substring(4), 10));
-            if (offset !== 0) {
-              d = new Date(d.getTime() + 6e4 * offset);
-            }
-          }
-          this.buffer.writeUInt16LE(d.getUTCFullYear(), this.offset + 1);
-          this.buffer.writeUInt8(d.getUTCMonth() + 1, this.offset + 3);
-          this.buffer.writeUInt8(d.getUTCDate(), this.offset + 4);
-          this.buffer.writeUInt8(d.getUTCHours(), this.offset + 5);
-          this.buffer.writeUInt8(d.getUTCMinutes(), this.offset + 6);
-          this.buffer.writeUInt8(d.getUTCSeconds(), this.offset + 7);
-          this.buffer.writeUInt32LE(d.getUTCMilliseconds() * 1e3, this.offset + 8);
-        }
-        this.offset += 12;
-      }
-      writeHeader(sequenceId) {
-        const offset = this.offset;
-        this.offset = 0;
-        this.writeInt24(this.buffer.length - 4);
-        this.writeInt8(sequenceId);
-        this.offset = offset;
-      }
-      clone() {
-        return new Packet(this.sequenceId, this.buffer, this.start, this.end);
-      }
-      type() {
-        if (this.isEOF()) {
-          return "EOF";
-        }
-        if (this.isError()) {
-          return "Error";
-        }
-        if (this.buffer[this.offset] === 0) {
-          return "maybeOK";
-        }
-        return "";
-      }
-      static lengthCodedNumberLength(n) {
-        if (n < 251) {
-          return 1;
-        }
-        if (n < 65535) {
-          return 3;
-        }
-        if (n < 16777215) {
-          return 5;
-        }
-        return 9;
-      }
-      static lengthCodedStringLength(str, encoding) {
-        const buf = StringParser.encode(str, encoding);
-        const slen = buf.length;
-        return Packet.lengthCodedNumberLength(slen) + slen;
-      }
-      static MockBuffer() {
-        const noop2 = function() {
-        };
-        const res = Buffer.alloc(0);
-        for (const op in NativeBuffer.prototype) {
-          if (typeof res[op] === "function") {
-            res[op] = noop2;
-          }
-        }
-        return res;
-      }
-    };
-    module2.exports = Packet;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packet_parser.js
-var require_packet_parser = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packet_parser.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var MAX_PACKET_LENGTH = 16777215;
-    function readPacketLength(b, off) {
-      const b0 = b[off];
-      const b1 = b[off + 1];
-      const b2 = b[off + 2];
-      if (b1 + b2 === 0) {
-        return b0;
-      }
-      return b0 + (b1 << 8) + (b2 << 16);
-    }
-    var PacketParser = class {
-      constructor(onPacket, packetHeaderLength) {
-        if (typeof packetHeaderLength === "undefined") {
-          packetHeaderLength = 4;
-        }
-        this.buffer = [];
-        this.bufferLength = 0;
-        this.packetHeaderLength = packetHeaderLength;
-        this.headerLen = 0;
-        this.length = 0;
-        this.largePacketParts = [];
-        this.firstPacketSequenceId = 0;
-        this.onPacket = onPacket;
-        this.execute = PacketParser.prototype.executeStart;
-        this._flushLargePacket = packetHeaderLength === 7 ? this._flushLargePacket7 : this._flushLargePacket4;
-      }
-      _flushLargePacket4() {
-        const numPackets = this.largePacketParts.length;
-        this.largePacketParts.unshift(Buffer.from([0, 0, 0, 0]));
-        const body = Buffer.concat(this.largePacketParts);
-        const packet = new Packet(this.firstPacketSequenceId, body, 0, body.length);
-        this.largePacketParts.length = 0;
-        packet.numPackets = numPackets;
-        this.onPacket(packet);
-      }
-      _flushLargePacket7() {
-        const numPackets = this.largePacketParts.length;
-        this.largePacketParts.unshift(Buffer.from([0, 0, 0, 0, 0, 0, 0]));
-        const body = Buffer.concat(this.largePacketParts);
-        this.largePacketParts.length = 0;
-        const packet = new Packet(this.firstPacketSequenceId, body, 0, body.length);
-        packet.numPackets = numPackets;
-        this.onPacket(packet);
-      }
-      executeStart(chunk) {
-        let start = 0;
-        const end = chunk.length;
-        while (end - start >= 3) {
-          this.length = readPacketLength(chunk, start);
-          if (end - start >= this.length + this.packetHeaderLength) {
-            const sequenceId = chunk[start + 3];
-            if (this.length < MAX_PACKET_LENGTH && this.largePacketParts.length === 0) {
-              this.onPacket(
-                new Packet(
-                  sequenceId,
-                  chunk,
-                  start,
-                  start + this.packetHeaderLength + this.length
-                )
-              );
-            } else {
-              if (this.largePacketParts.length === 0) {
-                this.firstPacketSequenceId = sequenceId;
-              }
-              this.largePacketParts.push(
-                chunk.slice(
-                  start + this.packetHeaderLength,
-                  start + this.packetHeaderLength + this.length
-                )
-              );
-              if (this.length < MAX_PACKET_LENGTH) {
-                this._flushLargePacket();
-              }
-            }
-            start += this.packetHeaderLength + this.length;
-          } else {
-            this.buffer = [chunk.slice(start + 3, end)];
-            this.bufferLength = end - start - 3;
-            this.execute = PacketParser.prototype.executePayload;
-            return;
-          }
-        }
-        if (end - start > 0) {
-          this.headerLen = end - start;
-          this.length = chunk[start];
-          if (this.headerLen === 2) {
-            this.length = chunk[start] + (chunk[start + 1] << 8);
-            this.execute = PacketParser.prototype.executeHeader3;
-          } else {
-            this.execute = PacketParser.prototype.executeHeader2;
-          }
-        }
-      }
-      executePayload(chunk) {
-        let start = 0;
-        const end = chunk.length;
-        const remainingPayload = this.length - this.bufferLength + this.packetHeaderLength - 3;
-        if (end - start >= remainingPayload) {
-          const payload = Buffer.allocUnsafe(this.length + this.packetHeaderLength);
-          let offset = 3;
-          for (let i2 = 0; i2 < this.buffer.length; ++i2) {
-            this.buffer[i2].copy(payload, offset);
-            offset += this.buffer[i2].length;
-          }
-          chunk.copy(payload, offset, start, start + remainingPayload);
-          const sequenceId = payload[3];
-          if (this.length < MAX_PACKET_LENGTH && this.largePacketParts.length === 0) {
-            this.onPacket(
-              new Packet(
-                sequenceId,
-                payload,
-                0,
-                this.length + this.packetHeaderLength
-              )
-            );
-          } else {
-            if (this.largePacketParts.length === 0) {
-              this.firstPacketSequenceId = sequenceId;
-            }
-            this.largePacketParts.push(
-              payload.slice(
-                this.packetHeaderLength,
-                this.packetHeaderLength + this.length
-              )
-            );
-            if (this.length < MAX_PACKET_LENGTH) {
-              this._flushLargePacket();
-            }
-          }
-          this.buffer = [];
-          this.bufferLength = 0;
-          this.execute = PacketParser.prototype.executeStart;
-          start += remainingPayload;
-          if (end - start > 0) {
-            return this.execute(chunk.slice(start, end));
-          }
-        } else {
-          this.buffer.push(chunk);
-          this.bufferLength += chunk.length;
-        }
-        return null;
-      }
-      executeHeader2(chunk) {
-        this.length += chunk[0] << 8;
-        if (chunk.length > 1) {
-          this.length += chunk[1] << 16;
-          this.execute = PacketParser.prototype.executePayload;
-          return this.executePayload(chunk.slice(2));
-        }
-        this.execute = PacketParser.prototype.executeHeader3;
-        return null;
-      }
-      executeHeader3(chunk) {
-        this.length += chunk[0] << 16;
-        this.execute = PacketParser.prototype.executePayload;
-        return this.executePayload(chunk.slice(1));
-      }
-    };
-    module2.exports = PacketParser;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/auth_switch_request.js
-var require_auth_switch_request = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/auth_switch_request.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var AuthSwitchRequest = class {
-      constructor(opts) {
-        this.pluginName = opts.pluginName;
-        this.pluginData = opts.pluginData;
-      }
-      toPacket() {
-        const length = 6 + this.pluginName.length + this.pluginData.length;
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeInt8(254);
-        packet.writeNullTerminatedString(this.pluginName, "cesu8");
-        packet.writeBuffer(this.pluginData);
-        return packet;
-      }
-      static fromPacket(packet) {
-        packet.readInt8();
-        const name = packet.readNullTerminatedString("cesu8");
-        const data = packet.readBuffer();
-        return new AuthSwitchRequest({
-          pluginName: name,
-          pluginData: data
-        });
-      }
-    };
-    module2.exports = AuthSwitchRequest;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js
-var require_auth_switch_request_more_data = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var AuthSwitchRequestMoreData = class {
-      constructor(data) {
-        this.data = data;
-      }
-      toPacket() {
-        const length = 5 + this.data.length;
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeInt8(1);
-        packet.writeBuffer(this.data);
-        return packet;
-      }
-      static fromPacket(packet) {
-        packet.readInt8();
-        const data = packet.readBuffer();
-        return new AuthSwitchRequestMoreData(data);
-      }
-      static verifyMarker(packet) {
-        return packet.peekByte() === 1;
-      }
-    };
-    module2.exports = AuthSwitchRequestMoreData;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/auth_switch_response.js
-var require_auth_switch_response = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/auth_switch_response.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var AuthSwitchResponse = class {
-      constructor(data) {
-        if (!Buffer.isBuffer(data)) {
-          data = Buffer.from(data);
-        }
-        this.data = data;
-      }
-      toPacket() {
-        const length = 4 + this.data.length;
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeBuffer(this.data);
-        return packet;
-      }
-      static fromPacket(packet) {
-        const data = packet.readBuffer();
-        return new AuthSwitchResponse(data);
-      }
-    };
-    module2.exports = AuthSwitchResponse;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/types.js
-var require_types = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/types.js"(exports) {
-    "use strict";
-    exports.DECIMAL = 0;
-    exports.TINY = 1;
-    exports.SHORT = 2;
-    exports.LONG = 3;
-    exports.FLOAT = 4;
-    exports.DOUBLE = 5;
-    exports.NULL = 6;
-    exports.TIMESTAMP = 7;
-    exports.LONGLONG = 8;
-    exports.INT24 = 9;
-    exports.DATE = 10;
-    exports.TIME = 11;
-    exports.DATETIME = 12;
-    exports.YEAR = 13;
-    exports.NEWDATE = 14;
-    exports.VARCHAR = 15;
-    exports.BIT = 16;
-    exports.JSON = 245;
-    exports.NEWDECIMAL = 246;
-    exports.ENUM = 247;
-    exports.SET = 248;
-    exports.TINY_BLOB = 249;
-    exports.MEDIUM_BLOB = 250;
-    exports.LONG_BLOB = 251;
-    exports.BLOB = 252;
-    exports.VAR_STRING = 253;
-    exports.STRING = 254;
-    exports.GEOMETRY = 255;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/binary_row.js
-var require_binary_row = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/binary_row.js"(exports, module2) {
-    "use strict";
-    var Types = require_types();
-    var Packet = require_packet();
-    var binaryReader = new Array(256);
-    var BinaryRow = class {
-      constructor(columns) {
-        this.columns = columns || [];
-      }
-      toPacket() {
-        throw new Error("Not implemented");
-      }
-      static fromPacket(fields, packet) {
-        const columns = new Array(fields.length);
-        packet.readInt8();
-        const nullBitmapLength = Math.floor((fields.length + 7 + 2) / 8);
-        packet.skip(nullBitmapLength);
-        for (let i2 = 0; i2 < columns.length; ++i2) {
-          columns[i2] = binaryReader[fields[i2].columnType].apply(packet);
-        }
-        return new BinaryRow(columns);
-      }
-    };
-    binaryReader[Types.DECIMAL] = Packet.prototype.readLengthCodedString;
-    binaryReader[1] = Packet.prototype.readInt8;
-    binaryReader[2] = Packet.prototype.readInt16;
-    binaryReader[3] = Packet.prototype.readInt32;
-    binaryReader[4] = Packet.prototype.readFloat;
-    binaryReader[5] = Packet.prototype.readDouble;
-    binaryReader[6] = Packet.prototype.assertInvalid;
-    binaryReader[7] = Packet.prototype.readTimestamp;
-    binaryReader[8] = Packet.prototype.readInt64;
-    binaryReader[9] = Packet.prototype.readInt32;
-    binaryReader[10] = Packet.prototype.readTimestamp;
-    binaryReader[11] = Packet.prototype.readTime;
-    binaryReader[12] = Packet.prototype.readDateTime;
-    binaryReader[13] = Packet.prototype.readInt16;
-    binaryReader[Types.VAR_STRING] = Packet.prototype.readLengthCodedString;
-    module2.exports = BinaryRow;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/commands.js
-var require_commands = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/commands.js"(exports, module2) {
-    "use strict";
-    module2.exports = {
-      SLEEP: 0,
-      QUIT: 1,
-      INIT_DB: 2,
-      QUERY: 3,
-      FIELD_LIST: 4,
-      CREATE_DB: 5,
-      DROP_DB: 6,
-      REFRESH: 7,
-      SHUTDOWN: 8,
-      STATISTICS: 9,
-      PROCESS_INFO: 10,
-      CONNECT: 11,
-      PROCESS_KILL: 12,
-      DEBUG: 13,
-      PING: 14,
-      TIME: 15,
-      DELAYED_INSERT: 16,
-      CHANGE_USER: 17,
-      BINLOG_DUMP: 18,
-      TABLE_DUMP: 19,
-      CONNECT_OUT: 20,
-      REGISTER_SLAVE: 21,
-      STMT_PREPARE: 22,
-      STMT_EXECUTE: 23,
-      STMT_SEND_LONG_DATA: 24,
-      STMT_CLOSE: 25,
-      STMT_RESET: 26,
-      SET_OPTION: 27,
-      STMT_FETCH: 28,
-      DAEMON: 29,
-      BINLOG_DUMP_GTID: 30,
-      UNKNOWN: 255
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/binlog_dump.js
-var require_binlog_dump = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/binlog_dump.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var CommandCodes = require_commands();
-    var BinlogDump = class {
-      constructor(opts) {
-        this.binlogPos = opts.binlogPos || 0;
-        this.serverId = opts.serverId || 0;
-        this.flags = opts.flags || 0;
-        this.filename = opts.filename || "";
-      }
-      toPacket() {
-        const length = 15 + Buffer.byteLength(this.filename, "utf8");
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeInt8(CommandCodes.BINLOG_DUMP);
-        packet.writeInt32(this.binlogPos);
-        packet.writeInt16(this.flags);
-        packet.writeInt32(this.serverId);
-        packet.writeString(this.filename);
-        return packet;
-      }
-    };
-    module2.exports = BinlogDump;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/client.js
-var require_client = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/client.js"(exports) {
-    "use strict";
-    exports.LONG_PASSWORD = 1;
-    exports.FOUND_ROWS = 2;
-    exports.LONG_FLAG = 4;
-    exports.CONNECT_WITH_DB = 8;
-    exports.NO_SCHEMA = 16;
-    exports.COMPRESS = 32;
-    exports.ODBC = 64;
-    exports.LOCAL_FILES = 128;
-    exports.IGNORE_SPACE = 256;
-    exports.PROTOCOL_41 = 512;
-    exports.INTERACTIVE = 1024;
-    exports.SSL = 2048;
-    exports.IGNORE_SIGPIPE = 4096;
-    exports.TRANSACTIONS = 8192;
-    exports.RESERVED = 16384;
-    exports.SECURE_CONNECTION = 32768;
-    exports.MULTI_STATEMENTS = 65536;
-    exports.MULTI_RESULTS = 131072;
-    exports.PS_MULTI_RESULTS = 262144;
-    exports.PLUGIN_AUTH = 524288;
-    exports.CONNECT_ATTRS = 1048576;
-    exports.PLUGIN_AUTH_LENENC_CLIENT_DATA = 2097152;
-    exports.CAN_HANDLE_EXPIRED_PASSWORDS = 4194304;
-    exports.SESSION_TRACK = 8388608;
-    exports.DEPRECATE_EOF = 16777216;
-    exports.SSL_VERIFY_SERVER_CERT = 1073741824;
-    exports.REMEMBER_OPTIONS = 2147483648;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/auth_41.js
-var require_auth_41 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/auth_41.js"(exports) {
-    "use strict";
-    var crypto = require("crypto");
-    function sha1(msg, msg1, msg2) {
-      const hash = crypto.createHash("sha1");
-      hash.update(msg);
-      if (msg1) {
-        hash.update(msg1);
-      }
-      if (msg2) {
-        hash.update(msg2);
-      }
-      return hash.digest();
-    }
-    function xor(a, b) {
-      if (!Buffer.isBuffer(a)) {
-        a = Buffer.from(a, "binary");
-      }
-      if (!Buffer.isBuffer(b)) {
-        b = Buffer.from(b, "binary");
-      }
-      const result = Buffer.allocUnsafe(a.length);
-      for (let i2 = 0; i2 < a.length; i2++) {
-        result[i2] = a[i2] ^ b[i2];
-      }
-      return result;
-    }
-    exports.xor = xor;
-    function token(password, scramble1, scramble2) {
-      if (!password) {
-        return Buffer.alloc(0);
-      }
-      const stage1 = sha1(password);
-      return exports.calculateTokenFromPasswordSha(stage1, scramble1, scramble2);
-    }
-    exports.calculateTokenFromPasswordSha = function(passwordSha, scramble1, scramble2) {
-      const authPluginData1 = scramble1.slice(0, 8);
-      const authPluginData2 = scramble2.slice(0, 12);
-      const stage2 = sha1(passwordSha);
-      const stage3 = sha1(authPluginData1, authPluginData2, stage2);
-      return xor(stage3, passwordSha);
-    };
-    exports.calculateToken = token;
-    exports.verifyToken = function(publicSeed1, publicSeed2, token2, doubleSha) {
-      const hashStage1 = xor(token2, sha1(publicSeed1, publicSeed2, doubleSha));
-      const candidateHash2 = sha1(hashStage1);
-      return candidateHash2.compare(doubleSha) === 0;
-    };
-    exports.doubleSha1 = function(password) {
-      return sha1(sha1(password));
-    };
-    function xorRotating(a, seed) {
-      if (!Buffer.isBuffer(a)) {
-        a = Buffer.from(a, "binary");
-      }
-      if (!Buffer.isBuffer(seed)) {
-        seed = Buffer.from(seed, "binary");
-      }
-      const result = Buffer.allocUnsafe(a.length);
-      const seedLen = seed.length;
-      for (let i2 = 0; i2 < a.length; i2++) {
-        result[i2] = a[i2] ^ seed[i2 % seedLen];
-      }
-      return result;
-    }
-    exports.xorRotating = xorRotating;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/charset_encodings.js
-var require_charset_encodings = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/charset_encodings.js"(exports, module2) {
-    "use strict";
-    module2.exports = [
-      "utf8",
-      "big5",
-      "latin2",
-      "dec8",
-      "cp850",
-      "latin1",
-      "hp8",
-      "koi8r",
-      "latin1",
-      "latin2",
-      "swe7",
-      "ascii",
-      "eucjp",
-      "sjis",
-      "cp1251",
-      "latin1",
-      "hebrew",
-      "utf8",
-      "tis620",
-      "euckr",
-      "latin7",
-      "latin2",
-      "koi8u",
-      "cp1251",
-      "gb2312",
-      "greek",
-      "cp1250",
-      "latin2",
-      "gbk",
-      "cp1257",
-      "latin5",
-      "latin1",
-      "armscii8",
-      "cesu8",
-      "cp1250",
-      "ucs2",
-      "cp866",
-      "keybcs2",
-      "macintosh",
-      "macroman",
-      "cp852",
-      "latin7",
-      "latin7",
-      "macintosh",
-      "cp1250",
-      "utf8",
-      "utf8",
-      "latin1",
-      "latin1",
-      "latin1",
-      "cp1251",
-      "cp1251",
-      "cp1251",
-      "macroman",
-      "utf16",
-      "utf16",
-      "utf16-le",
-      "cp1256",
-      "cp1257",
-      "cp1257",
-      "utf32",
-      "utf32",
-      "utf16-le",
-      "binary",
-      "armscii8",
-      "ascii",
-      "cp1250",
-      "cp1256",
-      "cp866",
-      "dec8",
-      "greek",
-      "hebrew",
-      "hp8",
-      "keybcs2",
-      "koi8r",
-      "koi8u",
-      "cesu8",
-      "latin2",
-      "latin5",
-      "latin7",
-      "cp850",
-      "cp852",
-      "swe7",
-      "cesu8",
-      "big5",
-      "euckr",
-      "gb2312",
-      "gbk",
-      "sjis",
-      "tis620",
-      "ucs2",
-      "eucjp",
-      "geostd8",
-      "geostd8",
-      "latin1",
-      "cp932",
-      "cp932",
-      "eucjpms",
-      "eucjpms",
-      "cp1250",
-      "utf8",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf16",
-      "utf8",
-      "utf8",
-      "utf8",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "ucs2",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "ucs2",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf32",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "cesu8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "cesu8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "gb18030",
-      "gb18030",
-      "gb18030",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8",
-      "utf8"
-    ];
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/change_user.js
-var require_change_user = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/change_user.js"(exports, module2) {
-    "use strict";
-    var CommandCode = require_commands();
-    var ClientConstants = require_client();
-    var Packet = require_packet();
-    var auth41 = require_auth_41();
-    var CharsetToEncoding = require_charset_encodings();
-    var ChangeUser = class {
-      constructor(opts) {
-        this.flags = opts.flags;
-        this.user = opts.user || "";
-        this.database = opts.database || "";
-        this.password = opts.password || "";
-        this.passwordSha1 = opts.passwordSha1;
-        this.authPluginData1 = opts.authPluginData1;
-        this.authPluginData2 = opts.authPluginData2;
-        this.connectAttributes = opts.connectAttrinutes || {};
-        let authToken;
-        if (this.passwordSha1) {
-          authToken = auth41.calculateTokenFromPasswordSha(
-            this.passwordSha1,
-            this.authPluginData1,
-            this.authPluginData2
-          );
-        } else {
-          authToken = auth41.calculateToken(
-            this.password,
-            this.authPluginData1,
-            this.authPluginData2
-          );
-        }
-        this.authToken = authToken;
-        this.charsetNumber = opts.charsetNumber;
-      }
-      serializeToBuffer(buffer) {
-        const isSet = (flag) => this.flags & ClientConstants[flag];
-        const packet = new Packet(0, buffer, 0, buffer.length);
-        packet.offset = 4;
-        const encoding = CharsetToEncoding[this.charsetNumber];
-        packet.writeInt8(CommandCode.CHANGE_USER);
-        packet.writeNullTerminatedString(this.user, encoding);
-        if (isSet("SECURE_CONNECTION")) {
-          packet.writeInt8(this.authToken.length);
-          packet.writeBuffer(this.authToken);
-        } else {
-          packet.writeBuffer(this.authToken);
-          packet.writeInt8(0);
-        }
-        packet.writeNullTerminatedString(this.database, encoding);
-        packet.writeInt16(this.charsetNumber);
-        if (isSet("PLUGIN_AUTH")) {
-          packet.writeNullTerminatedString("mysql_native_password", "latin1");
-        }
-        if (isSet("CONNECT_ATTRS")) {
-          const connectAttributes = this.connectAttributes;
-          const attrNames = Object.keys(connectAttributes);
-          let keysLength = 0;
-          for (let k = 0; k < attrNames.length; ++k) {
-            keysLength += Packet.lengthCodedStringLength(attrNames[k], encoding);
-            keysLength += Packet.lengthCodedStringLength(
-              connectAttributes[attrNames[k]],
-              encoding
-            );
-          }
-          packet.writeLengthCodedNumber(keysLength);
-          for (let k = 0; k < attrNames.length; ++k) {
-            packet.writeLengthCodedString(attrNames[k], encoding);
-            packet.writeLengthCodedString(
-              connectAttributes[attrNames[k]],
-              encoding
-            );
-          }
-        }
-        return packet;
-      }
-      toPacket() {
-        if (typeof this.user !== "string") {
-          throw new Error('"user" connection config property must be a string');
-        }
-        if (typeof this.database !== "string") {
-          throw new Error('"database" connection config property must be a string');
-        }
-        const p = this.serializeToBuffer(Packet.MockBuffer());
-        return this.serializeToBuffer(Buffer.allocUnsafe(p.offset));
-      }
-    };
-    module2.exports = ChangeUser;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/close_statement.js
-var require_close_statement = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/close_statement.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var CommandCodes = require_commands();
-    var CloseStatement = class {
-      constructor(id) {
-        this.id = id;
-      }
-      toPacket() {
-        const packet = new Packet(0, Buffer.allocUnsafe(9), 0, 9);
-        packet.offset = 4;
-        packet.writeInt8(CommandCodes.STMT_CLOSE);
-        packet.writeInt32(this.id);
-        return packet;
-      }
-    };
-    module2.exports = CloseStatement;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/column_definition.js
-var require_column_definition = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/column_definition.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var StringParser = require_string2();
-    var CharsetToEncoding = require_charset_encodings();
-    var fields = ["catalog", "schema", "table", "orgTable", "name", "orgName"];
-    var ColumnDefinition = class {
-      constructor(packet, clientEncoding) {
-        this._buf = packet.buffer;
-        this._clientEncoding = clientEncoding;
-        this._catalogLength = packet.readLengthCodedNumber();
-        this._catalogStart = packet.offset;
-        packet.offset += this._catalogLength;
-        this._schemaLength = packet.readLengthCodedNumber();
-        this._schemaStart = packet.offset;
-        packet.offset += this._schemaLength;
-        this._tableLength = packet.readLengthCodedNumber();
-        this._tableStart = packet.offset;
-        packet.offset += this._tableLength;
-        this._orgTableLength = packet.readLengthCodedNumber();
-        this._orgTableStart = packet.offset;
-        packet.offset += this._orgTableLength;
-        const _nameLength = packet.readLengthCodedNumber();
-        const _nameStart = packet.offset;
-        packet.offset += _nameLength;
-        this._orgNameLength = packet.readLengthCodedNumber();
-        this._orgNameStart = packet.offset;
-        packet.offset += this._orgNameLength;
-        packet.skip(1);
-        this.characterSet = packet.readInt16();
-        this.encoding = CharsetToEncoding[this.characterSet];
-        this.name = StringParser.decode(
-          this._buf,
-          this.encoding === "binary" ? this._clientEncoding : this.encoding,
-          _nameStart,
-          _nameStart + _nameLength
-        );
-        this.columnLength = packet.readInt32();
-        this.columnType = packet.readInt8();
-        this.flags = packet.readInt16();
-        this.decimals = packet.readInt8();
-      }
-      inspect() {
-        return {
-          catalog: this.catalog,
-          schema: this.schema,
-          name: this.name,
-          orgName: this.orgName,
-          table: this.table,
-          orgTable: this.orgTable,
-          characterSet: this.characterSet,
-          columnLength: this.columnLength,
-          columnType: this.columnType,
-          flags: this.flags,
-          decimals: this.decimals
-        };
-      }
-      static toPacket(column, sequenceId) {
-        let length = 17;
-        fields.forEach((field) => {
-          length += Packet.lengthCodedStringLength(
-            column[field],
-            CharsetToEncoding[column.characterSet]
-          );
-        });
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(sequenceId, buffer, 0, length);
-        function writeField(name) {
-          packet.writeLengthCodedString(
-            column[name],
-            CharsetToEncoding[column.characterSet]
-          );
-        }
-        packet.offset = 4;
-        fields.forEach(writeField);
-        packet.writeInt8(12);
-        packet.writeInt16(column.characterSet);
-        packet.writeInt32(column.columnLength);
-        packet.writeInt8(column.columnType);
-        packet.writeInt16(column.flags);
-        packet.writeInt8(column.decimals);
-        packet.writeInt16(0);
-        return packet;
-      }
-      get db() {
-        return this.schema;
-      }
-    };
-    var addString = function(name) {
-      Object.defineProperty(ColumnDefinition.prototype, name, {
-        get: function() {
-          const start = this[`_${name}Start`];
-          const end = start + this[`_${name}Length`];
-          const val = StringParser.decode(
-            this._buf,
-            this.encoding === "binary" ? this._clientEncoding : this.encoding,
-            start,
-            end
-          );
-          Object.defineProperty(this, name, {
-            value: val,
-            writable: false,
-            configurable: false,
-            enumerable: false
-          });
-          return val;
-        }
-      });
-    };
-    addString("catalog");
-    addString("schema");
-    addString("table");
-    addString("orgTable");
-    addString("orgName");
-    module2.exports = ColumnDefinition;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/cursor.js
-var require_cursor = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/cursor.js"(exports, module2) {
-    "use strict";
-    module2.exports = {
-      NO_CURSOR: 0,
-      READ_ONLY: 1,
-      FOR_UPDATE: 2,
-      SCROLLABLE: 3
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/execute.js
-var require_execute = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/execute.js"(exports, module2) {
-    "use strict";
-    var CursorType = require_cursor();
-    var CommandCodes = require_commands();
-    var Types = require_types();
-    var Packet = require_packet();
-    var CharsetToEncoding = require_charset_encodings();
-    function isJSON(value) {
-      return Array.isArray(value) || value.constructor === Object || typeof value.toJSON === "function" && !Buffer.isBuffer(value);
-    }
-    function toParameter(value, encoding, timezone) {
-      let type = Types.VAR_STRING;
-      let length;
-      let writer = function(value2) {
-        return Packet.prototype.writeLengthCodedString.call(this, value2, encoding);
-      };
-      if (value !== null) {
-        switch (typeof value) {
-          case "undefined":
-            throw new TypeError("Bind parameters must not contain undefined");
-          case "number":
-            type = Types.DOUBLE;
-            length = 8;
-            writer = Packet.prototype.writeDouble;
-            break;
-          case "boolean":
-            value = value | 0;
-            type = Types.TINY;
-            length = 1;
-            writer = Packet.prototype.writeInt8;
-            break;
-          case "object":
-            if (Object.prototype.toString.call(value) === "[object Date]") {
-              type = Types.DATETIME;
-              length = 12;
-              writer = function(value2) {
-                return Packet.prototype.writeDate.call(this, value2, timezone);
-              };
-            } else if (isJSON(value)) {
-              value = JSON.stringify(value);
-              type = Types.JSON;
-            } else if (Buffer.isBuffer(value)) {
-              length = Packet.lengthCodedNumberLength(value.length) + value.length;
-              writer = Packet.prototype.writeLengthCodedBuffer;
-            }
-            break;
-          default:
-            value = value.toString();
-        }
-      } else {
-        value = "";
-        type = Types.NULL;
-      }
-      if (!length) {
-        length = Packet.lengthCodedStringLength(value, encoding);
-      }
-      return { value, type, length, writer };
-    }
-    var Execute = class {
-      constructor(id, parameters, charsetNumber, timezone) {
-        this.id = id;
-        this.parameters = parameters;
-        this.encoding = CharsetToEncoding[charsetNumber];
-        this.timezone = timezone;
-      }
-      toPacket() {
-        let length = 14;
-        let parameters;
-        if (this.parameters && this.parameters.length > 0) {
-          length += Math.floor((this.parameters.length + 7) / 8);
-          length += 1;
-          length += 2 * this.parameters.length;
-          parameters = this.parameters.map(
-            (value) => toParameter(value, this.encoding, this.timezone)
-          );
-          length += parameters.reduce(
-            (accumulator, parameter) => accumulator + parameter.length,
-            0
-          );
-        }
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeInt8(CommandCodes.STMT_EXECUTE);
-        packet.writeInt32(this.id);
-        packet.writeInt8(CursorType.NO_CURSOR);
-        packet.writeInt32(1);
-        if (parameters) {
-          let bitmap = 0;
-          let bitValue = 1;
-          parameters.forEach((parameter) => {
-            if (parameter.type === Types.NULL) {
-              bitmap += bitValue;
-            }
-            bitValue *= 2;
-            if (bitValue === 256) {
-              packet.writeInt8(bitmap);
-              bitmap = 0;
-              bitValue = 1;
-            }
-          });
-          if (bitValue !== 1) {
-            packet.writeInt8(bitmap);
-          }
-          packet.writeInt8(1);
-          parameters.forEach((parameter) => {
-            packet.writeInt8(parameter.type);
-            packet.writeInt8(0);
-          });
-          parameters.forEach((parameter) => {
-            if (parameter.type !== Types.NULL) {
-              parameter.writer.call(packet, parameter.value);
-            }
-          });
-        }
-        return packet;
-      }
-    };
-    module2.exports = Execute;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/handshake.js
-var require_handshake = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/handshake.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var ClientConstants = require_client();
-    var Handshake = class {
-      constructor(args) {
-        this.protocolVersion = args.protocolVersion;
-        this.serverVersion = args.serverVersion;
-        this.capabilityFlags = args.capabilityFlags;
-        this.connectionId = args.connectionId;
-        this.authPluginData1 = args.authPluginData1;
-        this.authPluginData2 = args.authPluginData2;
-        this.characterSet = args.characterSet;
-        this.statusFlags = args.statusFlags;
-        this.autPluginName = args.autPluginName;
-      }
-      setScrambleData(cb) {
-        require("crypto").randomBytes(20, (err, data) => {
-          if (err) {
-            cb(err);
-            return;
-          }
-          this.authPluginData1 = data.slice(0, 8);
-          this.authPluginData2 = data.slice(8, 20);
-          cb();
-        });
-      }
-      toPacket(sequenceId) {
-        const length = 68 + Buffer.byteLength(this.serverVersion, "utf8");
-        const buffer = Buffer.alloc(length + 4, 0);
-        const packet = new Packet(sequenceId, buffer, 0, length + 4);
-        packet.offset = 4;
-        packet.writeInt8(this.protocolVersion);
-        packet.writeString(this.serverVersion, "cesu8");
-        packet.writeInt8(0);
-        packet.writeInt32(this.connectionId);
-        packet.writeBuffer(this.authPluginData1);
-        packet.writeInt8(0);
-        const capabilityFlagsBuffer = Buffer.allocUnsafe(4);
-        capabilityFlagsBuffer.writeUInt32LE(this.capabilityFlags, 0);
-        packet.writeBuffer(capabilityFlagsBuffer.slice(0, 2));
-        packet.writeInt8(this.characterSet);
-        packet.writeInt16(this.statusFlags);
-        packet.writeBuffer(capabilityFlagsBuffer.slice(2, 4));
-        packet.writeInt8(21);
-        packet.skip(10);
-        packet.writeBuffer(this.authPluginData2);
-        packet.writeInt8(0);
-        packet.writeString("mysql_native_password", "latin1");
-        packet.writeInt8(0);
-        return packet;
-      }
-      static fromPacket(packet) {
-        const args = {};
-        args.protocolVersion = packet.readInt8();
-        args.serverVersion = packet.readNullTerminatedString("cesu8");
-        args.connectionId = packet.readInt32();
-        args.authPluginData1 = packet.readBuffer(8);
-        packet.skip(1);
-        const capabilityFlagsBuffer = Buffer.allocUnsafe(4);
-        capabilityFlagsBuffer[0] = packet.readInt8();
-        capabilityFlagsBuffer[1] = packet.readInt8();
-        if (packet.haveMoreData()) {
-          args.characterSet = packet.readInt8();
-          args.statusFlags = packet.readInt16();
-          capabilityFlagsBuffer[2] = packet.readInt8();
-          capabilityFlagsBuffer[3] = packet.readInt8();
-          args.capabilityFlags = capabilityFlagsBuffer.readUInt32LE(0);
-          if (args.capabilityFlags & ClientConstants.PLUGIN_AUTH) {
-            args.authPluginDataLength = packet.readInt8();
-          } else {
-            args.authPluginDataLength = 0;
-            packet.skip(1);
-          }
-          packet.skip(10);
-        } else {
-          args.capabilityFlags = capabilityFlagsBuffer.readUInt16LE(0);
-        }
-        const isSecureConnection = args.capabilityFlags & ClientConstants.SECURE_CONNECTION;
-        if (isSecureConnection) {
-          const authPluginDataLength = args.authPluginDataLength;
-          if (authPluginDataLength === 0) {
-            args.authPluginDataLength = 20;
-            args.authPluginData2 = packet.readBuffer(12);
-            packet.skip(1);
-          } else {
-            const len = Math.max(13, authPluginDataLength - 8);
-            args.authPluginData2 = packet.readBuffer(len);
-          }
-        }
-        if (args.capabilityFlags & ClientConstants.PLUGIN_AUTH) {
-          args.autPluginName = packet.readNullTerminatedString("ascii");
-        }
-        return new Handshake(args);
-      }
-    };
-    module2.exports = Handshake;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/handshake_response.js
-var require_handshake_response = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/handshake_response.js"(exports, module2) {
-    "use strict";
-    var ClientConstants = require_client();
-    var CharsetToEncoding = require_charset_encodings();
-    var Packet = require_packet();
-    var auth41 = require_auth_41();
-    var HandshakeResponse = class {
-      constructor(handshake) {
-        this.user = handshake.user || "";
-        this.database = handshake.database || "";
-        this.password = handshake.password || "";
-        this.passwordSha1 = handshake.passwordSha1;
-        this.authPluginData1 = handshake.authPluginData1;
-        this.authPluginData2 = handshake.authPluginData2;
-        this.compress = handshake.compress;
-        this.clientFlags = handshake.flags;
-        let authToken;
-        if (this.passwordSha1) {
-          authToken = auth41.calculateTokenFromPasswordSha(
-            this.passwordSha1,
-            this.authPluginData1,
-            this.authPluginData2
-          );
-        } else {
-          authToken = auth41.calculateToken(
-            this.password,
-            this.authPluginData1,
-            this.authPluginData2
-          );
-        }
-        this.authToken = authToken;
-        this.charsetNumber = handshake.charsetNumber;
-        this.encoding = CharsetToEncoding[handshake.charsetNumber];
-        this.connectAttributes = handshake.connectAttributes;
-      }
-      serializeResponse(buffer) {
-        const isSet = (flag) => this.clientFlags & ClientConstants[flag];
-        const packet = new Packet(0, buffer, 0, buffer.length);
-        packet.offset = 4;
-        packet.writeInt32(this.clientFlags);
-        packet.writeInt32(0);
-        packet.writeInt8(this.charsetNumber);
-        packet.skip(23);
-        const encoding = this.encoding;
-        packet.writeNullTerminatedString(this.user, encoding);
-        let k;
-        if (isSet("PLUGIN_AUTH_LENENC_CLIENT_DATA")) {
-          packet.writeLengthCodedNumber(this.authToken.length);
-          packet.writeBuffer(this.authToken);
-        } else if (isSet("SECURE_CONNECTION")) {
-          packet.writeInt8(this.authToken.length);
-          packet.writeBuffer(this.authToken);
-        } else {
-          packet.writeBuffer(this.authToken);
-          packet.writeInt8(0);
-        }
-        if (isSet("CONNECT_WITH_DB")) {
-          packet.writeNullTerminatedString(this.database, encoding);
-        }
-        if (isSet("PLUGIN_AUTH")) {
-          packet.writeNullTerminatedString("mysql_native_password", "latin1");
-        }
-        if (isSet("CONNECT_ATTRS")) {
-          const connectAttributes = this.connectAttributes || {};
-          const attrNames = Object.keys(connectAttributes);
-          let keysLength = 0;
-          for (k = 0; k < attrNames.length; ++k) {
-            keysLength += Packet.lengthCodedStringLength(attrNames[k], encoding);
-            keysLength += Packet.lengthCodedStringLength(
-              connectAttributes[attrNames[k]],
-              encoding
-            );
-          }
-          packet.writeLengthCodedNumber(keysLength);
-          for (k = 0; k < attrNames.length; ++k) {
-            packet.writeLengthCodedString(attrNames[k], encoding);
-            packet.writeLengthCodedString(
-              connectAttributes[attrNames[k]],
-              encoding
-            );
-          }
-        }
-        return packet;
-      }
-      toPacket() {
-        if (typeof this.user !== "string") {
-          throw new Error('"user" connection config property must be a string');
-        }
-        if (typeof this.database !== "string") {
-          throw new Error('"database" connection config property must be a string');
-        }
-        const p = this.serializeResponse(Packet.MockBuffer());
-        return this.serializeResponse(Buffer.alloc(p.offset));
-      }
-      static fromPacket(packet) {
-        const args = {};
-        args.clientFlags = packet.readInt32();
-        function isSet(flag) {
-          return args.clientFlags & ClientConstants[flag];
-        }
-        args.maxPacketSize = packet.readInt32();
-        args.charsetNumber = packet.readInt8();
-        const encoding = CharsetToEncoding[args.charsetNumber];
-        args.encoding = encoding;
-        packet.skip(23);
-        args.user = packet.readNullTerminatedString(encoding);
-        let authTokenLength;
-        if (isSet("PLUGIN_AUTH_LENENC_CLIENT_DATA")) {
-          authTokenLength = packet.readLengthCodedNumber(encoding);
-          args.authToken = packet.readBuffer(authTokenLength);
-        } else if (isSet("SECURE_CONNECTION")) {
-          authTokenLength = packet.readInt8();
-          args.authToken = packet.readBuffer(authTokenLength);
-        } else {
-          args.authToken = packet.readNullTerminatedString(encoding);
-        }
-        if (isSet("CONNECT_WITH_DB")) {
-          args.database = packet.readNullTerminatedString(encoding);
-        }
-        if (isSet("PLUGIN_AUTH")) {
-          args.authPluginName = packet.readNullTerminatedString(encoding);
-        }
-        if (isSet("CONNECT_ATTRS")) {
-          const keysLength = packet.readLengthCodedNumber(encoding);
-          const keysEnd = packet.offset + keysLength;
-          const attrs = {};
-          while (packet.offset < keysEnd) {
-            attrs[packet.readLengthCodedString(encoding)] = packet.readLengthCodedString(encoding);
-          }
-          args.connectAttributes = attrs;
-        }
-        return args;
-      }
-    };
-    module2.exports = HandshakeResponse;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/prepare_statement.js
-var require_prepare_statement = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/prepare_statement.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var CommandCodes = require_commands();
-    var StringParser = require_string2();
-    var CharsetToEncoding = require_charset_encodings();
-    var PrepareStatement = class {
-      constructor(sql, charsetNumber) {
-        this.query = sql;
-        this.charsetNumber = charsetNumber;
-        this.encoding = CharsetToEncoding[charsetNumber];
-      }
-      toPacket() {
-        const buf = StringParser.encode(this.query, this.encoding);
-        const length = 5 + buf.length;
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeInt8(CommandCodes.STMT_PREPARE);
-        packet.writeBuffer(buf);
-        return packet;
-      }
-    };
-    module2.exports = PrepareStatement;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/prepared_statement_header.js
-var require_prepared_statement_header = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/prepared_statement_header.js"(exports, module2) {
-    "use strict";
-    var PreparedStatementHeader = class {
-      constructor(packet) {
-        packet.skip(1);
-        this.id = packet.readInt32();
-        this.fieldCount = packet.readInt16();
-        this.parameterCount = packet.readInt16();
-        packet.skip(1);
-        this.warningCount = packet.readInt16();
-      }
-    };
-    module2.exports = PreparedStatementHeader;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/query.js
-var require_query = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/query.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var CommandCode = require_commands();
-    var StringParser = require_string2();
-    var CharsetToEncoding = require_charset_encodings();
-    var Query = class {
-      constructor(sql, charsetNumber) {
-        this.query = sql;
-        this.charsetNumber = charsetNumber;
-        this.encoding = CharsetToEncoding[charsetNumber];
-      }
-      toPacket() {
-        const buf = StringParser.encode(this.query, this.encoding);
-        const length = 5 + buf.length;
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeInt8(CommandCode.QUERY);
-        packet.writeBuffer(buf);
-        return packet;
-      }
-    };
-    module2.exports = Query;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/register_slave.js
-var require_register_slave = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/register_slave.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var CommandCodes = require_commands();
-    var RegisterSlave = class {
-      constructor(opts) {
-        this.serverId = opts.serverId || 0;
-        this.slaveHostname = opts.slaveHostname || "";
-        this.slaveUser = opts.slaveUser || "";
-        this.slavePassword = opts.slavePassword || "";
-        this.slavePort = opts.slavePort || 0;
-        this.replicationRank = opts.replicationRank || 0;
-        this.masterId = opts.masterId || 0;
-      }
-      toPacket() {
-        const length = 15 + Buffer.byteLength(this.slaveHostname, "utf8") + Buffer.byteLength(this.slaveUser, "utf8") + Buffer.byteLength(this.slavePassword, "utf8") + 3 + 4;
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeInt8(CommandCodes.REGISTER_SLAVE);
-        packet.writeInt32(this.serverId);
-        packet.writeInt8(Buffer.byteLength(this.slaveHostname, "utf8"));
-        packet.writeString(this.slaveHostname);
-        packet.writeInt8(Buffer.byteLength(this.slaveUser, "utf8"));
-        packet.writeString(this.slaveUser);
-        packet.writeInt8(Buffer.byteLength(this.slavePassword, "utf8"));
-        packet.writeString(this.slavePassword);
-        packet.writeInt16(this.slavePort);
-        packet.writeInt32(this.replicationRank);
-        packet.writeInt32(this.masterId);
-        return packet;
-      }
-    };
-    module2.exports = RegisterSlave;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/server_status.js
-var require_server_status = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/server_status.js"(exports) {
-    "use strict";
-    exports.SERVER_STATUS_IN_TRANS = 1;
-    exports.SERVER_STATUS_AUTOCOMMIT = 2;
-    exports.SERVER_MORE_RESULTS_EXISTS = 8;
-    exports.SERVER_QUERY_NO_GOOD_INDEX_USED = 16;
-    exports.SERVER_QUERY_NO_INDEX_USED = 32;
-    exports.SERVER_STATUS_CURSOR_EXISTS = 64;
-    exports.SERVER_STATUS_LAST_ROW_SENT = 128;
-    exports.SERVER_STATUS_DB_DROPPED = 256;
-    exports.SERVER_STATUS_NO_BACKSLASH_ESCAPES = 512;
-    exports.SERVER_STATUS_METADATA_CHANGED = 1024;
-    exports.SERVER_QUERY_WAS_SLOW = 2048;
-    exports.SERVER_PS_OUT_PARAMS = 4096;
-    exports.SERVER_STATUS_IN_TRANS_READONLY = 8192;
-    exports.SERVER_SESSION_STATE_CHANGED = 16384;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/encoding_charset.js
-var require_encoding_charset = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/encoding_charset.js"(exports, module2) {
-    "use strict";
-    module2.exports = {
-      big5: 1,
-      latin2: 2,
-      dec8: 3,
-      cp850: 4,
-      latin1: 5,
-      hp8: 6,
-      koi8r: 7,
-      swe7: 10,
-      ascii: 11,
-      eucjp: 12,
-      sjis: 13,
-      cp1251: 14,
-      hebrew: 16,
-      tis620: 18,
-      euckr: 19,
-      latin7: 20,
-      koi8u: 22,
-      gb2312: 24,
-      greek: 25,
-      cp1250: 26,
-      gbk: 28,
-      cp1257: 29,
-      latin5: 30,
-      armscii8: 32,
-      cesu8: 33,
-      ucs2: 35,
-      cp866: 36,
-      keybcs2: 37,
-      macintosh: 38,
-      macroman: 39,
-      cp852: 40,
-      utf8: 45,
-      utf8mb4: 45,
-      utf16: 54,
-      utf16le: 56,
-      cp1256: 57,
-      utf32: 60,
-      binary: 63,
-      geostd8: 92,
-      cp932: 95,
-      eucjpms: 97,
-      gb18030: 248
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/session_track.js
-var require_session_track = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/session_track.js"(exports) {
-    "use strict";
-    exports.SYSTEM_VARIABLES = 0;
-    exports.SCHEMA = 1;
-    exports.STATE_CHANGE = 2;
-    exports.STATE_GTIDS = 3;
-    exports.TRANSACTION_CHARACTERISTICS = 4;
-    exports.TRANSACTION_STATE = 5;
-    exports.FIRST_KEY = exports.SYSTEM_VARIABLES;
-    exports.LAST_KEY = exports.TRANSACTION_STATE;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/resultset_header.js
-var require_resultset_header = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/resultset_header.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var ClientConstants = require_client();
-    var ServerSatusFlags = require_server_status();
-    var EncodingToCharset = require_encoding_charset();
-    var sessionInfoTypes = require_session_track();
-    var ResultSetHeader = class {
-      constructor(packet, connection) {
-        const bigNumberStrings = connection.config.bigNumberStrings;
-        const encoding = connection.serverEncoding;
-        const flags = connection._handshakePacket.capabilityFlags;
-        const isSet = function(flag) {
-          return flags & ClientConstants[flag];
-        };
-        if (packet.buffer[packet.offset] !== 0) {
-          this.fieldCount = packet.readLengthCodedNumber();
-          if (this.fieldCount === null) {
-            this.infileName = packet.readString(void 0, encoding);
-          }
-          return;
-        }
-        this.fieldCount = packet.readInt8();
-        this.affectedRows = packet.readLengthCodedNumber(bigNumberStrings);
-        this.insertId = packet.readLengthCodedNumberSigned(bigNumberStrings);
-        this.info = "";
-        if (isSet("PROTOCOL_41")) {
-          this.serverStatus = packet.readInt16();
-          this.warningStatus = packet.readInt16();
-        } else if (isSet("TRANSACTIONS")) {
-          this.serverStatus = packet.readInt16();
-        }
-        let stateChanges = null;
-        if (isSet("SESSION_TRACK") && packet.offset < packet.end) {
-          this.info = packet.readLengthCodedString(encoding);
-          if (this.serverStatus && ServerSatusFlags.SERVER_SESSION_STATE_CHANGED) {
-            let len = packet.offset < packet.end ? packet.readLengthCodedNumber() : 0;
-            const end = packet.offset + len;
-            let type, key, stateEnd;
-            if (len > 0) {
-              stateChanges = {
-                systemVariables: {},
-                schema: null,
-                trackStateChange: null
-              };
-            }
-            while (packet.offset < end) {
-              type = packet.readInt8();
-              len = packet.readLengthCodedNumber();
-              stateEnd = packet.offset + len;
-              if (type === sessionInfoTypes.SYSTEM_VARIABLES) {
-                key = packet.readLengthCodedString(encoding);
-                const val = packet.readLengthCodedString(encoding);
-                stateChanges.systemVariables[key] = val;
-                if (key === "character_set_client") {
-                  const charsetNumber = EncodingToCharset[val];
-                  connection.config.charsetNumber = charsetNumber;
-                }
-              } else if (type === sessionInfoTypes.SCHEMA) {
-                key = packet.readLengthCodedString(encoding);
-                stateChanges.schema = key;
-              } else if (type === sessionInfoTypes.STATE_CHANGE) {
-                stateChanges.trackStateChange = packet.readLengthCodedString(
-                  encoding
-                );
-              } else {
-              }
-              packet.offset = stateEnd;
-            }
-          }
-        } else {
-          this.info = packet.readString(void 0, encoding);
-        }
-        if (stateChanges) {
-          this.stateChanges = stateChanges;
-        }
-        const m2 = this.info.match(/\schanged:\s*(\d+)/i);
-        if (m2 !== null) {
-          this.changedRows = parseInt(m2[1], 10);
-        }
-      }
-      static toPacket(fieldCount, insertId) {
-        let length = 4 + Packet.lengthCodedNumberLength(fieldCount);
-        if (typeof insertId !== "undefined") {
-          length += Packet.lengthCodedNumberLength(insertId);
-        }
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeLengthCodedNumber(fieldCount);
-        if (typeof insertId !== "undefined") {
-          packet.writeLengthCodedNumber(insertId);
-        }
-        return packet;
-      }
-    };
-    module2.exports = ResultSetHeader;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/ssl_request.js
-var require_ssl_request = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/ssl_request.js"(exports, module2) {
-    "use strict";
-    var ClientConstants = require_client();
-    var Packet = require_packet();
-    var SSLRequest = class {
-      constructor(flags, charset) {
-        this.clientFlags = flags | ClientConstants.SSL;
-        this.charset = charset;
-      }
-      toPacket() {
-        const length = 36;
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        buffer.fill(0);
-        packet.offset = 4;
-        packet.writeInt32(this.clientFlags);
-        packet.writeInt32(0);
-        packet.writeInt8(this.charset);
-        return packet;
-      }
-    };
-    module2.exports = SSLRequest;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/text_row.js
-var require_text_row = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/text_row.js"(exports, module2) {
-    "use strict";
-    var Packet = require_packet();
-    var TextRow = class {
-      constructor(columns) {
-        this.columns = columns || [];
-      }
-      static fromPacket(packet) {
-        const columns = [];
-        while (packet.haveMoreData()) {
-          columns.push(packet.readLengthCodedString());
-        }
-        return new TextRow(columns);
-      }
-      static toPacket(columns, encoding) {
-        const sequenceId = 0;
-        let length = 0;
-        columns.forEach((val) => {
-          if (val === null || typeof val === "undefined") {
-            ++length;
-            return;
-          }
-          length += Packet.lengthCodedStringLength(val.toString(10), encoding);
-        });
-        const buffer = Buffer.allocUnsafe(length + 4);
-        const packet = new Packet(sequenceId, buffer, 0, length + 4);
-        packet.offset = 4;
-        columns.forEach((val) => {
-          if (val === null) {
-            packet.writeNull();
-            return;
-          }
-          if (typeof val === "undefined") {
-            packet.writeInt8(0);
-            return;
-          }
-          packet.writeLengthCodedString(val.toString(10), encoding);
-        });
-        return packet;
-      }
-    };
-    module2.exports = TextRow;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/index.js
-var require_packets = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/index.js"(exports, module2) {
-    "use strict";
-    var process2 = require("process");
-    var AuthSwitchRequest = require_auth_switch_request();
-    var AuthSwitchRequestMoreData = require_auth_switch_request_more_data();
-    var AuthSwitchResponse = require_auth_switch_response();
-    var BinaryRow = require_binary_row();
-    var BinlogDump = require_binlog_dump();
-    var ChangeUser = require_change_user();
-    var CloseStatement = require_close_statement();
-    var ColumnDefinition = require_column_definition();
-    var Execute = require_execute();
-    var Handshake = require_handshake();
-    var HandshakeResponse = require_handshake_response();
-    var PrepareStatement = require_prepare_statement();
-    var PreparedStatementHeader = require_prepared_statement_header();
-    var Query = require_query();
-    var RegisterSlave = require_register_slave();
-    var ResultSetHeader = require_resultset_header();
-    var SSLRequest = require_ssl_request();
-    var TextRow = require_text_row();
-    var ctorMap = {
-      AuthSwitchRequest,
-      AuthSwitchRequestMoreData,
-      AuthSwitchResponse,
-      BinaryRow,
-      BinlogDump,
-      ChangeUser,
-      CloseStatement,
-      ColumnDefinition,
-      Execute,
-      Handshake,
-      HandshakeResponse,
-      PrepareStatement,
-      PreparedStatementHeader,
-      Query,
-      RegisterSlave,
-      ResultSetHeader,
-      SSLRequest,
-      TextRow
-    };
-    Object.entries(ctorMap).forEach(([name, ctor]) => {
-      module2.exports[name] = ctor;
-      if (process2.env.NODE_DEBUG) {
-        if (ctor.prototype.toPacket) {
-          const old = ctor.prototype.toPacket;
-          ctor.prototype.toPacket = function() {
-            const p = old.call(this);
-            p._name = name;
-            return p;
-          };
-        }
-      }
-    });
-    var Packet = require_packet();
-    exports.Packet = Packet;
-    var OK = class {
-      static toPacket(args, encoding) {
-        args = args || {};
-        const affectedRows = args.affectedRows || 0;
-        const insertId = args.insertId || 0;
-        const serverStatus = args.serverStatus || 0;
-        const warningCount = args.warningCount || 0;
-        const message = args.message || "";
-        let length = 9 + Packet.lengthCodedNumberLength(affectedRows);
-        length += Packet.lengthCodedNumberLength(insertId);
-        const buffer = Buffer.allocUnsafe(length);
-        const packet = new Packet(0, buffer, 0, length);
-        packet.offset = 4;
-        packet.writeInt8(0);
-        packet.writeLengthCodedNumber(affectedRows);
-        packet.writeLengthCodedNumber(insertId);
-        packet.writeInt16(serverStatus);
-        packet.writeInt16(warningCount);
-        packet.writeString(message, encoding);
-        packet._name = "OK";
-        return packet;
-      }
-    };
-    exports.OK = OK;
-    var EOF = class {
-      static toPacket(warnings, statusFlags) {
-        if (typeof warnings === "undefined") {
-          warnings = 0;
-        }
-        if (typeof statusFlags === "undefined") {
-          statusFlags = 0;
-        }
-        const packet = new Packet(0, Buffer.allocUnsafe(9), 0, 9);
-        packet.offset = 4;
-        packet.writeInt8(254);
-        packet.writeInt16(warnings);
-        packet.writeInt16(statusFlags);
-        packet._name = "EOF";
-        return packet;
-      }
-    };
-    exports.EOF = EOF;
-    var Error2 = class {
-      static toPacket(args, encoding) {
-        const length = 13 + Buffer.byteLength(args.message, "utf8");
-        const packet = new Packet(0, Buffer.allocUnsafe(length), 0, length);
-        packet.offset = 4;
-        packet.writeInt8(255);
-        packet.writeInt16(args.code);
-        packet.writeString("#_____", encoding);
-        packet.writeString(args.message, encoding);
-        packet._name = "Error";
-        return packet;
-      }
-      static fromPacket(packet) {
-        packet.readInt8();
-        const code = packet.readInt16();
-        packet.readString(1, "ascii");
-        packet.readString(5, "ascii");
-        const message = packet.readNullTerminatedString("utf8");
-        const error = new Error2();
-        error.message = message;
-        error.code = code;
-        return error;
-      }
-    };
-    exports.Error = Error2;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/command.js
-var require_command = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/command.js"(exports, module2) {
-    "use strict";
-    var EventEmitter = require("events").EventEmitter;
-    var Timers = require("timers");
-    var Command = class extends EventEmitter {
-      constructor() {
-        super();
-        this.next = null;
-      }
-      stateName() {
-        const state = this.next;
-        for (const i2 in this) {
-          if (this[i2] === state && i2 !== "next") {
-            return i2;
-          }
-        }
-        return "unknown name";
-      }
-      execute(packet, connection) {
-        if (!this.next) {
-          this.next = this.start;
-          connection._resetSequenceId();
-        }
-        if (packet && packet.isError()) {
-          const err = packet.asError(connection.clientEncoding);
-          err.sql = this.sql || this.query;
-          if (this.queryTimeout) {
-            Timers.clearTimeout(this.queryTimeout);
-            this.queryTimeout = null;
-          }
-          if (this.onResult) {
-            this.onResult(err);
-            this.emit("end");
-          } else {
-            this.emit("error", err);
-            this.emit("end");
-          }
-          return true;
-        }
-        this.next = this.next(packet, connection);
-        if (this.next) {
-          return false;
-        }
-        this.emit("end");
-        return true;
-      }
-    };
-    module2.exports = Command;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/auth_plugins/sha256_password.js
-var require_sha256_password = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/auth_plugins/sha256_password.js"(exports, module2) {
-    "use strict";
-    var PLUGIN_NAME = "sha256_password";
-    var crypto = require("crypto");
-    var { xor } = require_auth_41();
-    var REQUEST_SERVER_KEY_PACKET = Buffer.from([1]);
-    var STATE_INITIAL = 0;
-    var STATE_WAIT_SERVER_KEY = 1;
-    var STATE_FINAL = -1;
-    function encrypt(password, scramble, key) {
-      const stage1 = xor(
-        Buffer.from(`${password}\0`, "utf8").toString("binary"),
-        scramble.toString("binary")
-      );
-      return crypto.publicEncrypt(key, stage1);
-    }
-    module2.exports = (pluginOptions = {}) => ({ connection }) => {
-      let state = 0;
-      let scramble = null;
-      const password = connection.config.password;
-      const authWithKey = (serverKey) => {
-        const _password = encrypt(password, scramble, serverKey);
-        state = STATE_FINAL;
-        return _password;
-      };
-      return (data) => {
-        switch (state) {
-          case STATE_INITIAL:
-            scramble = data.slice(0, 20);
-            if (pluginOptions.serverPublicKey) {
-              return authWithKey(pluginOptions.serverPublicKey);
-            }
-            state = STATE_WAIT_SERVER_KEY;
-            return REQUEST_SERVER_KEY_PACKET;
-          case STATE_WAIT_SERVER_KEY:
-            if (pluginOptions.onServerPublicKey) {
-              pluginOptions.onServerPublicKey(data);
-            }
-            return authWithKey(data);
-          case STATE_FINAL:
-            throw new Error(
-              `Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in STATE_FINAL state.`
-            );
-        }
-        throw new Error(
-          `Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in state ${state}`
-        );
-      };
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js
-var require_caching_sha2_password = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js"(exports, module2) {
-    "use strict";
-    var PLUGIN_NAME = "caching_sha2_password";
-    var crypto = require("crypto");
-    var { xor, xorRotating } = require_auth_41();
-    var REQUEST_SERVER_KEY_PACKET = Buffer.from([2]);
-    var FAST_AUTH_SUCCESS_PACKET = Buffer.from([3]);
-    var PERFORM_FULL_AUTHENTICATION_PACKET = Buffer.from([4]);
-    var STATE_INITIAL = 0;
-    var STATE_TOKEN_SENT = 1;
-    var STATE_WAIT_SERVER_KEY = 2;
-    var STATE_FINAL = -1;
-    function sha256(msg) {
-      const hash = crypto.createHash("sha256");
-      hash.update(msg, "binary");
-      return hash.digest("binary");
-    }
-    function calculateToken(password, scramble) {
-      if (!password) {
-        return Buffer.alloc(0);
-      }
-      const stage1 = sha256(Buffer.from(password, "utf8").toString("binary"));
-      const stage2 = sha256(stage1);
-      const stage3 = sha256(stage2 + scramble.toString("binary"));
-      return xor(stage1, stage3);
-    }
-    function encrypt(password, scramble, key) {
-      const stage1 = xorRotating(
-        Buffer.from(`${password}\0`, "utf8").toString("binary"),
-        scramble.toString("binary")
-      );
-      return crypto.publicEncrypt(key, stage1);
-    }
-    module2.exports = (pluginOptions = {}) => ({ connection }) => {
-      let state = 0;
-      let scramble = null;
-      const password = connection.config.password;
-      const authWithKey = (serverKey) => {
-        const _password = encrypt(password, scramble, serverKey);
-        state = STATE_FINAL;
-        return _password;
-      };
-      return (data) => {
-        switch (state) {
-          case STATE_INITIAL:
-            scramble = data.slice(0, 20);
-            state = STATE_TOKEN_SENT;
-            return calculateToken(password, scramble);
-          case STATE_TOKEN_SENT:
-            if (FAST_AUTH_SUCCESS_PACKET.equals(data)) {
-              state = STATE_FINAL;
-              return null;
-            }
-            if (PERFORM_FULL_AUTHENTICATION_PACKET.equals(data)) {
-              const isSecureConnection = typeof pluginOptions.overrideIsSecure === "undefined" ? connection.config.ssl || connection.config.socketPath : pluginOptions.overrideIsSecure;
-              if (isSecureConnection) {
-                state = STATE_FINAL;
-                return Buffer.from(`${password}\0`, "utf8");
-              }
-              if (pluginOptions.serverPublicKey) {
-                return authWithKey(pluginOptions.serverPublicKey);
-              }
-              state = STATE_WAIT_SERVER_KEY;
-              return REQUEST_SERVER_KEY_PACKET;
-            }
-            throw new Error(
-              `Invalid AuthMoreData packet received by ${PLUGIN_NAME} plugin in STATE_TOKEN_SENT state.`
-            );
-          case STATE_WAIT_SERVER_KEY:
-            if (pluginOptions.onServerPublicKey) {
-              pluginOptions.onServerPublicKey(data);
-            }
-            return authWithKey(data);
-          case STATE_FINAL:
-            throw new Error(
-              `Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in STATE_FINAL state.`
-            );
-        }
-        throw new Error(
-          `Unexpected data in AuthMoreData packet received by ${PLUGIN_NAME} plugin in state ${state}`
-        );
-      };
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js
-var require_mysql_native_password = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js"(exports, module2) {
-    "use strict";
-    var auth41 = require_auth_41();
-    module2.exports = (pluginOptions) => ({ connection, command }) => {
-      const password = command.password || pluginOptions.password || connection.config.password;
-      const passwordSha1 = command.passwordSha1 || pluginOptions.passwordSha1 || connection.config.passwordSha1;
-      return (data) => {
-        const authPluginData1 = data.slice(0, 8);
-        const authPluginData2 = data.slice(8, 20);
-        let authToken;
-        if (passwordSha1) {
-          authToken = auth41.calculateTokenFromPasswordSha(
-            passwordSha1,
-            authPluginData1,
-            authPluginData2
-          );
-        } else {
-          authToken = auth41.calculateToken(
-            password,
-            authPluginData1,
-            authPluginData2
-          );
-        }
-        return authToken;
-      };
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/auth_switch.js
-var require_auth_switch = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/auth_switch.js"(exports, module2) {
-    "use strict";
-    var Packets = require_packets();
-    var sha256_password = require_sha256_password();
-    var caching_sha2_password = require_caching_sha2_password();
-    var mysql_native_password = require_mysql_native_password();
-    var standardAuthPlugins = {
-      sha256_password: sha256_password({}),
-      caching_sha2_password: caching_sha2_password({}),
-      mysql_native_password: mysql_native_password({})
-    };
-    function warnLegacyAuthSwitch() {
-      console.warn(
-        "WARNING! authSwitchHandler api is deprecated, please use new authPlugins api"
-      );
-    }
-    function authSwitchPluginError(error, command) {
-      error.code = "AUTH_SWITCH_PLUGIN_ERROR";
-      error.fatal = true;
-      command.emit("error", error);
-    }
-    function authSwitchRequest(packet, connection, command) {
-      const { pluginName, pluginData } = Packets.AuthSwitchRequest.fromPacket(
-        packet
-      );
-      let authPlugin = connection.config.authPlugins && connection.config.authPlugins[pluginName];
-      if (connection.config.authSwitchHandler && pluginName !== "mysql_native_password") {
-        const legacySwitchHandler = connection.config.authSwitchHandler;
-        warnLegacyAuthSwitch();
-        legacySwitchHandler({ pluginName, pluginData }, (err, data) => {
-          if (err) {
-            return authSwitchPluginError(err, command);
-          }
-          connection.writePacket(new Packets.AuthSwitchResponse(data).toPacket());
-        });
-        return;
-      }
-      if (!authPlugin) {
-        authPlugin = standardAuthPlugins[pluginName];
-      }
-      if (!authPlugin) {
-        throw new Error(
-          `Server requests authentication using unknown plugin ${pluginName}. See ${"TODO: add plugins doco here"} on how to configure or author authentication plugins.`
-        );
-      }
-      connection._authPlugin = authPlugin({ connection, command });
-      Promise.resolve(connection._authPlugin(pluginData)).then((data) => {
-        if (data) {
-          connection.writePacket(new Packets.AuthSwitchResponse(data).toPacket());
-        }
-      }).catch((err) => {
-        authSwitchPluginError(err, command);
-      });
-    }
-    function authSwitchRequestMoreData(packet, connection, command) {
-      const { data } = Packets.AuthSwitchRequestMoreData.fromPacket(packet);
-      if (connection.config.authSwitchHandler) {
-        const legacySwitchHandler = connection.config.authSwitchHandler;
-        warnLegacyAuthSwitch();
-        legacySwitchHandler({ pluginData: data }, (err, data2) => {
-          if (err) {
-            return authSwitchPluginError(err, command);
-          }
-          connection.writePacket(new Packets.AuthSwitchResponse(data2).toPacket());
-        });
-        return;
-      }
-      if (!connection._authPlugin) {
-        throw new Error(
-          "AuthPluginMoreData received but no auth plugin instance found"
-        );
-      }
-      Promise.resolve(connection._authPlugin(data)).then((data2) => {
-        if (data2) {
-          connection.writePacket(new Packets.AuthSwitchResponse(data2).toPacket());
-        }
-      }).catch((err) => {
-        authSwitchPluginError(err, command);
-      });
-    }
-    module2.exports = {
-      authSwitchRequest,
-      authSwitchRequestMoreData
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/seq-queue@0.0.5/node_modules/seq-queue/lib/seq-queue.js
-var require_seq_queue = __commonJS({
-  "../../node_modules/.pnpm/seq-queue@0.0.5/node_modules/seq-queue/lib/seq-queue.js"(exports, module2) {
-    var EventEmitter = require("events").EventEmitter;
-    var util = require("util");
-    var DEFAULT_TIMEOUT = 3e3;
-    var INIT_ID = 0;
-    var EVENT_CLOSED = "closed";
-    var EVENT_DRAINED = "drained";
-    var SeqQueue = function(timeout) {
-      EventEmitter.call(this);
-      if (timeout && timeout > 0) {
-        this.timeout = timeout;
-      } else {
-        this.timeout = DEFAULT_TIMEOUT;
-      }
-      this.status = SeqQueueManager.STATUS_IDLE;
-      this.curId = INIT_ID;
-      this.queue = [];
-    };
-    util.inherits(SeqQueue, EventEmitter);
-    SeqQueue.prototype.push = function(fn, ontimeout, timeout) {
-      if (this.status !== SeqQueueManager.STATUS_IDLE && this.status !== SeqQueueManager.STATUS_BUSY) {
-        return false;
-      }
-      if (typeof fn !== "function") {
-        throw new Error("fn should be a function.");
-      }
-      this.queue.push({ fn, ontimeout, timeout });
-      if (this.status === SeqQueueManager.STATUS_IDLE) {
-        this.status = SeqQueueManager.STATUS_BUSY;
-        var self2 = this;
-        process.nextTick(function() {
-          self2._next(self2.curId);
-        });
-      }
-      return true;
-    };
-    SeqQueue.prototype.close = function(force) {
-      if (this.status !== SeqQueueManager.STATUS_IDLE && this.status !== SeqQueueManager.STATUS_BUSY) {
-        return;
-      }
-      if (force) {
-        this.status = SeqQueueManager.STATUS_DRAINED;
-        if (this.timerId) {
-          clearTimeout(this.timerId);
-          this.timerId = void 0;
-        }
-        this.emit(EVENT_DRAINED);
-      } else {
-        this.status = SeqQueueManager.STATUS_CLOSED;
-        this.emit(EVENT_CLOSED);
-      }
-    };
-    SeqQueue.prototype._next = function(tid) {
-      if (tid !== this.curId || this.status !== SeqQueueManager.STATUS_BUSY && this.status !== SeqQueueManager.STATUS_CLOSED) {
-        return;
-      }
-      if (this.timerId) {
-        clearTimeout(this.timerId);
-        this.timerId = void 0;
-      }
-      var task = this.queue.shift();
-      if (!task) {
-        if (this.status === SeqQueueManager.STATUS_BUSY) {
-          this.status = SeqQueueManager.STATUS_IDLE;
-          this.curId++;
-        } else {
-          this.status = SeqQueueManager.STATUS_DRAINED;
-          this.emit(EVENT_DRAINED);
-        }
-        return;
-      }
-      var self2 = this;
-      task.id = ++this.curId;
-      var timeout = task.timeout > 0 ? task.timeout : this.timeout;
-      timeout = timeout > 0 ? timeout : DEFAULT_TIMEOUT;
-      this.timerId = setTimeout(function() {
-        process.nextTick(function() {
-          self2._next(task.id);
-        });
-        self2.emit("timeout", task);
-        if (task.ontimeout) {
-          task.ontimeout();
-        }
-      }, timeout);
-      try {
-        task.fn({
-          done: function() {
-            var res = task.id === self2.curId;
-            process.nextTick(function() {
-              self2._next(task.id);
-            });
-            return res;
-          }
-        });
-      } catch (err) {
-        self2.emit("error", err, task);
-        process.nextTick(function() {
-          self2._next(task.id);
-        });
-      }
-    };
-    var SeqQueueManager = module2.exports;
-    SeqQueueManager.STATUS_IDLE = 0;
-    SeqQueueManager.STATUS_BUSY = 1;
-    SeqQueueManager.STATUS_CLOSED = 2;
-    SeqQueueManager.STATUS_DRAINED = 3;
-    SeqQueueManager.createQueue = function(timeout) {
-      return new SeqQueue(timeout);
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/seq-queue@0.0.5/node_modules/seq-queue/index.js
-var require_seq_queue2 = __commonJS({
-  "../../node_modules/.pnpm/seq-queue@0.0.5/node_modules/seq-queue/index.js"(exports, module2) {
-    module2.exports = require_seq_queue();
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/compressed_protocol.js
-var require_compressed_protocol = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/compressed_protocol.js"(exports, module2) {
-    "use strict";
-    var zlib2 = require("zlib");
-    var PacketParser = require_packet_parser();
-    function handleCompressedPacket(packet) {
-      const connection = this;
-      const deflatedLength = packet.readInt24();
-      const body = packet.readBuffer();
-      if (deflatedLength !== 0) {
-        connection.inflateQueue.push((task) => {
-          zlib2.inflate(body, (err, data) => {
-            if (err) {
-              connection._handleNetworkError(err);
-              return;
-            }
-            connection._bumpCompressedSequenceId(packet.numPackets);
-            connection._inflatedPacketsParser.execute(data);
-            task.done();
-          });
-        });
-      } else {
-        connection.inflateQueue.push((task) => {
-          connection._bumpCompressedSequenceId(packet.numPackets);
-          connection._inflatedPacketsParser.execute(body);
-          task.done();
-        });
-      }
-    }
-    function writeCompressed(buffer) {
-      const MAX_COMPRESSED_LENGTH = 16777210;
-      let start;
-      if (buffer.length > MAX_COMPRESSED_LENGTH) {
-        for (start = 0; start < buffer.length; start += MAX_COMPRESSED_LENGTH) {
-          writeCompressed.call(
-            this,
-            buffer.slice(start, start + MAX_COMPRESSED_LENGTH)
-          );
-        }
-        return;
-      }
-      const connection = this;
-      let packetLen = buffer.length;
-      const compressHeader = Buffer.allocUnsafe(7);
-      (function(seqId) {
-        connection.deflateQueue.push((task) => {
-          zlib2.deflate(buffer, (err, compressed) => {
-            if (err) {
-              connection._handleFatalError(err);
-              return;
-            }
-            let compressedLength = compressed.length;
-            if (compressedLength < packetLen) {
-              compressHeader.writeUInt8(compressedLength & 255, 0);
-              compressHeader.writeUInt16LE(compressedLength >> 8, 1);
-              compressHeader.writeUInt8(seqId, 3);
-              compressHeader.writeUInt8(packetLen & 255, 4);
-              compressHeader.writeUInt16LE(packetLen >> 8, 5);
-              connection.writeUncompressed(compressHeader);
-              connection.writeUncompressed(compressed);
-            } else {
-              compressedLength = packetLen;
-              packetLen = 0;
-              compressHeader.writeUInt8(compressedLength & 255, 0);
-              compressHeader.writeUInt16LE(compressedLength >> 8, 1);
-              compressHeader.writeUInt8(seqId, 3);
-              compressHeader.writeUInt8(packetLen & 255, 4);
-              compressHeader.writeUInt16LE(packetLen >> 8, 5);
-              connection.writeUncompressed(compressHeader);
-              connection.writeUncompressed(buffer);
-            }
-            task.done();
-          });
-        });
-      })(connection.compressedSequenceId);
-      connection._bumpCompressedSequenceId(1);
-    }
-    function enableCompression(connection) {
-      connection._lastWrittenPacketId = 0;
-      connection._lastReceivedPacketId = 0;
-      connection._handleCompressedPacket = handleCompressedPacket;
-      connection._inflatedPacketsParser = new PacketParser((p) => {
-        connection.handlePacket(p);
-      }, 4);
-      connection._inflatedPacketsParser._lastPacket = 0;
-      connection.packetParser = new PacketParser((packet) => {
-        connection._handleCompressedPacket(packet);
-      }, 7);
-      connection.writeUncompressed = connection.write;
-      connection.write = writeCompressed;
-      const seqqueue = require_seq_queue2();
-      connection.inflateQueue = seqqueue.createQueue();
-      connection.deflateQueue = seqqueue.createQueue();
-    }
-    module2.exports = {
-      enableCompression
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/client_handshake.js
-var require_client_handshake = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/client_handshake.js"(exports, module2) {
-    "use strict";
-    var Command = require_command();
-    var Packets = require_packets();
-    var ClientConstants = require_client();
-    var CharsetToEncoding = require_charset_encodings();
-    var auth41 = require_auth_41();
-    function flagNames(flags) {
-      const res = [];
-      for (const c2 in ClientConstants) {
-        if (flags & ClientConstants[c2]) {
-          res.push(c2.replace(/_/g, " ").toLowerCase());
-        }
-      }
-      return res;
-    }
-    var ClientHandshake = class extends Command {
-      constructor(clientFlags) {
-        super();
-        this.handshake = null;
-        this.clientFlags = clientFlags;
-      }
-      start() {
-        return ClientHandshake.prototype.handshakeInit;
-      }
-      sendSSLRequest(connection) {
-        const sslRequest = new Packets.SSLRequest(
-          this.clientFlags,
-          connection.config.charsetNumber
-        );
-        connection.writePacket(sslRequest.toPacket());
-      }
-      sendCredentials(connection) {
-        if (connection.config.debug) {
-          console.log(
-            "Sending handshake packet: flags:%d=(%s)",
-            this.clientFlags,
-            flagNames(this.clientFlags).join(", ")
-          );
-        }
-        this.user = connection.config.user;
-        this.password = connection.config.password;
-        this.passwordSha1 = connection.config.passwordSha1;
-        this.database = connection.config.database;
-        this.autPluginName = this.handshake.autPluginName;
-        const handshakeResponse = new Packets.HandshakeResponse({
-          flags: this.clientFlags,
-          user: this.user,
-          database: this.database,
-          password: this.password,
-          passwordSha1: this.passwordSha1,
-          charsetNumber: connection.config.charsetNumber,
-          authPluginData1: this.handshake.authPluginData1,
-          authPluginData2: this.handshake.authPluginData2,
-          compress: connection.config.compress,
-          connectAttributes: connection.config.connectAttributes
-        });
-        connection.writePacket(handshakeResponse.toPacket());
-      }
-      calculateNativePasswordAuthToken(authPluginData) {
-        const authPluginData1 = authPluginData.slice(0, 8);
-        const authPluginData2 = authPluginData.slice(8, 20);
-        let authToken;
-        if (this.passwordSha1) {
-          authToken = auth41.calculateTokenFromPasswordSha(
-            this.passwordSha1,
-            authPluginData1,
-            authPluginData2
-          );
-        } else {
-          authToken = auth41.calculateToken(
-            this.password,
-            authPluginData1,
-            authPluginData2
-          );
-        }
-        return authToken;
-      }
-      handshakeInit(helloPacket, connection) {
-        this.on("error", (e2) => {
-          connection._fatalError = e2;
-          connection._protocolError = e2;
-        });
-        this.handshake = Packets.Handshake.fromPacket(helloPacket);
-        if (connection.config.debug) {
-          console.log(
-            "Server hello packet: capability flags:%d=(%s)",
-            this.handshake.capabilityFlags,
-            flagNames(this.handshake.capabilityFlags).join(", ")
-          );
-        }
-        connection.serverCapabilityFlags = this.handshake.capabilityFlags;
-        connection.serverEncoding = CharsetToEncoding[this.handshake.characterSet];
-        connection.connectionId = this.handshake.connectionId;
-        const serverSSLSupport = this.handshake.capabilityFlags & ClientConstants.SSL;
-        connection.config.compress = connection.config.compress && this.handshake.capabilityFlags & ClientConstants.COMPRESS;
-        this.clientFlags = this.clientFlags | connection.config.compress;
-        if (connection.config.ssl) {
-          if (!serverSSLSupport) {
-            const err = new Error("Server does not support secure connnection");
-            err.code = "HANDSHAKE_NO_SSL_SUPPORT";
-            err.fatal = true;
-            this.emit("error", err);
-            return false;
-          }
-          this.clientFlags |= ClientConstants.SSL;
-          this.sendSSLRequest(connection);
-          connection.startTLS((err) => {
-            if (err) {
-              err.code = "HANDSHAKE_SSL_ERROR";
-              err.fatal = true;
-              this.emit("error", err);
-              return;
-            }
-            this.sendCredentials(connection);
-          });
-        } else {
-          this.sendCredentials(connection);
-        }
-        return ClientHandshake.prototype.handshakeResult;
-      }
-      handshakeResult(packet, connection) {
-        const marker = packet.peekByte();
-        if (marker === 254 || marker === 1) {
-          const authSwitch = require_auth_switch();
-          try {
-            if (marker === 1) {
-              authSwitch.authSwitchRequestMoreData(packet, connection, this);
-            } else {
-              authSwitch.authSwitchRequest(packet, connection, this);
-            }
-            return ClientHandshake.prototype.handshakeResult;
-          } catch (err) {
-            err.code = "AUTH_SWITCH_PLUGIN_ERROR";
-            err.fatal = true;
-            if (this.onResult) {
-              this.onResult(err);
-            } else {
-              this.emit("error", err);
-            }
-            return null;
-          }
-        }
-        if (marker !== 0) {
-          const err = new Error("Unexpected packet during handshake phase");
-          err.code = "HANDSHAKE_UNKNOWN_ERROR";
-          err.fatal = true;
-          if (this.onResult) {
-            this.onResult(err);
-          } else {
-            this.emit("error", err);
-          }
-          return null;
-        }
-        if (!connection.authorized) {
-          connection.authorized = true;
-          if (connection.config.compress) {
-            const enableCompression = require_compressed_protocol().enableCompression;
-            enableCompression(connection);
-          }
-        }
-        if (this.onResult) {
-          this.onResult(null);
-        }
-        return null;
-      }
-    };
-    module2.exports = ClientHandshake;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/server_handshake.js
-var require_server_handshake = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/server_handshake.js"(exports, module2) {
-    "use strict";
-    var CommandCode = require_commands();
-    var Errors = require_errors3();
-    var Command = require_command();
-    var Packets = require_packets();
-    var ServerHandshake = class extends Command {
-      constructor(args) {
-        super();
-        this.args = args;
-      }
-      start(packet, connection) {
-        const serverHelloPacket = new Packets.Handshake(this.args);
-        this.serverHello = serverHelloPacket;
-        serverHelloPacket.setScrambleData((err) => {
-          if (err) {
-            connection.emit("error", new Error("Error generating random bytes"));
-            return;
-          }
-          connection.writePacket(serverHelloPacket.toPacket(0));
-        });
-        return ServerHandshake.prototype.readClientReply;
-      }
-      readClientReply(packet, connection) {
-        const clientHelloReply = Packets.HandshakeResponse.fromPacket(packet);
-        connection.clientHelloReply = clientHelloReply;
-        if (this.args.authCallback) {
-          this.args.authCallback(
-            {
-              user: clientHelloReply.user,
-              database: clientHelloReply.database,
-              address: connection.stream.remoteAddress,
-              authPluginData1: this.serverHello.authPluginData1,
-              authPluginData2: this.serverHello.authPluginData2,
-              authToken: clientHelloReply.authToken
-            },
-            (err, mysqlError) => {
-              if (!mysqlError) {
-                connection.writeOk();
-              } else {
-                connection.writeError({
-                  message: mysqlError.message || "",
-                  code: mysqlError.code || 1045
-                });
-                connection.close();
-              }
-            }
-          );
-        } else {
-          connection.writeOk();
-        }
-        return ServerHandshake.prototype.dispatchCommands;
-      }
-      dispatchCommands(packet, connection) {
-        let knownCommand = true;
-        const encoding = connection.clientHelloReply.encoding;
-        const commandCode = packet.readInt8();
-        switch (commandCode) {
-          case CommandCode.QUIT:
-            if (connection.listeners("quit").length) {
-              connection.emit("quit");
-            } else {
-              connection.stream.end();
-            }
-            break;
-          case CommandCode.INIT_DB:
-            if (connection.listeners("init_db").length) {
-              const schemaName = packet.readString(void 0, encoding);
-              connection.emit("init_db", schemaName);
-            } else {
-              connection.writeOk();
-            }
-            break;
-          case CommandCode.QUERY:
-            if (connection.listeners("query").length) {
-              const query = packet.readString(void 0, encoding);
-              connection.emit("query", query);
-            } else {
-              connection.writeError({
-                code: Errors.HA_ERR_INTERNAL_ERROR,
-                message: "No query handler"
-              });
-            }
-            break;
-          case CommandCode.FIELD_LIST:
-            if (connection.listeners("field_list").length) {
-              const table = packet.readNullTerminatedString();
-              const fields = packet.readString(void 0, encoding);
-              connection.emit("field_list", table, fields);
-            } else {
-              connection.writeError({
-                code: Errors.ER_WARN_DEPRECATED_SYNTAX,
-                message: "As of MySQL 5.7.11, COM_FIELD_LIST is deprecated and will be removed in a future version of MySQL."
-              });
-            }
-            break;
-          case CommandCode.PING:
-            if (connection.listeners("ping").length) {
-              connection.emit("ping");
-            } else {
-              connection.writeOk();
-            }
-            break;
-          default:
-            knownCommand = false;
-        }
-        if (connection.listeners("packet").length) {
-          connection.emit("packet", packet.clone(), knownCommand, commandCode);
-        } else if (!knownCommand) {
-          console.log("Unknown command:", commandCode);
-        }
-        return ServerHandshake.prototype.dispatchCommands;
-      }
-    };
-    module2.exports = ServerHandshake;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/charsets.js
-var require_charsets = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/charsets.js"(exports) {
-    "use strict";
-    exports.BIG5_CHINESE_CI = 1;
-    exports.LATIN2_CZECH_CS = 2;
-    exports.DEC8_SWEDISH_CI = 3;
-    exports.CP850_GENERAL_CI = 4;
-    exports.LATIN1_GERMAN1_CI = 5;
-    exports.HP8_ENGLISH_CI = 6;
-    exports.KOI8R_GENERAL_CI = 7;
-    exports.LATIN1_SWEDISH_CI = 8;
-    exports.LATIN2_GENERAL_CI = 9;
-    exports.SWE7_SWEDISH_CI = 10;
-    exports.ASCII_GENERAL_CI = 11;
-    exports.UJIS_JAPANESE_CI = 12;
-    exports.SJIS_JAPANESE_CI = 13;
-    exports.CP1251_BULGARIAN_CI = 14;
-    exports.LATIN1_DANISH_CI = 15;
-    exports.HEBREW_GENERAL_CI = 16;
-    exports.TIS620_THAI_CI = 18;
-    exports.EUCKR_KOREAN_CI = 19;
-    exports.LATIN7_ESTONIAN_CS = 20;
-    exports.LATIN2_HUNGARIAN_CI = 21;
-    exports.KOI8U_GENERAL_CI = 22;
-    exports.CP1251_UKRAINIAN_CI = 23;
-    exports.GB2312_CHINESE_CI = 24;
-    exports.GREEK_GENERAL_CI = 25;
-    exports.CP1250_GENERAL_CI = 26;
-    exports.LATIN2_CROATIAN_CI = 27;
-    exports.GBK_CHINESE_CI = 28;
-    exports.CP1257_LITHUANIAN_CI = 29;
-    exports.LATIN5_TURKISH_CI = 30;
-    exports.LATIN1_GERMAN2_CI = 31;
-    exports.ARMSCII8_GENERAL_CI = 32;
-    exports.UTF8_GENERAL_CI = 33;
-    exports.CP1250_CZECH_CS = 34;
-    exports.UCS2_GENERAL_CI = 35;
-    exports.CP866_GENERAL_CI = 36;
-    exports.KEYBCS2_GENERAL_CI = 37;
-    exports.MACCE_GENERAL_CI = 38;
-    exports.MACROMAN_GENERAL_CI = 39;
-    exports.CP852_GENERAL_CI = 40;
-    exports.LATIN7_GENERAL_CI = 41;
-    exports.LATIN7_GENERAL_CS = 42;
-    exports.MACCE_BIN = 43;
-    exports.CP1250_CROATIAN_CI = 44;
-    exports.UTF8MB4_GENERAL_CI = 45;
-    exports.UTF8MB4_BIN = 46;
-    exports.LATIN1_BIN = 47;
-    exports.LATIN1_GENERAL_CI = 48;
-    exports.LATIN1_GENERAL_CS = 49;
-    exports.CP1251_BIN = 50;
-    exports.CP1251_GENERAL_CI = 51;
-    exports.CP1251_GENERAL_CS = 52;
-    exports.MACROMAN_BIN = 53;
-    exports.UTF16_GENERAL_CI = 54;
-    exports.UTF16_BIN = 55;
-    exports.UTF16LE_GENERAL_CI = 56;
-    exports.CP1256_GENERAL_CI = 57;
-    exports.CP1257_BIN = 58;
-    exports.CP1257_GENERAL_CI = 59;
-    exports.UTF32_GENERAL_CI = 60;
-    exports.UTF32_BIN = 61;
-    exports.UTF16LE_BIN = 62;
-    exports.BINARY = 63;
-    exports.ARMSCII8_BIN = 64;
-    exports.ASCII_BIN = 65;
-    exports.CP1250_BIN = 66;
-    exports.CP1256_BIN = 67;
-    exports.CP866_BIN = 68;
-    exports.DEC8_BIN = 69;
-    exports.GREEK_BIN = 70;
-    exports.HEBREW_BIN = 71;
-    exports.HP8_BIN = 72;
-    exports.KEYBCS2_BIN = 73;
-    exports.KOI8R_BIN = 74;
-    exports.KOI8U_BIN = 75;
-    exports.UTF8_TOLOWER_CI = 76;
-    exports.LATIN2_BIN = 77;
-    exports.LATIN5_BIN = 78;
-    exports.LATIN7_BIN = 79;
-    exports.CP850_BIN = 80;
-    exports.CP852_BIN = 81;
-    exports.SWE7_BIN = 82;
-    exports.UTF8_BIN = 83;
-    exports.BIG5_BIN = 84;
-    exports.EUCKR_BIN = 85;
-    exports.GB2312_BIN = 86;
-    exports.GBK_BIN = 87;
-    exports.SJIS_BIN = 88;
-    exports.TIS620_BIN = 89;
-    exports.UCS2_BIN = 90;
-    exports.UJIS_BIN = 91;
-    exports.GEOSTD8_GENERAL_CI = 92;
-    exports.GEOSTD8_BIN = 93;
-    exports.LATIN1_SPANISH_CI = 94;
-    exports.CP932_JAPANESE_CI = 95;
-    exports.CP932_BIN = 96;
-    exports.EUCJPMS_JAPANESE_CI = 97;
-    exports.EUCJPMS_BIN = 98;
-    exports.CP1250_POLISH_CI = 99;
-    exports.UTF16_UNICODE_CI = 101;
-    exports.UTF16_ICELANDIC_CI = 102;
-    exports.UTF16_LATVIAN_CI = 103;
-    exports.UTF16_ROMANIAN_CI = 104;
-    exports.UTF16_SLOVENIAN_CI = 105;
-    exports.UTF16_POLISH_CI = 106;
-    exports.UTF16_ESTONIAN_CI = 107;
-    exports.UTF16_SPANISH_CI = 108;
-    exports.UTF16_SWEDISH_CI = 109;
-    exports.UTF16_TURKISH_CI = 110;
-    exports.UTF16_CZECH_CI = 111;
-    exports.UTF16_DANISH_CI = 112;
-    exports.UTF16_LITHUANIAN_CI = 113;
-    exports.UTF16_SLOVAK_CI = 114;
-    exports.UTF16_SPANISH2_CI = 115;
-    exports.UTF16_ROMAN_CI = 116;
-    exports.UTF16_PERSIAN_CI = 117;
-    exports.UTF16_ESPERANTO_CI = 118;
-    exports.UTF16_HUNGARIAN_CI = 119;
-    exports.UTF16_SINHALA_CI = 120;
-    exports.UTF16_GERMAN2_CI = 121;
-    exports.UTF16_CROATIAN_CI = 122;
-    exports.UTF16_UNICODE_520_CI = 123;
-    exports.UTF16_VIETNAMESE_CI = 124;
-    exports.UCS2_UNICODE_CI = 128;
-    exports.UCS2_ICELANDIC_CI = 129;
-    exports.UCS2_LATVIAN_CI = 130;
-    exports.UCS2_ROMANIAN_CI = 131;
-    exports.UCS2_SLOVENIAN_CI = 132;
-    exports.UCS2_POLISH_CI = 133;
-    exports.UCS2_ESTONIAN_CI = 134;
-    exports.UCS2_SPANISH_CI = 135;
-    exports.UCS2_SWEDISH_CI = 136;
-    exports.UCS2_TURKISH_CI = 137;
-    exports.UCS2_CZECH_CI = 138;
-    exports.UCS2_DANISH_CI = 139;
-    exports.UCS2_LITHUANIAN_CI = 140;
-    exports.UCS2_SLOVAK_CI = 141;
-    exports.UCS2_SPANISH2_CI = 142;
-    exports.UCS2_ROMAN_CI = 143;
-    exports.UCS2_PERSIAN_CI = 144;
-    exports.UCS2_ESPERANTO_CI = 145;
-    exports.UCS2_HUNGARIAN_CI = 146;
-    exports.UCS2_SINHALA_CI = 147;
-    exports.UCS2_GERMAN2_CI = 148;
-    exports.UCS2_CROATIAN_CI = 149;
-    exports.UCS2_UNICODE_520_CI = 150;
-    exports.UCS2_VIETNAMESE_CI = 151;
-    exports.UCS2_GENERAL_MYSQL500_CI = 159;
-    exports.UTF32_UNICODE_CI = 160;
-    exports.UTF32_ICELANDIC_CI = 161;
-    exports.UTF32_LATVIAN_CI = 162;
-    exports.UTF32_ROMANIAN_CI = 163;
-    exports.UTF32_SLOVENIAN_CI = 164;
-    exports.UTF32_POLISH_CI = 165;
-    exports.UTF32_ESTONIAN_CI = 166;
-    exports.UTF32_SPANISH_CI = 167;
-    exports.UTF32_SWEDISH_CI = 168;
-    exports.UTF32_TURKISH_CI = 169;
-    exports.UTF32_CZECH_CI = 170;
-    exports.UTF32_DANISH_CI = 171;
-    exports.UTF32_LITHUANIAN_CI = 172;
-    exports.UTF32_SLOVAK_CI = 173;
-    exports.UTF32_SPANISH2_CI = 174;
-    exports.UTF32_ROMAN_CI = 175;
-    exports.UTF32_PERSIAN_CI = 176;
-    exports.UTF32_ESPERANTO_CI = 177;
-    exports.UTF32_HUNGARIAN_CI = 178;
-    exports.UTF32_SINHALA_CI = 179;
-    exports.UTF32_GERMAN2_CI = 180;
-    exports.UTF32_CROATIAN_CI = 181;
-    exports.UTF32_UNICODE_520_CI = 182;
-    exports.UTF32_VIETNAMESE_CI = 183;
-    exports.UTF8_UNICODE_CI = 192;
-    exports.UTF8_ICELANDIC_CI = 193;
-    exports.UTF8_LATVIAN_CI = 194;
-    exports.UTF8_ROMANIAN_CI = 195;
-    exports.UTF8_SLOVENIAN_CI = 196;
-    exports.UTF8_POLISH_CI = 197;
-    exports.UTF8_ESTONIAN_CI = 198;
-    exports.UTF8_SPANISH_CI = 199;
-    exports.UTF8_SWEDISH_CI = 200;
-    exports.UTF8_TURKISH_CI = 201;
-    exports.UTF8_CZECH_CI = 202;
-    exports.UTF8_DANISH_CI = 203;
-    exports.UTF8_LITHUANIAN_CI = 204;
-    exports.UTF8_SLOVAK_CI = 205;
-    exports.UTF8_SPANISH2_CI = 206;
-    exports.UTF8_ROMAN_CI = 207;
-    exports.UTF8_PERSIAN_CI = 208;
-    exports.UTF8_ESPERANTO_CI = 209;
-    exports.UTF8_HUNGARIAN_CI = 210;
-    exports.UTF8_SINHALA_CI = 211;
-    exports.UTF8_GERMAN2_CI = 212;
-    exports.UTF8_CROATIAN_CI = 213;
-    exports.UTF8_UNICODE_520_CI = 214;
-    exports.UTF8_VIETNAMESE_CI = 215;
-    exports.UTF8_GENERAL_MYSQL500_CI = 223;
-    exports.UTF8MB4_UNICODE_CI = 224;
-    exports.UTF8MB4_ICELANDIC_CI = 225;
-    exports.UTF8MB4_LATVIAN_CI = 226;
-    exports.UTF8MB4_ROMANIAN_CI = 227;
-    exports.UTF8MB4_SLOVENIAN_CI = 228;
-    exports.UTF8MB4_POLISH_CI = 229;
-    exports.UTF8MB4_ESTONIAN_CI = 230;
-    exports.UTF8MB4_SPANISH_CI = 231;
-    exports.UTF8MB4_SWEDISH_CI = 232;
-    exports.UTF8MB4_TURKISH_CI = 233;
-    exports.UTF8MB4_CZECH_CI = 234;
-    exports.UTF8MB4_DANISH_CI = 235;
-    exports.UTF8MB4_LITHUANIAN_CI = 236;
-    exports.UTF8MB4_SLOVAK_CI = 237;
-    exports.UTF8MB4_SPANISH2_CI = 238;
-    exports.UTF8MB4_ROMAN_CI = 239;
-    exports.UTF8MB4_PERSIAN_CI = 240;
-    exports.UTF8MB4_ESPERANTO_CI = 241;
-    exports.UTF8MB4_HUNGARIAN_CI = 242;
-    exports.UTF8MB4_SINHALA_CI = 243;
-    exports.UTF8MB4_GERMAN2_CI = 244;
-    exports.UTF8MB4_CROATIAN_CI = 245;
-    exports.UTF8MB4_UNICODE_520_CI = 246;
-    exports.UTF8MB4_VIETNAMESE_CI = 247;
-    exports.GB18030_CHINESE_CI = 248;
-    exports.GB18030_BIN = 249;
-    exports.GB18030_UNICODE_520_CI = 250;
-    exports.UTF8_GENERAL50_CI = 253;
-    exports.UTF8MB4_0900_AI_CI = 255;
-    exports.UTF8MB4_CS_0900_AI_CI = 266;
-    exports.UTF8MB4_DA_0900_AI_CI = 267;
-    exports.UTF8MB4_DE_PB_0900_AI_CI = 256;
-    exports.UTF8MB4_EO_0900_AI_CI = 273;
-    exports.UTF8MB4_ES_0900_AI_CI = 263;
-    exports.UTF8MB4_ES_TRAD_0900_AI_CI = 270;
-    exports.UTF8MB4_ET_0900_AI_CI = 262;
-    exports.UTF8MB4_HR_0900_AI_CI = 275;
-    exports.UTF8MB4_HU_0900_AI_CI = 274;
-    exports.UTF8MB4_IS_0900_AI_CI = 257;
-    exports.UTF8MB4_LA_0900_AI_CI = 271;
-    exports.UTF8MB4_LT_0900_AI_CI = 268;
-    exports.UTF8MB4_LV_0900_AI_CI = 258;
-    exports.UTF8MB4_PL_0900_AI_CI = 261;
-    exports.UTF8MB4_RO_0900_AI_CI = 259;
-    exports.UTF8MB4_SK_0900_AI_CI = 269;
-    exports.UTF8MB4_SL_0900_AI_CI = 260;
-    exports.UTF8MB4_SV_0900_AI_CI = 264;
-    exports.UTF8MB4_TR_0900_AI_CI = 265;
-    exports.UTF8MB4_VI_0900_AI_CI = 277;
-    exports.BIG5 = exports.BIG5_CHINESE_CI;
-    exports.DEC8 = exports.DEC8_SWEDISH_CI;
-    exports.CP850 = exports.CP850_GENERAL_CI;
-    exports.HP8 = exports.HP8_ENGLISH_CI;
-    exports.KOI8R = exports.KOI8R_GENERAL_CI;
-    exports.LATIN1 = exports.LATIN1_SWEDISH_CI;
-    exports.LATIN2 = exports.LATIN2_GENERAL_CI;
-    exports.SWE7 = exports.SWE7_SWEDISH_CI;
-    exports.ASCII = exports.ASCII_GENERAL_CI;
-    exports.UJIS = exports.UJIS_JAPANESE_CI;
-    exports.SJIS = exports.SJIS_JAPANESE_CI;
-    exports.HEBREW = exports.HEBREW_GENERAL_CI;
-    exports.TIS620 = exports.TIS620_THAI_CI;
-    exports.EUCKR = exports.EUCKR_KOREAN_CI;
-    exports.KOI8U = exports.KOI8U_GENERAL_CI;
-    exports.GB2312 = exports.GB2312_CHINESE_CI;
-    exports.GREEK = exports.GREEK_GENERAL_CI;
-    exports.CP1250 = exports.CP1250_GENERAL_CI;
-    exports.GBK = exports.GBK_CHINESE_CI;
-    exports.LATIN5 = exports.LATIN5_TURKISH_CI;
-    exports.ARMSCII8 = exports.ARMSCII8_GENERAL_CI;
-    exports.UTF8 = exports.UTF8_GENERAL_CI;
-    exports.UCS2 = exports.UCS2_GENERAL_CI;
-    exports.CP866 = exports.CP866_GENERAL_CI;
-    exports.KEYBCS2 = exports.KEYBCS2_GENERAL_CI;
-    exports.MACCE = exports.MACCE_GENERAL_CI;
-    exports.MACROMAN = exports.MACROMAN_GENERAL_CI;
-    exports.CP852 = exports.CP852_GENERAL_CI;
-    exports.LATIN7 = exports.LATIN7_GENERAL_CI;
-    exports.UTF8MB4 = exports.UTF8MB4_GENERAL_CI;
-    exports.CP1251 = exports.CP1251_GENERAL_CI;
-    exports.UTF16 = exports.UTF16_GENERAL_CI;
-    exports.UTF16LE = exports.UTF16LE_GENERAL_CI;
-    exports.CP1256 = exports.CP1256_GENERAL_CI;
-    exports.CP1257 = exports.CP1257_GENERAL_CI;
-    exports.UTF32 = exports.UTF32_GENERAL_CI;
-    exports.CP932 = exports.CP932_JAPANESE_CI;
-    exports.EUCJPMS = exports.EUCJPMS_JAPANESE_CI;
-    exports.GB18030 = exports.GB18030_CHINESE_CI;
-    exports.GEOSTD8 = exports.GEOSTD8_GENERAL_CI;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/helpers.js
-var require_helpers = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/helpers.js"(exports) {
-    "use strict";
-    function srcEscape(str) {
-      return JSON.stringify({
-        [str]: 1
-      }).slice(1, -3);
-    }
-    exports.srcEscape = srcEscape;
-    var highlightFn;
-    var cardinalRecommended = false;
-    try {
-      highlightFn = require("cardinal").highlight;
-    } catch (err) {
-      highlightFn = (text) => {
-        if (!cardinalRecommended) {
-          console.log("For nicer debug output consider install cardinal@^2.0.0");
-          cardinalRecommended = true;
-        }
-        return text;
-      };
-    }
-    function printDebugWithCode(msg, code) {
-      console.log(`
-
-${msg}:
-`);
-      console.log(`${highlightFn(code)}
-`);
-    }
-    exports.printDebugWithCode = printDebugWithCode;
-    function typeMatch(type, list, Types) {
-      if (Array.isArray(list)) {
-        return list.some((t2) => type === Types[t2]);
-      }
-      return !!list;
-    }
-    exports.typeMatch = typeMatch;
-  }
-});
-
-// ../../node_modules/.pnpm/is-property@1.0.2/node_modules/is-property/is-property.js
-var require_is_property = __commonJS({
-  "../../node_modules/.pnpm/is-property@1.0.2/node_modules/is-property/is-property.js"(exports, module2) {
-    "use strict";
-    function isProperty(str) {
-      return /^[$A-Z\_a-z\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u0527\u0531-\u0556\u0559\u0561-\u0587\u05d0-\u05ea\u05f0-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u08a0\u08a2-\u08ac\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0977\u0979-\u097f\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c33\u0c35-\u0c39\u0c3d\u0c58\u0c59\u0c60\u0c61\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d60\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e87\u0e88\u0e8a\u0e8d\u0e94-\u0e97\u0e99-\u0e9f\u0ea1-\u0ea3\u0ea5\u0ea7\u0eaa\u0eab\u0ead-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f4\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f0\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1877\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191c\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19c1-\u19c7\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1ce9-\u1cec\u1cee-\u1cf1\u1cf5\u1cf6\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2119-\u211d\u2124\u2126\u2128\u212a-\u212d\u212f-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2e2f\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309d-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312d\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fcc\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua697\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua78e\ua790-\ua793\ua7a0-\ua7aa\ua7f8-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa80-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uabc0-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc][$A-Z\_a-z\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u0527\u0531-\u0556\u0559\u0561-\u0587\u05d0-\u05ea\u05f0-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u08a0\u08a2-\u08ac\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0977\u0979-\u097f\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c33\u0c35-\u0c39\u0c3d\u0c58\u0c59\u0c60\u0c61\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d60\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e87\u0e88\u0e8a\u0e8d\u0e94-\u0e97\u0e99-\u0e9f\u0ea1-\u0ea3\u0ea5\u0ea7\u0eaa\u0eab\u0ead-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f4\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f0\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1877\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191c\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19c1-\u19c7\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1ce9-\u1cec\u1cee-\u1cf1\u1cf5\u1cf6\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2119-\u211d\u2124\u2126\u2128\u212a-\u212d\u212f-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2e2f\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309d-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312d\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fcc\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua697\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua78e\ua790-\ua793\ua7a0-\ua7aa\ua7f8-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa80-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uabc0-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc0-9\u0300-\u036f\u0483-\u0487\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u0669\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed\u06f0-\u06f9\u0711\u0730-\u074a\u07a6-\u07b0\u07c0-\u07c9\u07eb-\u07f3\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0859-\u085b\u08e4-\u08fe\u0900-\u0903\u093a-\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u0966-\u096f\u0981-\u0983\u09bc\u09be-\u09c4\u09c7\u09c8\u09cb-\u09cd\u09d7\u09e2\u09e3\u09e6-\u09ef\u0a01-\u0a03\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a66-\u0a71\u0a75\u0a81-\u0a83\u0abc\u0abe-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ae2\u0ae3\u0ae6-\u0aef\u0b01-\u0b03\u0b3c\u0b3e-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b56\u0b57\u0b62\u0b63\u0b66-\u0b6f\u0b82\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd7\u0be6-\u0bef\u0c01-\u0c03\u0c3e-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0c66-\u0c6f\u0c82\u0c83\u0cbc\u0cbe-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0ce6-\u0cef\u0d02\u0d03\u0d3e-\u0d44\u0d46-\u0d48\u0d4a-\u0d4d\u0d57\u0d62\u0d63\u0d66-\u0d6f\u0d82\u0d83\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0df2\u0df3\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0e50-\u0e59\u0eb1\u0eb4-\u0eb9\u0ebb\u0ebc\u0ec8-\u0ecd\u0ed0-\u0ed9\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e\u0f3f\u0f71-\u0f84\u0f86\u0f87\u0f8d-\u0f97\u0f99-\u0fbc\u0fc6\u102b-\u103e\u1040-\u1049\u1056-\u1059\u105e-\u1060\u1062-\u1064\u1067-\u106d\u1071-\u1074\u1082-\u108d\u108f-\u109d\u135d-\u135f\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17b4-\u17d3\u17dd\u17e0-\u17e9\u180b-\u180d\u1810-\u1819\u18a9\u1920-\u192b\u1930-\u193b\u1946-\u194f\u19b0-\u19c0\u19c8\u19c9\u19d0-\u19d9\u1a17-\u1a1b\u1a55-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1b00-\u1b04\u1b34-\u1b44\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1b82\u1ba1-\u1bad\u1bb0-\u1bb9\u1be6-\u1bf3\u1c24-\u1c37\u1c40-\u1c49\u1c50-\u1c59\u1cd0-\u1cd2\u1cd4-\u1ce8\u1ced\u1cf2-\u1cf4\u1dc0-\u1de6\u1dfc-\u1dff\u200c\u200d\u203f\u2040\u2054\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2cef-\u2cf1\u2d7f\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua620-\ua629\ua66f\ua674-\ua67d\ua69f\ua6f0\ua6f1\ua802\ua806\ua80b\ua823-\ua827\ua880\ua881\ua8b4-\ua8c4\ua8d0-\ua8d9\ua8e0-\ua8f1\ua900-\ua909\ua926-\ua92d\ua947-\ua953\ua980-\ua983\ua9b3-\ua9c0\ua9d0-\ua9d9\uaa29-\uaa36\uaa43\uaa4c\uaa4d\uaa50-\uaa59\uaa7b\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uaaeb-\uaaef\uaaf5\uaaf6\uabe3-\uabea\uabec\uabed\uabf0-\uabf9\ufb1e\ufe00-\ufe0f\ufe20-\ufe26\ufe33\ufe34\ufe4d-\ufe4f\uff10-\uff19\uff3f]*$/.test(str);
-    }
-    module2.exports = isProperty;
-  }
-});
-
-// ../../node_modules/.pnpm/generate-function@2.3.1/node_modules/generate-function/index.js
-var require_generate_function = __commonJS({
-  "../../node_modules/.pnpm/generate-function@2.3.1/node_modules/generate-function/index.js"(exports, module2) {
-    var util = require("util");
-    var isProperty = require_is_property();
-    var INDENT_START = /[\{\[]/;
-    var INDENT_END = /[\}\]]/;
-    var RESERVED = [
-      "do",
-      "if",
-      "in",
-      "for",
-      "let",
-      "new",
-      "try",
-      "var",
-      "case",
-      "else",
-      "enum",
-      "eval",
-      "null",
-      "this",
-      "true",
-      "void",
-      "with",
-      "await",
-      "break",
-      "catch",
-      "class",
-      "const",
-      "false",
-      "super",
-      "throw",
-      "while",
-      "yield",
-      "delete",
-      "export",
-      "import",
-      "public",
-      "return",
-      "static",
-      "switch",
-      "typeof",
-      "default",
-      "extends",
-      "finally",
-      "package",
-      "private",
-      "continue",
-      "debugger",
-      "function",
-      "arguments",
-      "interface",
-      "protected",
-      "implements",
-      "instanceof",
-      "NaN",
-      "undefined"
-    ];
-    var RESERVED_MAP = {};
-    for (i2 = 0; i2 < RESERVED.length; i2++) {
-      RESERVED_MAP[RESERVED[i2]] = true;
-    }
-    var i2;
-    var isVariable = function(name) {
-      return isProperty(name) && !RESERVED_MAP.hasOwnProperty(name);
-    };
-    var formats = {
-      s: function(s2) {
-        return "" + s2;
-      },
-      d: function(d) {
-        return "" + Number(d);
-      },
-      o: function(o2) {
-        return JSON.stringify(o2);
-      }
-    };
-    var genfun = function() {
-      var lines = [];
-      var indent = 0;
-      var vars = {};
-      var push = function(str) {
-        var spaces = "";
-        while (spaces.length < indent * 2)
-          spaces += "  ";
-        lines.push(spaces + str);
-      };
-      var pushLine = function(line2) {
-        if (INDENT_END.test(line2.trim()[0]) && INDENT_START.test(line2[line2.length - 1])) {
-          indent--;
-          push(line2);
-          indent++;
-          return;
-        }
-        if (INDENT_START.test(line2[line2.length - 1])) {
-          push(line2);
-          indent++;
-          return;
-        }
-        if (INDENT_END.test(line2.trim()[0])) {
-          indent--;
-          push(line2);
-          return;
-        }
-        push(line2);
-      };
-      var line = function(fmt) {
-        if (!fmt)
-          return line;
-        if (arguments.length === 1 && fmt.indexOf("\n") > -1) {
-          var lines2 = fmt.trim().split("\n");
-          for (var i3 = 0; i3 < lines2.length; i3++) {
-            pushLine(lines2[i3].trim());
-          }
-        } else {
-          pushLine(util.format.apply(util, arguments));
-        }
-        return line;
-      };
-      line.scope = {};
-      line.formats = formats;
-      line.sym = function(name) {
-        if (!name || !isVariable(name))
-          name = "tmp";
-        if (!vars[name])
-          vars[name] = 0;
-        return name + (vars[name]++ || "");
-      };
-      line.property = function(obj, name) {
-        if (arguments.length === 1) {
-          name = obj;
-          obj = "";
-        }
-        name = name + "";
-        if (isProperty(name))
-          return obj ? obj + "." + name : name;
-        return obj ? obj + "[" + JSON.stringify(name) + "]" : JSON.stringify(name);
-      };
-      line.toString = function() {
-        return lines.join("\n");
-      };
-      line.toFunction = function(scope) {
-        if (!scope)
-          scope = {};
-        var src = "return (" + line.toString() + ")";
-        Object.keys(line.scope).forEach(function(key) {
-          if (!scope[key])
-            scope[key] = line.scope[key];
-        });
-        var keys = Object.keys(scope).map(function(key) {
-          return key;
-        });
-        var vals = keys.map(function(key) {
-          return scope[key];
-        });
-        return Function.apply(null, keys.concat(src)).apply(null, vals);
-      };
-      if (arguments.length)
-        line.apply(null, arguments);
-      return line;
-    };
-    genfun.formats = formats;
-    module2.exports = genfun;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/parsers/parser_cache.js
-var require_parser_cache = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/parsers/parser_cache.js"(exports, module2) {
-    "use strict";
-    var LRU = require_lru_cache();
-    var parserCache = new LRU({
-      max: 15e3
-    });
-    function keyFromFields(type, fields, options, config4) {
-      let res = `${type}/${typeof options.nestTables}/${options.nestTables}/${options.rowsAsArray}/${options.supportBigNumbers || config4.supportBigNumbers}/${options.bigNumberStrings || config4.bigNumberStrings}/${typeof options.typeCast}/${options.timezone || config4.timezone}/${options.decimalNumbers}/${options.dateStrings}`;
-      for (let i2 = 0; i2 < fields.length; ++i2) {
-        const field = fields[i2];
-        res += `/${field.name}:${field.columnType}:${field.length}:${field.schema}:${field.table}:${field.flags}:${field.characterSet}`;
-      }
-      return res;
-    }
-    function getParser(type, fields, options, config4, compiler) {
-      const key = keyFromFields(type, fields, options, config4);
-      let parser = parserCache.get(key);
-      if (parser) {
-        return parser;
-      }
-      parser = compiler(fields, options, config4);
-      parserCache.set(key, parser);
-      return parser;
-    }
-    function setMaxCache(max) {
-      parserCache.max = max;
-    }
-    function clearCache() {
-      parserCache.reset();
-    }
-    module2.exports = {
-      getParser,
-      setMaxCache,
-      clearCache
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/parsers/text_parser.js
-var require_text_parser = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/parsers/text_parser.js"(exports, module2) {
-    "use strict";
-    var Types = require_types();
-    var Charsets = require_charsets();
-    var helpers = require_helpers();
-    var genFunc = require_generate_function();
-    var parserCache = require_parser_cache();
-    var typeNames = [];
-    for (const t2 in Types) {
-      typeNames[Types[t2]] = t2;
-    }
-    function readCodeFor(type, charset, encodingExpr, config4, options) {
-      const supportBigNumbers = options.supportBigNumbers || config4.supportBigNumbers;
-      const bigNumberStrings = options.bigNumberStrings || config4.bigNumberStrings;
-      const timezone = options.timezone || config4.timezone;
-      const dateStrings = options.dateStrings || config4.dateStrings;
-      switch (type) {
-        case Types.TINY:
-        case Types.SHORT:
-        case Types.LONG:
-        case Types.INT24:
-        case Types.YEAR:
-          return "packet.parseLengthCodedIntNoBigCheck()";
-        case Types.LONGLONG:
-          if (supportBigNumbers && bigNumberStrings) {
-            return "packet.parseLengthCodedIntString()";
-          }
-          return `packet.parseLengthCodedInt(${supportBigNumbers})`;
-        case Types.FLOAT:
-        case Types.DOUBLE:
-          return "packet.parseLengthCodedFloat()";
-        case Types.NULL:
-          return "packet.readLengthCodedNumber()";
-        case Types.DECIMAL:
-        case Types.NEWDECIMAL:
-          if (config4.decimalNumbers) {
-            return "packet.parseLengthCodedFloat()";
-          }
-          return 'packet.readLengthCodedString("ascii")';
-        case Types.DATE:
-          if (helpers.typeMatch(type, dateStrings, Types)) {
-            return 'packet.readLengthCodedString("ascii")';
-          }
-          return `packet.parseDate('${timezone}')`;
-        case Types.DATETIME:
-        case Types.TIMESTAMP:
-          if (helpers.typeMatch(type, dateStrings, Types)) {
-            return 'packet.readLengthCodedString("ascii")';
-          }
-          return `packet.parseDateTime('${timezone}')`;
-        case Types.TIME:
-          return 'packet.readLengthCodedString("ascii")';
-        case Types.GEOMETRY:
-          return "packet.parseGeometryValue()";
-        case Types.JSON:
-          return 'JSON.parse(packet.readLengthCodedString("utf8"))';
-        default:
-          if (charset === Charsets.BINARY) {
-            return "packet.readLengthCodedBuffer()";
-          }
-          return `packet.readLengthCodedString(${encodingExpr})`;
-      }
-    }
-    function compile(fields, options, config4) {
-      if (typeof config4.typeCast === "function" && typeof options.typeCast !== "function") {
-        options.typeCast = config4.typeCast;
-      }
-      function wrap(field, _this) {
-        return {
-          type: typeNames[field.columnType],
-          length: field.columnLength,
-          db: field.schema,
-          table: field.table,
-          name: field.name,
-          string: function() {
-            return _this.packet.readLengthCodedString(field.encoding);
-          },
-          buffer: function() {
-            return _this.packet.readLengthCodedBuffer();
-          },
-          geometry: function() {
-            return _this.packet.parseGeometryValue();
-          }
-        };
-      }
-      const parserFn = genFunc();
-      parserFn("(function () {")(
-        "return class TextRow {"
-      );
-      parserFn("constructor(fields) {");
-      if (typeof options.typeCast === "function") {
-        parserFn("const _this = this;");
-        parserFn("for(let i=0; i<fields.length; ++i) {");
-        parserFn("this[`wrap${i}`] = wrap(fields[i], _this);");
-        parserFn("}");
-      }
-      parserFn("}");
-      parserFn("next(packet, fields, options) {");
-      parserFn("this.packet = packet;");
-      if (options.rowsAsArray) {
-        parserFn(`const result = new Array(${fields.length});`);
-      } else {
-        parserFn("const result = {};");
-      }
-      const resultTables = {};
-      let resultTablesArray = [];
-      if (options.nestTables === true) {
-        for (let i2 = 0; i2 < fields.length; i2++) {
-          resultTables[fields[i2].table] = 1;
-        }
-        resultTablesArray = Object.keys(resultTables);
-        for (let i2 = 0; i2 < resultTablesArray.length; i2++) {
-          parserFn(`result[${helpers.srcEscape(resultTablesArray[i2])}] = {};`);
-        }
-      }
-      let lvalue = "";
-      let fieldName = "";
-      for (let i2 = 0; i2 < fields.length; i2++) {
-        fieldName = helpers.srcEscape(fields[i2].name);
-        parserFn(`// ${fieldName}: ${typeNames[fields[i2].columnType]}`);
-        if (typeof options.nestTables === "string") {
-          lvalue = `result[${helpers.srcEscape(
-            fields[i2].table + options.nestTables + fields[i2].name
-          )}]`;
-        } else if (options.nestTables === true) {
-          lvalue = `result[${helpers.srcEscape(fields[i2].table)}][${fieldName}]`;
-        } else if (options.rowsAsArray) {
-          lvalue = `result[${i2.toString(10)}]`;
-        } else {
-          lvalue = `result[${fieldName}]`;
-        }
-        if (options.typeCast === false) {
-          parserFn(`${lvalue} = packet.readLengthCodedBuffer();`);
-        } else {
-          const encodingExpr = `fields[${i2}].encoding`;
-          const readCode = readCodeFor(
-            fields[i2].columnType,
-            fields[i2].characterSet,
-            encodingExpr,
-            config4,
-            options
-          );
-          if (typeof options.typeCast === "function") {
-            parserFn(`${lvalue} = options.typeCast(this.wrap${i2}, function() { return ${readCode} });`);
-          } else {
-            parserFn(`${lvalue} = ${readCode};`);
-          }
-        }
-      }
-      parserFn("return result;");
-      parserFn("}");
-      parserFn("};")("})()");
-      if (config4.debug) {
-        helpers.printDebugWithCode(
-          "Compiled text protocol row parser",
-          parserFn.toString()
-        );
-      }
-      if (typeof options.typeCast === "function") {
-        return parserFn.toFunction({ wrap });
-      }
-      return parserFn.toFunction();
-    }
-    function getTextParser(fields, options, config4) {
-      return parserCache.getParser("text", fields, options, config4, compile);
-    }
-    module2.exports = getTextParser;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/query.js
-var require_query2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/query.js"(exports, module2) {
-    "use strict";
-    var process2 = require("process");
-    var Timers = require("timers");
-    var Readable = require("stream").Readable;
-    var Command = require_command();
-    var Packets = require_packets();
-    var getTextParser = require_text_parser();
-    var ServerStatus = require_server_status();
-    var EmptyPacket = new Packets.Packet(0, Buffer.allocUnsafe(4), 0, 4);
-    var Query = class extends Command {
-      constructor(options, callback) {
-        super();
-        this.sql = options.sql;
-        this.values = options.values;
-        this._queryOptions = options;
-        this.namedPlaceholders = options.namedPlaceholders || false;
-        this.onResult = callback;
-        this.timeout = options.timeout;
-        this.queryTimeout = null;
-        this._fieldCount = 0;
-        this._rowParser = null;
-        this._fields = [];
-        this._rows = [];
-        this._receivedFieldsCount = 0;
-        this._resultIndex = 0;
-        this._localStream = null;
-        this._unpipeStream = function() {
-        };
-        this._streamFactory = options.infileStreamFactory;
-        this._connection = null;
-      }
-      then() {
-        const err = "You have tried to call .then(), .catch(), or invoked await on the result of query that is not a promise, which is a programming error. Try calling con.promise().query(), or require('mysql2/promise') instead of 'mysql2' for a promise-compatible version of the query interface. To learn how to use async/await or Promises check out documentation at https://www.npmjs.com/package/mysql2#using-promise-wrapper, or the mysql2 documentation at https://github.com/sidorares/node-mysql2/tree/master/documentation/Promise-Wrapper.md";
-        console.log(err);
-        throw new Error(err);
-      }
-      start(_packet, connection) {
-        if (connection.config.debug) {
-          console.log("        Sending query command: %s", this.sql);
-        }
-        this._connection = connection;
-        this.options = Object.assign({}, connection.config, this._queryOptions);
-        this._setTimeout();
-        const cmdPacket = new Packets.Query(
-          this.sql,
-          connection.config.charsetNumber
-        );
-        connection.writePacket(cmdPacket.toPacket(1));
-        return Query.prototype.resultsetHeader;
-      }
-      done() {
-        this._unpipeStream();
-        if (this.timeout && !this.queryTimeout) {
-          return null;
-        }
-        if (this.queryTimeout) {
-          Timers.clearTimeout(this.queryTimeout);
-          this.queryTimeout = null;
-        }
-        if (this.onResult) {
-          let rows, fields;
-          if (this._resultIndex === 0) {
-            rows = this._rows[0];
-            fields = this._fields[0];
-          } else {
-            rows = this._rows;
-            fields = this._fields;
-          }
-          if (fields) {
-            process2.nextTick(() => {
-              this.onResult(null, rows, fields);
-            });
-          } else {
-            process2.nextTick(() => {
-              this.onResult(null, rows);
-            });
-          }
-        }
-        return null;
-      }
-      doneInsert(rs) {
-        if (this._localStreamError) {
-          if (this.onResult) {
-            this.onResult(this._localStreamError, rs);
-          } else {
-            this.emit("error", this._localStreamError);
-          }
-          return null;
-        }
-        this._rows.push(rs);
-        this._fields.push(void 0);
-        this.emit("fields", void 0);
-        this.emit("result", rs);
-        if (rs.serverStatus & ServerStatus.SERVER_MORE_RESULTS_EXISTS) {
-          this._resultIndex++;
-          return this.resultsetHeader;
-        }
-        return this.done();
-      }
-      resultsetHeader(packet, connection) {
-        const rs = new Packets.ResultSetHeader(packet, connection);
-        this._fieldCount = rs.fieldCount;
-        if (connection.config.debug) {
-          console.log(
-            `        Resultset header received, expecting ${rs.fieldCount} column definition packets`
-          );
-        }
-        if (this._fieldCount === 0) {
-          return this.doneInsert(rs);
-        }
-        if (this._fieldCount === null) {
-          return this._streamLocalInfile(connection, rs.infileName);
-        }
-        this._receivedFieldsCount = 0;
-        this._rows.push([]);
-        this._fields.push([]);
-        return this.readField;
-      }
-      _streamLocalInfile(connection, path5) {
-        if (this._streamFactory) {
-          this._localStream = this._streamFactory(path5);
-        } else {
-          this._localStreamError = new Error(
-            `As a result of LOCAL INFILE command server wants to read ${path5} file, but as of v2.0 you must provide streamFactory option returning ReadStream.`
-          );
-          connection.writePacket(EmptyPacket);
-          return this.infileOk;
-        }
-        const onConnectionError = () => {
-          this._unpipeStream();
-        };
-        const onDrain = () => {
-          this._localStream.resume();
-        };
-        const onPause = () => {
-          this._localStream.pause();
-        };
-        const onData = function(data) {
-          const dataWithHeader = Buffer.allocUnsafe(data.length + 4);
-          data.copy(dataWithHeader, 4);
-          connection.writePacket(
-            new Packets.Packet(0, dataWithHeader, 0, dataWithHeader.length)
-          );
-        };
-        const onEnd = () => {
-          connection.removeListener("error", onConnectionError);
-          connection.writePacket(EmptyPacket);
-        };
-        const onError = (err) => {
-          this._localStreamError = err;
-          connection.removeListener("error", onConnectionError);
-          connection.writePacket(EmptyPacket);
-        };
-        this._unpipeStream = () => {
-          connection.stream.removeListener("pause", onPause);
-          connection.stream.removeListener("drain", onDrain);
-          this._localStream.removeListener("data", onData);
-          this._localStream.removeListener("end", onEnd);
-          this._localStream.removeListener("error", onError);
-        };
-        connection.stream.on("pause", onPause);
-        connection.stream.on("drain", onDrain);
-        this._localStream.on("data", onData);
-        this._localStream.on("end", onEnd);
-        this._localStream.on("error", onError);
-        connection.once("error", onConnectionError);
-        return this.infileOk;
-      }
-      readField(packet, connection) {
-        this._receivedFieldsCount++;
-        if (this._fields[this._resultIndex].length !== this._fieldCount) {
-          const field = new Packets.ColumnDefinition(
-            packet,
-            connection.clientEncoding
-          );
-          this._fields[this._resultIndex].push(field);
-          if (connection.config.debug) {
-            console.log("        Column definition:");
-            console.log(`          name: ${field.name}`);
-            console.log(`          type: ${field.columnType}`);
-            console.log(`         flags: ${field.flags}`);
-          }
-        }
-        if (this._receivedFieldsCount === this._fieldCount) {
-          const fields = this._fields[this._resultIndex];
-          this.emit("fields", fields);
-          this._rowParser = new (getTextParser(fields, this.options, connection.config))(fields);
-          return Query.prototype.fieldsEOF;
-        }
-        return Query.prototype.readField;
-      }
-      fieldsEOF(packet, connection) {
-        if (!packet.isEOF()) {
-          return connection.protocolError("Expected EOF packet");
-        }
-        return this.row;
-      }
-      row(packet, _connection) {
-        if (packet.isEOF()) {
-          const status = packet.eofStatusFlags();
-          const moreResults = status & ServerStatus.SERVER_MORE_RESULTS_EXISTS;
-          if (moreResults) {
-            this._resultIndex++;
-            return Query.prototype.resultsetHeader;
-          }
-          return this.done();
-        }
-        let row;
-        try {
-          row = this._rowParser.next(
-            packet,
-            this._fields[this._resultIndex],
-            this.options
-          );
-        } catch (err) {
-          this._localStreamError = err;
-          return this.doneInsert(null);
-        }
-        if (this.onResult) {
-          this._rows[this._resultIndex].push(row);
-        } else {
-          this.emit("result", row);
-        }
-        return Query.prototype.row;
-      }
-      infileOk(packet, connection) {
-        const rs = new Packets.ResultSetHeader(packet, connection);
-        return this.doneInsert(rs);
-      }
-      stream(options) {
-        options = options || {};
-        options.objectMode = true;
-        const stream = new Readable(options);
-        stream._read = () => {
-          this._connection && this._connection.resume();
-        };
-        this.on("result", (row) => {
-          if (!stream.push(row)) {
-            this._connection.pause();
-          }
-          stream.emit("result", row);
-        });
-        this.on("error", (err) => {
-          stream.emit("error", err);
-        });
-        this.on("end", () => {
-          stream.push(null);
-          stream.emit("close");
-        });
-        this.on("fields", (fields) => {
-          stream.emit("fields", fields);
-        });
-        return stream;
-      }
-      _setTimeout() {
-        if (this.timeout) {
-          const timeoutHandler = this._handleTimeoutError.bind(this);
-          this.queryTimeout = Timers.setTimeout(
-            timeoutHandler,
-            this.timeout
-          );
-        }
-      }
-      _handleTimeoutError() {
-        if (this.queryTimeout) {
-          Timers.clearTimeout(this.queryTimeout);
-          this.queryTimeout = null;
-        }
-        const err = new Error("Query inactivity timeout");
-        err.errorno = "PROTOCOL_SEQUENCE_TIMEOUT";
-        err.code = "PROTOCOL_SEQUENCE_TIMEOUT";
-        err.syscall = "query";
-        if (this.onResult) {
-          this.onResult(err);
-        } else {
-          this.emit("error", err);
-        }
-      }
-    };
-    Query.prototype.catch = Query.prototype.then;
-    module2.exports = Query;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/close_statement.js
-var require_close_statement2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/close_statement.js"(exports, module2) {
-    "use strict";
-    var Command = require_command();
-    var Packets = require_packets();
-    var CloseStatement = class extends Command {
-      constructor(id) {
-        super();
-        this.id = id;
-      }
-      start(packet, connection) {
-        connection.writePacket(new Packets.CloseStatement(this.id).toPacket(1));
-        return null;
-      }
-    };
-    module2.exports = CloseStatement;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/field_flags.js
-var require_field_flags = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/field_flags.js"(exports) {
-    "use strict";
-    exports.NOT_NULL = 1;
-    exports.PRI_KEY = 2;
-    exports.UNIQUE_KEY = 4;
-    exports.MULTIPLE_KEY = 8;
-    exports.BLOB = 16;
-    exports.UNSIGNED = 32;
-    exports.ZEROFILL = 64;
-    exports.BINARY = 128;
-    exports.ENUM = 256;
-    exports.AUTO_INCREMENT = 512;
-    exports.TIMESTAMP = 1024;
-    exports.SET = 2048;
-    exports.NO_DEFAULT_VALUE = 4096;
-    exports.ON_UPDATE_NOW = 8192;
-    exports.NUM = 32768;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/parsers/binary_parser.js
-var require_binary_parser = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/parsers/binary_parser.js"(exports, module2) {
-    "use strict";
-    var FieldFlags = require_field_flags();
-    var Charsets = require_charsets();
-    var Types = require_types();
-    var helpers = require_helpers();
-    var genFunc = require_generate_function();
-    var parserCache = require_parser_cache();
-    var typeNames = [];
-    for (const t2 in Types) {
-      typeNames[Types[t2]] = t2;
-    }
-    function readCodeFor(field, config4, options, fieldNum) {
-      const supportBigNumbers = options.supportBigNumbers || config4.supportBigNumbers;
-      const bigNumberStrings = options.bigNumberStrings || config4.bigNumberStrings;
-      const timezone = options.timezone || config4.timezone;
-      const dateStrings = options.dateStrings || config4.dateStrings;
-      const unsigned = field.flags & FieldFlags.UNSIGNED;
-      switch (field.columnType) {
-        case Types.TINY:
-          return unsigned ? "packet.readInt8();" : "packet.readSInt8();";
-        case Types.SHORT:
-          return unsigned ? "packet.readInt16();" : "packet.readSInt16();";
-        case Types.LONG:
-        case Types.INT24:
-          return unsigned ? "packet.readInt32();" : "packet.readSInt32();";
-        case Types.YEAR:
-          return "packet.readInt16()";
-        case Types.FLOAT:
-          return "packet.readFloat();";
-        case Types.DOUBLE:
-          return "packet.readDouble();";
-        case Types.NULL:
-          return "null;";
-        case Types.DATE:
-        case Types.DATETIME:
-        case Types.TIMESTAMP:
-        case Types.NEWDATE:
-          if (helpers.typeMatch(field.columnType, dateStrings, Types)) {
-            return `packet.readDateTimeString(${field.decimals});`;
-          }
-          return `packet.readDateTime('${timezone}');`;
-        case Types.TIME:
-          return "packet.readTimeString()";
-        case Types.DECIMAL:
-        case Types.NEWDECIMAL:
-          if (config4.decimalNumbers) {
-            return "packet.parseLengthCodedFloat();";
-          }
-          return 'packet.readLengthCodedString("ascii");';
-        case Types.GEOMETRY:
-          return "packet.parseGeometryValue();";
-        case Types.JSON:
-          return 'JSON.parse(packet.readLengthCodedString("utf8"));';
-        case Types.LONGLONG:
-          if (!supportBigNumbers) {
-            return unsigned ? "packet.readInt64JSNumber();" : "packet.readSInt64JSNumber();";
-          }
-          if (bigNumberStrings) {
-            return unsigned ? "packet.readInt64String();" : "packet.readSInt64String();";
-          }
-          return unsigned ? "packet.readInt64();" : "packet.readSInt64();";
-        default:
-          if (field.characterSet === Charsets.BINARY) {
-            return "packet.readLengthCodedBuffer();";
-          }
-          return `packet.readLengthCodedString(fields[${fieldNum}].encoding)`;
-      }
-    }
-    function compile(fields, options, config4) {
-      const parserFn = genFunc();
-      let i2 = 0;
-      const nullBitmapLength = Math.floor((fields.length + 7 + 2) / 8);
-      parserFn("(function(){");
-      parserFn("return class BinaryRow {");
-      parserFn("constructor() {");
-      parserFn("}");
-      parserFn("next(packet, fields, options) {");
-      if (options.rowsAsArray) {
-        parserFn(`const result = new Array(${fields.length});`);
-      } else {
-        parserFn("const result = {};");
-      }
-      const resultTables = {};
-      let resultTablesArray = [];
-      if (options.nestTables === true) {
-        for (i2 = 0; i2 < fields.length; i2++) {
-          resultTables[fields[i2].table] = 1;
-        }
-        resultTablesArray = Object.keys(resultTables);
-        for (i2 = 0; i2 < resultTablesArray.length; i2++) {
-          parserFn(`result[${helpers.srcEscape(resultTablesArray[i2])}] = {};`);
-        }
-      }
-      parserFn("packet.readInt8();");
-      for (i2 = 0; i2 < nullBitmapLength; ++i2) {
-        parserFn(`const nullBitmaskByte${i2} = packet.readInt8();`);
-      }
-      let lvalue = "";
-      let currentFieldNullBit = 4;
-      let nullByteIndex = 0;
-      let fieldName = "";
-      let tableName = "";
-      for (i2 = 0; i2 < fields.length; i2++) {
-        fieldName = helpers.srcEscape(fields[i2].name);
-        parserFn(`// ${fieldName}: ${typeNames[fields[i2].columnType]}`);
-        if (typeof options.nestTables === "string") {
-          tableName = helpers.srcEscape(fields[i2].table);
-          lvalue = `result[${helpers.srcEscape(
-            fields[i2].table + options.nestTables + fields[i2].name
-          )}]`;
-        } else if (options.nestTables === true) {
-          tableName = helpers.srcEscape(fields[i2].table);
-          lvalue = `result[${tableName}][${fieldName}]`;
-        } else if (options.rowsAsArray) {
-          lvalue = `result[${i2.toString(10)}]`;
-        } else {
-          lvalue = `result[${helpers.srcEscape(fields[i2].name)}]`;
-        }
-        parserFn(`if (nullBitmaskByte${nullByteIndex} & ${currentFieldNullBit})`);
-        parserFn(`${lvalue} = null;`);
-        parserFn("else");
-        parserFn(`${lvalue} = ${readCodeFor(fields[i2], config4, options, i2)}`);
-        currentFieldNullBit *= 2;
-        if (currentFieldNullBit === 256) {
-          currentFieldNullBit = 1;
-          nullByteIndex++;
-        }
-      }
-      parserFn("return result;");
-      parserFn("}");
-      parserFn("};")("})()");
-      if (config4.debug) {
-        helpers.printDebugWithCode(
-          "Compiled binary protocol row parser",
-          parserFn.toString()
-        );
-      }
-      return parserFn.toFunction();
-    }
-    function getBinaryParser(fields, options, config4) {
-      return parserCache.getParser("binary", fields, options, config4, compile);
-    }
-    module2.exports = getBinaryParser;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/execute.js
-var require_execute2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/execute.js"(exports, module2) {
-    "use strict";
-    var Command = require_command();
-    var Query = require_query2();
-    var Packets = require_packets();
-    var getBinaryParser = require_binary_parser();
-    var Execute = class extends Command {
-      constructor(options, callback) {
-        super();
-        this.statement = options.statement;
-        this.sql = options.sql;
-        this.values = options.values;
-        this.onResult = callback;
-        this.parameters = options.values;
-        this.insertId = 0;
-        this.timeout = options.timeout;
-        this.queryTimeout = null;
-        this._rows = [];
-        this._fields = [];
-        this._result = [];
-        this._fieldCount = 0;
-        this._rowParser = null;
-        this._executeOptions = options;
-        this._resultIndex = 0;
-        this._localStream = null;
-        this._unpipeStream = function() {
-        };
-        this._streamFactory = options.infileStreamFactory;
-        this._connection = null;
-      }
-      buildParserFromFields(fields, connection) {
-        return getBinaryParser(fields, this.options, connection.config);
-      }
-      start(packet, connection) {
-        this._connection = connection;
-        this.options = Object.assign({}, connection.config, this._executeOptions);
-        this._setTimeout();
-        const executePacket = new Packets.Execute(
-          this.statement.id,
-          this.parameters,
-          connection.config.charsetNumber,
-          connection.config.timezone
-        );
-        try {
-          connection.writePacket(executePacket.toPacket(1));
-        } catch (error) {
-          this.onResult(error);
-        }
-        return Execute.prototype.resultsetHeader;
-      }
-      readField(packet, connection) {
-        let fields;
-        const field = new Packets.ColumnDefinition(
-          packet,
-          connection.clientEncoding
-        );
-        this._receivedFieldsCount++;
-        this._fields[this._resultIndex].push(field);
-        if (this._receivedFieldsCount === this._fieldCount) {
-          fields = this._fields[this._resultIndex];
-          this.emit("fields", fields, this._resultIndex);
-          return Execute.prototype.fieldsEOF;
-        }
-        return Execute.prototype.readField;
-      }
-      fieldsEOF(packet, connection) {
-        if (!packet.isEOF()) {
-          return connection.protocolError("Expected EOF packet");
-        }
-        this._rowParser = new (this.buildParserFromFields(
-          this._fields[this._resultIndex],
-          connection
-        ))();
-        return Execute.prototype.row;
-      }
-    };
-    Execute.prototype.done = Query.prototype.done;
-    Execute.prototype.doneInsert = Query.prototype.doneInsert;
-    Execute.prototype.resultsetHeader = Query.prototype.resultsetHeader;
-    Execute.prototype._findOrCreateReadStream = Query.prototype._findOrCreateReadStream;
-    Execute.prototype._streamLocalInfile = Query.prototype._streamLocalInfile;
-    Execute.prototype._setTimeout = Query.prototype._setTimeout;
-    Execute.prototype._handleTimeoutError = Query.prototype._handleTimeoutError;
-    Execute.prototype.row = Query.prototype.row;
-    Execute.prototype.stream = Query.prototype.stream;
-    module2.exports = Execute;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/prepare.js
-var require_prepare = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/prepare.js"(exports, module2) {
-    "use strict";
-    var Packets = require_packets();
-    var Command = require_command();
-    var CloseStatement = require_close_statement2();
-    var Execute = require_execute2();
-    var PreparedStatementInfo = class {
-      constructor(query, id, columns, parameters, connection) {
-        this.query = query;
-        this.id = id;
-        this.columns = columns;
-        this.parameters = parameters;
-        this.rowParser = null;
-        this._connection = connection;
-      }
-      close() {
-        return this._connection.addCommand(new CloseStatement(this.id));
-      }
-      execute(parameters, callback) {
-        if (typeof parameters === "function") {
-          callback = parameters;
-          parameters = [];
-        }
-        return this._connection.addCommand(
-          new Execute({ statement: this, values: parameters }, callback)
-        );
-      }
-    };
-    var Prepare = class extends Command {
-      constructor(options, callback) {
-        super();
-        this.query = options.sql;
-        this.onResult = callback;
-        this.id = 0;
-        this.fieldCount = 0;
-        this.parameterCount = 0;
-        this.fields = [];
-        this.parameterDefinitions = [];
-        this.options = options;
-      }
-      start(packet, connection) {
-        const Connection = connection.constructor;
-        this.key = Connection.statementKey(this.options);
-        const statement = connection._statements.get(this.key);
-        if (statement) {
-          if (this.onResult) {
-            this.onResult(null, statement);
-          }
-          return null;
-        }
-        const cmdPacket = new Packets.PrepareStatement(
-          this.query,
-          connection.config.charsetNumber
-        );
-        connection.writePacket(cmdPacket.toPacket(1));
-        return Prepare.prototype.prepareHeader;
-      }
-      prepareHeader(packet, connection) {
-        const header = new Packets.PreparedStatementHeader(packet);
-        this.id = header.id;
-        this.fieldCount = header.fieldCount;
-        this.parameterCount = header.parameterCount;
-        if (this.parameterCount > 0) {
-          return Prepare.prototype.readParameter;
-        }
-        if (this.fieldCount > 0) {
-          return Prepare.prototype.readField;
-        }
-        return this.prepareDone(connection);
-      }
-      readParameter(packet, connection) {
-        const def = new Packets.ColumnDefinition(packet, connection.clientEncoding);
-        this.parameterDefinitions.push(def);
-        if (this.parameterDefinitions.length === this.parameterCount) {
-          return Prepare.prototype.parametersEOF;
-        }
-        return this.readParameter;
-      }
-      readField(packet, connection) {
-        const def = new Packets.ColumnDefinition(packet, connection.clientEncoding);
-        this.fields.push(def);
-        if (this.fields.length === this.fieldCount) {
-          return Prepare.prototype.fieldsEOF;
-        }
-        return Prepare.prototype.readField;
-      }
-      parametersEOF(packet, connection) {
-        if (!packet.isEOF()) {
-          return connection.protocolError("Expected EOF packet after parameters");
-        }
-        if (this.fieldCount > 0) {
-          return Prepare.prototype.readField;
-        }
-        return this.prepareDone(connection);
-      }
-      fieldsEOF(packet, connection) {
-        if (!packet.isEOF()) {
-          return connection.protocolError("Expected EOF packet after fields");
-        }
-        return this.prepareDone(connection);
-      }
-      prepareDone(connection) {
-        const statement = new PreparedStatementInfo(
-          this.query,
-          this.id,
-          this.fields,
-          this.parameterDefinitions,
-          connection
-        );
-        connection._statements.set(this.key, statement);
-        if (this.onResult) {
-          this.onResult(null, statement);
-        }
-        return null;
-      }
-    };
-    module2.exports = Prepare;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/ping.js
-var require_ping = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/ping.js"(exports, module2) {
-    "use strict";
-    var Command = require_command();
-    var CommandCode = require_commands();
-    var Packet = require_packet();
-    var Ping = class extends Command {
-      constructor(callback) {
-        super();
-        this.onResult = callback;
-      }
-      start(packet, connection) {
-        const ping = new Packet(
-          0,
-          Buffer.from([1, 0, 0, 0, CommandCode.PING]),
-          0,
-          5
-        );
-        connection.writePacket(ping);
-        return Ping.prototype.pingResponse;
-      }
-      pingResponse() {
-        if (this.onResult) {
-          process.nextTick(this.onResult.bind(this));
-        }
-        return null;
-      }
-    };
-    module2.exports = Ping;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/register_slave.js
-var require_register_slave2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/register_slave.js"(exports, module2) {
-    "use strict";
-    var Command = require_command();
-    var Packets = require_packets();
-    var RegisterSlave = class extends Command {
-      constructor(opts, callback) {
-        super();
-        this.onResult = callback;
-        this.opts = opts;
-      }
-      start(packet, connection) {
-        const newPacket = new Packets.RegisterSlave(this.opts);
-        connection.writePacket(newPacket.toPacket(1));
-        return RegisterSlave.prototype.registerResponse;
-      }
-      registerResponse() {
-        if (this.onResult) {
-          process.nextTick(this.onResult.bind(this));
-        }
-        return null;
-      }
-    };
-    module2.exports = RegisterSlave;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/binlog_query_statusvars.js
-var require_binlog_query_statusvars = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/packets/binlog_query_statusvars.js"(exports, module2) {
-    "use strict";
-    var keys = {
-      FLAGS2: 0,
-      SQL_MODE: 1,
-      CATALOG: 2,
-      AUTO_INCREMENT: 3,
-      CHARSET: 4,
-      TIME_ZONE: 5,
-      CATALOG_NZ: 6,
-      LC_TIME_NAMES: 7,
-      CHARSET_DATABASE: 8,
-      TABLE_MAP_FOR_UPDATE: 9,
-      MASTER_DATA_WRITTEN: 10,
-      INVOKERS: 11,
-      UPDATED_DB_NAMES: 12,
-      MICROSECONDS: 3
-    };
-    module2.exports = function parseStatusVars(buffer) {
-      const result = {};
-      let offset = 0;
-      let key, length, prevOffset;
-      while (offset < buffer.length) {
-        key = buffer[offset++];
-        switch (key) {
-          case keys.FLAGS2:
-            result.flags = buffer.readUInt32LE(offset);
-            offset += 4;
-            break;
-          case keys.SQL_MODE:
-            result.sqlMode = buffer.readUInt32LE(offset);
-            offset += 8;
-            break;
-          case keys.CATALOG:
-            length = buffer[offset++];
-            result.catalog = buffer.toString("utf8", offset, offset + length);
-            offset += length + 1;
-            break;
-          case keys.CHARSET:
-            result.clientCharset = buffer.readUInt16LE(offset);
-            result.connectionCollation = buffer.readUInt16LE(offset + 2);
-            result.serverCharset = buffer.readUInt16LE(offset + 4);
-            offset += 6;
-            break;
-          case keys.TIME_ZONE:
-            length = buffer[offset++];
-            result.timeZone = buffer.toString("utf8", offset, offset + length);
-            offset += length;
-            break;
-          case keys.CATALOG_NZ:
-            length = buffer[offset++];
-            result.catalogNz = buffer.toString("utf8", offset, offset + length);
-            offset += length;
-            break;
-          case keys.LC_TIME_NAMES:
-            result.lcTimeNames = buffer.readUInt16LE(offset);
-            offset += 2;
-            break;
-          case keys.CHARSET_DATABASE:
-            result.schemaCharset = buffer.readUInt16LE(offset);
-            offset += 2;
-            break;
-          case keys.TABLE_MAP_FOR_UPDATE:
-            result.mapForUpdate1 = buffer.readUInt32LE(offset);
-            result.mapForUpdate2 = buffer.readUInt32LE(offset + 4);
-            offset += 8;
-            break;
-          case keys.MASTER_DATA_WRITTEN:
-            result.masterDataWritten = buffer.readUInt32LE(offset);
-            offset += 4;
-            break;
-          case keys.INVOKERS:
-            length = buffer[offset++];
-            result.invokerUsername = buffer.toString(
-              "utf8",
-              offset,
-              offset + length
-            );
-            offset += length;
-            length = buffer[offset++];
-            result.invokerHostname = buffer.toString(
-              "utf8",
-              offset,
-              offset + length
-            );
-            offset += length;
-            break;
-          case keys.UPDATED_DB_NAMES:
-            length = buffer[offset++];
-            result.updatedDBs = [];
-            for (; length; --length) {
-              prevOffset = offset;
-              while (buffer[offset++] && offset < buffer.length) {
-              }
-              result.updatedDBs.push(
-                buffer.toString("utf8", prevOffset, offset - 1)
-              );
-            }
-            break;
-          case keys.MICROSECONDS:
-            result.microseconds = buffer.readInt16LE(offset) + (buffer[offset + 2] << 16);
-            offset += 3;
-        }
-      }
-      return result;
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/binlog_dump.js
-var require_binlog_dump2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/binlog_dump.js"(exports, module2) {
-    "use strict";
-    var Command = require_command();
-    var Packets = require_packets();
-    var eventParsers = [];
-    var BinlogEventHeader = class {
-      constructor(packet) {
-        this.timestamp = packet.readInt32();
-        this.eventType = packet.readInt8();
-        this.serverId = packet.readInt32();
-        this.eventSize = packet.readInt32();
-        this.logPos = packet.readInt32();
-        this.flags = packet.readInt16();
-      }
-    };
-    var BinlogDump = class extends Command {
-      constructor(opts) {
-        super();
-        this.opts = opts;
-      }
-      start(packet, connection) {
-        const newPacket = new Packets.BinlogDump(this.opts);
-        connection.writePacket(newPacket.toPacket(1));
-        return BinlogDump.prototype.binlogData;
-      }
-      binlogData(packet) {
-        if (packet.isEOF()) {
-          this.emit("eof");
-          return null;
-        }
-        packet.readInt8();
-        const header = new BinlogEventHeader(packet);
-        const EventParser = eventParsers[header.eventType];
-        let event;
-        if (EventParser) {
-          event = new EventParser(packet);
-        } else {
-          event = {
-            name: "UNKNOWN"
-          };
-        }
-        event.header = header;
-        this.emit("event", event);
-        return BinlogDump.prototype.binlogData;
-      }
-    };
-    var RotateEvent = class {
-      constructor(packet) {
-        this.pposition = packet.readInt32();
-        packet.readInt32();
-        this.nextBinlog = packet.readString();
-        this.name = "RotateEvent";
-      }
-    };
-    var FormatDescriptionEvent = class {
-      constructor(packet) {
-        this.binlogVersion = packet.readInt16();
-        this.serverVersion = packet.readString(50).replace(/\u0000.*/, "");
-        this.createTimestamp = packet.readInt32();
-        this.eventHeaderLength = packet.readInt8();
-        this.eventsLength = packet.readBuffer();
-        this.name = "FormatDescriptionEvent";
-      }
-    };
-    var QueryEvent = class {
-      constructor(packet) {
-        const parseStatusVars = require_binlog_query_statusvars();
-        this.slaveProxyId = packet.readInt32();
-        this.executionTime = packet.readInt32();
-        const schemaLength = packet.readInt8();
-        this.errorCode = packet.readInt16();
-        const statusVarsLength = packet.readInt16();
-        const statusVars = packet.readBuffer(statusVarsLength);
-        this.schema = packet.readString(schemaLength);
-        packet.readInt8();
-        this.statusVars = parseStatusVars(statusVars);
-        this.query = packet.readString();
-        this.name = "QueryEvent";
-      }
-    };
-    var XidEvent = class {
-      constructor(packet) {
-        this.binlogVersion = packet.readInt16();
-        this.xid = packet.readInt64();
-        this.name = "XidEvent";
-      }
-    };
-    eventParsers[2] = QueryEvent;
-    eventParsers[4] = RotateEvent;
-    eventParsers[15] = FormatDescriptionEvent;
-    eventParsers[16] = XidEvent;
-    module2.exports = BinlogDump;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/change_user.js
-var require_change_user2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/change_user.js"(exports, module2) {
-    "use strict";
-    var Command = require_command();
-    var Packets = require_packets();
-    var ClientHandshake = require_client_handshake();
-    var CharsetToEncoding = require_charset_encodings();
-    var ChangeUser = class extends Command {
-      constructor(options, callback) {
-        super();
-        this.onResult = callback;
-        this.user = options.user;
-        this.password = options.password;
-        this.database = options.database;
-        this.passwordSha1 = options.passwordSha1;
-        this.charsetNumber = options.charsetNumber;
-        this.currentConfig = options.currentConfig;
-      }
-      start(packet, connection) {
-        const newPacket = new Packets.ChangeUser({
-          flags: connection.config.clientFlags,
-          user: this.user,
-          database: this.database,
-          charsetNumber: this.charsetNumber,
-          password: this.password,
-          passwordSha1: this.passwordSha1,
-          authPluginData1: connection._handshakePacket.authPluginData1,
-          authPluginData2: connection._handshakePacket.authPluginData2
-        });
-        this.currentConfig.user = this.user;
-        this.currentConfig.password = this.password;
-        this.currentConfig.database = this.database;
-        this.currentConfig.charsetNumber = this.charsetNumber;
-        connection.clientEncoding = CharsetToEncoding[this.charsetNumber];
-        connection._statements.reset();
-        connection.writePacket(newPacket.toPacket());
-        return ChangeUser.prototype.handshakeResult;
-      }
-    };
-    ChangeUser.prototype.handshakeResult = ClientHandshake.prototype.handshakeResult;
-    ChangeUser.prototype.calculateNativePasswordAuthToken = ClientHandshake.prototype.calculateNativePasswordAuthToken;
-    module2.exports = ChangeUser;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/quit.js
-var require_quit = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/quit.js"(exports, module2) {
-    "use strict";
-    var Command = require_command();
-    var CommandCode = require_commands();
-    var Packet = require_packet();
-    var Quit = class extends Command {
-      constructor(callback) {
-        super();
-        this.done = callback;
-      }
-      start(packet, connection) {
-        connection._closing = true;
-        const quit = new Packet(
-          0,
-          Buffer.from([1, 0, 0, 0, CommandCode.QUIT]),
-          0,
-          5
-        );
-        if (this.done) {
-          this.done();
-        }
-        connection.writePacket(quit);
-        return null;
-      }
-    };
-    module2.exports = Quit;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/index.js
-var require_commands2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/commands/index.js"(exports, module2) {
-    "use strict";
-    var ClientHandshake = require_client_handshake();
-    var ServerHandshake = require_server_handshake();
-    var Query = require_query2();
-    var Prepare = require_prepare();
-    var CloseStatement = require_close_statement2();
-    var Execute = require_execute2();
-    var Ping = require_ping();
-    var RegisterSlave = require_register_slave2();
-    var BinlogDump = require_binlog_dump2();
-    var ChangeUser = require_change_user2();
-    var Quit = require_quit();
-    module2.exports = {
-      ClientHandshake,
-      ServerHandshake,
-      Query,
-      Prepare,
-      CloseStatement,
-      Execute,
-      Ping,
-      RegisterSlave,
-      BinlogDump,
-      ChangeUser,
-      Quit
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/ssl_profiles.js
-var require_ssl_profiles = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/constants/ssl_profiles.js"(exports) {
-    "use strict";
-    exports["Amazon RDS"] = {
-      ca: [
-        "-----BEGIN CERTIFICATE-----\nMIID9DCCAtygAwIBAgIBQjANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUwOTExMzFaFw0y\nMDAzMDUwOTExMzFaMIGKMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEbMBkGA1UEAwwSQW1hem9uIFJE\nUyBSb290IENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuD8nrZ8V\nu+VA8yVlUipCZIKPTDcOILYpUe8Tct0YeQQr0uyl018StdBsa3CjBgvwpDRq1HgF\nJi2N3+39+shCNspQeE6aYU+BHXhKhIIStt3r7gl/4NqYiDDMWKHxHq0nsGDFfArf\nAOcjZdJagOMqb3fF46flc8k2E7THTm9Sz4L7RY1WdABMuurpICLFE3oHcGdapOb9\nT53pQR+xpHW9atkcf3pf7gbO0rlKVSIoUenBlZipUlp1VZl/OD/E+TtRhDDNdI2J\nP/DSMM3aEsq6ZQkfbz/Ilml+Lx3tJYXUDmp+ZjzMPLk/+3beT8EhrwtcG3VPpvwp\nBIOqsqVVTvw/CwIDAQABo2MwYTAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUw\nAwEB/zAdBgNVHQ4EFgQUTgLurD72FchM7Sz1BcGPnIQISYMwHwYDVR0jBBgwFoAU\nTgLurD72FchM7Sz1BcGPnIQISYMwDQYJKoZIhvcNAQEFBQADggEBAHZcgIio8pAm\nMjHD5cl6wKjXxScXKtXygWH2BoDMYBJF9yfyKO2jEFxYKbHePpnXB1R04zJSWAw5\n2EUuDI1pSBh9BA82/5PkuNlNeSTB3dXDD2PEPdzVWbSKvUB8ZdooV+2vngL0Zm4r\n47QPyd18yPHrRIbtBtHR/6CwKevLZ394zgExqhnekYKIqqEX41xsUV0Gm6x4vpjf\n2u6O/+YE2U+qyyxHE5Wd5oqde0oo9UUpFETJPVb6Q2cEeQib8PBAyi0i6KnF+kIV\nA9dY7IHSubtCK/i8wxMVqfd5GtbA8mmpeJFwnDvm9rBEsHybl08qlax9syEwsUYr\n/40NawZfTUU=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEATCCAumgAwIBAgIBRDANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUyMjAzMDZaFw0y\nMDAzMDUyMjAzMDZaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1hem9uIFJE\nUyBhcC1ub3J0aGVhc3QtMSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\nggEBAMmM2B4PfTXCZjbZMWiDPyxvk/eeNwIRJAhfzesiGUiLozX6CRy3rwC1ZOPV\nAcQf0LB+O8wY88C/cV+d4Q2nBDmnk+Vx7o2MyMh343r5rR3Na+4izd89tkQVt0WW\nvO21KRH5i8EuBjinboOwAwu6IJ+HyiQiM0VjgjrmEr/YzFPL8MgHD/YUHehqjACn\nC0+B7/gu7W4qJzBL2DOf7ub2qszGtwPE+qQzkCRDwE1A4AJmVE++/FLH2Zx78Egg\nfV1sUxPtYgjGH76VyyO6GNKM6rAUMD/q5mnPASQVIXgKbupr618bnH+SWHFjBqZq\nHvDGPMtiiWII41EmGUypyt5AbysCAwEAAaNmMGQwDgYDVR0PAQH/BAQDAgEGMBIG\nA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFIiKM0Q6n1K4EmLxs3ZXxINbwEwR\nMB8GA1UdIwQYMBaAFE4C7qw+9hXITO0s9QXBj5yECEmDMA0GCSqGSIb3DQEBBQUA\nA4IBAQBezGbE9Rw/k2e25iGjj5n8r+M3dlye8ORfCE/dijHtxqAKasXHgKX8I9Tw\nJkBiGWiuzqn7gO5MJ0nMMro1+gq29qjZnYX1pDHPgsRjUX8R+juRhgJ3JSHijRbf\n4qNJrnwga7pj94MhcLq9u0f6dxH6dXbyMv21T4TZMTmcFduf1KgaiVx1PEyJjC6r\nM+Ru+A0eM+jJ7uCjUoZKcpX8xkj4nmSnz9NMPog3wdOSB9cAW7XIc5mHa656wr7I\nWJxVcYNHTXIjCcng2zMKd1aCcl2KSFfy56sRfT7J5Wp69QSr+jq8KM55gw8uqAwi\nVPrXn2899T1rcTtFYFP16WXjGuc0\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEATCCAumgAwIBAgIBRTANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUyMjAzMTlaFw0y\nMDAzMDUyMjAzMTlaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1hem9uIFJE\nUyBhcC1zb3V0aGVhc3QtMSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\nggEBANaXElmSEYt/UtxHFsARFhSUahTf1KNJzR0Dmay6hqOXQuRVbKRwPd19u5vx\nDdF1sLT7D69IK3VDnUiQScaCv2Dpu9foZt+rLx+cpx1qiQd1UHrvqq8xPzQOqCdC\nRFStq6yVYZ69yfpfoI67AjclMOjl2Vph3ftVnqP0IgVKZdzeC7fd+umGgR9xY0Qr\nUbhd/lWdsbNvzK3f1TPWcfIKQnpvSt85PIEDJir6/nuJUKMtmJRwTymJf0i+JZ4x\n7dJa341p2kHKcHMgOPW7nJQklGBA70ytjUV6/qebS3yIugr/28mwReflg3TJzVDl\nEOvi6pqbqNbkMuEwGDCmEQIVqgkCAwEAAaNmMGQwDgYDVR0PAQH/BAQDAgEGMBIG\nA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFAu93/4k5xbWOsgdCdn+/KdiRuit\nMB8GA1UdIwQYMBaAFE4C7qw+9hXITO0s9QXBj5yECEmDMA0GCSqGSIb3DQEBBQUA\nA4IBAQBlcjSyscpPjf5+MgzMuAsCxByqUt+WFspwcMCpwdaBeHOPSQrXNqX2Sk6P\nkth6oCivA64trWo8tFMvPYlUA1FYVD5WpN0kCK+P5pD4KHlaDsXhuhClJzp/OP8t\npOyUr5109RHLxqoKB5J5m1XA7rgcFjnMxwBSWFe3/4uMk/+4T53YfCVXuc6QV3i7\nI/2LAJwFf//pTtt6fZenYfCsahnr2nvrNRNyAxcfvGZ/4Opn/mJtR6R/AjvQZHiR\nbkRNKF2GW0ueK5W4FkZVZVhhX9xh1Aj2Ollb+lbOqADaVj+AT3PoJPZ3MPQHKCXm\nxwG0LOLlRr/TfD6li1AfOVTAJXv9\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEATCCAumgAwIBAgIBRjANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUyMjAzMjRaFw0y\nMDAzMDUyMjAzMjRaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1hem9uIFJE\nUyBhcC1zb3V0aGVhc3QtMiBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\nggEBAJqBAJutz69hFOh3BtLHZTbwE8eejGGKayn9hu98YMDPzWzGXWCmW+ZYWELA\ncY3cNWNF8K4FqKXFr2ssorBYim1UtYFX8yhydT2hMD5zgQ2sCGUpuidijuPA6zaq\nZ3tdhVR94f0q8mpwpv2zqR9PcqaGDx2VR1x773FupRPRo7mEW1vC3IptHCQlP/zE\n7jQiLl28bDIH2567xg7e7E9WnZToRnhlYdTaDaJsHTzi5mwILi4cihSok7Shv/ME\nhnukvxeSPUpaVtFaBhfBqq055ePq9I+Ns4KGreTKMhU0O9fkkaBaBmPaFgmeX/XO\nn2AX7gMouo3mtv34iDTZ0h6YCGkCAwEAAaNmMGQwDgYDVR0PAQH/BAQDAgEGMBIG\nA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFIlQnY0KHYWn1jYumSdJYfwj/Nfw\nMB8GA1UdIwQYMBaAFE4C7qw+9hXITO0s9QXBj5yECEmDMA0GCSqGSIb3DQEBBQUA\nA4IBAQA0wVU6/l41cTzHc4azc4CDYY2Wd90DFWiH9C/mw0SgToYfCJ/5Cfi0NT/Y\nPRnk3GchychCJgoPA/k9d0//IhYEAIiIDjyFVgjbTkKV3sh4RbdldKVOUB9kumz/\nZpShplsGt3z4QQiVnKfrAgqxWDjR0I0pQKkxXa6Sjkicos9LQxVtJ0XA4ieG1E7z\nzJr+6t80wmzxvkInSaWP3xNJK9azVRTrgQZQlvkbpDbExl4mNTG66VD3bAp6t3Wa\nB49//uDdfZmPkqqbX+hsxp160OH0rxJppwO3Bh869PkDnaPEd/Pxw7PawC+li0gi\nNRV8iCEx85aFxcyOhqn0WZOasxee\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/zCCAuegAwIBAgIBRzANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUyMjAzMzFaFw0y\nMDAzMDUyMjAzMzFaMIGSMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEjMCEGA1UEAwwaQW1hem9uIFJE\nUyBldS1jZW50cmFsLTEgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQDFtP2dhSLuaPOI4ZrrPWsK4OY9ocQBp3yApH1KJYmI9wpQKZG/KCH2E6Oo7JAw\nQORU519r033T+FO2Z7pFPlmz1yrxGXyHpJs8ySx3Yo5S8ncDCdZJCLmtPiq/hahg\n5/0ffexMFUCQaYicFZsrJ/cStdxUV+tSw2JQLD7UxS9J97LQWUPyyG+ZrjYVTVq+\nzudnFmNSe4QoecXMhAFTGJFQXxP7nhSL9Ao5FGgdXy7/JWeWdQIAj8ku6cBDKPa6\nY6kP+ak+In+Lye8z9qsCD/afUozfWjPR2aA4JoIZVF8dNRShIMo8l0XfgfM2q0+n\nApZWZ+BjhIO5XuoUgHS3D2YFAgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNV\nHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBRm4GsWIA/M6q+tK8WGHWDGh2gcyTAf\nBgNVHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQUFAAOC\nAQEAHpMmeVQNqcxgfQdbDIi5UIy+E7zZykmtAygN1XQrvga9nXTis4kOTN6g5/+g\nHCx7jIXeNJzAbvg8XFqBN84Quqgpl/tQkbpco9Jh1HDs558D5NnZQxNqH5qXQ3Mm\nuPgCw0pYcPOa7bhs07i+MdVwPBsX27CFDtsgAIru8HvKxY1oTZrWnyIRo93tt/pk\nWuItVMVHjaQZVfTCow0aDUbte6Vlw82KjUFq+n2NMSCJDiDKsDDHT6BJc4AJHIq3\n/4Z52MSC9KMr0yAaaoWfW/yMEj9LliQauAgwVjArF4q78rxpfKTG9Rfd8U1BZANP\n7FrFMN0ThjfA1IvmOYcgskY5bQ==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/DCCAuSgAwIBAgIBSDANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUyMjAzMzVaFw0y\nMDAzMDUyMjAzMzVaMIGPMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEgMB4GA1UEAwwXQW1hem9uIFJE\nUyBldS13ZXN0LTEgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCx\nPdbqQ0HKRj79Pmocxvjc+P6i4Ux24kgFIl+ckiir1vzkmesc3a58gjrMlCksEObt\nYihs5IhzEq1ePT0gbfS9GYFp34Uj/MtPwlrfCBWG4d2TcrsKRHr1/EXUYhWqmdrb\nRhX8XqoRhVkbF/auzFSBhTzcGGvZpQ2KIaxRcQfcXlMVhj/pxxAjh8U4F350Fb0h\nnX1jw4/KvEreBL0Xb2lnlGTkwVxaKGSgXEnOgIyOFdOQc61vdome0+eeZsP4jqeR\nTGYJA9izJsRbe2YJxHuazD+548hsPlM3vFzKKEVURCha466rAaYAHy3rKur3HYQx\nYt+SoKcEz9PXuSGj96ejAgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB\nAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBTebg//h2oeXbZjQ4uuoiuLYzuiPDAfBgNV\nHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQUFAAOCAQEA\nTikPaGeZasTPw+4RBemlsyPAjtFFQLo7ddaFdORLgdEysVf8aBqndvbA6MT/v4lj\nGtEtUdF59ZcbWOrVm+fBZ2h/jYJ59dYF/xzb09nyRbdMSzB9+mkSsnOMqluq5y8o\nDY/PfP2vGhEg/2ZncRC7nlQU1Dm8F4lFWEiQ2fi7O1cW852Vmbq61RIfcYsH/9Ma\nkpgk10VZ75b8m3UhmpZ/2uRY+JEHImH5WpcTJ7wNiPNJsciZMznGtrgOnPzYco8L\ncDleOASIZifNMQi9PKOJKvi0ITz0B/imr8KBsW0YjZVJ54HMa7W1lwugSM7aMAs+\nE3Sd5lS+SHwWaOCHwhOEVA==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/DCCAuSgAwIBAgIBSTANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUyMjAzNDBaFw0y\nMDAzMDUyMjAzNDBaMIGPMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEgMB4GA1UEAwwXQW1hem9uIFJE\nUyBzYS1lYXN0LTEgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCU\nX4OBnQ5xA6TLJAiFEI6l7bUWjoVJBa/VbMdCCSs2i2dOKmqUaXu2ix2zcPILj3lZ\nGMk3d/2zvTK/cKhcFrewHUBamTeVHdEmynhMQamqNmkM4ptYzFcvEUw1TGxHT4pV\nQ6gSN7+/AJewQvyHexHo8D0+LDN0/Wa9mRm4ixCYH2CyYYJNKaZt9+EZfNu+PPS4\n8iB0TWH0DgQkbWMBfCRgolLLitAZklZ4dvdlEBS7evN1/7ttBxUK6SvkeeSx3zBl\nww3BlXqc3bvTQL0A+RRysaVyFbvtp9domFaDKZCpMmDFAN/ntx215xmQdrSt+K3F\ncXdGQYHx5q410CAclGnbAgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB\nAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBT6iVWnm/uakS+tEX2mzIfw+8JL0zAfBgNV\nHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQUFAAOCAQEA\nFmDD+QuDklXn2EgShwQxV13+txPRuVdOSrutHhoCgMwFWCMtPPtBAKs6KPY7Guvw\nDpJoZSehDiOfsgMirjOWjvfkeWSNvKfjWTVneX7pZD9W5WPnsDBvTbCGezm+v87z\nb+ZM2ZMo98m/wkMcIEAgdSKilR2fuw8rLkAjhYFfs0A7tDgZ9noKwgHvoE4dsrI0\nKZYco6DlP/brASfHTPa2puBLN9McK3v+h0JaSqqm5Ro2Bh56tZkQh8AWy/miuDuK\n3+hNEVdxosxlkM1TPa1DGj0EzzK0yoeerXuH2HX7LlCrrxf6/wdKnjR12PMrLQ4A\npCqkcWw894z6bV9MAvKe6A==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/DCCAuSgAwIBAgIBQzANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUyMTU0MDRaFw0y\nMDAzMDUyMTU0MDRaMIGPMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEgMB4GA1UEAwwXQW1hem9uIFJE\nUyB1cy1lYXN0LTEgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDI\nUIuwh8NusKHk1SqPXcP7OqxY3S/M2ZyQWD3w7Bfihpyyy/fc1w0/suIpX3kbMhAV\n2ESwged2/2zSx4pVnjp/493r4luhSqQYzru78TuPt9bhJIJ51WXunZW2SWkisSaf\nUSYUzVN9ezR/bjXTumSUQaLIouJt3OHLX49s+3NAbUyOI8EdvgBQWD68H1epsC0n\nCI5s+pIktyOZ59c4DCDLQcXErQ+tNbDC++oct1ANd/q8p9URonYwGCGOBy7sbCYq\n9eVHh1Iy2M+SNXddVOGw5EuruvHoCIQyOz5Lz4zSuZA9dRbrfztNOpezCNYu6NKM\nn+hzcvdiyxv77uNm8EaxAgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB\nAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBQSQG3TmMe6Sa3KufaPBa72v4QFDzAfBgNV\nHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQUFAAOCAQEA\nL/mOZfB3187xTmjOHMqN2G2oSKHBKiQLM9uv8+97qT+XR+TVsBT6b3yoPpMAGhHA\nPc7nxAF5gPpuzatx0OTLPcmYucFmfqT/1qA5WlgCnMNtczyNMH97lKFTNV7Njtek\njWEzAEQSyEWrkNpNlC4j6kMYyPzVXQeXUeZTgJ9FNnVZqmvfjip2N22tawMjrCn5\n7KN/zN65EwY2oO9XsaTwwWmBu3NrDdMbzJnbxoWcFWj4RBwanR1XjQOVNhDwmCOl\n/1Et13b8CPyj69PC8BOVU6cfTSx8WUVy0qvYOKHNY9Bqa5BDnIL3IVmUkeTlM1mt\nenRpyBj+Bk9rh/ICdiRKmA==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/DCCAuSgAwIBAgIBSjANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUyMjAzNDVaFw0y\nMDAzMDUyMjAzNDVaMIGPMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEgMB4GA1UEAwwXQW1hem9uIFJE\nUyB1cy13ZXN0LTEgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDE\nDhw+uw/ycaiIhhyu2pXFRimq0DlB8cNtIe8hdqndH8TV/TFrljNgR8QdzOgZtZ9C\nzzQ2GRpInN/qJF6slEd6wO+6TaDBQkPY+07TXNt52POFUhdVkhJXHpE2BS7Xn6J7\n7RFAOeG1IZmc2DDt+sR1BgXzUqHslQGfFYNS0/MBO4P+ya6W7IhruB1qfa4HiYQS\ndbe4MvGWnv0UzwAqdR7OF8+8/5c58YXZIXCO9riYF2ql6KNSL5cyDPcYK5VK0+Q9\nVI6vuJHSMYcF7wLePw8jtBktqAFE/wbdZiIHhZvNyiNWPPNTGUmQbaJ+TzQEHDs5\n8en+/W7JKnPyBOkxxENbAgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB\nAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBS0nw/tFR9bCjgqWTPJkyy4oOD8bzAfBgNV\nHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQUFAAOCAQEA\nCXGAY3feAak6lHdqj6+YWjy6yyUnLK37bRxZDsyDVXrPRQaXRzPTzx79jvDwEb/H\nQ/bdQ7zQRWqJcbivQlwhuPJ4kWPUZgSt3JUUuqkMsDzsvj/bwIjlrEFDOdHGh0mi\neVIngFEjUXjMh+5aHPEF9BlQnB8LfVtKj18e15UDTXFa+xJPFxUR7wDzCfo4WI1m\nsUMG4q1FkGAZgsoyFPZfF8IVvgCuGdR8z30VWKklFxttlK0eGLlPAyIO0CQxPQlo\nsaNJrHf4tLOgZIWk+LpDhNd9Et5EzvJ3aURUsKY4pISPPF5WdvM9OE59bERwUErd\nnuOuQWQeeadMceZnauRzJQ==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/DCCAuSgAwIBAgIBSzANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUyMjAzNTBaFw0y\nMDAzMDUyMjAzNTBaMIGPMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEgMB4GA1UEAwwXQW1hem9uIFJE\nUyB1cy13ZXN0LTIgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDM\nH58SR48U6jyERC1vYTnub34smf5EQVXyzaTmspWGWGzT31NLNZGSDFaa7yef9kdO\nmzJsgebR5tXq6LdwlIoWkKYQ7ycUaadtVKVYdI40QcI3cHn0qLFlg2iBXmWp/B+i\nZ34VuVlCh31Uj5WmhaBoz8t/GRqh1V/aCsf3Wc6jCezH3QfuCjBpzxdOOHN6Ie2v\nxX09O5qmZTvMoRBAvPkxdaPg/Mi7fxueWTbEVk78kuFbF1jHYw8U1BLILIAhcqlq\nx4u8nl73t3O3l/soNUcIwUDK0/S+Kfqhwn9yQyPlhb4Wy3pfnZLJdkyHldktnQav\n9TB9u7KH5Lk0aAYslMLxAgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB\nAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBT8roM4lRnlFHWMPWRz0zkwFZog1jAfBgNV\nHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQUFAAOCAQEA\nJwrxwgwmPtcdaU7O7WDdYa4hprpOMamI49NDzmE0s10oGrqmLwZygcWU0jT+fJ+Y\npJe1w0CVfKaeLYNsOBVW3X4ZPmffYfWBheZiaiEflq/P6t7/Eg81gaKYnZ/x1Dfa\nsUYkzPvCkXe9wEz5zdUTOCptDt89rBR9CstL9vE7WYUgiVVmBJffWbHQLtfjv6OF\nNMb0QME981kGRzc2WhgP71YS2hHd1kXtsoYP1yTu4vThSKsoN4bkiHsaC1cRkLoy\n0fFA4wpB3WloMEvCDaUvvH1LZlBXTNlwi9KtcwD4tDxkkBt4tQczKLGpQ/nF/W9n\n8YDWk3IIc1sd0bkZqoau2Q==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEATCCAumgAwIBAgIBTDANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTExMDYwMDA1NDZaFw0y\nMDAzMDUwMDA1NDZaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1hem9uIFJE\nUyBhcC1ub3J0aGVhc3QtMiBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\nggEBAKSwd+RVUzTRH0FgnbwoTK8TMm/zMT4+2BvALpAUe6YXbkisg2goycWuuWLg\njOpFBB3GtyvXZnkqi7MkDWUmj1a2kf8l2oLyoaZ+Hm9x/sV+IJzOqPvj1XVUGjP6\nyYYnPJmUYqvZeI7fEkIGdFkP2m4/sgsSGsFvpD9FK1bL1Kx2UDpYX0kHTtr18Zm/\n1oN6irqWALSmXMDydb8hE0FB2A1VFyeKE6PnoDj/Y5cPHwPPdEi6/3gkDkSaOG30\nrWeQfL3pOcKqzbHaWTxMphd0DSL/quZ64Nr+Ly65Q5PRcTrtr55ekOUziuqXwk+o\n9QpACMwcJ7ROqOznZTqTzSFVXFECAwEAAaNmMGQwDgYDVR0PAQH/BAQDAgEGMBIG\nA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFM6Nox/QWbhzWVvzoJ/y0kGpNPK+\nMB8GA1UdIwQYMBaAFE4C7qw+9hXITO0s9QXBj5yECEmDMA0GCSqGSIb3DQEBBQUA\nA4IBAQCTkWBqNvyRf3Y/W21DwFx3oT/AIWrHt0BdGZO34tavummXemTH9LZ/mqv9\naljt6ZuDtf5DEQjdsAwXMsyo03ffnP7doWm8iaF1+Mui77ot0TmTsP/deyGwukvJ\ntkxX8bZjDh+EaNauWKr+CYnniNxCQLfFtXYJsfOdVBzK3xNL+Z3ucOQRhr2helWc\nCDQgwfhP1+3pRVKqHvWCPC4R3fT7RZHuRmZ38kndv476GxRntejh+ePffif78bFI\n3rIZCPBGobrrUMycafSbyXteoGca/kA+/IqrAPlk0pWQ4aEL0yTWN2h2dnjoD7oX\nbyIuL/g9AGRh97+ssn7D6bDRPTbW\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/TCCAuWgAwIBAgIBTTANBgkqhkiG9w0BAQsFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNjA1MDMyMTI5MjJaFw0y\nMDAzMDUyMTI5MjJaMIGQMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEhMB8GA1UEAwwYQW1hem9uIFJE\nUyBhcC1zb3V0aC0xIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA\n06eWGLE0TeqL9kyWOLkS8q0fXO97z+xyBV3DKSB2lg2GkgBz3B98MkmkeB0SZy3G\nCe4uCpCPbFKiFEdiUclOlhZsrBuCeaimxLM3Ig2wuenElO/7TqgaYHYUbT3d+VQW\nGUbLn5GRZJZe1OAClYdOWm7A1CKpuo+cVV1vxbY2nGUQSJPpVn2sT9gnwvjdE60U\nJGYU/RLCTm8zmZBvlWaNIeKDnreIc4rKn6gUnJ2cQn1ryCVleEeyc3xjYDSrjgdn\nFLYGcp9mphqVT0byeQMOk0c7RHpxrCSA0V5V6/CreFV2LteK50qcDQzDSM18vWP/\np09FoN8O7QrtOeZJzH/lmwIDAQABo2YwZDAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0T\nAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQU2i83QHuEl/d0keXF+69HNJph7cMwHwYD\nVR0jBBgwFoAUTgLurD72FchM7Sz1BcGPnIQISYMwDQYJKoZIhvcNAQELBQADggEB\nACqnH2VjApoDqoSQOky52QBwsGaj+xWYHW5Gm7EvCqvQuhWMkeBuD6YJmMvNyA9G\nI2lh6/o+sUk/RIsbYbxPRdhNPTOgDR9zsNRw6qxaHztq/CEC+mxDCLa3O1hHBaDV\nBmB3nCZb93BvO0EQSEk7aytKq/f+sjyxqOcs385gintdHGU9uM7gTZHnU9vByJsm\n/TL07Miq67X0NlhIoo3jAk+xHaeKJdxdKATQp0448P5cY20q4b8aMk1twcNaMvCP\ndG4M5doaoUA8OQ/0ukLLae/LBxLeTw04q1/a2SyFaVUX2Twbb1S3xVWwLA8vsyGr\nigXx7B5GgP+IHb6DTjPJAi0=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/DCCAuSgAwIBAgIBTjANBgkqhkiG9w0BAQsFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNjA4MTExOTU4NDVaFw0y\nMDAzMDUxOTU4NDVaMIGPMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEgMB4GA1UEAwwXQW1hem9uIFJE\nUyB1cy1lYXN0LTIgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCp\nWnnUX7wM0zzstccX+4iXKJa9GR0a2PpvB1paEX4QRCgfhEdQWDaSqyrWNgdVCKkt\n1aQkWu5j6VAC2XIG7kKoonm1ZdBVyBLqW5lXNywlaiU9yhJkwo8BR+/OqgE+PLt/\nEO1mlN0PQudja/XkExCXTO29TG2j7F/O7hox6vTyHNHc0H88zS21uPuBE+jivViS\nyzj/BkyoQ85hnkues3f9R6gCGdc+J51JbZnmgzUkvXjAEuKhAm9JksVOxcOKUYe5\nERhn0U9zjzpfbAITIkul97VVa5IxskFFTHIPJbvRKHJkiF6wTJww/tc9wm+fSCJ1\n+DbQTGZgkQ3bJrqRN29/AgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB\nAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSAHQzUYYZbepwKEMvGdHp8wzHnfDAfBgNV\nHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQsFAAOCAQEA\nMbaEzSYZ+aZeTBxf8yi0ta8K4RdwEJsEmP6IhFFQHYUtva2Cynl4Q9tZg3RMsybT\n9mlnSQQlbN/wqIIXbkrcgFcHoXG9Odm/bDtUwwwDaiEhXVfeQom3G77QHOWMTCGK\nqadwuh5msrb17JdXZoXr4PYHDKP7j0ONfAyFNER2+uecblHfRSpVq5UeF3L6ZJb8\nfSw/GtAV6an+/0r+Qm+PiI2H5XuZ4GmRJYnGMhqWhBYrY7p3jtVnKcsh39wgfUnW\nAvZEZG/yhFyAZW0Essa39LiL5VSq14Y1DOj0wgnhSY/9WHxaAo1HB1T9OeZknYbD\nfl/EGSZ0TEvZkENrXcPlVA==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/zCCAuegAwIBAgIBTzANBgkqhkiG9w0BAQsFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNjA5MTUwMDEwMTFaFw0y\nMDAzMDUwMDEwMTFaMIGSMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEjMCEGA1UEAwwaQW1hem9uIFJE\nUyBjYS1jZW50cmFsLTEgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQCZYI/iQ6DrS3ny3t1EwX1wAD+3LMgh7Fd01EW5LIuaK2kYIIQpsVKhxLCit/V5\nAGc/1qiJS1Qz9ODLTh0Na6bZW6EakRzuHJLe32KJtoFYPC7Z09UqzXrpA/XL+1hM\nP0ZmCWsU7Nn/EmvfBp9zX3dZp6P6ATrvDuYaVFr+SA7aT3FXpBroqBS1fyzUPs+W\nc6zTR6+yc4zkHX0XQxC5RH6xjgpeRkoOajA/sNo7AQF7KlWmKHbdVF44cvvAhRKZ\nXaoVs/C4GjkaAEPTCbopYdhzg+KLx9eB2BQnYLRrIOQZtRfbQI2Nbj7p3VsRuOW1\ntlcks2w1Gb0YC6w6SuIMFkl1AgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNV\nHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBToYWxE1lawl6Ks6NsvpbHQ3GKEtzAf\nBgNVHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQsFAAOC\nAQEAG/8tQ0ooi3hoQpa5EJz0/E5VYBsAz3YxA2HoIonn0jJyG16bzB4yZt4vNQMA\nKsNlQ1uwDWYL1nz63axieUUFIxqxl1KmwfhsmLgZ0Hd2mnTPIl2Hw3uj5+wdgGBg\nagnAZ0bajsBYgD2VGQbqjdk2Qn7Fjy3LEWIvGZx4KyZ99OJ2QxB7JOPdauURAtWA\nDKYkP4LLJxtj07DSzG8kuRWb9B47uqUD+eKDIyjfjbnzGtd9HqqzYFau7EX3HVD9\n9Qhnjl7bTZ6YfAEZ3nH2t3Vc0z76XfGh47rd0pNRhMV+xpok75asKf/lNh5mcUrr\nVKwflyMkQpSbDCmcdJ90N2xEXQ==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/DCCAuSgAwIBAgIBUDANBgkqhkiG9w0BAQsFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNjEwMTAxNzQ0NDJaFw0y\nMDAzMDUxNzQ0NDJaMIGPMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEgMB4GA1UEAwwXQW1hem9uIFJE\nUyBldS13ZXN0LTIgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDO\ncttLJfubB4XMMIGWNfJISkIdCMGJyOzLiMJaiWB5GYoXKhEl7YGotpy0qklwW3BQ\na0fmVdcCLX+dIuVQ9iFK+ZcK7zwm7HtdDTCHOCKeOh2IcnU4c/VIokFi6Gn8udM6\nN/Zi5M5OGpVwLVALQU7Yctsn3c95el6MdVx6mJiIPVu7tCVZn88Z2koBQ2gq9P4O\nSb249SHFqOb03lYDsaqy1NDsznEOhaRBw7DPJFpvmw1lA3/Y6qrExRI06H2VYR2i\n7qxwDV50N58fs10n7Ye1IOxTVJsgEA7X6EkRRXqYaM39Z76R894548WHfwXWjUsi\nMEX0RS0/t1GmnUQjvevDAgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB\nAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBQBxmcuRSxERYCtNnSr5xNfySokHjAfBgNV\nHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQsFAAOCAQEA\nUyCUQjsF3nUAABjfEZmpksTuUo07aT3KGYt+EMMFdejnBQ0+2lJJFGtT+CDAk1SD\nRSgfEBon5vvKEtlnTf9a3pv8WXOAkhfxnryr9FH6NiB8obISHNQNPHn0ljT2/T+I\nY6ytfRvKHa0cu3V0NXbJm2B4KEOt4QCDiFxUIX9z6eB4Kditwu05OgQh6KcogOiP\nJesWxBMXXGoDC1rIYTFO7szwDyOHlCcVXJDNsTJhc32oDWYdeIbW7o/5I+aQsrXZ\nC96HykZcgWzz6sElrQxUaT3IoMw/5nmw4uWKKnZnxgI9bY4fpQwMeBZ96iHfFxvH\nmqfEEuC7uUoPofXdBp2ObQ==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/DCCAuSgAwIBAgIBUTANBgkqhkiG9w0BAQsFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNzA4MjUyMTM5MjZaFw0y\nMDAzMDUyMTM5MjZaMIGPMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEgMB4GA1UEAwwXQW1hem9uIFJE\nUyBldS13ZXN0LTMgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC+\nxmlEC/3a4cJH+UPwXCE02lC7Zq5NHd0dn6peMeLN8agb6jW4VfSY0NydjRj2DJZ8\nK7wV6sub5NUGT1NuFmvSmdbNR2T59KX0p2dVvxmXHHtIpQ9Y8Aq3ZfhmC5q5Bqgw\ntMA1xayDi7HmoPX3R8kk9ktAZQf6lDeksCvok8idjTu9tiSpDiMwds5BjMsWfyjZ\nd13PTGGNHYVdP692BSyXzSP1Vj84nJKnciW8tAqwIiadreJt5oXyrCXi8ekUMs80\ncUTuGm3aA3Q7PB5ljJMPqz0eVddaiIvmTJ9O3Ez3Du/HpImyMzXjkFaf+oNXf/Hx\n/EW5jCRR6vEiXJcDRDS7AgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMB\nAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBRZ9mRtS5fHk3ZKhG20Oack4cAqMTAfBgNV\nHSMEGDAWgBROAu6sPvYVyEztLPUFwY+chAhJgzANBgkqhkiG9w0BAQsFAAOCAQEA\nF/u/9L6ExQwD73F/bhCw7PWcwwqsK1mypIdrjdIsu0JSgwWwGCXmrIspA3n3Dqxq\nsMhAJD88s9Em7337t+naar2VyLO63MGwjj+vA4mtvQRKq8ScIpiEc7xN6g8HUMsd\ngPG9lBGfNjuAZsrGJflrko4HyuSM7zHExMjXLH+CXcv/m3lWOZwnIvlVMa4x0Tz0\nA4fklaawryngzeEjuW6zOiYCzjZtPlP8Fw0SpzppJ8VpQfrZ751RDo4yudmPqoPK\n5EUe36L8U+oYBXnC5TlYs9bpVv9o5wJQI5qA9oQE2eFWxF1E0AyZ4V5sgGUBStaX\nBjDDWul0wSo7rt1Tq7XpnA==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEATCCAumgAwIBAgIBTjANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNzEyMDEwMDU1NDJaFw0y\nMDAzMDUwMDU1NDJaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1hem9uIFJE\nUyBhcC1ub3J0aGVhc3QtMyBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\nggEBAMZtQNnm/XT19mTa10ftHLzg5UhajoI65JHv4TQNdGXdsv+CQdGYU49BJ9Eu\n3bYgiEtTzR2lQe9zGMvtuJobLhOWuavzp7IixoIQcHkFHN6wJ1CvqrxgvJfBq6Hy\nEuCDCiU+PPDLUNA6XM6Qx3IpHd1wrJkjRB80dhmMSpxmRmx849uFafhN+P1QybsM\nTI0o48VON2+vj+mNuQTyLMMP8D4odSQHjaoG+zyJfJGZeAyqQyoOUOFEyQaHC3TT\n3IDSNCQlpxb9LerbCoKu79WFBBq3CS5cYpg8/fsnV2CniRBFFUumBt5z4dhw9RJU\nqlUXXO1ZyzpGd+c5v6FtrfXtnIUCAwEAAaNmMGQwDgYDVR0PAQH/BAQDAgEGMBIG\nA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFETv7ELNplYy/xTeIOInl6nzeiHg\nMB8GA1UdIwQYMBaAFE4C7qw+9hXITO0s9QXBj5yECEmDMA0GCSqGSIb3DQEBBQUA\nA4IBAQCpKxOQcd0tEKb3OtsOY8q/MPwTyustGk2Rt7t9G68idADp8IytB7M0SDRo\nwWZqynEq7orQVKdVOanhEWksNDzGp0+FPAf/KpVvdYCd7ru3+iI+V4ZEp2JFdjuZ\nZz0PIjS6AgsZqE5Ri1J+NmfmjGZCPhsHnGZiBaenX6K5VRwwwmLN6xtoqrrfR5zL\nQfBeeZNJG6KiM3R/DxJ5rAa6Fz+acrhJ60L7HprhB7SFtj1RCijau3+ZwiGmUOMr\nyKlMv+VgmzSw7o4Hbxy1WVrA6zQsTHHSGf+vkQn2PHvnFMUEu/ZLbTDYFNmTLK91\nK6o4nMsEvhBKgo4z7H1EqqxXhvN2\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEBDCCAuygAwIBAgIBTTANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNzEyMDYyMjQyMjdaFw0y\nMDAzMDQyMjQyMjdaMIGXMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEoMCYGA1UEAwwfQW1hem9uIFJE\nUyBwcmV2aWV3LXVzLWVhc3QtMiBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC\nAQoCggEBAMw0E8k8URanS0c/i1S7wzFf5+XC9H2bm+4pENdElGP5s9rVCybrzJaw\n6zZgVLpOFnS9mJ+sDHIMUexPjj0X4+r7wZ4+hPfy7Rmrgbt23IQwr+PIBxsKAVjj\niaQ3bSm5WQ79an5elfQqEDdZ13ckUcLBJDA8bUDthI8m7gnteGtx0M1D0VS5PDs9\ncf96QlBia9Lx3VcNo3cc0PzP30E4j3h/Ywlb0jXUgB6oVlTxK70BjD3kZa+2xlea\nvKmm4NqGVhPY7BWd4XNdbSYsPDeZ9HxHNWXZxoHcQ7vSU8RKYVPtoBK/zIp3eWOi\ngzZlm5vYPvlkYh2pshttPPVyhZqlEZ8CAwEAAaNmMGQwDgYDVR0PAQH/BAQDAgEG\nMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFI93K+FRhste6w3MiD+IK3Tc\ng/BsMB8GA1UdIwQYMBaAFE4C7qw+9hXITO0s9QXBj5yECEmDMA0GCSqGSIb3DQEB\nBQUAA4IBAQAs4RsC8MJVOvrlRi5sgKC9LJ4BvSrrbR5V8CdIEwlPqrVOSsU5t7Py\nj8CHoPUY/ya1azlBSO62BqdZxipFuAR06NdxNG2Gy0fGl71N2udxokwEPW+IEZ81\nG6JeX8HNFjnna8ehimz1VJDDW7qborhg3dCAgEWkgv5PDR9/zoUu6bbmHPV77zbx\nGq7Sybz5OiagC7Nj9N1WgjNXUEmlfY2DHXnJmIVgUGEVrBgu5tGcIU/bQCRznH1N\nJsBH0SalneCbSzMBhQdnzL+L5KOERibWAZvS6ebmomTBwa03kgo/T0DfEccgobTs\nrV6T9/8Vg9T18vEeqURL+LOGs7+lIKmN\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIID/TCCAuWgAwIBAgIBUjANBgkqhkiG9w0BAQsFADCBijELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nGzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xODA5MjgxNzM0NTJaFw0y\nMDAzMDUxNzM0NTJaMIGQMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv\nbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl\ncywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEhMB8GA1UEAwwYQW1hem9uIFJE\nUyBldS1ub3J0aC0xIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA\nwvHfpoixHNy1jvcq/WNhXDHlsFVbEOX7mp01YQeK0wWqlpFvjs2HFJ1sRnnmyhdT\nsv4VQuXnQw2V2iFAO2HveDi8pcJ+eIXY+wloSVBytgYLTMcNpn5LmqIeyGO+Lr6p\nKUr78I4uE0mnabxyILA96CYrYtgwpLCtpEXSdSJPwOSK9nX9++molxLcJ5v4fiPS\nj46PETsbFoFdXXwYCdiJKpzO4zUAkKzzvzbF7cXg9R4noJuytjEKbluxugDHdnwl\nSctGZ3moju2I0OpPbJKUI3wHsUMtY5v15X74MOED5lbtaW5+/6JIERggve0b23Ni\n4nlYSt0Bb3z3Zwc83twCUwIDAQABo2YwZDAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0T\nAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQU4stOy1OAFRyvZCSKNfCiPRD+rPowHwYD\nVR0jBBgwFoAUTgLurD72FchM7Sz1BcGPnIQISYMwDQYJKoZIhvcNAQELBQADggEB\nAHpRIlKh1fqbMHl0+VnJ/52XQy1F5gM2hnw3lYkOLsDyzj9W4V6D1v2EDgYW+ZVH\n0wWqo8m0jS6CDn14W2HqNlyXyHpJK3eh3088zxvJgKqzKS4ghNzafN7axwYIwRN6\n9rrhRWy9MaFHaSPKtgiuTxw9fOekqyJdO+OYpBVEp7KEEyEG9/W5xZcU64zGb6UT\n8/g4+5t+HlT0nYBMvt8HW7w2XbFBetfKKK4WaoPKloOMN+RLO/JgJ6pVWvxM8nhC\nPbVtr43OI1sQAXYk0an7aUDgXT98vGwovWNHI6lFCMGRG+WXhauLtKRsIr4hR1LV\nfES7Q9MWPzPYHQoKELF9Jhk=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEBzCCAu+gAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwgZQxCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSUwIwYDVQQDDBxBbWF6b24gUkRTIGFwLWVhc3QtMSBSb290IENBMB4XDTE5MDIx\nNzAyNDcwMFoXDTIyMDYwMTEyMDAwMFowgY8xCzAJBgNVBAYTAlVTMRMwEQYDVQQI\nDApXYXNoaW5ndG9uMRAwDgYDVQQHDAdTZWF0dGxlMSIwIAYDVQQKDBlBbWF6b24g\nV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRTMSAwHgYDVQQD\nDBdBbWF6b24gUkRTIGFwLWVhc3QtMSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAOcJAUofyJuBuPr5ISHi/Ha5ed8h3eGdzn4MBp6rytPOg9NVGRQs\nO93fNGCIKsUT6gPuk+1f1ncMTV8Y0Fdf4aqGWme+Khm3ZOP3V1IiGnVq0U2xiOmn\nSQ4Q7LoeQC4lC6zpoCHVJyDjZ4pAknQQfsXb77Togdt/tK5ahev0D+Q3gCwAoBoO\nDHKJ6t820qPi63AeGbJrsfNjLKiXlFPDUj4BGir4dUzjEeH7/hx37na1XG/3EcxP\n399cT5k7sY/CR9kctMlUyEEUNQOmhi/ly1Lgtihm3QfjL6K9aGLFNwX35Bkh9aL2\nF058u+n8DP/dPeKUAcJKiQZUmzuen5n57x8CAwEAAaNmMGQwDgYDVR0PAQH/BAQD\nAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFFlqgF4FQlb9yP6c+Q3E\nO3tXv+zOMB8GA1UdIwQYMBaAFK9T6sY/PBZVbnHcNcQXf58P4OuPMA0GCSqGSIb3\nDQEBCwUAA4IBAQDeXiS3v1z4jWAo1UvVyKDeHjtrtEH1Rida1eOXauFuEQa5tuOk\nE53Os4haZCW4mOlKjigWs4LN+uLIAe1aFXGo92nGIqyJISHJ1L+bopx/JmIbHMCZ\n0lTNJfR12yBma5VQy7vzeFku/SisKwX0Lov1oHD4MVhJoHbUJYkmAjxorcIHORvh\nI3Vj5XrgDWtLDPL8/Id/roul/L+WX5ir+PGScKBfQIIN2lWdZoqdsx8YWqhm/ikL\nC6qNieSwcvWL7C03ri0DefTQMY54r5wP33QU5hJ71JoaZI3YTeT0Nf+NRL4hM++w\nQ0veeNzBQXg1f/JxfeA39IDIX1kiCf71tGlT\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEEDCCAvigAwIBAgIJAJF3HxEqKM4lMA0GCSqGSIb3DQEBCwUAMIGUMQswCQYD\nVQQGEwJVUzEQMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEi\nMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1h\nem9uIFJEUzElMCMGA1UEAwwcQW1hem9uIFJEUyBhcC1lYXN0LTEgUm9vdCBDQTAe\nFw0xOTAyMTcwMjQ2MTFaFw0yNDAyMTYwMjQ2MTFaMIGUMQswCQYDVQQGEwJVUzEQ\nMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEiMCAGA1UECgwZ\nQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEl\nMCMGA1UEAwwcQW1hem9uIFJEUyBhcC1lYXN0LTEgUm9vdCBDQTCCASIwDQYJKoZI\nhvcNAQEBBQADggEPADCCAQoCggEBAOCVr1Yj5IW4XWa9QOLGJDSz4pqIM6BAbqQp\ngYvzIO4Lv8c8dEnuuuCY8M/zOrJ1iQJ3cDiKGa32HVBVcH+nUdXzw4Jq5jw0hsb6\n/WW2RD2aUe4jCkRD5wNzmeHM4gTgtMZnXNVHpELgKR4wVhSHEfWFTiMsZi35y8mj\nPL98Mz/m/nMnB/59EjMvcJMrsUljHO6B9BMEcvNkwvre9xza0BQWKyiVRcbOpoj1\nw4BPtYYZ+dW2QKw9AmYXwAmCLeATsxrHIJ/IbzS7obxv2QN2Eh4pJ3ghRCFv1XM9\nXVkm13oiCjj7jsxAwF7o+VggPl/GG+/Gwk+TLuaTFNAtROpPxL8CAwEAAaNjMGEw\nDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFK9T6sY/\nPBZVbnHcNcQXf58P4OuPMB8GA1UdIwQYMBaAFK9T6sY/PBZVbnHcNcQXf58P4OuP\nMA0GCSqGSIb3DQEBCwUAA4IBAQBBY+KATaT7ndYT3Ky0VWaiwNfyl1u3aDxr+MKP\nVeDhtOhlob5u0E+edOXUvEXd4A+ntS+U0HmwvtMXtQbQ2EJbsNRqZnS8KG9YB2Yc\nQ99auphW3wMjwHRtflLO5h14aa9SspqJJgcM1R7Z3pAYeq6bpBDxZSGrYtWI64q4\nh4i67qWAGDFcXSTW1kJ00GMlBCIGTeYiu8LYutdsDWzYKkeezJRjx9VR4w7A7e1G\nWmY4aUg/8aPxCioY2zEQKNl55Ghg6Dwy+6BxaV6RlV9r9EaSCai11p1bgS568WQn\n4WNQK36EGe37l2SOpDB6STrq57/rjREvmq803Ylg/Gf6qqzK\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIECTCCAvGgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwgZUxCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSYwJAYDVQQDDB1BbWF6b24gUkRTIG1lLXNvdXRoLTEgUm9vdCBDQTAeFw0xOTA1\nMTAyMTU4NDNaFw0yNTA2MDExMjAwMDBaMIGQMQswCQYDVQQGEwJVUzETMBEGA1UE\nCAwKV2FzaGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9u\nIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEhMB8GA1UE\nAwwYQW1hem9uIFJEUyBtZS1zb3V0aC0xIENBMIIBIjANBgkqhkiG9w0BAQEFAAOC\nAQ8AMIIBCgKCAQEAudOYPZH+ihJAo6hNYMB5izPVBe3TYhnZm8+X3IoaaYiKtsp1\nJJhkTT0CEejYIQ58Fh4QrMUyWvU8qsdK3diNyQRoYLbctsBPgxBR1u07eUJDv38/\nC1JlqgHmMnMi4y68Iy7ymv50QgAMuaBqgEBRI1R6Lfbyrb2YvH5txjJyTVMwuCfd\nYPAtZVouRz0JxmnfsHyxjE+So56uOKTDuw++Ho4HhZ7Qveej7XB8b+PIPuroknd3\nFQB5RVbXRvt5ZcVD4F2fbEdBniF7FAF4dEiofVCQGQ2nynT7dZdEIPfPdH3n7ZmE\nlAOmwHQ6G83OsiHRBLnbp+QZRgOsjkHJxT20bQIDAQABo2YwZDAOBgNVHQ8BAf8E\nBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUOEVDM7VomRH4HVdA\nQvIMNq2tXOcwHwYDVR0jBBgwFoAU54cfDjgwBx4ycBH8+/r8WXdaiqYwDQYJKoZI\nhvcNAQELBQADggEBAHhvMssj+Th8IpNePU6RH0BiL6o9c437R3Q4IEJeFdYL+nZz\nPW/rELDPvLRUNMfKM+KzduLZ+l29HahxefejYPXtvXBlq/E/9czFDD4fWXg+zVou\nuDXhyrV4kNmP4S0eqsAP/jQHPOZAMFA4yVwO9hlqmePhyDnszCh9c1PfJSBh49+b\n4w7i/L3VBOMt8j3EKYvqz0gVfpeqhJwL4Hey8UbVfJRFJMJzfNHpePqtDRAY7yjV\nPYquRaV2ab/E+/7VFkWMM4tazYz/qsYA2jSH+4xDHvYk8LnsbcrF9iuidQmEc5sb\nFgcWaSKG4DJjcI5k7AJLWcXyTDt21Ci43LE+I9Q=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEEjCCAvqgAwIBAgIJANew34ehz5l8MA0GCSqGSIb3DQEBCwUAMIGVMQswCQYD\nVQQGEwJVUzEQMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEi\nMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1h\nem9uIFJEUzEmMCQGA1UEAwwdQW1hem9uIFJEUyBtZS1zb3V0aC0xIFJvb3QgQ0Ew\nHhcNMTkwNTEwMjE0ODI3WhcNMjQwNTA4MjE0ODI3WjCBlTELMAkGA1UEBhMCVVMx\nEDAOBgNVBAcMB1NlYXR0bGUxEzARBgNVBAgMCldhc2hpbmd0b24xIjAgBgNVBAoM\nGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx\nJjAkBgNVBAMMHUFtYXpvbiBSRFMgbWUtc291dGgtMSBSb290IENBMIIBIjANBgkq\nhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp7BYV88MukcY+rq0r79+C8UzkT30fEfT\naPXbx1d6M7uheGN4FMaoYmL+JE1NZPaMRIPTHhFtLSdPccInvenRDIatcXX+jgOk\nUA6lnHQ98pwN0pfDUyz/Vph4jBR9LcVkBbe0zdoKKp+HGbMPRU0N2yNrog9gM5O8\ngkU/3O2csJ/OFQNnj4c2NQloGMUpEmedwJMOyQQfcUyt9CvZDfIPNnheUS29jGSw\nERpJe/AENu8Pxyc72jaXQuD+FEi2Ck6lBkSlWYQFhTottAeGvVFNCzKszCntrtqd\nrdYUwurYsLTXDHv9nW2hfDUQa0mhXf9gNDOBIVAZugR9NqNRNyYLHQIDAQABo2Mw\nYTAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQU54cf\nDjgwBx4ycBH8+/r8WXdaiqYwHwYDVR0jBBgwFoAU54cfDjgwBx4ycBH8+/r8WXda\niqYwDQYJKoZIhvcNAQELBQADggEBAIIMTSPx/dR7jlcxggr+O6OyY49Rlap2laKA\neC/XI4ySP3vQkIFlP822U9Kh8a9s46eR0uiwV4AGLabcu0iKYfXjPkIprVCqeXV7\nny9oDtrbflyj7NcGdZLvuzSwgl9SYTJp7PVCZtZutsPYlbJrBPHwFABvAkMvRtDB\nhitIg4AESDGPoCl94sYHpfDfjpUDMSrAMDUyO6DyBdZH5ryRMAs3lGtsmkkNUrso\naTW6R05681Z0mvkRdb+cdXtKOSuDZPoe2wJJIaz3IlNQNSrB5TImMYgmt6iAsFhv\n3vfTSTKrZDNTJn4ybG6pq1zWExoXsktZPylJly6R3RBwV6nwqBM=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEETCCAvmgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwgZQxCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSUwIwYDVQQDDBxBbWF6b24gUkRTIEJldGEgUm9vdCAyMDE5IENBMB4XDTE5MDgy\nMDE3MTAwN1oXDTI0MDgxOTE3MzgyNlowgZkxCzAJBgNVBAYTAlVTMRMwEQYDVQQI\nDApXYXNoaW5ndG9uMRAwDgYDVQQHDAdTZWF0dGxlMSIwIAYDVQQKDBlBbWF6b24g\nV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRTMSowKAYDVQQD\nDCFBbWF6b24gUkRTIEJldGEgdXMtZWFzdC0xIDIwMTkgQ0EwggEiMA0GCSqGSIb3\nDQEBAQUAA4IBDwAwggEKAoIBAQDTNCOlotQcLP8TP82U2+nk0bExVuuMVOgFeVMx\nvbUHZQeIj9ikjk+jm6eTDnnkhoZcmJiJgRy+5Jt69QcRbb3y3SAU7VoHgtraVbxF\nQDh7JEHI9tqEEVOA5OvRrDRcyeEYBoTDgh76ROco2lR+/9uCvGtHVrMCtG7BP7ZB\nsSVNAr1IIRZZqKLv2skKT/7mzZR2ivcw9UeBBTUf8xsfiYVBvMGoEsXEycjYdf6w\nWV+7XS7teNOc9UgsFNN+9AhIBc1jvee5E//72/4F8pAttAg/+mmPUyIKtekNJ4gj\nOAR2VAzGx1ybzWPwIgOudZFHXFduxvq4f1hIRPH0KbQ/gkRrAgMBAAGjZjBkMA4G\nA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBTkvpCD\n6C43rar9TtJoXr7q8dkrrjAfBgNVHSMEGDAWgBStoQwVpbGx87fxB3dEGDqKKnBT\n4TANBgkqhkiG9w0BAQsFAAOCAQEAJd9fOSkwB3uVdsS+puj6gCER8jqmhd3g/J5V\nZjk9cKS8H0e8pq/tMxeJ8kpurPAzUk5RkCspGt2l0BSwmf3ahr8aJRviMX6AuW3/\ng8aKplTvq/WMNGKLXONa3Sq8591J+ce8gtOX/1rDKmFI4wQ/gUzOSYiT991m7QKS\nFr6HMgFuz7RNJbb3Fy5cnurh8eYWA7mMv7laiLwTNsaro5qsqErD5uXuot6o9beT\na+GiKinEur35tNxAr47ax4IRubuIzyfCrezjfKc5raVV2NURJDyKP0m0CCaffAxE\nqn2dNfYc3v1D8ypg3XjHlOzRo32RB04o8ALHMD9LSwsYDLpMag==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEEDCCAvigAwIBAgIJAKFMXyltvuRdMA0GCSqGSIb3DQEBCwUAMIGUMQswCQYD\nVQQGEwJVUzEQMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEi\nMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1h\nem9uIFJEUzElMCMGA1UEAwwcQW1hem9uIFJEUyBCZXRhIFJvb3QgMjAxOSBDQTAe\nFw0xOTA4MTkxNzM4MjZaFw0yNDA4MTkxNzM4MjZaMIGUMQswCQYDVQQGEwJVUzEQ\nMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEiMCAGA1UECgwZ\nQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEl\nMCMGA1UEAwwcQW1hem9uIFJEUyBCZXRhIFJvb3QgMjAxOSBDQTCCASIwDQYJKoZI\nhvcNAQEBBQADggEPADCCAQoCggEBAMkZdnIH9ndatGAcFo+DppGJ1HUt4x+zeO+0\nZZ29m0sfGetVulmTlv2d5b66e+QXZFWpcPQMouSxxYTW08TbrQiZngKr40JNXftA\natvzBqIImD4II0ZX5UEVj2h98qe/ypW5xaDN7fEa5e8FkYB1TEemPaWIbNXqchcL\ntV7IJPr3Cd7Z5gZJlmujIVDPpMuSiNaal9/6nT9oqN+JSM1fx5SzrU5ssg1Vp1vv\n5Xab64uOg7wCJRB9R2GC9XD04odX6VcxUAGrZo6LR64ZSifupo3l+R5sVOc5i8NH\nskdboTzU9H7+oSdqoAyhIU717PcqeDum23DYlPE2nGBWckE+eT8CAwEAAaNjMGEw\nDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFK2hDBWl\nsbHzt/EHd0QYOooqcFPhMB8GA1UdIwQYMBaAFK2hDBWlsbHzt/EHd0QYOooqcFPh\nMA0GCSqGSIb3DQEBCwUAA4IBAQAO/718k8EnOqJDx6wweUscGTGL/QdKXUzTVRAx\nJUsjNUv49mH2HQVEW7oxszfH6cPCaupNAddMhQc4C/af6GHX8HnqfPDk27/yBQI+\nyBBvIanGgxv9c9wBbmcIaCEWJcsLp3HzXSYHmjiqkViXwCpYfkoV3Ns2m8bp+KCO\ny9XmcCKRaXkt237qmoxoh2sGmBHk2UlQtOsMC0aUQ4d7teAJG0q6pbyZEiPyKZY1\nXR/UVxMJL0Q4iVpcRS1kaNCMfqS2smbLJeNdsan8pkw1dvPhcaVTb7CvjhJtjztF\nYfDzAI5794qMlWxwilKMmUvDlPPOTen8NNHkLwWvyFCH7Doh\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEFzCCAv+gAwIBAgICFSUwDQYJKoZIhvcNAQELBQAwgZcxCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSgwJgYDVQQDDB9BbWF6b24gUkRTIFByZXZpZXcgUm9vdCAyMDE5IENBMB4XDTE5\nMDgyMTIyMzk0N1oXDTI0MDgyMTIyMjk0OVowgZwxCzAJBgNVBAYTAlVTMRMwEQYD\nVQQIDApXYXNoaW5ndG9uMRAwDgYDVQQHDAdTZWF0dGxlMSIwIAYDVQQKDBlBbWF6\nb24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRTMS0wKwYD\nVQQDDCRBbWF6b24gUkRTIFByZXZpZXcgdXMtZWFzdC0yIDIwMTkgQ0EwggEiMA0G\nCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQD0dB/U7qRnSf05wOi7m10Pa2uPMTJv\nr6U/3Y17a5prq5Zr4++CnSUYarG51YuIf355dKs+7Lpzs782PIwCmLpzAHKWzix6\npOaTQ+WZ0+vUMTxyqgqWbsBgSCyP7pVBiyqnmLC/L4az9XnscrbAX4pNaoJxsuQe\nmzBo6yofjQaAzCX69DuqxFkVTRQnVy7LCFkVaZtjNAftnAHJjVgQw7lIhdGZp9q9\nIafRt2gteihYfpn+EAQ/t/E4MnhrYs4CPLfS7BaYXBycEKC5Muj1l4GijNNQ0Efo\nxG8LSZz7SNgUvfVwiNTaqfLP3AtEAWiqxyMyh3VO+1HpCjT7uNBFtmF3AgMBAAGj\nZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQW\nBBQtinkdrj+0B2+qdXngV2tgHnPIujAfBgNVHSMEGDAWgBRp0xqULkNh/w2ZVzEI\no2RIY7O03TANBgkqhkiG9w0BAQsFAAOCAQEAtJdqbCxDeMc8VN1/RzCabw9BIL/z\n73Auh8eFTww/sup26yn8NWUkfbckeDYr1BrXa+rPyLfHpg06kwR8rBKyrs5mHwJx\nbvOzXD/5WTdgreB+2Fb7mXNvWhenYuji1MF+q1R2DXV3I05zWHteKX6Dajmx+Uuq\nYq78oaCBSV48hMxWlp8fm40ANCL1+gzQ122xweMFN09FmNYFhwuW+Ao+Vv90ZfQG\nPYwTvN4n/gegw2TYcifGZC2PNX74q3DH03DXe5fvNgRW5plgz/7f+9mS+YHd5qa9\ntYTPUvoRbi169ou6jicsMKUKPORHWhiTpSCWR1FMMIbsAcsyrvtIsuaGCQ==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEFjCCAv6gAwIBAgIJAMzYZJ+R9NBVMA0GCSqGSIb3DQEBCwUAMIGXMQswCQYD\nVQQGEwJVUzEQMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEi\nMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1h\nem9uIFJEUzEoMCYGA1UEAwwfQW1hem9uIFJEUyBQcmV2aWV3IFJvb3QgMjAxOSBD\nQTAeFw0xOTA4MjEyMjI5NDlaFw0yNDA4MjEyMjI5NDlaMIGXMQswCQYDVQQGEwJV\nUzEQMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEiMCAGA1UE\nCgwZQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJE\nUzEoMCYGA1UEAwwfQW1hem9uIFJEUyBQcmV2aWV3IFJvb3QgMjAxOSBDQTCCASIw\nDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAM7kkS6vjgKKQTPynC2NjdN5aPPV\nO71G0JJS/2ARVBVJd93JLiGovVJilfWYfwZCs4gTRSSjrUD4D4HyqCd6A+eEEtJq\nM0DEC7i0dC+9WNTsPszuB206Jy2IUmxZMIKJAA1NHSbIMjB+b6/JhbSUi7nKdbR/\nbrj83bF+RoSA+ogrgX7mQbxhmFcoZN9OGaJgYKsKWUt5Wqv627KkGodUK8mDepgD\nS3ZfoRQRx3iceETpcmHJvaIge6+vyDX3d9Z22jmvQ4AKv3py2CmU2UwuhOltFDwB\n0ddtb39vgwrJxaGfiMRHpEP1DfNLWHAnA69/pgZPwIggidS+iBPUhgucMp8CAwEA\nAaNjMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYE\nFGnTGpQuQ2H/DZlXMQijZEhjs7TdMB8GA1UdIwQYMBaAFGnTGpQuQ2H/DZlXMQij\nZEhjs7TdMA0GCSqGSIb3DQEBCwUAA4IBAQC3xz1vQvcXAfpcZlngiRWeqU8zQAMQ\nLZPCFNv7PVk4pmqX+ZiIRo4f9Zy7TrOVcboCnqmP/b/mNq0gVF4O+88jwXJZD+f8\n/RnABMZcnGU+vK0YmxsAtYU6TIb1uhRFmbF8K80HHbj9vSjBGIQdPCbvmR2zY6VJ\nBYM+w9U9hp6H4DVMLKXPc1bFlKA5OBTgUtgkDibWJKFOEPW3UOYwp9uq6pFoN0AO\nxMTldqWFsOF3bJIlvOY0c/1EFZXu3Ns6/oCP//Ap9vumldYMUZWmbK+gK33FPOXV\n8BQ6jNC29icv7lLDpRPwjibJBXX+peDR5UK4FdYcswWEB1Tix5X8dYu6\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIECDCCAvCgAwIBAgICVIYwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MDQxNzEz\nMDRaFw0yNDA4MjIxNzA4NTBaMIGVMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEmMCQGA1UEAwwdQW1h\nem9uIFJEUyBhcC1zb3V0aC0xIDIwMTkgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IB\nDwAwggEKAoIBAQDUYOz1hGL42yUCrcsMSOoU8AeD/3KgZ4q7gP+vAz1WnY9K/kim\neWN/2Qqzlo3+mxSFQFyD4MyV3+CnCPnBl9Sh1G/F6kThNiJ7dEWSWBQGAB6HMDbC\nBaAsmUc1UIz8sLTL3fO+S9wYhA63Wun0Fbm/Rn2yk/4WnJAaMZcEtYf6e0KNa0LM\np/kN/70/8cD3iz3dDR8zOZFpHoCtf0ek80QqTich0A9n3JLxR6g6tpwoYviVg89e\nqCjQ4axxOkWWeusLeTJCcY6CkVyFvDAKvcUl1ytM5AiaUkXblE7zDFXRM4qMMRdt\nlPm8d3pFxh0fRYk8bIKnpmtOpz3RIctDrZZxAgMBAAGjZjBkMA4GA1UdDwEB/wQE\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBT99wKJftD3jb4sHoHG\ni3uGlH6W6TAfBgNVHSMEGDAWgBRzX2DYvMsDmPQrFzQuNlqmYP+8HzANBgkqhkiG\n9w0BAQsFAAOCAQEAZ17hhr3dII3hUfuHQ1hPWGrpJOX/G9dLzkprEIcCidkmRYl+\nhu1Pe3caRMh/17+qsoEErmnVq5jNY9X1GZL04IZH8YbHc7iRHw3HcWAdhN8633+K\njYEB2LbJ3vluCGnCejq9djDb6alOugdLMJzxOkHDhMZ6/gYbECOot+ph1tQuZXzD\ntZ7prRsrcuPBChHlPjmGy8M9z8u+kF196iNSUGC4lM8vLkHM7ycc1/ZOwRq9aaTe\niOghbQQyAEe03MWCyDGtSmDfr0qEk+CHN+6hPiaL8qKt4s+V9P7DeK4iW08ny8Ox\nAVS7u0OK/5+jKMAMrKwpYrBydOjTUTHScocyNw==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEBjCCAu6gAwIBAgIJAMc0ZzaSUK51MA0GCSqGSIb3DQEBCwUAMIGPMQswCQYD\nVQQGEwJVUzEQMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEi\nMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1h\nem9uIFJEUzEgMB4GA1UEAwwXQW1hem9uIFJEUyBSb290IDIwMTkgQ0EwHhcNMTkw\nODIyMTcwODUwWhcNMjQwODIyMTcwODUwWjCBjzELMAkGA1UEBhMCVVMxEDAOBgNV\nBAcMB1NlYXR0bGUxEzARBgNVBAgMCldhc2hpbmd0b24xIjAgBgNVBAoMGUFtYXpv\nbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMxIDAeBgNV\nBAMMF0FtYXpvbiBSRFMgUm9vdCAyMDE5IENBMIIBIjANBgkqhkiG9w0BAQEFAAOC\nAQ8AMIIBCgKCAQEArXnF/E6/Qh+ku3hQTSKPMhQQlCpoWvnIthzX6MK3p5a0eXKZ\noWIjYcNNG6UwJjp4fUXl6glp53Jobn+tWNX88dNH2n8DVbppSwScVE2LpuL+94vY\n0EYE/XxN7svKea8YvlrqkUBKyxLxTjh+U/KrGOaHxz9v0l6ZNlDbuaZw3qIWdD/I\n6aNbGeRUVtpM6P+bWIoxVl/caQylQS6CEYUk+CpVyJSkopwJlzXT07tMoDL5WgX9\nO08KVgDNz9qP/IGtAcRduRcNioH3E9v981QO1zt/Gpb2f8NqAjUUCUZzOnij6mx9\nMcZ+9cWX88CRzR0vQODWuZscgI08NvM69Fn2SQIDAQABo2MwYTAOBgNVHQ8BAf8E\nBAMCAQYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUc19g2LzLA5j0Kxc0LjZa\npmD/vB8wHwYDVR0jBBgwFoAUc19g2LzLA5j0Kxc0LjZapmD/vB8wDQYJKoZIhvcN\nAQELBQADggEBAHAG7WTmyjzPRIM85rVj+fWHsLIvqpw6DObIjMWokpliCeMINZFV\nynfgBKsf1ExwbvJNzYFXW6dihnguDG9VMPpi2up/ctQTN8tm9nDKOy08uNZoofMc\nNUZxKCEkVKZv+IL4oHoeayt8egtv3ujJM6V14AstMQ6SwvwvA93EP/Ug2e4WAXHu\ncbI1NAbUgVDqp+DRdfvZkgYKryjTWd/0+1fS8X1bBZVWzl7eirNVnHbSH2ZDpNuY\n0SBd8dj5F6ld3t58ydZbrTHze7JJOd8ijySAp4/kiu9UfZWuTPABzDa/DSdz9Dk/\nzPW4CXXvhLmE02TA9/HeCw3KEHIwicNuEfw=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEBzCCAu+gAwIBAgICQ2QwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MDUxODQ2\nMjlaFw0yNDA4MjIxNzA4NTBaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1h\nem9uIFJEUyBzYS1lYXN0LTEgMjAxOSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAMMvR+ReRnOzqJzoaPipNTt1Z2VA968jlN1+SYKUrYM3No+Vpz0H\nM6Tn0oYB66ByVsXiGc28ulsqX1HbHsxqDPwvQTKvO7SrmDokoAkjJgLocOLUAeld\n5AwvUjxGRP6yY90NV7X786MpnYb2Il9DIIaV9HjCmPt+rjy2CZjS0UjPjCKNfB8J\nbFjgW6GGscjeyGb/zFwcom5p4j0rLydbNaOr9wOyQrtt3ZQWLYGY9Zees/b8pmcc\nJt+7jstZ2UMV32OO/kIsJ4rMUn2r/uxccPwAc1IDeRSSxOrnFKhW3Cu69iB3bHp7\nJbawY12g7zshE4I14sHjv3QoXASoXjx4xgMCAwEAAaNmMGQwDgYDVR0PAQH/BAQD\nAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFI1Fc/Ql2jx+oJPgBVYq\nccgP0pQ8MB8GA1UdIwQYMBaAFHNfYNi8ywOY9CsXNC42WqZg/7wfMA0GCSqGSIb3\nDQEBCwUAA4IBAQB4VVVabVp70myuYuZ3vltQIWqSUMhkaTzehMgGcHjMf9iLoZ/I\n93KiFUSGnek5cRePyS9wcpp0fcBT3FvkjpUdCjVtdttJgZFhBxgTd8y26ImdDDMR\n4+BUuhI5msvjL08f+Vkkpu1GQcGmyFVPFOy/UY8iefu+QyUuiBUnUuEDd49Hw0Fn\n/kIPII6Vj82a2mWV/Q8e+rgN8dIRksRjKI03DEoP8lhPlsOkhdwU6Uz9Vu6NOB2Q\nLs1kbcxAc7cFSyRVJEhh12Sz9d0q/CQSTFsVJKOjSNQBQfVnLz1GwO/IieUEAr4C\njkTntH0r1LX5b/GwN4R887LvjAEdTbg1his7\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIECDCCAvCgAwIBAgIDAIkHMA0GCSqGSIb3DQEBCwUAMIGPMQswCQYDVQQGEwJV\nUzEQMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEiMCAGA1UE\nCgwZQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJE\nUzEgMB4GA1UEAwwXQW1hem9uIFJEUyBSb290IDIwMTkgQ0EwHhcNMTkwOTA2MTc0\nMDIxWhcNMjQwODIyMTcwODUwWjCBlDELMAkGA1UEBhMCVVMxEzARBgNVBAgMCldh\nc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoMGUFtYXpvbiBXZWIg\nU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMxJTAjBgNVBAMMHEFt\nYXpvbiBSRFMgdXMtd2VzdC0xIDIwMTkgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IB\nDwAwggEKAoIBAQDD2yzbbAl77OofTghDMEf624OvU0eS9O+lsdO0QlbfUfWa1Kd6\n0WkgjkLZGfSRxEHMCnrv4UPBSK/Qwn6FTjkDLgemhqBtAnplN4VsoDL+BkRX4Wwq\n/dSQJE2b+0hm9w9UMVGFDEq1TMotGGTD2B71eh9HEKzKhGzqiNeGsiX4VV+LJzdH\nuM23eGisNqmd4iJV0zcAZ+Gbh2zK6fqTOCvXtm7Idccv8vZZnyk1FiWl3NR4WAgK\nAkvWTIoFU3Mt7dIXKKClVmvssG8WHCkd3Xcb4FHy/G756UZcq67gMMTX/9fOFM/v\nl5C0+CHl33Yig1vIDZd+fXV1KZD84dEJfEvHAgMBAAGjZjBkMA4GA1UdDwEB/wQE\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBR+ap20kO/6A7pPxo3+\nT3CfqZpQWjAfBgNVHSMEGDAWgBRzX2DYvMsDmPQrFzQuNlqmYP+8HzANBgkqhkiG\n9w0BAQsFAAOCAQEAHCJky2tPjPttlDM/RIqExupBkNrnSYnOK4kr9xJ3sl8UF2DA\nPAnYsjXp3rfcjN/k/FVOhxwzi3cXJF/2Tjj39Bm/OEfYTOJDNYtBwB0VVH4ffa/6\ntZl87jaIkrxJcreeeHqYMnIxeN0b/kliyA+a5L2Yb0VPjt9INq34QDc1v74FNZ17\n4z8nr1nzg4xsOWu0Dbjo966lm4nOYIGBRGOKEkHZRZ4mEiMgr3YLkv8gSmeitx57\nZ6dVemNtUic/LVo5Iqw4n3TBS0iF2C1Q1xT/s3h+0SXZlfOWttzSluDvoMv5PvCd\npFjNn+aXLAALoihL1MJSsxydtsLjOBro5eK0Vw==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEDDCCAvSgAwIBAgICOFAwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTAxNzQ2\nMjFaFw0yNDA4MjIxNzA4NTBaMIGZMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEqMCgGA1UEAwwhQW1h\nem9uIFJEUyBhcC1ub3J0aGVhc3QtMiAyMDE5IENBMIIBIjANBgkqhkiG9w0BAQEF\nAAOCAQ8AMIIBCgKCAQEAzU72e6XbaJbi4HjJoRNjKxzUEuChKQIt7k3CWzNnmjc5\n8I1MjCpa2W1iw1BYVysXSNSsLOtUsfvBZxi/1uyMn5ZCaf9aeoA9UsSkFSZBjOCN\nDpKPCmfV1zcEOvJz26+1m8WDg+8Oa60QV0ou2AU1tYcw98fOQjcAES0JXXB80P2s\n3UfkNcnDz+l4k7j4SllhFPhH6BQ4lD2NiFAP4HwoG6FeJUn45EPjzrydxjq6v5Fc\ncQ8rGuHADVXotDbEhaYhNjIrsPL+puhjWfhJjheEw8c4whRZNp6gJ/b6WEes/ZhZ\nh32DwsDsZw0BfRDUMgUn8TdecNexHUw8vQWeC181hwIDAQABo2YwZDAOBgNVHQ8B\nAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUwW9bWgkWkr0U\nlrOsq2kvIdrECDgwHwYDVR0jBBgwFoAUc19g2LzLA5j0Kxc0LjZapmD/vB8wDQYJ\nKoZIhvcNAQELBQADggEBAEugF0Gj7HVhX0ehPZoGRYRt3PBuI2YjfrrJRTZ9X5wc\n9T8oHmw07mHmNy1qqWvooNJg09bDGfB0k5goC2emDiIiGfc/kvMLI7u+eQOoMKj6\nmkfCncyRN3ty08Po45vTLBFZGUvtQmjM6yKewc4sXiASSBmQUpsMbiHRCL72M5qV\nobcJOjGcIdDTmV1BHdWT+XcjynsGjUqOvQWWhhLPrn4jWe6Xuxll75qlrpn3IrIx\nCRBv/5r7qbcQJPOgwQsyK4kv9Ly8g7YT1/vYBlR3cRsYQjccw5ceWUj2DrMVWhJ4\nprf+E3Aa4vYmLLOUUvKnDQ1k3RGNu56V0tonsQbfsaM=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIECjCCAvKgAwIBAgICEzUwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTAyMDUy\nMjVaFw0yNDA4MjIxNzA4NTBaMIGXMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEoMCYGA1UEAwwfQW1h\nem9uIFJEUyBjYS1jZW50cmFsLTEgMjAxOSBDQTCCASIwDQYJKoZIhvcNAQEBBQAD\nggEPADCCAQoCggEBAOxHqdcPSA2uBjsCP4DLSlqSoPuQ/X1kkJLusVRKiQE2zayB\nviuCBt4VB9Qsh2rW3iYGM+usDjltGnI1iUWA5KHcvHszSMkWAOYWLiMNKTlg6LCp\nXnE89tvj5dIH6U8WlDvXLdjB/h30gW9JEX7S8supsBSci2GxEzb5mRdKaDuuF/0O\nqvz4YE04pua3iZ9QwmMFuTAOYzD1M72aOpj+7Ac+YLMM61qOtU+AU6MndnQkKoQi\nqmUN2A9IFaqHFzRlSdXwKCKUA4otzmz+/N3vFwjb5F4DSsbsrMfjeHMo6o/nb6Nh\nYDb0VJxxPee6TxSuN7CQJ2FxMlFUezcoXqwqXD0CAwEAAaNmMGQwDgYDVR0PAQH/\nBAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFDGGpon9WfIpsggE\nCxHq8hZ7E2ESMB8GA1UdIwQYMBaAFHNfYNi8ywOY9CsXNC42WqZg/7wfMA0GCSqG\nSIb3DQEBCwUAA4IBAQAvpeQYEGZvoTVLgV9rd2+StPYykMsmFjWQcyn3dBTZRXC2\nlKq7QhQczMAOhEaaN29ZprjQzsA2X/UauKzLR2Uyqc2qOeO9/YOl0H3qauo8C/W9\nr8xqPbOCDLEXlOQ19fidXyyEPHEq5WFp8j+fTh+s8WOx2M7IuC0ANEetIZURYhSp\nxl9XOPRCJxOhj7JdelhpweX0BJDNHeUFi0ClnFOws8oKQ7sQEv66d5ddxqqZ3NVv\nRbCvCtEutQMOUMIuaygDlMn1anSM8N7Wndx8G6+Uy67AnhjGx7jw/0YPPxopEj6x\nJXP8j0sJbcT9K/9/fPVLNT25RvQ/93T2+IQL4Ca2\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEBzCCAu+gAwIBAgICYpgwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTExNzMx\nNDhaFw0yNDA4MjIxNzA4NTBaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1h\nem9uIFJEUyBldS13ZXN0LTEgMjAxOSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAMk3YdSZ64iAYp6MyyKtYJtNzv7zFSnnNf6vv0FB4VnfITTMmOyZ\nLXqKAT2ahZ00hXi34ewqJElgU6eUZT/QlzdIu359TEZyLVPwURflL6SWgdG01Q5X\nO++7fSGcBRyIeuQWs9FJNIIqK8daF6qw0Rl5TXfu7P9dBc3zkgDXZm2DHmxGDD69\n7liQUiXzoE1q2Z9cA8+jirDioJxN9av8hQt12pskLQumhlArsMIhjhHRgF03HOh5\ntvi+RCfihVOxELyIRTRpTNiIwAqfZxxTWFTgfn+gijTmd0/1DseAe82aYic8JbuS\nEMbrDduAWsqrnJ4GPzxHKLXX0JasCUcWyMECAwEAAaNmMGQwDgYDVR0PAQH/BAQD\nAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFPLtsq1NrwJXO13C9eHt\nsLY11AGwMB8GA1UdIwQYMBaAFHNfYNi8ywOY9CsXNC42WqZg/7wfMA0GCSqGSIb3\nDQEBCwUAA4IBAQAnWBKj5xV1A1mYd0kIgDdkjCwQkiKF5bjIbGkT3YEFFbXoJlSP\n0lZZ/hDaOHI8wbLT44SzOvPEEmWF9EE7SJzkvSdQrUAWR9FwDLaU427ALI3ngNHy\nlGJ2hse1fvSRNbmg8Sc9GBv8oqNIBPVuw+AJzHTacZ1OkyLZrz1c1QvwvwN2a+Jd\nvH0V0YIhv66llKcYDMUQJAQi4+8nbRxXWv6Gq3pvrFoorzsnkr42V3JpbhnYiK+9\nnRKd4uWl62KRZjGkfMbmsqZpj2fdSWMY1UGyN1k+kDmCSWYdrTRDP0xjtIocwg+A\nJ116n4hV/5mbA0BaPiS2krtv17YAeHABZcvz\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIECjCCAvKgAwIBAgICV2YwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTExOTM2\nMjBaFw0yNDA4MjIxNzA4NTBaMIGXMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEoMCYGA1UEAwwfQW1h\nem9uIFJEUyBldS1jZW50cmFsLTEgMjAxOSBDQTCCASIwDQYJKoZIhvcNAQEBBQAD\nggEPADCCAQoCggEBAMEx54X2pHVv86APA0RWqxxRNmdkhAyp2R1cFWumKQRofoFv\nn+SPXdkpIINpMuEIGJANozdiEz7SPsrAf8WHyD93j/ZxrdQftRcIGH41xasetKGl\nI67uans8d+pgJgBKGb/Z+B5m+UsIuEVekpvgpwKtmmaLFC/NCGuSsJoFsRqoa6Gh\nm34W6yJoY87UatddCqLY4IIXaBFsgK9Q/wYzYLbnWM6ZZvhJ52VMtdhcdzeTHNW0\n5LGuXJOF7Ahb4JkEhoo6TS2c0NxB4l4MBfBPgti+O7WjR3FfZHpt18A6Zkq6A2u6\nD/oTSL6c9/3sAaFTFgMyL3wHb2YlW0BPiljZIqECAwEAAaNmMGQwDgYDVR0PAQH/\nBAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFOcAToAc6skWffJa\nTnreaswAfrbcMB8GA1UdIwQYMBaAFHNfYNi8ywOY9CsXNC42WqZg/7wfMA0GCSqG\nSIb3DQEBCwUAA4IBAQA1d0Whc1QtspK496mFWfFEQNegLh0a9GWYlJm+Htcj5Nxt\nDAIGXb+8xrtOZFHmYP7VLCT5Zd2C+XytqseK/+s07iAr0/EPF+O2qcyQWMN5KhgE\ncXw2SwuP9FPV3i+YAm11PBVeenrmzuk9NrdHQ7TxU4v7VGhcsd2C++0EisrmquWH\nmgIfmVDGxphwoES52cY6t3fbnXmTkvENvR+h3rj+fUiSz0aSo+XZUGHPgvuEKM/W\nCBD9Smc9CBoBgvy7BgHRgRUmwtABZHFUIEjHI5rIr7ZvYn+6A0O6sogRfvVYtWFc\nqpyrW1YX8mD0VlJ8fGKM3G+aCOsiiPKDV/Uafrm+\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIECDCCAvCgAwIBAgICGAcwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTIxODE5\nNDRaFw0yNDA4MjIxNzA4NTBaMIGVMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEmMCQGA1UEAwwdQW1h\nem9uIFJEUyBldS1ub3J0aC0xIDIwMTkgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IB\nDwAwggEKAoIBAQCiIYnhe4UNBbdBb/nQxl5giM0XoVHWNrYV5nB0YukA98+TPn9v\nAoj1RGYmtryjhrf01Kuv8SWO+Eom95L3zquoTFcE2gmxCfk7bp6qJJ3eHOJB+QUO\nXsNRh76fwDzEF1yTeZWH49oeL2xO13EAx4PbZuZpZBttBM5zAxgZkqu4uWQczFEs\nJXfla7z2fvWmGcTagX10O5C18XaFroV0ubvSyIi75ue9ykg/nlFAeB7O0Wxae88e\nuhiBEFAuLYdqWnsg3459NfV8Yi1GnaitTym6VI3tHKIFiUvkSiy0DAlAGV2iiyJE\nq+DsVEO4/hSINJEtII4TMtysOsYPpINqeEzRAgMBAAGjZjBkMA4GA1UdDwEB/wQE\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBRR0UpnbQyjnHChgmOc\nhnlc0PogzTAfBgNVHSMEGDAWgBRzX2DYvMsDmPQrFzQuNlqmYP+8HzANBgkqhkiG\n9w0BAQsFAAOCAQEAKJD4xVzSf4zSGTBJrmamo86jl1NHQxXUApAZuBZEc8tqC6TI\nT5CeoSr9CMuVC8grYyBjXblC4OsM5NMvmsrXl/u5C9dEwtBFjo8mm53rOOIm1fxl\nI1oYB/9mtO9ANWjkykuLzWeBlqDT/i7ckaKwalhLODsRDO73vRhYNjsIUGloNsKe\npxw3dzHwAZx4upSdEVG4RGCZ1D0LJ4Gw40OfD69hfkDfRVVxKGrbEzqxXRvovmDc\ntKLdYZO/6REoca36v4BlgIs1CbUXJGLSXUwtg7YXGLSVBJ/U0+22iGJmBSNcoyUN\ncjPFD9JQEhDDIYYKSGzIYpvslvGc4T5ISXFiuQ==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEBzCCAu+gAwIBAgICZIEwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTIyMTMy\nMzJaFw0yNDA4MjIxNzA4NTBaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1h\nem9uIFJEUyBldS13ZXN0LTIgMjAxOSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBALGiwqjiF7xIjT0Sx7zB3764K2T2a1DHnAxEOr+/EIftWKxWzT3u\nPFwS2eEZcnKqSdRQ+vRzonLBeNLO4z8aLjQnNbkizZMBuXGm4BqRm1Kgq3nlLDQn\n7YqdijOq54SpShvR/8zsO4sgMDMmHIYAJJOJqBdaus2smRt0NobIKc0liy7759KB\n6kmQ47Gg+kfIwxrQA5zlvPLeQImxSoPi9LdbRoKvu7Iot7SOa+jGhVBh3VdqndJX\n7tm/saj4NE375csmMETFLAOXjat7zViMRwVorX4V6AzEg1vkzxXpA9N7qywWIT5Y\nfYaq5M8i6vvLg0CzrH9fHORtnkdjdu1y+0MCAwEAAaNmMGQwDgYDVR0PAQH/BAQD\nAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFFOhOx1yt3Z7mvGB9jBv\n2ymdZwiOMB8GA1UdIwQYMBaAFHNfYNi8ywOY9CsXNC42WqZg/7wfMA0GCSqGSIb3\nDQEBCwUAA4IBAQBehqY36UGDvPVU9+vtaYGr38dBbp+LzkjZzHwKT1XJSSUc2wqM\nhnCIQKilonrTIvP1vmkQi8qHPvDRtBZKqvz/AErW/ZwQdZzqYNFd+BmOXaeZWV0Q\noHtDzXmcwtP8aUQpxN0e1xkWb1E80qoy+0uuRqb/50b/R4Q5qqSfJhkn6z8nwB10\n7RjLtJPrK8igxdpr3tGUzfAOyiPrIDncY7UJaL84GFp7WWAkH0WG3H8Y8DRcRXOU\nmqDxDLUP3rNuow3jnGxiUY+gGX5OqaZg4f4P6QzOSmeQYs6nLpH0PiN00+oS1BbD\nbpWdZEttILPI+vAYkU4QuBKKDjJL6HbSd+cn\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIECDCCAvCgAwIBAgIDAIVCMA0GCSqGSIb3DQEBCwUAMIGPMQswCQYDVQQGEwJV\nUzEQMA4GA1UEBwwHU2VhdHRsZTETMBEGA1UECAwKV2FzaGluZ3RvbjEiMCAGA1UE\nCgwZQW1hem9uIFdlYiBTZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJE\nUzEgMB4GA1UEAwwXQW1hem9uIFJEUyBSb290IDIwMTkgQ0EwHhcNMTkwOTEzMTcw\nNjQxWhcNMjQwODIyMTcwODUwWjCBlDELMAkGA1UEBhMCVVMxEzARBgNVBAgMCldh\nc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoMGUFtYXpvbiBXZWIg\nU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMxJTAjBgNVBAMMHEFt\nYXpvbiBSRFMgdXMtZWFzdC0yIDIwMTkgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IB\nDwAwggEKAoIBAQDE+T2xYjUbxOp+pv+gRA3FO24+1zCWgXTDF1DHrh1lsPg5k7ht\n2KPYzNc+Vg4E+jgPiW0BQnA6jStX5EqVh8BU60zELlxMNvpg4KumniMCZ3krtMUC\nau1NF9rM7HBh+O+DYMBLK5eSIVt6lZosOb7bCi3V6wMLA8YqWSWqabkxwN4w0vXI\n8lu5uXXFRemHnlNf+yA/4YtN4uaAyd0ami9+klwdkZfkrDOaiy59haOeBGL8EB/c\ndbJJlguHH5CpCscs3RKtOOjEonXnKXldxarFdkMzi+aIIjQ8GyUOSAXHtQHb3gZ4\nnS6Ey0CMlwkB8vUObZU9fnjKJcL5QCQqOfwvAgMBAAGjZjBkMA4GA1UdDwEB/wQE\nAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBQUPuRHohPxx4VjykmH\n6usGrLL1ETAfBgNVHSMEGDAWgBRzX2DYvMsDmPQrFzQuNlqmYP+8HzANBgkqhkiG\n9w0BAQsFAAOCAQEAUdR9Vb3y33Yj6X6KGtuthZ08SwjImVQPtknzpajNE5jOJAh8\nquvQnU9nlnMO85fVDU1Dz3lLHGJ/YG1pt1Cqq2QQ200JcWCvBRgdvH6MjHoDQpqZ\nHvQ3vLgOGqCLNQKFuet9BdpsHzsctKvCVaeBqbGpeCtt3Hh/26tgx0rorPLw90A2\nV8QSkZJjlcKkLa58N5CMM8Xz8KLWg3MZeT4DmlUXVCukqK2RGuP2L+aME8dOxqNv\nOnOz1zrL5mR2iJoDpk8+VE/eBDmJX40IJk6jBjWoxAO/RXq+vBozuF5YHN1ujE92\ntO8HItgTp37XT8bJBAiAnt5mxw+NLSqtxk2QdQ==\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEDDCCAvSgAwIBAgICY4kwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTMyMDEx\nNDJaFw0yNDA4MjIxNzA4NTBaMIGZMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEqMCgGA1UEAwwhQW1h\nem9uIFJEUyBhcC1zb3V0aGVhc3QtMSAyMDE5IENBMIIBIjANBgkqhkiG9w0BAQEF\nAAOCAQ8AMIIBCgKCAQEAr5u9OuLL/OF/fBNUX2kINJLzFl4DnmrhnLuSeSnBPgbb\nqddjf5EFFJBfv7IYiIWEFPDbDG5hoBwgMup5bZDbas+ZTJTotnnxVJTQ6wlhTmns\neHECcg2pqGIKGrxZfbQhlj08/4nNAPvyYCTS0bEcmQ1emuDPyvJBYDDLDU6AbCB5\n6Z7YKFQPTiCBblvvNzchjLWF9IpkqiTsPHiEt21sAdABxj9ityStV3ja/W9BfgxH\nwzABSTAQT6FbDwmQMo7dcFOPRX+hewQSic2Rn1XYjmNYzgEHisdUsH7eeXREAcTw\n61TRvaLH8AiOWBnTEJXPAe6wYfrcSd1pD0MXpoB62wIDAQABo2YwZDAOBgNVHQ8B\nAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUytwMiomQOgX5\nIchd+2lDWRUhkikwHwYDVR0jBBgwFoAUc19g2LzLA5j0Kxc0LjZapmD/vB8wDQYJ\nKoZIhvcNAQELBQADggEBACf6lRDpfCD7BFRqiWM45hqIzffIaysmVfr+Jr+fBTjP\nuYe/ba1omSrNGG23bOcT9LJ8hkQJ9d+FxUwYyICQNWOy6ejicm4z0C3VhphbTPqj\nyjpt9nG56IAcV8BcRJh4o/2IfLNzC/dVuYJV8wj7XzwlvjysenwdrJCoLadkTr1h\neIdG6Le07sB9IxrGJL9e04afk37h7c8ESGSE4E+oS4JQEi3ATq8ne1B9DQ9SasXi\nIRmhNAaISDzOPdyLXi9N9V9Lwe/DHcja7hgLGYx3UqfjhLhOKwp8HtoZORixAmOI\nHfILgNmwyugAbuZoCazSKKBhQ0wgO0WZ66ZKTMG8Oho=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEBzCCAu+gAwIBAgICUYkwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTYxODIx\nMTVaFw0yNDA4MjIxNzA4NTBaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1h\nem9uIFJEUyB1cy13ZXN0LTIgMjAxOSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBANCEZBZyu6yJQFZBJmSUZfSZd3Ui2gitczMKC4FLr0QzkbxY+cLa\nuVONIOrPt4Rwi+3h/UdnUg917xao3S53XDf1TDMFEYp4U8EFPXqCn/GXBIWlU86P\nPvBN+gzw3nS+aco7WXb+woTouvFVkk8FGU7J532llW8o/9ydQyDIMtdIkKTuMfho\nOiNHSaNc+QXQ32TgvM9A/6q7ksUoNXGCP8hDOkSZ/YOLiI5TcdLh/aWj00ziL5bj\npvytiMZkilnc9dLY9QhRNr0vGqL0xjmWdoEXz9/OwjmCihHqJq+20MJPsvFm7D6a\n2NKybR9U+ddrjb8/iyLOjURUZnj5O+2+OPcCAwEAAaNmMGQwDgYDVR0PAQH/BAQD\nAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFEBxMBdv81xuzqcK5TVu\npHj+Aor8MB8GA1UdIwQYMBaAFHNfYNi8ywOY9CsXNC42WqZg/7wfMA0GCSqGSIb3\nDQEBCwUAA4IBAQBZkfiVqGoJjBI37aTlLOSjLcjI75L5wBrwO39q+B4cwcmpj58P\n3sivv+jhYfAGEbQnGRzjuFoyPzWnZ1DesRExX+wrmHsLLQbF2kVjLZhEJMHF9eB7\nGZlTPdTzHErcnuXkwA/OqyXMpj9aghcQFuhCNguEfnROY9sAoK2PTfnTz9NJHL+Q\nUpDLEJEUfc0GZMVWYhahc0x38ZnSY2SKacIPECQrTI0KpqZv/P+ijCEcMD9xmYEb\njL4en+XKS1uJpw5fIU5Sj0MxhdGstH6S84iAE5J3GM3XHklGSFwwqPYvuTXvANH6\nuboynxRgSae59jIlAK6Jrr6GWMwQRbgcaAlW\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEDDCCAvSgAwIBAgICEkYwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTYxOTUz\nNDdaFw0yNDA4MjIxNzA4NTBaMIGZMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEqMCgGA1UEAwwhQW1h\nem9uIFJEUyBhcC1zb3V0aGVhc3QtMiAyMDE5IENBMIIBIjANBgkqhkiG9w0BAQEF\nAAOCAQ8AMIIBCgKCAQEAufodI2Flker8q7PXZG0P0vmFSlhQDw907A6eJuF/WeMo\nGHnll3b4S6nC3oRS3nGeRMHbyU2KKXDwXNb3Mheu+ox+n5eb/BJ17eoj9HbQR1cd\ngEkIciiAltf8gpMMQH4anP7TD+HNFlZnP7ii3geEJB2GGXSxgSWvUzH4etL67Zmn\nTpGDWQMB0T8lK2ziLCMF4XAC/8xDELN/buHCNuhDpxpPebhct0T+f6Arzsiswt2j\n7OeNeLLZwIZvVwAKF7zUFjC6m7/VmTQC8nidVY559D6l0UhhU0Co/txgq3HVsMOH\nPbxmQUwJEKAzQXoIi+4uZzHFZrvov/nDTNJUhC6DqwIDAQABo2YwZDAOBgNVHQ8B\nAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUwaZpaCme+EiV\nM5gcjeHZSTgOn4owHwYDVR0jBBgwFoAUc19g2LzLA5j0Kxc0LjZapmD/vB8wDQYJ\nKoZIhvcNAQELBQADggEBAAR6a2meCZuXO2TF9bGqKGtZmaah4pH2ETcEVUjkvXVz\nsl+ZKbYjrun+VkcMGGKLUjS812e7eDF726ptoku9/PZZIxlJB0isC/0OyixI8N4M\nNsEyvp52XN9QundTjkl362bomPnHAApeU0mRbMDRR2JdT70u6yAzGLGsUwMkoNnw\n1VR4XKhXHYGWo7KMvFrZ1KcjWhubxLHxZWXRulPVtGmyWg/MvE6KF+2XMLhojhUL\n+9jB3Fpn53s6KMx5tVq1x8PukHmowcZuAF8k+W4gk8Y68wIwynrdZrKRyRv6CVtR\nFZ8DeJgoNZT3y/GT254VqMxxfuy2Ccb/RInd16tEvVk=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEDDCCAvSgAwIBAgICOYIwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTcyMDA1\nMjlaFw0yNDA4MjIxNzA4NTBaMIGZMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEqMCgGA1UEAwwhQW1h\nem9uIFJEUyBhcC1ub3J0aGVhc3QtMyAyMDE5IENBMIIBIjANBgkqhkiG9w0BAQEF\nAAOCAQ8AMIIBCgKCAQEA4dMak8W+XW8y/2F6nRiytFiA4XLwePadqWebGtlIgyCS\nkbug8Jv5w7nlMkuxOxoUeD4WhI6A9EkAn3r0REM/2f0aYnd2KPxeqS2MrtdxxHw1\nxoOxk2x0piNSlOz6yog1idsKR5Wurf94fvM9FdTrMYPPrDabbGqiBMsZZmoHLvA3\nZ+57HEV2tU0Ei3vWeGIqnNjIekS+E06KhASxrkNU5vi611UsnYZlSi0VtJsH4UGV\nLhnHl53aZL0YFO5mn/fzuNG/51qgk/6EFMMhaWInXX49Dia9FnnuWXwVwi6uX1Wn\n7kjoHi5VtmC8ZlGEHroxX2DxEr6bhJTEpcLMnoQMqwIDAQABo2YwZDAOBgNVHQ8B\nAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUsUI5Cb3SWB8+\ngv1YLN/ABPMdxSAwHwYDVR0jBBgwFoAUc19g2LzLA5j0Kxc0LjZapmD/vB8wDQYJ\nKoZIhvcNAQELBQADggEBAJAF3E9PM1uzVL8YNdzb6fwJrxxqI2shvaMVmC1mXS+w\nG0zh4v2hBZOf91l1EO0rwFD7+fxoI6hzQfMxIczh875T6vUXePKVOCOKI5wCrDad\nzQbVqbFbdhsBjF4aUilOdtw2qjjs9JwPuB0VXN4/jY7m21oKEOcnpe36+7OiSPjN\nxngYewCXKrSRqoj3mw+0w/+exYj3Wsush7uFssX18av78G+ehKPIVDXptOCP/N7W\n8iKVNeQ2QGTnu2fzWsGUSvMGyM7yqT+h1ILaT//yQS8er511aHMLc142bD4D9VSy\nDgactwPDTShK/PXqhvNey9v/sKXm4XatZvwcc8KYlW4=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEDDCCAvSgAwIBAgICcEUwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTgxNjU2\nMjBaFw0yNDA4MjIxNzA4NTBaMIGZMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEqMCgGA1UEAwwhQW1h\nem9uIFJEUyBhcC1ub3J0aGVhc3QtMSAyMDE5IENBMIIBIjANBgkqhkiG9w0BAQEF\nAAOCAQ8AMIIBCgKCAQEAndtkldmHtk4TVQAyqhAvtEHSMb6pLhyKrIFved1WO3S7\n+I+bWwv9b2W/ljJxLq9kdT43bhvzonNtI4a1LAohS6bqyirmk8sFfsWT3akb+4Sx\n1sjc8Ovc9eqIWJCrUiSvv7+cS7ZTA9AgM1PxvHcsqrcUXiK3Jd/Dax9jdZE1e15s\nBEhb2OEPE+tClFZ+soj8h8Pl2Clo5OAppEzYI4LmFKtp1X/BOf62k4jviXuCSst3\nUnRJzE/CXtjmN6oZySVWSe0rQYuyqRl6//9nK40cfGKyxVnimB8XrrcxUN743Vud\nQQVU0Esm8OVTX013mXWQXJHP2c0aKkog8LOga0vobQIDAQABo2YwZDAOBgNVHQ8B\nAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQULmoOS1mFSjj+\nsnUPx4DgS3SkLFYwHwYDVR0jBBgwFoAUc19g2LzLA5j0Kxc0LjZapmD/vB8wDQYJ\nKoZIhvcNAQELBQADggEBAAkVL2P1M2/G9GM3DANVAqYOwmX0Xk58YBHQu6iiQg4j\nb4Ky/qsZIsgT7YBsZA4AOcPKQFgGTWhe9pvhmXqoN3RYltN8Vn7TbUm/ZVDoMsrM\ngwv0+TKxW1/u7s8cXYfHPiTzVSJuOogHx99kBW6b2f99GbP7O1Sv3sLq4j6lVvBX\nFiacf5LAWC925nvlTzLlBgIc3O9xDtFeAGtZcEtxZJ4fnGXiqEnN4539+nqzIyYq\nnvlgCzyvcfRAxwltrJHuuRu6Maw5AGcd2Y0saMhqOVq9KYKFKuD/927BTrbd2JVf\n2sGWyuPZPCk3gq+5pCjbD0c6DkhcMGI6WwxvM5V/zSM=\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEBzCCAu+gAwIBAgICJDQwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTgxNzAz\nMTVaFw0yNDA4MjIxNzA4NTBaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1h\nem9uIFJEUyBldS13ZXN0LTMgMjAxOSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAL9bL7KE0n02DLVtlZ2PL+g/BuHpMYFq2JnE2RgompGurDIZdjmh\n1pxfL3nT+QIVMubuAOy8InRfkRxfpxyjKYdfLJTPJG+jDVL+wDcPpACFVqoV7Prg\npVYEV0lc5aoYw4bSeYFhdzgim6F8iyjoPnObjll9mo4XsHzSoqJLCd0QC+VG9Fw2\nq+GDRZrLRmVM2oNGDRbGpGIFg77aRxRapFZa8SnUgs2AqzuzKiprVH5i0S0M6dWr\ni+kk5epmTtkiDHceX+dP/0R1NcnkCPoQ9TglyXyPdUdTPPRfKCq12dftqll+u4mV\nARdN6WFjovxax8EAP2OAUTi1afY+1JFMj+sCAwEAAaNmMGQwDgYDVR0PAQH/BAQD\nAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFLfhrbrO5exkCVgxW0x3\nY2mAi8lNMB8GA1UdIwQYMBaAFHNfYNi8ywOY9CsXNC42WqZg/7wfMA0GCSqGSIb3\nDQEBCwUAA4IBAQAigQ5VBNGyw+OZFXwxeJEAUYaXVoP/qrhTOJ6mCE2DXUVEoJeV\nSxScy/TlFA9tJXqmit8JH8VQ/xDL4ubBfeMFAIAo4WzNWDVoeVMqphVEcDWBHsI1\nAETWzfsapRS9yQekOMmxg63d/nV8xewIl8aNVTHdHYXMqhhik47VrmaVEok1UQb3\nO971RadLXIEbVd9tjY5bMEHm89JsZDnDEw1hQXBb67Elu64OOxoKaHBgUH8AZn/2\nzFsL1ynNUjOhCSAA15pgd1vjwc0YsBbAEBPcHBWYBEyME6NLNarjOzBl4FMtATSF\nwWCKRGkvqN8oxYhwR2jf2rR5Mu4DWkK5Q8Ep\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIEBzCCAu+gAwIBAgICJVUwDQYJKoZIhvcNAQELBQAwgY8xCzAJBgNVBAYTAlVT\nMRAwDgYDVQQHDAdTZWF0dGxlMRMwEQYDVQQIDApXYXNoaW5ndG9uMSIwIAYDVQQK\nDBlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQLDApBbWF6b24gUkRT\nMSAwHgYDVQQDDBdBbWF6b24gUkRTIFJvb3QgMjAxOSBDQTAeFw0xOTA5MTkxODE2\nNTNaFw0yNDA4MjIxNzA4NTBaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2Fz\naGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBT\nZXJ2aWNlcywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzElMCMGA1UEAwwcQW1h\nem9uIFJEUyB1cy1lYXN0LTEgMjAxOSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAM3i/k2u6cqbMdcISGRvh+m+L0yaSIoOXjtpNEoIftAipTUYoMhL\nInXGlQBVA4shkekxp1N7HXe1Y/iMaPEyb3n+16pf3vdjKl7kaSkIhjdUz3oVUEYt\ni8Z/XeJJ9H2aEGuiZh3kHixQcZczn8cg3dA9aeeyLSEnTkl/npzLf//669Ammyhs\nXcAo58yvT0D4E0D/EEHf2N7HRX7j/TlyWvw/39SW0usiCrHPKDLxByLojxLdHzso\nQIp/S04m+eWn6rmD+uUiRteN1hI5ncQiA3wo4G37mHnUEKo6TtTUh+sd/ku6a8HK\nglMBcgqudDI90s1OpuIAWmuWpY//8xEG2YECAwEAAaNmMGQwDgYDVR0PAQH/BAQD\nAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFPqhoWZcrVY9mU7tuemR\nRBnQIj1jMB8GA1UdIwQYMBaAFHNfYNi8ywOY9CsXNC42WqZg/7wfMA0GCSqGSIb3\nDQEBCwUAA4IBAQB6zOLZ+YINEs72heHIWlPZ8c6WY8MDU+Be5w1M+BK2kpcVhCUK\nPJO4nMXpgamEX8DIiaO7emsunwJzMSvavSPRnxXXTKIc0i/g1EbiDjnYX9d85DkC\nE1LaAUCmCZBVi9fIe0H2r9whIh4uLWZA41oMnJx/MOmo3XyMfQoWcqaSFlMqfZM4\n0rNoB/tdHLNuV4eIdaw2mlHxdWDtF4oH+HFm+2cVBUVC1jXKrFv/euRVtsTT+A6i\nh2XBHKxQ1Y4HgAn0jACP2QSPEmuoQEIa57bEKEcZsBR8SDY6ZdTd2HLRIApcCOSF\nMRM8CKLeF658I0XgF8D5EsYoKPsA+74Z+jDH\n-----END CERTIFICATE-----\n",
-        "-----BEGIN CERTIFICATE-----\nMIIDQTCCAimgAwIBAgITBmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF\nADA5MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRkwFwYDVQQDExBBbWF6\nb24gUm9vdCBDQSAxMB4XDTE1MDUyNjAwMDAwMFoXDTM4MDExNzAwMDAwMFowOTEL\nMAkGA1UEBhMCVVMxDzANBgNVBAoTBkFtYXpvbjEZMBcGA1UEAxMQQW1hem9uIFJv\nb3QgQ0EgMTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJ4gHHKeNXj\nca9HgFB0fW7Y14h29Jlo91ghYPl0hAEvrAIthtOgQ3pOsqTQNroBvo3bSMgHFzZM\n9O6II8c+6zf1tRn4SWiw3te5djgdYZ6k/oI2peVKVuRF4fn9tBb6dNqcmzU5L/qw\nIFAGbHrQgLKm+a/sRxmPUDgH3KKHOVj4utWp+UhnMJbulHheb4mjUcAwhmahRWa6\nVOujw5H5SNz/0egwLX0tdHA114gk957EWW67c4cX8jJGKLhD+rcdqsq08p8kDi1L\n93FcXmn/6pUCyziKrlA4b9v7LWIbxcceVOF34GfID5yHI9Y/QCB/IIDEgEw+OyQm\njgSubJrIqg0CAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\nAYYwHQYDVR0OBBYEFIQYzIU07LwMlJQuCFmcx7IQTgoIMA0GCSqGSIb3DQEBCwUA\nA4IBAQCY8jdaQZChGsV2USggNiMOruYou6r4lK5IpDB/G/wkjUu0yKGX9rbxenDI\nU5PMCCjjmCXPI6T53iHTfIUJrU6adTrCC2qJeHZERxhlbI1Bjjt/msv0tadQ1wUs\nN+gDS63pYaACbvXy8MWy7Vu33PqUXHeeE6V/Uq2V8viTO96LXFvKWlJbYK8U90vv\no/ufQJVtMVT8QtPHRh8jrdkPSHCa2XV4cdFyQzR1bldZwgJcJmApzyMZFo6IQ6XU\n5MsI+yMRQ+hDKXJioaldXgjUkK642M4UwtBV8ob2xJNDd2ZhwLnoQdeXeGADbkpy\nrqXRfboQnoZsG4q5WTP468SQvvG5\n-----END CERTIFICATE-----\n"
-      ]
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/connection_config.js
-var require_connection_config = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/connection_config.js"(exports, module2) {
-    "use strict";
-    var { URL: URL2 } = require("url");
-    var ClientConstants = require_client();
-    var Charsets = require_charsets();
-    var SSLProfiles = null;
-    var validOptions = {
-      authPlugins: 1,
-      authSwitchHandler: 1,
-      bigNumberStrings: 1,
-      charset: 1,
-      charsetNumber: 1,
-      compress: 1,
-      connectAttributes: 1,
-      connectTimeout: 1,
-      database: 1,
-      dateStrings: 1,
-      debug: 1,
-      decimalNumbers: 1,
-      enableKeepAlive: 1,
-      flags: 1,
-      host: 1,
-      insecureAuth: 1,
-      isServer: 1,
-      keepAliveInitialDelay: 1,
-      localAddress: 1,
-      maxPreparedStatements: 1,
-      multipleStatements: 1,
-      namedPlaceholders: 1,
-      nestTables: 1,
-      password: 1,
-      passwordSha1: 1,
-      pool: 1,
-      port: 1,
-      queryFormat: 1,
-      rowsAsArray: 1,
-      socketPath: 1,
-      ssl: 1,
-      stream: 1,
-      stringifyObjects: 1,
-      supportBigNumbers: 1,
-      timezone: 1,
-      trace: 1,
-      typeCast: 1,
-      uri: 1,
-      user: 1,
-      connectionLimit: 1,
-      Promise: 1,
-      queueLimit: 1,
-      waitForConnections: 1
-    };
-    var ConnectionConfig = class {
-      constructor(options) {
-        if (typeof options === "string") {
-          options = ConnectionConfig.parseUrl(options);
-        } else if (options && options.uri) {
-          const uriOptions = ConnectionConfig.parseUrl(options.uri);
-          for (const key in uriOptions) {
-            if (!Object.prototype.hasOwnProperty.call(uriOptions, key))
-              continue;
-            if (options[key])
-              continue;
-            options[key] = uriOptions[key];
-          }
-        }
-        for (const key in options) {
-          if (!Object.prototype.hasOwnProperty.call(options, key))
-            continue;
-          if (validOptions[key] !== 1) {
-            console.error(
-              `Ignoring invalid configuration option passed to Connection: ${key}. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection`
-            );
-          }
-        }
-        this.isServer = options.isServer;
-        this.stream = options.stream;
-        this.host = options.host || "localhost";
-        this.port = options.port || 3306;
-        this.localAddress = options.localAddress;
-        this.socketPath = options.socketPath;
-        this.user = options.user || void 0;
-        this.password = options.password || void 0;
-        this.passwordSha1 = options.passwordSha1 || void 0;
-        this.database = options.database;
-        this.connectTimeout = isNaN(options.connectTimeout) ? 10 * 1e3 : options.connectTimeout;
-        this.insecureAuth = options.insecureAuth || false;
-        this.supportBigNumbers = options.supportBigNumbers || false;
-        this.bigNumberStrings = options.bigNumberStrings || false;
-        this.decimalNumbers = options.decimalNumbers || false;
-        this.dateStrings = options.dateStrings || false;
-        this.debug = options.debug;
-        this.trace = options.trace !== false;
-        this.stringifyObjects = options.stringifyObjects || false;
-        this.enableKeepAlive = !!options.enableKeepAlive;
-        this.keepAliveInitialDelay = options.keepAliveInitialDelay || 0;
-        if (options.timezone && !/^(?:local|Z|[ +-]\d\d:\d\d)$/.test(options.timezone)) {
-          console.error(
-            `Ignoring invalid timezone passed to Connection: ${options.timezone}. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection`
-          );
-          this.timezone = "Z";
-        } else {
-          this.timezone = options.timezone || "local";
-        }
-        this.queryFormat = options.queryFormat;
-        this.pool = options.pool || void 0;
-        this.ssl = typeof options.ssl === "string" ? ConnectionConfig.getSSLProfile(options.ssl) : options.ssl || false;
-        this.multipleStatements = options.multipleStatements || false;
-        this.rowsAsArray = options.rowsAsArray || false;
-        this.namedPlaceholders = options.namedPlaceholders || false;
-        this.nestTables = options.nestTables === void 0 ? void 0 : options.nestTables;
-        this.typeCast = options.typeCast === void 0 ? true : options.typeCast;
-        if (this.timezone[0] === " ") {
-          this.timezone = `+${this.timezone.substr(1)}`;
-        }
-        if (this.ssl) {
-          if (typeof this.ssl !== "object") {
-            throw new TypeError(
-              `SSL profile must be an object, instead it's a ${typeof this.ssl}`
-            );
-          }
-          this.ssl.rejectUnauthorized = this.ssl.rejectUnauthorized !== false;
-        }
-        this.maxPacketSize = 0;
-        this.charsetNumber = options.charset ? ConnectionConfig.getCharsetNumber(options.charset) : options.charsetNumber || Charsets.UTF8MB4_UNICODE_CI;
-        this.compress = options.compress || false;
-        this.authPlugins = options.authPlugins;
-        this.authSwitchHandler = options.authSwitchHandler;
-        this.clientFlags = ConnectionConfig.mergeFlags(
-          ConnectionConfig.getDefaultFlags(options),
-          options.flags || ""
-        );
-        this.connectAttributes = options.connectAttributes;
-        this.maxPreparedStatements = options.maxPreparedStatements || 16e3;
-      }
-      static mergeFlags(default_flags, user_flags) {
-        let flags = 0, i2;
-        if (!Array.isArray(user_flags)) {
-          user_flags = String(user_flags || "").toUpperCase().split(/\s*,+\s*/);
-        }
-        for (i2 in default_flags) {
-          if (user_flags.indexOf(`-${default_flags[i2]}`) >= 0) {
-            continue;
-          }
-          flags |= ClientConstants[default_flags[i2]] || 0;
-        }
-        for (i2 in user_flags) {
-          if (user_flags[i2][0] === "-") {
-            continue;
-          }
-          if (default_flags.indexOf(user_flags[i2]) >= 0) {
-            continue;
-          }
-          flags |= ClientConstants[user_flags[i2]] || 0;
-        }
-        return flags;
-      }
-      static getDefaultFlags(options) {
-        const defaultFlags = [
-          "LONG_PASSWORD",
-          "FOUND_ROWS",
-          "LONG_FLAG",
-          "CONNECT_WITH_DB",
-          "ODBC",
-          "LOCAL_FILES",
-          "IGNORE_SPACE",
-          "PROTOCOL_41",
-          "IGNORE_SIGPIPE",
-          "TRANSACTIONS",
-          "RESERVED",
-          "SECURE_CONNECTION",
-          "MULTI_RESULTS",
-          "TRANSACTIONS",
-          "SESSION_TRACK"
-        ];
-        if (options && options.multipleStatements) {
-          defaultFlags.push("MULTI_STATEMENTS");
-        }
-        defaultFlags.push("PLUGIN_AUTH");
-        defaultFlags.push("PLUGIN_AUTH_LENENC_CLIENT_DATA");
-        if (options && options.connectAttributes) {
-          defaultFlags.push("CONNECT_ATTRS");
-        }
-        return defaultFlags;
-      }
-      static getCharsetNumber(charset) {
-        const num = Charsets[charset.toUpperCase()];
-        if (num === void 0) {
-          throw new TypeError(`Unknown charset '${charset}'`);
-        }
-        return num;
-      }
-      static getSSLProfile(name) {
-        if (!SSLProfiles) {
-          SSLProfiles = require_ssl_profiles();
-        }
-        const ssl = SSLProfiles[name];
-        if (ssl === void 0) {
-          throw new TypeError(`Unknown SSL profile '${name}'`);
-        }
-        return ssl;
-      }
-      static parseUrl(url) {
-        const parsedUrl = new URL2(url);
-        const options = {
-          host: parsedUrl.hostname,
-          port: parsedUrl.port,
-          database: parsedUrl.pathname.substr(1),
-          user: parsedUrl.username,
-          password: parsedUrl.password
-        };
-        parsedUrl.searchParams.forEach((value, key) => {
-          try {
-            options[key] = JSON.parse(value);
-          } catch (err) {
-            options[key] = value;
-          }
-        });
-        return options;
-      }
-    };
-    module2.exports = ConnectionConfig;
-  }
-});
-
-// ../../node_modules/.pnpm/lru-cache@7.18.3/node_modules/lru-cache/index.js
-var require_lru_cache2 = __commonJS({
-  "../../node_modules/.pnpm/lru-cache@7.18.3/node_modules/lru-cache/index.js"(exports, module2) {
-    var perf = typeof performance === "object" && performance && typeof performance.now === "function" ? performance : Date;
-    var hasAbortController = typeof AbortController === "function";
-    var AC = hasAbortController ? AbortController : class AbortController {
-      constructor() {
-        this.signal = new AS();
-      }
-      abort(reason = new Error("This operation was aborted")) {
-        this.signal.reason = this.signal.reason || reason;
-        this.signal.aborted = true;
-        this.signal.dispatchEvent({
-          type: "abort",
-          target: this.signal
-        });
-      }
-    };
-    var hasAbortSignal = typeof AbortSignal === "function";
-    var hasACAbortSignal = typeof AC.AbortSignal === "function";
-    var AS = hasAbortSignal ? AbortSignal : hasACAbortSignal ? AC.AbortController : class AbortSignal {
-      constructor() {
-        this.reason = void 0;
-        this.aborted = false;
-        this._listeners = [];
-      }
-      dispatchEvent(e2) {
-        if (e2.type === "abort") {
-          this.aborted = true;
-          this.onabort(e2);
-          this._listeners.forEach((f4) => f4(e2), this);
-        }
-      }
-      onabort() {
-      }
-      addEventListener(ev, fn) {
-        if (ev === "abort") {
-          this._listeners.push(fn);
-        }
-      }
-      removeEventListener(ev, fn) {
-        if (ev === "abort") {
-          this._listeners = this._listeners.filter((f4) => f4 !== fn);
-        }
-      }
-    };
-    var warned = /* @__PURE__ */ new Set();
-    var deprecatedOption = (opt, instead) => {
-      const code = `LRU_CACHE_OPTION_${opt}`;
-      if (shouldWarn(code)) {
-        warn(code, `${opt} option`, `options.${instead}`, LRUCache);
-      }
-    };
-    var deprecatedMethod = (method, instead) => {
-      const code = `LRU_CACHE_METHOD_${method}`;
-      if (shouldWarn(code)) {
-        const { prototype } = LRUCache;
-        const { get } = Object.getOwnPropertyDescriptor(prototype, method);
-        warn(code, `${method} method`, `cache.${instead}()`, get);
-      }
-    };
-    var deprecatedProperty = (field, instead) => {
-      const code = `LRU_CACHE_PROPERTY_${field}`;
-      if (shouldWarn(code)) {
-        const { prototype } = LRUCache;
-        const { get } = Object.getOwnPropertyDescriptor(prototype, field);
-        warn(code, `${field} property`, `cache.${instead}`, get);
-      }
-    };
-    var emitWarning = (...a) => {
-      typeof process === "object" && process && typeof process.emitWarning === "function" ? process.emitWarning(...a) : console.error(...a);
-    };
-    var shouldWarn = (code) => !warned.has(code);
-    var warn = (code, what, instead, fn) => {
-      warned.add(code);
-      const msg = `The ${what} is deprecated. Please use ${instead} instead.`;
-      emitWarning(msg, "DeprecationWarning", code, fn);
-    };
-    var isPosInt = (n) => n && n === Math.floor(n) && n > 0 && isFinite(n);
-    var getUintArray = (max) => !isPosInt(max) ? null : max <= Math.pow(2, 8) ? Uint8Array : max <= Math.pow(2, 16) ? Uint16Array : max <= Math.pow(2, 32) ? Uint32Array : max <= Number.MAX_SAFE_INTEGER ? ZeroArray : null;
-    var ZeroArray = class extends Array {
-      constructor(size) {
-        super(size);
-        this.fill(0);
-      }
-    };
-    var Stack = class {
-      constructor(max) {
-        if (max === 0) {
-          return [];
-        }
-        const UintArray = getUintArray(max);
-        this.heap = new UintArray(max);
-        this.length = 0;
-      }
-      push(n) {
-        this.heap[this.length++] = n;
-      }
-      pop() {
-        return this.heap[--this.length];
-      }
-    };
-    var LRUCache = class {
-      constructor(options = {}) {
-        const {
-          max = 0,
-          ttl,
-          ttlResolution = 1,
-          ttlAutopurge,
-          updateAgeOnGet,
-          updateAgeOnHas,
-          allowStale,
-          dispose,
-          disposeAfter,
-          noDisposeOnSet,
-          noUpdateTTL,
-          maxSize = 0,
-          maxEntrySize = 0,
-          sizeCalculation,
-          fetchMethod,
-          fetchContext,
-          noDeleteOnFetchRejection,
-          noDeleteOnStaleGet,
-          allowStaleOnFetchRejection,
-          allowStaleOnFetchAbort,
-          ignoreFetchAbort
-        } = options;
-        const { length, maxAge, stale } = options instanceof LRUCache ? {} : options;
-        if (max !== 0 && !isPosInt(max)) {
-          throw new TypeError("max option must be a nonnegative integer");
-        }
-        const UintArray = max ? getUintArray(max) : Array;
-        if (!UintArray) {
-          throw new Error("invalid max value: " + max);
-        }
-        this.max = max;
-        this.maxSize = maxSize;
-        this.maxEntrySize = maxEntrySize || this.maxSize;
-        this.sizeCalculation = sizeCalculation || length;
-        if (this.sizeCalculation) {
-          if (!this.maxSize && !this.maxEntrySize) {
-            throw new TypeError(
-              "cannot set sizeCalculation without setting maxSize or maxEntrySize"
-            );
-          }
-          if (typeof this.sizeCalculation !== "function") {
-            throw new TypeError("sizeCalculation set to non-function");
-          }
-        }
-        this.fetchMethod = fetchMethod || null;
-        if (this.fetchMethod && typeof this.fetchMethod !== "function") {
-          throw new TypeError(
-            "fetchMethod must be a function if specified"
-          );
-        }
-        this.fetchContext = fetchContext;
-        if (!this.fetchMethod && fetchContext !== void 0) {
-          throw new TypeError(
-            "cannot set fetchContext without fetchMethod"
-          );
-        }
-        this.keyMap = /* @__PURE__ */ new Map();
-        this.keyList = new Array(max).fill(null);
-        this.valList = new Array(max).fill(null);
-        this.next = new UintArray(max);
-        this.prev = new UintArray(max);
-        this.head = 0;
-        this.tail = 0;
-        this.free = new Stack(max);
-        this.initialFill = 1;
-        this.size = 0;
-        if (typeof dispose === "function") {
-          this.dispose = dispose;
-        }
-        if (typeof disposeAfter === "function") {
-          this.disposeAfter = disposeAfter;
-          this.disposed = [];
-        } else {
-          this.disposeAfter = null;
-          this.disposed = null;
-        }
-        this.noDisposeOnSet = !!noDisposeOnSet;
-        this.noUpdateTTL = !!noUpdateTTL;
-        this.noDeleteOnFetchRejection = !!noDeleteOnFetchRejection;
-        this.allowStaleOnFetchRejection = !!allowStaleOnFetchRejection;
-        this.allowStaleOnFetchAbort = !!allowStaleOnFetchAbort;
-        this.ignoreFetchAbort = !!ignoreFetchAbort;
-        if (this.maxEntrySize !== 0) {
-          if (this.maxSize !== 0) {
-            if (!isPosInt(this.maxSize)) {
-              throw new TypeError(
-                "maxSize must be a positive integer if specified"
-              );
-            }
-          }
-          if (!isPosInt(this.maxEntrySize)) {
-            throw new TypeError(
-              "maxEntrySize must be a positive integer if specified"
-            );
-          }
-          this.initializeSizeTracking();
-        }
-        this.allowStale = !!allowStale || !!stale;
-        this.noDeleteOnStaleGet = !!noDeleteOnStaleGet;
-        this.updateAgeOnGet = !!updateAgeOnGet;
-        this.updateAgeOnHas = !!updateAgeOnHas;
-        this.ttlResolution = isPosInt(ttlResolution) || ttlResolution === 0 ? ttlResolution : 1;
-        this.ttlAutopurge = !!ttlAutopurge;
-        this.ttl = ttl || maxAge || 0;
-        if (this.ttl) {
-          if (!isPosInt(this.ttl)) {
-            throw new TypeError(
-              "ttl must be a positive integer if specified"
-            );
-          }
-          this.initializeTTLTracking();
-        }
-        if (this.max === 0 && this.ttl === 0 && this.maxSize === 0) {
-          throw new TypeError(
-            "At least one of max, maxSize, or ttl is required"
-          );
-        }
-        if (!this.ttlAutopurge && !this.max && !this.maxSize) {
-          const code = "LRU_CACHE_UNBOUNDED";
-          if (shouldWarn(code)) {
-            warned.add(code);
-            const msg = "TTL caching without ttlAutopurge, max, or maxSize can result in unbounded memory consumption.";
-            emitWarning(msg, "UnboundedCacheWarning", code, LRUCache);
-          }
-        }
-        if (stale) {
-          deprecatedOption("stale", "allowStale");
-        }
-        if (maxAge) {
-          deprecatedOption("maxAge", "ttl");
-        }
-        if (length) {
-          deprecatedOption("length", "sizeCalculation");
-        }
-      }
-      getRemainingTTL(key) {
-        return this.has(key, { updateAgeOnHas: false }) ? Infinity : 0;
-      }
-      initializeTTLTracking() {
-        this.ttls = new ZeroArray(this.max);
-        this.starts = new ZeroArray(this.max);
-        this.setItemTTL = (index, ttl, start = perf.now()) => {
-          this.starts[index] = ttl !== 0 ? start : 0;
-          this.ttls[index] = ttl;
-          if (ttl !== 0 && this.ttlAutopurge) {
-            const t2 = setTimeout(() => {
-              if (this.isStale(index)) {
-                this.delete(this.keyList[index]);
-              }
-            }, ttl + 1);
-            if (t2.unref) {
-              t2.unref();
-            }
-          }
-        };
-        this.updateItemAge = (index) => {
-          this.starts[index] = this.ttls[index] !== 0 ? perf.now() : 0;
-        };
-        this.statusTTL = (status, index) => {
-          if (status) {
-            status.ttl = this.ttls[index];
-            status.start = this.starts[index];
-            status.now = cachedNow || getNow();
-            status.remainingTTL = status.now + status.ttl - status.start;
-          }
-        };
-        let cachedNow = 0;
-        const getNow = () => {
-          const n = perf.now();
-          if (this.ttlResolution > 0) {
-            cachedNow = n;
-            const t2 = setTimeout(
-              () => cachedNow = 0,
-              this.ttlResolution
-            );
-            if (t2.unref) {
-              t2.unref();
-            }
-          }
-          return n;
-        };
-        this.getRemainingTTL = (key) => {
-          const index = this.keyMap.get(key);
-          if (index === void 0) {
-            return 0;
-          }
-          return this.ttls[index] === 0 || this.starts[index] === 0 ? Infinity : this.starts[index] + this.ttls[index] - (cachedNow || getNow());
-        };
-        this.isStale = (index) => {
-          return this.ttls[index] !== 0 && this.starts[index] !== 0 && (cachedNow || getNow()) - this.starts[index] > this.ttls[index];
-        };
-      }
-      updateItemAge(_index) {
-      }
-      statusTTL(_status, _index) {
-      }
-      setItemTTL(_index, _ttl, _start2) {
-      }
-      isStale(_index) {
-        return false;
-      }
-      initializeSizeTracking() {
-        this.calculatedSize = 0;
-        this.sizes = new ZeroArray(this.max);
-        this.removeItemSize = (index) => {
-          this.calculatedSize -= this.sizes[index];
-          this.sizes[index] = 0;
-        };
-        this.requireSize = (k, v, size, sizeCalculation) => {
-          if (this.isBackgroundFetch(v)) {
-            return 0;
-          }
-          if (!isPosInt(size)) {
-            if (sizeCalculation) {
-              if (typeof sizeCalculation !== "function") {
-                throw new TypeError("sizeCalculation must be a function");
-              }
-              size = sizeCalculation(v, k);
-              if (!isPosInt(size)) {
-                throw new TypeError(
-                  "sizeCalculation return invalid (expect positive integer)"
-                );
-              }
-            } else {
-              throw new TypeError(
-                "invalid size value (must be positive integer). When maxSize or maxEntrySize is used, sizeCalculation or size must be set."
-              );
-            }
-          }
-          return size;
-        };
-        this.addItemSize = (index, size, status) => {
-          this.sizes[index] = size;
-          if (this.maxSize) {
-            const maxSize = this.maxSize - this.sizes[index];
-            while (this.calculatedSize > maxSize) {
-              this.evict(true);
-            }
-          }
-          this.calculatedSize += this.sizes[index];
-          if (status) {
-            status.entrySize = size;
-            status.totalCalculatedSize = this.calculatedSize;
-          }
-        };
-      }
-      removeItemSize(_index) {
-      }
-      addItemSize(_index, _size2) {
-      }
-      requireSize(_k, _v, size, sizeCalculation) {
-        if (size || sizeCalculation) {
-          throw new TypeError(
-            "cannot set size without setting maxSize or maxEntrySize on cache"
-          );
-        }
-      }
-      *indexes({ allowStale = this.allowStale } = {}) {
-        if (this.size) {
-          for (let i2 = this.tail; true; ) {
-            if (!this.isValidIndex(i2)) {
-              break;
-            }
-            if (allowStale || !this.isStale(i2)) {
-              yield i2;
-            }
-            if (i2 === this.head) {
-              break;
-            } else {
-              i2 = this.prev[i2];
-            }
-          }
-        }
-      }
-      *rindexes({ allowStale = this.allowStale } = {}) {
-        if (this.size) {
-          for (let i2 = this.head; true; ) {
-            if (!this.isValidIndex(i2)) {
-              break;
-            }
-            if (allowStale || !this.isStale(i2)) {
-              yield i2;
-            }
-            if (i2 === this.tail) {
-              break;
-            } else {
-              i2 = this.next[i2];
-            }
-          }
-        }
-      }
-      isValidIndex(index) {
-        return index !== void 0 && this.keyMap.get(this.keyList[index]) === index;
-      }
-      *entries() {
-        for (const i2 of this.indexes()) {
-          if (this.valList[i2] !== void 0 && this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield [this.keyList[i2], this.valList[i2]];
-          }
-        }
-      }
-      *rentries() {
-        for (const i2 of this.rindexes()) {
-          if (this.valList[i2] !== void 0 && this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield [this.keyList[i2], this.valList[i2]];
-          }
-        }
-      }
-      *keys() {
-        for (const i2 of this.indexes()) {
-          if (this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield this.keyList[i2];
-          }
-        }
-      }
-      *rkeys() {
-        for (const i2 of this.rindexes()) {
-          if (this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield this.keyList[i2];
-          }
-        }
-      }
-      *values() {
-        for (const i2 of this.indexes()) {
-          if (this.valList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield this.valList[i2];
-          }
-        }
-      }
-      *rvalues() {
-        for (const i2 of this.rindexes()) {
-          if (this.valList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield this.valList[i2];
-          }
-        }
-      }
-      [Symbol.iterator]() {
-        return this.entries();
-      }
-      find(fn, getOptions) {
-        for (const i2 of this.indexes()) {
-          const v = this.valList[i2];
-          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
-          if (value === void 0)
-            continue;
-          if (fn(value, this.keyList[i2], this)) {
-            return this.get(this.keyList[i2], getOptions);
-          }
-        }
-      }
-      forEach(fn, thisp = this) {
-        for (const i2 of this.indexes()) {
-          const v = this.valList[i2];
-          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
-          if (value === void 0)
-            continue;
-          fn.call(thisp, value, this.keyList[i2], this);
-        }
-      }
-      rforEach(fn, thisp = this) {
-        for (const i2 of this.rindexes()) {
-          const v = this.valList[i2];
-          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
-          if (value === void 0)
-            continue;
-          fn.call(thisp, value, this.keyList[i2], this);
-        }
-      }
-      get prune() {
-        deprecatedMethod("prune", "purgeStale");
-        return this.purgeStale;
-      }
-      purgeStale() {
-        let deleted = false;
-        for (const i2 of this.rindexes({ allowStale: true })) {
-          if (this.isStale(i2)) {
-            this.delete(this.keyList[i2]);
-            deleted = true;
-          }
-        }
-        return deleted;
-      }
-      dump() {
-        const arr = [];
-        for (const i2 of this.indexes({ allowStale: true })) {
-          const key = this.keyList[i2];
-          const v = this.valList[i2];
-          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
-          if (value === void 0)
-            continue;
-          const entry = { value };
-          if (this.ttls) {
-            entry.ttl = this.ttls[i2];
-            const age = perf.now() - this.starts[i2];
-            entry.start = Math.floor(Date.now() - age);
-          }
-          if (this.sizes) {
-            entry.size = this.sizes[i2];
-          }
-          arr.unshift([key, entry]);
-        }
-        return arr;
-      }
-      load(arr) {
-        this.clear();
-        for (const [key, entry] of arr) {
-          if (entry.start) {
-            const age = Date.now() - entry.start;
-            entry.start = perf.now() - age;
-          }
-          this.set(key, entry.value, entry);
-        }
-      }
-      dispose(_v, _k, _reason) {
-      }
-      set(k, v, {
-        ttl = this.ttl,
-        start,
-        noDisposeOnSet = this.noDisposeOnSet,
-        size = 0,
-        sizeCalculation = this.sizeCalculation,
-        noUpdateTTL = this.noUpdateTTL,
-        status
-      } = {}) {
-        size = this.requireSize(k, v, size, sizeCalculation);
-        if (this.maxEntrySize && size > this.maxEntrySize) {
-          if (status) {
-            status.set = "miss";
-            status.maxEntrySizeExceeded = true;
-          }
-          this.delete(k);
-          return this;
-        }
-        let index = this.size === 0 ? void 0 : this.keyMap.get(k);
-        if (index === void 0) {
-          index = this.newIndex();
-          this.keyList[index] = k;
-          this.valList[index] = v;
-          this.keyMap.set(k, index);
-          this.next[this.tail] = index;
-          this.prev[index] = this.tail;
-          this.tail = index;
-          this.size++;
-          this.addItemSize(index, size, status);
-          if (status) {
-            status.set = "add";
-          }
-          noUpdateTTL = false;
-        } else {
-          this.moveToTail(index);
-          const oldVal = this.valList[index];
-          if (v !== oldVal) {
-            if (this.isBackgroundFetch(oldVal)) {
-              oldVal.__abortController.abort(new Error("replaced"));
-            } else {
-              if (!noDisposeOnSet) {
-                this.dispose(oldVal, k, "set");
-                if (this.disposeAfter) {
-                  this.disposed.push([oldVal, k, "set"]);
-                }
-              }
-            }
-            this.removeItemSize(index);
-            this.valList[index] = v;
-            this.addItemSize(index, size, status);
-            if (status) {
-              status.set = "replace";
-              const oldValue = oldVal && this.isBackgroundFetch(oldVal) ? oldVal.__staleWhileFetching : oldVal;
-              if (oldValue !== void 0)
-                status.oldValue = oldValue;
-            }
-          } else if (status) {
-            status.set = "update";
-          }
-        }
-        if (ttl !== 0 && this.ttl === 0 && !this.ttls) {
-          this.initializeTTLTracking();
-        }
-        if (!noUpdateTTL) {
-          this.setItemTTL(index, ttl, start);
-        }
-        this.statusTTL(status, index);
-        if (this.disposeAfter) {
-          while (this.disposed.length) {
-            this.disposeAfter(...this.disposed.shift());
-          }
-        }
-        return this;
-      }
-      newIndex() {
-        if (this.size === 0) {
-          return this.tail;
-        }
-        if (this.size === this.max && this.max !== 0) {
-          return this.evict(false);
-        }
-        if (this.free.length !== 0) {
-          return this.free.pop();
-        }
-        return this.initialFill++;
-      }
-      pop() {
-        if (this.size) {
-          const val = this.valList[this.head];
-          this.evict(true);
-          return val;
-        }
-      }
-      evict(free) {
-        const head = this.head;
-        const k = this.keyList[head];
-        const v = this.valList[head];
-        if (this.isBackgroundFetch(v)) {
-          v.__abortController.abort(new Error("evicted"));
-        } else {
-          this.dispose(v, k, "evict");
-          if (this.disposeAfter) {
-            this.disposed.push([v, k, "evict"]);
-          }
-        }
-        this.removeItemSize(head);
-        if (free) {
-          this.keyList[head] = null;
-          this.valList[head] = null;
-          this.free.push(head);
-        }
-        this.head = this.next[head];
-        this.keyMap.delete(k);
-        this.size--;
-        return head;
-      }
-      has(k, { updateAgeOnHas = this.updateAgeOnHas, status } = {}) {
-        const index = this.keyMap.get(k);
-        if (index !== void 0) {
-          if (!this.isStale(index)) {
-            if (updateAgeOnHas) {
-              this.updateItemAge(index);
-            }
-            if (status)
-              status.has = "hit";
-            this.statusTTL(status, index);
-            return true;
-          } else if (status) {
-            status.has = "stale";
-            this.statusTTL(status, index);
-          }
-        } else if (status) {
-          status.has = "miss";
-        }
-        return false;
-      }
-      peek(k, { allowStale = this.allowStale } = {}) {
-        const index = this.keyMap.get(k);
-        if (index !== void 0 && (allowStale || !this.isStale(index))) {
-          const v = this.valList[index];
-          return this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
-        }
-      }
-      backgroundFetch(k, index, options, context) {
-        const v = index === void 0 ? void 0 : this.valList[index];
-        if (this.isBackgroundFetch(v)) {
-          return v;
-        }
-        const ac = new AC();
-        if (options.signal) {
-          options.signal.addEventListener(
-            "abort",
-            () => ac.abort(options.signal.reason)
-          );
-        }
-        const fetchOpts = {
-          signal: ac.signal,
-          options,
-          context
-        };
-        const cb = (v2, updateCache = false) => {
-          const { aborted } = ac.signal;
-          const ignoreAbort = options.ignoreFetchAbort && v2 !== void 0;
-          if (options.status) {
-            if (aborted && !updateCache) {
-              options.status.fetchAborted = true;
-              options.status.fetchError = ac.signal.reason;
-              if (ignoreAbort)
-                options.status.fetchAbortIgnored = true;
-            } else {
-              options.status.fetchResolved = true;
-            }
-          }
-          if (aborted && !ignoreAbort && !updateCache) {
-            return fetchFail(ac.signal.reason);
-          }
-          if (this.valList[index] === p) {
-            if (v2 === void 0) {
-              if (p.__staleWhileFetching) {
-                this.valList[index] = p.__staleWhileFetching;
-              } else {
-                this.delete(k);
-              }
-            } else {
-              if (options.status)
-                options.status.fetchUpdated = true;
-              this.set(k, v2, fetchOpts.options);
-            }
-          }
-          return v2;
-        };
-        const eb = (er) => {
-          if (options.status) {
-            options.status.fetchRejected = true;
-            options.status.fetchError = er;
-          }
-          return fetchFail(er);
-        };
-        const fetchFail = (er) => {
-          const { aborted } = ac.signal;
-          const allowStaleAborted = aborted && options.allowStaleOnFetchAbort;
-          const allowStale = allowStaleAborted || options.allowStaleOnFetchRejection;
-          const noDelete = allowStale || options.noDeleteOnFetchRejection;
-          if (this.valList[index] === p) {
-            const del = !noDelete || p.__staleWhileFetching === void 0;
-            if (del) {
-              this.delete(k);
-            } else if (!allowStaleAborted) {
-              this.valList[index] = p.__staleWhileFetching;
-            }
-          }
-          if (allowStale) {
-            if (options.status && p.__staleWhileFetching !== void 0) {
-              options.status.returnedStale = true;
-            }
-            return p.__staleWhileFetching;
-          } else if (p.__returned === p) {
-            throw er;
-          }
-        };
-        const pcall = (res, rej) => {
-          this.fetchMethod(k, v, fetchOpts).then((v2) => res(v2), rej);
-          ac.signal.addEventListener("abort", () => {
-            if (!options.ignoreFetchAbort || options.allowStaleOnFetchAbort) {
-              res();
-              if (options.allowStaleOnFetchAbort) {
-                res = (v2) => cb(v2, true);
-              }
-            }
-          });
-        };
-        if (options.status)
-          options.status.fetchDispatched = true;
-        const p = new Promise(pcall).then(cb, eb);
-        p.__abortController = ac;
-        p.__staleWhileFetching = v;
-        p.__returned = null;
-        if (index === void 0) {
-          this.set(k, p, { ...fetchOpts.options, status: void 0 });
-          index = this.keyMap.get(k);
-        } else {
-          this.valList[index] = p;
-        }
-        return p;
-      }
-      isBackgroundFetch(p) {
-        return p && typeof p === "object" && typeof p.then === "function" && Object.prototype.hasOwnProperty.call(
-          p,
-          "__staleWhileFetching"
-        ) && Object.prototype.hasOwnProperty.call(p, "__returned") && (p.__returned === p || p.__returned === null);
-      }
-      async fetch(k, {
-        allowStale = this.allowStale,
-        updateAgeOnGet = this.updateAgeOnGet,
-        noDeleteOnStaleGet = this.noDeleteOnStaleGet,
-        ttl = this.ttl,
-        noDisposeOnSet = this.noDisposeOnSet,
-        size = 0,
-        sizeCalculation = this.sizeCalculation,
-        noUpdateTTL = this.noUpdateTTL,
-        noDeleteOnFetchRejection = this.noDeleteOnFetchRejection,
-        allowStaleOnFetchRejection = this.allowStaleOnFetchRejection,
-        ignoreFetchAbort = this.ignoreFetchAbort,
-        allowStaleOnFetchAbort = this.allowStaleOnFetchAbort,
-        fetchContext = this.fetchContext,
-        forceRefresh = false,
-        status,
-        signal
-      } = {}) {
-        if (!this.fetchMethod) {
-          if (status)
-            status.fetch = "get";
-          return this.get(k, {
-            allowStale,
-            updateAgeOnGet,
-            noDeleteOnStaleGet,
-            status
-          });
-        }
-        const options = {
-          allowStale,
-          updateAgeOnGet,
-          noDeleteOnStaleGet,
-          ttl,
-          noDisposeOnSet,
-          size,
-          sizeCalculation,
-          noUpdateTTL,
-          noDeleteOnFetchRejection,
-          allowStaleOnFetchRejection,
-          allowStaleOnFetchAbort,
-          ignoreFetchAbort,
-          status,
-          signal
-        };
-        let index = this.keyMap.get(k);
-        if (index === void 0) {
-          if (status)
-            status.fetch = "miss";
-          const p = this.backgroundFetch(k, index, options, fetchContext);
-          return p.__returned = p;
-        } else {
-          const v = this.valList[index];
-          if (this.isBackgroundFetch(v)) {
-            const stale = allowStale && v.__staleWhileFetching !== void 0;
-            if (status) {
-              status.fetch = "inflight";
-              if (stale)
-                status.returnedStale = true;
-            }
-            return stale ? v.__staleWhileFetching : v.__returned = v;
-          }
-          const isStale = this.isStale(index);
-          if (!forceRefresh && !isStale) {
-            if (status)
-              status.fetch = "hit";
-            this.moveToTail(index);
-            if (updateAgeOnGet) {
-              this.updateItemAge(index);
-            }
-            this.statusTTL(status, index);
-            return v;
-          }
-          const p = this.backgroundFetch(k, index, options, fetchContext);
-          const hasStale = p.__staleWhileFetching !== void 0;
-          const staleVal = hasStale && allowStale;
-          if (status) {
-            status.fetch = hasStale && isStale ? "stale" : "refresh";
-            if (staleVal && isStale)
-              status.returnedStale = true;
-          }
-          return staleVal ? p.__staleWhileFetching : p.__returned = p;
-        }
-      }
-      get(k, {
-        allowStale = this.allowStale,
-        updateAgeOnGet = this.updateAgeOnGet,
-        noDeleteOnStaleGet = this.noDeleteOnStaleGet,
-        status
-      } = {}) {
-        const index = this.keyMap.get(k);
-        if (index !== void 0) {
-          const value = this.valList[index];
-          const fetching = this.isBackgroundFetch(value);
-          this.statusTTL(status, index);
-          if (this.isStale(index)) {
-            if (status)
-              status.get = "stale";
-            if (!fetching) {
-              if (!noDeleteOnStaleGet) {
-                this.delete(k);
-              }
-              if (status)
-                status.returnedStale = allowStale;
-              return allowStale ? value : void 0;
-            } else {
-              if (status) {
-                status.returnedStale = allowStale && value.__staleWhileFetching !== void 0;
-              }
-              return allowStale ? value.__staleWhileFetching : void 0;
-            }
-          } else {
-            if (status)
-              status.get = "hit";
-            if (fetching) {
-              return value.__staleWhileFetching;
-            }
-            this.moveToTail(index);
-            if (updateAgeOnGet) {
-              this.updateItemAge(index);
-            }
-            return value;
-          }
-        } else if (status) {
-          status.get = "miss";
-        }
-      }
-      connect(p, n) {
-        this.prev[n] = p;
-        this.next[p] = n;
-      }
-      moveToTail(index) {
-        if (index !== this.tail) {
-          if (index === this.head) {
-            this.head = this.next[index];
-          } else {
-            this.connect(this.prev[index], this.next[index]);
-          }
-          this.connect(this.tail, index);
-          this.tail = index;
-        }
-      }
-      get del() {
-        deprecatedMethod("del", "delete");
-        return this.delete;
-      }
-      delete(k) {
-        let deleted = false;
-        if (this.size !== 0) {
-          const index = this.keyMap.get(k);
-          if (index !== void 0) {
-            deleted = true;
-            if (this.size === 1) {
-              this.clear();
-            } else {
-              this.removeItemSize(index);
-              const v = this.valList[index];
-              if (this.isBackgroundFetch(v)) {
-                v.__abortController.abort(new Error("deleted"));
-              } else {
-                this.dispose(v, k, "delete");
-                if (this.disposeAfter) {
-                  this.disposed.push([v, k, "delete"]);
-                }
-              }
-              this.keyMap.delete(k);
-              this.keyList[index] = null;
-              this.valList[index] = null;
-              if (index === this.tail) {
-                this.tail = this.prev[index];
-              } else if (index === this.head) {
-                this.head = this.next[index];
-              } else {
-                this.next[this.prev[index]] = this.next[index];
-                this.prev[this.next[index]] = this.prev[index];
-              }
-              this.size--;
-              this.free.push(index);
-            }
-          }
-        }
-        if (this.disposed) {
-          while (this.disposed.length) {
-            this.disposeAfter(...this.disposed.shift());
-          }
-        }
-        return deleted;
-      }
-      clear() {
-        for (const index of this.rindexes({ allowStale: true })) {
-          const v = this.valList[index];
-          if (this.isBackgroundFetch(v)) {
-            v.__abortController.abort(new Error("deleted"));
-          } else {
-            const k = this.keyList[index];
-            this.dispose(v, k, "delete");
-            if (this.disposeAfter) {
-              this.disposed.push([v, k, "delete"]);
-            }
-          }
-        }
-        this.keyMap.clear();
-        this.valList.fill(null);
-        this.keyList.fill(null);
-        if (this.ttls) {
-          this.ttls.fill(0);
-          this.starts.fill(0);
-        }
-        if (this.sizes) {
-          this.sizes.fill(0);
-        }
-        this.head = 0;
-        this.tail = 0;
-        this.initialFill = 1;
-        this.free.length = 0;
-        this.calculatedSize = 0;
-        this.size = 0;
-        if (this.disposed) {
-          while (this.disposed.length) {
-            this.disposeAfter(...this.disposed.shift());
-          }
-        }
-      }
-      get reset() {
-        deprecatedMethod("reset", "clear");
-        return this.clear;
-      }
-      get length() {
-        deprecatedProperty("length", "size");
-        return this.size;
-      }
-      static get AbortController() {
-        return AC;
-      }
-      static get AbortSignal() {
-        return AS;
-      }
-    };
-    module2.exports = LRUCache;
-  }
-});
-
-// ../../node_modules/.pnpm/named-placeholders@1.1.3/node_modules/named-placeholders/index.js
-var require_named_placeholders = __commonJS({
-  "../../node_modules/.pnpm/named-placeholders@1.1.3/node_modules/named-placeholders/index.js"(exports, module2) {
-    "use strict";
-    var RE_PARAM = /(?:\?)|(?::(\d+|(?:[a-zA-Z][a-zA-Z0-9_]*)))/g;
-    var DQUOTE = 34;
-    var SQUOTE = 39;
-    var BSLASH = 92;
-    function parse2(query) {
-      let ppos = RE_PARAM.exec(query);
-      let curpos = 0;
-      let start = 0;
-      let end;
-      const parts = [];
-      let inQuote = false;
-      let escape = false;
-      let qchr;
-      const tokens = [];
-      let qcnt = 0;
-      let lastTokenEndPos = 0;
-      let i2;
-      if (ppos) {
-        do {
-          for (i2 = curpos, end = ppos.index; i2 < end; ++i2) {
-            let chr = query.charCodeAt(i2);
-            if (chr === BSLASH)
-              escape = !escape;
-            else {
-              if (escape) {
-                escape = false;
-                continue;
-              }
-              if (inQuote && chr === qchr) {
-                if (query.charCodeAt(i2 + 1) === qchr) {
-                  ++i2;
-                  continue;
-                }
-                inQuote = false;
-              } else if (chr === DQUOTE || chr === SQUOTE) {
-                inQuote = true;
-                qchr = chr;
-              }
-            }
-          }
-          if (!inQuote) {
-            parts.push(query.substring(start, end));
-            tokens.push(ppos[0].length === 1 ? qcnt++ : ppos[1]);
-            start = end + ppos[0].length;
-            lastTokenEndPos = start;
-          }
-          curpos = end + ppos[0].length;
-        } while (ppos = RE_PARAM.exec(query));
-        if (tokens.length) {
-          if (curpos < query.length) {
-            parts.push(query.substring(lastTokenEndPos));
-          }
-          return [parts, tokens];
-        }
-      }
-      return [query];
-    }
-    function createCompiler(config4) {
-      if (!config4)
-        config4 = {};
-      if (!config4.placeholder) {
-        config4.placeholder = "?";
-      }
-      let ncache = 100;
-      let cache;
-      if (typeof config4.cache === "number") {
-        ncache = config4.cache;
-      }
-      if (typeof config4.cache === "object") {
-        cache = config4.cache;
-      }
-      if (config4.cache !== false && !cache) {
-        cache = new (require_lru_cache2())({ max: ncache });
-      }
-      function toArrayParams(tree, params) {
-        const arr = [];
-        if (tree.length == 1) {
-          return [tree[0], []];
-        }
-        if (typeof params == "undefined")
-          throw new Error("Named query contains placeholders, but parameters object is undefined");
-        const tokens = tree[1];
-        for (let i2 = 0; i2 < tokens.length; ++i2) {
-          arr.push(params[tokens[i2]]);
-        }
-        return [tree[0], arr];
-      }
-      function noTailingSemicolon(s2) {
-        if (s2.slice(-1) == ":") {
-          return s2.slice(0, -1);
-        }
-        return s2;
-      }
-      function join(tree) {
-        if (tree.length == 1) {
-          return tree;
-        }
-        let unnamed = noTailingSemicolon(tree[0][0]);
-        for (let i2 = 1; i2 < tree[0].length; ++i2) {
-          if (tree[0][i2 - 1].slice(-1) == ":") {
-            unnamed += config4.placeholder;
-          }
-          unnamed += config4.placeholder;
-          unnamed += noTailingSemicolon(tree[0][i2]);
-        }
-        const last = tree[0][tree[0].length - 1];
-        if (tree[0].length == tree[1].length) {
-          if (last.slice(-1) == ":") {
-            unnamed += config4.placeholder;
-          }
-          unnamed += config4.placeholder;
-        }
-        return [unnamed, tree[1]];
-      }
-      function compile(query, paramsObj) {
-        let tree;
-        if (cache && (tree = cache.get(query))) {
-          return toArrayParams(tree, paramsObj);
-        }
-        tree = join(parse2(query));
-        if (cache) {
-          cache.set(query, tree);
-        }
-        return toArrayParams(tree, paramsObj);
-      }
-      compile.parse = parse2;
-      return compile;
-    }
-    function toNumbered(q, params) {
-      const tree = parse2(q);
-      const paramsArr = [];
-      if (tree.length == 1) {
-        return [tree[0], paramsArr];
-      }
-      const pIndexes = {};
-      let pLastIndex = 0;
-      let qs = "";
-      let varIndex;
-      const varNames = [];
-      for (let i2 = 0; i2 < tree[0].length; ++i2) {
-        varIndex = pIndexes[tree[1][i2]];
-        if (!varIndex) {
-          varIndex = ++pLastIndex;
-          pIndexes[tree[1][i2]] = varIndex;
-        }
-        if (tree[1][i2]) {
-          varNames[varIndex - 1] = tree[1][i2];
-          qs += tree[0][i2] + "$" + varIndex;
-        } else {
-          qs += tree[0][i2];
-        }
-      }
-      return [qs, varNames.map((n) => params[n])];
-    }
-    module2.exports = createCompiler;
-    module2.exports.toNumbered = toNumbered;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/connection.js
-var require_connection = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/connection.js"(exports, module2) {
-    "use strict";
-    var Net = require("net");
-    var Tls = require("tls");
-    var Timers = require("timers");
-    var EventEmitter = require("events").EventEmitter;
-    var Readable = require("stream").Readable;
-    var Queue = require_denque();
-    var SqlString = require_sqlstring();
-    var LRU = require_lru_cache();
-    var PacketParser = require_packet_parser();
-    var Packets = require_packets();
-    var Commands = require_commands2();
-    var ConnectionConfig = require_connection_config();
-    var CharsetToEncoding = require_charset_encodings();
-    var _connectionId = 0;
-    var convertNamedPlaceholders = null;
-    var Connection = class extends EventEmitter {
-      constructor(opts) {
-        super();
-        this.config = opts.config;
-        if (!opts.config.stream) {
-          if (opts.config.socketPath) {
-            this.stream = Net.connect(opts.config.socketPath);
-          } else {
-            this.stream = Net.connect(
-              opts.config.port,
-              opts.config.host
-            );
-            this.stream.setKeepAlive(true, this.config.keepAliveInitialDelay);
-          }
-        } else if (typeof opts.config.stream === "function") {
-          this.stream = opts.config.stream(opts);
-        } else {
-          this.stream = opts.config.stream;
-        }
-        this._internalId = _connectionId++;
-        this._commands = new Queue();
-        this._command = null;
-        this._paused = false;
-        this._paused_packets = new Queue();
-        this._statements = new LRU({
-          max: this.config.maxPreparedStatements,
-          dispose: function(key, statement) {
-            statement.close();
-          }
-        });
-        this.serverCapabilityFlags = 0;
-        this.authorized = false;
-        this.sequenceId = 0;
-        this.compressedSequenceId = 0;
-        this.threadId = null;
-        this._handshakePacket = null;
-        this._fatalError = null;
-        this._protocolError = null;
-        this._outOfOrderPackets = [];
-        this.clientEncoding = CharsetToEncoding[this.config.charsetNumber];
-        this.stream.on("error", this._handleNetworkError.bind(this));
-        this.packetParser = new PacketParser((p) => {
-          this.handlePacket(p);
-        });
-        this.stream.on("data", (data) => {
-          if (this.connectTimeout) {
-            Timers.clearTimeout(this.connectTimeout);
-            this.connectTimeout = null;
-          }
-          this.packetParser.execute(data);
-        });
-        this.stream.on("close", () => {
-          if (this._closing) {
-            return;
-          }
-          if (!this._protocolError) {
-            this._protocolError = new Error(
-              "Connection lost: The server closed the connection."
-            );
-            this._protocolError.fatal = true;
-            this._protocolError.code = "PROTOCOL_CONNECTION_LOST";
-          }
-          this._notifyError(this._protocolError);
-        });
-        let handshakeCommand;
-        if (!this.config.isServer) {
-          handshakeCommand = new Commands.ClientHandshake(this.config.clientFlags);
-          handshakeCommand.on("end", () => {
-            if (!handshakeCommand.handshake || this._fatalError || this._protocolError) {
-              return;
-            }
-            this._handshakePacket = handshakeCommand.handshake;
-            this.threadId = handshakeCommand.handshake.connectionId;
-            this.emit("connect", handshakeCommand.handshake);
-          });
-          handshakeCommand.on("error", (err) => {
-            this._closing = true;
-            this._notifyError(err);
-          });
-          this.addCommand(handshakeCommand);
-        }
-        this.serverEncoding = "utf8";
-        if (this.config.connectTimeout) {
-          const timeoutHandler = this._handleTimeoutError.bind(this);
-          this.connectTimeout = Timers.setTimeout(
-            timeoutHandler,
-            this.config.connectTimeout
-          );
-        }
-      }
-      promise(promiseImpl) {
-        const PromiseConnection = require_promise().PromiseConnection;
-        return new PromiseConnection(this, promiseImpl);
-      }
-      _addCommandClosedState(cmd) {
-        const err = new Error(
-          "Can't add new command when connection is in closed state"
-        );
-        err.fatal = true;
-        if (cmd.onResult) {
-          cmd.onResult(err);
-        } else {
-          this.emit("error", err);
-        }
-      }
-      _handleFatalError(err) {
-        err.fatal = true;
-        this.stream.removeAllListeners("data");
-        this.addCommand = this._addCommandClosedState;
-        this.write = () => {
-          this.emit("error", new Error("Can't write in closed state"));
-        };
-        this._notifyError(err);
-        this._fatalError = err;
-      }
-      _handleNetworkError(err) {
-        if (this.connectTimeout) {
-          Timers.clearTimeout(this.connectTimeout);
-          this.connectTimeout = null;
-        }
-        if (err.errno === "ECONNRESET" && this._closing) {
-          return;
-        }
-        this._handleFatalError(err);
-      }
-      _handleTimeoutError() {
-        if (this.connectTimeout) {
-          Timers.clearTimeout(this.connectTimeout);
-          this.connectTimeout = null;
-        }
-        this.stream.destroy && this.stream.destroy();
-        const err = new Error("connect ETIMEDOUT");
-        err.errorno = "ETIMEDOUT";
-        err.code = "ETIMEDOUT";
-        err.syscall = "connect";
-        this._handleNetworkError(err);
-      }
-      _notifyError(err) {
-        if (this.connectTimeout) {
-          Timers.clearTimeout(this.connectTimeout);
-          this.connectTimeout = null;
-        }
-        if (this._fatalError) {
-          return;
-        }
-        let command;
-        let bubbleErrorToConnection = !this._command;
-        if (this._command && this._command.onResult) {
-          this._command.onResult(err);
-          this._command = null;
-        } else if (!(this._command && this._command.constructor === Commands.ClientHandshake && this._commands.length > 0)) {
-          bubbleErrorToConnection = true;
-        }
-        while (command = this._commands.shift()) {
-          if (command.onResult) {
-            command.onResult(err);
-          } else {
-            bubbleErrorToConnection = true;
-          }
-        }
-        if (bubbleErrorToConnection || this._pool) {
-          this.emit("error", err);
-        }
-        if (err.fatal) {
-          this.close();
-        }
-      }
-      write(buffer) {
-        const result = this.stream.write(buffer, (err) => {
-          if (err) {
-            this._handleNetworkError(err);
-          }
-        });
-        if (!result) {
-          this.stream.emit("pause");
-        }
-      }
-      _resetSequenceId() {
-        this.sequenceId = 0;
-        this.compressedSequenceId = 0;
-      }
-      _bumpCompressedSequenceId(numPackets) {
-        this.compressedSequenceId += numPackets;
-        this.compressedSequenceId %= 256;
-      }
-      _bumpSequenceId(numPackets) {
-        this.sequenceId += numPackets;
-        this.sequenceId %= 256;
-      }
-      writePacket(packet) {
-        const MAX_PACKET_LENGTH = 16777215;
-        const length = packet.length();
-        let chunk, offset, header;
-        if (length < MAX_PACKET_LENGTH) {
-          packet.writeHeader(this.sequenceId);
-          if (this.config.debug) {
-            console.log(
-              `${this._internalId} ${this.connectionId} <== ${this._command._commandName}#${this._command.stateName()}(${[this.sequenceId, packet._name, packet.length()].join(",")})`
-            );
-            console.log(
-              `${this._internalId} ${this.connectionId} <== ${packet.buffer.toString("hex")}`
-            );
-          }
-          this._bumpSequenceId(1);
-          this.write(packet.buffer);
-        } else {
-          if (this.config.debug) {
-            console.log(
-              `${this._internalId} ${this.connectionId} <== Writing large packet, raw content not written:`
-            );
-            console.log(
-              `${this._internalId} ${this.connectionId} <== ${this._command._commandName}#${this._command.stateName()}(${[this.sequenceId, packet._name, packet.length()].join(",")})`
-            );
-          }
-          for (offset = 4; offset < 4 + length; offset += MAX_PACKET_LENGTH) {
-            chunk = packet.buffer.slice(offset, offset + MAX_PACKET_LENGTH);
-            if (chunk.length === MAX_PACKET_LENGTH) {
-              header = Buffer.from([255, 255, 255, this.sequenceId]);
-            } else {
-              header = Buffer.from([
-                chunk.length & 255,
-                chunk.length >> 8 & 255,
-                chunk.length >> 16 & 255,
-                this.sequenceId
-              ]);
-            }
-            this._bumpSequenceId(1);
-            this.write(header);
-            this.write(chunk);
-          }
-        }
-      }
-      startTLS(onSecure) {
-        if (this.config.debug) {
-          console.log("Upgrading connection to TLS");
-        }
-        const secureContext = Tls.createSecureContext({
-          ca: this.config.ssl.ca,
-          cert: this.config.ssl.cert,
-          ciphers: this.config.ssl.ciphers,
-          key: this.config.ssl.key,
-          passphrase: this.config.ssl.passphrase,
-          minVersion: this.config.ssl.minVersion
-        });
-        const rejectUnauthorized = this.config.ssl.rejectUnauthorized;
-        let secureEstablished = false;
-        const secureSocket = new Tls.TLSSocket(this.stream, {
-          rejectUnauthorized,
-          requestCert: true,
-          secureContext,
-          isServer: false
-        });
-        secureSocket.on("_tlsError", (err) => {
-          if (secureEstablished) {
-            this._handleNetworkError(err);
-          } else {
-            onSecure(err);
-          }
-        });
-        secureSocket.on("secure", () => {
-          secureEstablished = true;
-          onSecure(rejectUnauthorized ? secureSocket.ssl.verifyError() : null);
-        });
-        secureSocket.on("data", (data) => {
-          this.packetParser.execute(data);
-        });
-        this.write = (buffer) => {
-          secureSocket.write(buffer);
-        };
-        secureSocket._start();
-      }
-      pipe() {
-        if (this.stream instanceof Net.Stream) {
-          this.stream.ondata = (data, start, end) => {
-            this.packetParser.execute(data, start, end);
-          };
-        } else {
-          this.stream.on("data", (data) => {
-            this.packetParser.execute(
-              data.parent,
-              data.offset,
-              data.offset + data.length
-            );
-          });
-        }
-      }
-      protocolError(message, code) {
-        if (this._closing) {
-          return;
-        }
-        const err = new Error(message);
-        err.fatal = true;
-        err.code = code || "PROTOCOL_ERROR";
-        this.emit("error", err);
-      }
-      handlePacket(packet) {
-        if (this._paused) {
-          this._paused_packets.push(packet);
-          return;
-        }
-        if (packet) {
-          if (this.sequenceId !== packet.sequenceId) {
-            const err = new Error(
-              `Warning: got packets out of order. Expected ${this.sequenceId} but received ${packet.sequenceId}`
-            );
-            err.expected = this.sequenceId;
-            err.received = packet.sequenceId;
-            this.emit("warn", err);
-            console.error(err.message);
-          }
-          this._bumpSequenceId(packet.numPackets);
-        }
-        if (this.config.debug) {
-          if (packet) {
-            console.log(
-              ` raw: ${packet.buffer.slice(packet.offset, packet.offset + packet.length()).toString("hex")}`
-            );
-            console.trace();
-            const commandName = this._command ? this._command._commandName : "(no command)";
-            const stateName = this._command ? this._command.stateName() : "(no command)";
-            console.log(
-              `${this._internalId} ${this.connectionId} ==> ${commandName}#${stateName}(${[packet.sequenceId, packet.type(), packet.length()].join(",")})`
-            );
-          }
-        }
-        if (!this._command) {
-          const marker = packet.peekByte();
-          if (marker === 255) {
-            const error = Packets.Error.fromPacket(packet);
-            this.protocolError(error.message, error.code);
-          } else {
-            this.protocolError(
-              "Unexpected packet while no commands in the queue",
-              "PROTOCOL_UNEXPECTED_PACKET"
-            );
-          }
-          this.close();
-          return;
-        }
-        const done = this._command.execute(packet, this);
-        if (done) {
-          this._command = this._commands.shift();
-          if (this._command) {
-            this.sequenceId = 0;
-            this.compressedSequenceId = 0;
-            this.handlePacket();
-          }
-        }
-      }
-      addCommand(cmd) {
-        if (this.config.debug) {
-          const commandName = cmd.constructor.name;
-          console.log(`Add command: ${commandName}`);
-          cmd._commandName = commandName;
-        }
-        if (!this._command) {
-          this._command = cmd;
-          this.handlePacket();
-        } else {
-          this._commands.push(cmd);
-        }
-        return cmd;
-      }
-      format(sql, values) {
-        if (typeof this.config.queryFormat === "function") {
-          return this.config.queryFormat.call(
-            this,
-            sql,
-            values,
-            this.config.timezone
-          );
-        }
-        const opts = {
-          sql,
-          values
-        };
-        this._resolveNamedPlaceholders(opts);
-        return SqlString.format(
-          opts.sql,
-          opts.values,
-          this.config.stringifyObjects,
-          this.config.timezone
-        );
-      }
-      escape(value) {
-        return SqlString.escape(value, false, this.config.timezone);
-      }
-      escapeId(value) {
-        return SqlString.escapeId(value, false);
-      }
-      raw(sql) {
-        return SqlString.raw(sql);
-      }
-      _resolveNamedPlaceholders(options) {
-        let unnamed;
-        if (this.config.namedPlaceholders || options.namedPlaceholders) {
-          if (Array.isArray(options.values)) {
-            return;
-          }
-          if (convertNamedPlaceholders === null) {
-            convertNamedPlaceholders = require_named_placeholders()();
-          }
-          unnamed = convertNamedPlaceholders(options.sql, options.values);
-          options.sql = unnamed[0];
-          options.values = unnamed[1];
-        }
-      }
-      query(sql, values, cb) {
-        let cmdQuery;
-        if (sql.constructor === Commands.Query) {
-          cmdQuery = sql;
-        } else {
-          cmdQuery = Connection.createQuery(sql, values, cb, this.config);
-        }
-        this._resolveNamedPlaceholders(cmdQuery);
-        const rawSql = this.format(cmdQuery.sql, cmdQuery.values !== void 0 ? cmdQuery.values : []);
-        cmdQuery.sql = rawSql;
-        return this.addCommand(cmdQuery);
-      }
-      pause() {
-        this._paused = true;
-        this.stream.pause();
-      }
-      resume() {
-        let packet;
-        this._paused = false;
-        while (packet = this._paused_packets.shift()) {
-          this.handlePacket(packet);
-          if (this._paused) {
-            return;
-          }
-        }
-        this.stream.resume();
-      }
-      prepare(options, cb) {
-        if (typeof options === "string") {
-          options = { sql: options };
-        }
-        return this.addCommand(new Commands.Prepare(options, cb));
-      }
-      unprepare(sql) {
-        let options = {};
-        if (typeof sql === "object") {
-          options = sql;
-        } else {
-          options.sql = sql;
-        }
-        const key = Connection.statementKey(options);
-        const stmt = this._statements.get(key);
-        if (stmt) {
-          this._statements.del(key);
-          stmt.close();
-        }
-        return stmt;
-      }
-      execute(sql, values, cb) {
-        let options = {};
-        if (typeof sql === "object") {
-          options = sql;
-          if (typeof values === "function") {
-            cb = values;
-          } else {
-            options.values = options.values || values;
-          }
-        } else if (typeof values === "function") {
-          cb = values;
-          options.sql = sql;
-          options.values = void 0;
-        } else {
-          options.sql = sql;
-          options.values = values;
-        }
-        this._resolveNamedPlaceholders(options);
-        if (options.values) {
-          if (!Array.isArray(options.values)) {
-            throw new TypeError(
-              "Bind parameters must be array if namedPlaceholders parameter is not enabled"
-            );
-          }
-          options.values.forEach((val) => {
-            if (!Array.isArray(options.values)) {
-              throw new TypeError(
-                "Bind parameters must be array if namedPlaceholders parameter is not enabled"
-              );
-            }
-            if (val === void 0) {
-              throw new TypeError(
-                "Bind parameters must not contain undefined. To pass SQL NULL specify JS null"
-              );
-            }
-            if (typeof val === "function") {
-              throw new TypeError(
-                "Bind parameters must not contain function(s). To pass the body of a function as a string call .toString() first"
-              );
-            }
-          });
-        }
-        const executeCommand = new Commands.Execute(options, cb);
-        const prepareCommand = new Commands.Prepare(options, (err, stmt) => {
-          if (err) {
-            executeCommand.start = function() {
-              return null;
-            };
-            if (cb) {
-              cb(err);
-            } else {
-              executeCommand.emit("error", err);
-            }
-            executeCommand.emit("end");
-            return;
-          }
-          executeCommand.statement = stmt;
-        });
-        this.addCommand(prepareCommand);
-        this.addCommand(executeCommand);
-        return executeCommand;
-      }
-      changeUser(options, callback) {
-        if (!callback && typeof options === "function") {
-          callback = options;
-          options = {};
-        }
-        const charsetNumber = options.charset ? ConnectionConfig.getCharsetNumber(options.charset) : this.config.charsetNumber;
-        return this.addCommand(
-          new Commands.ChangeUser(
-            {
-              user: options.user || this.config.user,
-              password: options.password || this.config.password,
-              passwordSha1: options.passwordSha1 || this.config.passwordSha1,
-              database: options.database || this.config.database,
-              timeout: options.timeout,
-              charsetNumber,
-              currentConfig: this.config
-            },
-            (err) => {
-              if (err) {
-                err.fatal = true;
-              }
-              if (callback) {
-                callback(err);
-              }
-            }
-          )
-        );
-      }
-      beginTransaction(cb) {
-        return this.query("START TRANSACTION", cb);
-      }
-      commit(cb) {
-        return this.query("COMMIT", cb);
-      }
-      rollback(cb) {
-        return this.query("ROLLBACK", cb);
-      }
-      ping(cb) {
-        return this.addCommand(new Commands.Ping(cb));
-      }
-      _registerSlave(opts, cb) {
-        return this.addCommand(new Commands.RegisterSlave(opts, cb));
-      }
-      _binlogDump(opts, cb) {
-        return this.addCommand(new Commands.BinlogDump(opts, cb));
-      }
-      destroy() {
-        this.close();
-      }
-      close() {
-        if (this.connectTimeout) {
-          Timers.clearTimeout(this.connectTimeout);
-          this.connectTimeout = null;
-        }
-        this._closing = true;
-        this.stream.end();
-        this.addCommand = this._addCommandClosedState;
-      }
-      createBinlogStream(opts) {
-        let test = 1;
-        const stream = new Readable({ objectMode: true });
-        stream._read = function() {
-          return {
-            data: test++
-          };
-        };
-        this._registerSlave(opts, () => {
-          const dumpCmd = this._binlogDump(opts);
-          dumpCmd.on("event", (ev) => {
-            stream.push(ev);
-          });
-          dumpCmd.on("eof", () => {
-            stream.push(null);
-            if (opts.flags && opts.flags & 1) {
-              this.close();
-            }
-          });
-        });
-        return stream;
-      }
-      connect(cb) {
-        if (!cb) {
-          return;
-        }
-        if (this._fatalError || this._protocolError) {
-          return cb(this._fatalError || this._protocolError);
-        }
-        if (this._handshakePacket) {
-          return cb(null, this);
-        }
-        let connectCalled = 0;
-        function callbackOnce(isErrorHandler) {
-          return function(param) {
-            if (!connectCalled) {
-              if (isErrorHandler) {
-                cb(param);
-              } else {
-                cb(null, param);
-              }
-            }
-            connectCalled = 1;
-          };
-        }
-        this.once("error", callbackOnce(true));
-        this.once("connect", callbackOnce(false));
-      }
-      writeColumns(columns) {
-        this.writePacket(Packets.ResultSetHeader.toPacket(columns.length));
-        columns.forEach((column) => {
-          this.writePacket(
-            Packets.ColumnDefinition.toPacket(column, this.serverConfig.encoding)
-          );
-        });
-        this.writeEof();
-      }
-      writeTextRow(column) {
-        this.writePacket(
-          Packets.TextRow.toPacket(column, this.serverConfig.encoding)
-        );
-      }
-      writeTextResult(rows, columns) {
-        this.writeColumns(columns);
-        rows.forEach((row) => {
-          const arrayRow = new Array(columns.length);
-          columns.forEach((column) => {
-            arrayRow.push(row[column.name]);
-          });
-          this.writeTextRow(arrayRow);
-        });
-        this.writeEof();
-      }
-      writeEof(warnings, statusFlags) {
-        this.writePacket(Packets.EOF.toPacket(warnings, statusFlags));
-      }
-      writeOk(args) {
-        if (!args) {
-          args = { affectedRows: 0 };
-        }
-        this.writePacket(Packets.OK.toPacket(args, this.serverConfig.encoding));
-      }
-      writeError(args) {
-        const encoding = this.serverConfig ? this.serverConfig.encoding : "cesu8";
-        this.writePacket(Packets.Error.toPacket(args, encoding));
-      }
-      serverHandshake(args) {
-        this.serverConfig = args;
-        this.serverConfig.encoding = CharsetToEncoding[this.serverConfig.characterSet];
-        return this.addCommand(new Commands.ServerHandshake(args));
-      }
-      end(callback) {
-        if (this.config.isServer) {
-          this._closing = true;
-          const quitCmd2 = new EventEmitter();
-          setImmediate(() => {
-            this.stream.end();
-            quitCmd2.emit("end");
-          });
-          return quitCmd2;
-        }
-        const quitCmd = this.addCommand(new Commands.Quit(callback));
-        this.addCommand = this._addCommandClosedState;
-        return quitCmd;
-      }
-      static createQuery(sql, values, cb, config4) {
-        let options = {
-          rowsAsArray: config4.rowsAsArray
-        };
-        if (typeof sql === "object") {
-          options = sql;
-          if (typeof values === "function") {
-            cb = values;
-          } else if (values !== void 0) {
-            options.values = values;
-          }
-        } else if (typeof values === "function") {
-          cb = values;
-          options.sql = sql;
-          options.values = void 0;
-        } else {
-          options.sql = sql;
-          options.values = values;
-        }
-        return new Commands.Query(options, cb);
-      }
-      static statementKey(options) {
-        return `${typeof options.nestTables}/${options.nestTables}/${options.rowsAsArray}${options.sql}`;
-      }
-    };
-    if (Tls.TLSSocket) {
-    } else {
-      Connection.prototype.startTLS = function _startTLS(onSecure) {
-        if (this.config.debug) {
-          console.log("Upgrading connection to TLS");
-        }
-        const crypto = require("crypto");
-        const config4 = this.config;
-        const stream = this.stream;
-        const rejectUnauthorized = this.config.ssl.rejectUnauthorized;
-        const credentials = crypto.createCredentials({
-          key: config4.ssl.key,
-          cert: config4.ssl.cert,
-          passphrase: config4.ssl.passphrase,
-          ca: config4.ssl.ca,
-          ciphers: config4.ssl.ciphers
-        });
-        const securePair = Tls.createSecurePair(
-          credentials,
-          false,
-          true,
-          rejectUnauthorized
-        );
-        if (stream.ondata) {
-          stream.ondata = null;
-        }
-        stream.removeAllListeners("data");
-        stream.pipe(securePair.encrypted);
-        securePair.encrypted.pipe(stream);
-        securePair.cleartext.on("data", (data) => {
-          this.packetParser.execute(data);
-        });
-        this.write = function(buffer) {
-          securePair.cleartext.write(buffer);
-        };
-        securePair.on("secure", () => {
-          onSecure(rejectUnauthorized ? securePair.ssl.verifyError() : null);
-        });
-      };
-    }
-    module2.exports = Connection;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/pool_connection.js
-var require_pool_connection = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/pool_connection.js"(exports, module2) {
-    "use strict";
-    var Connection = require_mysql2().Connection;
-    var PoolConnection = class extends Connection {
-      constructor(pool3, options) {
-        super(options);
-        this._pool = pool3;
-        this.once("end", () => {
-          this._removeFromPool();
-        });
-        this.once("error", () => {
-          this._removeFromPool();
-        });
-      }
-      release() {
-        if (!this._pool || this._pool._closed) {
-          return;
-        }
-        this._pool.releaseConnection(this);
-      }
-      promise(promiseImpl) {
-        const PromisePoolConnection = require_promise().PromisePoolConnection;
-        return new PromisePoolConnection(this, promiseImpl);
-      }
-      end() {
-        const err = new Error(
-          "Calling conn.end() to release a pooled connection is deprecated. In next version calling conn.end() will be restored to default conn.end() behavior. Use conn.release() instead."
-        );
-        this.emit("warn", err);
-        console.warn(err.message);
-        this.release();
-      }
-      destroy() {
-        this._removeFromPool();
-        super.destroy();
-      }
-      _removeFromPool() {
-        if (!this._pool || this._pool._closed) {
-          return;
-        }
-        const pool3 = this._pool;
-        this._pool = null;
-        pool3._removeConnection(this);
-      }
-    };
-    PoolConnection.statementKey = Connection.statementKey;
-    module2.exports = PoolConnection;
-    PoolConnection.prototype._realEnd = Connection.prototype.end;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/pool.js
-var require_pool = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/pool.js"(exports, module2) {
-    "use strict";
-    var process2 = require("process");
-    var mysql3 = require_mysql2();
-    var EventEmitter = require("events").EventEmitter;
-    var PoolConnection = require_pool_connection();
-    var Queue = require_denque();
-    var Connection = require_connection();
-    function spliceConnection(queue, connection) {
-      const len = queue.length;
-      for (let i2 = 0; i2 < len; i2++) {
-        if (queue.get(i2) === connection) {
-          queue.removeOne(i2);
-          break;
-        }
-      }
-    }
-    var Pool = class extends EventEmitter {
-      constructor(options) {
-        super();
-        this.config = options.config;
-        this.config.connectionConfig.pool = this;
-        this._allConnections = new Queue();
-        this._freeConnections = new Queue();
-        this._connectionQueue = new Queue();
-        this._closed = false;
-      }
-      promise(promiseImpl) {
-        const PromisePool = require_promise().PromisePool;
-        return new PromisePool(this, promiseImpl);
-      }
-      getConnection(cb) {
-        if (this._closed) {
-          return process2.nextTick(() => cb(new Error("Pool is closed.")));
-        }
-        let connection;
-        if (this._freeConnections.length > 0) {
-          connection = this._freeConnections.shift();
-          this.emit("acquire", connection);
-          return process2.nextTick(() => cb(null, connection));
-        }
-        if (this.config.connectionLimit === 0 || this._allConnections.length < this.config.connectionLimit) {
-          connection = new PoolConnection(this, {
-            config: this.config.connectionConfig
-          });
-          this._allConnections.push(connection);
-          return connection.connect((err) => {
-            if (this._closed) {
-              return cb(new Error("Pool is closed."));
-            }
-            if (err) {
-              return cb(err);
-            }
-            this.emit("connection", connection);
-            this.emit("acquire", connection);
-            return cb(null, connection);
-          });
-        }
-        if (!this.config.waitForConnections) {
-          return process2.nextTick(() => cb(new Error("No connections available.")));
-        }
-        if (this.config.queueLimit && this._connectionQueue.length >= this.config.queueLimit) {
-          return cb(new Error("Queue limit reached."));
-        }
-        this.emit("enqueue");
-        return this._connectionQueue.push(cb);
-      }
-      releaseConnection(connection) {
-        let cb;
-        if (!connection._pool) {
-          if (this._connectionQueue.length) {
-            cb = this._connectionQueue.shift();
-            process2.nextTick(this.getConnection.bind(this, cb));
-          }
-        } else if (this._connectionQueue.length) {
-          cb = this._connectionQueue.shift();
-          process2.nextTick(cb.bind(null, null, connection));
-        } else {
-          this._freeConnections.push(connection);
-          this.emit("release", connection);
-        }
-      }
-      end(cb) {
-        this._closed = true;
-        if (typeof cb !== "function") {
-          cb = function(err) {
-            if (err) {
-              throw err;
-            }
-          };
-        }
-        let calledBack = false;
-        let closedConnections = 0;
-        let connection;
-        const endCB = function(err) {
-          if (calledBack) {
-            return;
-          }
-          if (err || ++closedConnections >= this._allConnections.length) {
-            calledBack = true;
-            cb(err);
-            return;
-          }
-        }.bind(this);
-        if (this._allConnections.length === 0) {
-          endCB();
-          return;
-        }
-        for (let i2 = 0; i2 < this._allConnections.length; i2++) {
-          connection = this._allConnections.get(i2);
-          connection._realEnd(endCB);
-        }
-      }
-      query(sql, values, cb) {
-        const cmdQuery = Connection.createQuery(
-          sql,
-          values,
-          cb,
-          this.config.connectionConfig
-        );
-        if (typeof cmdQuery.namedPlaceholders === "undefined") {
-          cmdQuery.namedPlaceholders = this.config.connectionConfig.namedPlaceholders;
-        }
-        this.getConnection((err, conn) => {
-          if (err) {
-            if (typeof cmdQuery.onResult === "function") {
-              cmdQuery.onResult(err);
-            } else {
-              cmdQuery.emit("error", err);
-            }
-            return;
-          }
-          try {
-            conn.query(cmdQuery).once("end", () => {
-              conn.release();
-            });
-          } catch (e2) {
-            conn.release();
-            throw e2;
-          }
-        });
-        return cmdQuery;
-      }
-      execute(sql, values, cb) {
-        if (typeof values === "function") {
-          cb = values;
-          values = [];
-        }
-        this.getConnection((err, conn) => {
-          if (err) {
-            return cb(err);
-          }
-          try {
-            conn.execute(sql, values, cb).once("end", () => {
-              conn.release();
-            });
-          } catch (e2) {
-            conn.release();
-            throw e2;
-          }
-        });
-      }
-      _removeConnection(connection) {
-        spliceConnection(this._allConnections, connection);
-        spliceConnection(this._freeConnections, connection);
-        this.releaseConnection(connection);
-      }
-      format(sql, values) {
-        return mysql3.format(
-          sql,
-          values,
-          this.config.connectionConfig.stringifyObjects,
-          this.config.connectionConfig.timezone
-        );
-      }
-      escape(value) {
-        return mysql3.escape(
-          value,
-          this.config.connectionConfig.stringifyObjects,
-          this.config.connectionConfig.timezone
-        );
-      }
-      escapeId(value) {
-        return mysql3.escapeId(value, false);
-      }
-    };
-    module2.exports = Pool;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/pool_config.js
-var require_pool_config = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/pool_config.js"(exports, module2) {
-    "use strict";
-    var ConnectionConfig = require_connection_config();
-    var PoolConfig = class {
-      constructor(options) {
-        if (typeof options === "string") {
-          options = ConnectionConfig.parseUrl(options);
-        }
-        this.connectionConfig = new ConnectionConfig(options);
-        this.waitForConnections = options.waitForConnections === void 0 ? true : Boolean(options.waitForConnections);
-        this.connectionLimit = isNaN(options.connectionLimit) ? 10 : Number(options.connectionLimit);
-        this.queueLimit = isNaN(options.queueLimit) ? 0 : Number(options.queueLimit);
-      }
-    };
-    module2.exports = PoolConfig;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/pool_cluster.js
-var require_pool_cluster = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/pool_cluster.js"(exports, module2) {
-    "use strict";
-    var process2 = require("process");
-    var Pool = require_pool();
-    var PoolConfig = require_pool_config();
-    var Connection = require_connection();
-    var EventEmitter = require("events").EventEmitter;
-    var makeSelector = {
-      RR() {
-        let index = 0;
-        return (clusterIds) => clusterIds[index++ % clusterIds.length];
-      },
-      RANDOM() {
-        return (clusterIds) => clusterIds[Math.floor(Math.random() * clusterIds.length)];
-      },
-      ORDER() {
-        return (clusterIds) => clusterIds[0];
-      }
-    };
-    var PoolNamespace = class {
-      constructor(cluster, pattern, selector) {
-        this._cluster = cluster;
-        this._pattern = pattern;
-        this._selector = makeSelector[selector]();
-      }
-      getConnection(cb) {
-        const clusterNode = this._getClusterNode();
-        if (clusterNode === null) {
-          return cb(new Error("Pool does Not exists."));
-        }
-        return this._cluster._getConnection(clusterNode, (err, connection) => {
-          if (err) {
-            return cb(err);
-          }
-          if (connection === "retry") {
-            return this.getConnection(cb);
-          }
-          return cb(null, connection);
-        });
-      }
-      query(sql, values, cb) {
-        const query = Connection.createQuery(sql, values, cb, {});
-        this.getConnection((err, conn) => {
-          if (err) {
-            if (typeof query.onResult === "function") {
-              query.onResult(err);
-            } else {
-              query.emit("error", err);
-            }
-            return;
-          }
-          try {
-            conn.query(query).once("end", () => {
-              conn.release();
-            });
-          } catch (e2) {
-            conn.release();
-            throw e2;
-          }
-        });
-        return query;
-      }
-      execute(sql, values, cb) {
-        if (typeof values === "function") {
-          cb = values;
-          values = [];
-        }
-        this.getConnection((err, conn) => {
-          if (err) {
-            return cb(err);
-          }
-          try {
-            conn.execute(sql, values, cb).once("end", () => {
-              conn.release();
-            });
-          } catch (e2) {
-            conn.release();
-            throw e2;
-          }
-        });
-      }
-      _getClusterNode() {
-        const foundNodeIds = this._cluster._findNodeIds(this._pattern);
-        if (foundNodeIds.length === 0) {
-          return null;
-        }
-        const nodeId = foundNodeIds.length === 1 ? foundNodeIds[0] : this._selector(foundNodeIds);
-        return this._cluster._getNode(nodeId);
-      }
-    };
-    var PoolCluster = class extends EventEmitter {
-      constructor(config4) {
-        super();
-        config4 = config4 || {};
-        this._canRetry = typeof config4.canRetry === "undefined" ? true : config4.canRetry;
-        this._removeNodeErrorCount = config4.removeNodeErrorCount || 5;
-        this._defaultSelector = config4.defaultSelector || "RR";
-        this._closed = false;
-        this._lastId = 0;
-        this._nodes = {};
-        this._serviceableNodeIds = [];
-        this._namespaces = {};
-        this._findCaches = {};
-      }
-      of(pattern, selector) {
-        pattern = pattern || "*";
-        selector = selector || this._defaultSelector;
-        selector = selector.toUpperCase();
-        if (!makeSelector[selector] === "undefined") {
-          selector = this._defaultSelector;
-        }
-        const key = pattern + selector;
-        if (typeof this._namespaces[key] === "undefined") {
-          this._namespaces[key] = new PoolNamespace(this, pattern, selector);
-        }
-        return this._namespaces[key];
-      }
-      add(id, config4) {
-        if (typeof id === "object") {
-          config4 = id;
-          id = `CLUSTER::${++this._lastId}`;
-        }
-        if (typeof this._nodes[id] === "undefined") {
-          this._nodes[id] = {
-            id,
-            errorCount: 0,
-            pool: new Pool({ config: new PoolConfig(config4) })
-          };
-          this._serviceableNodeIds.push(id);
-          this._clearFindCaches();
-        }
-      }
-      getConnection(pattern, selector, cb) {
-        let namespace;
-        if (typeof pattern === "function") {
-          cb = pattern;
-          namespace = this.of();
-        } else {
-          if (typeof selector === "function") {
-            cb = selector;
-            selector = this._defaultSelector;
-          }
-          namespace = this.of(pattern, selector);
-        }
-        namespace.getConnection(cb);
-      }
-      end(callback) {
-        const cb = callback !== void 0 ? callback : (err) => {
-          if (err) {
-            throw err;
-          }
-        };
-        if (this._closed) {
-          process2.nextTick(cb);
-          return;
-        }
-        this._closed = true;
-        let calledBack = false;
-        let waitingClose = 0;
-        const onEnd = (err) => {
-          if (!calledBack && (err || --waitingClose <= 0)) {
-            calledBack = true;
-            return cb(err);
-          }
-        };
-        for (const id in this._nodes) {
-          waitingClose++;
-          this._nodes[id].pool.end(onEnd);
-        }
-        if (waitingClose === 0) {
-          process2.nextTick(onEnd);
-        }
-      }
-      _findNodeIds(pattern) {
-        if (typeof this._findCaches[pattern] !== "undefined") {
-          return this._findCaches[pattern];
-        }
-        let foundNodeIds;
-        if (pattern === "*") {
-          foundNodeIds = this._serviceableNodeIds;
-        } else if (this._serviceableNodeIds.indexOf(pattern) !== -1) {
-          foundNodeIds = [pattern];
-        } else {
-          const keyword = pattern.substring(pattern.length - 1, 0);
-          foundNodeIds = this._serviceableNodeIds.filter(
-            (id) => id.startsWith(keyword)
-          );
-        }
-        this._findCaches[pattern] = foundNodeIds;
-        return foundNodeIds;
-      }
-      _getNode(id) {
-        return this._nodes[id] || null;
-      }
-      _increaseErrorCount(node) {
-        if (++node.errorCount >= this._removeNodeErrorCount) {
-          const index = this._serviceableNodeIds.indexOf(node.id);
-          if (index !== -1) {
-            this._serviceableNodeIds.splice(index, 1);
-            delete this._nodes[node.id];
-            this._clearFindCaches();
-            node.pool.end();
-            this.emit("remove", node.id);
-          }
-        }
-      }
-      _decreaseErrorCount(node) {
-        if (node.errorCount > 0) {
-          --node.errorCount;
-        }
-      }
-      _getConnection(node, cb) {
-        node.pool.getConnection((err, connection) => {
-          if (err) {
-            this._increaseErrorCount(node);
-            if (this._canRetry) {
-              this.emit("warn", err);
-              console.warn(`[Error] PoolCluster : ${err}`);
-              return cb(null, "retry");
-            }
-            return cb(err);
-          }
-          this._decreaseErrorCount(node);
-          connection._clusterId = node.id;
-          return cb(null, connection);
-        });
-      }
-      _clearFindCaches() {
-        this._findCaches = {};
-      }
-    };
-    module2.exports = PoolCluster;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/server.js
-var require_server = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/lib/server.js"(exports, module2) {
-    "use strict";
-    var net = require("net");
-    var EventEmitter = require("events").EventEmitter;
-    var Connection = require_connection();
-    var ConnectionConfig = require_connection_config();
-    var Server = class extends EventEmitter {
-      constructor() {
-        super();
-        this.connections = [];
-        this._server = net.createServer(this._handleConnection.bind(this));
-      }
-      _handleConnection(socket) {
-        const connectionConfig = new ConnectionConfig({
-          stream: socket,
-          isServer: true
-        });
-        const connection = new Connection({ config: connectionConfig });
-        this.emit("connection", connection);
-      }
-      listen(port) {
-        this._port = port;
-        this._server.listen.apply(this._server, arguments);
-        return this;
-      }
-      close(cb) {
-        this._server.close(cb);
-      }
-    };
-    module2.exports = Server;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/index.js
-var require_mysql2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/index.js"(exports) {
-    "use strict";
-    var SqlString = require_sqlstring();
-    var Connection = require_connection();
-    var ConnectionConfig = require_connection_config();
-    var parserCache = require_parser_cache();
-    exports.createConnection = function(opts) {
-      return new Connection({ config: new ConnectionConfig(opts) });
-    };
-    exports.connect = exports.createConnection;
-    exports.Connection = Connection;
-    var Pool = require_pool();
-    var PoolCluster = require_pool_cluster();
-    exports.createPool = function(config4) {
-      const PoolConfig = require_pool_config();
-      return new Pool({ config: new PoolConfig(config4) });
-    };
-    exports.createPoolCluster = function(config4) {
-      const PoolCluster2 = require_pool_cluster();
-      return new PoolCluster2(config4);
-    };
-    exports.createQuery = Connection.createQuery;
-    exports.Pool = Pool;
-    exports.PoolCluster = PoolCluster;
-    exports.createServer = function(handler) {
-      const Server = require_server();
-      const s2 = new Server();
-      if (handler) {
-        s2.on("connection", handler);
-      }
-      return s2;
-    };
-    exports.PoolConnection = require_pool_connection();
-    exports.escape = SqlString.escape;
-    exports.escapeId = SqlString.escapeId;
-    exports.format = SqlString.format;
-    exports.raw = SqlString.raw;
-    exports.__defineGetter__(
-      "createConnectionPromise",
-      () => require_promise().createConnection
-    );
-    exports.__defineGetter__(
-      "createPoolPromise",
-      () => require_promise().createPool
-    );
-    exports.__defineGetter__(
-      "createPoolClusterPromise",
-      () => require_promise().createPoolCluster
-    );
-    exports.__defineGetter__("Types", () => require_types());
-    exports.__defineGetter__(
-      "Charsets",
-      () => require_charsets()
-    );
-    exports.__defineGetter__(
-      "CharsetToEncoding",
-      () => require_charset_encodings()
-    );
-    exports.setMaxParserCache = function(max) {
-      parserCache.setMaxCache(max);
-    };
-    exports.clearParserCache = function() {
-      parserCache.clearCache();
-    };
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/promise.js
-var require_promise = __commonJS({
-  "../../node_modules/.pnpm/mysql2@2.3.3/node_modules/mysql2/promise.js"(exports) {
-    "use strict";
-    var core = require_mysql2();
-    var EventEmitter = require("events").EventEmitter;
-    function makeDoneCb(resolve, reject, localErr) {
-      return function(err, rows, fields) {
-        if (err) {
-          localErr.message = err.message;
-          localErr.code = err.code;
-          localErr.errno = err.errno;
-          localErr.sql = err.sql;
-          localErr.sqlState = err.sqlState;
-          localErr.sqlMessage = err.sqlMessage;
-          reject(localErr);
-        } else {
-          resolve([rows, fields]);
-        }
-      };
-    }
-    function inheritEvents(source2, target, events) {
-      const listeners = {};
-      target.on("newListener", (eventName) => {
-        if (events.indexOf(eventName) >= 0 && !target.listenerCount(eventName)) {
-          source2.on(
-            eventName,
-            listeners[eventName] = function() {
-              const args = [].slice.call(arguments);
-              args.unshift(eventName);
-              target.emit.apply(target, args);
-            }
-          );
-        }
-      }).on("removeListener", (eventName) => {
-        if (events.indexOf(eventName) >= 0 && !target.listenerCount(eventName)) {
-          source2.removeListener(eventName, listeners[eventName]);
-          delete listeners[eventName];
-        }
-      });
-    }
-    var PromisePreparedStatementInfo = class {
-      constructor(statement, promiseImpl) {
-        this.statement = statement;
-        this.Promise = promiseImpl;
-      }
-      execute(parameters) {
-        const s2 = this.statement;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          if (parameters) {
-            s2.execute(parameters, done);
-          } else {
-            s2.execute(done);
-          }
-        });
-      }
-      close() {
-        return new this.Promise((resolve) => {
-          this.statement.close();
-          resolve();
-        });
-      }
-    };
-    var PromiseConnection = class extends EventEmitter {
-      constructor(connection, promiseImpl) {
-        super();
-        this.connection = connection;
-        this.Promise = promiseImpl || Promise;
-        inheritEvents(connection, this, [
-          "error",
-          "drain",
-          "connect",
-          "end",
-          "enqueue"
-        ]);
-      }
-      release() {
-        this.connection.release();
-      }
-      query(query, params) {
-        const c2 = this.connection;
-        const localErr = new Error();
-        if (typeof params === "function") {
-          throw new Error(
-            "Callback function is not available with promise clients."
-          );
-        }
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          if (params !== void 0) {
-            c2.query(query, params, done);
-          } else {
-            c2.query(query, done);
-          }
-        });
-      }
-      execute(query, params) {
-        const c2 = this.connection;
-        const localErr = new Error();
-        if (typeof params === "function") {
-          throw new Error(
-            "Callback function is not available with promise clients."
-          );
-        }
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          if (params !== void 0) {
-            c2.execute(query, params, done);
-          } else {
-            c2.execute(query, done);
-          }
-        });
-      }
-      end() {
-        return new this.Promise((resolve) => {
-          this.connection.end(resolve);
-        });
-      }
-      beginTransaction() {
-        const c2 = this.connection;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          c2.beginTransaction(done);
-        });
-      }
-      commit() {
-        const c2 = this.connection;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          c2.commit(done);
-        });
-      }
-      rollback() {
-        const c2 = this.connection;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          c2.rollback(done);
-        });
-      }
-      ping() {
-        const c2 = this.connection;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          c2.ping(done);
-        });
-      }
-      connect() {
-        const c2 = this.connection;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          c2.connect((err, param) => {
-            if (err) {
-              localErr.message = err.message;
-              localErr.code = err.code;
-              localErr.errno = err.errno;
-              localErr.sqlState = err.sqlState;
-              localErr.sqlMessage = err.sqlMessage;
-              reject(localErr);
-            } else {
-              resolve(param);
-            }
-          });
-        });
-      }
-      prepare(options) {
-        const c2 = this.connection;
-        const promiseImpl = this.Promise;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          c2.prepare(options, (err, statement) => {
-            if (err) {
-              localErr.message = err.message;
-              localErr.code = err.code;
-              localErr.errno = err.errno;
-              localErr.sqlState = err.sqlState;
-              localErr.sqlMessage = err.sqlMessage;
-              reject(localErr);
-            } else {
-              const wrappedStatement = new PromisePreparedStatementInfo(
-                statement,
-                promiseImpl
-              );
-              resolve(wrappedStatement);
-            }
-          });
-        });
-      }
-      changeUser(options) {
-        const c2 = this.connection;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          c2.changeUser(options, (err) => {
-            if (err) {
-              localErr.message = err.message;
-              localErr.code = err.code;
-              localErr.errno = err.errno;
-              localErr.sqlState = err.sqlState;
-              localErr.sqlMessage = err.sqlMessage;
-              reject(localErr);
-            } else {
-              resolve();
-            }
-          });
-        });
-      }
-      get config() {
-        return this.connection.config;
-      }
-      get threadId() {
-        return this.connection.threadId;
-      }
-    };
-    function createConnection(opts) {
-      const coreConnection = core.createConnection(opts);
-      const createConnectionErr = new Error();
-      const thePromise = opts.Promise || Promise;
-      if (!thePromise) {
-        throw new Error(
-          "no Promise implementation available.Use promise-enabled node version or pass userland Promise implementation as parameter, for example: { Promise: require('bluebird') }"
-        );
-      }
-      return new thePromise((resolve, reject) => {
-        coreConnection.once("connect", () => {
-          resolve(new PromiseConnection(coreConnection, thePromise));
-        });
-        coreConnection.once("error", (err) => {
-          createConnectionErr.message = err.message;
-          createConnectionErr.code = err.code;
-          createConnectionErr.errno = err.errno;
-          createConnectionErr.sqlState = err.sqlState;
-          reject(createConnectionErr);
-        });
-      });
-    }
-    (function(functionsToWrap) {
-      for (let i2 = 0; functionsToWrap && i2 < functionsToWrap.length; i2++) {
-        const func = functionsToWrap[i2];
-        if (typeof core.Connection.prototype[func] === "function" && PromiseConnection.prototype[func] === void 0) {
-          PromiseConnection.prototype[func] = function factory(funcName) {
-            return function() {
-              return core.Connection.prototype[funcName].apply(
-                this.connection,
-                arguments
-              );
-            };
-          }(func);
-        }
-      }
-    })([
-      "close",
-      "createBinlogStream",
-      "destroy",
-      "escape",
-      "escapeId",
-      "format",
-      "pause",
-      "pipe",
-      "resume",
-      "unprepare"
-    ]);
-    var PromisePoolConnection = class extends PromiseConnection {
-      constructor(connection, promiseImpl) {
-        super(connection, promiseImpl);
-      }
-      destroy() {
-        return core.PoolConnection.prototype.destroy.apply(
-          this.connection,
-          arguments
-        );
-      }
-    };
-    var PromisePool = class extends EventEmitter {
-      constructor(pool3, thePromise) {
-        super();
-        this.pool = pool3;
-        this.Promise = thePromise || Promise;
-        inheritEvents(pool3, this, ["acquire", "connection", "enqueue", "release"]);
-      }
-      getConnection() {
-        const corePool = this.pool;
-        return new this.Promise((resolve, reject) => {
-          corePool.getConnection((err, coreConnection) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(new PromisePoolConnection(coreConnection, this.Promise));
-            }
-          });
-        });
-      }
-      query(sql, args) {
-        const corePool = this.pool;
-        const localErr = new Error();
-        if (typeof args === "function") {
-          throw new Error(
-            "Callback function is not available with promise clients."
-          );
-        }
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          if (args !== void 0) {
-            corePool.query(sql, args, done);
-          } else {
-            corePool.query(sql, done);
-          }
-        });
-      }
-      execute(sql, args) {
-        const corePool = this.pool;
-        const localErr = new Error();
-        if (typeof args === "function") {
-          throw new Error(
-            "Callback function is not available with promise clients."
-          );
-        }
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          if (args) {
-            corePool.execute(sql, args, done);
-          } else {
-            corePool.execute(sql, done);
-          }
-        });
-      }
-      end() {
-        const corePool = this.pool;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          corePool.end((err) => {
-            if (err) {
-              localErr.message = err.message;
-              localErr.code = err.code;
-              localErr.errno = err.errno;
-              localErr.sqlState = err.sqlState;
-              localErr.sqlMessage = err.sqlMessage;
-              reject(localErr);
-            } else {
-              resolve();
-            }
-          });
-        });
-      }
-    };
-    function createPool(opts) {
-      const corePool = core.createPool(opts);
-      const thePromise = opts.Promise || Promise;
-      if (!thePromise) {
-        throw new Error(
-          "no Promise implementation available.Use promise-enabled node version or pass userland Promise implementation as parameter, for example: { Promise: require('bluebird') }"
-        );
-      }
-      return new PromisePool(corePool, thePromise);
-    }
-    (function(functionsToWrap) {
-      for (let i2 = 0; functionsToWrap && i2 < functionsToWrap.length; i2++) {
-        const func = functionsToWrap[i2];
-        if (typeof core.Pool.prototype[func] === "function" && PromisePool.prototype[func] === void 0) {
-          PromisePool.prototype[func] = function factory(funcName) {
-            return function() {
-              return core.Pool.prototype[funcName].apply(this.pool, arguments);
-            };
-          }(func);
-        }
-      }
-    })([
-      "escape",
-      "escapeId",
-      "format"
-    ]);
-    var PromisePoolCluster = class extends EventEmitter {
-      constructor(poolCluster, thePromise) {
-        super();
-        this.poolCluster = poolCluster;
-        this.Promise = thePromise || Promise;
-        inheritEvents(poolCluster, this, ["acquire", "connection", "enqueue", "release"]);
-      }
-      getConnection() {
-        const corePoolCluster = this.poolCluster;
-        return new this.Promise((resolve, reject) => {
-          corePoolCluster.getConnection((err, coreConnection) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(new PromisePoolConnection(coreConnection, this.Promise));
-            }
-          });
-        });
-      }
-      query(sql, args) {
-        const corePoolCluster = this.poolCluster;
-        const localErr = new Error();
-        if (typeof args === "function") {
-          throw new Error(
-            "Callback function is not available with promise clients."
-          );
-        }
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          corePoolCluster.query(sql, args, done);
-        });
-      }
-      execute(sql, args) {
-        const corePoolCluster = this.poolCluster;
-        const localErr = new Error();
-        if (typeof args === "function") {
-          throw new Error(
-            "Callback function is not available with promise clients."
-          );
-        }
-        return new this.Promise((resolve, reject) => {
-          const done = makeDoneCb(resolve, reject, localErr);
-          corePoolCluster.execute(sql, args, done);
-        });
-      }
-      of(pattern, selector) {
-        return new PromisePoolCluster(
-          this.poolCluster.of(pattern, selector),
-          this.Promise
-        );
-      }
-      end() {
-        const corePoolCluster = this.poolCluster;
-        const localErr = new Error();
-        return new this.Promise((resolve, reject) => {
-          corePoolCluster.end((err) => {
-            if (err) {
-              localErr.message = err.message;
-              localErr.code = err.code;
-              localErr.errno = err.errno;
-              localErr.sqlState = err.sqlState;
-              localErr.sqlMessage = err.sqlMessage;
-              reject(localErr);
-            } else {
-              resolve();
-            }
-          });
-        });
-      }
-    };
-    (function(functionsToWrap) {
-      for (let i2 = 0; functionsToWrap && i2 < functionsToWrap.length; i2++) {
-        const func = functionsToWrap[i2];
-        if (typeof core.PoolCluster.prototype[func] === "function" && PromisePoolCluster.prototype[func] === void 0) {
-          PromisePoolCluster.prototype[func] = function factory(funcName) {
-            return function() {
-              return core.PoolCluster.prototype[funcName].apply(this.poolCluster, arguments);
-            };
-          }(func);
-        }
-      }
-    })([
-      "add"
-    ]);
-    function createPoolCluster(opts) {
-      const corePoolCluster = core.createPoolCluster(opts);
-      const thePromise = opts && opts.Promise || Promise;
-      if (!thePromise) {
-        throw new Error(
-          "no Promise implementation available.Use promise-enabled node version or pass userland Promise implementation as parameter, for example: { Promise: require('bluebird') }"
-        );
-      }
-      return new PromisePoolCluster(corePoolCluster, thePromise);
-    }
-    exports.createConnection = createConnection;
-    exports.createPool = createPool;
-    exports.createPoolCluster = createPoolCluster;
-    exports.escape = core.escape;
-    exports.escapeId = core.escapeId;
-    exports.format = core.format;
-    exports.raw = core.raw;
-    exports.PromisePool = PromisePool;
-    exports.PromiseConnection = PromiseConnection;
-    exports.PromisePoolConnection = PromisePoolConnection;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/errors.js
-var require_errors4 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/errors.js"(exports) {
-    "use strict";
-    exports.EE_CANTCREATEFILE = 1;
-    exports.EE_READ = 2;
-    exports.EE_WRITE = 3;
-    exports.EE_BADCLOSE = 4;
-    exports.EE_OUTOFMEMORY = 5;
-    exports.EE_DELETE = 6;
-    exports.EE_LINK = 7;
-    exports.EE_EOFERR = 9;
-    exports.EE_CANTLOCK = 10;
-    exports.EE_CANTUNLOCK = 11;
-    exports.EE_DIR = 12;
-    exports.EE_STAT = 13;
-    exports.EE_CANT_CHSIZE = 14;
-    exports.EE_CANT_OPEN_STREAM = 15;
-    exports.EE_GETWD = 16;
-    exports.EE_SETWD = 17;
-    exports.EE_LINK_WARNING = 18;
-    exports.EE_OPEN_WARNING = 19;
-    exports.EE_DISK_FULL = 20;
-    exports.EE_CANT_MKDIR = 21;
-    exports.EE_UNKNOWN_CHARSET = 22;
-    exports.EE_OUT_OF_FILERESOURCES = 23;
-    exports.EE_CANT_READLINK = 24;
-    exports.EE_CANT_SYMLINK = 25;
-    exports.EE_REALPATH = 26;
-    exports.EE_SYNC = 27;
-    exports.EE_UNKNOWN_COLLATION = 28;
-    exports.EE_FILENOTFOUND = 29;
-    exports.EE_FILE_NOT_CLOSED = 30;
-    exports.EE_CHANGE_OWNERSHIP = 31;
-    exports.EE_CHANGE_PERMISSIONS = 32;
-    exports.EE_CANT_SEEK = 33;
-    exports.HA_ERR_KEY_NOT_FOUND = 120;
-    exports.HA_ERR_FOUND_DUPP_KEY = 121;
-    exports.HA_ERR_INTERNAL_ERROR = 122;
-    exports.HA_ERR_RECORD_CHANGED = 123;
-    exports.HA_ERR_WRONG_INDEX = 124;
-    exports.HA_ERR_CRASHED = 126;
-    exports.HA_ERR_WRONG_IN_RECORD = 127;
-    exports.HA_ERR_OUT_OF_MEM = 128;
-    exports.HA_ERR_NOT_A_TABLE = 130;
-    exports.HA_ERR_WRONG_COMMAND = 131;
-    exports.HA_ERR_OLD_FILE = 132;
-    exports.HA_ERR_NO_ACTIVE_RECORD = 133;
-    exports.HA_ERR_RECORD_DELETED = 134;
-    exports.HA_ERR_RECORD_FILE_FULL = 135;
-    exports.HA_ERR_INDEX_FILE_FULL = 136;
-    exports.HA_ERR_END_OF_FILE = 137;
-    exports.HA_ERR_UNSUPPORTED = 138;
-    exports.HA_ERR_TO_BIG_ROW = 139;
-    exports.HA_WRONG_CREATE_OPTION = 140;
-    exports.HA_ERR_FOUND_DUPP_UNIQUE = 141;
-    exports.HA_ERR_UNKNOWN_CHARSET = 142;
-    exports.HA_ERR_WRONG_MRG_TABLE_DEF = 143;
-    exports.HA_ERR_CRASHED_ON_REPAIR = 144;
-    exports.HA_ERR_CRASHED_ON_USAGE = 145;
-    exports.HA_ERR_LOCK_WAIT_TIMEOUT = 146;
-    exports.HA_ERR_LOCK_TABLE_FULL = 147;
-    exports.HA_ERR_READ_ONLY_TRANSACTION = 148;
-    exports.HA_ERR_LOCK_DEADLOCK = 149;
-    exports.HA_ERR_CANNOT_ADD_FOREIGN = 150;
-    exports.HA_ERR_NO_REFERENCED_ROW = 151;
-    exports.HA_ERR_ROW_IS_REFERENCED = 152;
-    exports.HA_ERR_NO_SAVEPOINT = 153;
-    exports.HA_ERR_NON_UNIQUE_BLOCK_SIZE = 154;
-    exports.HA_ERR_NO_SUCH_TABLE = 155;
-    exports.HA_ERR_TABLE_EXIST = 156;
-    exports.HA_ERR_NO_CONNECTION = 157;
-    exports.HA_ERR_NULL_IN_SPATIAL = 158;
-    exports.HA_ERR_TABLE_DEF_CHANGED = 159;
-    exports.HA_ERR_NO_PARTITION_FOUND = 160;
-    exports.HA_ERR_RBR_LOGGING_FAILED = 161;
-    exports.HA_ERR_DROP_INDEX_FK = 162;
-    exports.HA_ERR_FOREIGN_DUPLICATE_KEY = 163;
-    exports.HA_ERR_TABLE_NEEDS_UPGRADE = 164;
-    exports.HA_ERR_TABLE_READONLY = 165;
-    exports.HA_ERR_AUTOINC_READ_FAILED = 166;
-    exports.HA_ERR_AUTOINC_ERANGE = 167;
-    exports.HA_ERR_GENERIC = 168;
-    exports.HA_ERR_RECORD_IS_THE_SAME = 169;
-    exports.HA_ERR_LOGGING_IMPOSSIBLE = 170;
-    exports.HA_ERR_CORRUPT_EVENT = 171;
-    exports.HA_ERR_NEW_FILE = 172;
-    exports.HA_ERR_ROWS_EVENT_APPLY = 173;
-    exports.HA_ERR_INITIALIZATION = 174;
-    exports.HA_ERR_FILE_TOO_SHORT = 175;
-    exports.HA_ERR_WRONG_CRC = 176;
-    exports.HA_ERR_TOO_MANY_CONCURRENT_TRXS = 177;
-    exports.HA_ERR_NOT_IN_LOCK_PARTITIONS = 178;
-    exports.HA_ERR_INDEX_COL_TOO_LONG = 179;
-    exports.HA_ERR_INDEX_CORRUPT = 180;
-    exports.HA_ERR_UNDO_REC_TOO_BIG = 181;
-    exports.HA_FTS_INVALID_DOCID = 182;
-    exports.HA_ERR_TABLE_IN_FK_CHECK = 183;
-    exports.HA_ERR_TABLESPACE_EXISTS = 184;
-    exports.HA_ERR_TOO_MANY_FIELDS = 185;
-    exports.HA_ERR_ROW_IN_WRONG_PARTITION = 186;
-    exports.HA_ERR_INNODB_READ_ONLY = 187;
-    exports.HA_ERR_FTS_EXCEED_RESULT_CACHE_LIMIT = 188;
-    exports.HA_ERR_TEMP_FILE_WRITE_FAILURE = 189;
-    exports.HA_ERR_INNODB_FORCED_RECOVERY = 190;
-    exports.HA_ERR_FTS_TOO_MANY_WORDS_IN_PHRASE = 191;
-    exports.ER_HASHCHK = 1e3;
-    exports.ER_NISAMCHK = 1001;
-    exports.ER_NO = 1002;
-    exports.ER_YES = 1003;
-    exports.ER_CANT_CREATE_FILE = 1004;
-    exports.ER_CANT_CREATE_TABLE = 1005;
-    exports.ER_CANT_CREATE_DB = 1006;
-    exports.ER_DB_CREATE_EXISTS = 1007;
-    exports.ER_DB_DROP_EXISTS = 1008;
-    exports.ER_DB_DROP_DELETE = 1009;
-    exports.ER_DB_DROP_RMDIR = 1010;
-    exports.ER_CANT_DELETE_FILE = 1011;
-    exports.ER_CANT_FIND_SYSTEM_REC = 1012;
-    exports.ER_CANT_GET_STAT = 1013;
-    exports.ER_CANT_GET_WD = 1014;
-    exports.ER_CANT_LOCK = 1015;
-    exports.ER_CANT_OPEN_FILE = 1016;
-    exports.ER_FILE_NOT_FOUND = 1017;
-    exports.ER_CANT_READ_DIR = 1018;
-    exports.ER_CANT_SET_WD = 1019;
-    exports.ER_CHECKREAD = 1020;
-    exports.ER_DISK_FULL = 1021;
-    exports.ER_DUP_KEY = 1022;
-    exports.ER_ERROR_ON_CLOSE = 1023;
-    exports.ER_ERROR_ON_READ = 1024;
-    exports.ER_ERROR_ON_RENAME = 1025;
-    exports.ER_ERROR_ON_WRITE = 1026;
-    exports.ER_FILE_USED = 1027;
-    exports.ER_FILSORT_ABORT = 1028;
-    exports.ER_FORM_NOT_FOUND = 1029;
-    exports.ER_GET_ERRNO = 1030;
-    exports.ER_ILLEGAL_HA = 1031;
-    exports.ER_KEY_NOT_FOUND = 1032;
-    exports.ER_NOT_FORM_FILE = 1033;
-    exports.ER_NOT_KEYFILE = 1034;
-    exports.ER_OLD_KEYFILE = 1035;
-    exports.ER_OPEN_AS_READONLY = 1036;
-    exports.ER_OUTOFMEMORY = 1037;
-    exports.ER_OUT_OF_SORTMEMORY = 1038;
-    exports.ER_UNEXPECTED_EOF = 1039;
-    exports.ER_CON_COUNT_ERROR = 1040;
-    exports.ER_OUT_OF_RESOURCES = 1041;
-    exports.ER_BAD_HOST_ERROR = 1042;
-    exports.ER_HANDSHAKE_ERROR = 1043;
-    exports.ER_DBACCESS_DENIED_ERROR = 1044;
-    exports.ER_ACCESS_DENIED_ERROR = 1045;
-    exports.ER_NO_DB_ERROR = 1046;
-    exports.ER_UNKNOWN_COM_ERROR = 1047;
-    exports.ER_BAD_NULL_ERROR = 1048;
-    exports.ER_BAD_DB_ERROR = 1049;
-    exports.ER_TABLE_EXISTS_ERROR = 1050;
-    exports.ER_BAD_TABLE_ERROR = 1051;
-    exports.ER_NON_UNIQ_ERROR = 1052;
-    exports.ER_SERVER_SHUTDOWN = 1053;
-    exports.ER_BAD_FIELD_ERROR = 1054;
-    exports.ER_WRONG_FIELD_WITH_GROUP = 1055;
-    exports.ER_WRONG_GROUP_FIELD = 1056;
-    exports.ER_WRONG_SUM_SELECT = 1057;
-    exports.ER_WRONG_VALUE_COUNT = 1058;
-    exports.ER_TOO_LONG_IDENT = 1059;
-    exports.ER_DUP_FIELDNAME = 1060;
-    exports.ER_DUP_KEYNAME = 1061;
-    exports.ER_DUP_ENTRY = 1062;
-    exports.ER_WRONG_FIELD_SPEC = 1063;
-    exports.ER_PARSE_ERROR = 1064;
-    exports.ER_EMPTY_QUERY = 1065;
-    exports.ER_NONUNIQ_TABLE = 1066;
-    exports.ER_INVALID_DEFAULT = 1067;
-    exports.ER_MULTIPLE_PRI_KEY = 1068;
-    exports.ER_TOO_MANY_KEYS = 1069;
-    exports.ER_TOO_MANY_KEY_PARTS = 1070;
-    exports.ER_TOO_LONG_KEY = 1071;
-    exports.ER_KEY_COLUMN_DOES_NOT_EXITS = 1072;
-    exports.ER_BLOB_USED_AS_KEY = 1073;
-    exports.ER_TOO_BIG_FIELDLENGTH = 1074;
-    exports.ER_WRONG_AUTO_KEY = 1075;
-    exports.ER_READY = 1076;
-    exports.ER_NORMAL_SHUTDOWN = 1077;
-    exports.ER_GOT_SIGNAL = 1078;
-    exports.ER_SHUTDOWN_COMPLETE = 1079;
-    exports.ER_FORCING_CLOSE = 1080;
-    exports.ER_IPSOCK_ERROR = 1081;
-    exports.ER_NO_SUCH_INDEX = 1082;
-    exports.ER_WRONG_FIELD_TERMINATORS = 1083;
-    exports.ER_BLOBS_AND_NO_TERMINATED = 1084;
-    exports.ER_TEXTFILE_NOT_READABLE = 1085;
-    exports.ER_FILE_EXISTS_ERROR = 1086;
-    exports.ER_LOAD_INFO = 1087;
-    exports.ER_ALTER_INFO = 1088;
-    exports.ER_WRONG_SUB_KEY = 1089;
-    exports.ER_CANT_REMOVE_ALL_FIELDS = 1090;
-    exports.ER_CANT_DROP_FIELD_OR_KEY = 1091;
-    exports.ER_INSERT_INFO = 1092;
-    exports.ER_UPDATE_TABLE_USED = 1093;
-    exports.ER_NO_SUCH_THREAD = 1094;
-    exports.ER_KILL_DENIED_ERROR = 1095;
-    exports.ER_NO_TABLES_USED = 1096;
-    exports.ER_TOO_BIG_SET = 1097;
-    exports.ER_NO_UNIQUE_LOGFILE = 1098;
-    exports.ER_TABLE_NOT_LOCKED_FOR_WRITE = 1099;
-    exports.ER_TABLE_NOT_LOCKED = 1100;
-    exports.ER_BLOB_CANT_HAVE_DEFAULT = 1101;
-    exports.ER_WRONG_DB_NAME = 1102;
-    exports.ER_WRONG_TABLE_NAME = 1103;
-    exports.ER_TOO_BIG_SELECT = 1104;
-    exports.ER_UNKNOWN_ERROR = 1105;
-    exports.ER_UNKNOWN_PROCEDURE = 1106;
-    exports.ER_WRONG_PARAMCOUNT_TO_PROCEDURE = 1107;
-    exports.ER_WRONG_PARAMETERS_TO_PROCEDURE = 1108;
-    exports.ER_UNKNOWN_TABLE = 1109;
-    exports.ER_FIELD_SPECIFIED_TWICE = 1110;
-    exports.ER_INVALID_GROUP_FUNC_USE = 1111;
-    exports.ER_UNSUPPORTED_EXTENSION = 1112;
-    exports.ER_TABLE_MUST_HAVE_COLUMNS = 1113;
-    exports.ER_RECORD_FILE_FULL = 1114;
-    exports.ER_UNKNOWN_CHARACTER_SET = 1115;
-    exports.ER_TOO_MANY_TABLES = 1116;
-    exports.ER_TOO_MANY_FIELDS = 1117;
-    exports.ER_TOO_BIG_ROWSIZE = 1118;
-    exports.ER_STACK_OVERRUN = 1119;
-    exports.ER_WRONG_OUTER_JOIN = 1120;
-    exports.ER_NULL_COLUMN_IN_INDEX = 1121;
-    exports.ER_CANT_FIND_UDF = 1122;
-    exports.ER_CANT_INITIALIZE_UDF = 1123;
-    exports.ER_UDF_NO_PATHS = 1124;
-    exports.ER_UDF_EXISTS = 1125;
-    exports.ER_CANT_OPEN_LIBRARY = 1126;
-    exports.ER_CANT_FIND_DL_ENTRY = 1127;
-    exports.ER_FUNCTION_NOT_DEFINED = 1128;
-    exports.ER_HOST_IS_BLOCKED = 1129;
-    exports.ER_HOST_NOT_PRIVILEGED = 1130;
-    exports.ER_PASSWORD_ANONYMOUS_USER = 1131;
-    exports.ER_PASSWORD_NOT_ALLOWED = 1132;
-    exports.ER_PASSWORD_NO_MATCH = 1133;
-    exports.ER_UPDATE_INFO = 1134;
-    exports.ER_CANT_CREATE_THREAD = 1135;
-    exports.ER_WRONG_VALUE_COUNT_ON_ROW = 1136;
-    exports.ER_CANT_REOPEN_TABLE = 1137;
-    exports.ER_INVALID_USE_OF_NULL = 1138;
-    exports.ER_REGEXP_ERROR = 1139;
-    exports.ER_MIX_OF_GROUP_FUNC_AND_FIELDS = 1140;
-    exports.ER_NONEXISTING_GRANT = 1141;
-    exports.ER_TABLEACCESS_DENIED_ERROR = 1142;
-    exports.ER_COLUMNACCESS_DENIED_ERROR = 1143;
-    exports.ER_ILLEGAL_GRANT_FOR_TABLE = 1144;
-    exports.ER_GRANT_WRONG_HOST_OR_USER = 1145;
-    exports.ER_NO_SUCH_TABLE = 1146;
-    exports.ER_NONEXISTING_TABLE_GRANT = 1147;
-    exports.ER_NOT_ALLOWED_COMMAND = 1148;
-    exports.ER_SYNTAX_ERROR = 1149;
-    exports.ER_DELAYED_CANT_CHANGE_LOCK = 1150;
-    exports.ER_TOO_MANY_DELAYED_THREADS = 1151;
-    exports.ER_ABORTING_CONNECTION = 1152;
-    exports.ER_NET_PACKET_TOO_LARGE = 1153;
-    exports.ER_NET_READ_ERROR_FROM_PIPE = 1154;
-    exports.ER_NET_FCNTL_ERROR = 1155;
-    exports.ER_NET_PACKETS_OUT_OF_ORDER = 1156;
-    exports.ER_NET_UNCOMPRESS_ERROR = 1157;
-    exports.ER_NET_READ_ERROR = 1158;
-    exports.ER_NET_READ_INTERRUPTED = 1159;
-    exports.ER_NET_ERROR_ON_WRITE = 1160;
-    exports.ER_NET_WRITE_INTERRUPTED = 1161;
-    exports.ER_TOO_LONG_STRING = 1162;
-    exports.ER_TABLE_CANT_HANDLE_BLOB = 1163;
-    exports.ER_TABLE_CANT_HANDLE_AUTO_INCREMENT = 1164;
-    exports.ER_DELAYED_INSERT_TABLE_LOCKED = 1165;
-    exports.ER_WRONG_COLUMN_NAME = 1166;
-    exports.ER_WRONG_KEY_COLUMN = 1167;
-    exports.ER_WRONG_MRG_TABLE = 1168;
-    exports.ER_DUP_UNIQUE = 1169;
-    exports.ER_BLOB_KEY_WITHOUT_LENGTH = 1170;
-    exports.ER_PRIMARY_CANT_HAVE_NULL = 1171;
-    exports.ER_TOO_MANY_ROWS = 1172;
-    exports.ER_REQUIRES_PRIMARY_KEY = 1173;
-    exports.ER_NO_RAID_COMPILED = 1174;
-    exports.ER_UPDATE_WITHOUT_KEY_IN_SAFE_MODE = 1175;
-    exports.ER_KEY_DOES_NOT_EXITS = 1176;
-    exports.ER_CHECK_NO_SUCH_TABLE = 1177;
-    exports.ER_CHECK_NOT_IMPLEMENTED = 1178;
-    exports.ER_CANT_DO_THIS_DURING_AN_TRANSACTION = 1179;
-    exports.ER_ERROR_DURING_COMMIT = 1180;
-    exports.ER_ERROR_DURING_ROLLBACK = 1181;
-    exports.ER_ERROR_DURING_FLUSH_LOGS = 1182;
-    exports.ER_ERROR_DURING_CHECKPOINT = 1183;
-    exports.ER_NEW_ABORTING_CONNECTION = 1184;
-    exports.ER_DUMP_NOT_IMPLEMENTED = 1185;
-    exports.ER_FLUSH_MASTER_BINLOG_CLOSED = 1186;
-    exports.ER_FLUSH_SOURCE_BINLOG_CLOSED = 1186;
-    exports.ER_INDEX_REBUILD = 1187;
-    exports.ER_MASTER = 1188;
-    exports.ER_SOURCE = 1188;
-    exports.ER_MASTER_NET_READ = 1189;
-    exports.ER_SOURCE_NET_READ = 1189;
-    exports.ER_MASTER_NET_WRITE = 1190;
-    exports.ER_SOURCE_NET_WRITE = 1190;
-    exports.ER_FT_MATCHING_KEY_NOT_FOUND = 1191;
-    exports.ER_LOCK_OR_ACTIVE_TRANSACTION = 1192;
-    exports.ER_UNKNOWN_SYSTEM_VARIABLE = 1193;
-    exports.ER_CRASHED_ON_USAGE = 1194;
-    exports.ER_CRASHED_ON_REPAIR = 1195;
-    exports.ER_WARNING_NOT_COMPLETE_ROLLBACK = 1196;
-    exports.ER_TRANS_CACHE_FULL = 1197;
-    exports.ER_SLAVE_MUST_STOP = 1198;
-    exports.ER_REPLICA_MUST_STOP = 1198;
-    exports.ER_SLAVE_NOT_RUNNING = 1199;
-    exports.ER_REPLICA_NOT_RUNNING = 1199;
-    exports.ER_BAD_SLAVE = 1200;
-    exports.ER_BAD_REPLICA = 1200;
-    exports.ER_MASTER_INFO = 1201;
-    exports.ER_SOURCE_INFO = 1201;
-    exports.ER_SLAVE_THREAD = 1202;
-    exports.ER_REPLICA_THREAD = 1202;
-    exports.ER_TOO_MANY_USER_CONNECTIONS = 1203;
-    exports.ER_SET_CONSTANTS_ONLY = 1204;
-    exports.ER_LOCK_WAIT_TIMEOUT = 1205;
-    exports.ER_LOCK_TABLE_FULL = 1206;
-    exports.ER_READ_ONLY_TRANSACTION = 1207;
-    exports.ER_DROP_DB_WITH_READ_LOCK = 1208;
-    exports.ER_CREATE_DB_WITH_READ_LOCK = 1209;
-    exports.ER_WRONG_ARGUMENTS = 1210;
-    exports.ER_NO_PERMISSION_TO_CREATE_USER = 1211;
-    exports.ER_UNION_TABLES_IN_DIFFERENT_DIR = 1212;
-    exports.ER_LOCK_DEADLOCK = 1213;
-    exports.ER_TABLE_CANT_HANDLE_FT = 1214;
-    exports.ER_CANNOT_ADD_FOREIGN = 1215;
-    exports.ER_NO_REFERENCED_ROW = 1216;
-    exports.ER_ROW_IS_REFERENCED = 1217;
-    exports.ER_CONNECT_TO_MASTER = 1218;
-    exports.ER_CONNECT_TO_SOURCE = 1218;
-    exports.ER_QUERY_ON_MASTER = 1219;
-    exports.ER_QUERY_ON_SOURCE = 1219;
-    exports.ER_ERROR_WHEN_EXECUTING_COMMAND = 1220;
-    exports.ER_WRONG_USAGE = 1221;
-    exports.ER_WRONG_NUMBER_OF_COLUMNS_IN_SELECT = 1222;
-    exports.ER_CANT_UPDATE_WITH_READLOCK = 1223;
-    exports.ER_MIXING_NOT_ALLOWED = 1224;
-    exports.ER_DUP_ARGUMENT = 1225;
-    exports.ER_USER_LIMIT_REACHED = 1226;
-    exports.ER_SPECIFIC_ACCESS_DENIED_ERROR = 1227;
-    exports.ER_LOCAL_VARIABLE = 1228;
-    exports.ER_GLOBAL_VARIABLE = 1229;
-    exports.ER_NO_DEFAULT = 1230;
-    exports.ER_WRONG_VALUE_FOR_VAR = 1231;
-    exports.ER_WRONG_TYPE_FOR_VAR = 1232;
-    exports.ER_VAR_CANT_BE_READ = 1233;
-    exports.ER_CANT_USE_OPTION_HERE = 1234;
-    exports.ER_NOT_SUPPORTED_YET = 1235;
-    exports.ER_MASTER_FATAL_ERROR_READING_BINLOG = 1236;
-    exports.ER_SOURCE_FATAL_ERROR_READING_BINLOG = 1236;
-    exports.ER_SLAVE_IGNORED_TABLE = 1237;
-    exports.ER_REPLICA_IGNORED_TABLE = 1237;
-    exports.ER_INCORRECT_GLOBAL_LOCAL_VAR = 1238;
-    exports.ER_WRONG_FK_DEF = 1239;
-    exports.ER_KEY_REF_DO_NOT_MATCH_TABLE_REF = 1240;
-    exports.ER_OPERAND_COLUMNS = 1241;
-    exports.ER_SUBQUERY_NO_1_ROW = 1242;
-    exports.ER_UNKNOWN_STMT_HANDLER = 1243;
-    exports.ER_CORRUPT_HELP_DB = 1244;
-    exports.ER_CYCLIC_REFERENCE = 1245;
-    exports.ER_AUTO_CONVERT = 1246;
-    exports.ER_ILLEGAL_REFERENCE = 1247;
-    exports.ER_DERIVED_MUST_HAVE_ALIAS = 1248;
-    exports.ER_SELECT_REDUCED = 1249;
-    exports.ER_TABLENAME_NOT_ALLOWED_HERE = 1250;
-    exports.ER_NOT_SUPPORTED_AUTH_MODE = 1251;
-    exports.ER_SPATIAL_CANT_HAVE_NULL = 1252;
-    exports.ER_COLLATION_CHARSET_MISMATCH = 1253;
-    exports.ER_SLAVE_WAS_RUNNING = 1254;
-    exports.ER_REPLICA_WAS_RUNNING = 1254;
-    exports.ER_SLAVE_WAS_NOT_RUNNING = 1255;
-    exports.ER_REPLICA_WAS_NOT_RUNNING = 1255;
-    exports.ER_TOO_BIG_FOR_UNCOMPRESS = 1256;
-    exports.ER_ZLIB_Z_MEM_ERROR = 1257;
-    exports.ER_ZLIB_Z_BUF_ERROR = 1258;
-    exports.ER_ZLIB_Z_DATA_ERROR = 1259;
-    exports.ER_CUT_VALUE_GROUP_CONCAT = 1260;
-    exports.ER_WARN_TOO_FEW_RECORDS = 1261;
-    exports.ER_WARN_TOO_MANY_RECORDS = 1262;
-    exports.ER_WARN_NULL_TO_NOTNULL = 1263;
-    exports.ER_WARN_DATA_OUT_OF_RANGE = 1264;
-    exports.ER_WARN_DATA_TRUNCATED = 1265;
-    exports.ER_WARN_USING_OTHER_HANDLER = 1266;
-    exports.ER_CANT_AGGREGATE_2COLLATIONS = 1267;
-    exports.ER_DROP_USER = 1268;
-    exports.ER_REVOKE_GRANTS = 1269;
-    exports.ER_CANT_AGGREGATE_3COLLATIONS = 1270;
-    exports.ER_CANT_AGGREGATE_NCOLLATIONS = 1271;
-    exports.ER_VARIABLE_IS_NOT_STRUCT = 1272;
-    exports.ER_UNKNOWN_COLLATION = 1273;
-    exports.ER_SLAVE_IGNORED_SSL_PARAMS = 1274;
-    exports.ER_REPLICA_IGNORED_SSL_PARAMS = 1274;
-    exports.ER_SERVER_IS_IN_SECURE_AUTH_MODE = 1275;
-    exports.ER_WARN_FIELD_RESOLVED = 1276;
-    exports.ER_BAD_SLAVE_UNTIL_COND = 1277;
-    exports.ER_BAD_REPLICA_UNTIL_COND = 1277;
-    exports.ER_MISSING_SKIP_SLAVE = 1278;
-    exports.ER_MISSING_SKIP_REPLICA = 1278;
-    exports.ER_UNTIL_COND_IGNORED = 1279;
-    exports.ER_WRONG_NAME_FOR_INDEX = 1280;
-    exports.ER_WRONG_NAME_FOR_CATALOG = 1281;
-    exports.ER_WARN_QC_RESIZE = 1282;
-    exports.ER_BAD_FT_COLUMN = 1283;
-    exports.ER_UNKNOWN_KEY_CACHE = 1284;
-    exports.ER_WARN_HOSTNAME_WONT_WORK = 1285;
-    exports.ER_UNKNOWN_STORAGE_ENGINE = 1286;
-    exports.ER_WARN_DEPRECATED_SYNTAX = 1287;
-    exports.ER_NON_UPDATABLE_TABLE = 1288;
-    exports.ER_FEATURE_DISABLED = 1289;
-    exports.ER_OPTION_PREVENTS_STATEMENT = 1290;
-    exports.ER_DUPLICATED_VALUE_IN_TYPE = 1291;
-    exports.ER_TRUNCATED_WRONG_VALUE = 1292;
-    exports.ER_TOO_MUCH_AUTO_TIMESTAMP_COLS = 1293;
-    exports.ER_INVALID_ON_UPDATE = 1294;
-    exports.ER_UNSUPPORTED_PS = 1295;
-    exports.ER_GET_ERRMSG = 1296;
-    exports.ER_GET_TEMPORARY_ERRMSG = 1297;
-    exports.ER_UNKNOWN_TIME_ZONE = 1298;
-    exports.ER_WARN_INVALID_TIMESTAMP = 1299;
-    exports.ER_INVALID_CHARACTER_STRING = 1300;
-    exports.ER_WARN_ALLOWED_PACKET_OVERFLOWED = 1301;
-    exports.ER_CONFLICTING_DECLARATIONS = 1302;
-    exports.ER_SP_NO_RECURSIVE_CREATE = 1303;
-    exports.ER_SP_ALREADY_EXISTS = 1304;
-    exports.ER_SP_DOES_NOT_EXIST = 1305;
-    exports.ER_SP_DROP_FAILED = 1306;
-    exports.ER_SP_STORE_FAILED = 1307;
-    exports.ER_SP_LILABEL_MISMATCH = 1308;
-    exports.ER_SP_LABEL_REDEFINE = 1309;
-    exports.ER_SP_LABEL_MISMATCH = 1310;
-    exports.ER_SP_UNINIT_VAR = 1311;
-    exports.ER_SP_BADSELECT = 1312;
-    exports.ER_SP_BADRETURN = 1313;
-    exports.ER_SP_BADSTATEMENT = 1314;
-    exports.ER_UPDATE_LOG_DEPRECATED_IGNORED = 1315;
-    exports.ER_UPDATE_LOG_DEPRECATED_TRANSLATED = 1316;
-    exports.ER_QUERY_INTERRUPTED = 1317;
-    exports.ER_SP_WRONG_NO_OF_ARGS = 1318;
-    exports.ER_SP_COND_MISMATCH = 1319;
-    exports.ER_SP_NORETURN = 1320;
-    exports.ER_SP_NORETURNEND = 1321;
-    exports.ER_SP_BAD_CURSOR_QUERY = 1322;
-    exports.ER_SP_BAD_CURSOR_SELECT = 1323;
-    exports.ER_SP_CURSOR_MISMATCH = 1324;
-    exports.ER_SP_CURSOR_ALREADY_OPEN = 1325;
-    exports.ER_SP_CURSOR_NOT_OPEN = 1326;
-    exports.ER_SP_UNDECLARED_VAR = 1327;
-    exports.ER_SP_WRONG_NO_OF_FETCH_ARGS = 1328;
-    exports.ER_SP_FETCH_NO_DATA = 1329;
-    exports.ER_SP_DUP_PARAM = 1330;
-    exports.ER_SP_DUP_VAR = 1331;
-    exports.ER_SP_DUP_COND = 1332;
-    exports.ER_SP_DUP_CURS = 1333;
-    exports.ER_SP_CANT_ALTER = 1334;
-    exports.ER_SP_SUBSELECT_NYI = 1335;
-    exports.ER_STMT_NOT_ALLOWED_IN_SF_OR_TRG = 1336;
-    exports.ER_SP_VARCOND_AFTER_CURSHNDLR = 1337;
-    exports.ER_SP_CURSOR_AFTER_HANDLER = 1338;
-    exports.ER_SP_CASE_NOT_FOUND = 1339;
-    exports.ER_FPARSER_TOO_BIG_FILE = 1340;
-    exports.ER_FPARSER_BAD_HEADER = 1341;
-    exports.ER_FPARSER_EOF_IN_COMMENT = 1342;
-    exports.ER_FPARSER_ERROR_IN_PARAMETER = 1343;
-    exports.ER_FPARSER_EOF_IN_UNKNOWN_PARAMETER = 1344;
-    exports.ER_VIEW_NO_EXPLAIN = 1345;
-    exports.ER_FRM_UNKNOWN_TYPE = 1346;
-    exports.ER_WRONG_OBJECT = 1347;
-    exports.ER_NONUPDATEABLE_COLUMN = 1348;
-    exports.ER_VIEW_SELECT_DERIVED = 1349;
-    exports.ER_VIEW_SELECT_CLAUSE = 1350;
-    exports.ER_VIEW_SELECT_VARIABLE = 1351;
-    exports.ER_VIEW_SELECT_TMPTABLE = 1352;
-    exports.ER_VIEW_WRONG_LIST = 1353;
-    exports.ER_WARN_VIEW_MERGE = 1354;
-    exports.ER_WARN_VIEW_WITHOUT_KEY = 1355;
-    exports.ER_VIEW_INVALID = 1356;
-    exports.ER_SP_NO_DROP_SP = 1357;
-    exports.ER_SP_GOTO_IN_HNDLR = 1358;
-    exports.ER_TRG_ALREADY_EXISTS = 1359;
-    exports.ER_TRG_DOES_NOT_EXIST = 1360;
-    exports.ER_TRG_ON_VIEW_OR_TEMP_TABLE = 1361;
-    exports.ER_TRG_CANT_CHANGE_ROW = 1362;
-    exports.ER_TRG_NO_SUCH_ROW_IN_TRG = 1363;
-    exports.ER_NO_DEFAULT_FOR_FIELD = 1364;
-    exports.ER_DIVISION_BY_ZERO = 1365;
-    exports.ER_TRUNCATED_WRONG_VALUE_FOR_FIELD = 1366;
-    exports.ER_ILLEGAL_VALUE_FOR_TYPE = 1367;
-    exports.ER_VIEW_NONUPD_CHECK = 1368;
-    exports.ER_VIEW_CHECK_FAILED = 1369;
-    exports.ER_PROCACCESS_DENIED_ERROR = 1370;
-    exports.ER_RELAY_LOG_FAIL = 1371;
-    exports.ER_PASSWD_LENGTH = 1372;
-    exports.ER_UNKNOWN_TARGET_BINLOG = 1373;
-    exports.ER_IO_ERR_LOG_INDEX_READ = 1374;
-    exports.ER_BINLOG_PURGE_PROHIBITED = 1375;
-    exports.ER_FSEEK_FAIL = 1376;
-    exports.ER_BINLOG_PURGE_FATAL_ERR = 1377;
-    exports.ER_LOG_IN_USE = 1378;
-    exports.ER_LOG_PURGE_UNKNOWN_ERR = 1379;
-    exports.ER_RELAY_LOG_INIT = 1380;
-    exports.ER_NO_BINARY_LOGGING = 1381;
-    exports.ER_RESERVED_SYNTAX = 1382;
-    exports.ER_WSAS_FAILED = 1383;
-    exports.ER_DIFF_GROUPS_PROC = 1384;
-    exports.ER_NO_GROUP_FOR_PROC = 1385;
-    exports.ER_ORDER_WITH_PROC = 1386;
-    exports.ER_LOGGING_PROHIBIT_CHANGING_OF = 1387;
-    exports.ER_NO_FILE_MAPPING = 1388;
-    exports.ER_WRONG_MAGIC = 1389;
-    exports.ER_PS_MANY_PARAM = 1390;
-    exports.ER_KEY_PART_0 = 1391;
-    exports.ER_VIEW_CHECKSUM = 1392;
-    exports.ER_VIEW_MULTIUPDATE = 1393;
-    exports.ER_VIEW_NO_INSERT_FIELD_LIST = 1394;
-    exports.ER_VIEW_DELETE_MERGE_VIEW = 1395;
-    exports.ER_CANNOT_USER = 1396;
-    exports.ER_XAER_NOTA = 1397;
-    exports.ER_XAER_INVAL = 1398;
-    exports.ER_XAER_RMFAIL = 1399;
-    exports.ER_XAER_OUTSIDE = 1400;
-    exports.ER_XAER_RMERR = 1401;
-    exports.ER_XA_RBROLLBACK = 1402;
-    exports.ER_NONEXISTING_PROC_GRANT = 1403;
-    exports.ER_PROC_AUTO_GRANT_FAIL = 1404;
-    exports.ER_PROC_AUTO_REVOKE_FAIL = 1405;
-    exports.ER_DATA_TOO_LONG = 1406;
-    exports.ER_SP_BAD_SQLSTATE = 1407;
-    exports.ER_STARTUP = 1408;
-    exports.ER_LOAD_FROM_FIXED_SIZE_ROWS_TO_VAR = 1409;
-    exports.ER_CANT_CREATE_USER_WITH_GRANT = 1410;
-    exports.ER_WRONG_VALUE_FOR_TYPE = 1411;
-    exports.ER_TABLE_DEF_CHANGED = 1412;
-    exports.ER_SP_DUP_HANDLER = 1413;
-    exports.ER_SP_NOT_VAR_ARG = 1414;
-    exports.ER_SP_NO_RETSET = 1415;
-    exports.ER_CANT_CREATE_GEOMETRY_OBJECT = 1416;
-    exports.ER_FAILED_ROUTINE_BREAK_BINLOG = 1417;
-    exports.ER_BINLOG_UNSAFE_ROUTINE = 1418;
-    exports.ER_BINLOG_CREATE_ROUTINE_NEED_SUPER = 1419;
-    exports.ER_EXEC_STMT_WITH_OPEN_CURSOR = 1420;
-    exports.ER_STMT_HAS_NO_OPEN_CURSOR = 1421;
-    exports.ER_COMMIT_NOT_ALLOWED_IN_SF_OR_TRG = 1422;
-    exports.ER_NO_DEFAULT_FOR_VIEW_FIELD = 1423;
-    exports.ER_SP_NO_RECURSION = 1424;
-    exports.ER_TOO_BIG_SCALE = 1425;
-    exports.ER_TOO_BIG_PRECISION = 1426;
-    exports.ER_M_BIGGER_THAN_D = 1427;
-    exports.ER_WRONG_LOCK_OF_SYSTEM_TABLE = 1428;
-    exports.ER_CONNECT_TO_FOREIGN_DATA_SOURCE = 1429;
-    exports.ER_QUERY_ON_FOREIGN_DATA_SOURCE = 1430;
-    exports.ER_FOREIGN_DATA_SOURCE_DOESNT_EXIST = 1431;
-    exports.ER_FOREIGN_DATA_STRING_INVALID_CANT_CREATE = 1432;
-    exports.ER_FOREIGN_DATA_STRING_INVALID = 1433;
-    exports.ER_CANT_CREATE_FEDERATED_TABLE = 1434;
-    exports.ER_TRG_IN_WRONG_SCHEMA = 1435;
-    exports.ER_STACK_OVERRUN_NEED_MORE = 1436;
-    exports.ER_TOO_LONG_BODY = 1437;
-    exports.ER_WARN_CANT_DROP_DEFAULT_KEYCACHE = 1438;
-    exports.ER_TOO_BIG_DISPLAYWIDTH = 1439;
-    exports.ER_XAER_DUPID = 1440;
-    exports.ER_DATETIME_FUNCTION_OVERFLOW = 1441;
-    exports.ER_CANT_UPDATE_USED_TABLE_IN_SF_OR_TRG = 1442;
-    exports.ER_VIEW_PREVENT_UPDATE = 1443;
-    exports.ER_PS_NO_RECURSION = 1444;
-    exports.ER_SP_CANT_SET_AUTOCOMMIT = 1445;
-    exports.ER_MALFORMED_DEFINER = 1446;
-    exports.ER_VIEW_FRM_NO_USER = 1447;
-    exports.ER_VIEW_OTHER_USER = 1448;
-    exports.ER_NO_SUCH_USER = 1449;
-    exports.ER_FORBID_SCHEMA_CHANGE = 1450;
-    exports.ER_ROW_IS_REFERENCED_2 = 1451;
-    exports.ER_NO_REFERENCED_ROW_2 = 1452;
-    exports.ER_SP_BAD_VAR_SHADOW = 1453;
-    exports.ER_TRG_NO_DEFINER = 1454;
-    exports.ER_OLD_FILE_FORMAT = 1455;
-    exports.ER_SP_RECURSION_LIMIT = 1456;
-    exports.ER_SP_PROC_TABLE_CORRUPT = 1457;
-    exports.ER_SP_WRONG_NAME = 1458;
-    exports.ER_TABLE_NEEDS_UPGRADE = 1459;
-    exports.ER_SP_NO_AGGREGATE = 1460;
-    exports.ER_MAX_PREPARED_STMT_COUNT_REACHED = 1461;
-    exports.ER_VIEW_RECURSIVE = 1462;
-    exports.ER_NON_GROUPING_FIELD_USED = 1463;
-    exports.ER_TABLE_CANT_HANDLE_SPKEYS = 1464;
-    exports.ER_NO_TRIGGERS_ON_SYSTEM_SCHEMA = 1465;
-    exports.ER_REMOVED_SPACES = 1466;
-    exports.ER_AUTOINC_READ_FAILED = 1467;
-    exports.ER_USERNAME = 1468;
-    exports.ER_HOSTNAME = 1469;
-    exports.ER_WRONG_STRING_LENGTH = 1470;
-    exports.ER_NON_INSERTABLE_TABLE = 1471;
-    exports.ER_ADMIN_WRONG_MRG_TABLE = 1472;
-    exports.ER_TOO_HIGH_LEVEL_OF_NESTING_FOR_SELECT = 1473;
-    exports.ER_NAME_BECOMES_EMPTY = 1474;
-    exports.ER_AMBIGUOUS_FIELD_TERM = 1475;
-    exports.ER_FOREIGN_SERVER_EXISTS = 1476;
-    exports.ER_FOREIGN_SERVER_DOESNT_EXIST = 1477;
-    exports.ER_ILLEGAL_HA_CREATE_OPTION = 1478;
-    exports.ER_PARTITION_REQUIRES_VALUES_ERROR = 1479;
-    exports.ER_PARTITION_WRONG_VALUES_ERROR = 1480;
-    exports.ER_PARTITION_MAXVALUE_ERROR = 1481;
-    exports.ER_PARTITION_SUBPARTITION_ERROR = 1482;
-    exports.ER_PARTITION_SUBPART_MIX_ERROR = 1483;
-    exports.ER_PARTITION_WRONG_NO_PART_ERROR = 1484;
-    exports.ER_PARTITION_WRONG_NO_SUBPART_ERROR = 1485;
-    exports.ER_WRONG_EXPR_IN_PARTITION_FUNC_ERROR = 1486;
-    exports.ER_NO_CONST_EXPR_IN_RANGE_OR_LIST_ERROR = 1487;
-    exports.ER_FIELD_NOT_FOUND_PART_ERROR = 1488;
-    exports.ER_LIST_OF_FIELDS_ONLY_IN_HASH_ERROR = 1489;
-    exports.ER_INCONSISTENT_PARTITION_INFO_ERROR = 1490;
-    exports.ER_PARTITION_FUNC_NOT_ALLOWED_ERROR = 1491;
-    exports.ER_PARTITIONS_MUST_BE_DEFINED_ERROR = 1492;
-    exports.ER_RANGE_NOT_INCREASING_ERROR = 1493;
-    exports.ER_INCONSISTENT_TYPE_OF_FUNCTIONS_ERROR = 1494;
-    exports.ER_MULTIPLE_DEF_CONST_IN_LIST_PART_ERROR = 1495;
-    exports.ER_PARTITION_ENTRY_ERROR = 1496;
-    exports.ER_MIX_HANDLER_ERROR = 1497;
-    exports.ER_PARTITION_NOT_DEFINED_ERROR = 1498;
-    exports.ER_TOO_MANY_PARTITIONS_ERROR = 1499;
-    exports.ER_SUBPARTITION_ERROR = 1500;
-    exports.ER_CANT_CREATE_HANDLER_FILE = 1501;
-    exports.ER_BLOB_FIELD_IN_PART_FUNC_ERROR = 1502;
-    exports.ER_UNIQUE_KEY_NEED_ALL_FIELDS_IN_PF = 1503;
-    exports.ER_NO_PARTS_ERROR = 1504;
-    exports.ER_PARTITION_MGMT_ON_NONPARTITIONED = 1505;
-    exports.ER_FOREIGN_KEY_ON_PARTITIONED = 1506;
-    exports.ER_DROP_PARTITION_NON_EXISTENT = 1507;
-    exports.ER_DROP_LAST_PARTITION = 1508;
-    exports.ER_COALESCE_ONLY_ON_HASH_PARTITION = 1509;
-    exports.ER_REORG_HASH_ONLY_ON_SAME_NO = 1510;
-    exports.ER_REORG_NO_PARAM_ERROR = 1511;
-    exports.ER_ONLY_ON_RANGE_LIST_PARTITION = 1512;
-    exports.ER_ADD_PARTITION_SUBPART_ERROR = 1513;
-    exports.ER_ADD_PARTITION_NO_NEW_PARTITION = 1514;
-    exports.ER_COALESCE_PARTITION_NO_PARTITION = 1515;
-    exports.ER_REORG_PARTITION_NOT_EXIST = 1516;
-    exports.ER_SAME_NAME_PARTITION = 1517;
-    exports.ER_NO_BINLOG_ERROR = 1518;
-    exports.ER_CONSECUTIVE_REORG_PARTITIONS = 1519;
-    exports.ER_REORG_OUTSIDE_RANGE = 1520;
-    exports.ER_PARTITION_FUNCTION_FAILURE = 1521;
-    exports.ER_PART_STATE_ERROR = 1522;
-    exports.ER_LIMITED_PART_RANGE = 1523;
-    exports.ER_PLUGIN_IS_NOT_LOADED = 1524;
-    exports.ER_WRONG_VALUE = 1525;
-    exports.ER_NO_PARTITION_FOR_GIVEN_VALUE = 1526;
-    exports.ER_FILEGROUP_OPTION_ONLY_ONCE = 1527;
-    exports.ER_CREATE_FILEGROUP_FAILED = 1528;
-    exports.ER_DROP_FILEGROUP_FAILED = 1529;
-    exports.ER_TABLESPACE_AUTO_EXTEND_ERROR = 1530;
-    exports.ER_WRONG_SIZE_NUMBER = 1531;
-    exports.ER_SIZE_OVERFLOW_ERROR = 1532;
-    exports.ER_ALTER_FILEGROUP_FAILED = 1533;
-    exports.ER_BINLOG_ROW_LOGGING_FAILED = 1534;
-    exports.ER_BINLOG_ROW_WRONG_TABLE_DEF = 1535;
-    exports.ER_BINLOG_ROW_RBR_TO_SBR = 1536;
-    exports.ER_EVENT_ALREADY_EXISTS = 1537;
-    exports.ER_EVENT_STORE_FAILED = 1538;
-    exports.ER_EVENT_DOES_NOT_EXIST = 1539;
-    exports.ER_EVENT_CANT_ALTER = 1540;
-    exports.ER_EVENT_DROP_FAILED = 1541;
-    exports.ER_EVENT_INTERVAL_NOT_POSITIVE_OR_TOO_BIG = 1542;
-    exports.ER_EVENT_ENDS_BEFORE_STARTS = 1543;
-    exports.ER_EVENT_EXEC_TIME_IN_THE_PAST = 1544;
-    exports.ER_EVENT_OPEN_TABLE_FAILED = 1545;
-    exports.ER_EVENT_NEITHER_M_EXPR_NOR_M_AT = 1546;
-    exports.ER_COL_COUNT_DOESNT_MATCH_CORRUPTED = 1547;
-    exports.ER_CANNOT_LOAD_FROM_TABLE = 1548;
-    exports.ER_EVENT_CANNOT_DELETE = 1549;
-    exports.ER_EVENT_COMPILE_ERROR = 1550;
-    exports.ER_EVENT_SAME_NAME = 1551;
-    exports.ER_EVENT_DATA_TOO_LONG = 1552;
-    exports.ER_DROP_INDEX_FK = 1553;
-    exports.ER_WARN_DEPRECATED_SYNTAX_WITH_VER = 1554;
-    exports.ER_CANT_WRITE_LOCK_LOG_TABLE = 1555;
-    exports.ER_CANT_LOCK_LOG_TABLE = 1556;
-    exports.ER_FOREIGN_DUPLICATE_KEY = 1557;
-    exports.ER_COL_COUNT_DOESNT_MATCH_PLEASE_UPDATE = 1558;
-    exports.ER_TEMP_TABLE_PREVENTS_SWITCH_OUT_OF_RBR = 1559;
-    exports.ER_STORED_FUNCTION_PREVENTS_SWITCH_BINLOG_FORMAT = 1560;
-    exports.ER_NDB_CANT_SWITCH_BINLOG_FORMAT = 1561;
-    exports.ER_PARTITION_NO_TEMPORARY = 1562;
-    exports.ER_PARTITION_CONST_DOMAIN_ERROR = 1563;
-    exports.ER_PARTITION_FUNCTION_IS_NOT_ALLOWED = 1564;
-    exports.ER_DDL_LOG_ERROR = 1565;
-    exports.ER_NULL_IN_VALUES_LESS_THAN = 1566;
-    exports.ER_WRONG_PARTITION_NAME = 1567;
-    exports.ER_CANT_CHANGE_TX_ISOLATION = 1568;
-    exports.ER_DUP_ENTRY_AUTOINCREMENT_CASE = 1569;
-    exports.ER_EVENT_MODIFY_QUEUE_ERROR = 1570;
-    exports.ER_EVENT_SET_VAR_ERROR = 1571;
-    exports.ER_PARTITION_MERGE_ERROR = 1572;
-    exports.ER_CANT_ACTIVATE_LOG = 1573;
-    exports.ER_RBR_NOT_AVAILABLE = 1574;
-    exports.ER_BASE64_DECODE_ERROR = 1575;
-    exports.ER_EVENT_RECURSION_FORBIDDEN = 1576;
-    exports.ER_EVENTS_DB_ERROR = 1577;
-    exports.ER_ONLY_INTEGERS_ALLOWED = 1578;
-    exports.ER_UNSUPORTED_LOG_ENGINE = 1579;
-    exports.ER_BAD_LOG_STATEMENT = 1580;
-    exports.ER_CANT_RENAME_LOG_TABLE = 1581;
-    exports.ER_WRONG_PARAMCOUNT_TO_NATIVE_FCT = 1582;
-    exports.ER_WRONG_PARAMETERS_TO_NATIVE_FCT = 1583;
-    exports.ER_WRONG_PARAMETERS_TO_STORED_FCT = 1584;
-    exports.ER_NATIVE_FCT_NAME_COLLISION = 1585;
-    exports.ER_DUP_ENTRY_WITH_KEY_NAME = 1586;
-    exports.ER_BINLOG_PURGE_EMFILE = 1587;
-    exports.ER_EVENT_CANNOT_CREATE_IN_THE_PAST = 1588;
-    exports.ER_EVENT_CANNOT_ALTER_IN_THE_PAST = 1589;
-    exports.ER_SLAVE_INCIDENT = 1590;
-    exports.ER_REPLICA_INCIDENT = 1590;
-    exports.ER_NO_PARTITION_FOR_GIVEN_VALUE_SILENT = 1591;
-    exports.ER_BINLOG_UNSAFE_STATEMENT = 1592;
-    exports.ER_SLAVE_FATAL_ERROR = 1593;
-    exports.ER_REPLICA_FATAL_ERROR = 1593;
-    exports.ER_SLAVE_RELAY_LOG_READ_FAILURE = 1594;
-    exports.ER_REPLICA_RELAY_LOG_READ_FAILURE = 1594;
-    exports.ER_SLAVE_RELAY_LOG_WRITE_FAILURE = 1595;
-    exports.ER_REPLICA_RELAY_LOG_WRITE_FAILURE = 1595;
-    exports.ER_SLAVE_CREATE_EVENT_FAILURE = 1596;
-    exports.ER_REPLICA_CREATE_EVENT_FAILURE = 1596;
-    exports.ER_SLAVE_MASTER_COM_FAILURE = 1597;
-    exports.ER_REPLICA_SOURCE_COM_FAILURE = 1597;
-    exports.ER_BINLOG_LOGGING_IMPOSSIBLE = 1598;
-    exports.ER_VIEW_NO_CREATION_CTX = 1599;
-    exports.ER_VIEW_INVALID_CREATION_CTX = 1600;
-    exports.ER_SR_INVALID_CREATION_CTX = 1601;
-    exports.ER_TRG_CORRUPTED_FILE = 1602;
-    exports.ER_TRG_NO_CREATION_CTX = 1603;
-    exports.ER_TRG_INVALID_CREATION_CTX = 1604;
-    exports.ER_EVENT_INVALID_CREATION_CTX = 1605;
-    exports.ER_TRG_CANT_OPEN_TABLE = 1606;
-    exports.ER_CANT_CREATE_SROUTINE = 1607;
-    exports.ER_NEVER_USED = 1608;
-    exports.ER_NO_FORMAT_DESCRIPTION_EVENT_BEFORE_BINLOG_STATEMENT = 1609;
-    exports.ER_SLAVE_CORRUPT_EVENT = 1610;
-    exports.ER_REPLICA_CORRUPT_EVENT = 1610;
-    exports.ER_LOAD_DATA_INVALID_COLUMN = 1611;
-    exports.ER_LOG_PURGE_NO_FILE = 1612;
-    exports.ER_XA_RBTIMEOUT = 1613;
-    exports.ER_XA_RBDEADLOCK = 1614;
-    exports.ER_NEED_REPREPARE = 1615;
-    exports.ER_DELAYED_NOT_SUPPORTED = 1616;
-    exports.WARN_NO_MASTER_INFO = 1617;
-    exports.WARN_NO_SOURCE_INFO = 1617;
-    exports.WARN_OPTION_IGNORED = 1618;
-    exports.WARN_PLUGIN_DELETE_BUILTIN = 1619;
-    exports.WARN_PLUGIN_BUSY = 1620;
-    exports.ER_VARIABLE_IS_READONLY = 1621;
-    exports.ER_WARN_ENGINE_TRANSACTION_ROLLBACK = 1622;
-    exports.ER_SLAVE_HEARTBEAT_FAILURE = 1623;
-    exports.ER_REPLICA_HEARTBEAT_FAILURE = 1623;
-    exports.ER_SLAVE_HEARTBEAT_VALUE_OUT_OF_RANGE = 1624;
-    exports.ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE = 1624;
-    exports.ER_NDB_REPLICATION_SCHEMA_ERROR = 1625;
-    exports.ER_CONFLICT_FN_PARSE_ERROR = 1626;
-    exports.ER_EXCEPTIONS_WRITE_ERROR = 1627;
-    exports.ER_TOO_LONG_TABLE_COMMENT = 1628;
-    exports.ER_TOO_LONG_FIELD_COMMENT = 1629;
-    exports.ER_FUNC_INEXISTENT_NAME_COLLISION = 1630;
-    exports.ER_DATABASE_NAME = 1631;
-    exports.ER_TABLE_NAME = 1632;
-    exports.ER_PARTITION_NAME = 1633;
-    exports.ER_SUBPARTITION_NAME = 1634;
-    exports.ER_TEMPORARY_NAME = 1635;
-    exports.ER_RENAMED_NAME = 1636;
-    exports.ER_TOO_MANY_CONCURRENT_TRXS = 1637;
-    exports.WARN_NON_ASCII_SEPARATOR_NOT_IMPLEMENTED = 1638;
-    exports.ER_DEBUG_SYNC_TIMEOUT = 1639;
-    exports.ER_DEBUG_SYNC_HIT_LIMIT = 1640;
-    exports.ER_DUP_SIGNAL_SET = 1641;
-    exports.ER_SIGNAL_WARN = 1642;
-    exports.ER_SIGNAL_NOT_FOUND = 1643;
-    exports.ER_SIGNAL_EXCEPTION = 1644;
-    exports.ER_RESIGNAL_WITHOUT_ACTIVE_HANDLER = 1645;
-    exports.ER_SIGNAL_BAD_CONDITION_TYPE = 1646;
-    exports.WARN_COND_ITEM_TRUNCATED = 1647;
-    exports.ER_COND_ITEM_TOO_LONG = 1648;
-    exports.ER_UNKNOWN_LOCALE = 1649;
-    exports.ER_SLAVE_IGNORE_SERVER_IDS = 1650;
-    exports.ER_REPLICA_IGNORE_SERVER_IDS = 1650;
-    exports.ER_QUERY_CACHE_DISABLED = 1651;
-    exports.ER_SAME_NAME_PARTITION_FIELD = 1652;
-    exports.ER_PARTITION_COLUMN_LIST_ERROR = 1653;
-    exports.ER_WRONG_TYPE_COLUMN_VALUE_ERROR = 1654;
-    exports.ER_TOO_MANY_PARTITION_FUNC_FIELDS_ERROR = 1655;
-    exports.ER_MAXVALUE_IN_VALUES_IN = 1656;
-    exports.ER_TOO_MANY_VALUES_ERROR = 1657;
-    exports.ER_ROW_SINGLE_PARTITION_FIELD_ERROR = 1658;
-    exports.ER_FIELD_TYPE_NOT_ALLOWED_AS_PARTITION_FIELD = 1659;
-    exports.ER_PARTITION_FIELDS_TOO_LONG = 1660;
-    exports.ER_BINLOG_ROW_ENGINE_AND_STMT_ENGINE = 1661;
-    exports.ER_BINLOG_ROW_MODE_AND_STMT_ENGINE = 1662;
-    exports.ER_BINLOG_UNSAFE_AND_STMT_ENGINE = 1663;
-    exports.ER_BINLOG_ROW_INJECTION_AND_STMT_ENGINE = 1664;
-    exports.ER_BINLOG_STMT_MODE_AND_ROW_ENGINE = 1665;
-    exports.ER_BINLOG_ROW_INJECTION_AND_STMT_MODE = 1666;
-    exports.ER_BINLOG_MULTIPLE_ENGINES_AND_SELF_LOGGING_ENGINE = 1667;
-    exports.ER_BINLOG_UNSAFE_LIMIT = 1668;
-    exports.ER_BINLOG_UNSAFE_INSERT_DELAYED = 1669;
-    exports.ER_BINLOG_UNSAFE_SYSTEM_TABLE = 1670;
-    exports.ER_BINLOG_UNSAFE_AUTOINC_COLUMNS = 1671;
-    exports.ER_BINLOG_UNSAFE_UDF = 1672;
-    exports.ER_BINLOG_UNSAFE_SYSTEM_VARIABLE = 1673;
-    exports.ER_BINLOG_UNSAFE_SYSTEM_FUNCTION = 1674;
-    exports.ER_BINLOG_UNSAFE_NONTRANS_AFTER_TRANS = 1675;
-    exports.ER_MESSAGE_AND_STATEMENT = 1676;
-    exports.ER_SLAVE_CONVERSION_FAILED = 1677;
-    exports.ER_REPLICA_CONVERSION_FAILED = 1677;
-    exports.ER_SLAVE_CANT_CREATE_CONVERSION = 1678;
-    exports.ER_REPLICA_CANT_CREATE_CONVERSION = 1678;
-    exports.ER_INSIDE_TRANSACTION_PREVENTS_SWITCH_BINLOG_FORMAT = 1679;
-    exports.ER_PATH_LENGTH = 1680;
-    exports.ER_WARN_DEPRECATED_SYNTAX_NO_REPLACEMENT = 1681;
-    exports.ER_WRONG_NATIVE_TABLE_STRUCTURE = 1682;
-    exports.ER_WRONG_PERFSCHEMA_USAGE = 1683;
-    exports.ER_WARN_I_S_SKIPPED_TABLE = 1684;
-    exports.ER_INSIDE_TRANSACTION_PREVENTS_SWITCH_BINLOG_DIRECT = 1685;
-    exports.ER_STORED_FUNCTION_PREVENTS_SWITCH_BINLOG_DIRECT = 1686;
-    exports.ER_SPATIAL_MUST_HAVE_GEOM_COL = 1687;
-    exports.ER_TOO_LONG_INDEX_COMMENT = 1688;
-    exports.ER_LOCK_ABORTED = 1689;
-    exports.ER_DATA_OUT_OF_RANGE = 1690;
-    exports.ER_WRONG_SPVAR_TYPE_IN_LIMIT = 1691;
-    exports.ER_BINLOG_UNSAFE_MULTIPLE_ENGINES_AND_SELF_LOGGING_ENGINE = 1692;
-    exports.ER_BINLOG_UNSAFE_MIXED_STATEMENT = 1693;
-    exports.ER_INSIDE_TRANSACTION_PREVENTS_SWITCH_SQL_LOG_BIN = 1694;
-    exports.ER_STORED_FUNCTION_PREVENTS_SWITCH_SQL_LOG_BIN = 1695;
-    exports.ER_FAILED_READ_FROM_PAR_FILE = 1696;
-    exports.ER_VALUES_IS_NOT_INT_TYPE_ERROR = 1697;
-    exports.ER_ACCESS_DENIED_NO_PASSWORD_ERROR = 1698;
-    exports.ER_SET_PASSWORD_AUTH_PLUGIN = 1699;
-    exports.ER_GRANT_PLUGIN_USER_EXISTS = 1700;
-    exports.ER_TRUNCATE_ILLEGAL_FK = 1701;
-    exports.ER_PLUGIN_IS_PERMANENT = 1702;
-    exports.ER_SLAVE_HEARTBEAT_VALUE_OUT_OF_RANGE_MIN = 1703;
-    exports.ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE_MIN = 1703;
-    exports.ER_SLAVE_HEARTBEAT_VALUE_OUT_OF_RANGE_MAX = 1704;
-    exports.ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE_MAX = 1704;
-    exports.ER_STMT_CACHE_FULL = 1705;
-    exports.ER_MULTI_UPDATE_KEY_CONFLICT = 1706;
-    exports.ER_TABLE_NEEDS_REBUILD = 1707;
-    exports.WARN_OPTION_BELOW_LIMIT = 1708;
-    exports.ER_INDEX_COLUMN_TOO_LONG = 1709;
-    exports.ER_ERROR_IN_TRIGGER_BODY = 1710;
-    exports.ER_ERROR_IN_UNKNOWN_TRIGGER_BODY = 1711;
-    exports.ER_INDEX_CORRUPT = 1712;
-    exports.ER_UNDO_RECORD_TOO_BIG = 1713;
-    exports.ER_BINLOG_UNSAFE_INSERT_IGNORE_SELECT = 1714;
-    exports.ER_BINLOG_UNSAFE_INSERT_SELECT_UPDATE = 1715;
-    exports.ER_BINLOG_UNSAFE_REPLACE_SELECT = 1716;
-    exports.ER_BINLOG_UNSAFE_CREATE_IGNORE_SELECT = 1717;
-    exports.ER_BINLOG_UNSAFE_CREATE_REPLACE_SELECT = 1718;
-    exports.ER_BINLOG_UNSAFE_UPDATE_IGNORE = 1719;
-    exports.ER_PLUGIN_NO_UNINSTALL = 1720;
-    exports.ER_PLUGIN_NO_INSTALL = 1721;
-    exports.ER_BINLOG_UNSAFE_WRITE_AUTOINC_SELECT = 1722;
-    exports.ER_BINLOG_UNSAFE_CREATE_SELECT_AUTOINC = 1723;
-    exports.ER_BINLOG_UNSAFE_INSERT_TWO_KEYS = 1724;
-    exports.ER_TABLE_IN_FK_CHECK = 1725;
-    exports.ER_UNSUPPORTED_ENGINE = 1726;
-    exports.ER_BINLOG_UNSAFE_AUTOINC_NOT_FIRST = 1727;
-    exports.ER_CANNOT_LOAD_FROM_TABLE_V2 = 1728;
-    exports.ER_MASTER_DELAY_VALUE_OUT_OF_RANGE = 1729;
-    exports.ER_SOURCE_DELAY_VALUE_OUT_OF_RANGE = 1729;
-    exports.ER_ONLY_FD_AND_RBR_EVENTS_ALLOWED_IN_BINLOG_STATEMENT = 1730;
-    exports.ER_PARTITION_EXCHANGE_DIFFERENT_OPTION = 1731;
-    exports.ER_PARTITION_EXCHANGE_PART_TABLE = 1732;
-    exports.ER_PARTITION_EXCHANGE_TEMP_TABLE = 1733;
-    exports.ER_PARTITION_INSTEAD_OF_SUBPARTITION = 1734;
-    exports.ER_UNKNOWN_PARTITION = 1735;
-    exports.ER_TABLES_DIFFERENT_METADATA = 1736;
-    exports.ER_ROW_DOES_NOT_MATCH_PARTITION = 1737;
-    exports.ER_BINLOG_CACHE_SIZE_GREATER_THAN_MAX = 1738;
-    exports.ER_WARN_INDEX_NOT_APPLICABLE = 1739;
-    exports.ER_PARTITION_EXCHANGE_FOREIGN_KEY = 1740;
-    exports.ER_NO_SUCH_KEY_VALUE = 1741;
-    exports.ER_RPL_INFO_DATA_TOO_LONG = 1742;
-    exports.ER_NETWORK_READ_EVENT_CHECKSUM_FAILURE = 1743;
-    exports.ER_BINLOG_READ_EVENT_CHECKSUM_FAILURE = 1744;
-    exports.ER_BINLOG_STMT_CACHE_SIZE_GREATER_THAN_MAX = 1745;
-    exports.ER_CANT_UPDATE_TABLE_IN_CREATE_TABLE_SELECT = 1746;
-    exports.ER_PARTITION_CLAUSE_ON_NONPARTITIONED = 1747;
-    exports.ER_ROW_DOES_NOT_MATCH_GIVEN_PARTITION_SET = 1748;
-    exports.ER_NO_SUCH_PARTITION = 1749;
-    exports.ER_CHANGE_RPL_INFO_REPOSITORY_FAILURE = 1750;
-    exports.ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_CREATED_TEMP_TABLE = 1751;
-    exports.ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_DROPPED_TEMP_TABLE = 1752;
-    exports.ER_MTS_FEATURE_IS_NOT_SUPPORTED = 1753;
-    exports.ER_MTS_UPDATED_DBS_GREATER_MAX = 1754;
-    exports.ER_MTS_CANT_PARALLEL = 1755;
-    exports.ER_MTS_INCONSISTENT_DATA = 1756;
-    exports.ER_FULLTEXT_NOT_SUPPORTED_WITH_PARTITIONING = 1757;
-    exports.ER_DA_INVALID_CONDITION_NUMBER = 1758;
-    exports.ER_INSECURE_PLAIN_TEXT = 1759;
-    exports.ER_INSECURE_CHANGE_MASTER = 1760;
-    exports.ER_INSECURE_CHANGE_SOURCE = 1760;
-    exports.ER_FOREIGN_DUPLICATE_KEY_WITH_CHILD_INFO = 1761;
-    exports.ER_FOREIGN_DUPLICATE_KEY_WITHOUT_CHILD_INFO = 1762;
-    exports.ER_SQLTHREAD_WITH_SECURE_SLAVE = 1763;
-    exports.ER_SQLTHREAD_WITH_SECURE_REPLICA = 1763;
-    exports.ER_TABLE_HAS_NO_FT = 1764;
-    exports.ER_VARIABLE_NOT_SETTABLE_IN_SF_OR_TRIGGER = 1765;
-    exports.ER_VARIABLE_NOT_SETTABLE_IN_TRANSACTION = 1766;
-    exports.ER_GTID_NEXT_IS_NOT_IN_GTID_NEXT_LIST = 1767;
-    exports.ER_CANT_CHANGE_GTID_NEXT_IN_TRANSACTION_WHEN_GTID_NEXT_LIST_IS_NULL = 1768;
-    exports.ER_SET_STATEMENT_CANNOT_INVOKE_FUNCTION = 1769;
-    exports.ER_GTID_NEXT_CANT_BE_AUTOMATIC_IF_GTID_NEXT_LIST_IS_NON_NULL = 1770;
-    exports.ER_SKIPPING_LOGGED_TRANSACTION = 1771;
-    exports.ER_MALFORMED_GTID_SET_SPECIFICATION = 1772;
-    exports.ER_MALFORMED_GTID_SET_ENCODING = 1773;
-    exports.ER_MALFORMED_GTID_SPECIFICATION = 1774;
-    exports.ER_GNO_EXHAUSTED = 1775;
-    exports.ER_BAD_SLAVE_AUTO_POSITION = 1776;
-    exports.ER_BAD_REPLICA_AUTO_POSITION = 1776;
-    exports.ER_AUTO_POSITION_REQUIRES_GTID_MODE_ON = 1777;
-    exports.ER_CANT_DO_IMPLICIT_COMMIT_IN_TRX_WHEN_GTID_NEXT_IS_SET = 1778;
-    exports.ER_GTID_MODE_2_OR_3_REQUIRES_ENFORCE_GTID_CONSISTENCY_ON = 1779;
-    exports.ER_GTID_MODE_REQUIRES_BINLOG = 1780;
-    exports.ER_CANT_SET_GTID_NEXT_TO_GTID_WHEN_GTID_MODE_IS_OFF = 1781;
-    exports.ER_CANT_SET_GTID_NEXT_TO_ANONYMOUS_WHEN_GTID_MODE_IS_ON = 1782;
-    exports.ER_CANT_SET_GTID_NEXT_LIST_TO_NON_NULL_WHEN_GTID_MODE_IS_OFF = 1783;
-    exports.ER_FOUND_GTID_EVENT_WHEN_GTID_MODE_IS_OFF = 1784;
-    exports.ER_GTID_UNSAFE_NON_TRANSACTIONAL_TABLE = 1785;
-    exports.ER_GTID_UNSAFE_CREATE_SELECT = 1786;
-    exports.ER_GTID_UNSAFE_CREATE_DROP_TEMPORARY_TABLE_IN_TRANSACTION = 1787;
-    exports.ER_GTID_MODE_CAN_ONLY_CHANGE_ONE_STEP_AT_A_TIME = 1788;
-    exports.ER_MASTER_HAS_PURGED_REQUIRED_GTIDS = 1789;
-    exports.ER_SOURCE_HAS_PURGED_REQUIRED_GTIDS = 1789;
-    exports.ER_CANT_SET_GTID_NEXT_WHEN_OWNING_GTID = 1790;
-    exports.ER_UNKNOWN_EXPLAIN_FORMAT = 1791;
-    exports.ER_CANT_EXECUTE_IN_READ_ONLY_TRANSACTION = 1792;
-    exports.ER_TOO_LONG_TABLE_PARTITION_COMMENT = 1793;
-    exports.ER_SLAVE_CONFIGURATION = 1794;
-    exports.ER_REPLICA_CONFIGURATION = 1794;
-    exports.ER_INNODB_FT_LIMIT = 1795;
-    exports.ER_INNODB_NO_FT_TEMP_TABLE = 1796;
-    exports.ER_INNODB_FT_WRONG_DOCID_COLUMN = 1797;
-    exports.ER_INNODB_FT_WRONG_DOCID_INDEX = 1798;
-    exports.ER_INNODB_ONLINE_LOG_TOO_BIG = 1799;
-    exports.ER_UNKNOWN_ALTER_ALGORITHM = 1800;
-    exports.ER_UNKNOWN_ALTER_LOCK = 1801;
-    exports.ER_MTS_CHANGE_MASTER_CANT_RUN_WITH_GAPS = 1802;
-    exports.ER_MTS_CHANGE_SOURCE_CANT_RUN_WITH_GAPS = 1802;
-    exports.ER_MTS_RECOVERY_FAILURE = 1803;
-    exports.ER_MTS_RESET_WORKERS = 1804;
-    exports.ER_COL_COUNT_DOESNT_MATCH_CORRUPTED_V2 = 1805;
-    exports.ER_SLAVE_SILENT_RETRY_TRANSACTION = 1806;
-    exports.ER_REPLICA_SILENT_RETRY_TRANSACTION = 1806;
-    exports.ER_DISCARD_FK_CHECKS_RUNNING = 1807;
-    exports.ER_TABLE_SCHEMA_MISMATCH = 1808;
-    exports.ER_TABLE_IN_SYSTEM_TABLESPACE = 1809;
-    exports.ER_IO_READ_ERROR = 1810;
-    exports.ER_IO_WRITE_ERROR = 1811;
-    exports.ER_TABLESPACE_MISSING = 1812;
-    exports.ER_TABLESPACE_EXISTS = 1813;
-    exports.ER_TABLESPACE_DISCARDED = 1814;
-    exports.ER_INTERNAL_ERROR = 1815;
-    exports.ER_INNODB_IMPORT_ERROR = 1816;
-    exports.ER_INNODB_INDEX_CORRUPT = 1817;
-    exports.ER_INVALID_YEAR_COLUMN_LENGTH = 1818;
-    exports.ER_NOT_VALID_PASSWORD = 1819;
-    exports.ER_MUST_CHANGE_PASSWORD = 1820;
-    exports.ER_FK_NO_INDEX_CHILD = 1821;
-    exports.ER_FK_NO_INDEX_PARENT = 1822;
-    exports.ER_FK_FAIL_ADD_SYSTEM = 1823;
-    exports.ER_FK_CANNOT_OPEN_PARENT = 1824;
-    exports.ER_FK_INCORRECT_OPTION = 1825;
-    exports.ER_FK_DUP_NAME = 1826;
-    exports.ER_PASSWORD_FORMAT = 1827;
-    exports.ER_FK_COLUMN_CANNOT_DROP = 1828;
-    exports.ER_FK_COLUMN_CANNOT_DROP_CHILD = 1829;
-    exports.ER_FK_COLUMN_NOT_NULL = 1830;
-    exports.ER_DUP_INDEX = 1831;
-    exports.ER_FK_COLUMN_CANNOT_CHANGE = 1832;
-    exports.ER_FK_COLUMN_CANNOT_CHANGE_CHILD = 1833;
-    exports.ER_FK_CANNOT_DELETE_PARENT = 1834;
-    exports.ER_MALFORMED_PACKET = 1835;
-    exports.ER_READ_ONLY_MODE = 1836;
-    exports.ER_GTID_NEXT_TYPE_UNDEFINED_GROUP = 1837;
-    exports.ER_VARIABLE_NOT_SETTABLE_IN_SP = 1838;
-    exports.ER_CANT_SET_GTID_PURGED_WHEN_GTID_MODE_IS_OFF = 1839;
-    exports.ER_CANT_SET_GTID_PURGED_WHEN_GTID_EXECUTED_IS_NOT_EMPTY = 1840;
-    exports.ER_CANT_SET_GTID_PURGED_WHEN_OWNED_GTIDS_IS_NOT_EMPTY = 1841;
-    exports.ER_GTID_PURGED_WAS_CHANGED = 1842;
-    exports.ER_GTID_EXECUTED_WAS_CHANGED = 1843;
-    exports.ER_BINLOG_STMT_MODE_AND_NO_REPL_TABLES = 1844;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED = 1845;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON = 1846;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_COPY = 1847;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_PARTITION = 1848;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FK_RENAME = 1849;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_COLUMN_TYPE = 1850;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FK_CHECK = 1851;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_IGNORE = 1852;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_NOPK = 1853;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_AUTOINC = 1854;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_HIDDEN_FTS = 1855;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_CHANGE_FTS = 1856;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FTS = 1857;
-    exports.ER_SQL_SLAVE_SKIP_COUNTER_NOT_SETTABLE_IN_GTID_MODE = 1858;
-    exports.ER_SQL_REPLICA_SKIP_COUNTER_NOT_SETTABLE_IN_GTID_MODE = 1858;
-    exports.ER_DUP_UNKNOWN_IN_INDEX = 1859;
-    exports.ER_IDENT_CAUSES_TOO_LONG_PATH = 1860;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_NOT_NULL = 1861;
-    exports.ER_MUST_CHANGE_PASSWORD_LOGIN = 1862;
-    exports.ER_ROW_IN_WRONG_PARTITION = 1863;
-    exports.ER_MTS_EVENT_BIGGER_PENDING_JOBS_SIZE_MAX = 1864;
-    exports.ER_INNODB_NO_FT_USES_PARSER = 1865;
-    exports.ER_BINLOG_LOGICAL_CORRUPTION = 1866;
-    exports.ER_WARN_PURGE_LOG_IN_USE = 1867;
-    exports.ER_WARN_PURGE_LOG_IS_ACTIVE = 1868;
-    exports.ER_AUTO_INCREMENT_CONFLICT = 1869;
-    exports.WARN_ON_BLOCKHOLE_IN_RBR = 1870;
-    exports.ER_SLAVE_MI_INIT_REPOSITORY = 1871;
-    exports.ER_REPLICA_MI_INIT_REPOSITORY = 1871;
-    exports.ER_SLAVE_RLI_INIT_REPOSITORY = 1872;
-    exports.ER_REPLICA_RLI_INIT_REPOSITORY = 1872;
-    exports.ER_ACCESS_DENIED_CHANGE_USER_ERROR = 1873;
-    exports.ER_INNODB_READ_ONLY = 1874;
-    exports.ER_STOP_SLAVE_SQL_THREAD_TIMEOUT = 1875;
-    exports.ER_STOP_REPLICA_SQL_THREAD_TIMEOUT = 1875;
-    exports.ER_STOP_SLAVE_IO_THREAD_TIMEOUT = 1876;
-    exports.ER_STOP_REPLICA_IO_THREAD_TIMEOUT = 1876;
-    exports.ER_TABLE_CORRUPT = 1877;
-    exports.ER_TEMP_FILE_WRITE_FAILURE = 1878;
-    exports.ER_INNODB_FT_AUX_NOT_HEX_ID = 1879;
-    exports.ER_OLD_TEMPORALS_UPGRADED = 1880;
-    exports.ER_INNODB_FORCED_RECOVERY = 1881;
-    exports.ER_AES_INVALID_IV = 1882;
-    exports.ER_FILE_CORRUPT = 1883;
-    exports.ER_ERROR_ON_SOURCE = 1884;
-    exports.ER_INCONSISTENT_ERROR = 1885;
-    exports.ER_STORAGE_ENGINE_NOT_LOADED = 1886;
-    exports.ER_GET_STACKED_DA_WITHOUT_ACTIVE_HANDLER = 1887;
-    exports.ER_WARN_LEGACY_SYNTAX_CONVERTED = 1888;
-    exports.ER_BINLOG_UNSAFE_FULLTEXT_PLUGIN = 1889;
-    exports.ER_CANNOT_DISCARD_TEMPORARY_TABLE = 1890;
-    exports.ER_FK_DEPTH_EXCEEDED = 1891;
-    exports.ER_COL_COUNT_DOESNT_MATCH_PLEASE_UPDATE_V2 = 1892;
-    exports.ER_WARN_TRIGGER_DOESNT_HAVE_CREATED = 1893;
-    exports.ER_REFERENCED_TRG_DOES_NOT_EXIST = 1894;
-    exports.ER_EXPLAIN_NOT_SUPPORTED = 1895;
-    exports.ER_INVALID_FIELD_SIZE = 1896;
-    exports.ER_MISSING_HA_CREATE_OPTION = 1897;
-    exports.ER_ENGINE_OUT_OF_MEMORY = 1898;
-    exports.ER_PASSWORD_EXPIRE_ANONYMOUS_USER = 1899;
-    exports.ER_REPLICA_SQL_THREAD_MUST_STOP = 1900;
-    exports.ER_NO_FT_MATERIALIZED_SUBQUERY = 1901;
-    exports.ER_INNODB_UNDO_LOG_FULL = 1902;
-    exports.ER_INVALID_ARGUMENT_FOR_LOGARITHM = 1903;
-    exports.ER_REPLICA_IO_THREAD_MUST_STOP = 1904;
-    exports.ER_WARN_OPEN_TEMP_TABLES_MUST_BE_ZERO = 1905;
-    exports.ER_WARN_ONLY_SOURCE_LOG_FILE_NO_POS = 1906;
-    exports.ER_QUERY_TIMEOUT = 1907;
-    exports.ER_NON_RO_SELECT_DISABLE_TIMER = 1908;
-    exports.ER_DUP_LIST_ENTRY = 1909;
-    exports.ER_SQL_MODE_NO_EFFECT = 1910;
-    exports.ER_SESSION_WAS_KILLED = 3169;
-    exports.ER_CLIENT_INTERACTION_TIMEOUT = 4031;
-    exports[1] = "EE_CANTCREATEFILE";
-    exports[2] = "EE_READ";
-    exports[3] = "EE_WRITE";
-    exports[4] = "EE_BADCLOSE";
-    exports[5] = "EE_OUTOFMEMORY";
-    exports[6] = "EE_DELETE";
-    exports[7] = "EE_LINK";
-    exports[9] = "EE_EOFERR";
-    exports[10] = "EE_CANTLOCK";
-    exports[11] = "EE_CANTUNLOCK";
-    exports[12] = "EE_DIR";
-    exports[13] = "EE_STAT";
-    exports[14] = "EE_CANT_CHSIZE";
-    exports[15] = "EE_CANT_OPEN_STREAM";
-    exports[16] = "EE_GETWD";
-    exports[17] = "EE_SETWD";
-    exports[18] = "EE_LINK_WARNING";
-    exports[19] = "EE_OPEN_WARNING";
-    exports[20] = "EE_DISK_FULL";
-    exports[21] = "EE_CANT_MKDIR";
-    exports[22] = "EE_UNKNOWN_CHARSET";
-    exports[23] = "EE_OUT_OF_FILERESOURCES";
-    exports[24] = "EE_CANT_READLINK";
-    exports[25] = "EE_CANT_SYMLINK";
-    exports[26] = "EE_REALPATH";
-    exports[27] = "EE_SYNC";
-    exports[28] = "EE_UNKNOWN_COLLATION";
-    exports[29] = "EE_FILENOTFOUND";
-    exports[30] = "EE_FILE_NOT_CLOSED";
-    exports[31] = "EE_CHANGE_OWNERSHIP";
-    exports[32] = "EE_CHANGE_PERMISSIONS";
-    exports[33] = "EE_CANT_SEEK";
-    exports[120] = "HA_ERR_KEY_NOT_FOUND";
-    exports[121] = "HA_ERR_FOUND_DUPP_KEY";
-    exports[122] = "HA_ERR_INTERNAL_ERROR";
-    exports[123] = "HA_ERR_RECORD_CHANGED";
-    exports[124] = "HA_ERR_WRONG_INDEX";
-    exports[126] = "HA_ERR_CRASHED";
-    exports[127] = "HA_ERR_WRONG_IN_RECORD";
-    exports[128] = "HA_ERR_OUT_OF_MEM";
-    exports[130] = "HA_ERR_NOT_A_TABLE";
-    exports[131] = "HA_ERR_WRONG_COMMAND";
-    exports[132] = "HA_ERR_OLD_FILE";
-    exports[133] = "HA_ERR_NO_ACTIVE_RECORD";
-    exports[134] = "HA_ERR_RECORD_DELETED";
-    exports[135] = "HA_ERR_RECORD_FILE_FULL";
-    exports[136] = "HA_ERR_INDEX_FILE_FULL";
-    exports[137] = "HA_ERR_END_OF_FILE";
-    exports[138] = "HA_ERR_UNSUPPORTED";
-    exports[139] = "HA_ERR_TO_BIG_ROW";
-    exports[140] = "HA_WRONG_CREATE_OPTION";
-    exports[141] = "HA_ERR_FOUND_DUPP_UNIQUE";
-    exports[142] = "HA_ERR_UNKNOWN_CHARSET";
-    exports[143] = "HA_ERR_WRONG_MRG_TABLE_DEF";
-    exports[144] = "HA_ERR_CRASHED_ON_REPAIR";
-    exports[145] = "HA_ERR_CRASHED_ON_USAGE";
-    exports[146] = "HA_ERR_LOCK_WAIT_TIMEOUT";
-    exports[147] = "HA_ERR_LOCK_TABLE_FULL";
-    exports[148] = "HA_ERR_READ_ONLY_TRANSACTION";
-    exports[149] = "HA_ERR_LOCK_DEADLOCK";
-    exports[150] = "HA_ERR_CANNOT_ADD_FOREIGN";
-    exports[151] = "HA_ERR_NO_REFERENCED_ROW";
-    exports[152] = "HA_ERR_ROW_IS_REFERENCED";
-    exports[153] = "HA_ERR_NO_SAVEPOINT";
-    exports[154] = "HA_ERR_NON_UNIQUE_BLOCK_SIZE";
-    exports[155] = "HA_ERR_NO_SUCH_TABLE";
-    exports[156] = "HA_ERR_TABLE_EXIST";
-    exports[157] = "HA_ERR_NO_CONNECTION";
-    exports[158] = "HA_ERR_NULL_IN_SPATIAL";
-    exports[159] = "HA_ERR_TABLE_DEF_CHANGED";
-    exports[160] = "HA_ERR_NO_PARTITION_FOUND";
-    exports[161] = "HA_ERR_RBR_LOGGING_FAILED";
-    exports[162] = "HA_ERR_DROP_INDEX_FK";
-    exports[163] = "HA_ERR_FOREIGN_DUPLICATE_KEY";
-    exports[164] = "HA_ERR_TABLE_NEEDS_UPGRADE";
-    exports[165] = "HA_ERR_TABLE_READONLY";
-    exports[166] = "HA_ERR_AUTOINC_READ_FAILED";
-    exports[167] = "HA_ERR_AUTOINC_ERANGE";
-    exports[168] = "HA_ERR_GENERIC";
-    exports[169] = "HA_ERR_RECORD_IS_THE_SAME";
-    exports[170] = "HA_ERR_LOGGING_IMPOSSIBLE";
-    exports[171] = "HA_ERR_CORRUPT_EVENT";
-    exports[172] = "HA_ERR_NEW_FILE";
-    exports[173] = "HA_ERR_ROWS_EVENT_APPLY";
-    exports[174] = "HA_ERR_INITIALIZATION";
-    exports[175] = "HA_ERR_FILE_TOO_SHORT";
-    exports[176] = "HA_ERR_WRONG_CRC";
-    exports[177] = "HA_ERR_TOO_MANY_CONCURRENT_TRXS";
-    exports[178] = "HA_ERR_NOT_IN_LOCK_PARTITIONS";
-    exports[179] = "HA_ERR_INDEX_COL_TOO_LONG";
-    exports[180] = "HA_ERR_INDEX_CORRUPT";
-    exports[181] = "HA_ERR_UNDO_REC_TOO_BIG";
-    exports[182] = "HA_FTS_INVALID_DOCID";
-    exports[183] = "HA_ERR_TABLE_IN_FK_CHECK";
-    exports[184] = "HA_ERR_TABLESPACE_EXISTS";
-    exports[185] = "HA_ERR_TOO_MANY_FIELDS";
-    exports[186] = "HA_ERR_ROW_IN_WRONG_PARTITION";
-    exports[187] = "HA_ERR_INNODB_READ_ONLY";
-    exports[188] = "HA_ERR_FTS_EXCEED_RESULT_CACHE_LIMIT";
-    exports[189] = "HA_ERR_TEMP_FILE_WRITE_FAILURE";
-    exports[190] = "HA_ERR_INNODB_FORCED_RECOVERY";
-    exports[191] = "HA_ERR_FTS_TOO_MANY_WORDS_IN_PHRASE";
-    exports[1e3] = "ER_HASHCHK";
-    exports[1001] = "ER_NISAMCHK";
-    exports[1002] = "ER_NO";
-    exports[1003] = "ER_YES";
-    exports[1004] = "ER_CANT_CREATE_FILE";
-    exports[1005] = "ER_CANT_CREATE_TABLE";
-    exports[1006] = "ER_CANT_CREATE_DB";
-    exports[1007] = "ER_DB_CREATE_EXISTS";
-    exports[1008] = "ER_DB_DROP_EXISTS";
-    exports[1009] = "ER_DB_DROP_DELETE";
-    exports[1010] = "ER_DB_DROP_RMDIR";
-    exports[1011] = "ER_CANT_DELETE_FILE";
-    exports[1012] = "ER_CANT_FIND_SYSTEM_REC";
-    exports[1013] = "ER_CANT_GET_STAT";
-    exports[1014] = "ER_CANT_GET_WD";
-    exports[1015] = "ER_CANT_LOCK";
-    exports[1016] = "ER_CANT_OPEN_FILE";
-    exports[1017] = "ER_FILE_NOT_FOUND";
-    exports[1018] = "ER_CANT_READ_DIR";
-    exports[1019] = "ER_CANT_SET_WD";
-    exports[1020] = "ER_CHECKREAD";
-    exports[1021] = "ER_DISK_FULL";
-    exports[1022] = "ER_DUP_KEY";
-    exports[1023] = "ER_ERROR_ON_CLOSE";
-    exports[1024] = "ER_ERROR_ON_READ";
-    exports[1025] = "ER_ERROR_ON_RENAME";
-    exports[1026] = "ER_ERROR_ON_WRITE";
-    exports[1027] = "ER_FILE_USED";
-    exports[1028] = "ER_FILSORT_ABORT";
-    exports[1029] = "ER_FORM_NOT_FOUND";
-    exports[1030] = "ER_GET_ERRNO";
-    exports[1031] = "ER_ILLEGAL_HA";
-    exports[1032] = "ER_KEY_NOT_FOUND";
-    exports[1033] = "ER_NOT_FORM_FILE";
-    exports[1034] = "ER_NOT_KEYFILE";
-    exports[1035] = "ER_OLD_KEYFILE";
-    exports[1036] = "ER_OPEN_AS_READONLY";
-    exports[1037] = "ER_OUTOFMEMORY";
-    exports[1038] = "ER_OUT_OF_SORTMEMORY";
-    exports[1039] = "ER_UNEXPECTED_EOF";
-    exports[1040] = "ER_CON_COUNT_ERROR";
-    exports[1041] = "ER_OUT_OF_RESOURCES";
-    exports[1042] = "ER_BAD_HOST_ERROR";
-    exports[1043] = "ER_HANDSHAKE_ERROR";
-    exports[1044] = "ER_DBACCESS_DENIED_ERROR";
-    exports[1045] = "ER_ACCESS_DENIED_ERROR";
-    exports[1046] = "ER_NO_DB_ERROR";
-    exports[1047] = "ER_UNKNOWN_COM_ERROR";
-    exports[1048] = "ER_BAD_NULL_ERROR";
-    exports[1049] = "ER_BAD_DB_ERROR";
-    exports[1050] = "ER_TABLE_EXISTS_ERROR";
-    exports[1051] = "ER_BAD_TABLE_ERROR";
-    exports[1052] = "ER_NON_UNIQ_ERROR";
-    exports[1053] = "ER_SERVER_SHUTDOWN";
-    exports[1054] = "ER_BAD_FIELD_ERROR";
-    exports[1055] = "ER_WRONG_FIELD_WITH_GROUP";
-    exports[1056] = "ER_WRONG_GROUP_FIELD";
-    exports[1057] = "ER_WRONG_SUM_SELECT";
-    exports[1058] = "ER_WRONG_VALUE_COUNT";
-    exports[1059] = "ER_TOO_LONG_IDENT";
-    exports[1060] = "ER_DUP_FIELDNAME";
-    exports[1061] = "ER_DUP_KEYNAME";
-    exports[1062] = "ER_DUP_ENTRY";
-    exports[1063] = "ER_WRONG_FIELD_SPEC";
-    exports[1064] = "ER_PARSE_ERROR";
-    exports[1065] = "ER_EMPTY_QUERY";
-    exports[1066] = "ER_NONUNIQ_TABLE";
-    exports[1067] = "ER_INVALID_DEFAULT";
-    exports[1068] = "ER_MULTIPLE_PRI_KEY";
-    exports[1069] = "ER_TOO_MANY_KEYS";
-    exports[1070] = "ER_TOO_MANY_KEY_PARTS";
-    exports[1071] = "ER_TOO_LONG_KEY";
-    exports[1072] = "ER_KEY_COLUMN_DOES_NOT_EXITS";
-    exports[1073] = "ER_BLOB_USED_AS_KEY";
-    exports[1074] = "ER_TOO_BIG_FIELDLENGTH";
-    exports[1075] = "ER_WRONG_AUTO_KEY";
-    exports[1076] = "ER_READY";
-    exports[1077] = "ER_NORMAL_SHUTDOWN";
-    exports[1078] = "ER_GOT_SIGNAL";
-    exports[1079] = "ER_SHUTDOWN_COMPLETE";
-    exports[1080] = "ER_FORCING_CLOSE";
-    exports[1081] = "ER_IPSOCK_ERROR";
-    exports[1082] = "ER_NO_SUCH_INDEX";
-    exports[1083] = "ER_WRONG_FIELD_TERMINATORS";
-    exports[1084] = "ER_BLOBS_AND_NO_TERMINATED";
-    exports[1085] = "ER_TEXTFILE_NOT_READABLE";
-    exports[1086] = "ER_FILE_EXISTS_ERROR";
-    exports[1087] = "ER_LOAD_INFO";
-    exports[1088] = "ER_ALTER_INFO";
-    exports[1089] = "ER_WRONG_SUB_KEY";
-    exports[1090] = "ER_CANT_REMOVE_ALL_FIELDS";
-    exports[1091] = "ER_CANT_DROP_FIELD_OR_KEY";
-    exports[1092] = "ER_INSERT_INFO";
-    exports[1093] = "ER_UPDATE_TABLE_USED";
-    exports[1094] = "ER_NO_SUCH_THREAD";
-    exports[1095] = "ER_KILL_DENIED_ERROR";
-    exports[1096] = "ER_NO_TABLES_USED";
-    exports[1097] = "ER_TOO_BIG_SET";
-    exports[1098] = "ER_NO_UNIQUE_LOGFILE";
-    exports[1099] = "ER_TABLE_NOT_LOCKED_FOR_WRITE";
-    exports[1100] = "ER_TABLE_NOT_LOCKED";
-    exports[1101] = "ER_BLOB_CANT_HAVE_DEFAULT";
-    exports[1102] = "ER_WRONG_DB_NAME";
-    exports[1103] = "ER_WRONG_TABLE_NAME";
-    exports[1104] = "ER_TOO_BIG_SELECT";
-    exports[1105] = "ER_UNKNOWN_ERROR";
-    exports[1106] = "ER_UNKNOWN_PROCEDURE";
-    exports[1107] = "ER_WRONG_PARAMCOUNT_TO_PROCEDURE";
-    exports[1108] = "ER_WRONG_PARAMETERS_TO_PROCEDURE";
-    exports[1109] = "ER_UNKNOWN_TABLE";
-    exports[1110] = "ER_FIELD_SPECIFIED_TWICE";
-    exports[1111] = "ER_INVALID_GROUP_FUNC_USE";
-    exports[1112] = "ER_UNSUPPORTED_EXTENSION";
-    exports[1113] = "ER_TABLE_MUST_HAVE_COLUMNS";
-    exports[1114] = "ER_RECORD_FILE_FULL";
-    exports[1115] = "ER_UNKNOWN_CHARACTER_SET";
-    exports[1116] = "ER_TOO_MANY_TABLES";
-    exports[1117] = "ER_TOO_MANY_FIELDS";
-    exports[1118] = "ER_TOO_BIG_ROWSIZE";
-    exports[1119] = "ER_STACK_OVERRUN";
-    exports[1120] = "ER_WRONG_OUTER_JOIN";
-    exports[1121] = "ER_NULL_COLUMN_IN_INDEX";
-    exports[1122] = "ER_CANT_FIND_UDF";
-    exports[1123] = "ER_CANT_INITIALIZE_UDF";
-    exports[1124] = "ER_UDF_NO_PATHS";
-    exports[1125] = "ER_UDF_EXISTS";
-    exports[1126] = "ER_CANT_OPEN_LIBRARY";
-    exports[1127] = "ER_CANT_FIND_DL_ENTRY";
-    exports[1128] = "ER_FUNCTION_NOT_DEFINED";
-    exports[1129] = "ER_HOST_IS_BLOCKED";
-    exports[1130] = "ER_HOST_NOT_PRIVILEGED";
-    exports[1131] = "ER_PASSWORD_ANONYMOUS_USER";
-    exports[1132] = "ER_PASSWORD_NOT_ALLOWED";
-    exports[1133] = "ER_PASSWORD_NO_MATCH";
-    exports[1134] = "ER_UPDATE_INFO";
-    exports[1135] = "ER_CANT_CREATE_THREAD";
-    exports[1136] = "ER_WRONG_VALUE_COUNT_ON_ROW";
-    exports[1137] = "ER_CANT_REOPEN_TABLE";
-    exports[1138] = "ER_INVALID_USE_OF_NULL";
-    exports[1139] = "ER_REGEXP_ERROR";
-    exports[1140] = "ER_MIX_OF_GROUP_FUNC_AND_FIELDS";
-    exports[1141] = "ER_NONEXISTING_GRANT";
-    exports[1142] = "ER_TABLEACCESS_DENIED_ERROR";
-    exports[1143] = "ER_COLUMNACCESS_DENIED_ERROR";
-    exports[1144] = "ER_ILLEGAL_GRANT_FOR_TABLE";
-    exports[1145] = "ER_GRANT_WRONG_HOST_OR_USER";
-    exports[1146] = "ER_NO_SUCH_TABLE";
-    exports[1147] = "ER_NONEXISTING_TABLE_GRANT";
-    exports[1148] = "ER_NOT_ALLOWED_COMMAND";
-    exports[1149] = "ER_SYNTAX_ERROR";
-    exports[1150] = "ER_DELAYED_CANT_CHANGE_LOCK";
-    exports[1151] = "ER_TOO_MANY_DELAYED_THREADS";
-    exports[1152] = "ER_ABORTING_CONNECTION";
-    exports[1153] = "ER_NET_PACKET_TOO_LARGE";
-    exports[1154] = "ER_NET_READ_ERROR_FROM_PIPE";
-    exports[1155] = "ER_NET_FCNTL_ERROR";
-    exports[1156] = "ER_NET_PACKETS_OUT_OF_ORDER";
-    exports[1157] = "ER_NET_UNCOMPRESS_ERROR";
-    exports[1158] = "ER_NET_READ_ERROR";
-    exports[1159] = "ER_NET_READ_INTERRUPTED";
-    exports[1160] = "ER_NET_ERROR_ON_WRITE";
-    exports[1161] = "ER_NET_WRITE_INTERRUPTED";
-    exports[1162] = "ER_TOO_LONG_STRING";
-    exports[1163] = "ER_TABLE_CANT_HANDLE_BLOB";
-    exports[1164] = "ER_TABLE_CANT_HANDLE_AUTO_INCREMENT";
-    exports[1165] = "ER_DELAYED_INSERT_TABLE_LOCKED";
-    exports[1166] = "ER_WRONG_COLUMN_NAME";
-    exports[1167] = "ER_WRONG_KEY_COLUMN";
-    exports[1168] = "ER_WRONG_MRG_TABLE";
-    exports[1169] = "ER_DUP_UNIQUE";
-    exports[1170] = "ER_BLOB_KEY_WITHOUT_LENGTH";
-    exports[1171] = "ER_PRIMARY_CANT_HAVE_NULL";
-    exports[1172] = "ER_TOO_MANY_ROWS";
-    exports[1173] = "ER_REQUIRES_PRIMARY_KEY";
-    exports[1174] = "ER_NO_RAID_COMPILED";
-    exports[1175] = "ER_UPDATE_WITHOUT_KEY_IN_SAFE_MODE";
-    exports[1176] = "ER_KEY_DOES_NOT_EXITS";
-    exports[1177] = "ER_CHECK_NO_SUCH_TABLE";
-    exports[1178] = "ER_CHECK_NOT_IMPLEMENTED";
-    exports[1179] = "ER_CANT_DO_THIS_DURING_AN_TRANSACTION";
-    exports[1180] = "ER_ERROR_DURING_COMMIT";
-    exports[1181] = "ER_ERROR_DURING_ROLLBACK";
-    exports[1182] = "ER_ERROR_DURING_FLUSH_LOGS";
-    exports[1183] = "ER_ERROR_DURING_CHECKPOINT";
-    exports[1184] = "ER_NEW_ABORTING_CONNECTION";
-    exports[1185] = "ER_DUMP_NOT_IMPLEMENTED";
-    exports[1186] = "ER_FLUSH_SOURCE_BINLOG_CLOSED";
-    exports[1187] = "ER_INDEX_REBUILD";
-    exports[1188] = "ER_SOURCE";
-    exports[1189] = "ER_SOURCE_NET_READ";
-    exports[1190] = "ER_SOURCE_NET_WRITE";
-    exports[1191] = "ER_FT_MATCHING_KEY_NOT_FOUND";
-    exports[1192] = "ER_LOCK_OR_ACTIVE_TRANSACTION";
-    exports[1193] = "ER_UNKNOWN_SYSTEM_VARIABLE";
-    exports[1194] = "ER_CRASHED_ON_USAGE";
-    exports[1195] = "ER_CRASHED_ON_REPAIR";
-    exports[1196] = "ER_WARNING_NOT_COMPLETE_ROLLBACK";
-    exports[1197] = "ER_TRANS_CACHE_FULL";
-    exports[1198] = "ER_REPLICA_MUST_STOP";
-    exports[1199] = "ER_REPLICA_NOT_RUNNING";
-    exports[1200] = "ER_BAD_REPLICA";
-    exports[1201] = "ER_SOURCE_INFO";
-    exports[1202] = "ER_REPLICA_THREAD";
-    exports[1203] = "ER_TOO_MANY_USER_CONNECTIONS";
-    exports[1204] = "ER_SET_CONSTANTS_ONLY";
-    exports[1205] = "ER_LOCK_WAIT_TIMEOUT";
-    exports[1206] = "ER_LOCK_TABLE_FULL";
-    exports[1207] = "ER_READ_ONLY_TRANSACTION";
-    exports[1208] = "ER_DROP_DB_WITH_READ_LOCK";
-    exports[1209] = "ER_CREATE_DB_WITH_READ_LOCK";
-    exports[1210] = "ER_WRONG_ARGUMENTS";
-    exports[1211] = "ER_NO_PERMISSION_TO_CREATE_USER";
-    exports[1212] = "ER_UNION_TABLES_IN_DIFFERENT_DIR";
-    exports[1213] = "ER_LOCK_DEADLOCK";
-    exports[1214] = "ER_TABLE_CANT_HANDLE_FT";
-    exports[1215] = "ER_CANNOT_ADD_FOREIGN";
-    exports[1216] = "ER_NO_REFERENCED_ROW";
-    exports[1217] = "ER_ROW_IS_REFERENCED";
-    exports[1218] = "ER_CONNECT_TO_SOURCE";
-    exports[1219] = "ER_QUERY_ON_SOURCE";
-    exports[1220] = "ER_ERROR_WHEN_EXECUTING_COMMAND";
-    exports[1221] = "ER_WRONG_USAGE";
-    exports[1222] = "ER_WRONG_NUMBER_OF_COLUMNS_IN_SELECT";
-    exports[1223] = "ER_CANT_UPDATE_WITH_READLOCK";
-    exports[1224] = "ER_MIXING_NOT_ALLOWED";
-    exports[1225] = "ER_DUP_ARGUMENT";
-    exports[1226] = "ER_USER_LIMIT_REACHED";
-    exports[1227] = "ER_SPECIFIC_ACCESS_DENIED_ERROR";
-    exports[1228] = "ER_LOCAL_VARIABLE";
-    exports[1229] = "ER_GLOBAL_VARIABLE";
-    exports[1230] = "ER_NO_DEFAULT";
-    exports[1231] = "ER_WRONG_VALUE_FOR_VAR";
-    exports[1232] = "ER_WRONG_TYPE_FOR_VAR";
-    exports[1233] = "ER_VAR_CANT_BE_READ";
-    exports[1234] = "ER_CANT_USE_OPTION_HERE";
-    exports[1235] = "ER_NOT_SUPPORTED_YET";
-    exports[1236] = "ER_SOURCE_FATAL_ERROR_READING_BINLOG";
-    exports[1237] = "ER_REPLICA_IGNORED_TABLE";
-    exports[1238] = "ER_INCORRECT_GLOBAL_LOCAL_VAR";
-    exports[1239] = "ER_WRONG_FK_DEF";
-    exports[1240] = "ER_KEY_REF_DO_NOT_MATCH_TABLE_REF";
-    exports[1241] = "ER_OPERAND_COLUMNS";
-    exports[1242] = "ER_SUBQUERY_NO_1_ROW";
-    exports[1243] = "ER_UNKNOWN_STMT_HANDLER";
-    exports[1244] = "ER_CORRUPT_HELP_DB";
-    exports[1245] = "ER_CYCLIC_REFERENCE";
-    exports[1246] = "ER_AUTO_CONVERT";
-    exports[1247] = "ER_ILLEGAL_REFERENCE";
-    exports[1248] = "ER_DERIVED_MUST_HAVE_ALIAS";
-    exports[1249] = "ER_SELECT_REDUCED";
-    exports[1250] = "ER_TABLENAME_NOT_ALLOWED_HERE";
-    exports[1251] = "ER_NOT_SUPPORTED_AUTH_MODE";
-    exports[1252] = "ER_SPATIAL_CANT_HAVE_NULL";
-    exports[1253] = "ER_COLLATION_CHARSET_MISMATCH";
-    exports[1254] = "ER_REPLICA_WAS_RUNNING";
-    exports[1255] = "ER_REPLICA_WAS_NOT_RUNNING";
-    exports[1256] = "ER_TOO_BIG_FOR_UNCOMPRESS";
-    exports[1257] = "ER_ZLIB_Z_MEM_ERROR";
-    exports[1258] = "ER_ZLIB_Z_BUF_ERROR";
-    exports[1259] = "ER_ZLIB_Z_DATA_ERROR";
-    exports[1260] = "ER_CUT_VALUE_GROUP_CONCAT";
-    exports[1261] = "ER_WARN_TOO_FEW_RECORDS";
-    exports[1262] = "ER_WARN_TOO_MANY_RECORDS";
-    exports[1263] = "ER_WARN_NULL_TO_NOTNULL";
-    exports[1264] = "ER_WARN_DATA_OUT_OF_RANGE";
-    exports[1265] = "ER_WARN_DATA_TRUNCATED";
-    exports[1266] = "ER_WARN_USING_OTHER_HANDLER";
-    exports[1267] = "ER_CANT_AGGREGATE_2COLLATIONS";
-    exports[1268] = "ER_DROP_USER";
-    exports[1269] = "ER_REVOKE_GRANTS";
-    exports[1270] = "ER_CANT_AGGREGATE_3COLLATIONS";
-    exports[1271] = "ER_CANT_AGGREGATE_NCOLLATIONS";
-    exports[1272] = "ER_VARIABLE_IS_NOT_STRUCT";
-    exports[1273] = "ER_UNKNOWN_COLLATION";
-    exports[1274] = "ER_REPLICA_IGNORED_SSL_PARAMS";
-    exports[1275] = "ER_SERVER_IS_IN_SECURE_AUTH_MODE";
-    exports[1276] = "ER_WARN_FIELD_RESOLVED";
-    exports[1277] = "ER_BAD_REPLICA_UNTIL_COND";
-    exports[1278] = "ER_MISSING_SKIP_REPLICA";
-    exports[1279] = "ER_UNTIL_COND_IGNORED";
-    exports[1280] = "ER_WRONG_NAME_FOR_INDEX";
-    exports[1281] = "ER_WRONG_NAME_FOR_CATALOG";
-    exports[1282] = "ER_WARN_QC_RESIZE";
-    exports[1283] = "ER_BAD_FT_COLUMN";
-    exports[1284] = "ER_UNKNOWN_KEY_CACHE";
-    exports[1285] = "ER_WARN_HOSTNAME_WONT_WORK";
-    exports[1286] = "ER_UNKNOWN_STORAGE_ENGINE";
-    exports[1287] = "ER_WARN_DEPRECATED_SYNTAX";
-    exports[1288] = "ER_NON_UPDATABLE_TABLE";
-    exports[1289] = "ER_FEATURE_DISABLED";
-    exports[1290] = "ER_OPTION_PREVENTS_STATEMENT";
-    exports[1291] = "ER_DUPLICATED_VALUE_IN_TYPE";
-    exports[1292] = "ER_TRUNCATED_WRONG_VALUE";
-    exports[1293] = "ER_TOO_MUCH_AUTO_TIMESTAMP_COLS";
-    exports[1294] = "ER_INVALID_ON_UPDATE";
-    exports[1295] = "ER_UNSUPPORTED_PS";
-    exports[1296] = "ER_GET_ERRMSG";
-    exports[1297] = "ER_GET_TEMPORARY_ERRMSG";
-    exports[1298] = "ER_UNKNOWN_TIME_ZONE";
-    exports[1299] = "ER_WARN_INVALID_TIMESTAMP";
-    exports[1300] = "ER_INVALID_CHARACTER_STRING";
-    exports[1301] = "ER_WARN_ALLOWED_PACKET_OVERFLOWED";
-    exports[1302] = "ER_CONFLICTING_DECLARATIONS";
-    exports[1303] = "ER_SP_NO_RECURSIVE_CREATE";
-    exports[1304] = "ER_SP_ALREADY_EXISTS";
-    exports[1305] = "ER_SP_DOES_NOT_EXIST";
-    exports[1306] = "ER_SP_DROP_FAILED";
-    exports[1307] = "ER_SP_STORE_FAILED";
-    exports[1308] = "ER_SP_LILABEL_MISMATCH";
-    exports[1309] = "ER_SP_LABEL_REDEFINE";
-    exports[1310] = "ER_SP_LABEL_MISMATCH";
-    exports[1311] = "ER_SP_UNINIT_VAR";
-    exports[1312] = "ER_SP_BADSELECT";
-    exports[1313] = "ER_SP_BADRETURN";
-    exports[1314] = "ER_SP_BADSTATEMENT";
-    exports[1315] = "ER_UPDATE_LOG_DEPRECATED_IGNORED";
-    exports[1316] = "ER_UPDATE_LOG_DEPRECATED_TRANSLATED";
-    exports[1317] = "ER_QUERY_INTERRUPTED";
-    exports[1318] = "ER_SP_WRONG_NO_OF_ARGS";
-    exports[1319] = "ER_SP_COND_MISMATCH";
-    exports[1320] = "ER_SP_NORETURN";
-    exports[1321] = "ER_SP_NORETURNEND";
-    exports[1322] = "ER_SP_BAD_CURSOR_QUERY";
-    exports[1323] = "ER_SP_BAD_CURSOR_SELECT";
-    exports[1324] = "ER_SP_CURSOR_MISMATCH";
-    exports[1325] = "ER_SP_CURSOR_ALREADY_OPEN";
-    exports[1326] = "ER_SP_CURSOR_NOT_OPEN";
-    exports[1327] = "ER_SP_UNDECLARED_VAR";
-    exports[1328] = "ER_SP_WRONG_NO_OF_FETCH_ARGS";
-    exports[1329] = "ER_SP_FETCH_NO_DATA";
-    exports[1330] = "ER_SP_DUP_PARAM";
-    exports[1331] = "ER_SP_DUP_VAR";
-    exports[1332] = "ER_SP_DUP_COND";
-    exports[1333] = "ER_SP_DUP_CURS";
-    exports[1334] = "ER_SP_CANT_ALTER";
-    exports[1335] = "ER_SP_SUBSELECT_NYI";
-    exports[1336] = "ER_STMT_NOT_ALLOWED_IN_SF_OR_TRG";
-    exports[1337] = "ER_SP_VARCOND_AFTER_CURSHNDLR";
-    exports[1338] = "ER_SP_CURSOR_AFTER_HANDLER";
-    exports[1339] = "ER_SP_CASE_NOT_FOUND";
-    exports[1340] = "ER_FPARSER_TOO_BIG_FILE";
-    exports[1341] = "ER_FPARSER_BAD_HEADER";
-    exports[1342] = "ER_FPARSER_EOF_IN_COMMENT";
-    exports[1343] = "ER_FPARSER_ERROR_IN_PARAMETER";
-    exports[1344] = "ER_FPARSER_EOF_IN_UNKNOWN_PARAMETER";
-    exports[1345] = "ER_VIEW_NO_EXPLAIN";
-    exports[1346] = "ER_FRM_UNKNOWN_TYPE";
-    exports[1347] = "ER_WRONG_OBJECT";
-    exports[1348] = "ER_NONUPDATEABLE_COLUMN";
-    exports[1349] = "ER_VIEW_SELECT_DERIVED";
-    exports[1350] = "ER_VIEW_SELECT_CLAUSE";
-    exports[1351] = "ER_VIEW_SELECT_VARIABLE";
-    exports[1352] = "ER_VIEW_SELECT_TMPTABLE";
-    exports[1353] = "ER_VIEW_WRONG_LIST";
-    exports[1354] = "ER_WARN_VIEW_MERGE";
-    exports[1355] = "ER_WARN_VIEW_WITHOUT_KEY";
-    exports[1356] = "ER_VIEW_INVALID";
-    exports[1357] = "ER_SP_NO_DROP_SP";
-    exports[1358] = "ER_SP_GOTO_IN_HNDLR";
-    exports[1359] = "ER_TRG_ALREADY_EXISTS";
-    exports[1360] = "ER_TRG_DOES_NOT_EXIST";
-    exports[1361] = "ER_TRG_ON_VIEW_OR_TEMP_TABLE";
-    exports[1362] = "ER_TRG_CANT_CHANGE_ROW";
-    exports[1363] = "ER_TRG_NO_SUCH_ROW_IN_TRG";
-    exports[1364] = "ER_NO_DEFAULT_FOR_FIELD";
-    exports[1365] = "ER_DIVISION_BY_ZERO";
-    exports[1366] = "ER_TRUNCATED_WRONG_VALUE_FOR_FIELD";
-    exports[1367] = "ER_ILLEGAL_VALUE_FOR_TYPE";
-    exports[1368] = "ER_VIEW_NONUPD_CHECK";
-    exports[1369] = "ER_VIEW_CHECK_FAILED";
-    exports[1370] = "ER_PROCACCESS_DENIED_ERROR";
-    exports[1371] = "ER_RELAY_LOG_FAIL";
-    exports[1372] = "ER_PASSWD_LENGTH";
-    exports[1373] = "ER_UNKNOWN_TARGET_BINLOG";
-    exports[1374] = "ER_IO_ERR_LOG_INDEX_READ";
-    exports[1375] = "ER_BINLOG_PURGE_PROHIBITED";
-    exports[1376] = "ER_FSEEK_FAIL";
-    exports[1377] = "ER_BINLOG_PURGE_FATAL_ERR";
-    exports[1378] = "ER_LOG_IN_USE";
-    exports[1379] = "ER_LOG_PURGE_UNKNOWN_ERR";
-    exports[1380] = "ER_RELAY_LOG_INIT";
-    exports[1381] = "ER_NO_BINARY_LOGGING";
-    exports[1382] = "ER_RESERVED_SYNTAX";
-    exports[1383] = "ER_WSAS_FAILED";
-    exports[1384] = "ER_DIFF_GROUPS_PROC";
-    exports[1385] = "ER_NO_GROUP_FOR_PROC";
-    exports[1386] = "ER_ORDER_WITH_PROC";
-    exports[1387] = "ER_LOGGING_PROHIBIT_CHANGING_OF";
-    exports[1388] = "ER_NO_FILE_MAPPING";
-    exports[1389] = "ER_WRONG_MAGIC";
-    exports[1390] = "ER_PS_MANY_PARAM";
-    exports[1391] = "ER_KEY_PART_0";
-    exports[1392] = "ER_VIEW_CHECKSUM";
-    exports[1393] = "ER_VIEW_MULTIUPDATE";
-    exports[1394] = "ER_VIEW_NO_INSERT_FIELD_LIST";
-    exports[1395] = "ER_VIEW_DELETE_MERGE_VIEW";
-    exports[1396] = "ER_CANNOT_USER";
-    exports[1397] = "ER_XAER_NOTA";
-    exports[1398] = "ER_XAER_INVAL";
-    exports[1399] = "ER_XAER_RMFAIL";
-    exports[1400] = "ER_XAER_OUTSIDE";
-    exports[1401] = "ER_XA_RMERR";
-    exports[1402] = "ER_XA_RBROLLBACK";
-    exports[1403] = "ER_NONEXISTING_PROC_GRANT";
-    exports[1404] = "ER_PROC_AUTO_GRANT_FAIL";
-    exports[1405] = "ER_PROC_AUTO_REVOKE_FAIL";
-    exports[1406] = "ER_DATA_TOO_LONG";
-    exports[1407] = "ER_SP_BAD_SQLSTATE";
-    exports[1408] = "ER_STARTUP";
-    exports[1409] = "ER_LOAD_FROM_FIXED_SIZE_ROWS_TO_VAR";
-    exports[1410] = "ER_CANT_CREATE_USER_WITH_GRANT";
-    exports[1411] = "ER_WRONG_VALUE_FOR_TYPE";
-    exports[1412] = "ER_TABLE_DEF_CHANGED";
-    exports[1413] = "ER_SP_DUP_HANDLER";
-    exports[1414] = "ER_SP_NOT_VAR_ARG";
-    exports[1415] = "ER_SP_NO_RETSET";
-    exports[1416] = "ER_CANT_CREATE_GEOMETRY_OBJECT";
-    exports[1417] = "ER_FAILED_ROUTINE_BREAK_BINLOG";
-    exports[1418] = "ER_BINLOG_UNSAFE_ROUTINE";
-    exports[1419] = "ER_BINLOG_CREATE_ROUTINE_NEED_SUPER";
-    exports[1420] = "ER_EXEC_STMT_WITH_OPEN_CURSOR";
-    exports[1421] = "ER_STMT_HAS_NO_OPEN_CURSOR";
-    exports[1422] = "ER_COMMIT_NOT_ALLOWED_IN_SF_OR_TRG";
-    exports[1423] = "ER_NO_DEFAULT_FOR_VIEW_FIELD";
-    exports[1424] = "ER_SP_NO_RECURSION";
-    exports[1425] = "ER_TOO_BIG_SCALE";
-    exports[1426] = "ER_TOO_BIG_PRECISION";
-    exports[1427] = "ER_M_BIGGER_THAN_D";
-    exports[1428] = "ER_WRONG_LOCK_OF_SYSTEM_TABLE";
-    exports[1429] = "ER_CONNECT_TO_FOREIGN_DATA_SOURCE";
-    exports[1430] = "ER_QUERY_ON_FOREIGN_DATA_SOURCE";
-    exports[1431] = "ER_FOREIGN_DATA_SOURCE_DOESNT_EXIST";
-    exports[1432] = "ER_FOREIGN_DATA_STRING_INVALID_CANT_CREATE";
-    exports[1433] = "ER_FOREIGN_DATA_STRING_INVALID";
-    exports[1434] = "ER_CANT_CREATE_FEDERATED_TABLE";
-    exports[1435] = "ER_TRG_IN_WRONG_SCHEMA";
-    exports[1436] = "ER_STACK_OVERRUN_NEED_MORE";
-    exports[1437] = "ER_TOO_LONG_BODY";
-    exports[1438] = "ER_WARN_CANT_DROP_DEFAULT_KEYCACHE";
-    exports[1439] = "ER_TOO_BIG_DISPLAYWIDTH";
-    exports[1440] = "ER_XAER_DUPID";
-    exports[1441] = "ER_DATETIME_FUNCTION_OVERFLOW";
-    exports[1442] = "ER_CANT_UPDATE_USED_TABLE_IN_SF_OR_TRG";
-    exports[1443] = "ER_VIEW_PREVENT_UPDATE";
-    exports[1444] = "ER_PS_NO_RECURSION";
-    exports[1445] = "ER_SP_CANT_SET_AUTOCOMMIT";
-    exports[1446] = "ER_MALFORMED_DEFINER";
-    exports[1447] = "ER_VIEW_FRM_NO_USER";
-    exports[1448] = "ER_VIEW_OTHER_USER";
-    exports[1449] = "ER_NO_SUCH_USER";
-    exports[1450] = "ER_FORBID_SCHEMA_CHANGE";
-    exports[1451] = "ER_ROW_IS_REFERENCED_2";
-    exports[1452] = "ER_NO_REFERENCED_ROW_2";
-    exports[1453] = "ER_SP_BAD_VAR_SHADOW";
-    exports[1454] = "ER_TRG_NO_DEFINER";
-    exports[1455] = "ER_OLD_FILE_FORMAT";
-    exports[1456] = "ER_SP_RECURSION_LIMIT";
-    exports[1457] = "ER_SP_PROC_TABLE_CORRUPT";
-    exports[1458] = "ER_SP_WRONG_NAME";
-    exports[1459] = "ER_TABLE_NEEDS_UPGRADE";
-    exports[1460] = "ER_SP_NO_AGGREGATE";
-    exports[1461] = "ER_MAX_PREPARED_STMT_COUNT_REACHED";
-    exports[1462] = "ER_VIEW_RECURSIVE";
-    exports[1463] = "ER_NON_GROUPING_FIELD_USED";
-    exports[1464] = "ER_TABLE_CANT_HANDLE_SPKEYS";
-    exports[1465] = "ER_NO_TRIGGERS_ON_SYSTEM_SCHEMA";
-    exports[1466] = "ER_REMOVED_SPACES";
-    exports[1467] = "ER_AUTOINC_READ_FAILED";
-    exports[1468] = "ER_USERNAME";
-    exports[1469] = "ER_HOSTNAME";
-    exports[1470] = "ER_WRONG_STRING_LENGTH";
-    exports[1471] = "ER_NON_INSERTABLE_TABLE";
-    exports[1472] = "ER_ADMIN_WRONG_MRG_TABLE";
-    exports[1473] = "ER_TOO_HIGH_LEVEL_OF_NESTING_FOR_SELECT";
-    exports[1474] = "ER_NAME_BECOMES_EMPTY";
-    exports[1475] = "ER_AMBIGUOUS_FIELD_TERM";
-    exports[1476] = "ER_FOREIGN_SERVER_EXISTS";
-    exports[1477] = "ER_FOREIGN_SERVER_DOESNT_EXIST";
-    exports[1478] = "ER_ILLEGAL_HA_CREATE_OPTION";
-    exports[1479] = "ER_PARTITION_REQUIRES_VALUES_ERROR";
-    exports[1480] = "ER_PARTITION_WRONG_VALUES_ERROR";
-    exports[1481] = "ER_PARTITION_MAXVALUE_ERROR";
-    exports[1482] = "ER_PARTITION_SUBPARTITION_ERROR";
-    exports[1483] = "ER_PARTITION_SUBPART_MIX_ERROR";
-    exports[1484] = "ER_PARTITION_WRONG_NO_PART_ERROR";
-    exports[1485] = "ER_PARTITION_WRONG_NO_SUBPART_ERROR";
-    exports[1486] = "ER_WRONG_EXPR_IN_PARTITION_FUNC_ERROR";
-    exports[1487] = "ER_NO_CONST_EXPR_IN_RANGE_OR_LIST_ERROR";
-    exports[1488] = "ER_FIELD_NOT_FOUND_PART_ERROR";
-    exports[1489] = "ER_LIST_OF_FIELDS_ONLY_IN_HASH_ERROR";
-    exports[1490] = "ER_INCONSISTENT_PARTITION_INFO_ERROR";
-    exports[1491] = "ER_PARTITION_FUNC_NOT_ALLOWED_ERROR";
-    exports[1492] = "ER_PARTITIONS_MUST_BE_DEFINED_ERROR";
-    exports[1493] = "ER_RANGE_NOT_INCREASING_ERROR";
-    exports[1494] = "ER_INCONSISTENT_TYPE_OF_FUNCTIONS_ERROR";
-    exports[1495] = "ER_MULTIPLE_DEF_CONST_IN_LIST_PART_ERROR";
-    exports[1496] = "ER_PARTITION_ENTRY_ERROR";
-    exports[1497] = "ER_MIX_HANDLER_ERROR";
-    exports[1498] = "ER_PARTITION_NOT_DEFINED_ERROR";
-    exports[1499] = "ER_TOO_MANY_PARTITIONS_ERROR";
-    exports[1500] = "ER_SUBPARTITION_ERROR";
-    exports[1501] = "ER_CANT_CREATE_HANDLER_FILE";
-    exports[1502] = "ER_BLOB_FIELD_IN_PART_FUNC_ERROR";
-    exports[1503] = "ER_UNIQUE_KEY_NEED_ALL_FIELDS_IN_PF";
-    exports[1504] = "ER_NO_PARTS_ERROR";
-    exports[1505] = "ER_PARTITION_MGMT_ON_NONPARTITIONED";
-    exports[1506] = "ER_FOREIGN_KEY_ON_PARTITIONED";
-    exports[1507] = "ER_DROP_PARTITION_NON_EXISTENT";
-    exports[1508] = "ER_DROP_LAST_PARTITION";
-    exports[1509] = "ER_COALESCE_ONLY_ON_HASH_PARTITION";
-    exports[1510] = "ER_REORG_HASH_ONLY_ON_SAME_NO";
-    exports[1511] = "ER_REORG_NO_PARAM_ERROR";
-    exports[1512] = "ER_ONLY_ON_RANGE_LIST_PARTITION";
-    exports[1513] = "ER_ADD_PARTITION_SUBPART_ERROR";
-    exports[1514] = "ER_ADD_PARTITION_NO_NEW_PARTITION";
-    exports[1515] = "ER_COALESCE_PARTITION_NO_PARTITION";
-    exports[1516] = "ER_REORG_PARTITION_NOT_EXIST";
-    exports[1517] = "ER_SAME_NAME_PARTITION";
-    exports[1518] = "ER_NO_BINLOG_ERROR";
-    exports[1519] = "ER_CONSECUTIVE_REORG_PARTITIONS";
-    exports[1520] = "ER_REORG_OUTSIDE_RANGE";
-    exports[1521] = "ER_PARTITION_FUNCTION_FAILURE";
-    exports[1522] = "ER_PART_STATE_ERROR";
-    exports[1523] = "ER_LIMITED_PART_RANGE";
-    exports[1524] = "ER_PLUGIN_IS_NOT_LOADED";
-    exports[1525] = "ER_WRONG_VALUE";
-    exports[1526] = "ER_NO_PARTITION_FOR_GIVEN_VALUE";
-    exports[1527] = "ER_FILEGROUP_OPTION_ONLY_ONCE";
-    exports[1528] = "ER_CREATE_FILEGROUP_FAILED";
-    exports[1529] = "ER_DROP_FILEGROUP_FAILED";
-    exports[1530] = "ER_TABLESPACE_AUTO_EXTEND_ERROR";
-    exports[1531] = "ER_WRONG_SIZE_NUMBER";
-    exports[1532] = "ER_SIZE_OVERFLOW_ERROR";
-    exports[1533] = "ER_ALTER_FILEGROUP_FAILED";
-    exports[1534] = "ER_BINLOG_ROW_LOGGING_FAILED";
-    exports[1535] = "ER_BINLOG_ROW_WRONG_TABLE_DEF";
-    exports[1536] = "ER_BINLOG_ROW_RBR_TO_SBR";
-    exports[1537] = "ER_EVENT_ALREADY_EXISTS";
-    exports[1538] = "ER_EVENT_STORE_FAILED";
-    exports[1539] = "ER_EVENT_DOES_NOT_EXIST";
-    exports[1540] = "ER_EVENT_CANT_ALTER";
-    exports[1541] = "ER_EVENT_DROP_FAILED";
-    exports[1542] = "ER_EVENT_INTERVAL_NOT_POSITIVE_OR_TOO_BIG";
-    exports[1543] = "ER_EVENT_ENDS_BEFORE_STARTS";
-    exports[1544] = "ER_EVENT_EXEC_TIME_IN_THE_PAST";
-    exports[1545] = "ER_EVENT_OPEN_TABLE_FAILED";
-    exports[1546] = "ER_EVENT_NEITHER_M_EXPR_NOR_M_AT";
-    exports[1547] = "ER_COL_COUNT_DOESNT_MATCH_CORRUPTED";
-    exports[1548] = "ER_CANNOT_LOAD_FROM_TABLE";
-    exports[1549] = "ER_EVENT_CANNOT_DELETE";
-    exports[1550] = "ER_EVENT_COMPILE_ERROR";
-    exports[1551] = "ER_EVENT_SAME_NAME";
-    exports[1552] = "ER_EVENT_DATA_TOO_LONG";
-    exports[1553] = "ER_DROP_INDEX_FK";
-    exports[1554] = "ER_WARN_DEPRECATED_SYNTAX_WITH_VER";
-    exports[1555] = "ER_CANT_WRITE_LOCK_LOG_TABLE";
-    exports[1556] = "ER_CANT_LOCK_LOG_TABLE";
-    exports[1557] = "ER_FOREIGN_DUPLICATE_KEY";
-    exports[1558] = "ER_COL_COUNT_DOESNT_MATCH_PLEASE_UPDATE";
-    exports[1559] = "ER_TEMP_TABLE_PREVENTS_SWITCH_OUT_OF_RBR";
-    exports[1560] = "ER_STORED_FUNCTION_PREVENTS_SWITCH_BINLOG_FORMAT";
-    exports[1561] = "ER_NDB_CANT_SWITCH_BINLOG_FORMAT";
-    exports[1562] = "ER_PARTITION_NO_TEMPORARY";
-    exports[1563] = "ER_PARTITION_CONST_DOMAIN_ERROR";
-    exports[1564] = "ER_PARTITION_FUNCTION_IS_NOT_ALLOWED";
-    exports[1565] = "ER_DDL_LOG_ERROR";
-    exports[1566] = "ER_NULL_IN_VALUES_LESS_THAN";
-    exports[1567] = "ER_WRONG_PARTITION_NAME";
-    exports[1568] = "ER_CANT_CHANGE_TX_ISOLATION";
-    exports[1569] = "ER_DUP_ENTRY_AUTOINCREMENT_CASE";
-    exports[1570] = "ER_EVENT_MODIFY_QUEUE_ERROR";
-    exports[1571] = "ER_EVENT_SET_VAR_ERROR";
-    exports[1572] = "ER_PARTITION_MERGE_ERROR";
-    exports[1573] = "ER_CANT_ACTIVATE_LOG";
-    exports[1574] = "ER_RBR_NOT_AVAILABLE";
-    exports[1575] = "ER_BASE64_DECODE_ERROR";
-    exports[1576] = "ER_EVENT_RECURSION_FORBIDDEN";
-    exports[1577] = "ER_EVENTS_DB_ERROR";
-    exports[1578] = "ER_ONLY_INTEGERS_ALLOWED";
-    exports[1579] = "ER_UNSUPORTED_LOG_ENGINE";
-    exports[1580] = "ER_BAD_LOG_STATEMENT";
-    exports[1581] = "ER_CANT_RENAME_LOG_TABLE";
-    exports[1582] = "ER_WRONG_PARAMCOUNT_TO_NATIVE_FCT";
-    exports[1583] = "ER_WRONG_PARAMETERS_TO_NATIVE_FCT";
-    exports[1584] = "ER_WRONG_PARAMETERS_TO_STORED_FCT";
-    exports[1585] = "ER_NATIVE_FCT_NAME_COLLISION";
-    exports[1586] = "ER_DUP_ENTRY_WITH_KEY_NAME";
-    exports[1587] = "ER_BINLOG_PURGE_EMFILE";
-    exports[1588] = "ER_EVENT_CANNOT_CREATE_IN_THE_PAST";
-    exports[1589] = "ER_EVENT_CANNOT_ALTER_IN_THE_PAST";
-    exports[1590] = "ER_REPLICA_INCIDENT";
-    exports[1591] = "ER_NO_PARTITION_FOR_GIVEN_VALUE_SILENT";
-    exports[1592] = "ER_BINLOG_UNSAFE_STATEMENT";
-    exports[1593] = "ER_REPLICA_FATAL_ERROR";
-    exports[1594] = "ER_REPLICA_RELAY_LOG_READ_FAILURE";
-    exports[1595] = "ER_REPLICA_RELAY_LOG_WRITE_FAILURE";
-    exports[1596] = "ER_REPLICA_CREATE_EVENT_FAILURE";
-    exports[1597] = "ER_REPLICA_SOURCE_COM_FAILURE";
-    exports[1598] = "ER_BINLOG_LOGGING_IMPOSSIBLE";
-    exports[1599] = "ER_VIEW_NO_CREATION_CTX";
-    exports[1600] = "ER_VIEW_INVALID_CREATION_CTX";
-    exports[1601] = "ER_SR_INVALID_CREATION_CTX";
-    exports[1602] = "ER_TRG_CORRUPTED_FILE";
-    exports[1603] = "ER_TRG_NO_CREATION_CTX";
-    exports[1604] = "ER_TRG_INVALID_CREATION_CTX";
-    exports[1605] = "ER_EVENT_INVALID_CREATION_CTX";
-    exports[1606] = "ER_TRG_CANT_OPEN_TABLE";
-    exports[1607] = "ER_CANT_CREATE_SROUTINE";
-    exports[1608] = "ER_NEVER_USED";
-    exports[1609] = "ER_NO_FORMAT_DESCRIPTION_EVENT_BEFORE_BINLOG_STATEMENT";
-    exports[1610] = "ER_REPLICA_CORRUPT_EVENT";
-    exports[1611] = "ER_LOAD_DATA_INVALID_COLUMN";
-    exports[1612] = "ER_LOG_PURGE_NO_FILE";
-    exports[1613] = "ER_XA_RBTIMEOUT";
-    exports[1614] = "ER_XA_RBDEADLOCK";
-    exports[1615] = "ER_NEED_REPREPARE";
-    exports[1616] = "ER_DELAYED_NOT_SUPPORTED";
-    exports[1617] = "WARN_NO_SOURCE_INFO";
-    exports[1618] = "WARN_OPTION_IGNORED";
-    exports[1619] = "WARN_PLUGIN_DELETE_BUILTIN";
-    exports[1620] = "WARN_PLUGIN_BUSY";
-    exports[1621] = "ER_VARIABLE_IS_READONLY";
-    exports[1622] = "ER_WARN_ENGINE_TRANSACTION_ROLLBACK";
-    exports[1623] = "ER_REPLICA_HEARTBEAT_FAILURE";
-    exports[1624] = "ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE";
-    exports[1625] = "ER_NDB_REPLICATION_SCHEMA_ERROR";
-    exports[1626] = "ER_CONFLICT_FN_PARSE_ERROR";
-    exports[1627] = "ER_EXCEPTIONS_WRITE_ERROR";
-    exports[1628] = "ER_TOO_LONG_TABLE_COMMENT";
-    exports[1629] = "ER_TOO_LONG_FIELD_COMMENT";
-    exports[1630] = "ER_FUNC_INEXISTENT_NAME_COLLISION";
-    exports[1631] = "ER_DATABASE_NAME";
-    exports[1632] = "ER_TABLE_NAME";
-    exports[1633] = "ER_PARTITION_NAME";
-    exports[1634] = "ER_SUBPARTITION_NAME";
-    exports[1635] = "ER_TEMPORARY_NAME";
-    exports[1636] = "ER_RENAMED_NAME";
-    exports[1637] = "ER_TOO_MANY_CONCURRENT_TRXS";
-    exports[1638] = "WARN_NON_ASCII_SEPARATOR_NOT_IMPLEMENTED";
-    exports[1639] = "ER_DEBUG_SYNC_TIMEOUT";
-    exports[1640] = "ER_DEBUG_SYNC_HIT_LIMIT";
-    exports[1641] = "ER_DUP_SIGNAL_SET";
-    exports[1642] = "ER_SIGNAL_WARN";
-    exports[1643] = "ER_SIGNAL_NOT_FOUND";
-    exports[1644] = "ER_SIGNAL_EXCEPTION";
-    exports[1645] = "ER_RESIGNAL_WITHOUT_ACTIVE_HANDLER";
-    exports[1646] = "ER_SIGNAL_BAD_CONDITION_TYPE";
-    exports[1647] = "WARN_COND_ITEM_TRUNCATED";
-    exports[1648] = "ER_COND_ITEM_TOO_LONG";
-    exports[1649] = "ER_UNKNOWN_LOCALE";
-    exports[1650] = "ER_REPLICA_IGNORE_SERVER_IDS";
-    exports[1651] = "ER_QUERY_CACHE_DISABLED";
-    exports[1652] = "ER_SAME_NAME_PARTITION_FIELD";
-    exports[1653] = "ER_PARTITION_COLUMN_LIST_ERROR";
-    exports[1654] = "ER_WRONG_TYPE_COLUMN_VALUE_ERROR";
-    exports[1655] = "ER_TOO_MANY_PARTITION_FUNC_FIELDS_ERROR";
-    exports[1656] = "ER_MAXVALUE_IN_VALUES_IN";
-    exports[1657] = "ER_TOO_MANY_VALUES_ERROR";
-    exports[1658] = "ER_ROW_SINGLE_PARTITION_FIELD_ERROR";
-    exports[1659] = "ER_FIELD_TYPE_NOT_ALLOWED_AS_PARTITION_FIELD";
-    exports[1660] = "ER_PARTITION_FIELDS_TOO_LONG";
-    exports[1661] = "ER_BINLOG_ROW_ENGINE_AND_STMT_ENGINE";
-    exports[1662] = "ER_BINLOG_ROW_MODE_AND_STMT_ENGINE";
-    exports[1663] = "ER_BINLOG_UNSAFE_AND_STMT_ENGINE";
-    exports[1664] = "ER_BINLOG_ROW_INJECTION_AND_STMT_ENGINE";
-    exports[1665] = "ER_BINLOG_STMT_MODE_AND_ROW_ENGINE";
-    exports[1666] = "ER_BINLOG_ROW_INJECTION_AND_STMT_MODE";
-    exports[1667] = "ER_BINLOG_MULTIPLE_ENGINES_AND_SELF_LOGGING_ENGINE";
-    exports[1668] = "ER_BINLOG_UNSAFE_LIMIT";
-    exports[1669] = "ER_BINLOG_UNSAFE_INSERT_DELAYED";
-    exports[1670] = "ER_BINLOG_UNSAFE_SYSTEM_TABLE";
-    exports[1671] = "ER_BINLOG_UNSAFE_AUTOINC_COLUMNS";
-    exports[1672] = "ER_BINLOG_UNSAFE_UDF";
-    exports[1673] = "ER_BINLOG_UNSAFE_SYSTEM_VARIABLE";
-    exports[1674] = "ER_BINLOG_UNSAFE_SYSTEM_FUNCTION";
-    exports[1675] = "ER_BINLOG_UNSAFE_NONTRANS_AFTER_TRANS";
-    exports[1676] = "ER_MESSAGE_AND_STATEMENT";
-    exports[1677] = "ER_REPLICA_CONVERSION_FAILED";
-    exports[1678] = "ER_REPLICA_CANT_CREATE_CONVERSION";
-    exports[1679] = "ER_INSIDE_TRANSACTION_PREVENTS_SWITCH_BINLOG_FORMAT";
-    exports[1680] = "ER_PATH_LENGTH";
-    exports[1681] = "ER_WARN_DEPRECATED_SYNTAX_NO_REPLACEMENT";
-    exports[1682] = "ER_WRONG_NATIVE_TABLE_STRUCTURE";
-    exports[1683] = "ER_WRONG_PERFSCHEMA_USAGE";
-    exports[1684] = "ER_WARN_I_S_SKIPPED_TABLE";
-    exports[1685] = "ER_INSIDE_TRANSACTION_PREVENTS_SWITCH_BINLOG_DIRECT";
-    exports[1686] = "ER_STORED_FUNCTION_PREVENTS_SWITCH_BINLOG_DIRECT";
-    exports[1687] = "ER_SPATIAL_MUST_HAVE_GEOM_COL";
-    exports[1688] = "ER_TOO_LONG_INDEX_COMMENT";
-    exports[1689] = "ER_LOCK_ABORTED";
-    exports[1690] = "ER_DATA_OUT_OF_RANGE";
-    exports[1691] = "ER_WRONG_SPVAR_TYPE_IN_LIMIT";
-    exports[1692] = "ER_BINLOG_UNSAFE_MULTIPLE_ENGINES_AND_SELF_LOGGING_ENGINE";
-    exports[1693] = "ER_BINLOG_UNSAFE_MIXED_STATEMENT";
-    exports[1694] = "ER_INSIDE_TRANSACTION_PREVENTS_SWITCH_SQL_LOG_BIN";
-    exports[1695] = "ER_STORED_FUNCTION_PREVENTS_SWITCH_SQL_LOG_BIN";
-    exports[1696] = "ER_FAILED_READ_FROM_PAR_FILE";
-    exports[1697] = "ER_VALUES_IS_NOT_INT_TYPE_ERROR";
-    exports[1698] = "ER_ACCESS_DENIED_NO_PASSWORD_ERROR";
-    exports[1699] = "ER_SET_PASSWORD_AUTH_PLUGIN";
-    exports[1700] = "ER_GRANT_PLUGIN_USER_EXISTS";
-    exports[1701] = "ER_TRUNCATE_ILLEGAL_FK";
-    exports[1702] = "ER_PLUGIN_IS_PERMANENT";
-    exports[1703] = "ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE_MIN";
-    exports[1704] = "ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE_MAX";
-    exports[1705] = "ER_STMT_CACHE_FULL";
-    exports[1706] = "ER_MULTI_UPDATE_KEY_CONFLICT";
-    exports[1707] = "ER_TABLE_NEEDS_REBUILD";
-    exports[1708] = "WARN_OPTION_BELOW_LIMIT";
-    exports[1709] = "ER_INDEX_COLUMN_TOO_LONG";
-    exports[1710] = "ER_ERROR_IN_TRIGGER_BODY";
-    exports[1711] = "ER_ERROR_IN_UNKNOWN_TRIGGER_BODY";
-    exports[1712] = "ER_INDEX_CORRUPT";
-    exports[1713] = "ER_UNDO_RECORD_TOO_BIG";
-    exports[1714] = "ER_BINLOG_UNSAFE_INSERT_IGNORE_SELECT";
-    exports[1715] = "ER_BINLOG_UNSAFE_INSERT_SELECT_UPDATE";
-    exports[1716] = "ER_BINLOG_UNSAFE_REPLACE_SELECT";
-    exports[1717] = "ER_BINLOG_UNSAFE_CREATE_IGNORE_SELECT";
-    exports[1718] = "ER_BINLOG_UNSAFE_CREATE_REPLACE_SELECT";
-    exports[1719] = "ER_BINLOG_UNSAFE_UPDATE_IGNORE";
-    exports[1720] = "ER_PLUGIN_NO_UNINSTALL";
-    exports[1721] = "ER_PLUGIN_NO_INSTALL";
-    exports[1722] = "ER_BINLOG_UNSAFE_WRITE_AUTOINC_SELECT";
-    exports[1723] = "ER_BINLOG_UNSAFE_CREATE_SELECT_AUTOINC";
-    exports[1724] = "ER_BINLOG_UNSAFE_INSERT_TWO_KEYS";
-    exports[1725] = "ER_TABLE_IN_FK_CHECK";
-    exports[1726] = "ER_UNSUPPORTED_ENGINE";
-    exports[1727] = "ER_BINLOG_UNSAFE_AUTOINC_NOT_FIRST";
-    exports[1728] = "ER_CANNOT_LOAD_FROM_TABLE_V2";
-    exports[1729] = "ER_SOURCE_DELAY_VALUE_OUT_OF_RANGE";
-    exports[1730] = "ER_ONLY_FD_AND_RBR_EVENTS_ALLOWED_IN_BINLOG_STATEMENT";
-    exports[1731] = "ER_PARTITION_EXCHANGE_DIFFERENT_OPTION";
-    exports[1732] = "ER_PARTITION_EXCHANGE_PART_TABLE";
-    exports[1733] = "ER_PARTITION_EXCHANGE_TEMP_TABLE";
-    exports[1734] = "ER_PARTITION_INSTEAD_OF_SUBPARTITION";
-    exports[1735] = "ER_UNKNOWN_PARTITION";
-    exports[1736] = "ER_TABLES_DIFFERENT_METADATA";
-    exports[1737] = "ER_ROW_DOES_NOT_MATCH_PARTITION";
-    exports[1738] = "ER_BINLOG_CACHE_SIZE_GREATER_THAN_MAX";
-    exports[1739] = "ER_WARN_INDEX_NOT_APPLICABLE";
-    exports[1740] = "ER_PARTITION_EXCHANGE_FOREIGN_KEY";
-    exports[1741] = "ER_NO_SUCH_KEY_VALUE";
-    exports[1742] = "ER_RPL_INFO_DATA_TOO_LONG";
-    exports[1743] = "ER_NETWORK_READ_EVENT_CHECKSUM_FAILURE";
-    exports[1744] = "ER_BINLOG_READ_EVENT_CHECKSUM_FAILURE";
-    exports[1745] = "ER_BINLOG_STMT_CACHE_SIZE_GREATER_THAN_MAX";
-    exports[1746] = "ER_CANT_UPDATE_TABLE_IN_CREATE_TABLE_SELECT";
-    exports[1747] = "ER_PARTITION_CLAUSE_ON_NONPARTITIONED";
-    exports[1748] = "ER_ROW_DOES_NOT_MATCH_GIVEN_PARTITION_SET";
-    exports[1749] = "ER_NO_SUCH_PARTITION";
-    exports[1750] = "ER_CHANGE_RPL_INFO_REPOSITORY_FAILURE";
-    exports[1751] = "ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_CREATED_TEMP_TABLE";
-    exports[1752] = "ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_DROPPED_TEMP_TABLE";
-    exports[1753] = "ER_MTS_FEATURE_IS_NOT_SUPPORTED";
-    exports[1754] = "ER_MTS_UPDATED_DBS_GREATER_MAX";
-    exports[1755] = "ER_MTS_CANT_PARALLEL";
-    exports[1756] = "ER_MTS_INCONSISTENT_DATA";
-    exports[1757] = "ER_FULLTEXT_NOT_SUPPORTED_WITH_PARTITIONING";
-    exports[1758] = "ER_DA_INVALID_CONDITION_NUMBER";
-    exports[1759] = "ER_INSECURE_PLAIN_TEXT";
-    exports[1760] = "ER_INSECURE_CHANGE_SOURCE";
-    exports[1761] = "ER_FOREIGN_DUPLICATE_KEY_WITH_CHILD_INFO";
-    exports[1762] = "ER_FOREIGN_DUPLICATE_KEY_WITHOUT_CHILD_INFO";
-    exports[1763] = "ER_SQLTHREAD_WITH_SECURE_REPLICA";
-    exports[1764] = "ER_TABLE_HAS_NO_FT";
-    exports[1765] = "ER_VARIABLE_NOT_SETTABLE_IN_SF_OR_TRIGGER";
-    exports[1766] = "ER_VARIABLE_NOT_SETTABLE_IN_TRANSACTION";
-    exports[1767] = "ER_GTID_NEXT_IS_NOT_IN_GTID_NEXT_LIST";
-    exports[1768] = "ER_CANT_CHANGE_GTID_NEXT_IN_TRANSACTION_WHEN_GTID_NEXT_LIST_IS_NULL";
-    exports[1769] = "ER_SET_STATEMENT_CANNOT_INVOKE_FUNCTION";
-    exports[1770] = "ER_GTID_NEXT_CANT_BE_AUTOMATIC_IF_GTID_NEXT_LIST_IS_NON_NULL";
-    exports[1771] = "ER_SKIPPING_LOGGED_TRANSACTION";
-    exports[1772] = "ER_MALFORMED_GTID_SET_SPECIFICATION";
-    exports[1773] = "ER_MALFORMED_GTID_SET_ENCODING";
-    exports[1774] = "ER_MALFORMED_GTID_SPECIFICATION";
-    exports[1775] = "ER_GNO_EXHAUSTED";
-    exports[1776] = "ER_BAD_REPLICA_AUTO_POSITION";
-    exports[1777] = "ER_AUTO_POSITION_REQUIRES_GTID_MODE_ON";
-    exports[1778] = "ER_CANT_DO_IMPLICIT_COMMIT_IN_TRX_WHEN_GTID_NEXT_IS_SET";
-    exports[1779] = "ER_GTID_MODE_2_OR_3_REQUIRES_ENFORCE_GTID_CONSISTENCY_ON";
-    exports[1780] = "ER_GTID_MODE_REQUIRES_BINLOG";
-    exports[1781] = "ER_CANT_SET_GTID_NEXT_TO_GTID_WHEN_GTID_MODE_IS_OFF";
-    exports[1782] = "ER_CANT_SET_GTID_NEXT_TO_ANONYMOUS_WHEN_GTID_MODE_IS_ON";
-    exports[1783] = "ER_CANT_SET_GTID_NEXT_LIST_TO_NON_NULL_WHEN_GTID_MODE_IS_OFF";
-    exports[1784] = "ER_FOUND_GTID_EVENT_WHEN_GTID_MODE_IS_OFF";
-    exports[1785] = "ER_GTID_UNSAFE_NON_TRANSACTIONAL_TABLE";
-    exports[1786] = "ER_GTID_UNSAFE_CREATE_SELECT";
-    exports[1787] = "ER_GTID_UNSAFE_CREATE_DROP_TEMPORARY_TABLE_IN_TRANSACTION";
-    exports[1788] = "ER_GTID_MODE_CAN_ONLY_CHANGE_ONE_STEP_AT_A_TIME";
-    exports[1789] = "ER_SOURCE_HAS_PURGED_REQUIRED_GTIDS";
-    exports[1790] = "ER_CANT_SET_GTID_NEXT_WHEN_OWNING_GTID";
-    exports[1791] = "ER_UNKNOWN_EXPLAIN_FORMAT";
-    exports[1792] = "ER_CANT_EXECUTE_IN_READ_ONLY_TRANSACTION";
-    exports[1793] = "ER_TOO_LONG_TABLE_PARTITION_COMMENT";
-    exports[1794] = "ER_REPLICA_CONFIGURATION";
-    exports[1795] = "ER_INNODB_FT_LIMIT";
-    exports[1796] = "ER_INNODB_NO_FT_TEMP_TABLE";
-    exports[1797] = "ER_INNODB_FT_WRONG_DOCID_COLUMN";
-    exports[1798] = "ER_INNODB_FT_WRONG_DOCID_INDEX";
-    exports[1799] = "ER_INNODB_ONLINE_LOG_TOO_BIG";
-    exports[1800] = "ER_UNKNOWN_ALTER_ALGORITHM";
-    exports[1801] = "ER_UNKNOWN_ALTER_LOCK";
-    exports[1802] = "ER_MTS_CHANGE_SOURCE_CANT_RUN_WITH_GAPS";
-    exports[1803] = "ER_MTS_RECOVERY_FAILURE";
-    exports[1804] = "ER_MTS_RESET_WORKERS";
-    exports[1805] = "ER_COL_COUNT_DOESNT_MATCH_CORRUPTED_V2";
-    exports[1806] = "ER_REPLICA_SILENT_RETRY_TRANSACTION";
-    exports[1807] = "ER_DISCARD_FK_CHECKS_RUNNING";
-    exports[1808] = "ER_TABLE_SCHEMA_MISMATCH";
-    exports[1809] = "ER_TABLE_IN_SYSTEM_TABLESPACE";
-    exports[1810] = "ER_IO_READ_ERROR";
-    exports[1811] = "ER_IO_WRITE_ERROR";
-    exports[1812] = "ER_TABLESPACE_MISSING";
-    exports[1813] = "ER_TABLESPACE_EXISTS";
-    exports[1814] = "ER_TABLESPACE_DISCARDED";
-    exports[1815] = "ER_INTERNAL_ERROR";
-    exports[1816] = "ER_INNODB_IMPORT_ERROR";
-    exports[1817] = "ER_INNODB_INDEX_CORRUPT";
-    exports[1818] = "ER_INVALID_YEAR_COLUMN_LENGTH";
-    exports[1819] = "ER_NOT_VALID_PASSWORD";
-    exports[1820] = "ER_MUST_CHANGE_PASSWORD";
-    exports[1821] = "ER_FK_NO_INDEX_CHILD";
-    exports[1822] = "ER_FK_NO_INDEX_PARENT";
-    exports[1823] = "ER_FK_FAIL_ADD_SYSTEM";
-    exports[1824] = "ER_FK_CANNOT_OPEN_PARENT";
-    exports[1825] = "ER_FK_INCORRECT_OPTION";
-    exports[1826] = "ER_FK_DUP_NAME";
-    exports[1827] = "ER_PASSWORD_FORMAT";
-    exports[1828] = "ER_FK_COLUMN_CANNOT_DROP";
-    exports[1829] = "ER_FK_COLUMN_CANNOT_DROP_CHILD";
-    exports[1830] = "ER_FK_COLUMN_NOT_NULL";
-    exports[1831] = "ER_DUP_INDEX";
-    exports[1832] = "ER_FK_COLUMN_CANNOT_CHANGE";
-    exports[1833] = "ER_FK_COLUMN_CANNOT_CHANGE_CHILD";
-    exports[1834] = "ER_FK_CANNOT_DELETE_PARENT";
-    exports[1835] = "ER_MALFORMED_PACKET";
-    exports[1836] = "ER_READ_ONLY_MODE";
-    exports[1837] = "ER_GTID_NEXT_TYPE_UNDEFINED_GROUP";
-    exports[1838] = "ER_VARIABLE_NOT_SETTABLE_IN_SP";
-    exports[1839] = "ER_CANT_SET_GTID_PURGED_WHEN_GTID_MODE_IS_OFF";
-    exports[1840] = "ER_CANT_SET_GTID_PURGED_WHEN_GTID_EXECUTED_IS_NOT_EMPTY";
-    exports[1841] = "ER_CANT_SET_GTID_PURGED_WHEN_OWNED_GTIDS_IS_NOT_EMPTY";
-    exports[1842] = "ER_GTID_PURGED_WAS_CHANGED";
-    exports[1843] = "ER_GTID_EXECUTED_WAS_CHANGED";
-    exports[1844] = "ER_BINLOG_STMT_MODE_AND_NO_REPL_TABLES";
-    exports[1845] = "ER_ALTER_OPERATION_NOT_SUPPORTED";
-    exports[1846] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON";
-    exports[1847] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_COPY";
-    exports[1848] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_PARTITION";
-    exports[1849] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FK_RENAME";
-    exports[1850] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_COLUMN_TYPE";
-    exports[1851] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FK_CHECK";
-    exports[1852] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_IGNORE";
-    exports[1853] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_NOPK";
-    exports[1854] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_AUTOINC";
-    exports[1855] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_HIDDEN_FTS";
-    exports[1856] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_CHANGE_FTS";
-    exports[1857] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FTS";
-    exports[1858] = "ER_SQL_REPLICA_SKIP_COUNTER_NOT_SETTABLE_IN_GTID_MODE";
-    exports[1859] = "ER_DUP_UNKNOWN_IN_INDEX";
-    exports[1860] = "ER_IDENT_CAUSES_TOO_LONG_PATH";
-    exports[1861] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_NOT_NULL";
-    exports[1862] = "ER_MUST_CHANGE_PASSWORD_LOGIN";
-    exports[1863] = "ER_ROW_IN_WRONG_PARTITION";
-    exports[1864] = "ER_MTS_EVENT_BIGGER_PENDING_JOBS_SIZE_MAX";
-    exports[1865] = "ER_INNODB_NO_FT_USES_PARSER";
-    exports[1866] = "ER_BINLOG_LOGICAL_CORRUPTION";
-    exports[1867] = "ER_WARN_PURGE_LOG_IN_USE";
-    exports[1868] = "ER_WARN_PURGE_LOG_IS_ACTIVE";
-    exports[1869] = "ER_AUTO_INCREMENT_CONFLICT";
-    exports[1870] = "WARN_ON_BLOCKHOLE_IN_RBR";
-    exports[1871] = "ER_REPLICA_MI_INIT_REPOSITORY";
-    exports[1872] = "ER_REPLICA_RLI_INIT_REPOSITORY";
-    exports[1873] = "ER_ACCESS_DENIED_CHANGE_USER_ERROR";
-    exports[1874] = "ER_INNODB_READ_ONLY";
-    exports[1875] = "ER_STOP_REPLICA_SQL_THREAD_TIMEOUT";
-    exports[1876] = "ER_STOP_REPLICA_IO_THREAD_TIMEOUT";
-    exports[1877] = "ER_TABLE_CORRUPT";
-    exports[1878] = "ER_TEMP_FILE_WRITE_FAILURE";
-    exports[1879] = "ER_INNODB_FT_AUX_NOT_HEX_ID";
-    exports[1880] = "ER_OLD_TEMPORALS_UPGRADED";
-    exports[1881] = "ER_INNODB_FORCED_RECOVERY";
-    exports[1882] = "ER_AES_INVALID_IV";
-    exports[1883] = "ER_FILE_CORRUPT";
-    exports[1884] = "ER_ERROR_ON_SOURCE";
-    exports[1885] = "ER_INCONSISTENT_ERROR";
-    exports[1886] = "ER_STORAGE_ENGINE_NOT_LOADED";
-    exports[1887] = "ER_GET_STACKED_DA_WITHOUT_ACTIVE_HANDLER";
-    exports[1888] = "ER_WARN_LEGACY_SYNTAX_CONVERTED";
-    exports[1889] = "ER_BINLOG_UNSAFE_FULLTEXT_PLUGIN";
-    exports[1890] = "ER_CANNOT_DISCARD_TEMPORARY_TABLE";
-    exports[1891] = "ER_FK_DEPTH_EXCEEDED";
-    exports[1892] = "ER_COL_COUNT_DOESNT_MATCH_PLEASE_UPDATE_V2";
-    exports[1893] = "ER_WARN_TRIGGER_DOESNT_HAVE_CREATED";
-    exports[1894] = "ER_REFERENCED_TRG_DOES_NOT_EXIST";
-    exports[1895] = "ER_EXPLAIN_NOT_SUPPORTED";
-    exports[1896] = "ER_INVALID_FIELD_SIZE";
-    exports[1897] = "ER_MISSING_HA_CREATE_OPTION";
-    exports[1898] = "ER_ENGINE_OUT_OF_MEMORY";
-    exports[1899] = "ER_PASSWORD_EXPIRE_ANONYMOUS_USER";
-    exports[1900] = "ER_REPLICA_SQL_THREAD_MUST_STOP";
-    exports[1901] = "ER_NO_FT_MATERIALIZED_SUBQUERY";
-    exports[1902] = "ER_INNODB_UNDO_LOG_FULL";
-    exports[1903] = "ER_INVALID_ARGUMENT_FOR_LOGARITHM";
-    exports[1904] = "ER_REPLICA_IO_THREAD_MUST_STOP";
-    exports[1905] = "ER_WARN_OPEN_TEMP_TABLES_MUST_BE_ZERO";
-    exports[1906] = "ER_WARN_ONLY_SOURCE_LOG_FILE_NO_POS";
-    exports[1907] = "ER_QUERY_TIMEOUT";
-    exports[1908] = "ER_NON_RO_SELECT_DISABLE_TIMER";
-    exports[1909] = "ER_DUP_LIST_ENTRY";
-    exports[1910] = "ER_SQL_MODE_NO_EFFECT";
-    exports[3169] = "ER_SESSION_WAS_KILLED";
-    exports[4031] = "ER_CLIENT_INTERACTION_TIMEOUT";
-  }
-});
-
-// ../../node_modules/.pnpm/long@5.2.3/node_modules/long/umd/index.js
-var require_umd = __commonJS({
-  "../../node_modules/.pnpm/long@5.2.3/node_modules/long/umd/index.js"(exports, module2) {
-    var Long = function(exports2) {
-      "use strict";
-      Object.defineProperty(exports2, "__esModule", {
-        value: true
-      });
-      exports2.default = void 0;
-      var wasm = null;
-      try {
-        wasm = new WebAssembly.Instance(new WebAssembly.Module(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 13, 2, 96, 0, 1, 127, 96, 4, 127, 127, 127, 127, 1, 127, 3, 7, 6, 0, 1, 1, 1, 1, 1, 6, 6, 1, 127, 1, 65, 0, 11, 7, 50, 6, 3, 109, 117, 108, 0, 1, 5, 100, 105, 118, 95, 115, 0, 2, 5, 100, 105, 118, 95, 117, 0, 3, 5, 114, 101, 109, 95, 115, 0, 4, 5, 114, 101, 109, 95, 117, 0, 5, 8, 103, 101, 116, 95, 104, 105, 103, 104, 0, 0, 10, 191, 1, 6, 4, 0, 35, 0, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 126, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 127, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 128, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 129, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 130, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11])), {}).exports;
-      } catch (e2) {
-      }
-      function Long2(low, high, unsigned) {
-        this.low = low | 0;
-        this.high = high | 0;
-        this.unsigned = !!unsigned;
-      }
-      Long2.prototype.__isLong__;
-      Object.defineProperty(Long2.prototype, "__isLong__", {
-        value: true
-      });
-      function isLong(obj) {
-        return (obj && obj["__isLong__"]) === true;
-      }
-      function ctz32(value) {
-        var c2 = Math.clz32(value & -value);
-        return value ? 31 - c2 : c2;
-      }
-      Long2.isLong = isLong;
-      var INT_CACHE = {};
-      var UINT_CACHE = {};
-      function fromInt(value, unsigned) {
-        var obj, cachedObj, cache;
-        if (unsigned) {
-          value >>>= 0;
-          if (cache = 0 <= value && value < 256) {
-            cachedObj = UINT_CACHE[value];
-            if (cachedObj)
-              return cachedObj;
-          }
-          obj = fromBits(value, 0, true);
-          if (cache)
-            UINT_CACHE[value] = obj;
-          return obj;
-        } else {
-          value |= 0;
-          if (cache = -128 <= value && value < 128) {
-            cachedObj = INT_CACHE[value];
-            if (cachedObj)
-              return cachedObj;
-          }
-          obj = fromBits(value, value < 0 ? -1 : 0, false);
-          if (cache)
-            INT_CACHE[value] = obj;
-          return obj;
-        }
-      }
-      Long2.fromInt = fromInt;
-      function fromNumber(value, unsigned) {
-        if (isNaN(value))
-          return unsigned ? UZERO : ZERO;
-        if (unsigned) {
-          if (value < 0)
-            return UZERO;
-          if (value >= TWO_PWR_64_DBL)
-            return MAX_UNSIGNED_VALUE;
-        } else {
-          if (value <= -TWO_PWR_63_DBL)
-            return MIN_VALUE;
-          if (value + 1 >= TWO_PWR_63_DBL)
-            return MAX_VALUE;
-        }
-        if (value < 0)
-          return fromNumber(-value, unsigned).neg();
-        return fromBits(value % TWO_PWR_32_DBL | 0, value / TWO_PWR_32_DBL | 0, unsigned);
-      }
-      Long2.fromNumber = fromNumber;
-      function fromBits(lowBits, highBits, unsigned) {
-        return new Long2(lowBits, highBits, unsigned);
-      }
-      Long2.fromBits = fromBits;
-      var pow_dbl = Math.pow;
-      function fromString(str, unsigned, radix) {
-        if (str.length === 0)
-          throw Error("empty string");
-        if (typeof unsigned === "number") {
-          radix = unsigned;
-          unsigned = false;
-        } else {
-          unsigned = !!unsigned;
-        }
-        if (str === "NaN" || str === "Infinity" || str === "+Infinity" || str === "-Infinity")
-          return unsigned ? UZERO : ZERO;
-        radix = radix || 10;
-        if (radix < 2 || 36 < radix)
-          throw RangeError("radix");
-        var p;
-        if ((p = str.indexOf("-")) > 0)
-          throw Error("interior hyphen");
-        else if (p === 0) {
-          return fromString(str.substring(1), unsigned, radix).neg();
-        }
-        var radixToPower = fromNumber(pow_dbl(radix, 8));
-        var result = ZERO;
-        for (var i2 = 0; i2 < str.length; i2 += 8) {
-          var size = Math.min(8, str.length - i2), value = parseInt(str.substring(i2, i2 + size), radix);
-          if (size < 8) {
-            var power = fromNumber(pow_dbl(radix, size));
-            result = result.mul(power).add(fromNumber(value));
-          } else {
-            result = result.mul(radixToPower);
-            result = result.add(fromNumber(value));
-          }
-        }
-        result.unsigned = unsigned;
-        return result;
-      }
-      Long2.fromString = fromString;
-      function fromValue(val, unsigned) {
-        if (typeof val === "number")
-          return fromNumber(val, unsigned);
-        if (typeof val === "string")
-          return fromString(val, unsigned);
-        return fromBits(val.low, val.high, typeof unsigned === "boolean" ? unsigned : val.unsigned);
-      }
-      Long2.fromValue = fromValue;
-      var TWO_PWR_16_DBL = 1 << 16;
-      var TWO_PWR_24_DBL = 1 << 24;
-      var TWO_PWR_32_DBL = TWO_PWR_16_DBL * TWO_PWR_16_DBL;
-      var TWO_PWR_64_DBL = TWO_PWR_32_DBL * TWO_PWR_32_DBL;
-      var TWO_PWR_63_DBL = TWO_PWR_64_DBL / 2;
-      var TWO_PWR_24 = fromInt(TWO_PWR_24_DBL);
-      var ZERO = fromInt(0);
-      Long2.ZERO = ZERO;
-      var UZERO = fromInt(0, true);
-      Long2.UZERO = UZERO;
-      var ONE = fromInt(1);
-      Long2.ONE = ONE;
-      var UONE = fromInt(1, true);
-      Long2.UONE = UONE;
-      var NEG_ONE = fromInt(-1);
-      Long2.NEG_ONE = NEG_ONE;
-      var MAX_VALUE = fromBits(4294967295 | 0, 2147483647 | 0, false);
-      Long2.MAX_VALUE = MAX_VALUE;
-      var MAX_UNSIGNED_VALUE = fromBits(4294967295 | 0, 4294967295 | 0, true);
-      Long2.MAX_UNSIGNED_VALUE = MAX_UNSIGNED_VALUE;
-      var MIN_VALUE = fromBits(0, 2147483648 | 0, false);
-      Long2.MIN_VALUE = MIN_VALUE;
-      var LongPrototype = Long2.prototype;
-      LongPrototype.toInt = function toInt() {
-        return this.unsigned ? this.low >>> 0 : this.low;
-      };
-      LongPrototype.toNumber = function toNumber() {
-        if (this.unsigned)
-          return (this.high >>> 0) * TWO_PWR_32_DBL + (this.low >>> 0);
-        return this.high * TWO_PWR_32_DBL + (this.low >>> 0);
-      };
-      LongPrototype.toString = function toString(radix) {
-        radix = radix || 10;
-        if (radix < 2 || 36 < radix)
-          throw RangeError("radix");
-        if (this.isZero())
-          return "0";
-        if (this.isNegative()) {
-          if (this.eq(MIN_VALUE)) {
-            var radixLong = fromNumber(radix), div = this.div(radixLong), rem1 = div.mul(radixLong).sub(this);
-            return div.toString(radix) + rem1.toInt().toString(radix);
-          } else
-            return "-" + this.neg().toString(radix);
-        }
-        var radixToPower = fromNumber(pow_dbl(radix, 6), this.unsigned), rem = this;
-        var result = "";
-        while (true) {
-          var remDiv = rem.div(radixToPower), intval = rem.sub(remDiv.mul(radixToPower)).toInt() >>> 0, digits = intval.toString(radix);
-          rem = remDiv;
-          if (rem.isZero())
-            return digits + result;
-          else {
-            while (digits.length < 6)
-              digits = "0" + digits;
-            result = "" + digits + result;
-          }
-        }
-      };
-      LongPrototype.getHighBits = function getHighBits() {
-        return this.high;
-      };
-      LongPrototype.getHighBitsUnsigned = function getHighBitsUnsigned() {
-        return this.high >>> 0;
-      };
-      LongPrototype.getLowBits = function getLowBits() {
-        return this.low;
-      };
-      LongPrototype.getLowBitsUnsigned = function getLowBitsUnsigned() {
-        return this.low >>> 0;
-      };
-      LongPrototype.getNumBitsAbs = function getNumBitsAbs() {
-        if (this.isNegative())
-          return this.eq(MIN_VALUE) ? 64 : this.neg().getNumBitsAbs();
-        var val = this.high != 0 ? this.high : this.low;
-        for (var bit = 31; bit > 0; bit--)
-          if ((val & 1 << bit) != 0)
-            break;
-        return this.high != 0 ? bit + 33 : bit + 1;
-      };
-      LongPrototype.isZero = function isZero() {
-        return this.high === 0 && this.low === 0;
-      };
-      LongPrototype.eqz = LongPrototype.isZero;
-      LongPrototype.isNegative = function isNegative() {
-        return !this.unsigned && this.high < 0;
-      };
-      LongPrototype.isPositive = function isPositive() {
-        return this.unsigned || this.high >= 0;
-      };
-      LongPrototype.isOdd = function isOdd() {
-        return (this.low & 1) === 1;
-      };
-      LongPrototype.isEven = function isEven() {
-        return (this.low & 1) === 0;
-      };
-      LongPrototype.equals = function equals(other) {
-        if (!isLong(other))
-          other = fromValue(other);
-        if (this.unsigned !== other.unsigned && this.high >>> 31 === 1 && other.high >>> 31 === 1)
-          return false;
-        return this.high === other.high && this.low === other.low;
-      };
-      LongPrototype.eq = LongPrototype.equals;
-      LongPrototype.notEquals = function notEquals(other) {
-        return !this.eq(
-          other
-        );
-      };
-      LongPrototype.neq = LongPrototype.notEquals;
-      LongPrototype.ne = LongPrototype.notEquals;
-      LongPrototype.lessThan = function lessThan(other) {
-        return this.comp(
-          other
-        ) < 0;
-      };
-      LongPrototype.lt = LongPrototype.lessThan;
-      LongPrototype.lessThanOrEqual = function lessThanOrEqual(other) {
-        return this.comp(
-          other
-        ) <= 0;
-      };
-      LongPrototype.lte = LongPrototype.lessThanOrEqual;
-      LongPrototype.le = LongPrototype.lessThanOrEqual;
-      LongPrototype.greaterThan = function greaterThan(other) {
-        return this.comp(
-          other
-        ) > 0;
-      };
-      LongPrototype.gt = LongPrototype.greaterThan;
-      LongPrototype.greaterThanOrEqual = function greaterThanOrEqual(other) {
-        return this.comp(
-          other
-        ) >= 0;
-      };
-      LongPrototype.gte = LongPrototype.greaterThanOrEqual;
-      LongPrototype.ge = LongPrototype.greaterThanOrEqual;
-      LongPrototype.compare = function compare(other) {
-        if (!isLong(other))
-          other = fromValue(other);
-        if (this.eq(other))
-          return 0;
-        var thisNeg = this.isNegative(), otherNeg = other.isNegative();
-        if (thisNeg && !otherNeg)
-          return -1;
-        if (!thisNeg && otherNeg)
-          return 1;
-        if (!this.unsigned)
-          return this.sub(other).isNegative() ? -1 : 1;
-        return other.high >>> 0 > this.high >>> 0 || other.high === this.high && other.low >>> 0 > this.low >>> 0 ? -1 : 1;
-      };
-      LongPrototype.comp = LongPrototype.compare;
-      LongPrototype.negate = function negate() {
-        if (!this.unsigned && this.eq(MIN_VALUE))
-          return MIN_VALUE;
-        return this.not().add(ONE);
-      };
-      LongPrototype.neg = LongPrototype.negate;
-      LongPrototype.add = function add(addend) {
-        if (!isLong(addend))
-          addend = fromValue(addend);
-        var a48 = this.high >>> 16;
-        var a32 = this.high & 65535;
-        var a16 = this.low >>> 16;
-        var a00 = this.low & 65535;
-        var b48 = addend.high >>> 16;
-        var b32 = addend.high & 65535;
-        var b16 = addend.low >>> 16;
-        var b00 = addend.low & 65535;
-        var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
-        c00 += a00 + b00;
-        c16 += c00 >>> 16;
-        c00 &= 65535;
-        c16 += a16 + b16;
-        c32 += c16 >>> 16;
-        c16 &= 65535;
-        c32 += a32 + b32;
-        c48 += c32 >>> 16;
-        c32 &= 65535;
-        c48 += a48 + b48;
-        c48 &= 65535;
-        return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
-      };
-      LongPrototype.subtract = function subtract(subtrahend) {
-        if (!isLong(subtrahend))
-          subtrahend = fromValue(subtrahend);
-        return this.add(subtrahend.neg());
-      };
-      LongPrototype.sub = LongPrototype.subtract;
-      LongPrototype.multiply = function multiply(multiplier) {
-        if (this.isZero())
-          return this;
-        if (!isLong(multiplier))
-          multiplier = fromValue(multiplier);
-        if (wasm) {
-          var low = wasm["mul"](this.low, this.high, multiplier.low, multiplier.high);
-          return fromBits(low, wasm["get_high"](), this.unsigned);
-        }
-        if (multiplier.isZero())
-          return this.unsigned ? UZERO : ZERO;
-        if (this.eq(MIN_VALUE))
-          return multiplier.isOdd() ? MIN_VALUE : ZERO;
-        if (multiplier.eq(MIN_VALUE))
-          return this.isOdd() ? MIN_VALUE : ZERO;
-        if (this.isNegative()) {
-          if (multiplier.isNegative())
-            return this.neg().mul(multiplier.neg());
-          else
-            return this.neg().mul(multiplier).neg();
-        } else if (multiplier.isNegative())
-          return this.mul(multiplier.neg()).neg();
-        if (this.lt(TWO_PWR_24) && multiplier.lt(TWO_PWR_24))
-          return fromNumber(this.toNumber() * multiplier.toNumber(), this.unsigned);
-        var a48 = this.high >>> 16;
-        var a32 = this.high & 65535;
-        var a16 = this.low >>> 16;
-        var a00 = this.low & 65535;
-        var b48 = multiplier.high >>> 16;
-        var b32 = multiplier.high & 65535;
-        var b16 = multiplier.low >>> 16;
-        var b00 = multiplier.low & 65535;
-        var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
-        c00 += a00 * b00;
-        c16 += c00 >>> 16;
-        c00 &= 65535;
-        c16 += a16 * b00;
-        c32 += c16 >>> 16;
-        c16 &= 65535;
-        c16 += a00 * b16;
-        c32 += c16 >>> 16;
-        c16 &= 65535;
-        c32 += a32 * b00;
-        c48 += c32 >>> 16;
-        c32 &= 65535;
-        c32 += a16 * b16;
-        c48 += c32 >>> 16;
-        c32 &= 65535;
-        c32 += a00 * b32;
-        c48 += c32 >>> 16;
-        c32 &= 65535;
-        c48 += a48 * b00 + a32 * b16 + a16 * b32 + a00 * b48;
-        c48 &= 65535;
-        return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
-      };
-      LongPrototype.mul = LongPrototype.multiply;
-      LongPrototype.divide = function divide(divisor) {
-        if (!isLong(divisor))
-          divisor = fromValue(divisor);
-        if (divisor.isZero())
-          throw Error("division by zero");
-        if (wasm) {
-          if (!this.unsigned && this.high === -2147483648 && divisor.low === -1 && divisor.high === -1) {
-            return this;
-          }
-          var low = (this.unsigned ? wasm["div_u"] : wasm["div_s"])(this.low, this.high, divisor.low, divisor.high);
-          return fromBits(low, wasm["get_high"](), this.unsigned);
-        }
-        if (this.isZero())
-          return this.unsigned ? UZERO : ZERO;
-        var approx, rem, res;
-        if (!this.unsigned) {
-          if (this.eq(MIN_VALUE)) {
-            if (divisor.eq(ONE) || divisor.eq(NEG_ONE))
-              return MIN_VALUE;
-            else if (divisor.eq(MIN_VALUE))
-              return ONE;
-            else {
-              var halfThis = this.shr(1);
-              approx = halfThis.div(divisor).shl(1);
-              if (approx.eq(ZERO)) {
-                return divisor.isNegative() ? ONE : NEG_ONE;
-              } else {
-                rem = this.sub(divisor.mul(approx));
-                res = approx.add(rem.div(divisor));
-                return res;
-              }
-            }
-          } else if (divisor.eq(MIN_VALUE))
-            return this.unsigned ? UZERO : ZERO;
-          if (this.isNegative()) {
-            if (divisor.isNegative())
-              return this.neg().div(divisor.neg());
-            return this.neg().div(divisor).neg();
-          } else if (divisor.isNegative())
-            return this.div(divisor.neg()).neg();
-          res = ZERO;
-        } else {
-          if (!divisor.unsigned)
-            divisor = divisor.toUnsigned();
-          if (divisor.gt(this))
-            return UZERO;
-          if (divisor.gt(this.shru(1)))
-            return UONE;
-          res = UZERO;
-        }
-        rem = this;
-        while (rem.gte(divisor)) {
-          approx = Math.max(1, Math.floor(rem.toNumber() / divisor.toNumber()));
-          var log2 = Math.ceil(Math.log(approx) / Math.LN2), delta = log2 <= 48 ? 1 : pow_dbl(2, log2 - 48), approxRes = fromNumber(approx), approxRem = approxRes.mul(divisor);
-          while (approxRem.isNegative() || approxRem.gt(rem)) {
-            approx -= delta;
-            approxRes = fromNumber(approx, this.unsigned);
-            approxRem = approxRes.mul(divisor);
-          }
-          if (approxRes.isZero())
-            approxRes = ONE;
-          res = res.add(approxRes);
-          rem = rem.sub(approxRem);
-        }
-        return res;
-      };
-      LongPrototype.div = LongPrototype.divide;
-      LongPrototype.modulo = function modulo(divisor) {
-        if (!isLong(divisor))
-          divisor = fromValue(divisor);
-        if (wasm) {
-          var low = (this.unsigned ? wasm["rem_u"] : wasm["rem_s"])(this.low, this.high, divisor.low, divisor.high);
-          return fromBits(low, wasm["get_high"](), this.unsigned);
-        }
-        return this.sub(this.div(divisor).mul(divisor));
-      };
-      LongPrototype.mod = LongPrototype.modulo;
-      LongPrototype.rem = LongPrototype.modulo;
-      LongPrototype.not = function not() {
-        return fromBits(~this.low, ~this.high, this.unsigned);
-      };
-      LongPrototype.countLeadingZeros = function countLeadingZeros() {
-        return this.high ? Math.clz32(this.high) : Math.clz32(this.low) + 32;
-      };
-      LongPrototype.clz = LongPrototype.countLeadingZeros;
-      LongPrototype.countTrailingZeros = function countTrailingZeros() {
-        return this.low ? ctz32(this.low) : ctz32(this.high) + 32;
-      };
-      LongPrototype.ctz = LongPrototype.countTrailingZeros;
-      LongPrototype.and = function and(other) {
-        if (!isLong(other))
-          other = fromValue(other);
-        return fromBits(this.low & other.low, this.high & other.high, this.unsigned);
-      };
-      LongPrototype.or = function or(other) {
-        if (!isLong(other))
-          other = fromValue(other);
-        return fromBits(this.low | other.low, this.high | other.high, this.unsigned);
-      };
-      LongPrototype.xor = function xor(other) {
-        if (!isLong(other))
-          other = fromValue(other);
-        return fromBits(this.low ^ other.low, this.high ^ other.high, this.unsigned);
-      };
-      LongPrototype.shiftLeft = function shiftLeft(numBits) {
-        if (isLong(numBits))
-          numBits = numBits.toInt();
-        if ((numBits &= 63) === 0)
-          return this;
-        else if (numBits < 32)
-          return fromBits(this.low << numBits, this.high << numBits | this.low >>> 32 - numBits, this.unsigned);
-        else
-          return fromBits(0, this.low << numBits - 32, this.unsigned);
-      };
-      LongPrototype.shl = LongPrototype.shiftLeft;
-      LongPrototype.shiftRight = function shiftRight(numBits) {
-        if (isLong(numBits))
-          numBits = numBits.toInt();
-        if ((numBits &= 63) === 0)
-          return this;
-        else if (numBits < 32)
-          return fromBits(this.low >>> numBits | this.high << 32 - numBits, this.high >> numBits, this.unsigned);
-        else
-          return fromBits(this.high >> numBits - 32, this.high >= 0 ? 0 : -1, this.unsigned);
-      };
-      LongPrototype.shr = LongPrototype.shiftRight;
-      LongPrototype.shiftRightUnsigned = function shiftRightUnsigned(numBits) {
-        if (isLong(numBits))
-          numBits = numBits.toInt();
-        if ((numBits &= 63) === 0)
-          return this;
-        if (numBits < 32)
-          return fromBits(this.low >>> numBits | this.high << 32 - numBits, this.high >>> numBits, this.unsigned);
-        if (numBits === 32)
-          return fromBits(this.high, 0, this.unsigned);
-        return fromBits(this.high >>> numBits - 32, 0, this.unsigned);
-      };
-      LongPrototype.shru = LongPrototype.shiftRightUnsigned;
-      LongPrototype.shr_u = LongPrototype.shiftRightUnsigned;
-      LongPrototype.rotateLeft = function rotateLeft(numBits) {
-        var b;
-        if (isLong(numBits))
-          numBits = numBits.toInt();
-        if ((numBits &= 63) === 0)
-          return this;
-        if (numBits === 32)
-          return fromBits(this.high, this.low, this.unsigned);
-        if (numBits < 32) {
-          b = 32 - numBits;
-          return fromBits(this.low << numBits | this.high >>> b, this.high << numBits | this.low >>> b, this.unsigned);
-        }
-        numBits -= 32;
-        b = 32 - numBits;
-        return fromBits(this.high << numBits | this.low >>> b, this.low << numBits | this.high >>> b, this.unsigned);
-      };
-      LongPrototype.rotl = LongPrototype.rotateLeft;
-      LongPrototype.rotateRight = function rotateRight(numBits) {
-        var b;
-        if (isLong(numBits))
-          numBits = numBits.toInt();
-        if ((numBits &= 63) === 0)
-          return this;
-        if (numBits === 32)
-          return fromBits(this.high, this.low, this.unsigned);
-        if (numBits < 32) {
-          b = 32 - numBits;
-          return fromBits(this.high << b | this.low >>> numBits, this.low << b | this.high >>> numBits, this.unsigned);
-        }
-        numBits -= 32;
-        b = 32 - numBits;
-        return fromBits(this.low << b | this.high >>> numBits, this.high << b | this.low >>> numBits, this.unsigned);
-      };
-      LongPrototype.rotr = LongPrototype.rotateRight;
-      LongPrototype.toSigned = function toSigned() {
-        if (!this.unsigned)
-          return this;
-        return fromBits(this.low, this.high, false);
-      };
-      LongPrototype.toUnsigned = function toUnsigned() {
-        if (this.unsigned)
-          return this;
-        return fromBits(this.low, this.high, true);
-      };
-      LongPrototype.toBytes = function toBytes(le) {
-        return le ? this.toBytesLE() : this.toBytesBE();
-      };
-      LongPrototype.toBytesLE = function toBytesLE() {
-        var hi = this.high, lo = this.low;
-        return [lo & 255, lo >>> 8 & 255, lo >>> 16 & 255, lo >>> 24, hi & 255, hi >>> 8 & 255, hi >>> 16 & 255, hi >>> 24];
-      };
-      LongPrototype.toBytesBE = function toBytesBE() {
-        var hi = this.high, lo = this.low;
-        return [hi >>> 24, hi >>> 16 & 255, hi >>> 8 & 255, hi & 255, lo >>> 24, lo >>> 16 & 255, lo >>> 8 & 255, lo & 255];
-      };
-      Long2.fromBytes = function fromBytes(bytes, unsigned, le) {
-        return le ? Long2.fromBytesLE(bytes, unsigned) : Long2.fromBytesBE(bytes, unsigned);
-      };
-      Long2.fromBytesLE = function fromBytesLE(bytes, unsigned) {
-        return new Long2(bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24, bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24, unsigned);
-      };
-      Long2.fromBytesBE = function fromBytesBE(bytes, unsigned) {
-        return new Long2(bytes[4] << 24 | bytes[5] << 16 | bytes[6] << 8 | bytes[7], bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3], unsigned);
-      };
-      var _default = Long2;
-      exports2.default = _default;
-      return "default" in exports2 ? exports2.default : exports2;
-    }({});
-    if (typeof define === "function" && define.amd)
-      define([], function() {
-        return Long;
-      });
-    else if (typeof module2 === "object" && typeof exports === "object")
-      module2.exports = Long;
-  }
-});
-
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/string.js
-var require_string3 = __commonJS({
+var require_string2 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/string.js"(exports) {
     "use strict";
     var Iconv = require_lib();
@@ -35254,13 +24012,13 @@ var require_string3 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/packet.js
-var require_packet2 = __commonJS({
+var require_packet = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/packet.js"(exports, module2) {
     "use strict";
-    var ErrorCodeToName = require_errors4();
+    var ErrorCodeToName = require_errors3();
     var NativeBuffer = require("buffer").Buffer;
     var Long = require_umd();
-    var StringParser = require_string3();
+    var StringParser = require_string2();
     var INVALID_DATE = new Date(NaN);
     var pad = "000000000000";
     function leftPad(num, value) {
@@ -36014,10 +24772,10 @@ var require_packet2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packet_parser.js
-var require_packet_parser2 = __commonJS({
+var require_packet_parser = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packet_parser.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
+    var Packet = require_packet();
     var MAX_PACKET_LENGTH = 16777215;
     function readPacketLength(b, off) {
       const b0 = b[off];
@@ -36184,7 +24942,7 @@ var require_packet_parser2 = __commonJS({
 var require_auth_next_factor = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_next_factor.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
+    var Packet = require_packet();
     var AuthNextFactor = class {
       constructor(opts) {
         this.pluginName = opts.pluginName;
@@ -36215,10 +24973,10 @@ var require_auth_next_factor = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_request.js
-var require_auth_switch_request2 = __commonJS({
+var require_auth_switch_request = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_request.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
+    var Packet = require_packet();
     var AuthSwitchRequest = class {
       constructor(opts) {
         this.pluginName = opts.pluginName;
@@ -36249,10 +25007,10 @@ var require_auth_switch_request2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js
-var require_auth_switch_request_more_data2 = __commonJS({
+var require_auth_switch_request_more_data = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
+    var Packet = require_packet();
     var AuthSwitchRequestMoreData = class {
       constructor(data) {
         this.data = data;
@@ -36280,10 +25038,10 @@ var require_auth_switch_request_more_data2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_response.js
-var require_auth_switch_response2 = __commonJS({
+var require_auth_switch_response = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_response.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
+    var Packet = require_packet();
     var AuthSwitchResponse = class {
       constructor(data) {
         if (!Buffer.isBuffer(data)) {
@@ -36309,7 +25067,7 @@ var require_auth_switch_response2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/types.js
-var require_types2 = __commonJS({
+var require_types = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/types.js"(exports, module2) {
     "use strict";
     module2.exports = {
@@ -36374,11 +25132,11 @@ var require_types2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binary_row.js
-var require_binary_row2 = __commonJS({
+var require_binary_row = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binary_row.js"(exports, module2) {
     "use strict";
-    var Types = require_types2();
-    var Packet = require_packet2();
+    var Types = require_types();
+    var Packet = require_packet();
     var binaryReader = new Array(256);
     var BinaryRow = class {
       constructor(columns) {
@@ -36459,7 +25217,7 @@ var require_binary_row2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/commands.js
-var require_commands3 = __commonJS({
+var require_commands = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/commands.js"(exports, module2) {
     "use strict";
     module2.exports = {
@@ -36500,11 +25258,11 @@ var require_commands3 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binlog_dump.js
-var require_binlog_dump3 = __commonJS({
+var require_binlog_dump = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binlog_dump.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
-    var CommandCodes = require_commands3();
+    var Packet = require_packet();
+    var CommandCodes = require_commands();
     var BinlogDump = class {
       constructor(opts) {
         this.binlogPos = opts.binlogPos || 0;
@@ -36530,7 +25288,7 @@ var require_binlog_dump3 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/client.js
-var require_client2 = __commonJS({
+var require_client = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/client.js"(exports) {
     "use strict";
     exports.LONG_PASSWORD = 1;
@@ -36565,7 +25323,7 @@ var require_client2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_41.js
-var require_auth_412 = __commonJS({
+var require_auth_41 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_41.js"(exports) {
     "use strict";
     var crypto = require("crypto");
@@ -36624,7 +25382,7 @@ var require_auth_412 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/charset_encodings.js
-var require_charset_encodings2 = __commonJS({
+var require_charset_encodings = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/charset_encodings.js"(exports, module2) {
     "use strict";
     module2.exports = [
@@ -36942,14 +25700,14 @@ var require_charset_encodings2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/change_user.js
-var require_change_user3 = __commonJS({
+var require_change_user = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/change_user.js"(exports, module2) {
     "use strict";
-    var CommandCode = require_commands3();
-    var ClientConstants = require_client2();
-    var Packet = require_packet2();
-    var auth41 = require_auth_412();
-    var CharsetToEncoding = require_charset_encodings2();
+    var CommandCode = require_commands();
+    var ClientConstants = require_client();
+    var Packet = require_packet();
+    var auth41 = require_auth_41();
+    var CharsetToEncoding = require_charset_encodings();
     var ChangeUser = class {
       constructor(opts) {
         this.flags = opts.flags;
@@ -37034,11 +25792,11 @@ var require_change_user3 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/close_statement.js
-var require_close_statement3 = __commonJS({
+var require_close_statement = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/close_statement.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
-    var CommandCodes = require_commands3();
+    var Packet = require_packet();
+    var CommandCodes = require_commands();
     var CloseStatement = class {
       constructor(id) {
         this.id = id;
@@ -37056,12 +25814,12 @@ var require_close_statement3 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/column_definition.js
-var require_column_definition2 = __commonJS({
+var require_column_definition = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/column_definition.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
-    var StringParser = require_string3();
-    var CharsetToEncoding = require_charset_encodings2();
+    var Packet = require_packet();
+    var StringParser = require_string2();
+    var CharsetToEncoding = require_charset_encodings();
     var fields = ["catalog", "schema", "table", "orgTable", "name", "orgName"];
     var ColumnDefinition = class {
       constructor(packet, clientEncoding) {
@@ -37178,7 +25936,7 @@ var require_column_definition2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/cursor.js
-var require_cursor2 = __commonJS({
+var require_cursor = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/cursor.js"(exports, module2) {
     "use strict";
     module2.exports = {
@@ -37191,14 +25949,14 @@ var require_cursor2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/execute.js
-var require_execute3 = __commonJS({
+var require_execute = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/execute.js"(exports, module2) {
     "use strict";
-    var CursorType = require_cursor2();
-    var CommandCodes = require_commands3();
-    var Types = require_types2();
-    var Packet = require_packet2();
-    var CharsetToEncoding = require_charset_encodings2();
+    var CursorType = require_cursor();
+    var CommandCodes = require_commands();
+    var Types = require_types();
+    var Packet = require_packet();
+    var CharsetToEncoding = require_charset_encodings();
     function isJSON(value) {
       return Array.isArray(value) || value.constructor === Object || typeof value.toJSON === "function" && !Buffer.isBuffer(value);
     }
@@ -37355,11 +26113,11 @@ var require_execute3 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/handshake.js
-var require_handshake2 = __commonJS({
+var require_handshake = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/handshake.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
-    var ClientConstants = require_client2();
+    var Packet = require_packet();
+    var ClientConstants = require_client();
     var Handshake = class {
       constructor(args) {
         this.protocolVersion = args.protocolVersion;
@@ -37457,13 +26215,13 @@ var require_handshake2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/handshake_response.js
-var require_handshake_response2 = __commonJS({
+var require_handshake_response = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/handshake_response.js"(exports, module2) {
     "use strict";
-    var ClientConstants = require_client2();
-    var CharsetToEncoding = require_charset_encodings2();
-    var Packet = require_packet2();
-    var auth41 = require_auth_412();
+    var ClientConstants = require_client();
+    var CharsetToEncoding = require_charset_encodings();
+    var Packet = require_packet();
+    var auth41 = require_auth_41();
     var HandshakeResponse = class {
       constructor(handshake) {
         this.user = handshake.user || "";
@@ -37597,13 +26355,13 @@ var require_handshake_response2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/prepare_statement.js
-var require_prepare_statement2 = __commonJS({
+var require_prepare_statement = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/prepare_statement.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
-    var CommandCodes = require_commands3();
-    var StringParser = require_string3();
-    var CharsetToEncoding = require_charset_encodings2();
+    var Packet = require_packet();
+    var CommandCodes = require_commands();
+    var StringParser = require_string2();
+    var CharsetToEncoding = require_charset_encodings();
     var PrepareStatement = class {
       constructor(sql, charsetNumber) {
         this.query = sql;
@@ -37626,7 +26384,7 @@ var require_prepare_statement2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/prepared_statement_header.js
-var require_prepared_statement_header2 = __commonJS({
+var require_prepared_statement_header = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/prepared_statement_header.js"(exports, module2) {
     "use strict";
     var PreparedStatementHeader = class {
@@ -37644,13 +26402,13 @@ var require_prepared_statement_header2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/query.js
-var require_query3 = __commonJS({
+var require_query = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/query.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
-    var CommandCode = require_commands3();
-    var StringParser = require_string3();
-    var CharsetToEncoding = require_charset_encodings2();
+    var Packet = require_packet();
+    var CommandCode = require_commands();
+    var StringParser = require_string2();
+    var CharsetToEncoding = require_charset_encodings();
     var Query = class {
       constructor(sql, charsetNumber) {
         this.query = sql;
@@ -37673,11 +26431,11 @@ var require_query3 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/register_slave.js
-var require_register_slave3 = __commonJS({
+var require_register_slave = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/register_slave.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
-    var CommandCodes = require_commands3();
+    var Packet = require_packet();
+    var CommandCodes = require_commands();
     var RegisterSlave = class {
       constructor(opts) {
         this.serverId = opts.serverId || 0;
@@ -37712,7 +26470,7 @@ var require_register_slave3 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/server_status.js
-var require_server_status2 = __commonJS({
+var require_server_status = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/server_status.js"(exports) {
     "use strict";
     exports.SERVER_STATUS_IN_TRANS = 1;
@@ -37733,7 +26491,7 @@ var require_server_status2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/encoding_charset.js
-var require_encoding_charset2 = __commonJS({
+var require_encoding_charset = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/encoding_charset.js"(exports, module2) {
     "use strict";
     module2.exports = {
@@ -37784,7 +26542,7 @@ var require_encoding_charset2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/session_track.js
-var require_session_track2 = __commonJS({
+var require_session_track = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/session_track.js"(exports) {
     "use strict";
     exports.SYSTEM_VARIABLES = 0;
@@ -37799,14 +26557,14 @@ var require_session_track2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/resultset_header.js
-var require_resultset_header2 = __commonJS({
+var require_resultset_header = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/resultset_header.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
-    var ClientConstants = require_client2();
-    var ServerSatusFlags = require_server_status2();
-    var EncodingToCharset = require_encoding_charset2();
-    var sessionInfoTypes = require_session_track2();
+    var Packet = require_packet();
+    var ClientConstants = require_client();
+    var ServerSatusFlags = require_server_status();
+    var EncodingToCharset = require_encoding_charset();
+    var sessionInfoTypes = require_session_track();
     var ResultSetHeader = class {
       constructor(packet, connection) {
         const bigNumberStrings = connection.config.bigNumberStrings;
@@ -37901,11 +26659,11 @@ var require_resultset_header2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/ssl_request.js
-var require_ssl_request2 = __commonJS({
+var require_ssl_request = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/ssl_request.js"(exports, module2) {
     "use strict";
-    var ClientConstants = require_client2();
-    var Packet = require_packet2();
+    var ClientConstants = require_client();
+    var Packet = require_packet();
     var SSLRequest = class {
       constructor(flags, charset) {
         this.clientFlags = flags | ClientConstants.SSL;
@@ -37928,10 +26686,10 @@ var require_ssl_request2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/text_row.js
-var require_text_row2 = __commonJS({
+var require_text_row = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/text_row.js"(exports, module2) {
     "use strict";
-    var Packet = require_packet2();
+    var Packet = require_packet();
     var TextRow = class {
       constructor(columns) {
         this.columns = columns || [];
@@ -37975,29 +26733,29 @@ var require_text_row2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/index.js
-var require_packets2 = __commonJS({
+var require_packets = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/index.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var AuthNextFactor = require_auth_next_factor();
-    var AuthSwitchRequest = require_auth_switch_request2();
-    var AuthSwitchRequestMoreData = require_auth_switch_request_more_data2();
-    var AuthSwitchResponse = require_auth_switch_response2();
-    var BinaryRow = require_binary_row2();
-    var BinlogDump = require_binlog_dump3();
-    var ChangeUser = require_change_user3();
-    var CloseStatement = require_close_statement3();
-    var ColumnDefinition = require_column_definition2();
-    var Execute = require_execute3();
-    var Handshake = require_handshake2();
-    var HandshakeResponse = require_handshake_response2();
-    var PrepareStatement = require_prepare_statement2();
-    var PreparedStatementHeader = require_prepared_statement_header2();
-    var Query = require_query3();
-    var RegisterSlave = require_register_slave3();
-    var ResultSetHeader = require_resultset_header2();
-    var SSLRequest = require_ssl_request2();
-    var TextRow = require_text_row2();
+    var AuthSwitchRequest = require_auth_switch_request();
+    var AuthSwitchRequestMoreData = require_auth_switch_request_more_data();
+    var AuthSwitchResponse = require_auth_switch_response();
+    var BinaryRow = require_binary_row();
+    var BinlogDump = require_binlog_dump();
+    var ChangeUser = require_change_user();
+    var CloseStatement = require_close_statement();
+    var ColumnDefinition = require_column_definition();
+    var Execute = require_execute();
+    var Handshake = require_handshake();
+    var HandshakeResponse = require_handshake_response();
+    var PrepareStatement = require_prepare_statement();
+    var PreparedStatementHeader = require_prepared_statement_header();
+    var Query = require_query();
+    var RegisterSlave = require_register_slave();
+    var ResultSetHeader = require_resultset_header();
+    var SSLRequest = require_ssl_request();
+    var TextRow = require_text_row();
     var ctorMap = {
       AuthNextFactor,
       AuthSwitchRequest,
@@ -38032,7 +26790,7 @@ var require_packets2 = __commonJS({
         }
       }
     });
-    var Packet = require_packet2();
+    var Packet = require_packet();
     exports.Packet = Packet;
     var OK = class {
       static toPacket(args, encoding) {
@@ -38105,7 +26863,7 @@ var require_packets2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/command.js
-var require_command2 = __commonJS({
+var require_command = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/command.js"(exports, module2) {
     "use strict";
     var EventEmitter = require("events").EventEmitter;
@@ -38158,12 +26916,12 @@ var require_command2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/sha256_password.js
-var require_sha256_password2 = __commonJS({
+var require_sha256_password = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/sha256_password.js"(exports, module2) {
     "use strict";
     var PLUGIN_NAME = "sha256_password";
     var crypto = require("crypto");
-    var { xorRotating } = require_auth_412();
+    var { xorRotating } = require_auth_41();
     var REQUEST_SERVER_KEY_PACKET = Buffer.from([1]);
     var STATE_INITIAL = 0;
     var STATE_WAIT_SERVER_KEY = 1;
@@ -38212,12 +26970,12 @@ var require_sha256_password2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js
-var require_caching_sha2_password2 = __commonJS({
+var require_caching_sha2_password = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js"(exports, module2) {
     "use strict";
     var PLUGIN_NAME = "caching_sha2_password";
     var crypto = require("crypto");
-    var { xor, xorRotating } = require_auth_412();
+    var { xor, xorRotating } = require_auth_41();
     var REQUEST_SERVER_KEY_PACKET = Buffer.from([2]);
     var FAST_AUTH_SUCCESS_PACKET = Buffer.from([3]);
     var PERFORM_FULL_AUTHENTICATION_PACKET = Buffer.from([4]);
@@ -38300,10 +27058,10 @@ var require_caching_sha2_password2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js
-var require_mysql_native_password2 = __commonJS({
+var require_mysql_native_password = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js"(exports, module2) {
     "use strict";
-    var auth41 = require_auth_412();
+    var auth41 = require_auth_41();
     module2.exports = (pluginOptions) => ({ connection, command }) => {
       const password = command.password || pluginOptions.password || connection.config.password;
       const passwordSha1 = command.passwordSha1 || pluginOptions.passwordSha1 || connection.config.passwordSha1;
@@ -38348,13 +27106,13 @@ var require_mysql_clear_password = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/auth_switch.js
-var require_auth_switch2 = __commonJS({
+var require_auth_switch = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/auth_switch.js"(exports, module2) {
     "use strict";
-    var Packets = require_packets2();
-    var sha256_password = require_sha256_password2();
-    var caching_sha2_password = require_caching_sha2_password2();
-    var mysql_native_password = require_mysql_native_password2();
+    var Packets = require_packets();
+    var sha256_password = require_sha256_password();
+    var caching_sha2_password = require_caching_sha2_password();
+    var mysql_native_password = require_mysql_native_password();
     var mysql_clear_password = require_mysql_clear_password();
     var standardAuthPlugins = {
       sha256_password: sha256_password({}),
@@ -38438,12 +27196,133 @@ var require_auth_switch2 = __commonJS({
   }
 });
 
+// ../../node_modules/.pnpm/seq-queue@0.0.5/node_modules/seq-queue/lib/seq-queue.js
+var require_seq_queue = __commonJS({
+  "../../node_modules/.pnpm/seq-queue@0.0.5/node_modules/seq-queue/lib/seq-queue.js"(exports, module2) {
+    var EventEmitter = require("events").EventEmitter;
+    var util = require("util");
+    var DEFAULT_TIMEOUT = 3e3;
+    var INIT_ID = 0;
+    var EVENT_CLOSED = "closed";
+    var EVENT_DRAINED = "drained";
+    var SeqQueue = function(timeout) {
+      EventEmitter.call(this);
+      if (timeout && timeout > 0) {
+        this.timeout = timeout;
+      } else {
+        this.timeout = DEFAULT_TIMEOUT;
+      }
+      this.status = SeqQueueManager.STATUS_IDLE;
+      this.curId = INIT_ID;
+      this.queue = [];
+    };
+    util.inherits(SeqQueue, EventEmitter);
+    SeqQueue.prototype.push = function(fn, ontimeout, timeout) {
+      if (this.status !== SeqQueueManager.STATUS_IDLE && this.status !== SeqQueueManager.STATUS_BUSY) {
+        return false;
+      }
+      if (typeof fn !== "function") {
+        throw new Error("fn should be a function.");
+      }
+      this.queue.push({ fn, ontimeout, timeout });
+      if (this.status === SeqQueueManager.STATUS_IDLE) {
+        this.status = SeqQueueManager.STATUS_BUSY;
+        var self2 = this;
+        process.nextTick(function() {
+          self2._next(self2.curId);
+        });
+      }
+      return true;
+    };
+    SeqQueue.prototype.close = function(force) {
+      if (this.status !== SeqQueueManager.STATUS_IDLE && this.status !== SeqQueueManager.STATUS_BUSY) {
+        return;
+      }
+      if (force) {
+        this.status = SeqQueueManager.STATUS_DRAINED;
+        if (this.timerId) {
+          clearTimeout(this.timerId);
+          this.timerId = void 0;
+        }
+        this.emit(EVENT_DRAINED);
+      } else {
+        this.status = SeqQueueManager.STATUS_CLOSED;
+        this.emit(EVENT_CLOSED);
+      }
+    };
+    SeqQueue.prototype._next = function(tid) {
+      if (tid !== this.curId || this.status !== SeqQueueManager.STATUS_BUSY && this.status !== SeqQueueManager.STATUS_CLOSED) {
+        return;
+      }
+      if (this.timerId) {
+        clearTimeout(this.timerId);
+        this.timerId = void 0;
+      }
+      var task = this.queue.shift();
+      if (!task) {
+        if (this.status === SeqQueueManager.STATUS_BUSY) {
+          this.status = SeqQueueManager.STATUS_IDLE;
+          this.curId++;
+        } else {
+          this.status = SeqQueueManager.STATUS_DRAINED;
+          this.emit(EVENT_DRAINED);
+        }
+        return;
+      }
+      var self2 = this;
+      task.id = ++this.curId;
+      var timeout = task.timeout > 0 ? task.timeout : this.timeout;
+      timeout = timeout > 0 ? timeout : DEFAULT_TIMEOUT;
+      this.timerId = setTimeout(function() {
+        process.nextTick(function() {
+          self2._next(task.id);
+        });
+        self2.emit("timeout", task);
+        if (task.ontimeout) {
+          task.ontimeout();
+        }
+      }, timeout);
+      try {
+        task.fn({
+          done: function() {
+            var res = task.id === self2.curId;
+            process.nextTick(function() {
+              self2._next(task.id);
+            });
+            return res;
+          }
+        });
+      } catch (err) {
+        self2.emit("error", err, task);
+        process.nextTick(function() {
+          self2._next(task.id);
+        });
+      }
+    };
+    var SeqQueueManager = module2.exports;
+    SeqQueueManager.STATUS_IDLE = 0;
+    SeqQueueManager.STATUS_BUSY = 1;
+    SeqQueueManager.STATUS_CLOSED = 2;
+    SeqQueueManager.STATUS_DRAINED = 3;
+    SeqQueueManager.createQueue = function(timeout) {
+      return new SeqQueue(timeout);
+    };
+  }
+});
+
+// ../../node_modules/.pnpm/seq-queue@0.0.5/node_modules/seq-queue/index.js
+var require_seq_queue2 = __commonJS({
+  "../../node_modules/.pnpm/seq-queue@0.0.5/node_modules/seq-queue/index.js"(exports, module2) {
+    module2.exports = require_seq_queue();
+  }
+});
+
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/compressed_protocol.js
-var require_compressed_protocol2 = __commonJS({
+var require_compressed_protocol = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/compressed_protocol.js"(exports, module2) {
     "use strict";
     var zlib2 = require("zlib");
-    var PacketParser = require_packet_parser2();
+    var PacketParser = require_packet_parser();
     function handleCompressedPacket(packet) {
       const connection = this;
       const deflatedLength = packet.readInt24();
@@ -38540,14 +27419,14 @@ var require_compressed_protocol2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/client_handshake.js
-var require_client_handshake2 = __commonJS({
+var require_client_handshake = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/client_handshake.js"(exports, module2) {
     "use strict";
-    var Command = require_command2();
-    var Packets = require_packets2();
-    var ClientConstants = require_client2();
-    var CharsetToEncoding = require_charset_encodings2();
-    var auth41 = require_auth_412();
+    var Command = require_command();
+    var Packets = require_packets();
+    var ClientConstants = require_client();
+    var CharsetToEncoding = require_charset_encodings();
+    var auth41 = require_auth_41();
     function flagNames(flags) {
       const res = [];
       for (const c2 in ClientConstants) {
@@ -38674,7 +27553,7 @@ var require_client_handshake2 = __commonJS({
       handshakeResult(packet, connection) {
         const marker = packet.peekByte();
         if (marker === 254 || marker === 1 || marker === 2) {
-          const authSwitch = require_auth_switch2();
+          const authSwitch = require_auth_switch();
           try {
             if (marker === 1) {
               authSwitch.authSwitchRequestMoreData(packet, connection, this);
@@ -38711,7 +27590,7 @@ var require_client_handshake2 = __commonJS({
         if (!connection.authorized) {
           connection.authorized = true;
           if (connection.config.compress) {
-            const enableCompression = require_compressed_protocol2().enableCompression;
+            const enableCompression = require_compressed_protocol().enableCompression;
             enableCompression(connection);
           }
         }
@@ -38726,13 +27605,13 @@ var require_client_handshake2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/server_handshake.js
-var require_server_handshake2 = __commonJS({
+var require_server_handshake = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/server_handshake.js"(exports, module2) {
     "use strict";
-    var CommandCode = require_commands3();
-    var Errors = require_errors4();
-    var Command = require_command2();
-    var Packets = require_packets2();
+    var CommandCode = require_commands();
+    var Errors = require_errors3();
+    var Command = require_command();
+    var Packets = require_packets();
     var ServerHandshake = class extends Command {
       constructor(args) {
         super();
@@ -38877,7 +27756,7 @@ var require_server_handshake2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/charsets.js
-var require_charsets2 = __commonJS({
+var require_charsets = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/charsets.js"(exports) {
     "use strict";
     exports.BIG5_CHINESE_CI = 1;
@@ -39197,7 +28076,7 @@ var require_charsets2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/helpers.js
-var require_helpers2 = __commonJS({
+var require_helpers = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/helpers.js"(exports) {
     "use strict";
     function srcEscape(str) {
@@ -39239,11 +28118,189 @@ ${msg}:
   }
 });
 
+// ../../node_modules/.pnpm/is-property@1.0.2/node_modules/is-property/is-property.js
+var require_is_property = __commonJS({
+  "../../node_modules/.pnpm/is-property@1.0.2/node_modules/is-property/is-property.js"(exports, module2) {
+    "use strict";
+    function isProperty(str) {
+      return /^[$A-Z\_a-z\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u0527\u0531-\u0556\u0559\u0561-\u0587\u05d0-\u05ea\u05f0-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u08a0\u08a2-\u08ac\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0977\u0979-\u097f\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c33\u0c35-\u0c39\u0c3d\u0c58\u0c59\u0c60\u0c61\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d60\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e87\u0e88\u0e8a\u0e8d\u0e94-\u0e97\u0e99-\u0e9f\u0ea1-\u0ea3\u0ea5\u0ea7\u0eaa\u0eab\u0ead-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f4\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f0\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1877\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191c\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19c1-\u19c7\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1ce9-\u1cec\u1cee-\u1cf1\u1cf5\u1cf6\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2119-\u211d\u2124\u2126\u2128\u212a-\u212d\u212f-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2e2f\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309d-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312d\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fcc\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua697\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua78e\ua790-\ua793\ua7a0-\ua7aa\ua7f8-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa80-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uabc0-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc][$A-Z\_a-z\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u0527\u0531-\u0556\u0559\u0561-\u0587\u05d0-\u05ea\u05f0-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u08a0\u08a2-\u08ac\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0977\u0979-\u097f\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c33\u0c35-\u0c39\u0c3d\u0c58\u0c59\u0c60\u0c61\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d60\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e87\u0e88\u0e8a\u0e8d\u0e94-\u0e97\u0e99-\u0e9f\u0ea1-\u0ea3\u0ea5\u0ea7\u0eaa\u0eab\u0ead-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f4\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f0\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1877\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191c\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19c1-\u19c7\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1ce9-\u1cec\u1cee-\u1cf1\u1cf5\u1cf6\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2119-\u211d\u2124\u2126\u2128\u212a-\u212d\u212f-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2e2f\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309d-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312d\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fcc\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua697\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua78e\ua790-\ua793\ua7a0-\ua7aa\ua7f8-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa80-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uabc0-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc0-9\u0300-\u036f\u0483-\u0487\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u0669\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed\u06f0-\u06f9\u0711\u0730-\u074a\u07a6-\u07b0\u07c0-\u07c9\u07eb-\u07f3\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0859-\u085b\u08e4-\u08fe\u0900-\u0903\u093a-\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u0966-\u096f\u0981-\u0983\u09bc\u09be-\u09c4\u09c7\u09c8\u09cb-\u09cd\u09d7\u09e2\u09e3\u09e6-\u09ef\u0a01-\u0a03\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a66-\u0a71\u0a75\u0a81-\u0a83\u0abc\u0abe-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ae2\u0ae3\u0ae6-\u0aef\u0b01-\u0b03\u0b3c\u0b3e-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b56\u0b57\u0b62\u0b63\u0b66-\u0b6f\u0b82\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd7\u0be6-\u0bef\u0c01-\u0c03\u0c3e-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0c66-\u0c6f\u0c82\u0c83\u0cbc\u0cbe-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0ce6-\u0cef\u0d02\u0d03\u0d3e-\u0d44\u0d46-\u0d48\u0d4a-\u0d4d\u0d57\u0d62\u0d63\u0d66-\u0d6f\u0d82\u0d83\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0df2\u0df3\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0e50-\u0e59\u0eb1\u0eb4-\u0eb9\u0ebb\u0ebc\u0ec8-\u0ecd\u0ed0-\u0ed9\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e\u0f3f\u0f71-\u0f84\u0f86\u0f87\u0f8d-\u0f97\u0f99-\u0fbc\u0fc6\u102b-\u103e\u1040-\u1049\u1056-\u1059\u105e-\u1060\u1062-\u1064\u1067-\u106d\u1071-\u1074\u1082-\u108d\u108f-\u109d\u135d-\u135f\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17b4-\u17d3\u17dd\u17e0-\u17e9\u180b-\u180d\u1810-\u1819\u18a9\u1920-\u192b\u1930-\u193b\u1946-\u194f\u19b0-\u19c0\u19c8\u19c9\u19d0-\u19d9\u1a17-\u1a1b\u1a55-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1b00-\u1b04\u1b34-\u1b44\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1b82\u1ba1-\u1bad\u1bb0-\u1bb9\u1be6-\u1bf3\u1c24-\u1c37\u1c40-\u1c49\u1c50-\u1c59\u1cd0-\u1cd2\u1cd4-\u1ce8\u1ced\u1cf2-\u1cf4\u1dc0-\u1de6\u1dfc-\u1dff\u200c\u200d\u203f\u2040\u2054\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2cef-\u2cf1\u2d7f\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua620-\ua629\ua66f\ua674-\ua67d\ua69f\ua6f0\ua6f1\ua802\ua806\ua80b\ua823-\ua827\ua880\ua881\ua8b4-\ua8c4\ua8d0-\ua8d9\ua8e0-\ua8f1\ua900-\ua909\ua926-\ua92d\ua947-\ua953\ua980-\ua983\ua9b3-\ua9c0\ua9d0-\ua9d9\uaa29-\uaa36\uaa43\uaa4c\uaa4d\uaa50-\uaa59\uaa7b\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uaaeb-\uaaef\uaaf5\uaaf6\uabe3-\uabea\uabec\uabed\uabf0-\uabf9\ufb1e\ufe00-\ufe0f\ufe20-\ufe26\ufe33\ufe34\ufe4d-\ufe4f\uff10-\uff19\uff3f]*$/.test(str);
+    }
+    module2.exports = isProperty;
+  }
+});
+
+// ../../node_modules/.pnpm/generate-function@2.3.1/node_modules/generate-function/index.js
+var require_generate_function = __commonJS({
+  "../../node_modules/.pnpm/generate-function@2.3.1/node_modules/generate-function/index.js"(exports, module2) {
+    var util = require("util");
+    var isProperty = require_is_property();
+    var INDENT_START = /[\{\[]/;
+    var INDENT_END = /[\}\]]/;
+    var RESERVED = [
+      "do",
+      "if",
+      "in",
+      "for",
+      "let",
+      "new",
+      "try",
+      "var",
+      "case",
+      "else",
+      "enum",
+      "eval",
+      "null",
+      "this",
+      "true",
+      "void",
+      "with",
+      "await",
+      "break",
+      "catch",
+      "class",
+      "const",
+      "false",
+      "super",
+      "throw",
+      "while",
+      "yield",
+      "delete",
+      "export",
+      "import",
+      "public",
+      "return",
+      "static",
+      "switch",
+      "typeof",
+      "default",
+      "extends",
+      "finally",
+      "package",
+      "private",
+      "continue",
+      "debugger",
+      "function",
+      "arguments",
+      "interface",
+      "protected",
+      "implements",
+      "instanceof",
+      "NaN",
+      "undefined"
+    ];
+    var RESERVED_MAP = {};
+    for (i2 = 0; i2 < RESERVED.length; i2++) {
+      RESERVED_MAP[RESERVED[i2]] = true;
+    }
+    var i2;
+    var isVariable = function(name) {
+      return isProperty(name) && !RESERVED_MAP.hasOwnProperty(name);
+    };
+    var formats = {
+      s: function(s2) {
+        return "" + s2;
+      },
+      d: function(d) {
+        return "" + Number(d);
+      },
+      o: function(o2) {
+        return JSON.stringify(o2);
+      }
+    };
+    var genfun = function() {
+      var lines = [];
+      var indent = 0;
+      var vars = {};
+      var push = function(str) {
+        var spaces = "";
+        while (spaces.length < indent * 2)
+          spaces += "  ";
+        lines.push(spaces + str);
+      };
+      var pushLine = function(line2) {
+        if (INDENT_END.test(line2.trim()[0]) && INDENT_START.test(line2[line2.length - 1])) {
+          indent--;
+          push(line2);
+          indent++;
+          return;
+        }
+        if (INDENT_START.test(line2[line2.length - 1])) {
+          push(line2);
+          indent++;
+          return;
+        }
+        if (INDENT_END.test(line2.trim()[0])) {
+          indent--;
+          push(line2);
+          return;
+        }
+        push(line2);
+      };
+      var line = function(fmt) {
+        if (!fmt)
+          return line;
+        if (arguments.length === 1 && fmt.indexOf("\n") > -1) {
+          var lines2 = fmt.trim().split("\n");
+          for (var i3 = 0; i3 < lines2.length; i3++) {
+            pushLine(lines2[i3].trim());
+          }
+        } else {
+          pushLine(util.format.apply(util, arguments));
+        }
+        return line;
+      };
+      line.scope = {};
+      line.formats = formats;
+      line.sym = function(name) {
+        if (!name || !isVariable(name))
+          name = "tmp";
+        if (!vars[name])
+          vars[name] = 0;
+        return name + (vars[name]++ || "");
+      };
+      line.property = function(obj, name) {
+        if (arguments.length === 1) {
+          name = obj;
+          obj = "";
+        }
+        name = name + "";
+        if (isProperty(name))
+          return obj ? obj + "." + name : name;
+        return obj ? obj + "[" + JSON.stringify(name) + "]" : JSON.stringify(name);
+      };
+      line.toString = function() {
+        return lines.join("\n");
+      };
+      line.toFunction = function(scope) {
+        if (!scope)
+          scope = {};
+        var src = "return (" + line.toString() + ")";
+        Object.keys(line.scope).forEach(function(key) {
+          if (!scope[key])
+            scope[key] = line.scope[key];
+        });
+        var keys = Object.keys(scope).map(function(key) {
+          return key;
+        });
+        var vals = keys.map(function(key) {
+          return scope[key];
+        });
+        return Function.apply(null, keys.concat(src)).apply(null, vals);
+      };
+      if (arguments.length)
+        line.apply(null, arguments);
+      return line;
+    };
+    genfun.formats = formats;
+    module2.exports = genfun;
+  }
+});
+
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/parser_cache.js
-var require_parser_cache2 = __commonJS({
+var require_parser_cache = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/parser_cache.js"(exports, module2) {
     "use strict";
-    var LRU = require_lru_cache2();
+    var LRU = require_lru_cache();
     var parserCache = new LRU({
       max: 15e3
     });
@@ -39280,14 +28337,14 @@ var require_parser_cache2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/text_parser.js
-var require_text_parser2 = __commonJS({
+var require_text_parser = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/text_parser.js"(exports, module2) {
     "use strict";
-    var Types = require_types2();
-    var Charsets = require_charsets2();
-    var helpers = require_helpers2();
+    var Types = require_types();
+    var Charsets = require_charsets();
+    var helpers = require_helpers();
     var genFunc = require_generate_function();
-    var parserCache = require_parser_cache2();
+    var parserCache = require_parser_cache();
     var typeNames = [];
     for (const t2 in Types) {
       typeNames[Types[t2]] = t2;
@@ -39455,16 +28512,16 @@ var require_text_parser2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/query.js
-var require_query4 = __commonJS({
+var require_query2 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/query.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var Timers = require("timers");
     var Readable = require("stream").Readable;
-    var Command = require_command2();
-    var Packets = require_packets2();
-    var getTextParser = require_text_parser2();
-    var ServerStatus = require_server_status2();
+    var Command = require_command();
+    var Packets = require_packets();
+    var getTextParser = require_text_parser();
+    var ServerStatus = require_server_status();
     var EmptyPacket = new Packets.Packet(0, Buffer.allocUnsafe(4), 0, 4);
     var Query = class extends Command {
       constructor(options, callback) {
@@ -39742,11 +28799,11 @@ var require_query4 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/close_statement.js
-var require_close_statement4 = __commonJS({
+var require_close_statement2 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/close_statement.js"(exports, module2) {
     "use strict";
-    var Command = require_command2();
-    var Packets = require_packets2();
+    var Command = require_command();
+    var Packets = require_packets();
     var CloseStatement = class extends Command {
       constructor(id) {
         super();
@@ -39762,7 +28819,7 @@ var require_close_statement4 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/field_flags.js
-var require_field_flags2 = __commonJS({
+var require_field_flags = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/field_flags.js"(exports) {
     "use strict";
     exports.NOT_NULL = 1;
@@ -39784,15 +28841,15 @@ var require_field_flags2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/binary_parser.js
-var require_binary_parser2 = __commonJS({
+var require_binary_parser = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/binary_parser.js"(exports, module2) {
     "use strict";
-    var FieldFlags = require_field_flags2();
-    var Charsets = require_charsets2();
-    var Types = require_types2();
-    var helpers = require_helpers2();
+    var FieldFlags = require_field_flags();
+    var Charsets = require_charsets();
+    var Types = require_types();
+    var helpers = require_helpers();
     var genFunc = require_generate_function();
-    var parserCache = require_parser_cache2();
+    var parserCache = require_parser_cache();
     var typeNames = [];
     for (const t2 in Types) {
       typeNames[Types[t2]] = t2;
@@ -39933,13 +28990,13 @@ var require_binary_parser2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/execute.js
-var require_execute4 = __commonJS({
+var require_execute2 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/execute.js"(exports, module2) {
     "use strict";
-    var Command = require_command2();
-    var Query = require_query4();
-    var Packets = require_packets2();
-    var getBinaryParser = require_binary_parser2();
+    var Command = require_command();
+    var Query = require_query2();
+    var Packets = require_packets();
+    var getBinaryParser = require_binary_parser();
     var Execute = class extends Command {
       constructor(options, callback) {
         super();
@@ -40024,13 +29081,13 @@ var require_execute4 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/prepare.js
-var require_prepare2 = __commonJS({
+var require_prepare = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/prepare.js"(exports, module2) {
     "use strict";
-    var Packets = require_packets2();
-    var Command = require_command2();
-    var CloseStatement = require_close_statement4();
-    var Execute = require_execute4();
+    var Packets = require_packets();
+    var Command = require_command();
+    var CloseStatement = require_close_statement2();
+    var Execute = require_execute2();
     var PreparedStatementInfo = class {
       constructor(query, id, columns, parameters, connection) {
         this.query = query;
@@ -40147,12 +29204,12 @@ var require_prepare2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/ping.js
-var require_ping2 = __commonJS({
+var require_ping = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/ping.js"(exports, module2) {
     "use strict";
-    var Command = require_command2();
-    var CommandCode = require_commands3();
-    var Packet = require_packet2();
+    var Command = require_command();
+    var CommandCode = require_commands();
+    var Packet = require_packet();
     var Ping = class extends Command {
       constructor(callback) {
         super();
@@ -40180,11 +29237,11 @@ var require_ping2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/register_slave.js
-var require_register_slave4 = __commonJS({
+var require_register_slave2 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/register_slave.js"(exports, module2) {
     "use strict";
-    var Command = require_command2();
-    var Packets = require_packets2();
+    var Command = require_command();
+    var Packets = require_packets();
     var RegisterSlave = class extends Command {
       constructor(opts, callback) {
         super();
@@ -40208,7 +29265,7 @@ var require_register_slave4 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binlog_query_statusvars.js
-var require_binlog_query_statusvars2 = __commonJS({
+var require_binlog_query_statusvars = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binlog_query_statusvars.js"(exports, module2) {
     "use strict";
     var keys = {
@@ -40319,11 +29376,11 @@ var require_binlog_query_statusvars2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/binlog_dump.js
-var require_binlog_dump4 = __commonJS({
+var require_binlog_dump2 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/binlog_dump.js"(exports, module2) {
     "use strict";
-    var Command = require_command2();
-    var Packets = require_packets2();
+    var Command = require_command();
+    var Packets = require_packets();
     var eventParsers = [];
     var BinlogEventHeader = class {
       constructor(packet) {
@@ -40386,7 +29443,7 @@ var require_binlog_dump4 = __commonJS({
     };
     var QueryEvent = class {
       constructor(packet) {
-        const parseStatusVars = require_binlog_query_statusvars2();
+        const parseStatusVars = require_binlog_query_statusvars();
         this.slaveProxyId = packet.readInt32();
         this.executionTime = packet.readInt32();
         const schemaLength = packet.readInt8();
@@ -40416,14 +29473,14 @@ var require_binlog_dump4 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/change_user.js
-var require_change_user4 = __commonJS({
+var require_change_user2 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/change_user.js"(exports, module2) {
     "use strict";
-    var Command = require_command2();
-    var Packets = require_packets2();
-    var ClientConstants = require_client2();
-    var ClientHandshake = require_client_handshake2();
-    var CharsetToEncoding = require_charset_encodings2();
+    var Command = require_command();
+    var Packets = require_packets();
+    var ClientConstants = require_client();
+    var ClientHandshake = require_client_handshake();
+    var CharsetToEncoding = require_charset_encodings();
     var ChangeUser = class extends Command {
       constructor(options, callback) {
         super();
@@ -40471,12 +29528,12 @@ var require_change_user4 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/quit.js
-var require_quit2 = __commonJS({
+var require_quit = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/quit.js"(exports, module2) {
     "use strict";
-    var Command = require_command2();
-    var CommandCode = require_commands3();
-    var Packet = require_packet2();
+    var Command = require_command();
+    var CommandCode = require_commands();
+    var Packet = require_packet();
     var Quit = class extends Command {
       constructor(callback) {
         super();
@@ -40502,20 +29559,20 @@ var require_quit2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/index.js
-var require_commands4 = __commonJS({
+var require_commands2 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/index.js"(exports, module2) {
     "use strict";
-    var ClientHandshake = require_client_handshake2();
-    var ServerHandshake = require_server_handshake2();
-    var Query = require_query4();
-    var Prepare = require_prepare2();
-    var CloseStatement = require_close_statement4();
-    var Execute = require_execute4();
-    var Ping = require_ping2();
-    var RegisterSlave = require_register_slave4();
-    var BinlogDump = require_binlog_dump4();
-    var ChangeUser = require_change_user4();
-    var Quit = require_quit2();
+    var ClientHandshake = require_client_handshake();
+    var ServerHandshake = require_server_handshake();
+    var Query = require_query2();
+    var Prepare = require_prepare();
+    var CloseStatement = require_close_statement2();
+    var Execute = require_execute2();
+    var Ping = require_ping();
+    var RegisterSlave = require_register_slave2();
+    var BinlogDump = require_binlog_dump2();
+    var ChangeUser = require_change_user2();
+    var Quit = require_quit();
     module2.exports = {
       ClientHandshake,
       ServerHandshake,
@@ -40631,7 +29688,7 @@ var require_package2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/ssl_profiles.js
-var require_ssl_profiles2 = __commonJS({
+var require_ssl_profiles = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/ssl_profiles.js"(exports) {
     "use strict";
     exports["Amazon RDS"] = {
@@ -40699,12 +29756,12 @@ var require_ssl_profiles2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/connection_config.js
-var require_connection_config2 = __commonJS({
+var require_connection_config = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/connection_config.js"(exports, module2) {
     "use strict";
     var { URL: URL2 } = require("url");
-    var ClientConstants = require_client2();
-    var Charsets = require_charsets2();
+    var ClientConstants = require_client();
+    var Charsets = require_charsets();
     var { version: version2 } = require_package2();
     var SSLProfiles = null;
     var validOptions = {
@@ -40903,7 +29960,7 @@ var require_connection_config2 = __commonJS({
       }
       static getSSLProfile(name) {
         if (!SSLProfiles) {
-          SSLProfiles = require_ssl_profiles2();
+          SSLProfiles = require_ssl_profiles();
         }
         const ssl = SSLProfiles[name];
         if (ssl === void 0) {
@@ -40934,8 +29991,171 @@ var require_connection_config2 = __commonJS({
   }
 });
 
+// ../../node_modules/.pnpm/named-placeholders@1.1.3/node_modules/named-placeholders/index.js
+var require_named_placeholders = __commonJS({
+  "../../node_modules/.pnpm/named-placeholders@1.1.3/node_modules/named-placeholders/index.js"(exports, module2) {
+    "use strict";
+    var RE_PARAM = /(?:\?)|(?::(\d+|(?:[a-zA-Z][a-zA-Z0-9_]*)))/g;
+    var DQUOTE = 34;
+    var SQUOTE = 39;
+    var BSLASH = 92;
+    function parse2(query) {
+      let ppos = RE_PARAM.exec(query);
+      let curpos = 0;
+      let start = 0;
+      let end;
+      const parts = [];
+      let inQuote = false;
+      let escape = false;
+      let qchr;
+      const tokens = [];
+      let qcnt = 0;
+      let lastTokenEndPos = 0;
+      let i2;
+      if (ppos) {
+        do {
+          for (i2 = curpos, end = ppos.index; i2 < end; ++i2) {
+            let chr = query.charCodeAt(i2);
+            if (chr === BSLASH)
+              escape = !escape;
+            else {
+              if (escape) {
+                escape = false;
+                continue;
+              }
+              if (inQuote && chr === qchr) {
+                if (query.charCodeAt(i2 + 1) === qchr) {
+                  ++i2;
+                  continue;
+                }
+                inQuote = false;
+              } else if (chr === DQUOTE || chr === SQUOTE) {
+                inQuote = true;
+                qchr = chr;
+              }
+            }
+          }
+          if (!inQuote) {
+            parts.push(query.substring(start, end));
+            tokens.push(ppos[0].length === 1 ? qcnt++ : ppos[1]);
+            start = end + ppos[0].length;
+            lastTokenEndPos = start;
+          }
+          curpos = end + ppos[0].length;
+        } while (ppos = RE_PARAM.exec(query));
+        if (tokens.length) {
+          if (curpos < query.length) {
+            parts.push(query.substring(lastTokenEndPos));
+          }
+          return [parts, tokens];
+        }
+      }
+      return [query];
+    }
+    function createCompiler(config4) {
+      if (!config4)
+        config4 = {};
+      if (!config4.placeholder) {
+        config4.placeholder = "?";
+      }
+      let ncache = 100;
+      let cache;
+      if (typeof config4.cache === "number") {
+        ncache = config4.cache;
+      }
+      if (typeof config4.cache === "object") {
+        cache = config4.cache;
+      }
+      if (config4.cache !== false && !cache) {
+        cache = new (require_lru_cache())({ max: ncache });
+      }
+      function toArrayParams(tree, params) {
+        const arr = [];
+        if (tree.length == 1) {
+          return [tree[0], []];
+        }
+        if (typeof params == "undefined")
+          throw new Error("Named query contains placeholders, but parameters object is undefined");
+        const tokens = tree[1];
+        for (let i2 = 0; i2 < tokens.length; ++i2) {
+          arr.push(params[tokens[i2]]);
+        }
+        return [tree[0], arr];
+      }
+      function noTailingSemicolon(s2) {
+        if (s2.slice(-1) == ":") {
+          return s2.slice(0, -1);
+        }
+        return s2;
+      }
+      function join(tree) {
+        if (tree.length == 1) {
+          return tree;
+        }
+        let unnamed = noTailingSemicolon(tree[0][0]);
+        for (let i2 = 1; i2 < tree[0].length; ++i2) {
+          if (tree[0][i2 - 1].slice(-1) == ":") {
+            unnamed += config4.placeholder;
+          }
+          unnamed += config4.placeholder;
+          unnamed += noTailingSemicolon(tree[0][i2]);
+        }
+        const last = tree[0][tree[0].length - 1];
+        if (tree[0].length == tree[1].length) {
+          if (last.slice(-1) == ":") {
+            unnamed += config4.placeholder;
+          }
+          unnamed += config4.placeholder;
+        }
+        return [unnamed, tree[1]];
+      }
+      function compile(query, paramsObj) {
+        let tree;
+        if (cache && (tree = cache.get(query))) {
+          return toArrayParams(tree, paramsObj);
+        }
+        tree = join(parse2(query));
+        if (cache) {
+          cache.set(query, tree);
+        }
+        return toArrayParams(tree, paramsObj);
+      }
+      compile.parse = parse2;
+      return compile;
+    }
+    function toNumbered(q, params) {
+      const tree = parse2(q);
+      const paramsArr = [];
+      if (tree.length == 1) {
+        return [tree[0], paramsArr];
+      }
+      const pIndexes = {};
+      let pLastIndex = 0;
+      let qs = "";
+      let varIndex;
+      const varNames = [];
+      for (let i2 = 0; i2 < tree[0].length; ++i2) {
+        varIndex = pIndexes[tree[1][i2]];
+        if (!varIndex) {
+          varIndex = ++pLastIndex;
+          pIndexes[tree[1][i2]] = varIndex;
+        }
+        if (tree[1][i2]) {
+          varNames[varIndex - 1] = tree[1][i2];
+          qs += tree[0][i2] + "$" + varIndex;
+        } else {
+          qs += tree[0][i2];
+        }
+      }
+      return [qs, varNames.map((n) => params[n])];
+    }
+    module2.exports = createCompiler;
+    module2.exports.toNumbered = toNumbered;
+  }
+});
+
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/connection.js
-var require_connection2 = __commonJS({
+var require_connection = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/connection.js"(exports, module2) {
     "use strict";
     var Net = require("net");
@@ -40945,12 +30165,12 @@ var require_connection2 = __commonJS({
     var Readable = require("stream").Readable;
     var Queue = require_denque();
     var SqlString = require_sqlstring();
-    var LRU = require_lru_cache2();
-    var PacketParser = require_packet_parser2();
-    var Packets = require_packets2();
-    var Commands = require_commands4();
-    var ConnectionConfig = require_connection_config2();
-    var CharsetToEncoding = require_charset_encodings2();
+    var LRU = require_lru_cache();
+    var PacketParser = require_packet_parser();
+    var Packets = require_packets();
+    var Commands = require_commands2();
+    var ConnectionConfig = require_connection_config();
+    var CharsetToEncoding = require_charset_encodings();
     var _connectionId = 0;
     var convertNamedPlaceholders = null;
     var Connection = class extends EventEmitter {
@@ -41048,7 +30268,7 @@ var require_connection2 = __commonJS({
         }
       }
       promise(promiseImpl) {
-        const PromiseConnection = require_promise2().PromiseConnection;
+        const PromiseConnection = require_promise().PromiseConnection;
         return new PromiseConnection(this, promiseImpl);
       }
       _addCommandClosedState(cmd) {
@@ -41734,14 +30954,14 @@ var require_connection2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_connection.js
-var require_pool_connection2 = __commonJS({
+var require_pool_connection = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_connection.js"(exports, module2) {
     "use strict";
-    var Connection = require_mysql22().Connection;
+    var Connection = require_mysql2().Connection;
     var PoolConnection = class extends Connection {
-      constructor(pool3, options) {
+      constructor(pool2, options) {
         super(options);
-        this._pool = pool3;
+        this._pool = pool2;
         this.lastActiveTime = Date.now();
         this.once("end", () => {
           this._removeFromPool();
@@ -41758,7 +30978,7 @@ var require_pool_connection2 = __commonJS({
         this._pool.releaseConnection(this);
       }
       promise(promiseImpl) {
-        const PromisePoolConnection = require_promise2().PromisePoolConnection;
+        const PromisePoolConnection = require_promise().PromisePoolConnection;
         return new PromisePoolConnection(this, promiseImpl);
       }
       end() {
@@ -41777,9 +30997,9 @@ var require_pool_connection2 = __commonJS({
         if (!this._pool || this._pool._closed) {
           return;
         }
-        const pool3 = this._pool;
+        const pool2 = this._pool;
         this._pool = null;
-        pool3._removeConnection(this);
+        pool2._removeConnection(this);
       }
     };
     PoolConnection.statementKey = Connection.statementKey;
@@ -41789,15 +31009,15 @@ var require_pool_connection2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool.js
-var require_pool2 = __commonJS({
+var require_pool = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
-    var mysql3 = require_mysql22();
+    var mysql2 = require_mysql2();
     var EventEmitter = require("events").EventEmitter;
-    var PoolConnection = require_pool_connection2();
+    var PoolConnection = require_pool_connection();
     var Queue = require_denque();
-    var Connection = require_connection2();
+    var Connection = require_connection();
     function spliceConnection(queue, connection) {
       const len = queue.length;
       for (let i2 = 0; i2 < len; i2++) {
@@ -41821,7 +31041,7 @@ var require_pool2 = __commonJS({
         }
       }
       promise(promiseImpl) {
-        const PromisePool = require_promise2().PromisePool;
+        const PromisePool = require_promise().PromisePool;
         return new PromisePool(this, promiseImpl);
       }
       getConnection(cb) {
@@ -41975,7 +31195,7 @@ var require_pool2 = __commonJS({
         }, 1e3);
       }
       format(sql, values) {
-        return mysql3.format(
+        return mysql2.format(
           sql,
           values,
           this.config.connectionConfig.stringifyObjects,
@@ -41983,14 +31203,14 @@ var require_pool2 = __commonJS({
         );
       }
       escape(value) {
-        return mysql3.escape(
+        return mysql2.escape(
           value,
           this.config.connectionConfig.stringifyObjects,
           this.config.connectionConfig.timezone
         );
       }
       escapeId(value) {
-        return mysql3.escapeId(value, false);
+        return mysql2.escapeId(value, false);
       }
     };
     module2.exports = Pool;
@@ -41998,10 +31218,10 @@ var require_pool2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_config.js
-var require_pool_config2 = __commonJS({
+var require_pool_config = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_config.js"(exports, module2) {
     "use strict";
-    var ConnectionConfig = require_connection_config2();
+    var ConnectionConfig = require_connection_config();
     var PoolConfig = class {
       constructor(options) {
         if (typeof options === "string") {
@@ -42020,13 +31240,13 @@ var require_pool_config2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_cluster.js
-var require_pool_cluster2 = __commonJS({
+var require_pool_cluster = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_cluster.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
-    var Pool = require_pool2();
-    var PoolConfig = require_pool_config2();
-    var Connection = require_connection2();
+    var Pool = require_pool();
+    var PoolConfig = require_pool_config();
+    var Connection = require_connection();
     var EventEmitter = require("events").EventEmitter;
     var makeSelector = {
       RR() {
@@ -42257,13 +31477,13 @@ var require_pool_cluster2 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/server.js
-var require_server2 = __commonJS({
+var require_server = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/server.js"(exports, module2) {
     "use strict";
     var net = require("net");
     var EventEmitter = require("events").EventEmitter;
-    var Connection = require_connection2();
-    var ConnectionConfig = require_connection_config2();
+    var Connection = require_connection();
+    var ConnectionConfig = require_connection_config();
     var Server = class extends EventEmitter {
       constructor() {
         super();
@@ -42296,50 +31516,50 @@ var require_auth_plugins = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/index.js"(exports, module2) {
     "use strict";
     module2.exports = {
-      caching_sha2_password: require_caching_sha2_password2(),
+      caching_sha2_password: require_caching_sha2_password(),
       mysql_clear_password: require_mysql_clear_password(),
-      mysql_native_password: require_mysql_native_password2(),
-      sha256_password: require_sha256_password2()
+      mysql_native_password: require_mysql_native_password(),
+      sha256_password: require_sha256_password()
     };
   }
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/index.js
-var require_mysql22 = __commonJS({
+var require_mysql2 = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/index.js"(exports) {
     "use strict";
     var SqlString = require_sqlstring();
-    var Connection = require_connection2();
-    var ConnectionConfig = require_connection_config2();
-    var parserCache = require_parser_cache2();
+    var Connection = require_connection();
+    var ConnectionConfig = require_connection_config();
+    var parserCache = require_parser_cache();
     exports.createConnection = function(opts) {
       return new Connection({ config: new ConnectionConfig(opts) });
     };
     exports.connect = exports.createConnection;
     exports.Connection = Connection;
     exports.ConnectionConfig = ConnectionConfig;
-    var Pool = require_pool2();
-    var PoolCluster = require_pool_cluster2();
+    var Pool = require_pool();
+    var PoolCluster = require_pool_cluster();
     exports.createPool = function(config4) {
-      const PoolConfig = require_pool_config2();
+      const PoolConfig = require_pool_config();
       return new Pool({ config: new PoolConfig(config4) });
     };
     exports.createPoolCluster = function(config4) {
-      const PoolCluster2 = require_pool_cluster2();
+      const PoolCluster2 = require_pool_cluster();
       return new PoolCluster2(config4);
     };
     exports.createQuery = Connection.createQuery;
     exports.Pool = Pool;
     exports.PoolCluster = PoolCluster;
     exports.createServer = function(handler) {
-      const Server = require_server2();
+      const Server = require_server();
       const s2 = new Server();
       if (handler) {
         s2.on("connection", handler);
       }
       return s2;
     };
-    exports.PoolConnection = require_pool_connection2();
+    exports.PoolConnection = require_pool_connection();
     exports.authPlugins = require_auth_plugins();
     exports.escape = SqlString.escape;
     exports.escapeId = SqlString.escapeId;
@@ -42347,24 +31567,24 @@ var require_mysql22 = __commonJS({
     exports.raw = SqlString.raw;
     exports.__defineGetter__(
       "createConnectionPromise",
-      () => require_promise2().createConnection
+      () => require_promise().createConnection
     );
     exports.__defineGetter__(
       "createPoolPromise",
-      () => require_promise2().createPool
+      () => require_promise().createPool
     );
     exports.__defineGetter__(
       "createPoolClusterPromise",
-      () => require_promise2().createPoolCluster
+      () => require_promise().createPoolCluster
     );
-    exports.__defineGetter__("Types", () => require_types2());
+    exports.__defineGetter__("Types", () => require_types());
     exports.__defineGetter__(
       "Charsets",
-      () => require_charsets2()
+      () => require_charsets()
     );
     exports.__defineGetter__(
       "CharsetToEncoding",
-      () => require_charset_encodings2()
+      () => require_charset_encodings()
     );
     exports.setMaxParserCache = function(max) {
       parserCache.setMaxCache(max);
@@ -42376,10 +31596,10 @@ var require_mysql22 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/promise.js
-var require_promise2 = __commonJS({
+var require_promise = __commonJS({
   "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/promise.js"(exports) {
     "use strict";
-    var core = require_mysql22();
+    var core = require_mysql2();
     var EventEmitter = require("events").EventEmitter;
     function makeDoneCb(resolve, reject, localErr) {
       return function(err, rows, fields) {
@@ -42663,11 +31883,11 @@ var require_promise2 = __commonJS({
       }
     };
     var PromisePool = class extends EventEmitter {
-      constructor(pool3, thePromise) {
+      constructor(pool2, thePromise) {
         super();
-        this.pool = pool3;
+        this.pool = pool2;
         this.Promise = thePromise || Promise;
-        inheritEvents(pool3, this, ["acquire", "connection", "enqueue", "release"]);
+        inheritEvents(pool2, this, ["acquire", "connection", "enqueue", "release"]);
       }
       getConnection() {
         const corePool = this.pool;
@@ -42864,218 +32084,6 @@ var require_promise2 = __commonJS({
     exports.PromisePool = PromisePool;
     exports.PromiseConnection = PromiseConnection;
     exports.PromisePoolConnection = PromisePoolConnection;
-  }
-});
-
-// ../../node_modules/.pnpm/dayjs@1.11.7/node_modules/dayjs/dayjs.min.js
-var require_dayjs_min = __commonJS({
-  "../../node_modules/.pnpm/dayjs@1.11.7/node_modules/dayjs/dayjs.min.js"(exports, module2) {
-    !function(t2, e2) {
-      "object" == typeof exports && "undefined" != typeof module2 ? module2.exports = e2() : "function" == typeof define && define.amd ? define(e2) : (t2 = "undefined" != typeof globalThis ? globalThis : t2 || self).dayjs = e2();
-    }(exports, function() {
-      "use strict";
-      var t2 = 1e3, e2 = 6e4, n = 36e5, r3 = "millisecond", i2 = "second", s2 = "minute", u = "hour", a = "day", o2 = "week", f4 = "month", h3 = "quarter", c2 = "year", d = "date", l = "Invalid Date", $ = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/, y = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g, M = { name: "en", weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), ordinal: function(t3) {
-        var e3 = ["th", "st", "nd", "rd"], n2 = t3 % 100;
-        return "[" + t3 + (e3[(n2 - 20) % 10] || e3[n2] || e3[0]) + "]";
-      } }, m2 = function(t3, e3, n2) {
-        var r4 = String(t3);
-        return !r4 || r4.length >= e3 ? t3 : "" + Array(e3 + 1 - r4.length).join(n2) + t3;
-      }, v = { s: m2, z: function(t3) {
-        var e3 = -t3.utcOffset(), n2 = Math.abs(e3), r4 = Math.floor(n2 / 60), i3 = n2 % 60;
-        return (e3 <= 0 ? "+" : "-") + m2(r4, 2, "0") + ":" + m2(i3, 2, "0");
-      }, m: function t3(e3, n2) {
-        if (e3.date() < n2.date())
-          return -t3(n2, e3);
-        var r4 = 12 * (n2.year() - e3.year()) + (n2.month() - e3.month()), i3 = e3.clone().add(r4, f4), s3 = n2 - i3 < 0, u2 = e3.clone().add(r4 + (s3 ? -1 : 1), f4);
-        return +(-(r4 + (n2 - i3) / (s3 ? i3 - u2 : u2 - i3)) || 0);
-      }, a: function(t3) {
-        return t3 < 0 ? Math.ceil(t3) || 0 : Math.floor(t3);
-      }, p: function(t3) {
-        return { M: f4, y: c2, w: o2, d: a, D: d, h: u, m: s2, s: i2, ms: r3, Q: h3 }[t3] || String(t3 || "").toLowerCase().replace(/s$/, "");
-      }, u: function(t3) {
-        return void 0 === t3;
-      } }, g = "en", D = {};
-      D[g] = M;
-      var p = function(t3) {
-        return t3 instanceof _;
-      }, S2 = function t3(e3, n2, r4) {
-        var i3;
-        if (!e3)
-          return g;
-        if ("string" == typeof e3) {
-          var s3 = e3.toLowerCase();
-          D[s3] && (i3 = s3), n2 && (D[s3] = n2, i3 = s3);
-          var u2 = e3.split("-");
-          if (!i3 && u2.length > 1)
-            return t3(u2[0]);
-        } else {
-          var a2 = e3.name;
-          D[a2] = e3, i3 = a2;
-        }
-        return !r4 && i3 && (g = i3), i3 || !r4 && g;
-      }, w = function(t3, e3) {
-        if (p(t3))
-          return t3.clone();
-        var n2 = "object" == typeof e3 ? e3 : {};
-        return n2.date = t3, n2.args = arguments, new _(n2);
-      }, O = v;
-      O.l = S2, O.i = p, O.w = function(t3, e3) {
-        return w(t3, { locale: e3.$L, utc: e3.$u, x: e3.$x, $offset: e3.$offset });
-      };
-      var _ = function() {
-        function M2(t3) {
-          this.$L = S2(t3.locale, null, true), this.parse(t3);
-        }
-        var m3 = M2.prototype;
-        return m3.parse = function(t3) {
-          this.$d = function(t4) {
-            var e3 = t4.date, n2 = t4.utc;
-            if (null === e3)
-              return new Date(NaN);
-            if (O.u(e3))
-              return new Date();
-            if (e3 instanceof Date)
-              return new Date(e3);
-            if ("string" == typeof e3 && !/Z$/i.test(e3)) {
-              var r4 = e3.match($);
-              if (r4) {
-                var i3 = r4[2] - 1 || 0, s3 = (r4[7] || "0").substring(0, 3);
-                return n2 ? new Date(Date.UTC(r4[1], i3, r4[3] || 1, r4[4] || 0, r4[5] || 0, r4[6] || 0, s3)) : new Date(r4[1], i3, r4[3] || 1, r4[4] || 0, r4[5] || 0, r4[6] || 0, s3);
-              }
-            }
-            return new Date(e3);
-          }(t3), this.$x = t3.x || {}, this.init();
-        }, m3.init = function() {
-          var t3 = this.$d;
-          this.$y = t3.getFullYear(), this.$M = t3.getMonth(), this.$D = t3.getDate(), this.$W = t3.getDay(), this.$H = t3.getHours(), this.$m = t3.getMinutes(), this.$s = t3.getSeconds(), this.$ms = t3.getMilliseconds();
-        }, m3.$utils = function() {
-          return O;
-        }, m3.isValid = function() {
-          return !(this.$d.toString() === l);
-        }, m3.isSame = function(t3, e3) {
-          var n2 = w(t3);
-          return this.startOf(e3) <= n2 && n2 <= this.endOf(e3);
-        }, m3.isAfter = function(t3, e3) {
-          return w(t3) < this.startOf(e3);
-        }, m3.isBefore = function(t3, e3) {
-          return this.endOf(e3) < w(t3);
-        }, m3.$g = function(t3, e3, n2) {
-          return O.u(t3) ? this[e3] : this.set(n2, t3);
-        }, m3.unix = function() {
-          return Math.floor(this.valueOf() / 1e3);
-        }, m3.valueOf = function() {
-          return this.$d.getTime();
-        }, m3.startOf = function(t3, e3) {
-          var n2 = this, r4 = !!O.u(e3) || e3, h4 = O.p(t3), l2 = function(t4, e4) {
-            var i3 = O.w(n2.$u ? Date.UTC(n2.$y, e4, t4) : new Date(n2.$y, e4, t4), n2);
-            return r4 ? i3 : i3.endOf(a);
-          }, $2 = function(t4, e4) {
-            return O.w(n2.toDate()[t4].apply(n2.toDate("s"), (r4 ? [0, 0, 0, 0] : [23, 59, 59, 999]).slice(e4)), n2);
-          }, y2 = this.$W, M3 = this.$M, m4 = this.$D, v2 = "set" + (this.$u ? "UTC" : "");
-          switch (h4) {
-            case c2:
-              return r4 ? l2(1, 0) : l2(31, 11);
-            case f4:
-              return r4 ? l2(1, M3) : l2(0, M3 + 1);
-            case o2:
-              var g2 = this.$locale().weekStart || 0, D2 = (y2 < g2 ? y2 + 7 : y2) - g2;
-              return l2(r4 ? m4 - D2 : m4 + (6 - D2), M3);
-            case a:
-            case d:
-              return $2(v2 + "Hours", 0);
-            case u:
-              return $2(v2 + "Minutes", 1);
-            case s2:
-              return $2(v2 + "Seconds", 2);
-            case i2:
-              return $2(v2 + "Milliseconds", 3);
-            default:
-              return this.clone();
-          }
-        }, m3.endOf = function(t3) {
-          return this.startOf(t3, false);
-        }, m3.$set = function(t3, e3) {
-          var n2, o3 = O.p(t3), h4 = "set" + (this.$u ? "UTC" : ""), l2 = (n2 = {}, n2[a] = h4 + "Date", n2[d] = h4 + "Date", n2[f4] = h4 + "Month", n2[c2] = h4 + "FullYear", n2[u] = h4 + "Hours", n2[s2] = h4 + "Minutes", n2[i2] = h4 + "Seconds", n2[r3] = h4 + "Milliseconds", n2)[o3], $2 = o3 === a ? this.$D + (e3 - this.$W) : e3;
-          if (o3 === f4 || o3 === c2) {
-            var y2 = this.clone().set(d, 1);
-            y2.$d[l2]($2), y2.init(), this.$d = y2.set(d, Math.min(this.$D, y2.daysInMonth())).$d;
-          } else
-            l2 && this.$d[l2]($2);
-          return this.init(), this;
-        }, m3.set = function(t3, e3) {
-          return this.clone().$set(t3, e3);
-        }, m3.get = function(t3) {
-          return this[O.p(t3)]();
-        }, m3.add = function(r4, h4) {
-          var d2, l2 = this;
-          r4 = Number(r4);
-          var $2 = O.p(h4), y2 = function(t3) {
-            var e3 = w(l2);
-            return O.w(e3.date(e3.date() + Math.round(t3 * r4)), l2);
-          };
-          if ($2 === f4)
-            return this.set(f4, this.$M + r4);
-          if ($2 === c2)
-            return this.set(c2, this.$y + r4);
-          if ($2 === a)
-            return y2(1);
-          if ($2 === o2)
-            return y2(7);
-          var M3 = (d2 = {}, d2[s2] = e2, d2[u] = n, d2[i2] = t2, d2)[$2] || 1, m4 = this.$d.getTime() + r4 * M3;
-          return O.w(m4, this);
-        }, m3.subtract = function(t3, e3) {
-          return this.add(-1 * t3, e3);
-        }, m3.format = function(t3) {
-          var e3 = this, n2 = this.$locale();
-          if (!this.isValid())
-            return n2.invalidDate || l;
-          var r4 = t3 || "YYYY-MM-DDTHH:mm:ssZ", i3 = O.z(this), s3 = this.$H, u2 = this.$m, a2 = this.$M, o3 = n2.weekdays, f5 = n2.months, h4 = function(t4, n3, i4, s4) {
-            return t4 && (t4[n3] || t4(e3, r4)) || i4[n3].slice(0, s4);
-          }, c3 = function(t4) {
-            return O.s(s3 % 12 || 12, t4, "0");
-          }, d2 = n2.meridiem || function(t4, e4, n3) {
-            var r5 = t4 < 12 ? "AM" : "PM";
-            return n3 ? r5.toLowerCase() : r5;
-          }, $2 = { YY: String(this.$y).slice(-2), YYYY: this.$y, M: a2 + 1, MM: O.s(a2 + 1, 2, "0"), MMM: h4(n2.monthsShort, a2, f5, 3), MMMM: h4(f5, a2), D: this.$D, DD: O.s(this.$D, 2, "0"), d: String(this.$W), dd: h4(n2.weekdaysMin, this.$W, o3, 2), ddd: h4(n2.weekdaysShort, this.$W, o3, 3), dddd: o3[this.$W], H: String(s3), HH: O.s(s3, 2, "0"), h: c3(1), hh: c3(2), a: d2(s3, u2, true), A: d2(s3, u2, false), m: String(u2), mm: O.s(u2, 2, "0"), s: String(this.$s), ss: O.s(this.$s, 2, "0"), SSS: O.s(this.$ms, 3, "0"), Z: i3 };
-          return r4.replace(y, function(t4, e4) {
-            return e4 || $2[t4] || i3.replace(":", "");
-          });
-        }, m3.utcOffset = function() {
-          return 15 * -Math.round(this.$d.getTimezoneOffset() / 15);
-        }, m3.diff = function(r4, d2, l2) {
-          var $2, y2 = O.p(d2), M3 = w(r4), m4 = (M3.utcOffset() - this.utcOffset()) * e2, v2 = this - M3, g2 = O.m(this, M3);
-          return g2 = ($2 = {}, $2[c2] = g2 / 12, $2[f4] = g2, $2[h3] = g2 / 3, $2[o2] = (v2 - m4) / 6048e5, $2[a] = (v2 - m4) / 864e5, $2[u] = v2 / n, $2[s2] = v2 / e2, $2[i2] = v2 / t2, $2)[y2] || v2, l2 ? g2 : O.a(g2);
-        }, m3.daysInMonth = function() {
-          return this.endOf(f4).$D;
-        }, m3.$locale = function() {
-          return D[this.$L];
-        }, m3.locale = function(t3, e3) {
-          if (!t3)
-            return this.$L;
-          var n2 = this.clone(), r4 = S2(t3, e3, true);
-          return r4 && (n2.$L = r4), n2;
-        }, m3.clone = function() {
-          return O.w(this.$d, this);
-        }, m3.toDate = function() {
-          return new Date(this.valueOf());
-        }, m3.toJSON = function() {
-          return this.isValid() ? this.toISOString() : null;
-        }, m3.toISOString = function() {
-          return this.$d.toISOString();
-        }, m3.toString = function() {
-          return this.$d.toUTCString();
-        }, M2;
-      }(), T = _.prototype;
-      return w.prototype = T, [["$ms", r3], ["$s", i2], ["$m", s2], ["$H", u], ["$W", a], ["$M", f4], ["$y", c2], ["$D", d]].forEach(function(t3) {
-        T[t3[1]] = function(e3) {
-          return this.$g(e3, t3[0], t3[1]);
-        };
-      }), w.extend = function(t3, e3) {
-        return t3.$i || (t3(e3, _, w), t3.$i = true), w;
-      }, w.locale = S2, w.isDayjs = p, w.unix = function(t3) {
-        return w(1e3 * t3);
-      }, w.en = D[g], w.Ls = D, w.p = {}, w;
-    });
   }
 });
 
@@ -44880,10 +33888,10 @@ var require_follow_redirects = __commonJS({
       }
       return options;
     }
-    function removeMatchingHeaders(regex2, headers) {
+    function removeMatchingHeaders(regex, headers) {
       var lastValue;
       for (var header in headers) {
-        if (regex2.test(header)) {
+        if (regex.test(header)) {
           lastValue = headers[header];
           delete headers[header];
         }
@@ -50715,6 +39723,218 @@ var init_multipart_parser = __esm({
   }
 });
 
+// ../../node_modules/.pnpm/dayjs@1.11.7/node_modules/dayjs/dayjs.min.js
+var require_dayjs_min = __commonJS({
+  "../../node_modules/.pnpm/dayjs@1.11.7/node_modules/dayjs/dayjs.min.js"(exports, module2) {
+    !function(t2, e2) {
+      "object" == typeof exports && "undefined" != typeof module2 ? module2.exports = e2() : "function" == typeof define && define.amd ? define(e2) : (t2 = "undefined" != typeof globalThis ? globalThis : t2 || self).dayjs = e2();
+    }(exports, function() {
+      "use strict";
+      var t2 = 1e3, e2 = 6e4, n = 36e5, r3 = "millisecond", i2 = "second", s2 = "minute", u = "hour", a = "day", o2 = "week", f4 = "month", h3 = "quarter", c2 = "year", d = "date", l = "Invalid Date", $ = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/, y = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g, M = { name: "en", weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), ordinal: function(t3) {
+        var e3 = ["th", "st", "nd", "rd"], n2 = t3 % 100;
+        return "[" + t3 + (e3[(n2 - 20) % 10] || e3[n2] || e3[0]) + "]";
+      } }, m2 = function(t3, e3, n2) {
+        var r4 = String(t3);
+        return !r4 || r4.length >= e3 ? t3 : "" + Array(e3 + 1 - r4.length).join(n2) + t3;
+      }, v = { s: m2, z: function(t3) {
+        var e3 = -t3.utcOffset(), n2 = Math.abs(e3), r4 = Math.floor(n2 / 60), i3 = n2 % 60;
+        return (e3 <= 0 ? "+" : "-") + m2(r4, 2, "0") + ":" + m2(i3, 2, "0");
+      }, m: function t3(e3, n2) {
+        if (e3.date() < n2.date())
+          return -t3(n2, e3);
+        var r4 = 12 * (n2.year() - e3.year()) + (n2.month() - e3.month()), i3 = e3.clone().add(r4, f4), s3 = n2 - i3 < 0, u2 = e3.clone().add(r4 + (s3 ? -1 : 1), f4);
+        return +(-(r4 + (n2 - i3) / (s3 ? i3 - u2 : u2 - i3)) || 0);
+      }, a: function(t3) {
+        return t3 < 0 ? Math.ceil(t3) || 0 : Math.floor(t3);
+      }, p: function(t3) {
+        return { M: f4, y: c2, w: o2, d: a, D: d, h: u, m: s2, s: i2, ms: r3, Q: h3 }[t3] || String(t3 || "").toLowerCase().replace(/s$/, "");
+      }, u: function(t3) {
+        return void 0 === t3;
+      } }, g = "en", D = {};
+      D[g] = M;
+      var p = function(t3) {
+        return t3 instanceof _;
+      }, S2 = function t3(e3, n2, r4) {
+        var i3;
+        if (!e3)
+          return g;
+        if ("string" == typeof e3) {
+          var s3 = e3.toLowerCase();
+          D[s3] && (i3 = s3), n2 && (D[s3] = n2, i3 = s3);
+          var u2 = e3.split("-");
+          if (!i3 && u2.length > 1)
+            return t3(u2[0]);
+        } else {
+          var a2 = e3.name;
+          D[a2] = e3, i3 = a2;
+        }
+        return !r4 && i3 && (g = i3), i3 || !r4 && g;
+      }, w = function(t3, e3) {
+        if (p(t3))
+          return t3.clone();
+        var n2 = "object" == typeof e3 ? e3 : {};
+        return n2.date = t3, n2.args = arguments, new _(n2);
+      }, O = v;
+      O.l = S2, O.i = p, O.w = function(t3, e3) {
+        return w(t3, { locale: e3.$L, utc: e3.$u, x: e3.$x, $offset: e3.$offset });
+      };
+      var _ = function() {
+        function M2(t3) {
+          this.$L = S2(t3.locale, null, true), this.parse(t3);
+        }
+        var m3 = M2.prototype;
+        return m3.parse = function(t3) {
+          this.$d = function(t4) {
+            var e3 = t4.date, n2 = t4.utc;
+            if (null === e3)
+              return new Date(NaN);
+            if (O.u(e3))
+              return new Date();
+            if (e3 instanceof Date)
+              return new Date(e3);
+            if ("string" == typeof e3 && !/Z$/i.test(e3)) {
+              var r4 = e3.match($);
+              if (r4) {
+                var i3 = r4[2] - 1 || 0, s3 = (r4[7] || "0").substring(0, 3);
+                return n2 ? new Date(Date.UTC(r4[1], i3, r4[3] || 1, r4[4] || 0, r4[5] || 0, r4[6] || 0, s3)) : new Date(r4[1], i3, r4[3] || 1, r4[4] || 0, r4[5] || 0, r4[6] || 0, s3);
+              }
+            }
+            return new Date(e3);
+          }(t3), this.$x = t3.x || {}, this.init();
+        }, m3.init = function() {
+          var t3 = this.$d;
+          this.$y = t3.getFullYear(), this.$M = t3.getMonth(), this.$D = t3.getDate(), this.$W = t3.getDay(), this.$H = t3.getHours(), this.$m = t3.getMinutes(), this.$s = t3.getSeconds(), this.$ms = t3.getMilliseconds();
+        }, m3.$utils = function() {
+          return O;
+        }, m3.isValid = function() {
+          return !(this.$d.toString() === l);
+        }, m3.isSame = function(t3, e3) {
+          var n2 = w(t3);
+          return this.startOf(e3) <= n2 && n2 <= this.endOf(e3);
+        }, m3.isAfter = function(t3, e3) {
+          return w(t3) < this.startOf(e3);
+        }, m3.isBefore = function(t3, e3) {
+          return this.endOf(e3) < w(t3);
+        }, m3.$g = function(t3, e3, n2) {
+          return O.u(t3) ? this[e3] : this.set(n2, t3);
+        }, m3.unix = function() {
+          return Math.floor(this.valueOf() / 1e3);
+        }, m3.valueOf = function() {
+          return this.$d.getTime();
+        }, m3.startOf = function(t3, e3) {
+          var n2 = this, r4 = !!O.u(e3) || e3, h4 = O.p(t3), l2 = function(t4, e4) {
+            var i3 = O.w(n2.$u ? Date.UTC(n2.$y, e4, t4) : new Date(n2.$y, e4, t4), n2);
+            return r4 ? i3 : i3.endOf(a);
+          }, $2 = function(t4, e4) {
+            return O.w(n2.toDate()[t4].apply(n2.toDate("s"), (r4 ? [0, 0, 0, 0] : [23, 59, 59, 999]).slice(e4)), n2);
+          }, y2 = this.$W, M3 = this.$M, m4 = this.$D, v2 = "set" + (this.$u ? "UTC" : "");
+          switch (h4) {
+            case c2:
+              return r4 ? l2(1, 0) : l2(31, 11);
+            case f4:
+              return r4 ? l2(1, M3) : l2(0, M3 + 1);
+            case o2:
+              var g2 = this.$locale().weekStart || 0, D2 = (y2 < g2 ? y2 + 7 : y2) - g2;
+              return l2(r4 ? m4 - D2 : m4 + (6 - D2), M3);
+            case a:
+            case d:
+              return $2(v2 + "Hours", 0);
+            case u:
+              return $2(v2 + "Minutes", 1);
+            case s2:
+              return $2(v2 + "Seconds", 2);
+            case i2:
+              return $2(v2 + "Milliseconds", 3);
+            default:
+              return this.clone();
+          }
+        }, m3.endOf = function(t3) {
+          return this.startOf(t3, false);
+        }, m3.$set = function(t3, e3) {
+          var n2, o3 = O.p(t3), h4 = "set" + (this.$u ? "UTC" : ""), l2 = (n2 = {}, n2[a] = h4 + "Date", n2[d] = h4 + "Date", n2[f4] = h4 + "Month", n2[c2] = h4 + "FullYear", n2[u] = h4 + "Hours", n2[s2] = h4 + "Minutes", n2[i2] = h4 + "Seconds", n2[r3] = h4 + "Milliseconds", n2)[o3], $2 = o3 === a ? this.$D + (e3 - this.$W) : e3;
+          if (o3 === f4 || o3 === c2) {
+            var y2 = this.clone().set(d, 1);
+            y2.$d[l2]($2), y2.init(), this.$d = y2.set(d, Math.min(this.$D, y2.daysInMonth())).$d;
+          } else
+            l2 && this.$d[l2]($2);
+          return this.init(), this;
+        }, m3.set = function(t3, e3) {
+          return this.clone().$set(t3, e3);
+        }, m3.get = function(t3) {
+          return this[O.p(t3)]();
+        }, m3.add = function(r4, h4) {
+          var d2, l2 = this;
+          r4 = Number(r4);
+          var $2 = O.p(h4), y2 = function(t3) {
+            var e3 = w(l2);
+            return O.w(e3.date(e3.date() + Math.round(t3 * r4)), l2);
+          };
+          if ($2 === f4)
+            return this.set(f4, this.$M + r4);
+          if ($2 === c2)
+            return this.set(c2, this.$y + r4);
+          if ($2 === a)
+            return y2(1);
+          if ($2 === o2)
+            return y2(7);
+          var M3 = (d2 = {}, d2[s2] = e2, d2[u] = n, d2[i2] = t2, d2)[$2] || 1, m4 = this.$d.getTime() + r4 * M3;
+          return O.w(m4, this);
+        }, m3.subtract = function(t3, e3) {
+          return this.add(-1 * t3, e3);
+        }, m3.format = function(t3) {
+          var e3 = this, n2 = this.$locale();
+          if (!this.isValid())
+            return n2.invalidDate || l;
+          var r4 = t3 || "YYYY-MM-DDTHH:mm:ssZ", i3 = O.z(this), s3 = this.$H, u2 = this.$m, a2 = this.$M, o3 = n2.weekdays, f5 = n2.months, h4 = function(t4, n3, i4, s4) {
+            return t4 && (t4[n3] || t4(e3, r4)) || i4[n3].slice(0, s4);
+          }, c3 = function(t4) {
+            return O.s(s3 % 12 || 12, t4, "0");
+          }, d2 = n2.meridiem || function(t4, e4, n3) {
+            var r5 = t4 < 12 ? "AM" : "PM";
+            return n3 ? r5.toLowerCase() : r5;
+          }, $2 = { YY: String(this.$y).slice(-2), YYYY: this.$y, M: a2 + 1, MM: O.s(a2 + 1, 2, "0"), MMM: h4(n2.monthsShort, a2, f5, 3), MMMM: h4(f5, a2), D: this.$D, DD: O.s(this.$D, 2, "0"), d: String(this.$W), dd: h4(n2.weekdaysMin, this.$W, o3, 2), ddd: h4(n2.weekdaysShort, this.$W, o3, 3), dddd: o3[this.$W], H: String(s3), HH: O.s(s3, 2, "0"), h: c3(1), hh: c3(2), a: d2(s3, u2, true), A: d2(s3, u2, false), m: String(u2), mm: O.s(u2, 2, "0"), s: String(this.$s), ss: O.s(this.$s, 2, "0"), SSS: O.s(this.$ms, 3, "0"), Z: i3 };
+          return r4.replace(y, function(t4, e4) {
+            return e4 || $2[t4] || i3.replace(":", "");
+          });
+        }, m3.utcOffset = function() {
+          return 15 * -Math.round(this.$d.getTimezoneOffset() / 15);
+        }, m3.diff = function(r4, d2, l2) {
+          var $2, y2 = O.p(d2), M3 = w(r4), m4 = (M3.utcOffset() - this.utcOffset()) * e2, v2 = this - M3, g2 = O.m(this, M3);
+          return g2 = ($2 = {}, $2[c2] = g2 / 12, $2[f4] = g2, $2[h3] = g2 / 3, $2[o2] = (v2 - m4) / 6048e5, $2[a] = (v2 - m4) / 864e5, $2[u] = v2 / n, $2[s2] = v2 / e2, $2[i2] = v2 / t2, $2)[y2] || v2, l2 ? g2 : O.a(g2);
+        }, m3.daysInMonth = function() {
+          return this.endOf(f4).$D;
+        }, m3.$locale = function() {
+          return D[this.$L];
+        }, m3.locale = function(t3, e3) {
+          if (!t3)
+            return this.$L;
+          var n2 = this.clone(), r4 = S2(t3, e3, true);
+          return r4 && (n2.$L = r4), n2;
+        }, m3.clone = function() {
+          return O.w(this.$d, this);
+        }, m3.toDate = function() {
+          return new Date(this.valueOf());
+        }, m3.toJSON = function() {
+          return this.isValid() ? this.toISOString() : null;
+        }, m3.toISOString = function() {
+          return this.$d.toISOString();
+        }, m3.toString = function() {
+          return this.$d.toUTCString();
+        }, M2;
+      }(), T = _.prototype;
+      return w.prototype = T, [["$ms", r3], ["$s", i2], ["$m", s2], ["$H", u], ["$W", a], ["$M", f4], ["$y", c2], ["$D", d]].forEach(function(t3) {
+        T[t3[1]] = function(e3) {
+          return this.$g(e3, t3[0], t3[1]);
+        };
+      }), w.extend = function(t3, e3) {
+        return t3.$i || (t3(e3, _, w), t3.$i = true), w;
+      }, w.locale = S2, w.isDayjs = p, w.unix = function(t3) {
+        return w(1e3 * t3);
+      }, w.en = D[g], w.Ls = D, w.p = {}, w;
+    });
+  }
+});
+
 // ../../node_modules/.pnpm/@sentry+hub@6.15.0/node_modules/@sentry/hub/dist/scope.js
 var require_scope = __commonJS({
   "../../node_modules/.pnpm/@sentry+hub@6.15.0/node_modules/@sentry/hub/dist/scope.js"(exports) {
@@ -53902,7 +43122,7 @@ var require_backend = __commonJS({
 });
 
 // ../../node_modules/.pnpm/@sentry+node@6.15.0/node_modules/@sentry/node/dist/client.js
-var require_client3 = __commonJS({
+var require_client2 = __commonJS({
   "../../node_modules/.pnpm/@sentry+node@6.15.0/node_modules/@sentry/node/dist/client.js"(exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var tslib_1 = require_tslib();
@@ -54605,7 +43825,7 @@ var require_sdk2 = __commonJS({
     var types_1 = require_dist2();
     var utils_1 = require_dist();
     var domain = require("domain");
-    var client_1 = require_client3();
+    var client_1 = require_client2();
     var integrations_1 = require_integrations2();
     exports.defaultIntegrations = [
       new core_1.Integrations.InboundFilters(),
@@ -54879,7 +44099,7 @@ var require_utils3 = __commonJS({
 });
 
 // ../../node_modules/.pnpm/@sentry+tracing@6.15.0/node_modules/@sentry/tracing/dist/errors.js
-var require_errors5 = __commonJS({
+var require_errors4 = __commonJS({
   "../../node_modules/.pnpm/@sentry+tracing@6.15.0/node_modules/@sentry/tracing/dist/errors.js"(exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var utils_1 = require_dist();
@@ -55412,7 +44632,7 @@ var require_hubextensions = __commonJS({
     var hub_1 = require_dist5();
     var types_1 = require_dist2();
     var utils_1 = require_dist();
-    var errors_1 = require_errors5();
+    var errors_1 = require_errors4();
     var idletransaction_1 = require_idletransaction();
     var transaction_1 = require_transaction3();
     var utils_2 = require_utils3();
@@ -57337,7 +46557,7 @@ var require_dist10 = __commonJS({
     exports.withScope = core_1.withScope;
     var backend_1 = require_backend();
     exports.NodeBackend = backend_1.NodeBackend;
-    var client_1 = require_client3();
+    var client_1 = require_client2();
     exports.NodeClient = client_1.NodeClient;
     var sdk_1 = require_sdk2();
     exports.defaultIntegrations = sdk_1.defaultIntegrations;
@@ -57408,13 +46628,12 @@ var config_default_default = {
     phoneNumberColumn: "phone_number"
   },
   images: {
-    url: "https://api.projecterror.dev/image",
-    type: "pe_image",
+    url: "https://api.fivemanage.com/api/image",
+    type: "image",
     imageEncoding: "webp",
     contentType: "multipart/form-data",
     useContentType: false,
-    useWebhook: false,
-    authorizationHeader: "PE-Secret",
+    authorizationHeader: "Authorization",
     authorizationPrefix: "",
     useAuthorization: true,
     returnedDataIndexes: ["url"]
@@ -57435,7 +46654,8 @@ var config_default_default = {
       "upload.wikipedia.org",
       "i.projecterror.dev",
       "upcdn.io",
-      "i.fivemanage.com"
+      "i.fivemanage.com",
+      "api.fivemanage.com"
     ]
   },
   profanityFilter: {
@@ -57474,8 +46694,8 @@ var config_default_default = {
   apps: [],
   voiceMessage: {
     enabled: false,
-    authorizationHeader: "PE-Secret",
-    url: "",
+    authorizationHeader: "Authorization",
+    url: "https://api.fivemange/api/audio",
     returnedDataIndexes: ["url"]
   }
 };
@@ -57586,10 +46806,7 @@ var mainLogger = (0, import_winston.createLogger)({
   ]
 });
 
-// server/db/pool.ts
-var import_promise = __toESM(require_promise());
-
-// server/db/db_utils.ts
+// ../../packages/database/src/db/db_utils.ts
 var CONNECTION_STRING = "mysql_connection_string";
 function parseSemiColonFormat(connectionString) {
   const parts = connectionString.replace(/(?:host(?:name)|ip|server|data\s?source|addr(?:ess)?)=/gi, "host=").replace(/(?:user\s?(?:id|name)?|uid)=/gi, "user=").replace(/(?:pwd|pass)=/gi, "password=").replace(/(?:db)=/gi, "database=").split(";");
@@ -57606,13 +46823,45 @@ function parseSemiColonFormat(connectionString) {
   }, {});
 }
 
-// server/db/pool.ts
+// ../../packages/database/src/db/pool.ts
+var import_promise = __toESM(require_promise());
+
+// ../../packages/logger/server/index.ts
+var import_path2 = __toESM(require("path"));
+var import_winston2 = __toESM(require_winston());
+var manualColorize2 = (strToColor) => `[\x1B[35m${strToColor}\x1B[0m]`;
+var formatLogs2 = (log) => {
+  if (log.module)
+    return `${log.label} ${manualColorize2(log.module)} [${log.level}]: ${log.message}`;
+  return `${log.label} [${log.level}]: ${log.message}`;
+};
+var findLogPath2 = () => `${import_path2.default.join(GetResourcePath(GetCurrentResourceName()), "sv_npwd.log")}`;
+var mainLogger2 = (0, import_winston2.createLogger)({
+  silent: !config2.debug.enabled,
+  transports: [
+    new import_winston2.transports.File({
+      filename: findLogPath2(),
+      level: "silly",
+      format: import_winston2.format.combine(import_winston2.format.errors({ stack: true }), import_winston2.format.timestamp(), import_winston2.format.json())
+    }),
+    new import_winston2.transports.Console({
+      level: config2.debug.level ?? "info",
+      format: import_winston2.format.combine(
+        import_winston2.format.label({ label: "[NPWD]" }),
+        import_winston2.format.colorize({ all: true }),
+        import_winston2.format.printf(formatLogs2)
+      )
+    })
+  ]
+});
+
+// ../../packages/database/src/db/pool.ts
 var mysqlConnectionString = GetConvar(CONNECTION_STRING, "none");
 if (mysqlConnectionString === "none") {
   const error = new Error(
     `No connection string provided. make sure "${CONNECTION_STRING}" is set in your config.`
   );
-  mainLogger.error(error.message);
+  mainLogger2.error(error.message);
   throw error;
 }
 function generateConnectionPool() {
@@ -57623,24 +46872,24 @@ function generateConnectionPool() {
       ...config4
     });
   } catch (e2) {
-    mainLogger.error(`SQL Connection Pool Error: ${e2.message}`, {
+    mainLogger2.error(`SQL Connection Pool Error: ${e2.message}`, {
       connection: mysqlConnectionString
     });
   }
 }
 var pool = generateConnectionPool();
 
-// server/db/db_wrapper.ts
+// ../../packages/database/src/db/db_wrapper.ts
 var RESOURCE_NAME = GetCurrentResourceName();
 var _DbInterface = class {
   constructor() {
-    this.logger = mainLogger.child({ module: "DBInterface" });
+    this.logger = mainLogger2.child({ module: "DBInterface" });
   }
   async _internalQuery(query, values) {
     try {
       if (!values)
         values = [];
-      if (config.database.profileQueries) {
+      if (config2.database.profileQueries) {
         const startTime = process.hrtime();
         ScheduleResourceTick(RESOURCE_NAME);
         const res = await pool.execute(query, values);
@@ -57674,272 +46923,49 @@ var _DbInterface = class {
   }
 };
 var DbInterface = new _DbInterface();
-var db_wrapper_default = DbInterface;
 
-// server/db/parseUri.ts
-var regex = new RegExp(
-  "^(?:([^:/?#.]+):)?(?://(?:([^/?#]*)@)?([\\w\\d\\-\\u0100-\\uffff.%]*)(?::([0-9]+))?)?([^?#]+)?(?:\\?([^#]*))?$"
-);
+// ../../packages/database/src/db/parseUri.ts
 var parseUri = (connectionUri) => {
-  const splitMatchGroups = connectionUri.match(regex);
-  const authTgt = splitMatchGroups[2] ? splitMatchGroups[2].split(":") : [];
-  const removeForwardSlash = (str) => str.replace(/^\/+/, "");
-  if (connectionUri.includes("mysql://"))
-    return {
-      driver: splitMatchGroups[1],
-      user: authTgt[0] || void 0,
-      password: authTgt[1] || void 0,
-      host: splitMatchGroups[3],
-      port: parseInt(splitMatchGroups[4], 10),
-      database: removeForwardSlash(splitMatchGroups[5]),
-      params: splitMatchGroups[6]
+  if (connectionUri.includes("mysql://")) {
+    const parsedUrl = new URL(connectionUri);
+    const options = {
+      driver: parsedUrl.protocol,
+      host: parsedUrl.hostname,
+      port: parseInt(parsedUrl.port),
+      database: parsedUrl.pathname.slice(1),
+      user: parsedUrl.username,
+      password: decodeURIComponent(parsedUrl.password)
     };
+    parsedUrl.searchParams.forEach((value, key) => {
+      try {
+        options[key] = JSON.parse(value);
+      } catch (err) {
+        if (key === "username")
+          options["user"] = value;
+        else
+          options[key] = value;
+      }
+    });
+    if (!options.password && !options.user || !options.database) {
+      const regex = new RegExp("^(?:([^:/?#.]+):)?(?://(?:([^/?]*):([^/?]*)@)?([[A-Za-z0-9_.]+]*)(?::([0-9]+))?)?(?:\\\\?([^#]*))?$", "");
+      const specialCharactersRegex = regex.exec(connectionUri);
+      if (specialCharactersRegex) {
+        options.user = specialCharactersRegex[2] || void 0;
+        options.password = specialCharactersRegex[3] || void 0;
+        options.host = specialCharactersRegex[4];
+        options.port = parseInt(specialCharactersRegex[5]);
+        options.database = specialCharactersRegex[6].replace(/^\/+/, "");
+      }
+    }
+    for (let key in options)
+      !options[key] && delete options[key];
+    return options;
+  }
   return connectionUri.replace(/(?:host(?:name)|ip|server|data\s?source|addr(?:ess)?)=/gi, "host=").replace(/(?:user\s?(?:id|name)?|uid)=/gi, "user=").replace(/(?:pwd|pass)=/gi, "password=").replace(/(?:db)=/gi, "database=").split(";").reduce((connectionInfo, parameter) => {
     const [key, value] = parameter.split("=");
     connectionInfo[key] = value;
     return connectionInfo;
   }, {});
-};
-
-// server/commands/registerCommands.ts
-var mysqlConnectionString2 = GetConvar(CONNECTION_STRING, "none");
-var npwdDebugDumpCommand = async (src) => {
-  if (src !== 0)
-    return;
-  const tableSchema = parseUri(mysqlConnectionString2).database;
-  if (config.debug.level === "error") {
-    console.log("SET DEBUG LEVEL TO INFO/SILLY TO SEE LOGS");
-  }
-  mainLogger.info("NPWD DEBUG DUMP STARTED, THIS WILL WRITE TO THE SV_NPWD.LOG FILE");
-  mainLogger.info("Resource Config >");
-  mainLogger.info(config);
-  const versionInfo = GetResourceMetadata(GetCurrentResourceName(), "version", 0);
-  mainLogger.info(`Manifest VERSION > ${versionInfo}`);
-  const fxServerVersion = GetConvar("version", "unknown");
-  mainLogger.info(`FXServer VERSION > ${fxServerVersion}`);
-  const activePlayerCount = GetNumPlayerIndices();
-  mainLogger.info(`Connected Player Count > ${activePlayerCount}`);
-  try {
-    const playerTableResults = await db_wrapper_default._rawExec(
-      `SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
-       FROM information_schema.COLUMNS
-       WHERE TABLE_NAME = ?
-         AND TABLE_SCHEMA = ?`,
-      [config.database.playerTable, tableSchema]
-    );
-    const tableExists = playerTableResults.length > 0;
-    if (tableExists) {
-      mainLogger.info("Player Table Info >");
-      mainLogger.info(playerTableResults[0]);
-    } else {
-      mainLogger.error(
-        `Unable to locate schema metadata for specified player table of ${config.database.playerTable}. Maybe it doesn't exist?`
-      );
-    }
-  } catch (e2) {
-    mainLogger.error(`Failed to collect debug info for player table, ${e2.message}`);
-  }
-};
-var registerCommands = () => {
-  RegisterCommand("npwd-debug-dump", npwdDebugDumpCommand, false);
-};
-
-// ../../packages/database/src/db/pool.ts
-var import_promise2 = __toESM(require_promise2());
-
-// ../../packages/database/src/db/db_utils.ts
-var CONNECTION_STRING2 = "mysql_connection_string";
-function parseSemiColonFormat2(connectionString) {
-  const parts = connectionString.replace(/(?:host(?:name)|ip|server|data\s?source|addr(?:ess)?)=/gi, "host=").replace(/(?:user\s?(?:id|name)?|uid)=/gi, "user=").replace(/(?:pwd|pass)=/gi, "password=").replace(/(?:db)=/gi, "database=").split(";");
-  if (parts.length === 1) {
-    throw new Error(
-      `Connection string ${connectionString} is in the incorrect format. Please follow the README.`
-    );
-  }
-  return parts.reduce((connectionInfo, parameter) => {
-    const [key, value] = parameter.split("=");
-    if (value)
-      connectionInfo[key] = value;
-    return connectionInfo;
-  }, {});
-}
-
-// ../../packages/logger/server/index.ts
-var import_path2 = __toESM(require("path"));
-var import_winston2 = __toESM(require_winston());
-var manualColorize2 = (strToColor) => `[\x1B[35m${strToColor}\x1B[0m]`;
-var formatLogs2 = (log) => {
-  if (log.module)
-    return `${log.label} ${manualColorize2(log.module)} [${log.level}]: ${log.message}`;
-  return `${log.label} [${log.level}]: ${log.message}`;
-};
-var findLogPath2 = () => `${import_path2.default.join(GetResourcePath(GetCurrentResourceName()), "sv_npwd.log")}`;
-var mainLogger2 = (0, import_winston2.createLogger)({
-  silent: !config2.debug.enabled,
-  transports: [
-    new import_winston2.transports.File({
-      filename: findLogPath2(),
-      level: "silly",
-      format: import_winston2.format.combine(import_winston2.format.errors({ stack: true }), import_winston2.format.timestamp(), import_winston2.format.json())
-    }),
-    new import_winston2.transports.Console({
-      level: config2.debug.level ?? "info",
-      format: import_winston2.format.combine(
-        import_winston2.format.label({ label: "[NPWD]" }),
-        import_winston2.format.colorize({ all: true }),
-        import_winston2.format.printf(formatLogs2)
-      )
-    })
-  ]
-});
-
-// ../../packages/database/src/db/pool.ts
-var mysqlConnectionString3 = GetConvar(CONNECTION_STRING2, "none");
-if (mysqlConnectionString3 === "none") {
-  const error = new Error(
-    `No connection string provided. make sure "${CONNECTION_STRING2}" is set in your config.`
-  );
-  mainLogger2.error(error.message);
-  throw error;
-}
-function generateConnectionPool2() {
-  try {
-    const config4 = mysqlConnectionString3.includes("mysql://") ? { uri: mysqlConnectionString3 } : parseSemiColonFormat2(mysqlConnectionString3);
-    return import_promise2.default.createPool({
-      connectTimeout: 6e4,
-      ...config4
-    });
-  } catch (e2) {
-    mainLogger2.error(`SQL Connection Pool Error: ${e2.message}`, {
-      connection: mysqlConnectionString3
-    });
-  }
-}
-var pool2 = generateConnectionPool2();
-
-// server/boot/boot.db.ts
-var mysqlConnectionString4 = GetConvar(CONNECTION_STRING, "none");
-var _BootDb = class {
-  async doesPlayerTableExist() {
-    const tableSchema = parseUri(mysqlConnectionString4).database;
-    const tblsh = `Tables_in_${tableSchema}`;
-    const query = `SHOW TABLES WHERE \`${tblsh}\`LIKE ?`;
-    const [results] = await db_wrapper_default._rawExec(query, [config.database.playerTable]);
-    const tableDetails = results;
-    return !!tableDetails.length;
-  }
-  async getPlayerTableColumns() {
-    const query = `SHOW COLUMNS IN ${config.database.playerTable}`;
-    const [results] = await db_wrapper_default._rawExec(query, []);
-    const columnResults = results;
-    return columnResults.map((columnData) => columnData.Field);
-  }
-};
-var BootDb = new _BootDb();
-var boot_db_default = BootDb;
-
-// server/boot/boot.utils.ts
-var bootLogger = mainLogger.child({
-  module: "boot"
-});
-var fatalDbError = (reason) => {
-  throw new Error(
-    `
-^1==============================================
-
-!!! NPWD WAS UNABLE TO VALIDATE YOUR DATABASE AND FINISH STARTING !!!
-
-${reason}
-
-This error is most likely caused by incorrect values in the config.json file.
-
-==============================================^0`
-  );
-};
-var { identifierColumn, phoneNumberColumn } = config.database;
-var requiredDbColumns = [identifierColumn, phoneNumberColumn];
-var frameworkDependencies = {
-  ["es_extended"]: ["esx-npwd"],
-  ["qb-core"]: ["qb-npwd"]
-};
-
-// server/boot/boot.service.ts
-var _BootService = class {
-  constructor() {
-    this.bootDb = boot_db_default;
-    bootLogger.debug("Boot service started");
-  }
-  async handleResourceStarting() {
-    await this.validateDatabaseSchema();
-    this.performConfigChecks();
-  }
-  async validateDatabaseSchema() {
-    bootLogger.debug("Beginning database schema validation");
-    const doesPlayerTableExist = await this.bootDb.doesPlayerTableExist();
-    if (!doesPlayerTableExist) {
-      fatalDbError(
-        `Player table "${config.database.playerTable}" does not exist in the configured database.`
-      );
-    }
-    const columnData = await this.bootDb.getPlayerTableColumns();
-    if (!requiredDbColumns.every((elem) => columnData.includes(elem))) {
-      const missingColumns = requiredDbColumns.filter((elem) => !columnData.includes(elem));
-      fatalDbError(`Player table is missing required columns: [${missingColumns.join(", ")}]`);
-    }
-    bootLogger.debug("Database schema successfully validated");
-  }
-  performConfigChecks() {
-    if (config.general.useResourceIntegration) {
-      this.checkFrameworkDependencies();
-    }
-  }
-  checkFrameworkDependencies() {
-    bootLogger.debug("Checking for missing framework dependencies");
-    const startedResources = /* @__PURE__ */ new Set();
-    const errorsDetected = /* @__PURE__ */ new Set();
-    const numOfResources = GetNumResources();
-    for (let i2 = 0; i2 < numOfResources; i2++) {
-      const resourceName = GetResourceByFindIndex(i2);
-      if (GetResourceState(resourceName) === "started") {
-        startedResources.add(resourceName);
-      }
-    }
-    for (const [resourceName, depList] of Object.entries(frameworkDependencies)) {
-      if (startedResources.has(resourceName)) {
-        if (!depList.every((elem) => startedResources.has(elem))) {
-          const missingDependencies = depList.filter((depName) => !startedResources.has(depName));
-          errorsDetected.add(
-            `Missing ${resourceName} dependencies detected: ${missingDependencies.join(", ")}`
-          );
-        }
-      }
-    }
-    if (errorsDetected.size) {
-      errorsDetected.forEach((errorString) => bootLogger.error(errorString));
-    } else {
-      bootLogger.debug("No missing dependencies were detected");
-    }
-  }
-};
-var BootService = new _BootService();
-var boot_service_default = BootService;
-
-// server/boot/boot.controller.ts
-on("onServerResourceStart", async (resource) => {
-  if (resource === GetCurrentResourceName()) {
-    await boot_service_default.handleResourceStarting();
-  }
-});
-
-// server/utils/miscUtils.ts
-var getSource = () => global.source;
-var clean = (input) => input ? input.replace(/[^0-9a-z]/gi, "") : input;
-var onNetTyped = (eventName, cb) => onNet(eventName, cb);
-var emitNetTyped = (eventName, data, src) => {
-  if (src) {
-    return emitNet(eventName, src, data);
-  }
-  emitNet(eventName, data);
 };
 
 // server/players/player.utils.ts
@@ -57992,7 +47018,7 @@ async function generateUniquePhoneNumber() {
   }
   const query = `SELECT EXISTS(SELECT * FROM ${config3.database.playerTable} WHERE ${config3.database.phoneNumberColumn} = ?)`;
   const dashNumber = generateUsNumber();
-  const [results] = await db_wrapper_default._rawExec(query, [dashNumber]);
+  const [results] = await DbInterface._rawExec(query, [dashNumber]);
   if (!results)
     return generateUniquePhoneNumber();
   return dashNumber;
@@ -58001,7 +47027,7 @@ async function generateUniquePhoneNumber() {
 // server/misc/functions.ts
 async function findOrGeneratePhoneNumber(identifier) {
   const query = `SELECT ${config3.database.phoneNumberColumn} FROM ${config3.database.playerTable} WHERE ${config3.database.identifierColumn} = ? LIMIT 1`;
-  const [res] = await db_wrapper_default._rawExec(query, [identifier]);
+  const [res] = await DbInterface._rawExec(query, [identifier]);
   playerLogger.debug("Find user for number generation data >");
   playerLogger.debug(res);
   const castRes = res;
@@ -58012,7 +47038,7 @@ async function findOrGeneratePhoneNumber(identifier) {
   const gennedNumber = await generateUniquePhoneNumber();
   playerLogger.debug(`Phone number generated > ${gennedNumber}`);
   const updateQuery = `UPDATE ${config3.database.playerTable} SET ${config3.database.phoneNumberColumn} = ? WHERE ${config3.database.identifierColumn} = ?`;
-  const result = await db_wrapper_default._rawExec(updateQuery, [gennedNumber, identifier]);
+  const result = await DbInterface._rawExec(updateQuery, [gennedNumber, identifier]);
   if (!result || !result[0] || !result[0].affectedRows) {
     playerLogger.error(`Failed to store phone number in database`);
     playerLogger.error(
@@ -58293,771 +47319,11 @@ var getPlayerGameLicense = (src) => {
 // server/marketplace/marketplace.utils.ts
 var marketplaceLogger = mainLogger.child({ module: "marketplace" });
 
-// ../../packages/database/src/db/db_wrapper.ts
-var RESOURCE_NAME2 = GetCurrentResourceName();
-var _DbInterface2 = class {
-  constructor() {
-    this.logger = mainLogger2.child({ module: "DBInterface" });
-  }
-  async _internalQuery(query, values) {
-    try {
-      if (!values)
-        values = [];
-      if (config2.database.profileQueries) {
-        const startTime = process.hrtime();
-        ScheduleResourceTick(RESOURCE_NAME2);
-        const res = await pool2.execute(query, values);
-        const timeMs = process.hrtime(startTime)[1] / 1e6;
-        this.logger.info(`Executed query (${query} ${JSON.stringify(values)}) in ${timeMs}ms'`);
-        return res;
-      }
-      ScheduleResourceTick(RESOURCE_NAME2);
-      return await pool2.execute(query, values);
-    } catch (e2) {
-      this.logger.error(
-        `Error executing (${query} ${JSON.stringify(values)}) with error message ${e2.message}`
-      );
-    }
-  }
-  async _rawExec(query, values) {
-    return await this._internalQuery(query, values);
-  }
-  async exec(query, values) {
-    const [res] = await this._internalQuery(query, values);
-    return res.affectedRows;
-  }
-  async insert(query, values) {
-    const [res] = await this._internalQuery(query, values);
-    return res.insertId;
-  }
-  async fetch(query, values) {
-    const [res] = await this._internalQuery(query, values);
-    const castRes = res;
-    return castRes;
-  }
-};
-var DbInterface2 = new _DbInterface2();
-var db_wrapper_default2 = DbInterface2;
-
-// ../../packages/database/src/contacts/index.ts
-var _ContactsDB = class {
-  async fetchAllContacts(identifier) {
-    const query = "SELECT * FROM npwd_phone_contacts WHERE identifier = ? ORDER BY display ASC";
-    const [results] = await db_wrapper_default2._rawExec(query, [identifier]);
-    return results;
-  }
-  async addContact(identifier, { display, avatar, number }) {
-    const query = "INSERT INTO npwd_phone_contacts (identifier, number, display, avatar) VALUES (?, ?, ?, ?)";
-    const [setResult] = await db_wrapper_default2._rawExec(query, [identifier, number, display, avatar]);
-    return {
-      id: setResult.insertId,
-      number,
-      avatar,
-      display
-    };
-  }
-  async updateContact(contact, identifier) {
-    const query = "UPDATE npwd_phone_contacts SET number = ?, display = ?, avatar = ? WHERE id = ? AND identifier = ?";
-    await db_wrapper_default2._rawExec(query, [
-      contact.number,
-      contact.display,
-      contact.avatar,
-      contact.id,
-      identifier
-    ]);
-  }
-  async deleteContact(contactId, identifier) {
-    const query = "DELETE FROM npwd_phone_contacts WHERE id = ? AND identifier = ?";
-    await db_wrapper_default2._rawExec(query, [contactId, identifier]);
-  }
-};
-var ContactsDB = new _ContactsDB();
-
-// ../../packages/database/src/notes/index.ts
-var _NotesDB = class {
-  async addNote(identifier, note) {
-    const query = "INSERT INTO npwd_notes (identifier, title, content) VALUES (?, ?, ?)";
-    const [result] = await db_wrapper_default2._rawExec(query, [identifier, note.title, note.content]);
-    return result.insertId;
-  }
-  async fetchNotes(identifier) {
-    const query = "SELECT * FROM npwd_notes WHERE identifier = ? ORDER BY id DESC";
-    const [result] = await db_wrapper_default2._rawExec(query, [identifier]);
-    return result;
-  }
-  async deleteNote(noteId, identifier) {
-    const query = "DELETE FROM npwd_notes WHERE id = ? AND identifier = ?";
-    await db_wrapper_default2._rawExec(query, [noteId, identifier]);
-  }
-  async updateNote(note, identifier) {
-    const query = "UPDATE npwd_notes SET title = ?, content = ? WHERE id = ? AND identifier = ?";
-    await db_wrapper_default2._rawExec(query, [note.title, note.content, note.id, identifier]);
-  }
-};
-var NotesDB = new _NotesDB();
-
-// server/utils/generateProfileName.ts
-async function generateProfileName(identifier, delimiter = "_") {
-  const player = player_service_default.getPlayerFromIdentifier(identifier);
-  const firstname = clean(player.getFirstName());
-  const lastname = clean(player.getLastName());
-  const phone_number = clean(player.getPhoneNumber());
-  if (firstname && lastname) {
-    return `${firstname}${delimiter}${lastname}`;
-  } else if (firstname) {
-    return firstname;
-  } else if (lastname) {
-    return lastname;
-  } else if (phone_number) {
-    return phone_number;
-  }
-  return null;
-}
-
-// server/twitter/twitter.utils.ts
-var twitterLogger = mainLogger.child({ module: "twitter" });
-
-// ../../packages/database/src/twitter/index.ts
-var SELECT_FIELDS = `
-  npwd_twitter_tweets.id,
-  npwd_twitter_tweets.identifier,
-  npwd_twitter_profiles.id AS profile_id,
-  npwd_twitter_profiles.profile_name,
-  npwd_twitter_profiles.avatar_url,
-  npwd_twitter_tweets.likes,
-  npwd_twitter_tweets.visible,
-  IFNULL(COALESCE(retweets.message, npwd_twitter_tweets.message), '') AS message,
-  IFNULL(COALESCE(retweets.images, npwd_twitter_tweets.images), '') AS images,
-  npwd_twitter_tweets.retweet IS NOT NULL AS isRetweet,
-  retweets.id AS retweetId,
-  retweets_profiles.profile_name AS retweetProfileName,
-  retweets_profiles.avatar_url AS retweetAvatarUrl,
-  npwd_twitter_likes.id IS NOT NULL AS isLiked,
-  npwd_twitter_reports.id IS NOT NULL AS isReported,
-  npwd_twitter_tweets.createdAt,
-  npwd_twitter_tweets.updatedAt,
-  TIME_TO_SEC(TIMEDIFF( NOW(), npwd_twitter_tweets.createdAt)) AS seconds_since_tweet
-`;
-var TWEETS_PER_PAGE = config2?.twitter?.resultsLimit || 25;
-var formatTweets = (profileId) => (tweet) => ({
-  ...tweet,
-  isMine: tweet.profile_id === profileId,
-  isRetweet: tweet.isRetweet === 1
-});
-var _TwitterDB = class {
-  async fetchAllTweets(profileId, currPage) {
-    currPage = typeof currPage === "number" ? currPage : 1;
-    const offset = currPage * TWEETS_PER_PAGE;
-    const query = `
-        SELECT ${SELECT_FIELDS}
-        FROM npwd_twitter_tweets
-                 LEFT OUTER JOIN npwd_twitter_profiles
-                                 ON npwd_twitter_tweets.identifier = npwd_twitter_profiles.identifier
-                 LEFT OUTER JOIN npwd_twitter_likes ON npwd_twitter_tweets.id = npwd_twitter_likes.tweet_id AND
-                                                       npwd_twitter_likes.profile_id = ?
-                 LEFT OUTER JOIN npwd_twitter_reports ON npwd_twitter_tweets.id = npwd_twitter_reports.tweet_id AND
-                                                         npwd_twitter_reports.profile_id = ?
-                 LEFT OUTER JOIN npwd_twitter_tweets AS retweets ON retweets.id = npwd_twitter_tweets.retweet
-                 LEFT OUTER JOIN npwd_twitter_profiles AS retweets_profiles
-                                 ON retweets.identifier = retweets_profiles.identifier
-        WHERE npwd_twitter_tweets.visible = 1
-        ORDER BY id DESC
-        LIMIT ? OFFSET ?
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [
-      profileId,
-      profileId,
-      TWEETS_PER_PAGE.toString(),
-      offset.toString()
-    ]);
-    const tweets = results;
-    return tweets.map(formatTweets(profileId));
-  }
-  async fetchTweetsFiltered(profileId, searchValue) {
-    const parameterizedSearchValue = `%${searchValue}%`;
-    const query = `
-        SELECT ${SELECT_FIELDS}
-        FROM npwd_twitter_tweets
-                 LEFT OUTER JOIN npwd_twitter_profiles
-                                 ON npwd_twitter_tweets.identifier = npwd_twitter_profiles.identifier
-                 LEFT OUTER JOIN npwd_twitter_likes ON npwd_twitter_tweets.id = npwd_twitter_likes.tweet_id AND
-                                                       npwd_twitter_likes.profile_id = ?
-                 LEFT OUTER JOIN npwd_twitter_reports ON npwd_twitter_tweets.id = npwd_twitter_reports.tweet_id AND
-                                                         npwd_twitter_reports.profile_id = ?
-                 LEFT OUTER JOIN npwd_twitter_tweets AS retweets ON retweets.id = npwd_twitter_tweets.retweet
-                 LEFT OUTER JOIN npwd_twitter_profiles AS retweets_profiles
-                                 ON retweets.identifier = retweets_profiles.identifier
-        WHERE npwd_twitter_tweets.visible = 1
-          AND (npwd_twitter_profiles.profile_name LIKE ? OR npwd_twitter_tweets.message LIKE ?)
-        ORDER BY npwd_twitter_tweets.id DESC
-        LIMIT 25
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [
-      profileId,
-      profileId,
-      parameterizedSearchValue,
-      parameterizedSearchValue
-    ]);
-    const tweets = results;
-    return tweets.map(formatTweets(profileId));
-  }
-  async getTweet(profileId, tweetId) {
-    const query = `
-        SELECT ${SELECT_FIELDS}
-        FROM npwd_twitter_tweets
-                 LEFT OUTER JOIN npwd_twitter_likes ON npwd_twitter_tweets.id = npwd_twitter_likes.tweet_id AND
-                                                       npwd_twitter_likes.profile_id = ?
-                 LEFT OUTER JOIN npwd_twitter_reports ON npwd_twitter_tweets.id = npwd_twitter_reports.tweet_id AND
-                                                         npwd_twitter_reports.profile_id = ?
-                 LEFT OUTER JOIN npwd_twitter_tweets AS retweets ON retweets.id = npwd_twitter_tweets.retweet
-                 LEFT OUTER JOIN npwd_twitter_profiles AS retweets_profiles
-                                 ON retweets.identifier = retweets_profiles.identifier
-                 LEFT OUTER JOIN npwd_twitter_profiles
-                                 ON npwd_twitter_tweets.identifier = npwd_twitter_profiles.identifier
-        WHERE npwd_twitter_tweets.id = ?
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [profileId, profileId, tweetId]);
-    const tweets = results;
-    return tweets.map(formatTweets(profileId))[0];
-  }
-  async createTweet(identifier, tweet) {
-    const profile = await this.getProfile(identifier);
-    const query = `
-        INSERT INTO npwd_twitter_tweets (identifier, message, images, retweet, profile_id)
-        VALUES (?, ?, ?, ?, ?)
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [
-      identifier,
-      tweet.message,
-      tweet.images,
-      tweet.retweet,
-      profile.id
-    ]);
-    const insertData = results;
-    return await this.getTweet(profile.id, insertData.insertId);
-  }
-  async createTweetReport(tweetId, profileId) {
-    const query = `
-        INSERT INTO npwd_twitter_reports (tweet_id, profile_id)
-        VALUES (?, ?)
-		`;
-    await pool2.execute(query, [tweetId, profileId]);
-  }
-  async getProfile(identifier) {
-    const query = `
-        SELECT *
-        FROM npwd_twitter_profiles
-        WHERE identifier = ?
-        LIMIT 1
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [identifier]);
-    const profiles = results;
-    return profiles.length > 0 ? profiles[0] : null;
-  }
-  async createProfile(identifier, profileName) {
-    const query = `
-        INSERT INTO npwd_twitter_profiles (identifier, profile_name)
-        VALUES (?, ?)
-		`;
-    await pool2.execute(query, [identifier, profileName]);
-    return await this.getProfile(identifier);
-  }
-  async createDefaultProfile(identifier) {
-    if (!config2.twitter.generateProfileNameFromUsers)
-      return null;
-    const defaultProfileName = await generateProfileName(identifier);
-    if (!defaultProfileName)
-      return null;
-    twitterLogger.info(`Creating default Twitter profile ${defaultProfileName} for ${identifier}`);
-    return await this.createProfile(identifier, defaultProfileName);
-  }
-  async getOrCreateProfile(identifier) {
-    const profile = await this.getProfile(identifier);
-    return profile || await this.createDefaultProfile(identifier);
-  }
-  async updateProfile(identifier, profile) {
-    const { avatar_url, profile_name } = profile;
-    const query = `
-        UPDATE npwd_twitter_profiles
-        SET avatar_url   = ?,
-            profile_name = ?
-        WHERE identifier = ?
-		`;
-    await pool2.execute(query, [avatar_url, profile_name, identifier]);
-    return profile;
-  }
-  async createLike(profileId, tweetId) {
-    const query = `
-        INSERT INTO npwd_twitter_likes (profile_id, tweet_id)
-        VALUES (?, ?)
-		`;
-    await pool2.execute(query, [profileId, tweetId]);
-    await db_wrapper_default2._rawExec(`UPDATE npwd_twitter_tweets SET likes = likes + 1 WHERE id = ?`, [
-      tweetId
-    ]);
-  }
-  async deleteLike(profileId, tweetId) {
-    const query = `
-        DELETE
-        FROM npwd_twitter_likes
-        WHERE profile_id = ?
-          AND tweet_id = ?
-		`;
-    await pool2.execute(query, [profileId, tweetId]);
-    await db_wrapper_default2._rawExec(`UPDATE npwd_twitter_tweets SET likes = likes - 1 WHERE id = ?`, [
-      tweetId
-    ]);
-  }
-  async getTotalLikesFromTweet(tweetId) {
-    const query = `SELECT COUNT(*) as count FROM npwd_twitter_likes WHERE tweet_id = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [tweetId]);
-    const result = results;
-    return result[0].count;
-  }
-  async deleteTweet(identifier, tweetId) {
-    if (!config2.twitter.allowDeleteTweets)
-      return;
-    const query = `
-        DELETE
-        FROM npwd_twitter_tweets
-        WHERE identifier = ?
-          AND id = ?
-		`;
-    await pool2.execute(query, [identifier, tweetId]);
-  }
-  async doesLikeExist(profileId, tweetId) {
-    const query = `
-        SELECT *
-        FROM npwd_twitter_likes
-        WHERE profile_id = ?
-          AND tweet_id = ?
-        LIMIT 1
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [profileId, tweetId]);
-    const likes = results;
-    return likes.length > 0;
-  }
-  async doesReportExist(tweetId, profileId) {
-    const query = `
-        SELECT *
-        FROM npwd_twitter_reports
-        WHERE tweet_id = ?
-          AND profile_id = ?
-        LIMIT 1
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [tweetId, profileId]);
-    const reports = results;
-    return reports.length > 0;
-  }
-  async doesRetweetExist(tweetId, identifier) {
-    const query = `
-        SELECT COUNT(id) as count
-        FROM npwd_twitter_tweets
-        WHERE (id = ? OR retweet = ?)
-          AND identifier = ?
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [tweetId, tweetId, identifier]);
-    const counts = results;
-    return counts[0].count > 0;
-  }
-};
-var TwitterDB = new _TwitterDB();
-
-// ../../packages/database/src/players/index.ts
-var _PlayerRepo = class {
-  async fetchIdentifierFromPhoneNumber(phoneNumber) {
-    const query = `SELECT ${config2.database.identifierColumn} FROM ${config2.database.playerTable} WHERE ${config2.database.phoneNumberColumn} = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [phoneNumber]);
-    return results[0]?.[config2.database.identifierColumn] || null;
-  }
-  async fetchPhoneNumberFromIdentifier(identifier) {
-    const query = `SELECT ${config2.database.phoneNumberColumn} FROM ${config2.database.playerTable} WHERE ${config2.database.identifierColumn} = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [identifier]);
-    return results[0][config2.database.phoneNumberColumn] || null;
-  }
-};
-var PlayerRepo = new _PlayerRepo();
-
-// ../../packages/database/src/photo/index.ts
-var _PhotoDB = class {
-  async uploadPhoto(identifier, image) {
-    const query = "INSERT INTO npwd_phone_gallery (identifier, image) VALUES (?, ?)";
-    const [results] = await db_wrapper_default2._rawExec(query, [identifier, image]);
-    return { id: results.insertId, image };
-  }
-  async getPhotosByIdentifier(identifier) {
-    const query = "SELECT id, image FROM npwd_phone_gallery WHERE identifier = ? ORDER BY id DESC";
-    const [results] = await db_wrapper_default2._rawExec(query, [identifier]);
-    return results;
-  }
-  async deletePhoto(photo, identifier) {
-    const query = "DELETE FROM npwd_phone_gallery WHERE image = ? AND identifier = ?";
-    await db_wrapper_default2._rawExec(query, [photo.image, identifier]);
-  }
-  async deletePhotoById(photo, identifier) {
-    const query = "DELETE FROM npwd_phone_gallery WHERE id = ? AND identifier = ?";
-    await db_wrapper_default2._rawExec(query, [photo, identifier]);
-  }
-};
-var PhotoDB = new _PhotoDB();
-
-// server/messages/messages.utils.ts
-var messagesLogger = mainLogger.child({ module: "messages" });
-function createGroupHashID(participants) {
-  participants.sort();
-  return participants.join("+");
-}
-function getIdentifiersFromParticipants(conversationId) {
-  return conversationId.split("+");
-}
-
-// ../../packages/database/src/messages/index.ts
-var MESSAGES_PER_PAGE = 20;
-var _MessagesDB = class {
-  async getConversations(phoneNumber) {
-    const query = `SELECT npwd_messages_conversations.id,
-                          npwd_messages_conversations.conversation_list         as conversationList,
-                          npwd_messages_participants.unread_count               as unreadCount,
-                          npwd_messages_conversations.is_group_chat             as isGroupChat,
-                          npwd_messages_conversations.label,
-                          UNIX_TIMESTAMP(npwd_messages_conversations.updatedAt) as updatedAt,
-                          npwd_messages_participants.participant
-                   FROM npwd_messages_conversations
-                            INNER JOIN npwd_messages_participants
-                                       on npwd_messages_conversations.id = npwd_messages_participants.conversation_id
-                   WHERE npwd_messages_participants.participant = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [phoneNumber]);
-    return results;
-  }
-  async getConversation(conversationId) {
-    const query = `SELECT npwd_messages_conversations.id,
-                          npwd_messages_conversations.conversation_list         as conversationList,
-                          npwd_messages_conversations.is_group_chat             as isGroupChat,
-                          npwd_messages_conversations.label,
-                          UNIX_TIMESTAMP(npwd_messages_conversations.createdAt) as createdAt,
-                          UNIX_TIMESTAMP(npwd_messages_conversations.updatedAt) as updatedAt
-                   FROM npwd_messages_conversations
-                   WHERE id = ?
-                   LIMIT 1`;
-    const [results] = await db_wrapper_default2._rawExec(query, [conversationId]);
-    const result = results;
-    return result[0];
-  }
-  async getMessages(dto) {
-    const offset = MESSAGES_PER_PAGE * dto.page;
-    const query = `SELECT npwd_messages.id,
-                          npwd_messages.conversation_id,
-                          npwd_messages.author,
-                          npwd_messages.message,
-                          npwd_messages.is_embed,
-                          UNIX_TIMESTAMP(npwd_messages.createdAt) as createdAt,
-                          npwd_messages.embed
-                   FROM npwd_messages
-                   WHERE conversation_id = ?
-                   ORDER BY createdAt DESC
-                   LIMIT ? OFFSET ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [
-      dto.conversationId,
-      MESSAGES_PER_PAGE.toString(),
-      offset.toString()
-    ]);
-    return results;
-  }
-  async createConversation(participants, conversationList, conversationLabel, isGroupChat) {
-    const conversationQuery = `INSERT INTO npwd_messages_conversations (conversation_list, label, is_group_chat)
-                               VALUES (?, ?, ?)`;
-    const participantQuery = `INSERT INTO npwd_messages_participants (conversation_id, participant)
-                              VALUES (?, ?)`;
-    const [results] = await db_wrapper_default2._rawExec(conversationQuery, [
-      conversationList,
-      isGroupChat ? conversationLabel : "",
-      isGroupChat
-    ]);
-    const result = results;
-    const conversationId = result.insertId;
-    for (const participant of participants) {
-      await db_wrapper_default2._rawExec(participantQuery, [conversationId, participant]);
-    }
-    return conversationId;
-  }
-  async addParticipantToConversation(conversationList, phoneNumber) {
-    const conversationId = await this.getConversationId(conversationList);
-    const participantQuery = `INSERT INTO npwd_messages_participants (conversation_id, participant)
-                              VALUES (?, ?)`;
-    await db_wrapper_default2._rawExec(participantQuery, [conversationId, phoneNumber]);
-    return conversationId;
-  }
-  async createMessage(dto) {
-    const query = `INSERT INTO npwd_messages (message, user_identifier, conversation_id, author, is_embed, embed)
-                   VALUES (?, ?, ?, ?, ?, ?)`;
-    const [results] = await db_wrapper_default2._rawExec(query, [
-      dto.message || "",
-      dto.userIdentifier,
-      dto.conversationId,
-      dto.authorPhoneNumber,
-      dto.is_embed || false,
-      dto.embed || ""
-    ]);
-    const result = results;
-    const updateConversation = `UPDATE npwd_messages_conversations
-                                SET updatedAt = current_timestamp()
-                                WHERE id = ?`;
-    setImmediate(async () => {
-      await db_wrapper_default2._rawExec(updateConversation, [dto.conversationId]).catch(
-        (err) => messagesLogger.error(`Error occurred in message update Error: ${err.message}`)
-      );
-    });
-    return await this.getMessageFromId(result.insertId);
-  }
-  async setMessageUnread(conversationId, tgtPhoneNumber) {
-    const query = `UPDATE npwd_messages_participants
-                   SET unread_count = unread_count + 1
-                   WHERE conversation_id = ?
-                     AND participant = ?`;
-    await db_wrapper_default2._rawExec(query, [conversationId, tgtPhoneNumber]);
-  }
-  async setMessageRead(conversationId, participantNumber) {
-    const query = `UPDATE npwd_messages_participants
-                   SET unread_count = 0
-                   WHERE conversation_id = ?
-                     AND participant = ?`;
-    await db_wrapper_default2._rawExec(query, [conversationId, participantNumber]);
-  }
-  async deleteMessage(message) {
-    const query = `DELETE
-                   FROM npwd_messages
-                   WHERE id = ?`;
-    await db_wrapper_default2._rawExec(query, [message.id]);
-  }
-  async deleteConversation(conversationId, phoneNumber) {
-    const query = `DELETE
-                   FROM npwd_messages_participants
-                   WHERE conversation_id = ?
-                     AND participant = ?`;
-    await db_wrapper_default2._rawExec(query, [conversationId, phoneNumber]);
-  }
-  async doesConversationExist(conversationList) {
-    const query = `SELECT COUNT(*) as count
-                   FROM npwd_messages_conversations
-                            INNER JOIN npwd_messages_participants
-                                       on npwd_messages_conversations.id = npwd_messages_participants.conversation_id
-                   WHERE conversation_list = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [conversationList]);
-    const result = results;
-    const count = result[0].count;
-    return count > 0;
-  }
-  async doesConversationExistForPlayer(conversationList, phoneNumber) {
-    const query = `SELECT COUNT(*) as count
-                   FROM npwd_messages_conversations
-                            INNER JOIN npwd_messages_participants
-                                       on npwd_messages_conversations.id = npwd_messages_participants.conversation_id
-                   WHERE conversation_list = ?
-                     AND npwd_messages_participants.participant = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [conversationList, phoneNumber]);
-    const result = results;
-    const count = result[0].count;
-    return count > 0;
-  }
-  async getConversationId(conversationList) {
-    const query = `SELECT id
-                   FROM npwd_messages_conversations
-                   WHERE conversation_list = ?`;
-    ``;
-    const [results] = await db_wrapper_default2._rawExec(query, [conversationList]);
-    const result = results;
-    return result[0].id;
-  }
-  async getMessageFromId(messageId) {
-    const query = `SELECT npwd_messages.id,
-                          npwd_messages.conversation_id,
-                          npwd_messages.author,
-                          npwd_messages.message,
-                          UNIX_TIMESTAMP(npwd_messages.createdAt) as createdAt,
-                          npwd_messages.is_embed,
-                          npwd_messages.embed
-                   FROM npwd_messages
-                   WHERE id = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [messageId]);
-    const result = results;
-    return result[0];
-  }
-};
-var MessagesDB = new _MessagesDB();
-
-// server/match/match.utils.ts
-var import_dayjs = __toESM(require_dayjs_min());
-var matchLogger = mainLogger.child({ module: "match" });
-function formatProfile(profile) {
-  return {
-    ...profile,
-    tagList: profile.tags.split(",").filter((t2) => t2),
-    lastActiveFormatted: import_dayjs.default.unix(profile.lastActive).toString(),
-    viewed: false
-  };
-}
-function formatMatches(match) {
-  return {
-    ...match,
-    tagList: match.tags.split(",").filter((t2) => t2),
-    lastActiveFormatted: import_dayjs.default.unix(match.lastActive).toString(),
-    matchedAtFormatted: import_dayjs.default.unix(match.matchedAt).toString()
-  };
-}
-
-// ../../packages/database/src/match/index.ts
-var DEFAULT_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
-var MATCHES_PER_PAGE = 20;
-var _MatchDB = class {
-  async getPotentialProfiles(identifier) {
-    const query = `
-        SELECT npwd_match_profiles.*,
-               UNIX_TIMESTAMP(npwd_match_profiles.updatedAt) AS lastActive,
-               MaxDates.lastSeen,
-               MaxDates.liked
-        FROM npwd_match_profiles
-                 LEFT OUTER JOIN (
-            SELECT id, profile, liked, MAX(createdAt) AS lastSeen
-            FROM npwd_match_views
-            WHERE identifier = ?
-            GROUP BY id, profile, liked
-        ) AS MaxDates ON npwd_match_profiles.id = MaxDates.profile
-        WHERE npwd_match_profiles.identifier != ?
-          AND (MaxDates.lastSeen IS NULL OR MaxDates.lastSeen < NOW() - INTERVAL 7 DAY)
-          AND MaxDates.liked IS NULL
-        ORDER BY npwd_match_profiles.updatedAt DESC
-        LIMIT 25
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [identifier, identifier]);
-    return results;
-  }
-  async saveLikes(identifier, like) {
-    const query = `INSERT INTO npwd_match_views (identifier, profile, liked)
-                   VALUES (?, ?, ?)`;
-    const results = await db_wrapper_default2._rawExec(query, [identifier, like.id, like.liked]);
-    return results;
-  }
-  async checkForMatchById(identifier, id) {
-    const query = `
-        SELECT targetProfile.*,
-               UNIX_TIMESTAMP(targetProfile.updatedAt) AS lastActive
-        FROM npwd_match_views
-                 LEFT OUTER JOIN npwd_match_profiles AS playerProfile ON npwd_match_views.profile = playerProfile.id
-                 LEFT OUTER JOIN npwd_match_profiles AS targetProfile
-                                 ON npwd_match_views.identifier = targetProfile.identifier
-        WHERE playerProfile.identifier = ?
-          AND targetProfile.id = ?
-          AND liked = 1
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [identifier, id]);
-    return results;
-  }
-  async findAllMatches(identifier, page) {
-    const offset = MATCHES_PER_PAGE * page;
-    const query = `
-        SELECT targetProfile.*,
-               UNIX_TIMESTAMP(targetProfile.updatedAt)                                     AS lastActive,
-               UNIX_TIMESTAMP(GREATEST(npwd_match_views.createdAt, targetViews.createdAt)) AS matchedAt,
-               targetUser.${config2.database.phoneNumberColumn}                             AS phoneNumber
-        FROM npwd_match_views
-                 LEFT OUTER JOIN npwd_match_profiles AS targetProfile ON npwd_match_views.profile = targetProfile.id
-                 LEFT OUTER JOIN npwd_match_profiles AS myProfile ON npwd_match_views.identifier = myProfile.identifier
-                 LEFT OUTER JOIN npwd_match_views AS targetViews
-                                 ON targetProfile.identifier = targetViews.identifier AND
-                                    targetViews.profile = myProfile.id
-                 LEFT OUTER JOIN ${config2.database.playerTable} AS targetUser ON targetProfile.identifier = targetUser.${config2.database.identifierColumn}
-        WHERE npwd_match_views.identifier = ?
-          AND npwd_match_views.liked = 1
-          AND targetViews.liked = 1
-        ORDER BY matchedAt DESC
-        LIMIT ? OFFSET ?
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [
-      identifier,
-      MATCHES_PER_PAGE.toString(),
-      offset.toString()
-    ]);
-    return results;
-  }
-  async getPlayerProfile(identifier) {
-    const query = `
-        SELECT *,
-               UNIX_TIMESTAMP(updatedAt) AS lastActive
-        FROM npwd_match_profiles
-        WHERE identifier = ?
-        LIMIT 1
-		`;
-    const [results] = await db_wrapper_default2._rawExec(query, [identifier]);
-    const profiles = results;
-    return profiles[0];
-  }
-  async createProfile(identifier, profile) {
-    const { name, image, bio, location, job, tags, voiceMessage } = profile;
-    const query = `
-        INSERT INTO npwd_match_profiles (identifier, name, image, bio, location, job, tags, voiceMessage)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-		`;
-    await pool2.execute(query, [identifier, name, image, bio, location, job, tags, voiceMessage]);
-    return await this.getPlayerProfile(identifier);
-  }
-  async updateProfile(identifier, profile) {
-    const { image, name, bio, location, job, tags, voiceMessage } = profile;
-    const query = `
-        UPDATE npwd_match_profiles
-        SET image    = ?,
-            name     = ?,
-            bio      = ?,
-            location = ?,
-            job      = ?,
-            tags     = ?,
-            voiceMessage = ?
-        WHERE identifier = ?
-		`;
-    await pool2.execute(query, [image, name, bio, location, job, tags, voiceMessage, identifier]);
-    return await this.getPlayerProfile(identifier);
-  }
-  async createDefaultProfile(identifier) {
-    if (!config2.match.generateProfileNameFromUsers)
-      return null;
-    const defaultProfileName = await generateProfileName(identifier, " ");
-    if (!defaultProfileName)
-      return null;
-    const defaultProfile = {
-      name: defaultProfileName,
-      image: DEFAULT_IMAGE,
-      bio: "",
-      location: "",
-      job: "",
-      tags: "",
-      voiceMessage: null
-    };
-    matchLogger.info(`Creating default match profile ${defaultProfileName} for ${identifier}`);
-    return await this.createProfile(identifier, defaultProfile);
-  }
-  async checkIfMatched(identifier, like) {
-    const matchedProfiles = await this.checkForMatchById(identifier, like.id);
-    return matchedProfiles[0];
-  }
-  async getOrCreateProfile(identifier) {
-    const profile = await this.getPlayerProfile(identifier);
-    return profile || await this.createDefaultProfile(identifier);
-  }
-  async updateLastActive(identifier) {
-    const query = `
-        UPDATE npwd_match_profiles
-        SET updatedAt = CURRENT_TIMESTAMP()
-        WHERE identifier = ?
-		`;
-    await pool2.execute(query, [identifier]);
-  }
-};
-var MatchDB = new _MatchDB();
-
-// ../../packages/database/src/marketplace/index.ts
+// server/marketplace/marketplace.database.ts
 var _MarketplaceDB = class {
   async addListing(identifier, username, name, number, listing) {
     const query = "INSERT INTO npwd_marketplace_listings (identifier, username, name, number, title, url, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    const [result] = await db_wrapper_default2._rawExec(query, [
+    const [result] = await DbInterface._rawExec(query, [
       identifier,
       username,
       name,
@@ -59071,232 +47337,46 @@ var _MarketplaceDB = class {
   }
   async fetchListings() {
     const query = "SELECT * FROM npwd_marketplace_listings WHERE reported = 0 ORDER BY id DESC";
-    const [results] = await db_wrapper_default2._rawExec(query);
+    const [results] = await DbInterface._rawExec(query);
     return results;
   }
   async deleteListing(listingId, identifier) {
     const query = "DELETE FROM npwd_marketplace_listings WHERE id = ? AND identifier = ?";
-    await db_wrapper_default2._rawExec(query, [listingId, identifier]);
+    await DbInterface._rawExec(query, [listingId, identifier]);
   }
   async deleteListingsOnDrop(identifier) {
     const query = `DELETE FROM npwd_marketplace_listings WHERE identifier = ? AND reported = 0`;
-    await db_wrapper_default2._rawExec(query, [identifier]);
+    await DbInterface._rawExec(query, [identifier]);
   }
   async getListing(listingId) {
     const query = `SELECT * FROM npwd_marketplace_listings WHERE id = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [listingId]);
+    const [results] = await DbInterface._rawExec(query, [listingId]);
     const listings = results;
     return listings[0];
   }
   async getListingIdsByIdentifier(identifier) {
     const query = `SELECT id FROM npwd_marketplace_listings WHERE identifier = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [identifier]);
+    const [results] = await DbInterface._rawExec(query, [identifier]);
     return results;
   }
   async reportListing(listing) {
     const query = `UPDATE npwd_marketplace_listings SET reported = 1 WHERE id = ?`;
-    await db_wrapper_default2._rawExec(query, [listing.id]);
+    await DbInterface._rawExec(query, [listing.id]);
   }
   async doesListingExist(listing, identifier) {
     const query = `SELECT * FROM npwd_marketplace_listings WHERE title = ? AND identifier = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [listing.title, identifier]);
+    const [results] = await DbInterface._rawExec(query, [listing.title, identifier]);
     const listings = results;
     return listings.length > 0;
   }
   async doesReportExist(listingId, profile) {
     const query = `SELECT * FROM npwd_marketplace_listings WHERE id = ? AND username = ? AND reported = 1`;
-    const [results] = await db_wrapper_default2._rawExec(query, [listingId, profile]);
+    const [results] = await DbInterface._rawExec(query, [listingId, profile]);
     const result = results;
     return result.length > 0;
   }
 };
 var MarketplaceDB = new _MarketplaceDB();
-
-// ../../packages/database/src/darkchat/index.ts
-var _DarkchatDB = class {
-  async getAllChannels(userIdentifier) {
-    const query = `SELECT npwd_darkchat_channels.id,
-                          npwd_darkchat_channels.channel_identifier AS identifier,
-                          npwd_darkchat_channels.label
-                   FROM npwd_darkchat_channels
-                            LEFT JOIN npwd_darkchat_channel_members
-                                      on npwd_darkchat_channels.id = npwd_darkchat_channel_members.channel_id
-                   WHERE npwd_darkchat_channel_members.user_identifier = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [userIdentifier]);
-    const channels = results;
-    return Promise.all(
-      channels.map(async (channel) => {
-        const owner = await this.getChannelOwner(channel.id);
-        const ownerPhoneNumber = await player_service_default.getPhoneNumberFromIdentifier(owner);
-        return {
-          ...channel,
-          owner: ownerPhoneNumber
-        };
-      })
-    );
-  }
-  async getMembers(channelId) {
-    const query = `SELECT npwd_darkchat_channel_members.channel_id      AS channelId,
-                          npwd_darkchat_channel_members.is_owner        AS isOwner,
-                          npwd_darkchat_channel_members.user_identifier AS identifier
-                   FROM npwd_darkchat_channel_members
-                   WHERE channel_id = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [channelId]);
-    const members = results;
-    return Promise.all(
-      members.map(async (member) => {
-        const player = await player_service_default.getPlayerFromIdentifier(member.identifier);
-        return {
-          ...member,
-          phoneNumber: player ? player.getPhoneNumber() : ""
-        };
-      })
-    );
-  }
-  async transferChannelOwnership(oldOwnerIdentifier, newOwnerIdentifier, channelId) {
-    const query = `UPDATE npwd_darkchat_channel_members
-                   SET is_owner = ?
-                   WHERE user_identifier = ?
-                     AND channel_id = ?`;
-    await db_wrapper_default2._rawExec(query, [0, oldOwnerIdentifier, channelId]);
-    await db_wrapper_default2._rawExec(query, [1, newOwnerIdentifier, channelId]);
-  }
-  async getChannelOwner(channelId) {
-    const query = `SELECT user_identifier
-                   FROM npwd_darkchat_channel_members
-                   WHERE channel_id = ?
-                     AND is_owner = 1`;
-    const [results] = await db_wrapper_default2._rawExec(query, [channelId]);
-    const result = results;
-    return result[0].user_identifier;
-  }
-  async getChannelMessages(channelId) {
-    const query = `SELECT id,
-                          message,
-                          user_identifier           AS identifier,
-                          UNIX_TIMESTAMP(createdAt) AS createdAt,
-                          is_image                  AS isImage 
-                   FROM npwd_darkchat_messages
-                   WHERE npwd_darkchat_messages.channel_id = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [channelId]);
-    return results;
-  }
-  async getChannelIdAndLabel(channelIdentifier) {
-    const query = `SELECT id, label
-                   FROM npwd_darkchat_channels
-                   WHERE channel_identifier = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [channelIdentifier]);
-    const result = results;
-    return { id: result[0].id, label: result[0].label };
-  }
-  async joinChannel(channelIdentifier, userIdentifier, isOwner) {
-    const { id: channelId } = await this.getChannelIdAndLabel(channelIdentifier);
-    const query = `INSERT INTO npwd_darkchat_channel_members (channel_id, user_identifier, is_owner)
-                   VALUES (?, ?, ?)`;
-    await db_wrapper_default2._rawExec(query, [channelId, userIdentifier, isOwner]);
-    return channelId;
-  }
-  async createChannel(channelIdentifier) {
-    const query = `INSERT INTO npwd_darkchat_channels (channel_identifier, label)
-                   VALUES (?, ?)`;
-    const [results] = await db_wrapper_default2._rawExec(query, [channelIdentifier, channelIdentifier]);
-    const result = results;
-    return result.insertId;
-  }
-  async doesChannelExist(channelIdentifier) {
-    const query = `SELECT *
-                   FROM npwd_darkchat_channels
-                   WHERE channel_identifier = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [channelIdentifier]);
-    const result = results;
-    return result.length > 0;
-  }
-  async getMessage(channelId, messageId) {
-    const query = `SELECT id,
-                          message,
-                          user_identifier           AS identifier,
-                          UNIX_TIMESTAMP(createdAt) AS createdAt,
-                          is_image                  AS isImage 
-                   FROM npwd_darkchat_messages
-                   WHERE channel_id = ?
-                     AND id = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [channelId, messageId]);
-    const result = results;
-    return result[0];
-  }
-  async createMessage(channelId, userIdentifier, message, is_image) {
-    const query = `INSERT INTO npwd_darkchat_messages (channel_id, message, user_identifier, is_image)
-                   VALUES (?, ?, ?, ?)`;
-    const [results] = await db_wrapper_default2._rawExec(query, [
-      channelId,
-      message,
-      userIdentifier,
-      is_image
-    ]);
-    const result = results;
-    return await this.getMessage(channelId, result.insertId);
-  }
-  async getChannelMembers(channelId) {
-    const query = `SELECT channel_id      AS channelId,
-                          user_identifier AS identifier,
-                          is_owner        AS isOwner
-                   FROM npwd_darkchat_channel_members
-                   WHERE channel_id = ?`;
-    const [results] = await db_wrapper_default2._rawExec(query, [channelId]);
-    return results;
-  }
-  async leaveChannel(channelId, userIdentifier) {
-    const query = `DELETE
-                   FROM npwd_darkchat_channel_members
-                   WHERE channel_id = ?
-                     AND user_identifier = ?`;
-    await db_wrapper_default2._rawExec(query, [channelId, userIdentifier]);
-  }
-  async updateChannelLabel(dto) {
-    const query = `UPDATE npwd_darkchat_channels
-                   SET label = ?
-                   WHERE id = ?`;
-    await db_wrapper_default2._rawExec(query, [dto.label, dto.channelId]);
-  }
-  async deleteChannel(channelId) {
-    const messageQuery = `DELETE FROM npwd_darkchat_messages WHERE channel_id  = ?`;
-    const memberQuery = `DELETE FROM npwd_darkchat_channel_members WHERE channel_id = ?`;
-    const query = `DELETE
-                   FROM npwd_darkchat_channels
-                   WHERE id = ?`;
-    await db_wrapper_default2._rawExec(messageQuery, [channelId]);
-    await db_wrapper_default2._rawExec(memberQuery, [channelId]);
-    await db_wrapper_default2._rawExec(query, [channelId]);
-  }
-};
-var DarkchatDB = new _DarkchatDB();
-
-// ../../packages/database/src/calls/index.ts
-var _CallsRepo = class {
-  async saveCall(call) {
-    const query = "INSERT INTO npwd_calls (identifier, transmitter, receiver, `start`) VALUES (?, ?, ?, ?)";
-    await db_wrapper_default2._rawExec(query, [
-      call.identifier,
-      call.transmitter,
-      call.receiver,
-      call.start
-    ]);
-  }
-  async updateCall(call, isAccepted, end) {
-    const query = "UPDATE npwd_calls SET is_accepted=?, end=? WHERE identifier = ?";
-    await db_wrapper_default2._rawExec(query, [isAccepted, end, call.identifier]);
-  }
-  async fetchCalls(phoneNumber, limit = 50 /* CALLS_FETCH_LIMIT */) {
-    const query = "SELECT * FROM npwd_calls WHERE receiver = ? OR transmitter = ? ORDER BY id DESC LIMIT ?";
-    const [result] = await db_wrapper_default2._rawExec(query, [
-      phoneNumber,
-      phoneNumber,
-      limit.toString()
-    ]);
-    return result;
-  }
-};
-var CallsRepo = new _CallsRepo();
 
 // server/misc/discord.ts
 var import_axios = __toESM(require_axios2());
@@ -59512,8 +47592,288 @@ var _MarketplaceService = class {
 var MarketplaceService = new _MarketplaceService();
 var marketplace_service_default = MarketplaceService;
 
+// ../../node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/wrapper.mjs
+var import_dist = __toESM(require_dist4(), 1);
+var v1 = import_dist.default.v1;
+var v3 = import_dist.default.v3;
+var v4 = import_dist.default.v4;
+var v5 = import_dist.default.v5;
+var NIL = import_dist.default.NIL;
+var version = import_dist.default.version;
+var validate = import_dist.default.validate;
+var stringify = import_dist.default.stringify;
+var parse = import_dist.default.parse;
+
+// server/calls/calls.utils.ts
+var callLogger = mainLogger.child({ module: "calls" });
+
+// server/utils/miscUtils.ts
+var getSource = () => global.source;
+var clean = (input) => input ? input.replace(/[^0-9a-z]/gi, "") : input;
+var onNetTyped = (eventName, cb) => onNet(eventName, cb);
+var emitNetTyped = (eventName, data, src) => {
+  if (src) {
+    return emitNet(eventName, src, data);
+  }
+  emitNet(eventName, data);
+};
+
+// server/calls/calls.database.ts
+var _CallsRepo = class {
+  async saveCall(call) {
+    const query = "INSERT INTO npwd_calls (identifier, transmitter, receiver, isAnonymous, `start`) VALUES (?, ?, ?, ?, ?)";
+    await DbInterface._rawExec(query, [
+      call.identifier,
+      call.transmitter,
+      call.receiver,
+      call.isAnonymous ?? false,
+      call.start
+    ]);
+  }
+  async updateCall(call, isAccepted, end) {
+    const query = "UPDATE npwd_calls SET is_accepted=?, end=? WHERE identifier = ?";
+    await DbInterface._rawExec(query, [isAccepted, end, call.identifier]);
+  }
+  async fetchCalls(phoneNumber, limit = 50 /* CALLS_FETCH_LIMIT */) {
+    const query = "SELECT * FROM npwd_calls WHERE receiver = ? OR transmitter = ? ORDER BY id DESC LIMIT ?";
+    const [result] = await DbInterface._rawExec(query, [
+      phoneNumber,
+      phoneNumber,
+      limit.toString()
+    ]);
+    return result;
+  }
+};
+var CallsRepo = new _CallsRepo();
+
+// server/calls/calls.service.ts
+var CallsService = class {
+  constructor() {
+    this.callMap = new f();
+    this.callsDB = CallsRepo;
+    callLogger.debug("Call service started");
+  }
+  setCallInMap(transmitterNumber, callObj) {
+    this.callMap.set(transmitterNumber, callObj);
+    callLogger.debug(`Call obj set with key ${transmitterNumber}, value:`);
+    callLogger.debug(callObj);
+  }
+  isPlayerInCall(source2) {
+    const phoneNunber = player_service_default.getPlayer(source2).getPhoneNumber();
+    return this.isPhoneNumberInCall(phoneNunber);
+  }
+  isPhoneNumberInCall(phoneNumber) {
+    const calls = this.callMap.find((call) => {
+      return call.transmitter === phoneNumber || call.receiver === phoneNumber;
+    });
+    return !!calls;
+  }
+  async handleInitializeCall(reqObj, resp) {
+    const transmittingPlayer = player_service_default.getPlayer(reqObj.source);
+    const transmitterNumber = transmittingPlayer.getPhoneNumber();
+    const receiverIdentifier = await player_service_default.getIdentifierFromPhoneNumber(
+      reqObj.data.receiverNumber,
+      true
+    );
+    const startCallTimeUnix = Math.floor(new Date().getTime() / 1e3);
+    const callIdentifier = v4();
+    const tempSaveCallObj = {
+      identifier: callIdentifier,
+      transmitter: transmitterNumber,
+      receiver: reqObj.data.receiverNumber,
+      is_accepted: false,
+      start: startCallTimeUnix.toString(),
+      isAnonymous: reqObj.data.isAnonymous
+    };
+    if (!receiverIdentifier) {
+      await this.callsDB.saveCall(tempSaveCallObj);
+      return resp({
+        status: "ok",
+        data: {
+          transmitter: transmitterNumber,
+          isTransmitter: true,
+          receiver: reqObj.data.receiverNumber,
+          isUnavailable: true,
+          is_accepted: false,
+          start: startCallTimeUnix.toString(),
+          identifier: callIdentifier
+        }
+      });
+    }
+    const receivingPlayer = player_service_default.getPlayerFromIdentifier(receiverIdentifier);
+    if (!receivingPlayer) {
+      await this.callsDB.saveCall(tempSaveCallObj);
+      return resp({
+        status: "ok",
+        data: {
+          is_accepted: false,
+          transmitter: transmitterNumber,
+          isTransmitter: true,
+          receiver: reqObj.data.receiverNumber,
+          isUnavailable: true,
+          start: startCallTimeUnix.toString(),
+          identifier: callIdentifier
+        }
+      });
+    }
+    callLogger.debug(`Receiving Identifier: ${receiverIdentifier}`);
+    callLogger.debug(`Receiving source: ${receivingPlayer.source} `);
+    const callObj = {
+      identifier: callIdentifier,
+      transmitter: transmitterNumber,
+      transmitterSource: transmittingPlayer.source,
+      receiver: reqObj.data.receiverNumber,
+      receiverSource: receivingPlayer.source,
+      start: startCallTimeUnix.toString(),
+      is_accepted: false,
+      isAnonymous: reqObj.data.isAnonymous
+    };
+    this.setCallInMap(callObj.transmitter, callObj);
+    try {
+      await this.callsDB.saveCall(callObj);
+    } catch (e2) {
+      callLogger.error(
+        `Unable to save call object for transmitter number ${transmitterNumber}. Error: ${e2.message}`
+      );
+      resp({ status: "error", errorMsg: "DATABASE_ERROR" });
+    }
+    resp({
+      status: "ok",
+      data: {
+        is_accepted: false,
+        transmitter: transmitterNumber,
+        receiver: reqObj.data.receiverNumber,
+        isTransmitter: true,
+        start: startCallTimeUnix.toString(),
+        identifier: callIdentifier
+      }
+    });
+    emitNetTyped(
+      "npwd:startCall" /* START_CALL */,
+      {
+        is_accepted: false,
+        transmitter: transmitterNumber,
+        receiver: reqObj.data.receiverNumber,
+        isTransmitter: false,
+        isAnonymous: reqObj.data.isAnonymous
+      },
+      receivingPlayer.source
+    );
+  }
+  async handleAcceptCall(src, transmitterNumber) {
+    const targetCallItem = this.callMap.get(transmitterNumber);
+    targetCallItem.is_accepted = true;
+    const channelId = targetCallItem.transmitterSource;
+    await this.callsDB.updateCall(targetCallItem, true, null);
+    callLogger.debug(`Call with key ${transmitterNumber} was updated to be accepted`);
+    emitNetTyped(
+      "npwd:callAccepted" /* WAS_ACCEPTED */,
+      {
+        is_accepted: true,
+        transmitter: transmitterNumber,
+        receiver: targetCallItem.receiver,
+        isTransmitter: false,
+        isAnonymous: targetCallItem.isAnonymous,
+        channelId
+      },
+      targetCallItem.receiverSource
+    );
+    mainLogger.debug(targetCallItem);
+    emitNetTyped(
+      "npwd:callAccepted" /* WAS_ACCEPTED */,
+      {
+        is_accepted: true,
+        transmitter: transmitterNumber,
+        receiver: targetCallItem.receiver,
+        isTransmitter: true,
+        channelId
+      },
+      targetCallItem.transmitterSource
+    );
+  }
+  async handleFetchCalls(reqObj, resp) {
+    try {
+      const player = player_service_default.getPlayer(reqObj.source);
+      const srcPlayerNumber = player.getPhoneNumber();
+      const calls = await this.callsDB.fetchCalls(srcPlayerNumber);
+      resp({ status: "ok", data: calls });
+    } catch (e2) {
+      resp({ status: "error", errorMsg: "DATABASE_ERROR" });
+      console.error(`Error while fetching calls, ${e2.message}`);
+    }
+  }
+  async handleRejectCall(src, transmitterNumber) {
+    const currentCall = this.callMap.get(transmitterNumber);
+    const endCallTimeUnix = Math.floor(new Date().getTime() / 1e3);
+    if (!currentCall) {
+      callLogger.error(
+        `Call with transmitter number ${transmitterNumber} does not exist in current calls map!`
+      );
+      return;
+    }
+    emitNet("npwd:callRejected" /* WAS_REJECTED */, currentCall.receiverSource, currentCall);
+    emitNet("npwd:callRejected" /* WAS_REJECTED */, currentCall.transmitterSource, currentCall);
+    await this.callsDB.updateCall(currentCall, false, endCallTimeUnix);
+    this.callMap.delete(transmitterNumber);
+  }
+  async handleEndCall(reqObj, resp) {
+    const transmitterNumber = reqObj.data.transmitterNumber;
+    const endCallTimeUnix = Math.floor(new Date().getTime() / 1e3);
+    if (reqObj.data.isUnavailable) {
+      emitNet("npwd:callEnded" /* WAS_ENDED */, reqObj.source);
+      resp({ status: "ok" });
+      return;
+    }
+    const currentCall = this.callMap.get(transmitterNumber);
+    if (!currentCall) {
+      callLogger.error(
+        `Call with transmitter number ${transmitterNumber} does not exist in current calls map!`
+      );
+      return resp({ status: "error", errorMsg: "DOES_NOT_EXIST" });
+    }
+    if (currentCall) {
+      if (currentCall.is_accepted) {
+        emitNet(
+          "npwd:callEnded" /* WAS_ENDED */,
+          currentCall.receiverSource,
+          currentCall.transmitterSource,
+          currentCall
+        );
+        emitNet(
+          "npwd:callEnded" /* WAS_ENDED */,
+          currentCall.transmitterSource,
+          currentCall.transmitterSource,
+          currentCall
+        );
+      } else {
+        emitNet("npwd:callRejected" /* WAS_REJECTED */, currentCall.receiverSource, currentCall);
+        emitNet("npwd:callRejected" /* WAS_REJECTED */, currentCall.transmitterSource, currentCall);
+      }
+    }
+    resp({ status: "ok" });
+    await this.callsDB.updateCall(currentCall, currentCall?.is_accepted, endCallTimeUnix);
+    this.callMap.delete(transmitterNumber);
+  }
+};
+var calls_service_default = new CallsService();
+
 // utils/fivem.ts
 var Delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+// server/players/player.database.ts
+var _PlayerRepo = class {
+  async fetchIdentifierFromPhoneNumber(phoneNumber) {
+    const query = `SELECT ${config2.database.identifierColumn} FROM ${config2.database.playerTable} WHERE ${config2.database.phoneNumberColumn} = ?`;
+    const [results] = await DbInterface._rawExec(query, [phoneNumber]);
+    return results[0]?.[config2.database.identifierColumn] || null;
+  }
+  async fetchPhoneNumberFromIdentifier(identifier) {
+    const query = `SELECT ${config2.database.phoneNumberColumn} FROM ${config2.database.playerTable} WHERE ${config2.database.identifierColumn} = ?`;
+    const [results] = await DbInterface._rawExec(query, [identifier]);
+    return results[0][config2.database.phoneNumberColumn] || null;
+  }
+};
+var PlayerRepo = new _PlayerRepo();
 
 // server/players/player.service.ts
 var _PlayerService = class {
@@ -59521,6 +47881,7 @@ var _PlayerService = class {
     this.playersBySource = new f();
     this.playersByIdentifier = new f();
     this.playerDB = PlayerRepo;
+    this.callService = calls_service_default;
     playerLogger.debug("Player Service started");
   }
   addPlayerToMaps(source2, player) {
@@ -59547,6 +47908,9 @@ var _PlayerService = class {
       return null;
     }
     return player;
+  }
+  isBusy(source2) {
+    return this.callService.isPlayerInCall(source2);
   }
   async getIdentifierFromPhoneNumber(phoneNumber, fetch3) {
     const onlinePlayer = this.playersBySource.find(
@@ -59658,6 +48022,322 @@ var _PlayerService = class {
 var PlayerService = new _PlayerService();
 var player_service_default = PlayerService;
 
+// ../../packages/database/src/darkchat/index.ts
+var _DarkchatDB = class {
+  async getAllChannels(userIdentifier) {
+    const query = `SELECT npwd_darkchat_channels.id,
+                          npwd_darkchat_channels.channel_identifier AS identifier,
+                          npwd_darkchat_channels.label
+                   FROM npwd_darkchat_channels
+                            LEFT JOIN npwd_darkchat_channel_members
+                                      on npwd_darkchat_channels.id = npwd_darkchat_channel_members.channel_id
+                   WHERE npwd_darkchat_channel_members.user_identifier = ?`;
+    const [results] = await DbInterface._rawExec(query, [userIdentifier]);
+    const channels = results;
+    return Promise.all(
+      channels.map(async (channel) => {
+        const owner = await this.getChannelOwner(channel.id);
+        const ownerPhoneNumber = await player_service_default.getPhoneNumberFromIdentifier(owner);
+        return {
+          ...channel,
+          owner: ownerPhoneNumber
+        };
+      })
+    );
+  }
+  async getMembers(channelId) {
+    const query = `SELECT npwd_darkchat_channel_members.channel_id      AS channelId,
+                          npwd_darkchat_channel_members.is_owner        AS isOwner,
+                          npwd_darkchat_channel_members.user_identifier AS identifier
+                   FROM npwd_darkchat_channel_members
+                   WHERE channel_id = ?`;
+    const [results] = await DbInterface._rawExec(query, [channelId]);
+    const members = results;
+    return Promise.all(
+      members.map(async (member) => {
+        const player = await player_service_default.getPlayerFromIdentifier(member.identifier);
+        return {
+          ...member,
+          phoneNumber: player ? player.getPhoneNumber() : ""
+        };
+      })
+    );
+  }
+  async transferChannelOwnership(oldOwnerIdentifier, newOwnerIdentifier, channelId) {
+    const query = `UPDATE npwd_darkchat_channel_members
+                   SET is_owner = ?
+                   WHERE user_identifier = ?
+                     AND channel_id = ?`;
+    await DbInterface._rawExec(query, [0, oldOwnerIdentifier, channelId]);
+    await DbInterface._rawExec(query, [1, newOwnerIdentifier, channelId]);
+  }
+  async getChannelOwner(channelId) {
+    const query = `SELECT user_identifier
+                   FROM npwd_darkchat_channel_members
+                   WHERE channel_id = ?
+                     AND is_owner = 1`;
+    const [results] = await DbInterface._rawExec(query, [channelId]);
+    const result = results;
+    return result[0].user_identifier;
+  }
+  async getChannelMessages(channelId) {
+    const query = `SELECT id,
+                          message,
+                          user_identifier           AS identifier,
+                          UNIX_TIMESTAMP(createdAt) AS createdAt,
+                          is_image                  AS isImage 
+                   FROM npwd_darkchat_messages
+                   WHERE npwd_darkchat_messages.channel_id = ?`;
+    const [results] = await DbInterface._rawExec(query, [channelId]);
+    return results;
+  }
+  async getChannelIdAndLabel(channelIdentifier) {
+    const query = `SELECT id, label
+                   FROM npwd_darkchat_channels
+                   WHERE channel_identifier = ?`;
+    const [results] = await DbInterface._rawExec(query, [channelIdentifier]);
+    const result = results;
+    return { id: result[0].id, label: result[0].label };
+  }
+  async joinChannel(channelIdentifier, userIdentifier, isOwner) {
+    const { id: channelId } = await this.getChannelIdAndLabel(channelIdentifier);
+    const query = `INSERT INTO npwd_darkchat_channel_members (channel_id, user_identifier, is_owner)
+                   VALUES (?, ?, ?)`;
+    await DbInterface._rawExec(query, [channelId, userIdentifier, isOwner]);
+    return channelId;
+  }
+  async createChannel(channelIdentifier) {
+    const query = `INSERT INTO npwd_darkchat_channels (channel_identifier, label)
+                   VALUES (?, ?)`;
+    const [results] = await DbInterface._rawExec(query, [channelIdentifier, channelIdentifier]);
+    const result = results;
+    return result.insertId;
+  }
+  async doesChannelExist(channelIdentifier) {
+    const query = `SELECT *
+                   FROM npwd_darkchat_channels
+                   WHERE channel_identifier = ?`;
+    const [results] = await DbInterface._rawExec(query, [channelIdentifier]);
+    const result = results;
+    return result.length > 0;
+  }
+  async getMessage(channelId, messageId) {
+    const query = `SELECT id,
+                          message,
+                          user_identifier           AS identifier,
+                          UNIX_TIMESTAMP(createdAt) AS createdAt,
+                          is_image                  AS isImage 
+                   FROM npwd_darkchat_messages
+                   WHERE channel_id = ?
+                     AND id = ?`;
+    const [results] = await DbInterface._rawExec(query, [channelId, messageId]);
+    const result = results;
+    return result[0];
+  }
+  async createMessage(channelId, userIdentifier, message, is_image) {
+    const query = `INSERT INTO npwd_darkchat_messages (channel_id, message, user_identifier, is_image)
+                   VALUES (?, ?, ?, ?)`;
+    const [results] = await DbInterface._rawExec(query, [
+      channelId,
+      message,
+      userIdentifier,
+      is_image
+    ]);
+    const result = results;
+    return await this.getMessage(channelId, result.insertId);
+  }
+  async getChannelMembers(channelId) {
+    const query = `SELECT channel_id      AS channelId,
+                          user_identifier AS identifier,
+                          is_owner        AS isOwner
+                   FROM npwd_darkchat_channel_members
+                   WHERE channel_id = ?`;
+    const [results] = await DbInterface._rawExec(query, [channelId]);
+    return results;
+  }
+  async leaveChannel(channelId, userIdentifier) {
+    const query = `DELETE
+                   FROM npwd_darkchat_channel_members
+                   WHERE channel_id = ?
+                     AND user_identifier = ?`;
+    await DbInterface._rawExec(query, [channelId, userIdentifier]);
+  }
+  async updateChannelLabel(dto) {
+    const query = `UPDATE npwd_darkchat_channels
+                   SET label = ?
+                   WHERE id = ?`;
+    await DbInterface._rawExec(query, [dto.label, dto.channelId]);
+  }
+  async deleteChannel(channelId) {
+    const messageQuery = `DELETE FROM npwd_darkchat_messages WHERE channel_id  = ?`;
+    const memberQuery = `DELETE FROM npwd_darkchat_channel_members WHERE channel_id = ?`;
+    const query = `DELETE
+                   FROM npwd_darkchat_channels
+                   WHERE id = ?`;
+    await DbInterface._rawExec(messageQuery, [channelId]);
+    await DbInterface._rawExec(memberQuery, [channelId]);
+    await DbInterface._rawExec(query, [channelId]);
+  }
+};
+var DarkchatDB = new _DarkchatDB();
+
+// server/commands/registerCommands.ts
+var mysqlConnectionString2 = GetConvar(CONNECTION_STRING, "none");
+var npwdDebugDumpCommand = async (src) => {
+  if (src !== 0)
+    return;
+  const tableSchema = parseUri(mysqlConnectionString2).database;
+  if (config.debug.level === "error") {
+    console.log("SET DEBUG LEVEL TO INFO/SILLY TO SEE LOGS");
+  }
+  mainLogger.info("NPWD DEBUG DUMP STARTED, THIS WILL WRITE TO THE SV_NPWD.LOG FILE");
+  mainLogger.info("Resource Config >");
+  mainLogger.info(config);
+  const versionInfo = GetResourceMetadata(GetCurrentResourceName(), "version", 0);
+  mainLogger.info(`Manifest VERSION > ${versionInfo}`);
+  const fxServerVersion = GetConvar("version", "unknown");
+  mainLogger.info(`FXServer VERSION > ${fxServerVersion}`);
+  const activePlayerCount = GetNumPlayerIndices();
+  mainLogger.info(`Connected Player Count > ${activePlayerCount}`);
+  try {
+    const playerTableResults = await DbInterface._rawExec(
+      `SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
+       FROM information_schema.COLUMNS
+       WHERE TABLE_NAME = ?
+         AND TABLE_SCHEMA = ?`,
+      [config.database.playerTable, tableSchema]
+    );
+    const tableExists = playerTableResults.length > 0;
+    if (tableExists) {
+      mainLogger.info("Player Table Info >");
+      mainLogger.info(playerTableResults[0]);
+    } else {
+      mainLogger.error(
+        `Unable to locate schema metadata for specified player table of ${config.database.playerTable}. Maybe it doesn't exist?`
+      );
+    }
+  } catch (e2) {
+    mainLogger.error(`Failed to collect debug info for player table, ${e2.message}`);
+  }
+};
+var registerCommands = () => {
+  RegisterCommand("npwd-debug-dump", npwdDebugDumpCommand, false);
+};
+
+// server/boot/boot.db.ts
+var mysqlConnectionString3 = GetConvar(CONNECTION_STRING, "none");
+var _BootDb = class {
+  async doesPlayerTableExist() {
+    const tableSchema = parseUri(mysqlConnectionString3).database;
+    const tblsh = `Tables_in_${tableSchema}`;
+    const query = `SHOW TABLES WHERE \`${tblsh}\`LIKE ?`;
+    const [results] = await DbInterface._rawExec(query, [config.database.playerTable]);
+    const tableDetails = results;
+    return !!tableDetails.length;
+  }
+  async getPlayerTableColumns() {
+    const query = `SHOW COLUMNS IN ${config.database.playerTable}`;
+    const [results] = await DbInterface._rawExec(query, []);
+    const columnResults = results;
+    return columnResults.map((columnData) => columnData.Field);
+  }
+};
+var BootDb = new _BootDb();
+var boot_db_default = BootDb;
+
+// server/boot/boot.utils.ts
+var bootLogger = mainLogger.child({
+  module: "boot"
+});
+var fatalDbError = (reason) => {
+  throw new Error(
+    `
+^1==============================================
+
+!!! NPWD WAS UNABLE TO VALIDATE YOUR DATABASE AND FINISH STARTING !!!
+
+${reason}
+
+This error is most likely caused by incorrect values in the config.json file.
+
+==============================================^0`
+  );
+};
+var { identifierColumn, phoneNumberColumn } = config.database;
+var requiredDbColumns = [identifierColumn, phoneNumberColumn];
+var frameworkDependencies = {
+  ["es_extended"]: ["esx-npwd"],
+  ["qb-core"]: ["qb-npwd"]
+};
+
+// server/boot/boot.service.ts
+var _BootService = class {
+  constructor() {
+    this.bootDb = boot_db_default;
+    bootLogger.debug("Boot service started");
+  }
+  async handleResourceStarting() {
+    await this.validateDatabaseSchema();
+    this.performConfigChecks();
+  }
+  async validateDatabaseSchema() {
+    bootLogger.debug("Beginning database schema validation");
+    const doesPlayerTableExist = await this.bootDb.doesPlayerTableExist();
+    if (!doesPlayerTableExist) {
+      fatalDbError(
+        `Player table "${config.database.playerTable}" does not exist in the configured database.`
+      );
+    }
+    const columnData = await this.bootDb.getPlayerTableColumns();
+    if (!requiredDbColumns.every((elem) => columnData.includes(elem))) {
+      const missingColumns = requiredDbColumns.filter((elem) => !columnData.includes(elem));
+      fatalDbError(`Player table is missing required columns: [${missingColumns.join(", ")}]`);
+    }
+    bootLogger.debug("Database schema successfully validated");
+  }
+  performConfigChecks() {
+    if (config.general.useResourceIntegration) {
+      this.checkFrameworkDependencies();
+    }
+  }
+  checkFrameworkDependencies() {
+    bootLogger.debug("Checking for missing framework dependencies");
+    const startedResources = /* @__PURE__ */ new Set();
+    const errorsDetected = /* @__PURE__ */ new Set();
+    const numOfResources = GetNumResources();
+    for (let i2 = 0; i2 < numOfResources; i2++) {
+      const resourceName = GetResourceByFindIndex(i2);
+      if (GetResourceState(resourceName) === "started") {
+        startedResources.add(resourceName);
+      }
+    }
+    for (const [resourceName, depList] of Object.entries(frameworkDependencies)) {
+      if (startedResources.has(resourceName)) {
+        if (!depList.every((elem) => startedResources.has(elem))) {
+          const missingDependencies = depList.filter((depName) => !startedResources.has(depName));
+          errorsDetected.add(
+            `Missing ${resourceName} dependencies detected: ${missingDependencies.join(", ")}`
+          );
+        }
+      }
+    }
+    if (errorsDetected.size) {
+      errorsDetected.forEach((errorString) => bootLogger.error(errorString));
+    } else {
+      bootLogger.debug("No missing dependencies were detected");
+    }
+  }
+};
+var BootService = new _BootService();
+var boot_service_default = BootService;
+
+// server/boot/boot.controller.ts
+on("onServerResourceStart", async (resource) => {
+  if (resource === GetCurrentResourceName()) {
+    await boot_service_default.handleResourceStarting();
+  }
+});
+
 // server/lib/GlobalRateLimiter.ts
 var GlobalRateLimiter = class {
   constructor(timeBetweenReq = 250) {
@@ -59757,224 +48437,196 @@ if (!config.general.useResourceIntegration) {
   });
 }
 
-// ../../node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/wrapper.mjs
-var import_dist = __toESM(require_dist4(), 1);
-var v1 = import_dist.default.v1;
-var v3 = import_dist.default.v3;
-var v4 = import_dist.default.v4;
-var v5 = import_dist.default.v5;
-var NIL = import_dist.default.NIL;
-var version = import_dist.default.version;
-var validate = import_dist.default.validate;
-var stringify = import_dist.default.stringify;
-var parse = import_dist.default.parse;
-
-// server/calls/calls.utils.ts
-var callLogger = mainLogger.child({ module: "calls" });
-
-// server/calls/calls.service.ts
-var CallsService = class {
-  constructor() {
-    this.callMap = new f();
-    this.callsDB = CallsRepo;
-    callLogger.debug("Call service started");
-  }
-  setCallInMap(transmitterNumber, callObj) {
-    this.callMap.set(transmitterNumber, callObj);
-    callLogger.debug(`Call obj set with key ${transmitterNumber}, value:`);
-    callLogger.debug(callObj);
-  }
-  async handleInitializeCall(reqObj, resp) {
-    const transmittingPlayer = player_service_default.getPlayer(reqObj.source);
-    const transmitterNumber = transmittingPlayer.getPhoneNumber();
-    const receiverIdentifier = await player_service_default.getIdentifierFromPhoneNumber(
-      reqObj.data.receiverNumber,
-      true
-    );
-    const startCallTimeUnix = Math.floor(new Date().getTime() / 1e3);
-    const callIdentifier = v4();
-    const tempSaveCallObj = {
-      identifier: callIdentifier,
-      transmitter: transmitterNumber,
-      receiver: reqObj.data.receiverNumber,
-      is_accepted: false,
-      start: startCallTimeUnix.toString()
-    };
-    if (!receiverIdentifier) {
-      await this.callsDB.saveCall(tempSaveCallObj);
-      return resp({
-        status: "ok",
-        data: {
-          transmitter: transmitterNumber,
-          isTransmitter: true,
-          receiver: reqObj.data.receiverNumber,
-          isUnavailable: true,
-          is_accepted: false,
-          start: startCallTimeUnix.toString(),
-          identifier: callIdentifier
-        }
-      });
-    }
-    const receivingPlayer = player_service_default.getPlayerFromIdentifier(receiverIdentifier);
-    if (!receivingPlayer) {
-      await this.callsDB.saveCall(tempSaveCallObj);
-      return resp({
-        status: "ok",
-        data: {
-          is_accepted: false,
-          transmitter: transmitterNumber,
-          isTransmitter: true,
-          receiver: reqObj.data.receiverNumber,
-          isUnavailable: true,
-          start: startCallTimeUnix.toString(),
-          identifier: callIdentifier
-        }
-      });
-    }
-    callLogger.debug(`Receiving Identifier: ${receiverIdentifier}`);
-    callLogger.debug(`Receiving source: ${receivingPlayer.source} `);
-    const callObj = {
-      identifier: callIdentifier,
-      transmitter: transmitterNumber,
-      transmitterSource: transmittingPlayer.source,
-      receiver: reqObj.data.receiverNumber,
-      receiverSource: receivingPlayer.source,
-      start: startCallTimeUnix.toString(),
-      is_accepted: false
-    };
-    this.setCallInMap(callObj.transmitter, callObj);
-    try {
-      await this.callsDB.saveCall(callObj);
-    } catch (e2) {
-      callLogger.error(
-        `Unable to save call object for transmitter number ${transmitterNumber}. Error: ${e2.message}`
-      );
-      resp({ status: "error", errorMsg: "DATABASE_ERROR" });
-    }
-    resp({
-      status: "ok",
-      data: {
-        is_accepted: false,
-        transmitter: transmitterNumber,
-        receiver: reqObj.data.receiverNumber,
-        isTransmitter: true,
-        start: startCallTimeUnix.toString(),
-        identifier: callIdentifier
-      }
-    });
-    emitNetTyped(
-      "npwd:startCall" /* START_CALL */,
-      {
-        is_accepted: false,
-        transmitter: transmitterNumber,
-        receiver: reqObj.data.receiverNumber,
-        isTransmitter: false
-      },
-      receivingPlayer.source
-    );
-  }
-  async handleAcceptCall(src, transmitterNumber) {
-    const targetCallItem = this.callMap.get(transmitterNumber);
-    targetCallItem.is_accepted = true;
-    const channelId = targetCallItem.transmitterSource;
-    await this.callsDB.updateCall(targetCallItem, true, null);
-    callLogger.debug(`Call with key ${transmitterNumber} was updated to be accepted`);
-    emitNetTyped(
-      "npwd:callAccepted" /* WAS_ACCEPTED */,
-      {
-        is_accepted: true,
-        transmitter: transmitterNumber,
-        receiver: targetCallItem.receiver,
-        isTransmitter: false,
-        channelId
-      },
-      targetCallItem.receiverSource
-    );
-    mainLogger.debug(targetCallItem);
-    emitNetTyped(
-      "npwd:callAccepted" /* WAS_ACCEPTED */,
-      {
-        is_accepted: true,
-        transmitter: transmitterNumber,
-        receiver: targetCallItem.receiver,
-        isTransmitter: true,
-        channelId
-      },
-      targetCallItem.transmitterSource
-    );
-  }
-  async handleFetchCalls(reqObj, resp) {
-    try {
-      const player = player_service_default.getPlayer(reqObj.source);
-      const srcPlayerNumber = player.getPhoneNumber();
-      const calls = await this.callsDB.fetchCalls(srcPlayerNumber);
-      resp({ status: "ok", data: calls });
-    } catch (e2) {
-      resp({ status: "error", errorMsg: "DATABASE_ERROR" });
-      console.error(`Error while fetching calls, ${e2.message}`);
-    }
-  }
-  async handleRejectCall(src, transmitterNumber) {
-    const currentCall = this.callMap.get(transmitterNumber);
-    const endCallTimeUnix = Math.floor(new Date().getTime() / 1e3);
-    if (!currentCall) {
-      callLogger.error(
-        `Call with transmitter number ${transmitterNumber} does not exist in current calls map!`
-      );
-      return;
-    }
-    emitNet("npwd:callRejected" /* WAS_REJECTED */, currentCall.receiverSource, currentCall);
-    emitNet("npwd:callRejected" /* WAS_REJECTED */, currentCall.transmitterSource, currentCall);
-    await this.callsDB.updateCall(currentCall, false, endCallTimeUnix);
-    this.callMap.delete(transmitterNumber);
-  }
-  async handleEndCall(reqObj, resp) {
-    const transmitterNumber = reqObj.data.transmitterNumber;
-    const endCallTimeUnix = Math.floor(new Date().getTime() / 1e3);
-    if (reqObj.data.isUnavailable) {
-      emitNet("npwd:callEnded" /* WAS_ENDED */, reqObj.source);
-      resp({ status: "ok" });
-      return;
-    }
-    const currentCall = this.callMap.get(transmitterNumber);
-    if (!currentCall) {
-      callLogger.error(
-        `Call with transmitter number ${transmitterNumber} does not exist in current calls map!`
-      );
-      return resp({ status: "error", errorMsg: "DOES_NOT_EXIST" });
-    }
-    if (currentCall) {
-      if (currentCall.is_accepted) {
-        emitNet(
-          "npwd:callEnded" /* WAS_ENDED */,
-          currentCall.receiverSource,
-          currentCall.transmitterSource,
-          currentCall
-        );
-        emitNet(
-          "npwd:callEnded" /* WAS_ENDED */,
-          currentCall.transmitterSource,
-          currentCall.transmitterSource,
-          currentCall
-        );
-      } else {
-        emitNet("npwd:callRejected" /* WAS_REJECTED */, currentCall.receiverSource, currentCall);
-        emitNet("npwd:callRejected" /* WAS_REJECTED */, currentCall.transmitterSource, currentCall);
-      }
-    }
-    resp({ status: "ok" });
-    await this.callsDB.updateCall(currentCall, currentCall?.is_accepted, endCallTimeUnix);
-    this.callMap.delete(transmitterNumber);
-  }
-};
-var calls_service_default = new CallsService();
-
 // server/calls/middleware/onCall.ts
 var exp2 = global.exports;
 var OnCallMap = /* @__PURE__ */ new Map();
 exp2("onCall", (tgtNumber, cb) => {
   OnCallMap.set(tgtNumber, cb);
 });
+
+// server/messages/messages.utils.ts
+var messagesLogger = mainLogger.child({ module: "messages" });
+function createGroupHashID(participants) {
+  participants.sort();
+  return participants.join("+");
+}
+function getIdentifiersFromParticipants(conversationId) {
+  return conversationId.split("+");
+}
+
+// server/messages/messages.database.ts
+var MESSAGES_PER_PAGE = 20;
+var _MessagesDB = class {
+  async getConversations(phoneNumber) {
+    const query = `SELECT npwd_messages_conversations.id,
+                          npwd_messages_conversations.conversation_list         as conversationList,
+                          npwd_messages_participants.unread_count               as unreadCount,
+                          npwd_messages_conversations.is_group_chat             as isGroupChat,
+                          npwd_messages_conversations.label,
+                          UNIX_TIMESTAMP(npwd_messages_conversations.updatedAt) as updatedAt,
+                          npwd_messages_participants.participant
+                   FROM npwd_messages_conversations
+                            INNER JOIN npwd_messages_participants
+                                       on npwd_messages_conversations.id = npwd_messages_participants.conversation_id
+                   WHERE npwd_messages_participants.participant = ?`;
+    const [results] = await DbInterface._rawExec(query, [phoneNumber]);
+    return results;
+  }
+  async getConversation(conversationId) {
+    const query = `SELECT npwd_messages_conversations.id,
+                          npwd_messages_conversations.conversation_list         as conversationList,
+                          npwd_messages_conversations.is_group_chat             as isGroupChat,
+                          npwd_messages_conversations.label,
+                          UNIX_TIMESTAMP(npwd_messages_conversations.createdAt) as createdAt,
+                          UNIX_TIMESTAMP(npwd_messages_conversations.updatedAt) as updatedAt
+                   FROM npwd_messages_conversations
+                   WHERE id = ?
+                   LIMIT 1`;
+    const [results] = await DbInterface._rawExec(query, [conversationId]);
+    const result = results;
+    return result[0];
+  }
+  async getMessages(dto) {
+    const offset = MESSAGES_PER_PAGE * dto.page;
+    const query = `SELECT npwd_messages.id,
+                          npwd_messages.conversation_id,
+                          npwd_messages.author,
+                          npwd_messages.message,
+                          npwd_messages.is_embed,
+                          UNIX_TIMESTAMP(npwd_messages.createdAt) as createdAt,
+                          npwd_messages.embed
+                   FROM npwd_messages
+                   WHERE conversation_id = ?
+                   ORDER BY createdAt DESC
+                   LIMIT ? OFFSET ?`;
+    const [results] = await DbInterface._rawExec(query, [
+      dto.conversationId,
+      MESSAGES_PER_PAGE.toString(),
+      offset.toString()
+    ]);
+    return results;
+  }
+  async createConversation(participants, conversationList, conversationLabel, isGroupChat) {
+    const conversationQuery = `INSERT INTO npwd_messages_conversations (conversation_list, label, is_group_chat)
+                               VALUES (?, ?, ?)`;
+    const participantQuery = `INSERT INTO npwd_messages_participants (conversation_id, participant)
+                              VALUES (?, ?)`;
+    const [results] = await DbInterface._rawExec(conversationQuery, [
+      conversationList,
+      isGroupChat ? conversationLabel : "",
+      isGroupChat
+    ]);
+    const result = results;
+    const conversationId = result.insertId;
+    for (const participant of participants) {
+      await DbInterface._rawExec(participantQuery, [conversationId, participant]);
+    }
+    return conversationId;
+  }
+  async addParticipantToConversation(conversationList, phoneNumber) {
+    const conversationId = await this.getConversationId(conversationList);
+    const participantQuery = `INSERT INTO npwd_messages_participants (conversation_id, participant)
+                              VALUES (?, ?)`;
+    await DbInterface._rawExec(participantQuery, [conversationId, phoneNumber]);
+    return conversationId;
+  }
+  async createMessage(dto) {
+    const query = `INSERT INTO npwd_messages (message, user_identifier, conversation_id, author, is_embed, embed)
+                   VALUES (?, ?, ?, ?, ?, ?)`;
+    const [results] = await DbInterface._rawExec(query, [
+      dto.message || "",
+      dto.userIdentifier,
+      dto.conversationId,
+      dto.authorPhoneNumber,
+      dto.is_embed || false,
+      dto.embed || ""
+    ]);
+    const result = results;
+    const updateConversation = `UPDATE npwd_messages_conversations
+                                SET updatedAt = current_timestamp()
+                                WHERE id = ?`;
+    setImmediate(async () => {
+      await DbInterface._rawExec(updateConversation, [dto.conversationId]).catch(
+        (err) => messagesLogger.error(`Error occurred in message update Error: ${err.message}`)
+      );
+    });
+    return await this.getMessageFromId(result.insertId);
+  }
+  async setMessageUnread(conversationId, tgtPhoneNumber) {
+    const query = `UPDATE npwd_messages_participants
+                   SET unread_count = unread_count + 1
+                   WHERE conversation_id = ?
+                     AND participant = ?`;
+    await DbInterface._rawExec(query, [conversationId, tgtPhoneNumber]);
+  }
+  async setMessageRead(conversationId, participantNumber) {
+    const query = `UPDATE npwd_messages_participants
+                   SET unread_count = 0
+                   WHERE conversation_id = ?
+                     AND participant = ?`;
+    await DbInterface._rawExec(query, [conversationId, participantNumber]);
+  }
+  async deleteMessage(message) {
+    const query = `DELETE
+                   FROM npwd_messages
+                   WHERE id = ?`;
+    await DbInterface._rawExec(query, [message.id]);
+  }
+  async deleteConversation(conversationId, phoneNumber) {
+    const query = `DELETE
+                   FROM npwd_messages_participants
+                   WHERE conversation_id = ?
+                     AND participant = ?`;
+    await DbInterface._rawExec(query, [conversationId, phoneNumber]);
+  }
+  async doesConversationExist(conversationList) {
+    const query = `SELECT COUNT(*) as count
+                   FROM npwd_messages_conversations
+                            INNER JOIN npwd_messages_participants
+                                       on npwd_messages_conversations.id = npwd_messages_participants.conversation_id
+                   WHERE conversation_list = ?`;
+    const [results] = await DbInterface._rawExec(query, [conversationList]);
+    const result = results;
+    const count = result[0].count;
+    return count > 0;
+  }
+  async doesConversationExistForPlayer(conversationList, phoneNumber) {
+    const query = `SELECT COUNT(*) as count
+                   FROM npwd_messages_conversations
+                            INNER JOIN npwd_messages_participants
+                                       on npwd_messages_conversations.id = npwd_messages_participants.conversation_id
+                   WHERE conversation_list = ?
+                     AND npwd_messages_participants.participant = ?`;
+    const [results] = await DbInterface._rawExec(query, [conversationList, phoneNumber]);
+    const result = results;
+    const count = result[0].count;
+    return count > 0;
+  }
+  async getConversationId(conversationList) {
+    const query = `SELECT id
+                   FROM npwd_messages_conversations
+                   WHERE conversation_list = ?`;
+    ``;
+    const [results] = await DbInterface._rawExec(query, [conversationList]);
+    const result = results;
+    return result[0].id;
+  }
+  async getMessageFromId(messageId) {
+    const query = `SELECT npwd_messages.id,
+                          npwd_messages.conversation_id,
+                          npwd_messages.author,
+                          npwd_messages.message,
+                          UNIX_TIMESTAMP(npwd_messages.createdAt) as createdAt,
+                          npwd_messages.is_embed,
+                          npwd_messages.embed
+                   FROM npwd_messages
+                   WHERE id = ?`;
+    const [results] = await DbInterface._rawExec(query, [messageId]);
+    const result = results;
+    return result[0];
+  }
+};
+var MessagesDB = new _MessagesDB();
 
 // server/messages/messages.service.ts
 var _MessagesService = class {
@@ -60292,8 +48944,8 @@ onNetPromise("npwd:beginCall" /* INITIALIZE_CALL */, async (reqObj, resp) => {
               message
             });
           },
-          forward: (receiverNumber) => {
-            calls_service_default.handleInitializeCall({ ...reqObj, data: { receiverNumber } }, resp).catch((e2) => {
+          forward: (receiverNumber, isAnonymous = false) => {
+            calls_service_default.handleInitializeCall({ ...reqObj, data: { receiverNumber, isAnonymous } }, resp).catch((e2) => {
               resp({ status: "error", errorMsg: "SERVER_ERROR" });
               callLogger.error(`Error occured handling init call: ${e2.message}`);
             }).then(() => {
@@ -60356,6 +49008,29 @@ onNetPromise("npwd:fetchCalls" /* FETCH_CALLS */, (reqObj, resp) => {
     callLogger.error(`Error occured in fetch call event, Error: ${e2.message}`);
   });
 });
+
+// server/notes/notes.database.ts
+var _NotesDB = class {
+  async addNote(identifier, note) {
+    const query = "INSERT INTO npwd_notes (identifier, title, content) VALUES (?, ?, ?)";
+    const [result] = await DbInterface._rawExec(query, [identifier, note.title, note.content]);
+    return result.insertId;
+  }
+  async fetchNotes(identifier) {
+    const query = "SELECT * FROM npwd_notes WHERE identifier = ? ORDER BY id DESC";
+    const [result] = await DbInterface._rawExec(query, [identifier]);
+    return result;
+  }
+  async deleteNote(noteId, identifier) {
+    const query = "DELETE FROM npwd_notes WHERE id = ? AND identifier = ?";
+    await DbInterface._rawExec(query, [noteId, identifier]);
+  }
+  async updateNote(note, identifier) {
+    const query = "UPDATE npwd_notes SET title = ?, content = ? WHERE id = ? AND identifier = ?";
+    await DbInterface._rawExec(query, [note.title, note.content, note.id, identifier]);
+  }
+};
+var NotesDB = new _NotesDB();
 
 // server/notes/notes.utils.ts
 var notesLogger = mainLogger.child({ module: "notes" });
@@ -60447,6 +49122,40 @@ onNetPromise("npwd:updateNote" /* UPDATE_NOTE */, async (reqObj, resp) => {
 
 // server/contacts/contacts.utils.ts
 var contactsLogger = mainLogger.child({ module: "contact" });
+
+// server/contacts/contacts.database.ts
+var _ContactsDB = class {
+  async fetchAllContacts(identifier) {
+    const query = "SELECT * FROM npwd_phone_contacts WHERE identifier = ? ORDER BY display ASC";
+    const [results] = await DbInterface._rawExec(query, [identifier]);
+    return results;
+  }
+  async addContact(identifier, { display, avatar, number }) {
+    const query = "INSERT INTO npwd_phone_contacts (identifier, number, display, avatar) VALUES (?, ?, ?, ?)";
+    const [setResult] = await DbInterface._rawExec(query, [identifier, number, display, avatar]);
+    return {
+      id: setResult.insertId,
+      number,
+      avatar,
+      display
+    };
+  }
+  async updateContact(contact, identifier) {
+    const query = "UPDATE npwd_phone_contacts SET number = ?, display = ?, avatar = ? WHERE id = ? AND identifier = ?";
+    await DbInterface._rawExec(query, [
+      contact.number,
+      contact.display,
+      contact.avatar,
+      contact.id,
+      identifier
+    ]);
+  }
+  async deleteContact(contactId, identifier) {
+    const query = "DELETE FROM npwd_phone_contacts WHERE id = ? AND identifier = ?";
+    await DbInterface._rawExec(query, [contactId, identifier]);
+  }
+};
+var ContactsDB = new _ContactsDB();
 
 // server/contacts/contacts.service.ts
 var _ContactService = class {
@@ -60559,6 +49268,29 @@ onNetPromise("npwd:deleteContact" /* DELETE_CONTACT */, (reqObj, resp) => {
     resp({ status: "error", errorMsg: "INTERNAL_ERROR" });
   });
 });
+
+// server/photo/photo.database.ts
+var _PhotoDB = class {
+  async uploadPhoto(identifier, image) {
+    const query = "INSERT INTO npwd_phone_gallery (identifier, image) VALUES (?, ?)";
+    const [results] = await DbInterface._rawExec(query, [identifier, image]);
+    return { id: results.insertId, image };
+  }
+  async getPhotosByIdentifier(identifier) {
+    const query = "SELECT id, image FROM npwd_phone_gallery WHERE identifier = ? ORDER BY id DESC";
+    const [results] = await DbInterface._rawExec(query, [identifier]);
+    return results;
+  }
+  async deletePhoto(photo, identifier) {
+    const query = "DELETE FROM npwd_phone_gallery WHERE image = ? AND identifier = ?";
+    await DbInterface._rawExec(query, [photo.image, identifier]);
+  }
+  async deletePhotoById(photo, identifier) {
+    const query = "DELETE FROM npwd_phone_gallery WHERE id = ? AND identifier = ?";
+    await DbInterface._rawExec(query, [photo, identifier]);
+  }
+};
+var PhotoDB = new _PhotoDB();
 
 // server/photo/photo.utils.ts
 var photoLogger = mainLogger.child({ module: "photo" });
@@ -62150,6 +50882,273 @@ on("npwd:marketplaceDeleteListingsOnDrop" /* DELETE_LISTINGS_ON_DROP */, (identi
   });
 });
 
+// server/twitter/twitter.utils.ts
+var twitterLogger = mainLogger.child({ module: "twitter" });
+
+// server/utils/generateProfileName.ts
+async function generateProfileName(identifier, delimiter = "_") {
+  const player = player_service_default.getPlayerFromIdentifier(identifier);
+  const firstname = clean(player.getFirstName());
+  const lastname = clean(player.getLastName());
+  const phone_number = clean(player.getPhoneNumber());
+  if (firstname && lastname) {
+    return `${firstname}${delimiter}${lastname}`;
+  } else if (firstname) {
+    return firstname;
+  } else if (lastname) {
+    return lastname;
+  } else if (phone_number) {
+    return phone_number;
+  }
+  return null;
+}
+
+// server/twitter/twitter.database.ts
+var SELECT_FIELDS = `
+  npwd_twitter_tweets.id,
+  npwd_twitter_tweets.identifier,
+  npwd_twitter_profiles.id AS profile_id,
+  npwd_twitter_profiles.profile_name,
+  npwd_twitter_profiles.avatar_url,
+  npwd_twitter_tweets.likes,
+  npwd_twitter_tweets.visible,
+  IFNULL(COALESCE(retweets.message, npwd_twitter_tweets.message), '') AS message,
+  IFNULL(COALESCE(retweets.images, npwd_twitter_tweets.images), '') AS images,
+  npwd_twitter_tweets.retweet IS NOT NULL AS isRetweet,
+  retweets.id AS retweetId,
+  retweets_profiles.profile_name AS retweetProfileName,
+  retweets_profiles.avatar_url AS retweetAvatarUrl,
+  npwd_twitter_likes.id IS NOT NULL AS isLiked,
+  npwd_twitter_reports.id IS NOT NULL AS isReported,
+  npwd_twitter_tweets.createdAt,
+  npwd_twitter_tweets.updatedAt,
+  TIME_TO_SEC(TIMEDIFF( NOW(), npwd_twitter_tweets.createdAt)) AS seconds_since_tweet
+`;
+var TWEETS_PER_PAGE = config2?.twitter?.resultsLimit || 25;
+var formatTweets = (profileId) => (tweet) => ({
+  ...tweet,
+  isMine: tweet.profile_id === profileId,
+  isRetweet: tweet.isRetweet === 1
+});
+var _TwitterDB = class {
+  async fetchAllTweets(profileId, currPage) {
+    currPage = typeof currPage === "number" ? currPage : 1;
+    const offset = currPage * TWEETS_PER_PAGE;
+    const query = `
+        SELECT ${SELECT_FIELDS}
+        FROM npwd_twitter_tweets
+                 LEFT OUTER JOIN npwd_twitter_profiles
+                                 ON npwd_twitter_tweets.identifier = npwd_twitter_profiles.identifier
+                 LEFT OUTER JOIN npwd_twitter_likes ON npwd_twitter_tweets.id = npwd_twitter_likes.tweet_id AND
+                                                       npwd_twitter_likes.profile_id = ?
+                 LEFT OUTER JOIN npwd_twitter_reports ON npwd_twitter_tweets.id = npwd_twitter_reports.tweet_id AND
+                                                         npwd_twitter_reports.profile_id = ?
+                 LEFT OUTER JOIN npwd_twitter_tweets AS retweets ON retweets.id = npwd_twitter_tweets.retweet
+                 LEFT OUTER JOIN npwd_twitter_profiles AS retweets_profiles
+                                 ON retweets.identifier = retweets_profiles.identifier
+        WHERE npwd_twitter_tweets.visible = 1
+        ORDER BY id DESC
+        LIMIT ? OFFSET ?
+		`;
+    const [results] = await DbInterface._rawExec(query, [
+      profileId,
+      profileId,
+      TWEETS_PER_PAGE.toString(),
+      offset.toString()
+    ]);
+    const tweets = results;
+    return tweets.map(formatTweets(profileId));
+  }
+  async fetchTweetsFiltered(profileId, searchValue) {
+    const parameterizedSearchValue = `%${searchValue}%`;
+    const query = `
+        SELECT ${SELECT_FIELDS}
+        FROM npwd_twitter_tweets
+                 LEFT OUTER JOIN npwd_twitter_profiles
+                                 ON npwd_twitter_tweets.identifier = npwd_twitter_profiles.identifier
+                 LEFT OUTER JOIN npwd_twitter_likes ON npwd_twitter_tweets.id = npwd_twitter_likes.tweet_id AND
+                                                       npwd_twitter_likes.profile_id = ?
+                 LEFT OUTER JOIN npwd_twitter_reports ON npwd_twitter_tweets.id = npwd_twitter_reports.tweet_id AND
+                                                         npwd_twitter_reports.profile_id = ?
+                 LEFT OUTER JOIN npwd_twitter_tweets AS retweets ON retweets.id = npwd_twitter_tweets.retweet
+                 LEFT OUTER JOIN npwd_twitter_profiles AS retweets_profiles
+                                 ON retweets.identifier = retweets_profiles.identifier
+        WHERE npwd_twitter_tweets.visible = 1
+          AND (npwd_twitter_profiles.profile_name LIKE ? OR npwd_twitter_tweets.message LIKE ?)
+        ORDER BY npwd_twitter_tweets.id DESC
+        LIMIT 25
+		`;
+    const [results] = await DbInterface._rawExec(query, [
+      profileId,
+      profileId,
+      parameterizedSearchValue,
+      parameterizedSearchValue
+    ]);
+    const tweets = results;
+    return tweets.map(formatTweets(profileId));
+  }
+  async getTweet(profileId, tweetId) {
+    const query = `
+        SELECT ${SELECT_FIELDS}
+        FROM npwd_twitter_tweets
+                 LEFT OUTER JOIN npwd_twitter_likes ON npwd_twitter_tweets.id = npwd_twitter_likes.tweet_id AND
+                                                       npwd_twitter_likes.profile_id = ?
+                 LEFT OUTER JOIN npwd_twitter_reports ON npwd_twitter_tweets.id = npwd_twitter_reports.tweet_id AND
+                                                         npwd_twitter_reports.profile_id = ?
+                 LEFT OUTER JOIN npwd_twitter_tweets AS retweets ON retweets.id = npwd_twitter_tweets.retweet
+                 LEFT OUTER JOIN npwd_twitter_profiles AS retweets_profiles
+                                 ON retweets.identifier = retweets_profiles.identifier
+                 LEFT OUTER JOIN npwd_twitter_profiles
+                                 ON npwd_twitter_tweets.identifier = npwd_twitter_profiles.identifier
+        WHERE npwd_twitter_tweets.id = ?
+		`;
+    const [results] = await DbInterface._rawExec(query, [profileId, profileId, tweetId]);
+    const tweets = results;
+    return tweets.map(formatTweets(profileId))[0];
+  }
+  async createTweet(identifier, tweet) {
+    const profile = await this.getProfile(identifier);
+    const query = `
+        INSERT INTO npwd_twitter_tweets (identifier, message, images, retweet, profile_id)
+        VALUES (?, ?, ?, ?, ?)
+		`;
+    const [results] = await DbInterface._rawExec(query, [
+      identifier,
+      tweet.message,
+      tweet.images,
+      tweet.retweet,
+      profile.id
+    ]);
+    const insertData = results;
+    return await this.getTweet(profile.id, insertData.insertId);
+  }
+  async createTweetReport(tweetId, profileId) {
+    const query = `
+        INSERT INTO npwd_twitter_reports (tweet_id, profile_id)
+        VALUES (?, ?)
+		`;
+    await pool.execute(query, [tweetId, profileId]);
+  }
+  async getProfile(identifier) {
+    const query = `
+        SELECT *
+        FROM npwd_twitter_profiles
+        WHERE identifier = ?
+        LIMIT 1
+		`;
+    const [results] = await DbInterface._rawExec(query, [identifier]);
+    const profiles = results;
+    return profiles.length > 0 ? profiles[0] : null;
+  }
+  async createProfile(identifier, profileName) {
+    const query = `
+        INSERT INTO npwd_twitter_profiles (identifier, profile_name)
+        VALUES (?, ?)
+		`;
+    await pool.execute(query, [identifier, profileName]);
+    return await this.getProfile(identifier);
+  }
+  async createDefaultProfile(identifier) {
+    if (!config2.twitter.generateProfileNameFromUsers)
+      return null;
+    const defaultProfileName = await generateProfileName(identifier);
+    if (!defaultProfileName)
+      return null;
+    twitterLogger.info(`Creating default Twitter profile ${defaultProfileName} for ${identifier}`);
+    return await this.createProfile(identifier, defaultProfileName);
+  }
+  async getOrCreateProfile(identifier) {
+    const profile = await this.getProfile(identifier);
+    return profile || await this.createDefaultProfile(identifier);
+  }
+  async updateProfile(identifier, profile) {
+    const { avatar_url, profile_name } = profile;
+    const query = `
+        UPDATE npwd_twitter_profiles
+        SET avatar_url   = ?,
+            profile_name = ?
+        WHERE identifier = ?
+		`;
+    await pool.execute(query, [avatar_url, profile_name, identifier]);
+    return profile;
+  }
+  async createLike(profileId, tweetId) {
+    const query = `
+        INSERT INTO npwd_twitter_likes (profile_id, tweet_id)
+        VALUES (?, ?)
+		`;
+    await pool.execute(query, [profileId, tweetId]);
+    await DbInterface._rawExec(`UPDATE npwd_twitter_tweets SET likes = likes + 1 WHERE id = ?`, [
+      tweetId
+    ]);
+  }
+  async deleteLike(profileId, tweetId) {
+    const query = `
+        DELETE
+        FROM npwd_twitter_likes
+        WHERE profile_id = ?
+          AND tweet_id = ?
+		`;
+    await pool.execute(query, [profileId, tweetId]);
+    await DbInterface._rawExec(`UPDATE npwd_twitter_tweets SET likes = likes - 1 WHERE id = ?`, [
+      tweetId
+    ]);
+  }
+  async getTotalLikesFromTweet(tweetId) {
+    const query = `SELECT COUNT(*) as count FROM npwd_twitter_likes WHERE tweet_id = ?`;
+    const [results] = await DbInterface._rawExec(query, [tweetId]);
+    const result = results;
+    return result[0].count;
+  }
+  async deleteTweet(identifier, tweetId) {
+    if (!config2.twitter.allowDeleteTweets)
+      return;
+    const query = `
+        DELETE
+        FROM npwd_twitter_tweets
+        WHERE identifier = ?
+          AND id = ?
+		`;
+    await pool.execute(query, [identifier, tweetId]);
+  }
+  async doesLikeExist(profileId, tweetId) {
+    const query = `
+        SELECT *
+        FROM npwd_twitter_likes
+        WHERE profile_id = ?
+          AND tweet_id = ?
+        LIMIT 1
+		`;
+    const [results] = await DbInterface._rawExec(query, [profileId, tweetId]);
+    const likes = results;
+    return likes.length > 0;
+  }
+  async doesReportExist(tweetId, profileId) {
+    const query = `
+        SELECT *
+        FROM npwd_twitter_reports
+        WHERE tweet_id = ?
+          AND profile_id = ?
+        LIMIT 1
+		`;
+    const [results] = await DbInterface._rawExec(query, [tweetId, profileId]);
+    const reports = results;
+    return reports.length > 0;
+  }
+  async doesRetweetExist(tweetId, identifier) {
+    const query = `
+        SELECT COUNT(id) as count
+        FROM npwd_twitter_tweets
+        WHERE (id = ? OR retweet = ?)
+          AND identifier = ?
+		`;
+    const [results] = await DbInterface._rawExec(query, [tweetId, tweetId, identifier]);
+    const counts = results;
+    return counts[0].count > 0;
+  }
+};
+var TwitterDB = new _TwitterDB();
+
 // server/twitter/twitter.service.ts
 var _TwitterService = class {
   constructor() {
@@ -62244,21 +51243,27 @@ var _TwitterService = class {
         const profile = await this.twitterDB.getProfile(identifier);
         const data = [
           {
-            "color": "1942002",
-            "title": "New Tweet",
-            "description": tweet.message,
-            "image": {
-              "url": images[0]
+            color: "1942002",
+            title: "New Tweet",
+            description: tweet.message,
+            image: {
+              url: images[0]
             },
-            "footer": {
-              "text": profile.profile_name + " " + profile.id + ":" + identifier,
-              "icon_url": profile.avatar_url
+            footer: {
+              text: profile.profile_name + " " + profile.id + ":" + identifier,
+              icon_url: profile.avatar_url
             }
           }
         ];
-        await tweetDiscordPost(this.DISCORD_WEBHOOK, JSON.stringify({ username: "Twitter", embeds: data }));
+        await tweetDiscordPost(
+          this.DISCORD_WEBHOOK,
+          JSON.stringify({ username: "Twitter", embeds: data })
+        );
       }
     } catch (e2) {
+      twitterLogger.error(`Discord post failed, ${e2.message}`, {
+        source: identifier
+      });
     }
     return;
   }
@@ -62312,7 +51317,13 @@ var _TwitterService = class {
         await this.twitterDB.createLike(profile.id, reqObj.data.tweetId);
       }
       resp({ status: "ok" });
-      emitNet("npwd:tweetLikedBroadcast" /* TWEET_LIKED_BROADCAST */, -1, reqObj.data.tweetId, !likeExists, likedByProfileName);
+      emitNet(
+        "npwd:tweetLikedBroadcast" /* TWEET_LIKED_BROADCAST */,
+        -1,
+        reqObj.data.tweetId,
+        !likeExists,
+        likedByProfileName
+      );
     } catch (e2) {
       twitterLogger.error(`Like failed, ${e2.message}`, {
         source: reqObj.source
@@ -62441,6 +51452,174 @@ if (!config.twitter.allowEditableProfileName && !config.twitter.generateProfileN
   const warning = `Both allowEdtiableProfileName and generateProfileNameFromUsers are set false - this means users will likely not have profile names for the Twitter App and won't be able to use it!`;
   twitterLogger.warn(warning);
 }
+
+// server/match/match.utils.ts
+var import_dayjs = __toESM(require_dayjs_min());
+var matchLogger = mainLogger.child({ module: "match" });
+function formatProfile(profile) {
+  return {
+    ...profile,
+    tagList: profile.tags.split(",").filter((t2) => t2),
+    lastActiveFormatted: import_dayjs.default.unix(profile.lastActive).toString(),
+    viewed: false
+  };
+}
+function formatMatches(match) {
+  return {
+    ...match,
+    tagList: match.tags.split(",").filter((t2) => t2),
+    lastActiveFormatted: import_dayjs.default.unix(match.lastActive).toString(),
+    matchedAtFormatted: import_dayjs.default.unix(match.matchedAt).toString()
+  };
+}
+
+// server/match/match.database.ts
+var DEFAULT_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
+var MATCHES_PER_PAGE = 20;
+var _MatchDB = class {
+  async getPotentialProfiles(identifier) {
+    const query = `
+        SELECT npwd_match_profiles.*,
+               UNIX_TIMESTAMP(npwd_match_profiles.updatedAt) AS lastActive,
+               MaxDates.lastSeen,
+               MaxDates.liked
+        FROM npwd_match_profiles
+                 LEFT OUTER JOIN (
+            SELECT id, profile, liked, MAX(createdAt) AS lastSeen
+            FROM npwd_match_views
+            WHERE identifier = ?
+            GROUP BY id, profile, liked
+        ) AS MaxDates ON npwd_match_profiles.id = MaxDates.profile
+        WHERE npwd_match_profiles.identifier != ?
+          AND (MaxDates.lastSeen IS NULL OR MaxDates.lastSeen < NOW() - INTERVAL 7 DAY)
+          AND MaxDates.liked IS NULL
+        ORDER BY npwd_match_profiles.updatedAt DESC
+        LIMIT 25
+		`;
+    const [results] = await DbInterface._rawExec(query, [identifier, identifier]);
+    return results;
+  }
+  async saveLikes(identifier, like) {
+    const query = `INSERT INTO npwd_match_views (identifier, profile, liked)
+                   VALUES (?, ?, ?)`;
+    const results = await DbInterface._rawExec(query, [identifier, like.id, like.liked]);
+    return results;
+  }
+  async checkForMatchById(identifier, id) {
+    const query = `
+        SELECT targetProfile.*,
+               UNIX_TIMESTAMP(targetProfile.updatedAt) AS lastActive
+        FROM npwd_match_views
+                 LEFT OUTER JOIN npwd_match_profiles AS playerProfile ON npwd_match_views.profile = playerProfile.id
+                 LEFT OUTER JOIN npwd_match_profiles AS targetProfile
+                                 ON npwd_match_views.identifier = targetProfile.identifier
+        WHERE playerProfile.identifier = ?
+          AND targetProfile.id = ?
+          AND liked = 1
+		`;
+    const [results] = await DbInterface._rawExec(query, [identifier, id]);
+    return results;
+  }
+  async findAllMatches(identifier, page) {
+    const offset = MATCHES_PER_PAGE * page;
+    const query = `
+        SELECT targetProfile.*,
+               UNIX_TIMESTAMP(targetProfile.updatedAt)                                     AS lastActive,
+               UNIX_TIMESTAMP(GREATEST(npwd_match_views.createdAt, targetViews.createdAt)) AS matchedAt,
+               targetUser.${config2.database.phoneNumberColumn}                             AS phoneNumber
+        FROM npwd_match_views
+                 LEFT OUTER JOIN npwd_match_profiles AS targetProfile ON npwd_match_views.profile = targetProfile.id
+                 LEFT OUTER JOIN npwd_match_profiles AS myProfile ON npwd_match_views.identifier = myProfile.identifier
+                 LEFT OUTER JOIN npwd_match_views AS targetViews
+                                 ON targetProfile.identifier = targetViews.identifier AND
+                                    targetViews.profile = myProfile.id
+                 LEFT OUTER JOIN ${config2.database.playerTable} AS targetUser ON targetProfile.identifier = targetUser.${config2.database.identifierColumn}
+        WHERE npwd_match_views.identifier = ?
+          AND npwd_match_views.liked = 1
+          AND targetViews.liked = 1
+        ORDER BY matchedAt DESC
+        LIMIT ? OFFSET ?
+		`;
+    const [results] = await DbInterface._rawExec(query, [
+      identifier,
+      MATCHES_PER_PAGE.toString(),
+      offset.toString()
+    ]);
+    return results;
+  }
+  async getPlayerProfile(identifier) {
+    const query = `
+        SELECT *,
+               UNIX_TIMESTAMP(updatedAt) AS lastActive
+        FROM npwd_match_profiles
+        WHERE identifier = ?
+        LIMIT 1
+		`;
+    const [results] = await DbInterface._rawExec(query, [identifier]);
+    const profiles = results;
+    return profiles[0];
+  }
+  async createProfile(identifier, profile) {
+    const { name, image, bio, location, job, tags, voiceMessage } = profile;
+    const query = `
+        INSERT INTO npwd_match_profiles (identifier, name, image, bio, location, job, tags, voiceMessage)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+		`;
+    await pool.execute(query, [identifier, name, image, bio, location, job, tags, voiceMessage]);
+    return await this.getPlayerProfile(identifier);
+  }
+  async updateProfile(identifier, profile) {
+    const { image, name, bio, location, job, tags, voiceMessage } = profile;
+    const query = `
+        UPDATE npwd_match_profiles
+        SET image    = ?,
+            name     = ?,
+            bio      = ?,
+            location = ?,
+            job      = ?,
+            tags     = ?,
+            voiceMessage = ?
+        WHERE identifier = ?
+		`;
+    await pool.execute(query, [image, name, bio, location, job, tags, voiceMessage, identifier]);
+    return await this.getPlayerProfile(identifier);
+  }
+  async createDefaultProfile(identifier) {
+    if (!config2.match.generateProfileNameFromUsers)
+      return null;
+    const defaultProfileName = await generateProfileName(identifier, " ");
+    if (!defaultProfileName)
+      return null;
+    const defaultProfile = {
+      name: defaultProfileName,
+      image: DEFAULT_IMAGE,
+      bio: "",
+      location: "",
+      job: "",
+      tags: "",
+      voiceMessage: null
+    };
+    matchLogger.info(`Creating default match profile ${defaultProfileName} for ${identifier}`);
+    return await this.createProfile(identifier, defaultProfile);
+  }
+  async checkIfMatched(identifier, like) {
+    const matchedProfiles = await this.checkForMatchById(identifier, like.id);
+    return matchedProfiles[0];
+  }
+  async getOrCreateProfile(identifier) {
+    const profile = await this.getPlayerProfile(identifier);
+    return profile || await this.createDefaultProfile(identifier);
+  }
+  async updateLastActive(identifier) {
+    const query = `
+        UPDATE npwd_match_profiles
+        SET updatedAt = CURRENT_TIMESTAMP()
+        WHERE identifier = ?
+		`;
+    await pool.execute(query, [identifier]);
+  }
+};
+var MatchDB = new _MatchDB();
 
 // server/match/match.service.ts
 var _MatchService = class {
@@ -63044,6 +52223,12 @@ exp5("getPlayerData", async (locator) => {
     identifier: player.getIdentifier(),
     source: player.source
   };
+});
+exp5("isPlayerBusy", (src) => {
+  return player_service_default.isBusy(src);
+});
+exp5("isPhoneNumberBusy", (phoneNumber) => {
+  return calls_service_default.isPhoneNumberInCall(phoneNumber);
 });
 
 // server/messages/middleware/emitMessage.ts

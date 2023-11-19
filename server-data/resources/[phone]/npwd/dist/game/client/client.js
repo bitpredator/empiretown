@@ -225,13 +225,12 @@
           phoneNumberColumn: "phone_number"
         },
         images: {
-          url: "https://api.projecterror.dev/image",
-          type: "pe_image",
+          url: "https://api.fivemanage.com/api/image",
+          type: "image",
           imageEncoding: "webp",
           contentType: "multipart/form-data",
           useContentType: false,
-          useWebhook: false,
-          authorizationHeader: "PE-Secret",
+          authorizationHeader: "Authorization",
           authorizationPrefix: "",
           useAuthorization: true,
           returnedDataIndexes: ["url"]
@@ -252,7 +251,8 @@
             "upload.wikipedia.org",
             "i.projecterror.dev",
             "upcdn.io",
-            "i.fivemanage.com"
+            "i.fivemanage.com",
+            "api.fivemanage.com"
           ]
         },
         profanityFilter: {
@@ -291,8 +291,8 @@
         apps: [],
         voiceMessage: {
           enabled: false,
-          authorizationHeader: "PE-Secret",
-          url: "",
+          authorizationHeader: "Authorization",
+          url: "https://api.fivemange/api/audio",
           returnedDataIndexes: ["url"]
         }
       };
@@ -1107,21 +1107,29 @@
   });
 
   // client/sounds/client-sound.class.ts
-  var Sound;
+  var SoundIdsByName, Sound;
   var init_client_sound_class = __esm({
     "client/sounds/client-sound.class.ts"() {
+      SoundIdsByName = {};
       Sound = class {
         constructor(soundName, soundSetName) {
           this._soundName = soundName;
           this._soundSetName = soundSetName;
+          if (SoundIdsByName[this._soundName]) {
+            ReleaseSoundId(SoundIdsByName[this._soundName]);
+            delete SoundIdsByName[this._soundName];
+          }
           this._soundId = GetSoundId();
+          SoundIdsByName[this._soundName] = this._soundId;
         }
         play() {
           PlaySoundFrontend(this._soundId, this._soundName, this._soundSetName, false);
-          PlaySoundFromEntity(this._soundId, this._soundName, PlayerPedId(), this._soundSetName, true, 0);
         }
         stop() {
           StopSound(this._soundId);
+          ReleaseSoundId(this._soundId);
+          if (SoundIdsByName[this._soundName])
+            delete SoundIdsByName[this._soundName];
         }
       };
     }
@@ -1212,7 +1220,7 @@
           const hangUpSound = new Sound(this.hangUpSoundName, this.hangUpSoundSet);
           hangUpSound.play();
         }
-        handleStartCall(transmitter, receiver, isTransmitter, isUnavailable) {
+        handleStartCall(transmitter, receiver, isTransmitter, isUnavailable, isAnonymous) {
           return __async(this, null, function* () {
             if (this.isInCall() || !(yield checkHasPhone()) || this.currentPendingCall)
               return emitNet(
@@ -1237,7 +1245,8 @@
               receiver,
               isTransmitter,
               accepted: false,
-              isUnavailable
+              isUnavailable,
+              isAnonymous
             });
           });
         }
@@ -1316,8 +1325,8 @@
           if (serverRes.status !== "ok") {
             return cb == null ? void 0 : cb(serverRes);
           }
-          const { transmitter, isTransmitter, receiver, isUnavailable } = serverRes.data;
-          callService.handleStartCall(transmitter, receiver, isTransmitter, isUnavailable);
+          const { transmitter, isTransmitter, receiver, isUnavailable, isAnonymous } = serverRes.data;
+          callService.handleStartCall(transmitter, receiver, isTransmitter, isUnavailable, isAnonymous);
           cb == null ? void 0 : cb(serverRes);
         } catch (e) {
           console.error(e);
@@ -1326,8 +1335,8 @@
       });
       RegisterNuiCB("npwd:beginCall" /* INITIALIZE_CALL */, initializeCallHandler);
       onNetTyped("npwd:startCall" /* START_CALL */, (data) => __async(void 0, null, function* () {
-        const { transmitter, isTransmitter, receiver, isUnavailable } = data;
-        callService.handleStartCall(transmitter, receiver, isTransmitter, isUnavailable);
+        const { transmitter, isTransmitter, receiver, isUnavailable, isAnonymous } = data;
+        callService.handleStartCall(transmitter, receiver, isTransmitter, isUnavailable, isAnonymous);
       }));
       RegisterNuiCB("npwd:acceptCall" /* ACCEPT_CALL */, (data, cb) => {
         animationService.startPhoneCall();
@@ -1547,9 +1556,9 @@
         sendPhoneEvent("npwd:isPhoneDisabled" /* IS_PHONE_DISABLED */, bool);
       });
       exps2("isPhoneDisabled", () => global.isPhoneDisabled);
-      exps2("startPhoneCall", (number) => {
+      exps2("startPhoneCall", (number, isAnonymous = false) => {
         verifyExportArgType("startPhoneCall", number, ["string"]);
-        initializeCallHandler({ receiverNumber: number });
+        initializeCallHandler({ receiverNumber: number, isAnonymous });
       });
       exps2("fillNewContact", (contactData) => {
         verifyExportArgType("fillNewContact", contactData, ["object"]);

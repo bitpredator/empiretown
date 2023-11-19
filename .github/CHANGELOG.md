@@ -50,3 +50,4 @@
 25. [esx_status]: refactor: remove jquery + Remove some shitty lines @bitpredator
 26. [esx_status/server]: fix: unused argument @bitpredator
 27. [esx_addoninventory]: chore: check for nil society @bitpredator
+28. [npwd]: chore: npwd update to version 1.8.6 @bitpredator
