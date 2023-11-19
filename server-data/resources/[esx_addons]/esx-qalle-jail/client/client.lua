@@ -277,9 +277,9 @@ function OpenJailMenu()
 			    },
             function(data2, menu2)
 				local jailTime = tonumber(data2.value)
-            	if jailTime == nil then
+				if jailTime == nil then
 					ESX.ShowNotification(_U('time_minutes'))
-            	else
+				else
 					menu2.close()
 					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 
@@ -291,9 +291,7 @@ function OpenJailMenu()
 							  title = "Jail Reason"
 							},
 						function(data3, menu3)
-
-						  	local reason = data3.value
-
+							local reason = data3.value
 							if reason == nil then
 							    ESX.ShowNotification(_U('put_something'))
 							else

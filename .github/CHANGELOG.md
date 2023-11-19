@@ -53,3 +53,4 @@
 28. [npwd]: chore: npwd update to version 1.8.6 @bitpredator
 29. [bpt_deliveries]: chore: clean up the code @bitpredator
 30. [esx-radialmenu]: chore:  fix lint error + clean up the code @bitpredator
+31. [esx-qalle-jail]: fix: fix lint error @bitpredator

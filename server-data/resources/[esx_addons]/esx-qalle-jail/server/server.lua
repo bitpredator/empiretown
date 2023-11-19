@@ -1,6 +1,6 @@
 ESX = exports["es_extended"]:getSharedObject()
 
-RegisterCommand("jail", function(src, args, raw)
+RegisterCommand("jail", function(src, args)
 	local xPlayer = ESX.GetPlayerFromId(src)
 
 	if xPlayer["job"]["name"] == "police" then
@@ -15,7 +15,7 @@ RegisterCommand("jail", function(src, args, raw)
 				JailPlayer(jailPlayer, jailTime)
 
 				TriggerClientEvent("esx:showNotification", src, GetPlayerName(jailPlayer) .. " Jailed for " .. jailTime .. " minutes!")
-				
+
 				if args[3] ~= nil then
 					GetRPName(jailPlayer, function(Firstname, Lastname)
 						TriggerClientEvent('chat:addMessage', -1, { args = { "JUDGE",  Firstname .. " " .. Lastname .. " Is now in jail for the reason: " .. args[3] }, color = { 249, 166, 0 } })
@@ -139,7 +139,7 @@ function GetRPName(playerId, data)
 	end)
 end
 
-ESX.RegisterServerCallback("esx-qalle-jail:retrieveJailedPlayers", function(source, cb)
+ESX.RegisterServerCallback("esx-qalle-jail:retrieveJailedPlayers", function(_, cb)
 
 	local jailedPersons = {}
 
