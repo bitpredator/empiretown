@@ -1,4 +1,3 @@
-ESX = nil
 local vehicleprices = {}
 local percentage = 1
 ESX = exports["es_extended"]:getSharedObject()
