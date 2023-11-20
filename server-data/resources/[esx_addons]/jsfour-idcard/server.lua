@@ -1,10 +1,7 @@
-local ESX = nil
--- ESX
-ESX = exports["es_extended"]:getSharedObject()
-
 -- Open ID card
 RegisterServerEvent('jsfour-idcard:open')
 AddEventHandler('jsfour-idcard:open', function(ID, targetID, type)
+	ESX = exports["es_extended"]:getSharedObject()
 	local identifier = ESX.GetPlayerFromId(ID).identifier
 	local _source 	 = ESX.GetPlayerFromId(targetID).source
 	local show       = false
