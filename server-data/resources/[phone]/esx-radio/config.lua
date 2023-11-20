@@ -6,7 +6,7 @@ Config.Item = {
 }
 
 Config.KeyMappings = {
-    Enabled = true, 
+    Enabled = true,
     Key = "UP"
 }
 

@@ -1,4 +1,3 @@
---- For Support join https://discord.gg/pyKDCByzUk
 local radioMenu, onRadio = false, false
 local RadioChannel = 0
 local RadioVolume = 50
@@ -34,9 +33,9 @@ local function connecttoradio(channel)
     end
     exports["pma-voice"]:setRadioChannel(channel)
     if SplitStr(tostring(channel), ".")[2] ~= nil and SplitStr(tostring(channel), ".")[2] ~= "" then
-         Config.ClientNotification(Config.messages['joined to radio'] ..channel.. ' MHz', 'success')
+        Config.ClientNotification(Config.messages['joined to radio'] ..channel.. ' MHz', 'success')
     else
-         Config.ClientNotification(Config.messages['joined to radio'] ..channel.. '.00 MHz', 'success')
+        Config.ClientNotification(Config.messages['joined to radio'] ..channel.. '.00 MHz', 'success')
     end
 end
 
@@ -115,19 +114,19 @@ RegisterNUICallback('joinRadio', function(data, cb)
                     connecttoradio(rchannel)
                 end
             else
-                 Config.ClientNotification(Config.messages['you on radio'] , 'error')
+                Config.ClientNotification(Config.messages['you on radio'] , 'error')
             end
         else
-             Config.ClientNotification(Config.messages['invalid radio'] , 'error')
+            Config.ClientNotification(Config.messages['invalid radio'] , 'error')
         end
     else
-         Config.ClientNotification(Config.messages['invalid radio'] , 'error')
+        Config.ClientNotification(Config.messages['invalid radio'] , 'error')
     end
 end)
 
 RegisterNUICallback('leaveRadio', function(data, cb)
     if RadioChannel == 0 then
-         Config.ClientNotification(Config.messages['not on radio'], 'error')
+        Config.ClientNotification(Config.messages['not on radio'], 'error')
     else
         leaveradio()
     end
@@ -139,7 +138,7 @@ RegisterNUICallback("volumeUp", function()
 		Config.ClientNotification(Config.messages["volume radio"] .. RadioVolume, "success")
 		exports["pma-voice"]:setRadioVolume(RadioVolume)
 	else
-		 Config.ClientNotification(Config.messages["decrease radio volume"], "error")
+		Config.ClientNotification(Config.messages["decrease radio volume"], "error")
 	end
 end)
 
@@ -149,7 +148,7 @@ RegisterNUICallback("volumeDown", function()
 		Config.ClientNotification(Config.messages["volume radio"] .. RadioVolume, "success")
 		exports["pma-voice"]:setRadioVolume(RadioVolume)
 	else
-		 Config.ClientNotification(Config.messages["increase radio volume"], "error")
+		Config.ClientNotification(Config.messages["increase radio volume"], "error")
 	end
 end)
 

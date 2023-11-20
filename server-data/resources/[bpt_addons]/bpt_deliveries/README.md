@@ -10,8 +10,8 @@ FiveM deliveries job plugin
 
 ## Requirements
 
-1. [ESX](https://github.com/ESX-Org/es_extended)
-2. [esx_skin](https://github.com/ESX-Org/esx_skin)
+1. [es_extended](https://github.com/bitpredator/es_extended)
+2. [esx_skin]
 
 ## Installation
 
@@ -21,8 +21,6 @@ FiveM deliveries job plugin
 ```
 start bpt_deliveries
 ```
-
-## Legal
 
 ### License
 

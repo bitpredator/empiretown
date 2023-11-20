@@ -30,7 +30,7 @@
    [voice-ui/pnpm-lock.yaml]: chore(deps-dev): bump follow-redirects in /voice-ui
    [voice-ui/pnpm-lock.yaml]: chore(deps-dev): bump browserify-sign from 4.2.1 to 4.2.2 in /voice-ui
 7. [npwd + es_extended]: chore: removed support for npwd_crypto @bitpredator
-8. [ox_lib]: chore: ox_lib update to version '3.11.0' @bitpredator
+8. [ox_lib]: chore: ox_lib update to version 3.12.0 @bitpredator
 9. [esx_addons]: chore: replace esx_drivingschooljob with esx_dmvschool @bitpredator
 10. [SQL]: chore: update database @bitpredator
 11. [maps]: delete: remove maps verpi_driving_school @bitpredator
@@ -51,8 +51,12 @@
 26. [esx_status/server]: fix: unused argument @bitpredator
 27. [esx_addoninventory]: chore: check for nil society @bitpredator
 28. [npwd]: chore: npwd update to version 1.8.6 @bitpredator
-29. [bpt_deliveries]: chore: clean up the code @bitpredator
+29. [bpt_deliveries]: chore: clean up the code + fix readme & fxmanifest @bitpredator
 30. [esx-radialmenu]: chore:  fix lint error + clean up the code @bitpredator
 31. [esx-qalle-jail]: fix: fix lint error @bitpredator
 32. [esx_multicaracter]: fix: fix lint error @bitpredator
 33. [esx_dmvschool]: fix: fix lint error @bitpredator
+34. [oxmysql]: chore: update to version 2.7.6 @bitpredator
+35. [esx-radio] fix: fixed No such export addChannelCheck in resource pma-voice @bitpredator
+36. [bpt_vehicletax]: chore: clean up the code @bitpredator
+37. [jsfour-idcard]: fix: value assigned to variable ESX is overwritten @bitpredator
