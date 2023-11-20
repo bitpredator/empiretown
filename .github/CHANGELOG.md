@@ -56,3 +56,4 @@
 31. [esx-qalle-jail]: fix: fix lint error @bitpredator
 32. [esx_multicaracter]: fix: fix lint error @bitpredator
 33. [esx_dmvschool]: fix: fix lint error @bitpredator
+34. [oxmysql]: chore: update to version 2.7.6 @bitpredator
