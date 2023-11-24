@@ -140,7 +140,7 @@ function OpenVehicleSpawnerMenu()
                 }
             end
 
-            ESX.OpenContext("right", elements, function(menu,element)
+            ESX.OpenContext("right", elements, function(_, element)
                 if not ESX.Game.IsSpawnPointClear(Config.Zones.VehicleSpawnPoint.Pos, 5.0) then
                     ESX.ShowNotification(_U('spawnpoint_blocked'))
                     return
@@ -207,7 +207,7 @@ end
 function OpenTaxiActionsMenu()
     local elements = {
         {unselectable = true, icon = "fas fa-taxi", title = _U('taxi')},
-        {icon = "fas fa-box",title = _U('deposit_stock'),value = 'put_stock'}, 
+        {icon = "fas fa-box",title = _U('deposit_stock'),value = 'put_stock'},
         {icon = "fas fa-box", title = _U('take_stock'), value = 'get_stock'}
     }
 
@@ -219,7 +219,7 @@ function OpenTaxiActionsMenu()
         }
     end
 
-    ESX.OpenContext("right", elements, function(menu,element)
+    ESX.OpenContext("right", elements, function(_, element)
         if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
             exports.ox_inventory:openInventory('stash', 'society_taxi')
             return ESX.CloseContext()
@@ -228,7 +228,7 @@ function OpenTaxiActionsMenu()
         elseif element.value == 'get_stock' then
             OpenGetStocksMenu()
         elseif element.value == 'boss_actions' then
-            TriggerEvent('esx_society:openBossMenu', 'taxi', function(data, menu)
+            TriggerEvent('esx_society:openBossMenu', 'taxi', function(_, menu)
                 menu.close()
             end)
         end
@@ -331,7 +331,7 @@ function OpenGetStocksMenu()
             }
         end
 
-        ESX.OpenContext("right", elements, function(menu,element)
+        ESX.OpenContext("right", elements, function(_, element)
             local itemName = element.value
             local elements2 = {
                 {unselectable = true, icon = "fas fa-box", title = element.title},
@@ -339,7 +339,7 @@ function OpenGetStocksMenu()
                 {icon = "fas fa-check-double", title = _U('confirm'), value = "confirm"}
             }
 
-            ESX.OpenContext("right", elements2, function(menu2,element2)
+            ESX.OpenContext("right", elements2, function(menu2)
                 local count = tonumber(menu2.eles[2].inputValue)
 
                 if count == nil then
@@ -353,7 +353,7 @@ function OpenGetStocksMenu()
                 end
             end)
         end)
-    end, function(menu)
+    end, function()
         CurrentAction = 'taxi_actions_menu'
         CurrentActionMsg = _U('press_to_open')
         CurrentActionData = {}
@@ -434,17 +434,17 @@ AddEventHandler('esx_taxijob:hasEnteredMarker', function(zone)
     end
 end)
 
-AddEventHandler('esx_taxijob:hasExitedMarker', function(zone)
+AddEventHandler('esx_taxijob:hasExitedMarker', function()
     ESX.CloseContext()
     CurrentAction = nil
 end)
 
 RegisterNetEvent('esx_phone:loaded')
-AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
+AddEventHandler('esx_phone:loaded', function()
     local specialContact = {
         name = _U('phone_taxi'),
         number = 'taxi',
-        base64Icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAGGElEQVR4XsWWW2gd1xWGv7Vn5pyRj47ut8iOYlmyWxw1KSZN4riOW6eFuCYldaBtIL1Ag4NNmt5ICORCaNKXlF6oCy0hpSoJKW4bp7Sk6YNb01RuLq4d0pQ0kWQrshVJ1uX46HJ0zpy5rCKfQYgjCUs4kA+GtTd786+ftW8jqsqHibB6TLZn2zeq09ZTWAIWCxACoTI1E+6v+eSpXwHRqkVZPcmqlBzCApLQ8dk3IWVKMQlYcHG81OODNmD6D7d9VQrTSbwsH73lFKePtvOxXSfn48U+Xpb58fl5gPmgl6DiR19PZN4+G7iODY4liIAACqiCHyp+AFvb7ML3uot1QP5yDUim292RtIqfU6Lr8wFVDVV8AsPKRDAxzYkKm2kj5sSFuUT3+v2FXkDXakD6f+7c1NGS7Ml0Pkah6jq8mhvwUy7Cyijg5Aoks6/hTp+k7vRjDJ73dmw8WHxlJRM2y5Nsb3GPDuzsZURbGMsUmRkoUPByCMrKCG7SobJiO01X7OKq6utoe3XX34BaoLDaCljj3faTcu3j3z3T+iADwzNYEmKIWcGAIAtqqkKAxZa2Sja/tY+59/7y48aveQ8A4Woq4Fa3bj7Q1/EgwWRAZ52NMTYCWAZEwIhBUEQgUiVQ8IpKvqj4kVJCyGRCRrb+hvap+gPAo0DuUhWQfx2q29u+t/vPmarbCLwII7qQTEQRLbUtBJ2PAkZARBADqkLBV/I+BGrhpoSN577FWz3P3XbTvRMvAlpuwC4crv5jwtK9RAFSu46+G8cRwESxQ+K2gESAgCiIASHuA8YCBdSUohdCKGCF0H6iGc3MgrEphvKi+6Wp24HABioSjuxFARGobyJ5OMXEiGHW6iLR0EmifhPJDddj3CoqtuwEZSkCc73/RAvTeEOvU5w8gz/Zj2TfoLFFibZvQrI5EOFiPqgAZmzApTINKKgPiW20ffkXtPXfA9Ysmf5/kHn/T0z8e5rpCS5JVQNUN1ayfn2a+qvT2JWboOOXMPg0ms6C2IAAWTc2ACPeupdbm5yb8XNQczOM90DOB0uoa01Ttz5FZ6IL3Ctg9DUIg7Lto2DZ0HIDFEbAz4AaiBRyxZJe9U7kQg84KYbH/JeJESANXPXwXdWffvzu1p+x5VE4/ST4EyAOoEAI6WsAhdx/AYulhJDqAgRm/hPPEVAfnAboeAB6v88jTw/f98SzU8eAwbgC5IGRg3vsW3E7YewYzJwF4wAhikJURGqvBO8ouAFIxBI0gqgPEp9B86+ASSAIEEHhbEnX7eTgnrFbn3iW5+K82EAA+M2V+d2EeRj9K/izIBYgJZGwCO4Gzm/uRQOwDEsI41PSfPZ+xJsBKwFo6dOwpJvezMU84Md5sSmRCM51uacGbUKvHWEjAKIelXaGJqePyopjzFTdx6Ef/gDbjo3FKEoQKN+8/yEqRt8jf67IaNDBnF9FZFwERRGspMM20+XC64nym9AMhSE1G7fjbb0bCQsISi6vFCdPMPzuUwR9AcmOKQ7cew+WZcq3IGEYMZeb4p13sjjmU4TX7Cfdtp0oDAFBbZfk/37N0MALAKbcAKaY4yPeuwy3t2J8MAKDIxDVd1Lz8Ts599vb8Wameen532GspRWIQmXPHV8k0BquvPP3TOSgsRmiCFRAHWh9420Gi7nl34JaBen7O7UWRMD740AQ7yEf8nW78TIeN+7+PCIsOYaqMJHxqKtpJ++D+DA5ARsawEmASqzv1Cz7FjRpbt951tUAOcAHdNEUC7C5NAJo7Dws03CAFMxlkdSRZmCMxaq8ejKuVwSqIJfzA61LmyIgBoxZfgmYmQazKLGumHitRso0ZVkD0aE/FI7UrYv2WUYXjo0ihNhEatA1GBEUIxEWAcKCHhHCVMG8AETlda0ENn3hrm+/6Zh47RBCtXn+mZ/sAXzWjnPHV77zkiXBgl6gFkee+em1wBlgdnEF8sCF5moLI7KwlSIMwABwgbVT21htMNjleheAfPkShEBh/PzQccexdxBT9IPjQAYYZ+3o2OjQ8cQiPb+kVwBCliENXA3sAm6Zj3E/zaq4fD07HmwEmuKYXsUFcDl6Hz7/B1RGfEbPim/bAAAAAElFTkSuQmCC'
+        base64Icon = ''
     }
 
     TriggerEvent('esx_phone:addSpecialContact', specialContact.name, specialContact.number, specialContact.base64Icon)
