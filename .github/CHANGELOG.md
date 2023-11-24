@@ -60,5 +60,5 @@
 35. [esx-radio] fix: fixed No such export addChannelCheck in resource pma-voice @bitpredator
 36. [bpt_vehicletax]: chore: clean up the code @bitpredator
 37. [jsfour-idcard]: fix: value assigned to variable ESX is overwritten @bitpredator
-38. [es_extended]: refactor/fix: cleanup, remove useless code, formatting + fix lint error: unused argument last;
-accessing undefined variable Invoke @bitpredator
+38. [es_extended]: refactor/fix: cleanup, remove useless code, formatting + 
+fix lint error: unused argument last; accessing undefined variable Invoke; unused variable targetCoords @bitpredator

@@ -347,7 +347,6 @@ end, true, {
 })
 
 ESX.RegisterCommand('bring', "admin", function(xPlayer, args)
-	local targetCoords = args.playerId.getCoords()
 	local playerCoords = xPlayer.getCoords()
 	args.playerId.setCoords(playerCoords)
 end, true, {
