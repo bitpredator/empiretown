@@ -1,7 +1,7 @@
 Locales['fr'] = {
   -- cloakroom
   ['cloakroom_menu'] = 'vestiaire',
-  ['cloakroom_prompt'] = 'appuyez sur [E] pour ouvrir le cloakroom.',
+  ['cloakroom_prompt'] = 'appuyez sur [E] pour ouvrir le vestiaire.',
   ['wear_citizen'] = 'tenue civile',
   ['wear_work'] = 'tenue de travail',
 
@@ -10,7 +10,10 @@ Locales['fr'] = {
   ['store_veh'] = 'appuyez sur [E] pour ranger le véhicule',
   ['spawn_veh'] = 'sortir véhicule',
   ['spawnpoint_blocked'] = 'un véhicule bloque la sortie!!',
-  ['only_taxi'] = 'vous ne pouvez ranger que les taxi',
+  ['only_taxi'] = 'vous ne pouvez ranger que les taxis',
+  ["vehicle_spawned"] = "Vous venez de sortir un ~b~%s",
+  ['empty_authorized_vehicles_table'] = "La table des véhicules autorisés est vide dans config.lua",
+  ['unknow_model'] = "Impossible de faire apparaître ce modèle, car il est inconnu",
 
   ['taking_service'] = 'prise de service : Taxi/Uber',
   ['full_service'] = 'service complet : ',
@@ -34,8 +37,24 @@ Locales['fr'] = {
   ['not_in_taxi'] = 'Vous avez quitté le taxi pendant une mission!',
   ['have_earned'] = 'vous avez gagné $%s',
   ['comp_earned'] = '- Votre société a gagné $%s\n- Vous avez gagné $%s',
+  ['deposit_stock'] = 'Déposer Stock',
+  ['take_stock'] = 'Prendre Stock',
   ['boss_actions'] = 'action Patron',
   ['mission_complete'] = 'Mission terminée',
+  ['quantity'] = 'Quantité',
+  ['quantity_invalid'] = 'Quantité invalide',
+  ['inventory'] = 'Inventaire',
+  ['taxi_client'] = 'client Taxi',
+  ['have_withdrawn'] = 'vous avez pris x%s %s',
+  ['have_deposited'] = 'vous avez déposé x%s %s',
+  ['player_cannot_hold'] = 'vous n\'avez pas assez de place dans votre inventaire!',
   ['blip_taxi'] = 'taxi',
-  ['taxi'] = 'taxi'
+  ['phone_taxi'] = 'taxi',
+  ['taxi'] = 'taxi',
+  ['taxi_stock'] = 'taxi Stock',
+  ['amount'] = "Montant",
+  ['bill_amount'] = "Montant à facturer..",
+  ['deposit_amount'] = "Montant à déposer..",
+  ['withdraw_amount'] = "Montant à retirer..",
+  ['confirm'] = "Confirmer",
 }

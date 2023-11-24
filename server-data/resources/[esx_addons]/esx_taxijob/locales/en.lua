@@ -7,12 +7,13 @@ Locales['en'] = {
 
   -- garage
   ['spawner_prompt'] = 'press [E] to access the Garage.',
-  ["vehicle_spawned"] = "Successfully Spawned A ~b~Taxi!",
+  ["vehicle_spawned"] = "Successfully Spawned A ~b~%s!",
   ['store_veh'] = 'press [E] to store the vehicle',
   ['spawn_veh'] = 'spawn vehicle',
   ['spawnpoint_blocked'] = 'there is a vehicle blocking the spawnpoint!',
   ['only_taxi'] = 'you can only store taxis.',
-  ['empty_garage'] = 'No vehicle in the garage!',
+  ['empty_authorized_vehicles_table'] = "Authorized vehicles table is empty in config.lua",
+  ['unknow_model'] = "Can't spawn this model because unknow",
 
   ['taking_service'] = 'taking service: Taxi/Uber',
   ['full_service'] = 'full service: ',
@@ -36,9 +37,24 @@ Locales['en'] = {
   ['not_in_taxi'] = 'You left the taxi while on mission!',
   ['have_earned'] = 'you have earned $%s',
   ['comp_earned'] = '- your company has earned $%s\n- you have earned $%s',
+  ['deposit_stock'] = 'deposit Stock',
+  ['take_stock'] = 'take Stock',
   ['boss_actions'] = 'boss Actions',
   ['mission_complete'] = 'mission Completed',
+  ['quantity'] = 'quantity',
+  ['quantity_invalid'] = 'that is an invalid quantity!',
+  ['inventory'] = 'inventory',
+  ['taxi_client'] = 'taxi Client',
+  ['have_withdrawn'] = 'you have withdrawn x%s %s',
+  ['have_deposited'] = 'you have deposited x%s %s',
+  ['player_cannot_hold'] = 'you do ~r~not have enough free space in your inventory!',
   ['blip_taxi'] = 'downtown Cab Co.',
+  ['phone_taxi'] = 'downtown Cab Co.',
   ['taxi'] = 'taxi',
-  ['menu_return'] = 'Return'
+  ['taxi_stock'] = 'taxi Stock',
+  ['amount'] = "Amount",
+  ['bill_amount'] = "Amount to bill..",
+  ['deposit_amount'] = "Amount to deposit..",
+  ['withdraw_amount'] = "Amount to withdraw..",
+  ['confirm'] = "Confirm"
 }

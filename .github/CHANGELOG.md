@@ -62,3 +62,4 @@
 37. [jsfour-idcard]: fix: value assigned to variable ESX is overwritten @bitpredator
 38. [es_extended]: refactor/fix: cleanup, remove useless code, formatting + 
 fix lint error: unused argument last; accessing undefined variable Invoke; unused variable targetCoords @bitpredator
+39. [esx_taxijob]: refactor: Remove cb, use playerdata obj + fix formatting @bitpredator

@@ -103,7 +103,7 @@ function OpenCloakroom()
         {icon = "fas fa-shirt", title = _U('wear_work'), value = "wear_work"},
     }
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(_, element)
         if element.value == "wear_citizen" then
             ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
                 TriggerEvent('skinchanger:loadSkin', skin)
@@ -117,7 +117,6 @@ function OpenCloakroom()
                 end
             end)
         end
-		ESX.CloseContext()
     end, function()
         CurrentAction = 'cloakroom'
         CurrentActionMsg = _U('cloakroom_prompt')
@@ -133,11 +132,6 @@ function OpenVehicleSpawnerMenu()
     if Config.EnableSocietyOwnedVehicles then
         ESX.TriggerServerCallback('esx_society:getVehiclesInGarage', function(vehicles)
 
-			if #vehicles == 0 then
-				ESX.ShowNotification(_U('empty_garage'))
-				return
-			end
-
             for i = 1, #vehicles, 1 do
                 elements[#elements+1] = {
                     icon = "fas fa-car",
@@ -146,22 +140,18 @@ function OpenVehicleSpawnerMenu()
                 }
             end
 
-            ESX.OpenContext("right", elements, function(_,element)
+            ESX.OpenContext("right", elements, function(menu,element)
                 if not ESX.Game.IsSpawnPointClear(Config.Zones.VehicleSpawnPoint.Pos, 5.0) then
                     ESX.ShowNotification(_U('spawnpoint_blocked'))
                     return
                 end
-
-				if element.value == nil then
-					print("ERROR: Context menu clicked item value is nil!")
-					return
-				end
 
                 local vehicleProps = element.value
                 ESX.TriggerServerCallback("esx_taxijob:SpawnVehicle", function()
                     return
                 end, vehicleProps.model, vehicleProps)
                 TriggerServerEvent('esx_society:removeVehicleFromGarage', 'taxi', vehicleProps)
+                ESX.CloseContext()
             end, function()
                 CurrentAction = 'vehicle_spawner'
                 CurrentActionMsg = _U('spawner_prompt')
@@ -169,35 +159,23 @@ function OpenVehicleSpawnerMenu()
             end)
         end, 'taxi')
     else -- not society vehicles
-
-		if #Config.AuthorizedVehicles == 0 then
-			ESX.ShowNotification(_U('empty_garage'))
-			return
-		end
-
-		for i = 1, #Config.AuthorizedVehicles, 1 do
-			elements[#elements+1] = {
-				icon = "fas fa-car",
-				title = Config.AuthorizedVehicles[i].label,
-				value = Config.AuthorizedVehicles[i].model
-			}
-		end
-
-        ESX.OpenContext("right", elements, function(_,element)
+        if #Config.AuthorizedVehicles == 0 then
+            ESX.ShowNotification(_U('empty_authorized_vehicles_table'), "error")
+            return
+        end
+        ESX.OpenContext("right", Config.AuthorizedVehicles, function(_,element)
+            if not element.model or string.len(element.model) == 0 then
+                ESX.ShowNotification(_U('unknow_model'), "error")
+                return
+            end
             if not ESX.Game.IsSpawnPointClear(Config.Zones.VehicleSpawnPoint.Pos, 5.0) then
                 ESX.ShowNotification(_U('spawnpoint_blocked'))
                 return
             end
-
-			if element.value == nil then
-				print("ERROR: Context menu clicked item value is nil!")
-				return
-			end
-
             ESX.TriggerServerCallback("esx_taxijob:SpawnVehicle", function()
-                ESX.ShowNotification(_U('vehicle_spawned'), "success")
-            end, element.value, {plate = "TAXI JOB"})
-			ESX.CloseContext()
+                ESX.ShowNotification(_U('vehicle_spawned', element.title), "success")
+            end, element.model, {plate = "TAXI JOB"})
+            ESX.CloseContext()
         end, function()
             CurrentAction = 'vehicle_spawner'
             CurrentActionMsg = _U('spawner_prompt')
@@ -207,6 +185,8 @@ function OpenVehicleSpawnerMenu()
 end
 
 function DeleteJobVehicle()
+    local playerPed = PlayerPedId()
+
     if Config.EnableSocietyOwnedVehicles then
         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
         TriggerServerEvent('esx_society:putVehicleInGarage', 'taxi', vehicleProps)
@@ -226,7 +206,9 @@ end
 
 function OpenTaxiActionsMenu()
     local elements = {
-        {unselectable = true, icon = "fas fa-taxi", title = _U('taxi')}
+        {unselectable = true, icon = "fas fa-taxi", title = _U('taxi')},
+        {icon = "fas fa-box",title = _U('deposit_stock'),value = 'put_stock'}, 
+        {icon = "fas fa-box", title = _U('take_stock'), value = 'get_stock'}
     }
 
     if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
@@ -237,12 +219,16 @@ function OpenTaxiActionsMenu()
         }
     end
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(menu,element)
         if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
             exports.ox_inventory:openInventory('stash', 'society_taxi')
             return ESX.CloseContext()
+        elseif element.value == 'put_stock' then
+            OpenPutStocksMenu()
+        elseif element.value == 'get_stock' then
+            OpenGetStocksMenu()
         elseif element.value == 'boss_actions' then
-            TriggerEvent('esx_society:openBossMenu', 'taxi', function(_, menu)
+            TriggerEvent('esx_society:openBossMenu', 'taxi', function(data, menu)
                 menu.close()
             end)
         end
@@ -260,17 +246,20 @@ function OpenMobileTaxiActionsMenu()
         {icon = "fas fa-taxi", title = _U('start_job'), value = "start_job"},
     }
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(_, element)
         if element.value == "billing" then
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
-                title = _U('invoice_amount')
-            }, function(data, menu)
+            local elements2 = {
+                {unselectable = true, icon = "fas fa-taxi", title = element.title},
+                {title = _U('amount'), input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = _U('bill_amount')},
+                {icon = "fas fa-check-double", title = _U('confirm'), value = "confirm"}
+            }
 
-                local amount = tonumber(data.value)
+            ESX.OpenContext("right", elements2, function(menu2)
+                local amount = tonumber(menu2.eles[2].inputValue)
                 if amount == nil then
                     ESX.ShowNotification(_U('amount_invalid'))
                 else
-                    menu.close()
+                    ESX.CloseContext()
                     local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
                     if closestPlayer == -1 or closestDistance > 3.0 then
                         ESX.ShowNotification(_U('no_players_near'))
@@ -280,8 +269,6 @@ function OpenMobileTaxiActionsMenu()
                         ESX.ShowNotification(_U('billing_sent'))
                     end
                 end
-            end, function(data)
-                menu.close()
             end)
         elseif element.value == "start_job" then
             if OnJob then
@@ -322,12 +309,101 @@ function IsInAuthorizedVehicle()
     local vehModel = GetEntityModel(GetVehiclePedIsIn(playerPed, false))
 
     for i = 1, #Config.AuthorizedVehicles, 1 do
-        if vehModel == joaat(Config.AuthorizedVehicles[i].model) then
+        if Config.AuthorizedVehicles[i].model and vehModel == joaat(Config.AuthorizedVehicles[i].model) then
             return true
         end
     end
 
     return false
+end
+
+function OpenGetStocksMenu()
+    ESX.TriggerServerCallback('esx_taxijob:getStockItems', function(items)
+        local elements = {
+            {unselectable = true, icon = "fas fa-box", title = _U('taxi_stock')}
+        }
+
+        for i = 1, #items, 1 do
+            elements[#elements+1] = {
+                icon = "fas fa-box",
+                title = 'x' .. items[i].count .. ' ' .. items[i].label,
+                value = items[i].name
+            }
+        end
+
+        ESX.OpenContext("right", elements, function(menu,element)
+            local itemName = element.value
+            local elements2 = {
+                {unselectable = true, icon = "fas fa-box", title = element.title},
+                {title = _U('amount'), input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = _U('withdraw_amount')},
+                {icon = "fas fa-check-double", title = _U('confirm'), value = "confirm"}
+            }
+
+            ESX.OpenContext("right", elements2, function(menu2,element2)
+                local count = tonumber(menu2.eles[2].inputValue)
+
+                if count == nil then
+                    ESX.ShowNotification(_U('quantity_invalid'))
+                else
+                    ESX.CloseContext()
+                    TriggerServerEvent('esx_taxijob:getStockItem', itemName, count)
+
+                    Wait(1000)
+                    OpenGetStocksMenu()
+                end
+            end)
+        end)
+    end, function(menu)
+        CurrentAction = 'taxi_actions_menu'
+        CurrentActionMsg = _U('press_to_open')
+        CurrentActionData = {}
+    end)
+end
+
+function OpenPutStocksMenu()
+    local inventory, elements = ESX.PlayerData.inventory, {
+        {unselectable = true, icon = "fas fa-box", title = _U('inventory')}
+    }
+
+    for i = 1, #inventory.items, 1 do
+        local item = inventory.items[i]
+        if item.count > 0 then
+            elements[#elements+1] = {
+                icon = "fas fa-box",
+                title = item.label .. ' x' .. item.count,
+                type = 'item_standard',
+                value = item.name
+            }
+        end
+    end
+
+    ESX.OpenContext("right", elements, function(_, element)
+        local itemName = element.value
+
+        local elements2 = {
+            {unselectable = true, icon = "fas fa-box", title = element.title},
+            {title = _U('amount'), input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = _U('deposit_amount')},
+            {icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+        }
+
+        ESX.OpenContext("right", elements2, function(menu2)
+            local count = tonumber(menu2.eles[2].inputValue)
+
+            if count == nil then
+                ESX.ShowNotification(_U('quantity_invalid'))
+            else
+                ESX.CloseContext()
+                -- todo: refresh on callback
+                TriggerServerEvent('esx_taxijob:putStockItems', itemName, count)
+                Wait(1000)
+                OpenPutStocksMenu()
+            end
+        end)
+    end)
+
+    CurrentAction = 'taxi_actions_menu'
+    CurrentActionMsg = _U('press_to_open')
+    CurrentActionData = {}
 end
 
 AddEventHandler('esx_taxijob:hasEnteredMarker', function(zone)
@@ -358,9 +434,20 @@ AddEventHandler('esx_taxijob:hasEnteredMarker', function(zone)
     end
 end)
 
-AddEventHandler('esx_taxijob:hasExitedMarker', function()
+AddEventHandler('esx_taxijob:hasExitedMarker', function(zone)
     ESX.CloseContext()
     CurrentAction = nil
+end)
+
+RegisterNetEvent('esx_phone:loaded')
+AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
+    local specialContact = {
+        name = _U('phone_taxi'),
+        number = 'taxi',
+        base64Icon = 'data:image/png;base64,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'
+    }
+
+    TriggerEvent('esx_phone:addSpecialContact', specialContact.name, specialContact.number, specialContact.base64Icon)
 end)
 
 -- Create Blips
@@ -387,7 +474,6 @@ CreateThread(function()
 
             local coords = GetEntityCoords(PlayerPedId())
             local isInMarker, currentZone = false
-			local inVeh = IsPedInAnyVehicle(PlayerPedId())
 
             for k, v in pairs(Config.Zones) do
                 local zonePos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
@@ -395,16 +481,8 @@ CreateThread(function()
 
                 if v.Type ~= -1 and distance < Config.DrawDistance then
                     sleep = 0
-					if k == "VehicleDeleter" then
-						if inVeh then
-							DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
-								v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
-						end
-					else
-						DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
-							v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
-					end
-
+                    DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
+                        v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
                 end
 
                 if distance < v.Size.x then
@@ -439,25 +517,25 @@ CreateThread(function()
 
                 if IsPedInAnyVehicle(playerPed, false) and OnJob then
                     Wait(5000)
-                        CurrentCustomer = GetRandomWalkingNPC()
+                    CurrentCustomer = GetRandomWalkingNPC()
 
-                        if CurrentCustomer ~= nil then
-                            CurrentCustomerBlip = AddBlipForEntity(CurrentCustomer)
+                    if CurrentCustomer ~= nil then
+                        CurrentCustomerBlip = AddBlipForEntity(CurrentCustomer)
 
-                            SetBlipAsFriendly(CurrentCustomerBlip, true)
-                            SetBlipColour(CurrentCustomerBlip, 2)
-                            SetBlipCategory(CurrentCustomerBlip, 3)
-                            SetBlipRoute(CurrentCustomerBlip, true)
+                        SetBlipAsFriendly(CurrentCustomerBlip, true)
+                        SetBlipColour(CurrentCustomerBlip, 2)
+                        SetBlipCategory(CurrentCustomerBlip, 3)
+                        SetBlipRoute(CurrentCustomerBlip, true)
 
-                            SetEntityAsMissionEntity(CurrentCustomer, true, false)
-                            ClearPedTasksImmediately(CurrentCustomer)
-                            SetBlockingOfNonTemporaryEvents(CurrentCustomer, true)
+                        SetEntityAsMissionEntity(CurrentCustomer, true, false)
+                        ClearPedTasksImmediately(CurrentCustomer)
+                        SetBlockingOfNonTemporaryEvents(CurrentCustomer, true)
 
-                            local standTime = GetRandomIntInRange(60000, 180000)
-                            TaskStandStill(CurrentCustomer, standTime)
+                        local standTime = GetRandomIntInRange(60000, 180000)
+                        TaskStandStill(CurrentCustomer, standTime)
 
-                            ESX.ShowNotification(_U('customer_found'))
-                        end
+                        ESX.ShowNotification(_U('customer_found'))
+                    end
                 end
             else
                 if IsPedFatallyInjured(CurrentCustomer) then
