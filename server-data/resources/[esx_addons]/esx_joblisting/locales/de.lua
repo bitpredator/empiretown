@@ -1,5 +1,6 @@
 Locales['de'] = {
-  ['new_job'] = 'Du hast einen neuen Job!',
-  ['access_job_center'] = 'Drücke ~INPUT_PICKUP~ um das Arbeitsamt zu öffnen.',
-  ['job_center'] = 'Arbeitsamt',
+  ['new_job'] = 'Neuer Job: ~b~%s~s~ !',
+  ['access_job_center'] = 'Drücke ~b~[E]~s~ um die Jobauswahl zu öffnen!',
+  ['job_center'] = 'Wähle einen Job aus.',
+  ["blip_text"] = "Arbeitsamt"
 }

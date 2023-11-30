@@ -65,4 +65,5 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 39. [esx_taxijob]: refactor: Remove cb, use playerdata obj + fix formatting @bitpredator
 40. [workflows]: delete: remove stale.yml + greetings.yml @bitpredator
 41. [ox_inventory\data\shops.lua]: chore: the possibility of purchasing the radio has been added @bitpredator
-   [ox_inventory\data\stashes.lua]: fix: removed the inventory for the taxi job as it was included in the esx_taxijob resource @bitpredator
+    [ox_inventory\data\stashes.lua]: fix: removed the inventory for the taxi job as it was included in the esx_taxijob resource @bitpredator
+42. [esx_joblisting]: refactor: correct the good year for the license + varius fix

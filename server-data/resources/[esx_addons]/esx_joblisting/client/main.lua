@@ -9,7 +9,7 @@ function ShowJobListingMenu()
       elements[#elements + 1] = {title = jobs[i].label, name = jobs[i].name}
     end
 
-    ESX.OpenContext("right", elements, function(_, SelectJob)
+    ESX.OpenContext("right", elements, function(menu, SelectJob)
       TriggerServerEvent('esx_joblisting:setJob', SelectJob.name)
       ESX.CloseContext()
       ESX.ShowNotification(_U('new_job', SelectJob.title), "success")
