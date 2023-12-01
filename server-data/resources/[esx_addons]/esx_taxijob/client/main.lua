@@ -185,7 +185,6 @@ function OpenVehicleSpawnerMenu()
 end
 
 function DeleteJobVehicle()
-    local playerPed = PlayerPedId()
 
     if Config.EnableSocietyOwnedVehicles then
         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
