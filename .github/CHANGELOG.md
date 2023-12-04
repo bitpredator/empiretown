@@ -68,3 +68,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
     [ox_inventory\data\stashes.lua]: fix: removed the inventory for the taxi job as it was included in the esx_taxijob resource @bitpredator
 42. [esx_joblisting]: refactor: correct the good year for the license + varius fix @bitpredator
 43. [EUP]: delete: removed package [EUP] @bitpredator
+44. [bpt_ammujob]: refactor: bpt_ammujob inventory implementation @bitpredator

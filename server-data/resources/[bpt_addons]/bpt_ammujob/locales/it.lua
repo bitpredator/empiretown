@@ -4,6 +4,11 @@ Locales['it'] = {
   ['cloakroom_prompt'] = 'premi [E] per accedere al guardaroba.',
   ['wear_citizen'] = 'abbigliamento civile',
   ['wear_work'] = 'abiti da lavoro',
+  -- Inventory
+  ['deposit_stock'] = 'Depositare',
+  ['take_stock'] = 'Prendi',
+  ['have_deposited'] = 'Hai depositato',
+  ['quantity_invalid'] = 'Qunatità non valida',
   -- garage
   ['spawner_prompt'] = 'premi [E] per accedere al garage.',
   ["vehicle_spawned"] = "veicolo generato con successo!",
