@@ -38,25 +38,6 @@ return {
 	},
 
 	{
-		coords = vec3(810.026367, -2159.353760, 29.616821),
-		target = {
-			loc = vec3(810.026367, -2159.353760, 29.616821),
-			length = 0.6,
-			width = 1.8,
-			heading = 340,
-			minZ = 43.34,
-			maxZ = 44.74,
-			label = 'Storage'
-		},
-		name = 'ammulocker',
-		label = 'Storage',
-		owner = false,
-		slots = 70,
-		weight = 70000,
-		groups = {['ammu'] = 0}
-	},
-
-	{
 		coords = vec3(129.507690, -1281.454956, 29.263062),
 		target = {
 			loc = vec3(129.507690, -1281.454956, 29.263062),
@@ -206,25 +187,6 @@ return {
 		slots = 70,
 		weight = 70000,
 		groups = {['baker'] = 0}
-	},
-
-	{
-		coords = vec3(206.241760, -1395.758301, 30.577271),
-		target = {
-			loc = vec3(206.241760, -1395.758301, 30.577271),
-			length = 0.6,
-			width = 1.8,
-			heading = 340,
-			minZ = 43.34,
-			maxZ = 44.74,
-			label = 'Storage'
-		},
-		name = 'drivinglocker',
-		label = 'driving',
-		owner = false,
-		slots = 70,
-		weight = 70000,
-		groups = {['driving'] = 0}
 	},
 
 	{
