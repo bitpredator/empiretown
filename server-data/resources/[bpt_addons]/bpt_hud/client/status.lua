@@ -3,7 +3,6 @@ local armor = 0
 local food = 0
 local thirst = 0
 local posi = "bottom"
-ESX = nil
 
 ESX = exports["es_extended"]:getSharedObject()
 

@@ -1,4 +1,3 @@
-local ESX = nil
 local oneSyncEnabled = GetConvar('onesync_enabled', false)
 local VERBOSE = false
 local lastPlant = {}

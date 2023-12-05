@@ -1,6 +1,4 @@
-CreateThread(function()
-    ESX = exports["es_extended"]:getSharedObject()
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 RegisterCommand('lockvehicle', function()
 

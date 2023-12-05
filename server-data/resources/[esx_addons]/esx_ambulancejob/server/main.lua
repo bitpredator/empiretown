@@ -1,4 +1,3 @@
-ESX = nil
 local playersHealing, deadPlayers = {}, {}
 
 ESX = exports["es_extended"]:getSharedObject()

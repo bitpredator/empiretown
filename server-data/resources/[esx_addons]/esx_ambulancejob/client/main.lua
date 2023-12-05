@@ -1,7 +1,6 @@
 local firstSpawn, PlayerLoaded = true, false
 
 isDead, isSearched, medic = false, false, 0
-ESX = nil
 
 AddEventHandler("onClientMapStart", function()
 	exports.spawnmanager:spawnPlayer()
@@ -10,15 +9,10 @@ AddEventHandler("onClientMapStart", function()
 end)
 
 CreateThread(function()
-	while ESX == nil do
-		ESX = exports["es_extended"]:getSharedObject()
-		Wait(0)
-	end
-
+	ESX = exports["es_extended"]:getSharedObject()
 	while ESX.GetPlayerData().job == nil do
 		Wait(100)
 	end
-
 	PlayerLoaded = true
 	ESX.PlayerData = ESX.GetPlayerData()
 end)

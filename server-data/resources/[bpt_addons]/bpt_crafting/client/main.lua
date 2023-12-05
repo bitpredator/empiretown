@@ -10,7 +10,6 @@ local Keys = {
  ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-ESX = nil
 local labels = {}
 local craftingQueue = {}
 local job = ""
