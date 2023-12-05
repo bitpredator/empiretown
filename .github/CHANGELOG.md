@@ -71,3 +71,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 44. [bpt_ammujob]: refactor: bpt_ammujob inventory implementation @bitpredator
 45. [SQL]: fix: es_extended.sql "addon_inventory" syntax error @bitpredator
 46. [npwd]: fix: Warning: could not find @bitpredator
+47. [server.cfg]: fix: Couldn't find resource @bitpredator
