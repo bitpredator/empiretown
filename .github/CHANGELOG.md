@@ -72,3 +72,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 45. [SQL]: fix: es_extended.sql "addon_inventory" syntax error @bitpredator
 46. [npwd]: fix: Warning: could not find @bitpredator
 47. [server.cfg]: fix: Couldn't find resource @bitpredator
+48. fix: No such export getSharedObject in resource es_extended @bitpredator
