@@ -3,9 +3,11 @@ fx_version 'adamant'
 game 'gta5'
 author 'bitpredator'
 description 'bitpredator HUD'
-version '0.0.4'
+version '1.0.0'
 
 ui_page 'html/ui.html'
+
+shared_script '@es_extended/imports.lua'
 
 files {
 	'html/*.css',

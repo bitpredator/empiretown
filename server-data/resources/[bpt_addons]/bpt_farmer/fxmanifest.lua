@@ -2,7 +2,7 @@ fx_version 'adamant'
 game 'gta5'
 description 'bpt_farmer, introduces various collection points for the crafting system (not a job)'
 author'bitpredator'
-version'0.0.4'
+version'1.0.0'
 
 shared_script '@es_extended/imports.lua'
 
