@@ -165,7 +165,9 @@ end
 
 function OpenbakerActionsMenu()
     local elements = {
-        {unselectable = true, icon = "fas fa-baker", title = _U('baker')}
+        {unselectable = true, icon = "fas fa-baker", title = _U('baker')},
+        {icon = "fas fa-box",title = _U('deposit_stock'),value = 'put_stock'},
+        {icon = "fas fa-box", title = _U('take_stock'), value = 'get_stock'}
     }
 
     if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
@@ -176,8 +178,15 @@ function OpenbakerActionsMenu()
         }
     end
 
-    ESX.OpenContext("right", elements, function(_,element)
-        if element.value == 'boss_actions' then
+    ESX.OpenContext("right", elements, function(_, element)
+        if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
+            exports.ox_inventory:openInventory('stash', 'society_baker')
+            return ESX.CloseContext()
+        elseif element.value == 'put_stock' then
+            OpenPutStocksMenu()
+        elseif element.value == 'get_stock' then
+            OpenGetStocksMenu()
+        elseif element.value == 'boss_actions' then
             TriggerEvent('esx_society:openBossMenu', 'baker', function(_, menu)
                 menu.close()
             end)
