@@ -4,6 +4,11 @@ Locales['en'] = {
   ['cloakroom_prompt'] = 'press [E] to access the cloakroom.',
   ['wear_citizen'] = 'civilian clothing',
   ['wear_work'] = 'work clothes',
+  -- Inventory
+  ['deposit_stock'] = 'Deposit stock',
+  ['take_stock'] = 'Take stock',
+  ['have_deposited'] = 'Have deposited',
+  ['quantity_invalid'] = 'Quantity invelid',
   -- garage
   ['spawner_prompt'] = 'press [E] to access the garage.',
   ["vehicle_spawned"] = "vehicle spawned successfully!",
