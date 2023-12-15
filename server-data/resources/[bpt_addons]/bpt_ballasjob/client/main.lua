@@ -1,5 +1,5 @@
 local HasAlreadyEnteredMarker
-local CurrentAction, CurrentActionMsg = nil, {}
+local CurrentAction, CurrentActionMsg, CurrentActionData = nil, '', {}
 local LastZone
 
 RegisterNetEvent('esx:playerLoaded')
@@ -39,8 +39,11 @@ function ShowLoadingPromt(msg, time, type)
     end)
 end
 
-function OpenBallasActionsMenu()
+function OpenballasActionsMenu()
     local elements = {
+        {unselectable = true, icon = "fas fa-ballas", title = _U('ballas')},
+        {icon = "fas fa-box",title = _U('deposit_stock'),value = 'put_stock'},
+        {icon = "fas fa-box", title = _U('take_stock'), value = 'get_stock'}
     }
 
     if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
@@ -51,18 +54,23 @@ function OpenBallasActionsMenu()
         }
     end
 
-    ESX.UI.Menu.CloseAll()
-
-    ESX.OpenContext("right", elements, function(_,element)
-        if element.value == 'boss_actions' then
+    ESX.OpenContext("right", elements, function(_, element)
+        if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
+            exports.ox_inventory:openInventory('stash', 'society_ballas')
+            return ESX.CloseContext()
+        elseif element.value == 'put_stock' then
+            OpenPutStocksMenu()
+        elseif element.value == 'get_stock' then
+            OpenGetStocksMenu()
+        elseif element.value == 'boss_actions' then
             TriggerEvent('esx_society:openBossMenu', 'ballas', function(_, menu)
                 menu.close()
             end)
         end
-
     end, function()
         CurrentAction = 'ballas_actions_menu'
         CurrentActionMsg = _U('press_to_open')
+        CurrentActionData = {}
     end)
 end
 
@@ -103,11 +111,12 @@ AddEventHandler('bpt_ballasjob:hasEnteredMarker', function(zone)
     if zone == 'BallasActions' then
         CurrentAction = 'ballas_actions_menu'
         CurrentActionMsg = _U('press_to_open')
+        CurrentActionData = {}
     end
 end)
 
 AddEventHandler('bpt_ballasjob:hasExitedMarker', function()
-    ESX.UI.Menu.CloseAll()
+    ESX.CloseContext()
     CurrentAction = nil
 end)
 
@@ -116,11 +125,11 @@ CreateThread(function()
     local blip = AddBlipForCoord(Config.Zones.BallasActions.Pos.x, Config.Zones.BallasActions.Pos.y,
         Config.Zones.BallasActions.Pos.z)
 
-        SetBlipSprite(blip, 106)
-        SetBlipDisplay(blip, 4)
-        SetBlipScale(blip, 1.0)
-        SetBlipColour(blip, 27)
-        SetBlipAsShortRange(blip, true)
+    SetBlipSprite(blip, 106)
+    SetBlipDisplay(blip, 4)
+    SetBlipScale(blip, 1.0)
+    SetBlipColour(blip, 27)
+    SetBlipAsShortRange(blip, true)
 
     BeginTextCommandSetBlipName('STRING')
     AddTextComponentSubstringPlayerName(_U('blip_ballas'))
@@ -142,8 +151,16 @@ CreateThread(function()
 
                 if v.Type ~= -1 and distance < Config.DrawDistance then
                     sleep = 0
-                    DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
-                        v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
+					if k == "" then
+						if inVeh then
+							DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
+								v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
+						end
+					else
+						DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
+							v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
+					end
+
                 end
 
                 if distance < v.Size.x then
@@ -175,7 +192,7 @@ CreateThread(function()
 
             if IsControlJustReleased(0, 38) and ESX.PlayerData.job and ESX.PlayerData.job.name == 'ballas' then
                 if CurrentAction == 'ballas_actions_menu' then
-                    OpenBallasActionsMenu()
+                    OpenballasActionsMenu()
                 end
 
                 CurrentAction = nil
@@ -192,4 +209,4 @@ RegisterCommand('ballasmenu', function()
     end
 end, false)
 
-RegisterKeyMapping('ballasmenu', 'Open ballas Menu', 'keyboard', 'f6')
+RegisterKeyMapping('ballasmenu', 'Open Ballas Menu', 'keyboard', 'f6')
