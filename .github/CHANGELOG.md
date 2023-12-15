@@ -75,3 +75,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 48. fix: No such export getSharedObject in resource es_extended @bitpredator
 49. [bpt_bakerjob]: refactor: bpt_bakerjob inventory implementation @bitpredator
 50. [bpt_ballasjob]: refactor: bpt_ballasjob inventory implementation @bitpredator
+51. [bpt_ballasjob]: feat: bpt_ballasjob\locales\en.lua @bitpredator
