@@ -29,5 +29,9 @@ Locales['en'] = {
   ['comp_earned'] = 'your company earned $%s \n - you earned $%s',
   ['boss_actions'] = 'Boss actions',
   ['blip_baker'] = 'Baker.',
-  ['baker'] = 'Baker'
+  ['baker'] = 'Baker',
+  -- billing 
+  ['bill_amount'] = "Amount to bill..",
+  ['confirm'] = "Confirm",
+  ['amount'] = 'amount'
 }
