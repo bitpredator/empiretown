@@ -201,20 +201,23 @@ end
 function OpenMobileBakerActionsMenu()
     local elements = {
         {unselectable = true, icon = "fas fa-baker", title = _U('baker')},
-        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"}
+        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"},
     }
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(_, element)
         if element.value == "billing" then
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
-                title = _U('invoice_amount')
-            }, function(data, menu)
+            local elements2 = {
+                {unselectable = true, icon = "fas fa-baker", title = element.title},
+                {title = _U('amount'), input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = _U('bill_amount')},
+                {icon = "fas fa-check-double", title = _U('confirm'), value = "confirm"}
+            }
 
-                local amount = tonumber(data.value)
+            ESX.OpenContext("right", elements2, function(menu2)
+                local amount = tonumber(menu2.eles[2].inputValue)
                 if amount == nil then
                     ESX.ShowNotification(_U('amount_invalid'))
                 else
-                    menu.close()
+                    ESX.CloseContext()
                     local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
                     if closestPlayer == -1 or closestDistance > 3.0 then
                         ESX.ShowNotification(_U('no_players_near'))
@@ -224,8 +227,6 @@ function OpenMobileBakerActionsMenu()
                         ESX.ShowNotification(_U('billing_sent'))
                     end
                 end
-            end, function(_, menu)
-                menu.close()
             end)
         end
     end)
@@ -240,7 +241,7 @@ function IsInAuthorizedVehicle()
             return true
         end
     end
-    
+
     return false
 end
 
