@@ -76,3 +76,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 49. [bpt_bakerjob]: refactor: bpt_bakerjob inventory implementation @bitpredator
 50. [bpt_ballasjob]: refactor: bpt_ballasjob inventory implementation @bitpredator
 51. [bpt_ballasjob]: feat: bpt_ballasjob\locales\en.lua @bitpredator
+52. [bpt_ammujob]: Fixed the problem that prevented the creation of invoices @bitpredator
