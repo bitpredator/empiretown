@@ -27,5 +27,8 @@ Locales['en'] = {
     ['no_players_near'] = 'no players nearby',
     ['boss_actions'] =  'Boss actions',
     ['blip_ammu'] =  'Armory.',
-    ['ammu'] =  'ammu'
+    ['ammu'] =  'ammu',
+    -- billing 
+    ['bill_amount'] = "Amount to bill..",
+    ['confirm'] = "Confirm"
 }
