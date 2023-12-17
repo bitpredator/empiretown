@@ -12,5 +12,9 @@ Locales['en'] = {
   ['deposit_stock'] = 'deposit stock',
   ['take_stock'] = 'take stock',
   ['have_deposited'] = 'have deposited',
-  ['quantity_invalid'] = 'quantity invalid'
+  ['quantity_invalid'] = 'quantity invalid',
+  -- billing 
+  ['bill_amount'] = "Amount to bill..",
+  ['confirm'] = "Confirm",
+  ['amount'] = 'amount'
 }
