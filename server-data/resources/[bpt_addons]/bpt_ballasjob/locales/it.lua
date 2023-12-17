@@ -12,5 +12,9 @@ Locales['it'] = {
   ['deposit_stock'] = 'Depositare',
   ['take_stock'] = 'Prendi',
   ['have_deposited'] = 'Hai depositato',
-  ['quantity_invalid'] = 'Qunatità non valida'
+  ['quantity_invalid'] = 'Qunatità non valida',
+  -- billing 
+  ['bill_amount'] = "importo della fattura",
+  ['confirm'] = "Conferma",
+  ['amount'] = "Importo"
 }

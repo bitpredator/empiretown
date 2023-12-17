@@ -1,5 +1,5 @@
 local HasAlreadyEnteredMarker
-local CurrentAction, CurrentActionMsg, CurrentActionData = nil, '', {}
+local CurrentAction, CurrentActionMsg = nil, ''
 local LastZone
 
 RegisterNetEvent('esx:playerLoaded')
@@ -77,20 +77,23 @@ end
 function OpenMobileBallasActionsMenu()
     local elements = {
         {unselectable = true, icon = "fas fa-ballas", title = _U('ballas')},
-        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"}
+        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"},
     }
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(_, element)
         if element.value == "billing" then
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
-                title = _U('invoice_amount')
-            }, function(data, menu)
+            local elements2 = {
+                {unselectable = true, icon = "fas fa-ballas", title = element.title},
+                {title = _U('amount'), input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = _U('bill_amount')},
+                {icon = "fas fa-check-double", title = _U('confirm'), value = "confirm"}
+            }
 
-                local amount = tonumber(data.value)
+            ESX.OpenContext("right", elements2, function(menu2)
+                local amount = tonumber(menu2.eles[2].inputValue)
                 if amount == nil then
                     ESX.ShowNotification(_U('amount_invalid'))
                 else
-                    menu.close()
+                    ESX.CloseContext()
                     local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
                     if closestPlayer == -1 or closestDistance > 3.0 then
                         ESX.ShowNotification(_U('no_players_near'))
@@ -100,8 +103,6 @@ function OpenMobileBallasActionsMenu()
                         ESX.ShowNotification(_U('billing_sent'))
                     end
                 end
-            end, function(_, menu)
-                menu.close()
             end)
         end
     end)
@@ -152,7 +153,7 @@ CreateThread(function()
                 if v.Type ~= -1 and distance < Config.DrawDistance then
                     sleep = 0
 					if k == "" then
-						if inVeh then
+						if k == "" then
 							DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
 								v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
 						end
