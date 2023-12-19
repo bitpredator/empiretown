@@ -339,4 +339,4 @@ Workbenches = { -- Every workbench location, leave {} for jobs if you want every
  {coords = vector3(-316.549438, -2781.217529, 4.982422), jobs = {'fisherman'}, blip = false, recipes = {'salmon_fillet'}, radius = 1.0},
 }}
 
-Config.Locale = 'it'
+Config.Locale = 'en'
