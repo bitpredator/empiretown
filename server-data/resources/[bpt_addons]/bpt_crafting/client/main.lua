@@ -14,11 +14,10 @@ local labels = {}
 local craftingQueue = {}
 local job = ""
 local grade = 0
+ESX = exports["es_extended"]:getSharedObject()
 
 CreateThread(
- function()
-     ESX = exports["es_extended"]:getSharedObject()
-
+    function()
         while ESX.GetPlayerData().job == nil do
             Wait(10)
         end
@@ -46,8 +45,7 @@ CreateThread(
 )
 
 RegisterNetEvent("esx:setJob")
-AddEventHandler(
-    "esx:setJob",
+AddEventHandler("esx:setJob",
     function(j)
         job = j.name
         grade = j.grade
@@ -149,7 +147,7 @@ CreateThread(
             for _, v in ipairs(Config.Workbenches) do
                 local dst = #(coords - v.coords)
                 if dst < 10 then
-                    DrawText3D(v.coords[1], v.coords[2], v.coords[3] - 0.8, Config.Text["workbench_hologram"])
+                    DrawText3D(v.coords[1], v.coords[2], v.coords[3] - 0.8, _U('workbench_hologram'))
                 end
                 if dst < 2 then
                     if IsControlJustReleased(0, Keys["E"]) then
@@ -163,7 +161,7 @@ CreateThread(
                         if open or #v.jobs == 0 then
                             openWorkbench(v)
                         else
-                            SendTextMessage(Config.Text["wrong_job"])
+                            SendTextMessage(_U('wrong_job'))
                         end
                     end
                 end
@@ -204,16 +202,14 @@ AddEventHandler(
     end
 )
 
-RegisterNUICallback(
-    "close",
+RegisterNUICallback("close",
     function()
      TriggerScreenblurFadeOut(1000)
      SetNuiFocus(false, false)
     end
 )
 
-RegisterNUICallback(
- "craft",
+RegisterNUICallback("craft",
     function(data)
      local item = data["item"]
      TriggerServerEvent("bpt_crafting:craft", item, false)
