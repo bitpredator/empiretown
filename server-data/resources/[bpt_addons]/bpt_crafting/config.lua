@@ -337,14 +337,6 @@ Workbenches = { -- Every workbench location, leave {} for jobs if you want every
  {coords = vector3(83.156044, -1960.259277, 18.041016), jobs = {'ballas'}, blip = false, recipes = {'cigarette_paper'}, radius = 1.0},
  {coords = vector3(2342.202148, 3144.817627, 48.202148), jobs = {'baker'}, blip = false, recipes = {'flour', 'bread'}, radius = 1.0},
  {coords = vector3(-316.549438, -2781.217529, 4.982422), jobs = {'fisherman'}, blip = false, recipes = {'salmon_fillet'}, radius = 1.0},
-},
-
-Text = {
- ['not_enough_ingredients'] = 'Non hai abbastanza ingredienti',
- ['you_cant_hold_item'] = 'Non puoi creare il prodotto',
- ['item_crafted'] = 'Articolo realizzato!',
- ['wrong_job'] = 'Non puoi aprire questo banco di lavoro',
- ['workbench_hologram'] = '[~b~E~w~] banco da lavoro',
- ['inv_limit_exceed'] = 'Limite inventario superato! Rimuovi qualcosa prima di perdere altra merce',
- ['crafting_failed'] = 'Non sei riuscito a creare l\'oggetto!'
 }}
+
+Config.Locale = 'it'
