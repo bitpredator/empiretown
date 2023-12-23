@@ -47,6 +47,7 @@ lib.callback('bpt_doorlock:getDoors', false, function(data)
 	while true do
 		table.wipe(nearbyDoors)
 		local coords = GetEntityCoords(cache.ped)
+		local doors = doors
 
 		for _, door in pairs(doors) do
 			local double = door.doors
