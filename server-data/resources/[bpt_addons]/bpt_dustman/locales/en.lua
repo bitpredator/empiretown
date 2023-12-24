@@ -21,5 +21,14 @@ Locales['en'] = {
   ['no_players_near'] = 'no players nearby',
   ['boss_actions'] = 'boss action',
   ['blip_dustman'] = 'dump',
-  ['dustman'] = 'dustman'
+  ['dustman'] = 'dustman',
+  -- Inventory
+  ['deposit_stock'] = 'Deposit stock',
+  ['take_stock'] = 'Take stock',
+  ['have_deposited'] = 'Have deposited',
+  ['quantity_invalid'] = 'Quantity invelid',
+  -- billing 
+  ['bill_amount'] = "bill amount",
+  ['amount'] = "amount",
+  ['confirm'] = "Confirm"
 }

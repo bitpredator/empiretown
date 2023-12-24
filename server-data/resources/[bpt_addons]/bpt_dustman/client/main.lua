@@ -60,7 +60,7 @@ function OpenCloakroom()
                 end
             end)
         end
-        ESX.CloseContext()
+		ESX.CloseContext()
     end, function()
         CurrentAction = 'cloakroom'
         CurrentActionMsg = _U('cloakroom_prompt')
@@ -76,7 +76,7 @@ function OpenVehicleSpawnerMenu()
     if Config.EnableSocietyOwnedVehicles then
         ESX.TriggerServerCallback('esx_society:getVehiclesInGarage', function(vehicles)
 
-            if #vehicles == 0 then
+			if #vehicles == 0 then
 				ESX.ShowNotification(_U('empty_garage'))
 				return
 			end
@@ -95,7 +95,7 @@ function OpenVehicleSpawnerMenu()
                     return
                 end
 
-                if element.value == nil then
+				if element.value == nil then
 					print("ERROR: Context menu clicked item value is nil!")
 					return
 				end
@@ -112,7 +112,8 @@ function OpenVehicleSpawnerMenu()
             end)
         end, 'dustman')
     else -- not society vehicles
-        if #Config.AuthorizedVehicles == 0 then
+
+		if #Config.AuthorizedVehicles == 0 then
 			ESX.ShowNotification(_U('empty_garage'))
 			return
 		end
@@ -130,13 +131,15 @@ function OpenVehicleSpawnerMenu()
                 ESX.ShowNotification(_U('spawnpoint_blocked'))
                 return
             end
-            if element.value == nil then
+
+			if element.value == nil then
 				print("ERROR: Context menu clicked item value is nil!")
 				return
 			end
+
             ESX.TriggerServerCallback("bpt_dustmanjob:SpawnVehicle", function()
                 ESX.ShowNotification(_U('vehicle_spawned'), "success")
-            end, element.value, {plate = "DUST JOB"})
+            end, element.value, {plate = "DUSTMAN"})
 			ESX.CloseContext()
         end, function()
             CurrentAction = 'vehicle_spawner'
@@ -147,7 +150,6 @@ function OpenVehicleSpawnerMenu()
 end
 
 function DeleteJobVehicle()
-
     if Config.EnableSocietyOwnedVehicles then
         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
         TriggerServerEvent('esx_society:putVehicleInGarage', 'dustman', vehicleProps)
@@ -155,6 +157,10 @@ function DeleteJobVehicle()
     else
         if IsInAuthorizedVehicle() then
             ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+
+            if Config.MaxInService ~= -1 then
+                TriggerServerEvent('esx_service:disableService', 'dustman')
+            end
         else
             ESX.ShowNotification(_U('only_dustman'))
         end
@@ -163,7 +169,9 @@ end
 
 function OpenDustmanActionsMenu()
     local elements = {
-        {unselectable = true, icon = "fas fa-dustman", title = _U('dustman')}
+        {unselectable = true, icon = "fas fa-dustman", title = _U('dustman')},
+        {icon = "fas fa-box",title = _U('deposit_stock'),value = 'put_stock'},
+        {icon = "fas fa-box", title = _U('take_stock'), value = 'get_stock'}
     }
 
     if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
@@ -174,8 +182,15 @@ function OpenDustmanActionsMenu()
         }
     end
 
-    ESX.OpenContext("right", elements, function(_,element)
-        if element.value == 'boss_actions' then
+    ESX.OpenContext("right", elements, function(_, element)
+        if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
+            exports.ox_inventory:openInventory('stash', 'society_dustman')
+            return ESX.CloseContext()
+        elseif element.value == 'put_stock' then
+            OpenPutStocksMenu()
+        elseif element.value == 'get_stock' then
+            OpenGetStocksMenu()
+        elseif element.value == 'boss_actions' then
             TriggerEvent('esx_society:openBossMenu', 'dustman', function(_, menu)
                 menu.close()
             end)
@@ -190,20 +205,23 @@ end
 function OpenMobileDustmanActionsMenu()
     local elements = {
         {unselectable = true, icon = "fas fa-dustman", title = _U('dustman')},
-        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"}
+        {icon = "fas fa-scroll", title = _U('billing'), value = "billing"},
     }
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(_, element)
         if element.value == "billing" then
-            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'billing', {
-                title = _U('invoice_amount')
-            }, function(data, menu)
+            local elements2 = {
+                {unselectable = true, icon = "fas fa-dustman", title = element.title},
+                {title = _U('amount'), input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = _U('bill_amount')},
+                {icon = "fas fa-check-double", title = _U('confirm'), value = "confirm"}
+            }
 
-                local amount = tonumber(data.value)
+            ESX.OpenContext("right", elements2, function(menu2)
+                local amount = tonumber(menu2.eles[2].inputValue)
                 if amount == nil then
                     ESX.ShowNotification(_U('amount_invalid'))
                 else
-                    menu.close()
+                    ESX.CloseContext()
                     local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
                     if closestPlayer == -1 or closestDistance > 3.0 then
                         ESX.ShowNotification(_U('no_players_near'))
@@ -213,8 +231,6 @@ function OpenMobileDustmanActionsMenu()
                         ESX.ShowNotification(_U('billing_sent'))
                     end
                 end
-            end, function(_, menu)
-                menu.close()
             end)
         end
     end)
@@ -290,7 +306,7 @@ CreateThread(function()
 
             local coords = GetEntityCoords(PlayerPedId())
             local isInMarker, currentZone = false
-            local inVeh = IsPedInAnyVehicle(PlayerPedId())
+			local inVeh = IsPedInAnyVehicle(PlayerPedId())
 
             for k, v in pairs(Config.Zones) do
                 local zonePos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
@@ -298,15 +314,16 @@ CreateThread(function()
 
                 if v.Type ~= -1 and distance < Config.DrawDistance then
                     sleep = 0
-                    if k == "VehicleDeleter" then
+					if k == "VehicleDeleter" then
 						if inVeh then
 							DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
-								v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
+							v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
 						end
 					else
 						DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
-							v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
+						v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
 					end
+
                 end
 
                 if distance < v.Size.x then
@@ -361,4 +378,4 @@ RegisterCommand('dustmanmenu', function()
     end
 end, false)
 
-RegisterKeyMapping('dustmanmenu', 'Open dustman Menu', 'keyboard', 'f6')
+RegisterKeyMapping('dustmanmenu', 'Open Dustman Menu', 'keyboard', 'f6')

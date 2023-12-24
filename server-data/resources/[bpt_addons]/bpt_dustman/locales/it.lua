@@ -21,5 +21,13 @@ Locales['it'] = {
   ['no_players_near'] = 'nessun giocatore nelle vicinanze',
   ['boss_actions'] = 'Azioni del boss',
   ['blip_dustman'] = 'discarica',
-  ['dustman'] = 'dustman'
+  ['dustman'] = 'dustman',
+  -- Inventory
+  ['deposit_stock'] = 'Depositare',
+  ['take_stock'] = 'Prendi',
+  ['have_deposited'] = 'Hai depositato',
+  ['quantity_invalid'] = 'Qunatità non valida',
+  -- billing 
+  ['bill_amount'] = "importo della fattura",
+  ['confirm'] = "Conferma"
 }
