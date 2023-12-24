@@ -114,25 +114,6 @@ return {
 	},
 
 	{
-		coords = vec3(-415.107697, -1676.782471, 19.018311),
-		target = {
-			loc = vec3(-415.107697, -1676.782471, 19.018311),
-			length = 0.6,
-			width = 1.8,
-			heading = 340,
-			minZ = 43.34,
-			maxZ = 44.74,
-			label = 'Storage'
-		},
-		name = 'dustmanlocker',
-		label = 'Storage',
-		owner = false,
-		slots = 70,
-		weight = 70000,
-		groups = {['dustman'] = 0}
-	},
-
-	{
 		coords = vec3(-29.287910, -1103.182373, 26.415405),
 		target = {
 			loc = vec3(-29.287910, -1103.182373, 26.415405),
