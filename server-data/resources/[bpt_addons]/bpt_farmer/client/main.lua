@@ -10,7 +10,7 @@ local Keys = {
     ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-local incollect                 = false
+local incollect = false
 
 ESX = exports["es_extended"]:getSharedObject()
 RegisterNetEvent('esx:playerLoaded')
@@ -42,7 +42,7 @@ CreateThread(function()
         Wait(0)
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 10.0) then
-            DrawText3D(2233.21, 5081.3, 48.08, 'Premi ~b~[E] per raccogliere delle patate', 0.4)
+            DrawText3D(2233.21, 5081.3, 48.08, _U('press_collect'), 0.4)
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
@@ -62,7 +62,7 @@ CreateThread(function()
         Wait(0)
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 10.0) then
-            DrawText3D(1582.035156, 2167.279053, 79.307007, 'Premi ~b~[E] per raccogliere del cotone', 0.4)
+            DrawText3D(1582.035156, 2167.279053, 79.307007, _U('press_collect'), 0.4)
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
@@ -82,7 +82,7 @@ CreateThread(function()
         Wait(0)
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 2343.850586, 4756.087891, 34.806641, true) < 10.0) then
-            DrawText3D(2343.850586, 4756.087891, 34.806641, 'Premi ~b~[E] per raccogliere delle mele', 0.4)
+            DrawText3D(2343.850586, 4756.087891, 34.806641, _U('press_collect'), 0.4)
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2343.850586, 4756.087891, 34.806641, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
@@ -102,7 +102,7 @@ CreateThread(function()
         Wait(0)
 		local coords = GetEntityCoords(PlayerPedId())
         if (GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 10.0) then
-            DrawText3D(2607.942871, 4399.490234, 40.973633, 'Premi ~b~[E] per raccogliere il grano', 0.4)
+            DrawText3D(2607.942871, 4399.490234, 40.973633, _U('press_collect'), 0.4)
             if ESX.GetPlayerData().job.name then
                 if (GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 5.0) then
                     if IsControlJustReleased(0, Keys['E']) then
@@ -118,10 +118,10 @@ end)
 
 
 local blips = {
-    {title="Raccolta patate", colour=0, id=398, x = 2233.21, y = 5081.3, z = 48.08},
-    {title="Raccolta cotone", colour=0, id=398, x = 1582.035156, y = 2167.279053, z = 79.307007},
-    {title="Raccolta mele", colour=0, id=398, x = 2343.850586, y = 4756.087891, z = 34.806641},
-    {title="Raccolta grano", colour=0, id=398, x = 2607.942871, y = 4399.490234, z = 40.973633}
+    {title="Potato harvest", colour=0, id=398, x = 2233.21, y = 5081.3, z = 48.08},
+    {title="Cotton harvesting", colour=0, id=398, x = 1582.035156, y = 2167.279053, z = 79.307007},
+    {title="Apple picking", colour=0, id=398, x = 2343.850586, y = 4756.087891, z = 34.806641},
+    {title="Wheat harvest", colour=0, id=398, x = 2607.942871, y = 4399.490234, z = 40.973633}
 }
 
 CreateThread(function()
@@ -136,13 +136,12 @@ CreateThread(function()
 	 AddTextComponentString(info.title)
 	 EndTextCommandSetBlipName(info.blip)
    end
-
 end)
 
 --potato
 function collectionpotato()
     TriggerServerEvent('farmer:collectionpotato')
-    exports["esx_notify"]:Notify("info", 3000, "Raccolta patate in corso")
+    exports["esx_notify"]:Notify("info", 3000, _U('collection_progress'))
     incollect = true
     Wait(6000)
     incollect = false
@@ -151,7 +150,7 @@ end
 -- cotton
 function collectioncotton()
     TriggerServerEvent('farmer:collectioncotton')
-    exports["esx_notify"]:Notify("info", 3000, "Raccolta cotone in corso")
+    exports["esx_notify"]:Notify("info", 3000, _U('collection_progress'))
     incollect = true
     Wait(6000)
     incollect = false
@@ -160,7 +159,7 @@ end
 -- apple
 function collectionapple()
     TriggerServerEvent('farmer:collectionapple')
-    exports["esx_notify"]:Notify("info", 3000, "Raccolta mele in corso")
+    exports["esx_notify"]:Notify("info", 3000, _U('collection_progress'))
     incollect = true
     Wait(6000)
     incollect = false
@@ -169,7 +168,7 @@ end
 -- grain
 function collectiongrain()
     TriggerServerEvent('farmer:collectiongrain')
-    exports["esx_notify"]:Notify("info", 3000, "Raccolta grano in corso")
+    exports["esx_notify"]:Notify("info", 3000, _U('collection_progress'))
     incollect = true
     Wait(6000)
     incollect = false
