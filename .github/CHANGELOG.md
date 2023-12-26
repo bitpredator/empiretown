@@ -82,3 +82,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 55. [bpt_crafting]: Refactor: created support for translations natively through local files @bitpredator
 56. [bpt_deliveries]: feat + chore: updated readme file + creation of Italian translation @bitpredator
 57. [bpt_dustman]: refactor: bpt_dustman inventory implementation @bitpredator
+58. [bpt_farmer]: refactor: support for translations through local files @bitpredator
