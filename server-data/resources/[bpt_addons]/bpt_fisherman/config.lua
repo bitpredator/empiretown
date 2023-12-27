@@ -2,7 +2,8 @@ Config                            = {}
 Config.DrawDistance               = 10.0 -- How close do you need to be for the markers to be drawn (in GTA units).
 Config.EnablePlayerManagement     = true -- Enable society managing.
 Config.EnableSocietyOwnedVehicles = false
-Config.Locale                     = 'it'
+Config.Locale                     = 'en'
+Config.OxInventory                = ESX.GetConfig().OxInventory
 
 Config.AuthorizedVehicles = {
 	{model = 'rumpo', label = 'Rumpo'}

@@ -131,23 +131,4 @@ return {
 		weight = 70000,
 		groups = {['cardealer'] = 0}
 	},
-
-	{
-		coords = vec3(-321.402191, -2785.134033, 5.201416),
-		target = {
-			loc = vec3(-321.402191, -2785.134033, 5.201416),
-			length = 0.6,
-			width = 1.8,
-			heading = 340,
-			minZ = 43.34,
-			maxZ = 44.74,
-			label = 'Storage'
-		},
-		name = 'fishermanlocker',
-		label = 'fisherman',
-		owner = false,
-		slots = 70,
-		weight = 70000,
-		groups = {['fisherman'] = 0}
-	},
 }

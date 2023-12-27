@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'bpt_fishermanjob'
 lua54 'yes'
-version '0.0.5'
+version '1.0.0'
 
 shared_script '@es_extended/imports.lua'
 
