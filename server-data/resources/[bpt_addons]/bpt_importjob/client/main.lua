@@ -60,7 +60,7 @@ function OpenCloakroom()
                 end
             end)
         end
-        ESX.CloseContext()
+		ESX.CloseContext()
     end, function()
         CurrentAction = 'cloakroom'
         CurrentActionMsg = _U('cloakroom_prompt')
@@ -76,7 +76,7 @@ function OpenVehicleSpawnerMenu()
     if Config.EnableSocietyOwnedVehicles then
         ESX.TriggerServerCallback('esx_society:getVehiclesInGarage', function(vehicles)
 
-            if #vehicles == 0 then
+			if #vehicles == 0 then
 				ESX.ShowNotification(_U('empty_garage'))
 				return
 			end
@@ -95,7 +95,7 @@ function OpenVehicleSpawnerMenu()
                     return
                 end
 
-                if element.value == nil then
+				if element.value == nil then
 					print("ERROR: Context menu clicked item value is nil!")
 					return
 				end
@@ -112,7 +112,8 @@ function OpenVehicleSpawnerMenu()
             end)
         end, 'import')
     else -- not society vehicles
-        if #Config.AuthorizedVehicles == 0 then
+
+		if #Config.AuthorizedVehicles == 0 then
 			ESX.ShowNotification(_U('empty_garage'))
 			return
 		end
@@ -130,10 +131,12 @@ function OpenVehicleSpawnerMenu()
                 ESX.ShowNotification(_U('spawnpoint_blocked'))
                 return
             end
-            if element.value == nil then
+
+			if element.value == nil then
 				print("ERROR: Context menu clicked item value is nil!")
 				return
 			end
+
             ESX.TriggerServerCallback("bpt_importjob:SpawnVehicle", function()
                 ESX.ShowNotification(_U('vehicle_spawned'), "success")
             end, element.value, {plate = "IMPO JOB"})
@@ -147,7 +150,6 @@ function OpenVehicleSpawnerMenu()
 end
 
 function DeleteJobVehicle()
-
     if Config.EnableSocietyOwnedVehicles then
         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
         TriggerServerEvent('esx_society:putVehicleInGarage', 'import', vehicleProps)
@@ -155,6 +157,10 @@ function DeleteJobVehicle()
     else
         if IsInAuthorizedVehicle() then
             ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+
+            if Config.MaxInService ~= -1 then
+                TriggerServerEvent('esx_service:disableService', 'import')
+            end
         else
             ESX.ShowNotification(_U('only_import'))
         end
@@ -163,7 +169,9 @@ end
 
 function OpenImportActionsMenu()
     local elements = {
-        {unselectable = true, icon = "fas fa-import", title = _U('import')}
+        {unselectable = true, icon = "fas fa-import", title = _U('import')},
+        {icon = "fas fa-box",title = _U('deposit_stock'),value = 'put_stock'},
+        {icon = "fas fa-box", title = _U('take_stock'), value = 'get_stock'}
     }
 
     if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == 'boss' then
@@ -174,13 +182,16 @@ function OpenImportActionsMenu()
         }
     end
 
-    ESX.OpenContext("right", elements, function(_,element)
-        local menu = {
-            {unselectable = true, "fas fa-import", title = _U('boss_actions')}
-        }
-
-        if element.value == 'boss_actions' then
-            TriggerEvent('esx_society:openBossMenu', 'import', function()
+    ESX.OpenContext("right", elements, function(_, element)
+        if Config.OxInventory and (element.value == 'put_stock' or element.value == 'get_stock') then
+            exports.ox_inventory:openInventory('stash', 'society_import')
+            return ESX.CloseContext()
+        elseif element.value == 'put_stock' then
+            OpenPutStocksMenu()
+        elseif element.value == 'get_stock' then
+            OpenGetStocksMenu()
+        elseif element.value == 'boss_actions' then
+            TriggerEvent('esx_society:openBossMenu', 'import', function(_, menu)
                 menu.close()
             end)
         end
@@ -197,12 +208,12 @@ function OpenMobileImportActionsMenu()
         {icon = "fas fa-scroll", title = _U('billing'), value = "billing"},
     }
 
-    ESX.OpenContext("right", elements, function(_,element)
+    ESX.OpenContext("right", elements, function(_, element)
         if element.value == "billing" then
             local elements2 = {
                 {unselectable = true, icon = "fas fa-import", title = element.title},
-                {title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = "Amount to bill.."},
-                {icon = "fas fa-check-double", title = "Confirm", value = "confirm"}
+                {title = _U('amount'), input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = _U('bill_amount')},
+                {icon = "fas fa-check-double", title = _U('confirm'), value = "confirm"}
             }
 
             ESX.OpenContext("right", elements2, function(menu2)
@@ -276,11 +287,11 @@ CreateThread(function()
     local blip = AddBlipForCoord(Config.Zones.ImportActions.Pos.x, Config.Zones.ImportActions.Pos.y,
         Config.Zones.ImportActions.Pos.z)
 
-        SetBlipSprite(blip, 478)
-        SetBlipDisplay(blip, 4)
-        SetBlipScale(blip, 1.0)
-        SetBlipColour(blip, 21)
-        SetBlipAsShortRange(blip, true)
+    SetBlipSprite(blip, 478)
+    SetBlipDisplay(blip, 4)
+    SetBlipScale(blip, 1.0)
+    SetBlipColour(blip, 21)
+    SetBlipAsShortRange(blip, true)
 
     BeginTextCommandSetBlipName('STRING')
     AddTextComponentSubstringPlayerName(_U('blip_import'))
@@ -295,7 +306,7 @@ CreateThread(function()
 
             local coords = GetEntityCoords(PlayerPedId())
             local isInMarker, currentZone = false
-            local inVeh = IsPedInAnyVehicle(PlayerPedId())
+			local inVeh = IsPedInAnyVehicle(PlayerPedId())
 
             for k, v in pairs(Config.Zones) do
                 local zonePos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
@@ -303,15 +314,16 @@ CreateThread(function()
 
                 if v.Type ~= -1 and distance < Config.DrawDistance then
                     sleep = 0
-                    if k == "VehicleDeleter" then
+					if k == "VehicleDeleter" then
 						if inVeh then
 							DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
-								v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
+							v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
 						end
 					else
 						DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y,
-							v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
+						v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, false, 2, v.Rotate, nil, nil, false)
 					end
+
                 end
 
                 if distance < v.Size.x then

@@ -95,25 +95,6 @@ return {
 	},
 
 	{
-		coords = vec3(1019.459351, -2392.589111, 30.122314),
-		target = {
-			loc = vec3(1019.459351, -2392.589111, 30.122314),
-			length = 0.6,
-			width = 1.8,
-			heading = 340,
-			minZ = 43.34,
-			maxZ = 44.74,
-			label = 'Storage'
-		},
-		name = 'importlocker',
-		label = 'Storage',
-		owner = false,
-		slots = 70,
-		weight = 70000,
-		groups = {['import'] = 0}
-	},
-
-	{
 		coords = vec3(-29.287910, -1103.182373, 26.415405),
 		target = {
 			loc = vec3(-29.287910, -1103.182373, 26.415405),
