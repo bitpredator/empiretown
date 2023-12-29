@@ -8,7 +8,7 @@ Locales['it'] = {
   ['deposit_stock'] = 'Depositare',
   ['take_stock'] = 'Prendi',
   ['have_deposited'] = 'Hai depositato',
-  ['quantity_invalid'] = 'Qunatità non valida',
+  ['quantity_invalid'] = 'Quantità non valida',
   -- garage
   ['spawner_prompt'] = 'premi [E] per accedere al Garage.',
   ["vehicle_spawned"] = "Veicolo ritirato con successo!",
