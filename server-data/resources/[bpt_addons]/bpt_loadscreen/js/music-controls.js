@@ -15,19 +15,16 @@ else
     container.style.display = "none";
 }
 
-
 function InitControls()
 {
     slider.value = config.MUSIC.Volume
     slider.addEventListener("input", UpdateVolume, false);
 }
 
-
 function UpdateVolume()
 {
     setVolume((slider.value-1));
 }
-
 
 function UpdateMusicInfo()
 {
@@ -41,7 +38,6 @@ function UpdateMusicInfo()
         np.innerHTML = config.MUSIC.TextPrefix + "n.a.";
     }
 }
-
 
 function OnPlayClick()
 {

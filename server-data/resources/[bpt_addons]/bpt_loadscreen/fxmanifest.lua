@@ -2,7 +2,7 @@ fx_version 'adamant'
 game 'gta5'
 
 description { 'bpt_loadscreen simple fast good' }
-version '0.0.4'
+version '1.0.0'
 
 loadscreen 'index.html'
 

@@ -1,14 +1,10 @@
 var config =
 {
-
    // Base
    BASE: {
 
       color: {
-
          background: "linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(85,85,85,1) 100%)",
-
-
          servername:
          [
             "rgba(250,250,250,1)",  // main color
@@ -33,7 +29,6 @@ var config =
             "rgba(255,255,255,1)"      // highlight
          ],
 
-
          loadingbar_background:
          [
             "rgba(66,66,66,1)",     // Pre-Map
@@ -41,6 +36,7 @@ var config =
             "rgba(110,110,110,1)",  // Post-Map
             "rgba(132,132,132,1)"   // Session
          ],
+
          loadingbar_text:
          [
             "rgba(66,66,66,1)",     // Pre-Map
@@ -49,7 +45,6 @@ var config =
             "rgba(132,132,132,1)"   // Session
          ],
 
-
          waves:
          [
             "rgba(66,66,66,0.7)",      // back
@@ -57,34 +52,25 @@ var config =
             "rgba(110,110,110,0.3)",
             "rgba(132,132,132,1)"      // front
          ],
-
       }
 
    },
 
    NAV: {
-
       enable: true,
-
       list:
       {
-
          GitHub:
          [
             "GitHub",
             "https://github.com/bitpredator/empiretown"
          ],
-
       }
-
    },
-
 
    // Server Name
    SVN: {
-
       enable: true,
-
       phrases:
       [
         'EMPIRETOWN',
@@ -92,19 +78,15 @@ var config =
         'BPT-CORE',
         'BPT-FRAMEWORK',
       ],
-
       chars: 'EMPIRETOWN EMP BPT-CORE BPT-FRAMEWORK',
       changeTime: 15,
       changePhrasesTime: 30,
-
    },
-
 
    // Logs
    LOG: {
       enable: false,
    },
-
 
    // Music
    MUSIC: {

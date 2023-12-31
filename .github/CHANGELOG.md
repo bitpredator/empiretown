@@ -86,3 +86,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 59. [bpt_fishermanjob]: refactor: bpt_fishermanjob inventory implementation @bitpredator
 60. [bpt_hud]: chore: push for version 1.0.0 @bitpredator
 61. [bpt_importjob]: refactor: bpt_importjob inventory implementation @bitpredator
+62. [bpt_loadscreen]: chore: bpt_loadscreen improves code formatting @bitpredator
