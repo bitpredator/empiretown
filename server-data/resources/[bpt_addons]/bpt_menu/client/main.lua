@@ -56,17 +56,17 @@ CreateThread(function()
 		end
 
 		local weaponsData = ESX.GetWeaponList()
-	
+
 		for i = #weaponsData, 1, -1 do
 			local weaponData = weaponsData[i]
-	
+
 			if weaponData.name == 'WEAPON_UNARMED' then
 				table.remove(weaponsData, i)
 			else
 				weaponData.hash = GetHashKey(weaponData.name)
 			end
 		end
-	
+
 		PersonalMenu.WeaponData = weaponsData
 	end
 end)
@@ -661,12 +661,12 @@ getPersonalMenuCategory('wallet').drawer = function()
 			end
 		end)
 
-		RageUI.Button(_U('wallet_check_idcard_button'), nil, nil, true, function(Hovered, Active, Selected)
+		RageUI.Button(_U('wallet_check_idcard_button'), nil, nil, true, function(_, _, Selected)
 			if not Selected then return end
 			TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()))
 		end)
 
-		RageUI.Button(_U('wallet_show_driver_button'), nil, nil, true, function(Hovered, Active, Selected)
+		RageUI.Button(_U('wallet_show_driver_button'), nil, nil, true, function(_, _, Selected)
 			if not Selected then return end
 
 			local closestPlayer, closestDistance = GetClosestPlayer()
@@ -678,12 +678,12 @@ getPersonalMenuCategory('wallet').drawer = function()
 			end
 		end)
 
-		RageUI.Button(_U('wallet_check_driver_button'), nil, nil, true, function(Hovered, Active, Selected)
+		RageUI.Button(_U('wallet_check_driver_button'), nil, nil, true, function(_, _, Selected)
 			if not Selected then return end
 			TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver')
 		end)
 
-		RageUI.Button(_U('wallet_show_firearms_button'), nil, nil, true, function(Hovered, Active, Selected)
+		RageUI.Button(_U('wallet_show_firearms_button'), nil, nil, true, function(_, _, Selected)
 			if not Selected then return end
 
 			local closestPlayer, closestDistance = GetClosestPlayer()
@@ -695,7 +695,7 @@ getPersonalMenuCategory('wallet').drawer = function()
 			end
 		end)
 
-		RageUI.Button(_U('wallet_check_firearms_button'), nil, nil, true, function(Hovered, Active, Selected)
+		RageUI.Button(_U('wallet_check_firearms_button'), nil, nil, true, function(_, _, Selected)
 			if not Selected then return end
 			TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'weapon')
 		end)
@@ -706,7 +706,7 @@ getPersonalMenuCategory('billing').drawer = function()
 	for i = 1, #PersonalMenu.BillData do
 		local billData = PersonalMenu.BillData[i]
 
-		RageUI.Button(billData.label, nil, { RightLabel = ('$%s'):format(GroupDigits(billData.amount)) }, true, function(Hovered, Active, Selected)
+		RageUI.Button(billData.label, nil, { RightLabel = ('$%s'):format(GroupDigits(billData.amount)) }, true, function(_, _, Selected)
 			if not Selected then return end
 
 			TriggerServerCallback('esx_billing:payBill', function()
@@ -720,7 +720,7 @@ getPersonalMenuCategory('clothes').drawer = function()
 	for i = 1, #PersonalMenu.ClothesButtons do
 		local clotheId = PersonalMenu.ClothesButtons[i]
 
-		RageUI.Button(_U(('clothes_%s'):format(clotheId)), nil, {RightBadge = RageUI.BadgeStyle.Clothes}, true, function(Hovered, Active, Selected)
+		RageUI.Button(_U(('clothes_%s'):format(clotheId)), nil, {RightBadge = RageUI.BadgeStyle.Clothes}, true, function(_, _, Selected)
 			if not Selected then return end
 			setClothes(clotheId)
 		end)
@@ -731,7 +731,7 @@ getPersonalMenuCategory('accessories').drawer = function()
 	for i = 1, #PersonalMenu.AccessoriesButtons do
 		local accessoryId = PersonalMenu.AccessoriesButtons[i]
 
-		RageUI.Button(_U(('accessories_%s'):format(accessoryId)), nil, {RightBadge = RageUI.BadgeStyle.Clothes}, true, function(Hovered, Active, Selected)
+		RageUI.Button(_U(('accessories_%s'):format(accessoryId)), nil, {RightBadge = RageUI.BadgeStyle.Clothes}, true, function(_, _, Selected)
 			if not Selected then return end
 			setAccessory(accessoryId)
 		end)
@@ -750,7 +750,7 @@ function DrawAnimationsCategory(animationCfg)
 		for i = 1, #animationCfg.items do
 			local animItemCfg = animationCfg.items[i]
 
-			RageUI.Button(animItemCfg.name, nil, nil, true, function(Hovered, Active, Selected)
+			RageUI.Button(animItemCfg.name, nil, nil, true, function(_, _, Selected)
 				if not Selected then return end
 
 				if animItemCfg.type == 'anim' then
