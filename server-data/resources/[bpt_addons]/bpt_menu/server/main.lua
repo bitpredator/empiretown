@@ -316,7 +316,7 @@ AddEventHandler('bpt_menu:Boss_dismissplayer2', makeTargetedEventFunction(functi
 end))
 
 RegisterServerEvent('bpt_menu:Boss_recruitplayer2')
-AddEventHandler('bpt_menu:Boss_recruitplayer2', makeTargetedEventFunction(function(target, grade2)
+AddEventHandler('bpt_menu:Boss_recruitplayer2', makeTargetedEventFunction(function(target)
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local sourceJob2 = sourceXPlayer.getJob2()
 
