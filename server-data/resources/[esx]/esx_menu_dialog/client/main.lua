@@ -1,7 +1,7 @@
 local Timeouts, OpenedMenus, MenuType = {}, {}, 'dialog'
 
 local function openMenu(namespace, name, data)
-	for i=1, #Timeouts, 1 do
+	for i = 1, #Timeouts, 1 do
 		ESX.ClearTimeout(Timeouts[i])
 	end
 
@@ -33,7 +33,6 @@ local function closeMenu(namespace, name)
 	if not next(OpenedMenus) then
 		SetNuiFocus(false)
 	end
-
 end
 
 ESX.UI.Menu.RegisterType(MenuType, openMenu, closeMenu)
