@@ -1,12 +1,10 @@
 class TextScramble {
 
-  
   constructor(el) {
     this.el = el;
     this.chars = config.SVN.chars;
     this.update = this.update.bind(this);
   }
-
 
   setText(newText) {
     const oldText = this.el.innerText;
@@ -25,7 +23,6 @@ class TextScramble {
     this.update();
     return promise;
   }
-
 
   update() {
     let output = '';
@@ -54,12 +51,10 @@ class TextScramble {
     }
   }
 
-
   randomChar() {
     return this.chars[Math.floor(Math.random() * this.chars.length)];
   }
 }
-
 
 const el = document.querySelector('.text');
 const fx = new TextScramble(el);

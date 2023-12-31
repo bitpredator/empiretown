@@ -99,7 +99,6 @@ function onPlayerError(event)
         default:
             console.log("Looks like you got an error bud.")
     }
-
     skip();
 }
 

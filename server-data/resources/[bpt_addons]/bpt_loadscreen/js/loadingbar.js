@@ -63,7 +63,6 @@ while(i < currentProgress.length)
     i++;
 }
 
-
 function updateProgress()
 {
     document.querySelector('#debug').innerHTML = '';
@@ -88,7 +87,6 @@ function updateProgress()
 }
 
 updateProgress();
-
 
 var count = 0;
 var thisCount = 0;

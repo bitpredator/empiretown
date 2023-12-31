@@ -3,30 +3,24 @@ function updateColors()
     // color background
     document.documentElement.style.setProperty("--header-color", config.BASE.color.background);
 
-
     // color servername
     const servername = Object.values(config.BASE.color.servername);
 
     document.documentElement.style.setProperty("--text-color", servername[0]);
     document.documentElement.style.setProperty("--dud-color", servername[1])
 
-
     // cursor
     document.documentElement.style.setProperty("--cursor-dot", config.BASE.color.cursor_dot);
     document.documentElement.style.setProperty("--cursor-ring", config.BASE.color.cursor_ring);
 
-
     // color logs
     document.documentElement.style.setProperty("--log-color", config.BASE.color.logs);
-
 
     // color music text
     document.documentElement.style.setProperty("--music-color", config.BASE.color.music_text);
 
-
     // color music icons
     document.documentElement.style.setProperty("--music-icons", config.BASE.color.music_icons);
-
 
     // color nav
     const nav_background = Object.values(config.BASE.color.nav_background);
@@ -38,7 +32,6 @@ function updateColors()
     document.documentElement.style.setProperty("--nav-underline", config.BASE.color.nav_underline);
     document.documentElement.style.setProperty("--nav-text", nav_text[0]);
     document.documentElement.style.setProperty("--nav-text-highlight", nav_text[1]);
-
 
     // color loadingbar
     const loadingbar_background = Object.values(config.BASE.color.loadingbar_background);
