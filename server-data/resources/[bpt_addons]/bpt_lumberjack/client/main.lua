@@ -10,23 +10,7 @@ Keys = {
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-local menuOpen = false
-
-CreateThread(function()
-	ESX = exports["es_extended"]:getSharedObject()
-	while ESX.GetPlayerData().job == nil do
-		Wait(100)
-	end
-	ESX.PlayerData = ESX.GetPlayerData()
-end)
-
-AddEventHandler('onResourceStop', function(resource)
-	if resource == GetCurrentResourceName() then
-		if menuOpen then
-			ESX.UI.Menu.CloseAll()
-		end
-	end
-end)
+ESX = exports["es_extended"]:getSharedObject()
 
 local spawnedWood = 0
 local TreeWood = {}
@@ -75,7 +59,7 @@ CreateThread(function()
 			end
 
 			if IsControlJustReleased(0, Keys['E']) and not Collection then
-				ollection = true
+				Collection = true
 
 				ESX.TriggerServerCallback('bpt_woodcutter:canPickUp', function(canPickUp)
 
@@ -103,16 +87,6 @@ CreateThread(function()
 
 		else
 			Wait(500)
-		end
-
-	end
-
-end)
-
-AddEventHandler('onResourceStop', function(resource)
-	if resource == GetCurrentResourceName() then
-		for _, v in pairs(TreeWood) do
-			ESX.Game.DeleteObject(v)
 		end
 	end
 end)
@@ -179,7 +153,6 @@ function GetCoordZ(x, y)
 			return z
 		end
 	end
-
 	return 43.0
 end
 

@@ -146,7 +146,7 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
  Time = 60,
 	Ingredients = {
 	 ['iron'] = 4,
-	 ['legnatagliata'] = 1
+	 ['wood'] = 1
 	}
 },
 
@@ -243,7 +243,7 @@ Recipes = { -- Enter Item name and then the speed value! The higher the value th
 	Ingredients = {
 	 ['copper'] = 1,
 	 ['iron'] = 1,
-	 ['legnatagliata'] = 1
+	 ['wood'] = 1
 	}
 },
 
