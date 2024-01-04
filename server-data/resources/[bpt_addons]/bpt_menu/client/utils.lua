@@ -27,7 +27,6 @@ end
 
 if Config.Framework == 'esx' then
     local playerData = {
-        inventory = {},
         accounts = {},
         job = {}
     }
@@ -43,20 +42,6 @@ if Config.Framework == 'esx' then
         job.name = xPlayerJob.label
         job.gradeName = xPlayerJob.grade_label
         job.isBoss = xPlayerJob.grade_name == 'boss'
-    end
-
-    local function parsePlayerData(xPlayer)
-        playerData.inventory = xPlayer.inventory
-        playerData.accounts = xPlayer.accounts
-        parsePlayerJob(playerData.job, xPlayer.job)
-
-        if Config.DoubleJob then
-            parsePlayerJob(playerData.job2, xPlayer.job2)
-        end
-    end
-
-    function GetPlayerInventory()
-        return playerData.inventory
     end
 
     function GetPlayerAccounts()
@@ -122,7 +107,7 @@ if Config.Framework == 'esx' then
     end)
 
     AddEventHandler('bpt_menu:menuOpening', function()
-        parsePlayerData(ESX.GetPlayerData())
+        ESX.GetPlayerData()
     end)
 
     RegisterNetEvent('esx_addonaccount:setMoney', function(societyId, money)
@@ -167,7 +152,5 @@ if Config.Framework == 'esx' then
                 Wait(100)
             end
         end
-
-        parsePlayerData(ESX.GetPlayerData())
     end)
 end

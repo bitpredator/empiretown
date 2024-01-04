@@ -119,14 +119,6 @@ local function makeTargetedEventFunction(fn)
 	end
 end
 
--- Weapon Menu --
-RegisterServerEvent('bpt_menu:Weapon_addAmmoToPedS')
-AddEventHandler('bpt_menu:Weapon_addAmmoToPedS', makeTargetedEventFunction(function(target, value, quantity)
-	if #(GetEntityCoords(source, false) - GetEntityCoords(target, false)) <= 3.0 then
-		TriggerClientEvent('bpt_menu:Weapon_addAmmoToPedC', target, value, quantity)
-	end
-end))
-
 -- Admin Menu --
 RegisterServerEvent('bpt_menu:Admin_BringS')
 AddEventHandler('bpt_menu:Admin_BringS', makeTargetedEventFunction(function(playerId, target)

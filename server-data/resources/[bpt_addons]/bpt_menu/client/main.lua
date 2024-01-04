@@ -1,9 +1,8 @@
 local PersonalMenu = {
 	ItemSelected = {},
 	ItemIndex = {},
-	WeaponData = {},
 	WalletIndex = {},
-	WalletList = {_U('wallet_option_give'), _U('wallet_option_drop')},
+	WalletList = {},
 	BillData = {},
 	ClothesButtons = {'torso', 'pants', 'shoes', 'bag', 'bproof'},
 	AccessoriesButtons = {'ears', 'glasses', 'helmet', 'mask'},
@@ -54,20 +53,6 @@ CreateThread(function()
 		while not ESX do
 			Wait(100)
 		end
-
-		local weaponsData = ESX.GetWeaponList()
-
-		for i = #weaponsData, 1, -1 do
-			local weaponData = weaponsData[i]
-
-			if weaponData.name == 'WEAPON_UNARMED' then
-				table.remove(weaponsData, i)
-			else
-				weaponData.hash = GetHashKey(weaponData.name)
-			end
-		end
-
-		PersonalMenu.WeaponData = weaponsData
 	end
 end)
 
@@ -103,10 +88,7 @@ local function getPersonalMenuCategory(id)
 	return personalMenuCategoriesById[id]
 end
 
-local inventoryCategory = addPersonalMenuCategory('inventory', _U('inventory_title'))
-local loadoutCategory = addPersonalMenuCategory('loadout', _U('loadout_title'))
-addPersonalMenuCategory('wallet', _U('wallet_title'))
-addPersonalMenuCategory('billing', _U('bills_title'))
+local billingCategory = addPersonalMenuCategory('billing', _U('bills_title'))
 addPersonalMenuCategory('clothes', _U('clothes_title'))
 addPersonalMenuCategory('accessories', _U('accessories_title'))
 local animationCategory = addPersonalMenuCategory('animation', _U('animation_title'))
@@ -129,16 +111,6 @@ addPersonalMenuCategory('admin', _U('admin_title'), function()
 	return adminGroups[PlayerVars.group] ~= nil
 end)
 
-local inventoryActionsMenu = RageUI.CreateSubMenu(inventoryCategory.menu, _U('inventory_actions_title'))
-inventoryActionsMenu.Closed = function()
-	PersonalMenu.ItemSelected = nil
-end
-
-local loadoutActionsMenu = RageUI.CreateSubMenu(loadoutCategory.menu, _U('loadout_actions_title'))
-loadoutActionsMenu.Closed = function()
-	PersonalMenu.ItemSelected = nil
-end
-
 for i = 1, #Config.Animations do
 	local animationCfg = Config.Animations[i]
 	animationCfg.menu = RageUI.CreateSubMenu(animationCategory.menu, animationCfg.name)
@@ -156,21 +128,12 @@ AddEventHandler('playerSpawned', function()
 	PlayerVars.isDead = false
 end)
 
--- Weapon Menu --
-RegisterNetEvent('bpt_menu:Weapon_addAmmoToPedC', function(value, quantity)
-	local weaponHash = GetHashKey(value)
-
-	if HasPedGotWeapon(plyPed, weaponHash, false) and value ~= 'WEAPON_UNARMED' then
-		AddAmmoToPed(plyPed, value, quantity)
-	end
-end)
-
--- Admin Menu --
+-- Admin Menu
 RegisterNetEvent('bpt_menu:Admin_BringC', function(plyCoords)
 	SetEntityCoords(plyPed, plyCoords)
 end)
 
---Message text joueur
+-- Player text message
 local function Text(text)
 	SetTextColour(186, 186, 186, 255)
 	SetTextFont(0)
@@ -390,316 +353,6 @@ function DrawPersonalMenu()
 			GameNotification(_U('gps', gpsCfg.name))
 		end)
 	end)
-end
-
-function DrawActionsMenu(_type)
-	ruiDrawContent(drawContentOptions, function()
-		if _type == 'inventory' then
-			RageUI.Button(_U('inventory_use_button'), "", nil, true, function(Hovered, Active, Selected)
-				if not Selected then return end
-
-				local itemSelected = PersonalMenu.ItemSelected
-
-				if not itemSelected.usable then
-					GameNotification(_U('not_usable', itemSelected.label))
-					return
-				end
-
-				TriggerServerEvent('esx:useItem', itemSelected.name)
-			end)
-
-			RageUI.Button(_U('inventory_give_button'), "", nil, true, function(Hovered, Active, Selected)
-				if not Selected then return end
-
-				local closestPlayer, closestDistance = GetClosestPlayer()
-
-				if closestDistance == -1 or closestDistance > 3 then
-					GameNotification(_U('players_nearby'))
-					return
-				end
-
-				local itemSelected = PersonalMenu.ItemSelected
-
-				local closestPed = GetPlayerPed(closestPlayer)
-				if not IsPedOnFoot(closestPed) then
-					GameNotification(_U('in_vehicle_give', itemSelected.label))
-					return
-				end
-
-				if not PersonalMenu.ItemIndex[itemSelected.name] or itemSelected.count <= 0 then
-					GameNotification(_U('amount_invalid'))
-					return
-				end
-
-				TriggerServerEvent('esx:giveInventoryItem', GetPlayerServerId(closestPlayer), 'item_standard', itemSelected.name, PersonalMenu.ItemIndex[itemSelected.name])
-				RageUI.CloseAll()
-			end)
-
-			RageUI.Button(_U('inventory_drop_button'), "", {RightBadge = RageUI.BadgeStyle.Alert}, true, function(Hovered, Active, Selected)
-				if not Selected then return end
-
-				local itemSelected = PersonalMenu.ItemSelected
-
-				if not itemSelected.canRemove then
-					GameNotification(_U('not_droppable', itemSelected.label))
-					return
-				end
-
-				if not IsPedOnFoot(plyPed) then
-					GameNotification(_U('in_vehicle_drop', itemSelected.label))
-					return
-				end
-
-				if not PersonalMenu.ItemIndex[itemSelected.name] then
-					GameNotification(_U('amount_invalid'))
-					return
-				end
-
-				TriggerServerEvent('esx:removeInventoryItem', 'item_standard', itemSelected.name, PersonalMenu.ItemIndex[itemSelected.name])
-				RageUI.CloseAll()
-			end)
-		elseif _type == 'loadout' then
-			if not HasPedGotWeapon(plyPed, PersonalMenu.ItemSelected.hash, false) then
-				RageUI.GoBack()
-				return
-			end
-
-			RageUI.Button(_U('loadout_give_button'), "", nil, true, function(Hovered, Active, Selected)
-				if not Selected then return end
-
-				local closestPlayer, closestDistance = GetClosestPlayer()
-				if closestDistance == -1 or closestDistance > 3 then
-					GameNotification(_U('players_nearby'))
-					return
-				end
-
-				local itemSelected = PersonalMenu.ItemSelected
-
-				local closestPed = GetPlayerPed(closestPlayer)
-				if not IsPedOnFoot(closestPed) then
-					GameNotification(_U('in_vehicle_give', itemSelected.label))
-					return
-				end
-
-				local ammo = GetAmmoInPedWeapon(plyPed, itemSelected.hash)
-				TriggerServerEvent('esx:giveInventoryItem', GetPlayerServerId(closestPlayer), 'item_weapon', itemSelected.name, ammo)
-				RageUI.CloseAll()
-			end)
-
-			RageUI.Button(_U('loadout_givemun_button'), "", {RightBadge = RageUI.BadgeStyle.Ammo}, true, function(Hovered, Active, Selected)
-				if not Selected then return end
-
-				local post, quantity = CheckQuantity(KeyboardInput('PM_BOX_AMMO_AMOUNT', _U('dialogbox_amount_ammo'), '', 8))
-				if not post then
-					GameNotification(_U('amount_invalid'))
-					return
-				end
-
-				local closestPlayer, closestDistance = GetClosestPlayer()
-				if closestDistance == -1 or closestDistance > 3 then
-					GameNotification(_U('players_nearby'))
-					return
-				end
-
-				local itemSelected = PersonalMenu.ItemSelected
-
-				local closestPed = GetPlayerPed(closestPlayer)
-				if not IsPedOnFoot(closestPed) then
-					GameNotification(_U('in_vehicle_give', itemSelected.label))
-					return
-				end
-
-				local ammo = GetAmmoInPedWeapon(plyPed, itemSelected.hash)
-
-				if ammo <= 0 then
-					GameNotification(_U('no_ammo'))
-					return
-				end
-
-				if quantity > ammo then
-					GameNotification(_U('not_enough_ammo'))
-					return
-				end
-
-				local finalAmmo = math.floor(ammo - quantity)
-				SetPedAmmo(plyPed, itemSelected.name, finalAmmo)
-
-				TriggerServerEvent('bpt_menu:Weapon_addAmmoToPedS', GetPlayerServerId(closestPlayer), itemSelected.name, quantity)
-				GameNotification(_U('gave_ammo', quantity, GetPlayerName(closestPlayer)))
-				RageUI.CloseAll()
-			end)
-
-			RageUI.Button(_U('loadout_drop_button'), "", {RightBadge = RageUI.BadgeStyle.Alert}, true, function(Hovered, Active, Selected)
-				if not Selected then return end
-
-				local itemSelected = PersonalMenu.ItemSelected
-
-				if not IsPedOnFoot(plyPed) then
-					GameNotification(_U('in_vehicle_drop', itemSelected.label))
-					return
-				end
-
-				TriggerServerEvent('esx:removeInventoryItem', 'item_weapon', itemSelected.name)
-				RageUI.CloseAll()
-			end)
-		end
-	end)
-end
-
-getPersonalMenuCategory('inventory').drawer = function()
-	local inventory = GetPlayerInventory()
-
-	for i = 1, #inventory do
-		local invItem = inventory[i]
-
-		if invItem.count > 0 then
-			local invCount = {}
-			for j = 1, invItem.count do invCount[j] = j end
-
-			RageUI.List(('%s (%u)'):format(invItem.label, invItem.count), invCount, PersonalMenu.ItemIndex[invItem.name] or 1, nil, nil, true, function(Hovered, Active, Selected, Index)
-				PersonalMenu.ItemIndex[invItem.name] = Index
-
-				if not Selected then return end
-				PersonalMenu.ItemSelected = invItem
-			end, inventoryActionsMenu)
-		end
-	end
-end
-
-getPersonalMenuCategory('loadout').drawer = function()
-	for i = 1, #PersonalMenu.WeaponData do
-		local weaponData = PersonalMenu.WeaponData[i]
-
-		if HasPedGotWeapon(plyPed, weaponData.hash, false) then
-			local ammo = GetAmmoInPedWeapon(plyPed, weaponData.hash)
-
-			RageUI.Button(('%s [%u]'):format(weaponData.label, ammo), nil, {RightLabel = "→→→"}, true, function(Hovered, Active, Selected)
-				if not Selected then return end
-				PersonalMenu.ItemSelected = weaponData
-			end, loadoutActionsMenu)
-		end
-	end
-end
-
-local accountInPockets = {
-	['money'] = 'wallet_money_button',
-	['black_money'] = 'wallet_blackmoney_button'
-}
-
-getPersonalMenuCategory('wallet').drawer = function()
-	local playerJob = GetPlayerJob()
-	RageUI.Button(_U('wallet_job_button', playerJob.name, playerJob.gradeName), nil, nil, true, nil)
-
-	if Config.DoubleJob then
-		local playerJob2 = GetPlayerJob2()
-		RageUI.Button(_U('wallet_job2_button', playerJob2.name, playerJob2.gradeName), nil, nil, true, nil)
-	end
-
-	local playerAccounts = GetPlayerAccounts()
-	for i = 1, #playerAccounts do
-		local account = playerAccounts[i]
-
-		if accountInPockets[account.name] then
-			if PersonalMenu.WalletIndex[account.name] == nil then PersonalMenu.WalletIndex[account.name] = 1 end
-
-			RageUI.List(_U(accountInPockets[account.name], GroupDigits(account.money)), PersonalMenu.WalletList, PersonalMenu.WalletIndex[account.name] or 1, nil, nil, true, function(Hovered, Active, Selected, Index)
-				if not Selected then return end
-
-				if Index == 1 then
-					local post, quantity = CheckQuantity(KeyboardInput('PM_BOX_AMOUNT', _U('dialogbox_amount'), '', 8))
-
-					if post then
-						local closestPlayer, closestDistance = GetClosestPlayer()
-						if closestDistance == -1 or closestDistance > 3 then
-							GameNotification(_U('players_nearby'))
-							return
-						end
-
-						local closestPed = GetPlayerPed(closestPlayer)
-
-						if not IsPedSittingInAnyVehicle(closestPed) then
-							TriggerServerEvent('esx:giveInventoryItem', GetPlayerServerId(closestPlayer), 'item_account', account.name, quantity)
-							RageUI.CloseAll()
-						else
-							GameNotification(_U('in_vehicle_give', 'de l\'argent'))
-						end
-					else
-						GameNotification(_U('amount_invalid'))
-					end
-				elseif Index == 2 then
-					local post, quantity = CheckQuantity(KeyboardInput('PM_BOX_AMOUNT', _U('dialogbox_amount'), '', 8))
-
-					if post then
-						if not IsPedSittingInAnyVehicle(plyPed) then
-							TriggerServerEvent('esx:removeInventoryItem', 'item_account', account.name, quantity)
-							RageUI.CloseAll()
-						else
-							GameNotification(_U('in_vehicle_drop', 'de l\'argent'))
-						end
-					else
-						GameNotification(_U('amount_invalid'))
-					end
-				end
-
-				PersonalMenu.WalletIndex[account.name] = Index
-			end)
-		elseif account.name == 'bank' then
-			RageUI.Button(_U('wallet_bankmoney_button', GroupDigits(account.money)), nil, nil, true, nil)
-		end
-	end
-
-	if Config.JSFourIDCard then
-		RageUI.Button(_U('wallet_show_idcard_button'), nil, nil, true, function(Hovered, Active, Selected)
-			if not Selected then return end
-
-			local closestPlayer, closestDistance = GetClosestPlayer()
-
-			if closestDistance ~= -1 and closestDistance <= 3.0 then
-				TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer))
-			else
-				GameNotification(_U('players_nearby'))
-			end
-		end)
-
-		RageUI.Button(_U('wallet_check_idcard_button'), nil, nil, true, function(_, _, Selected)
-			if not Selected then return end
-			TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()))
-		end)
-
-		RageUI.Button(_U('wallet_show_driver_button'), nil, nil, true, function(_, _, Selected)
-			if not Selected then return end
-
-			local closestPlayer, closestDistance = GetClosestPlayer()
-
-			if closestDistance ~= -1 and closestDistance <= 3.0 then
-				TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer), 'driver')
-			else
-				GameNotification(_U('players_nearby'))
-			end
-		end)
-
-		RageUI.Button(_U('wallet_check_driver_button'), nil, nil, true, function(_, _, Selected)
-			if not Selected then return end
-			TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver')
-		end)
-
-		RageUI.Button(_U('wallet_show_firearms_button'), nil, nil, true, function(_, _, Selected)
-			if not Selected then return end
-
-			local closestPlayer, closestDistance = GetClosestPlayer()
-
-			if closestDistance ~= -1 and closestDistance <= 3.0 then
-				TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer), 'weapon')
-			else
-				GameNotification(_U('players_nearby'))
-			end
-		end)
-
-		RageUI.Button(_U('wallet_check_firearms_button'), nil, nil, true, function(_, _, Selected)
-			if not Selected then return end
-			TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'weapon')
-		end)
-	end
 end
 
 getPersonalMenuCategory('billing').drawer = function()
@@ -1071,7 +724,7 @@ end, false)
 
 RegisterCommand('-openpersonal', function() end, false)
 
-RegisterKeyMapping('+openpersonal', 'Ouvrir le menu personnel', 'KEYBOARD', Config.Controls.OpenMenu.keyboard)
+RegisterKeyMapping('+openpersonal', 'Open personal menu', 'KEYBOARD', Config.Controls.OpenMenu.keyboard)
 TriggerEvent('chat:removeSuggestion', '/+openpersonal')
 TriggerEvent('chat:removeSuggestion', '/-openpersonal')
 
@@ -1081,16 +734,6 @@ CreateThread(function()
 	while true do
 		if ruiVisible(mainMenu) then
 			DrawPersonalMenu()
-			goto continue
-		end
-
-		if ruiVisible(inventoryActionsMenu) then
-			DrawActionsMenu('inventory')
-			goto continue
-		end
-
-		if ruiVisible(loadoutActionsMenu) then
-			DrawActionsMenu('loadout')
 			goto continue
 		end
 
