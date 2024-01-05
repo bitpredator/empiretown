@@ -19,15 +19,12 @@ server_scripts {
 }
 
 client_scripts {
-	"dependencies/RMenu.lua",
-	"dependencies/components/*.lua",
 	"dependencies/menu/RageUI.lua",
 	"dependencies/menu/Menu.lua",
 	"dependencies/menu/MenuController.lua",
 	"dependencies/menu/elements/*.lua",
 	"dependencies/menu/items/*.lua",
-	'client/main.lua',
-	'client/other.lua'
+	'client/*.lua'
 }
 
 shared_script '@es_extended/imports.lua'
