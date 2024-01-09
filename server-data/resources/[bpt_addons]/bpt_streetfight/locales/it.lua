@@ -7,5 +7,6 @@ Locales['it'] = {
     ['successfully_signed'] = 'Ti sei iscritto con successo',
     ['not_money'] = 'denaro non sufficente',
     ['press_to_join_blue'] = 'premi ~INPUT_CONTEXT~ per unirti al lato blu.',
-    ['press_to_join_red'] = 'premi ~INPUT_CONTEXT~ per unirti al lato rosso.'
+    ['press_to_join_red'] = 'premi ~INPUT_CONTEXT~ per unirti al lato rosso.',
+    ['street_fighting'] = 'Combattimenti di strada'
 }

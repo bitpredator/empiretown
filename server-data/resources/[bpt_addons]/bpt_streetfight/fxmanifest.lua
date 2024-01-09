@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'bpt_streetfight'
 
-version '0.0.4'
+version '1.0.0'
 
 server_script {
     '@es_extended/locale.lua',

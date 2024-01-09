@@ -162,7 +162,9 @@ function putGloves()
 end
 
 function removeGloves()
-    for _,v in pairs(Gloves) do DeleteObject(v); end
+    for _, v in pairs(Gloves)
+      do DeleteObject(v);
+    end
 end
 
 function spawnMarker(coords)

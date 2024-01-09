@@ -9,11 +9,11 @@ Config.TP_DISTANCE = 6 -- Minimum distance between fight and spectators
 Config.LEAVE_FIGHT_DISTANCE = 15 -- Distance to quit fight
 Config.DISTANCE_INTERACTION = 2.0 -- Interaction for fighter events
 Config.E_KEY = 38 -- Action key 'E' default
-Config.Locale = 'it'
+Config.Locale = 'en'
 
 Config.BLIP = {
     coords = {x = -517.61, y = -1712.04, z = 20.45},
-    text   = 'Combattimenti di strada',
+    text   = _U('street_fighting'),
     sprite = 491,
     color  = 1,
     scale  = 1.0

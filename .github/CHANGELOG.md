@@ -89,3 +89,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 62. [bpt_loadscreen]: chore: bpt_loadscreen improves code formatting @bitpredator
 63. [bpt_lumberjack]: fix: bpt_lumberjack fixed typos and removed unused code @bitpredator
 64. [bpt_crafting]: fix: correct ingredients to use @bitpredator
+65. [bpt_streetfight]: chore: supports map point through local translation @bitpredator
