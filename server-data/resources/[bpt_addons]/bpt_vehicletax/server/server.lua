@@ -1,9 +1,9 @@
 local vehicleprices = {}
 local percentage = 1
 ESX = exports["es_extended"]:getSharedObject()
+
 MySQL.ready(function()
     local result = MySQL.Sync.fetchAll('SELECT * FROM vehicles')
-
     for i = 1, #result, 1 do
         if vehicleprices[(GetHashKey(result[i].model))] == nil then
             table.insert(vehicleprices, {model = GetHashKey(result[i].model), price = result[i].price})
