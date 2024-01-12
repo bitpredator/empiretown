@@ -57,25 +57,6 @@ return {
 	},
 
 	{
-		coords = vec3(93.204399, -1291.833008, 29.263062),
-		target = {
-			loc = vec3(93.204399, -1291.833008, 29.263062),
-			length = 0.6,
-			width = 1.8,
-			heading = 340,
-			minZ = 43.34,
-			maxZ = 44.74,
-			label = 'Storage Personal'
-		},
-		name = 'unicornlocker',
-		label = 'Storage Personal',
-		owner = true,
-		slots = 70,
-		weight = 70000,
-		groups = {['unicorn'] = 0}
-	},
-
-	{
 		coords = vec3(-344.452759, -127.437363, 39.002197),
 		target = {
 			loc = vec3(-344.452759, -127.437363, 39.002197),
