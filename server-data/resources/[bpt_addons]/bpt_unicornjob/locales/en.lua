@@ -4,6 +4,11 @@ Locales['en'] = {
   ['cloakroom_prompt'] = 'press [E] to access the cloakroom.',
   ['wear_citizen'] = 'civilian clothes',
   ['wear_work'] = 'work clothes',
+  -- Inventory
+  ['deposit_stock'] = 'Deposit stock',
+  ['take_stock'] = 'Take stock',
+  ['have_deposited'] = 'Have deposited',
+  ['quantity_invalid'] = 'Quantity invelid',
   -- garage
   ['spawner_prompt'] = 'press [E] to access the Garage.',
   ["vehicle_spawned"] = "Vehicle picked up successfully!",
@@ -19,5 +24,9 @@ Locales['en'] = {
   ['no_players_near'] = 'no players nearby',
   ['boss_actions'] = 'Boss action',
   ['blip_unicorn'] = 'unicorn',
-  ['unicorn'] = 'unicorn'
+  ['unicorn'] = 'unicorn',
+  -- billing 
+  ['bill_amount'] = "Amount to bill..",
+  ['confirm'] = "Confirm",
+  ['amount'] = "Amount"
 }

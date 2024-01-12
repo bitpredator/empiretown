@@ -3,6 +3,7 @@ Config.DrawDistance               = 10.0 -- How close do you need to be for the 
 Config.EnablePlayerManagement     = true -- Enable society managing.
 Config.EnableSocietyOwnedVehicles = false
 Config.Locale                     = 'en'
+Config.OxInventory                = ESX.GetConfig().OxInventory
 
 Config.AuthorizedVehicles = {
 	{model = 'rentalbus', label = 'rentalbus'}
