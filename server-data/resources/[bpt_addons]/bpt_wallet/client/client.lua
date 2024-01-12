@@ -1,4 +1,4 @@
-local walEquipped, walObj
+local WalEquipped, walObj
 local ox_inventory = exports.ox_inventory
 local ped = cache.ped
 local justConnect = true
@@ -9,7 +9,7 @@ local function RemoveWal()
     end
     SetModelAsNoLongerNeeded(hash)
     walObj = nil
-    walEquipped = nil
+    WalEquipped = nil
 end
 
 AddEventHandler('ox_inventory:updateInventory', function(changes)
@@ -19,7 +19,7 @@ AddEventHandler('ox_inventory:updateInventory', function(changes)
     end
     for _, v in pairs(changes) do
         if type(v) == 'table' then
-            local count = ox_inventory:Search('count', Config.WalletItem)
+            ox_inventory:Search('count', Config.WalletItem)
         end
         if type(v) == 'boolean' then
             local count = ox_inventory:Search('count', Config.WalletItem)
