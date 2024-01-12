@@ -1,13 +1,11 @@
 local WalEquipped, walObj
 local ox_inventory = exports.ox_inventory
-local ped = cache.ped
 local justConnect = true
 
 local function RemoveWal()
     if DoesEntityExist(walObj) then
         DeleteObject(walObj)
     end
-    SetModelAsNoLongerNeeded(hash)
     walObj = nil
     WalEquipped = nil
 end
