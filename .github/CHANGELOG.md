@@ -93,3 +93,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 67. [bpt_teleport]: chore:  set English as the default language @bitpredator
 68. [bpt_teleport]: chore: update the license file and readme for the year 2024 @bitpredator
 69. [bpt_unicornjob]: refactor: bpt_unicornjob inventory implementation @bitpredator
+70. [bpt_vehicletax]: chore: bpt_vehicletax update to version 1.0.0 @bitpredator
