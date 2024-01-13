@@ -50,7 +50,7 @@ function ESX.RegisterCommand(name, group, cb, allowConsole, suggestion)
 
   Core.RegisteredCommands[name] = {group = group, cb = cb, allowConsole = allowConsole, suggestion = suggestion}
 
-  RegisterCommand(name, function(playerId, args, _)
+  RegisterCommand(name, function(playerId, args)
     local command = Core.RegisteredCommands[name]
 
     if not command.allowConsole and playerId == 0 then
@@ -167,7 +167,7 @@ function ESX.RegisterServerCallback(name, cb)
   Core.ServerCallbacks[name] = cb
 end
 
-function ESX.TriggerServerCallback(name, _, source,Invoke, cb, ...)
+function ESX.TriggerServerCallback(name, _, source, Invoke, cb, ...)
   if Core.ServerCallbacks[name] then
     Core.ServerCallbacks[name](source, cb, ...)
   else
