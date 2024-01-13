@@ -36,4 +36,4 @@ add_ace resource.es_extended command.stop allow
 
 es_extended - ESX framework for FiveM
 
-Copyright (C) 2015-2023 Jérémie N'gadi - Rework by bitpredator
+Copyright (C) 2015-2024 Jérémie N'gadi - Rework by bitpredator

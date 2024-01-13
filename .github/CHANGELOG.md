@@ -95,3 +95,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 69. [bpt_unicornjob]: refactor: bpt_unicornjob inventory implementation @bitpredator
 70. [bpt_vehicletax]: chore: bpt_vehicletax update to version 1.0.0 @bitpredator
 71. [bpt_wallet]: chore: bpt_wallet update to version 1.0.0 @bitpredator
+72. [es_extended]: chore: es_extended add underflow check for removeAccountMoney @bitpredator

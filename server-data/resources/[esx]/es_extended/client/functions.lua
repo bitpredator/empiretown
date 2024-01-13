@@ -629,7 +629,7 @@ function ESX.Game.GetVehicleProperties(vehicle)
         if customXenonColorR and customXenonColorG and customXenonColorB then
             customXenonColor = {customXenonColorR, customXenonColorG, customXenonColorB}
         end
-        
+
         local hasCustomSecondaryColor = GetIsVehicleSecondaryColourCustom(vehicle)
         local customSecondaryColor = nil
         if hasCustomSecondaryColor then
