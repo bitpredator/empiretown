@@ -35,4 +35,4 @@ Locales['sl'] = {
   ['invalid_dob_format'] = 'Neveljavna oblika (Datum rojstva). Poskusite znova.',
   ['invalid_sex_format'] = 'Neveljavna oblika (Spol). Poskusite znova.',
   ['invalid_height_format'] = 'Neveljavna oblika (Višina). Poskusite znova.'
-  }
+}
