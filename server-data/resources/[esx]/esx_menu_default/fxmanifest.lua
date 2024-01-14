@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'Menu Default'
 lua54 'yes'
-version '0.0.4'
+version '1.0.0'
 
 client_scripts {'@es_extended/imports.lua', 'client/main.lua'}
 
