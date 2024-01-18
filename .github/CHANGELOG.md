@@ -98,3 +98,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 72. [es_extended]: chore: es_extended add underflow check for removeAccountMoney @bitpredator
 73. [esx_context]: chore: esx_context update to version 1.0.0 @bitpredator
 74. [esx_menu_default]: chore: esx_menu_default update to version 1.0.0 @bitpredator
+75. [esx_multicharacter]: refactor: esx_multicharacter @bitpredator
