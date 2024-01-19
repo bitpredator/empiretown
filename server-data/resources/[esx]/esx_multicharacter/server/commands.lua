@@ -1,28 +1,20 @@
 ESX.RegisterCommand('setslots', 'admin', function(xPlayer, args)
-	local slots = MySQL.scalar('SELECT `slots` FROM `multicharacter_slots` WHERE identifier = ?', {
-		args.identifier
+	MySQL.insert('INSERT INTO `multicharacter_slots` (`identifier`, `slots`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `slots` = VALUES(`slots`)', {
+		args.identifier,
+		args.slots,
 	})
-
-	if not slots then
-		MySQL.update('INSERT INTO `multicharacter_slots` (`identifier`, `slots`) VALUES (?, ?)', {
-			args.identifier,
-			args.slots
-		})
-		xPlayer.triggerEvent('esx:showNotification', _U('slotsadd', args.slots, args.identifier))
-	else
-		MySQL.update('UPDATE `multicharacter_slots` SET `slots` = ? WHERE `identifier` = ?', {
-			args.slots,
-			args.identifier
-		})
-		xPlayer.triggerEvent('esx:showNotification', _U('slotsedit', args.slots, args.identifier))
-	end
-end, true, {help = _U('command_setslots'), validate = true, arguments = {
-	{name = 'identifier', help = _U('command_identifier'), type = 'string'},
-	{name = 'slots', help = _U('command_slots'), type = 'number'}
-}})
+	xPlayer.triggerEvent('esx:showNotification', _U('slotsadd', args.slots, args.identifier))
+end, true, {
+	help = _U('command_setslots'),
+	validate = true,
+	arguments = {
+		{ name = 'identifier', help = _U('command_identifier'), type = 'string' },
+		{ name = 'slots',      help = _U('command_slots'),      type = 'number' }
+	}
+})
 
 ESX.RegisterCommand('remslots', 'admin', function(xPlayer, args)
-	local slots = MySQL.scalar('SELECT `slots` FROM `multicharacter_slots` WHERE identifier = ?', {
+	local slots = MySQL.scalar.await('SELECT `slots` FROM `multicharacter_slots` WHERE identifier = ?', {
 		args.identifier
 	})
 
@@ -32,14 +24,17 @@ ESX.RegisterCommand('remslots', 'admin', function(xPlayer, args)
 		})
 		xPlayer.triggerEvent('esx:showNotification', _U('slotsrem', args.identifier))
 	end
-end, true, {help = _U('command_remslots'), validate = true, arguments = {
-	{name = 'identifier', help = _U('command_identifier'), type = 'string'}
-}})
+end, true, {
+	help = _U('command_remslots'),
+	validate = true,
+	arguments = {
+		{ name = 'identifier', help = _U('command_identifier'), type = 'string' }
+	}
+})
 
 ESX.RegisterCommand('enablechar', 'admin', function(xPlayer, args)
+	local selectedCharacter = 'char' .. args.charslot .. ':' .. args.identifier;
 
-	local selectedCharacter = 'char'..args.charslot..':'..args.identifier;
- 
 	MySQL.update('UPDATE `users` SET `disabled` = 0 WHERE identifier = ?', {
 		selectedCharacter
 	}, function(result)
@@ -49,16 +44,18 @@ ESX.RegisterCommand('enablechar', 'admin', function(xPlayer, args)
 			xPlayer.triggerEvent('esx:showNotification', _U('charnotfound', args.charslot, args.identifier))
 		end
 	end)
-
-end, true, {help = _U('command_enablechar'), validate = true, arguments = {
-	{name = 'identifier', help = _U('command_identifier'), type = 'string'},
-	{name = 'charslot', help = _U('command_charslot'), type = 'number'}
-}})
+end, true, {
+	help = _U('command_enablechar'),
+	validate = true,
+	arguments = {
+		{ name = 'identifier', help = _U('command_identifier'), type = 'string' },
+		{ name = 'charslot',   help = _U('command_charslot'),   type = 'number' }
+	}
+})
 
 ESX.RegisterCommand('disablechar', 'admin', function(xPlayer, args)
+	local selectedCharacter = 'char' .. args.charslot .. ':' .. args.identifier;
 
-	local selectedCharacter = 'char'..args.charslot..':'..args.identifier;
- 
 	MySQL.update('UPDATE `users` SET `disabled` = 1 WHERE identifier = ?', {
 		selectedCharacter
 	}, function(result)
@@ -68,11 +65,14 @@ ESX.RegisterCommand('disablechar', 'admin', function(xPlayer, args)
 			xPlayer.triggerEvent('esx:showNotification', _U('charnotfound', args.charslot, args.identifier))
 		end
 	end)
-
-end, true, {help = _U('command_disablechar'), validate = true, arguments = {
-	{name = 'identifier', help = _U('command_identifier'), type = 'string'},
-	{name = 'charslot', help = _U('command_charslot'), type = 'number'}
-}})
+end, true, {
+	help = _U('command_disablechar'),
+	validate = true,
+	arguments = {
+		{ name = 'identifier', help = _U('command_identifier'), type = 'string' },
+		{ name = 'charslot',   help = _U('command_charslot'),   type = 'number' }
+	}
+})
 
 RegisterCommand('forcelog', function(source)
 	TriggerEvent('esx:playerLogout', source)
