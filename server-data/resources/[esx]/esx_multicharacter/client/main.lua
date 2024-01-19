@@ -47,7 +47,7 @@ if ESX.GetConfig().Multichar then
 	end)
 
 	StartLoop = function()
-		hidePlayers = true
+		local hidePlayers = true
 		MumbleSetVolumeOverride(PlayerId(), 0.0)
 		CreateThread(function()
 			local keys = { 18, 27, 172, 173, 174, 175, 176, 177, 187, 188, 191, 201, 108, 109, 209, 19 }
