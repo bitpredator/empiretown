@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `banking` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.banking: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.banking: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.billing
 CREATE TABLE IF NOT EXISTS `billing` (
@@ -269,9 +269,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~73 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~74 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(1, 'society_ammu', NULL, '\'{}\''),
 	(2, 'society_baker', NULL, '\'{}\''),
@@ -345,7 +345,68 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(70, 'property', NULL, '{}'),
 	(71, 'property', NULL, '{}'),
 	(72, 'property', NULL, '{}'),
-	(73, 'property', NULL, '{}');
+	(73, 'property', NULL, '{}'),
+	(74, 'property', NULL, '{}'),
+	(75, 'property', NULL, '{}'),
+	(76, 'property', NULL, '{}'),
+	(77, 'property', NULL, '{}'),
+	(78, 'property', NULL, '{}'),
+	(79, 'property', NULL, '{}'),
+	(80, 'property', NULL, '{}'),
+	(81, 'property', NULL, '{}'),
+	(82, 'property', NULL, '{}'),
+	(83, 'property', NULL, '{}'),
+	(84, 'property', NULL, '{}'),
+	(85, 'property', NULL, '{}'),
+	(86, 'property', NULL, '{}'),
+	(87, 'property', NULL, '{}'),
+	(88, 'property', NULL, '{}'),
+	(89, 'property', NULL, '{}'),
+	(90, 'property', NULL, '{}'),
+	(91, 'property', NULL, '{}'),
+	(92, 'property', NULL, '{}'),
+	(93, 'property', NULL, '{}'),
+	(94, 'property', NULL, '{}'),
+	(95, 'property', NULL, '{}'),
+	(96, 'property', NULL, '{}'),
+	(97, 'property', NULL, '{}'),
+	(98, 'property', NULL, '{}'),
+	(99, 'property', NULL, '{}'),
+	(100, 'property', NULL, '{}'),
+	(101, 'property', NULL, '{}'),
+	(102, 'property', NULL, '{}'),
+	(103, 'property', NULL, '{}'),
+	(104, 'property', NULL, '{}'),
+	(105, 'property', NULL, '{}'),
+	(106, 'property', NULL, '{}'),
+	(107, 'property', NULL, '{}'),
+	(108, 'property', NULL, '{}'),
+	(109, 'property', NULL, '{}'),
+	(110, 'property', NULL, '{}'),
+	(111, 'property', NULL, '{}'),
+	(112, 'property', NULL, '{}'),
+	(113, 'property', NULL, '{}'),
+	(114, 'property', NULL, '{}'),
+	(115, 'property', NULL, '{}'),
+	(116, 'property', NULL, '{}'),
+	(117, 'property', NULL, '{}'),
+	(118, 'property', NULL, '{}'),
+	(119, 'property', NULL, '{}'),
+	(120, 'property', NULL, '{}'),
+	(121, 'property', NULL, '{}'),
+	(122, 'property', NULL, '{}'),
+	(123, 'property', NULL, '{}'),
+	(124, 'property', NULL, '{}'),
+	(125, 'property', NULL, '{}'),
+	(126, 'property', NULL, '{}'),
+	(127, 'property', NULL, '{}'),
+	(128, 'property', NULL, '{}'),
+	(129, 'property', NULL, '{}'),
+	(130, 'property', NULL, '{}'),
+	(131, 'property', NULL, '{}'),
+	(132, 'property', NULL, '{}'),
+	(133, 'property', NULL, '{}'),
+	(134, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -360,56 +421,56 @@ CREATE TABLE IF NOT EXISTS `fine_types` (
 INSERT INTO `fine_types` (`id`, `label`, `amount`, `category`) VALUES
 	(1, 'Usage abusif du klaxon', 30, 0),
 	(2, 'Franchir une ligne continue', 40, 0),
-	(3, 'Circulation à contresens', 250, 0),
-	(4, 'Demi-tour non autorisé', 250, 0),
+	(3, 'Circulation Ã  contresens', 250, 0),
+	(4, 'Demi-tour non autorisÃ©', 250, 0),
 	(5, 'Circulation hors-route', 170, 0),
-	(6, 'Non-respect des distances de sécurité', 30, 0),
-	(7, 'Arrêt dangereux / interdit', 150, 0),
-	(8, 'Stationnement gênant / interdit', 70, 0),
-	(9, 'Non respect  de la priorité à droite', 70, 0),
-	(10, 'Non-respect à un véhicule prioritaire', 90, 0),
+	(6, 'Non-respect des distances de sÃ©curitÃ©', 30, 0),
+	(7, 'ArrÃªt dangereux / interdit', 150, 0),
+	(8, 'Stationnement gÃªnant / interdit', 70, 0),
+	(9, 'Non respect  de la prioritÃ© Ã  droite', 70, 0),
+	(10, 'Non-respect Ã  un vÃ©hicule prioritaire', 90, 0),
 	(11, 'Non-respect d\'un stop', 105, 0),
 	(12, 'Non-respect d\'un feu rouge', 130, 0),
-	(13, 'Dépassement dangereux', 100, 0),
-	(14, 'Véhicule non en état', 100, 0),
+	(13, 'DÃ©passement dangereux', 100, 0),
+	(14, 'VÃ©hicule non en Ã©tat', 100, 0),
 	(15, 'Conduite sans permis', 1500, 0),
-	(16, 'Délit de fuite', 800, 0),
-	(17, 'Excès de vitesse < 5 kmh', 90, 0),
-	(18, 'Excès de vitesse 5-15 kmh', 120, 0),
-	(19, 'Excès de vitesse 15-30 kmh', 180, 0),
-	(20, 'Excès de vitesse > 30 kmh', 300, 0),
+	(16, 'DÃ©lit de fuite', 800, 0),
+	(17, 'ExcÃ¨s de vitesse < 5 kmh', 90, 0),
+	(18, 'ExcÃ¨s de vitesse 5-15 kmh', 120, 0),
+	(19, 'ExcÃ¨s de vitesse 15-30 kmh', 180, 0),
+	(20, 'ExcÃ¨s de vitesse > 30 kmh', 300, 0),
 	(21, 'Entrave de la circulation', 110, 1),
-	(22, 'Dégradation de la voie publique', 90, 1),
-	(23, 'Trouble à l\'ordre publique', 90, 1),
-	(24, 'Entrave opération de police', 130, 1),
+	(22, 'DÃ©gradation de la voie publique', 90, 1),
+	(23, 'Trouble Ã  l\'ordre publique', 90, 1),
+	(24, 'Entrave opÃ©ration de police', 130, 1),
 	(25, 'Insulte envers / entre civils', 75, 1),
-	(26, 'Outrage à agent de police', 110, 1),
+	(26, 'Outrage Ã  agent de police', 110, 1),
 	(27, 'Menace verbale ou intimidation envers civil', 90, 1),
 	(28, 'Menace verbale ou intimidation envers policier', 150, 1),
-	(29, 'Manifestation illégale', 250, 1),
+	(29, 'Manifestation illÃ©gale', 250, 1),
 	(30, 'Tentative de corruption', 1500, 1),
 	(31, 'Arme blanche sortie en ville', 120, 2),
-	(32, 'Arme léthale sortie en ville', 300, 2),
-	(33, 'Port d\'arme non autorisé (défaut de license)', 600, 2),
-	(34, 'Port d\'arme illégal', 700, 2),
+	(32, 'Arme lÃ©thale sortie en ville', 300, 2),
+	(33, 'Port d\'arme non autorisÃ© (dÃ©faut de license)', 600, 2),
+	(34, 'Port d\'arme illÃ©gal', 700, 2),
 	(35, 'Pris en flag lockpick', 300, 2),
 	(36, 'Vol de voiture', 1800, 2),
 	(37, 'Vente de drogue', 1500, 2),
 	(38, 'Fabriquation de drogue', 1500, 2),
 	(39, 'Possession de drogue', 650, 2),
-	(40, 'Prise d\'ôtage civil', 1500, 2),
-	(41, 'Prise d\'ôtage agent de l\'état', 2000, 2),
+	(40, 'Prise d\'Ã´tage civil', 1500, 2),
+	(41, 'Prise d\'Ã´tage agent de l\'Ã©tat', 2000, 2),
 	(42, 'Braquage particulier', 650, 2),
 	(43, 'Braquage magasin', 650, 2),
 	(44, 'Braquage de banque', 1500, 2),
 	(45, 'Tir sur civil', 2000, 3),
-	(46, 'Tir sur agent de l\'état', 2500, 3),
+	(46, 'Tir sur agent de l\'Ã©tat', 2500, 3),
 	(47, 'Tentative de meurtre sur civil', 3000, 3),
-	(48, 'Tentative de meurtre sur agent de l\'état', 5000, 3),
+	(48, 'Tentative de meurtre sur agent de l\'Ã©tat', 5000, 3),
 	(49, 'Meurtre sur civil', 10000, 3),
-	(50, 'Meurte sur agent de l\'état', 30000, 3),
+	(50, 'Meurte sur agent de l\'Ã©tat', 30000, 3),
 	(51, 'Meurtre involontaire', 1800, 3),
-	(52, 'Escroquerie à l\'entreprise', 2000, 2);
+	(52, 'Escroquerie Ã  l\'entreprise', 2000, 2);
 
 -- Dump della struttura di tabella es_extended.items
 CREATE TABLE IF NOT EXISTS `items` (
@@ -471,7 +532,7 @@ INSERT INTO `job_grades` (`id`, `job_name`, `grade`, `name`, `label`, `salary`, 
 	(6, 'mechanic', 0, 'recrue', 'Recrue', 12, '{}', '{}'),
 	(7, 'mechanic', 1, 'novice', 'Novice', 24, '{}', '{}'),
 	(8, 'mechanic', 2, 'experimente', 'Experimente', 36, '{}', '{}'),
-	(9, 'mechanic', 3, 'chief', 'Chef d\'équipe', 48, '{}', '{}'),
+	(9, 'mechanic', 3, 'chief', 'Chef d\'Ã©quipe', 48, '{}', '{}'),
 	(10, 'mechanic', 4, 'boss', 'Patron', 0, '{}', '{}'),
 	(11, 'police', 0, 'recruit', 'Recrue', 20, '{}', '{}'),
 	(12, 'police', 1, 'officer', 'Officier', 40, '{}', '{}'),
@@ -639,7 +700,7 @@ CREATE TABLE IF NOT EXISTS `npwd_match_profiles` (
   UNIQUE KEY `identifier_UNIQUE` (`identifier`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dump dei dati della tabella es_extended.npwd_match_profiles: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_match_profiles: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.npwd_match_views
 CREATE TABLE IF NOT EXISTS `npwd_match_views` (
@@ -767,7 +828,8 @@ CREATE TABLE IF NOT EXISTS `npwd_twitter_profiles` (
   KEY `identifier` (`identifier`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dump dei dati della tabella es_extended.npwd_twitter_profiles: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_twitter_profiles: ~0 rows (circa)
+INSERT INTO `npwd_twitter_profiles` (`id`, `profile_name`, `identifier`, `avatar_url`, `createdAt`, `updatedAt`) VALUES
 
 -- Dump della struttura di tabella es_extended.npwd_twitter_reports
 CREATE TABLE IF NOT EXISTS `npwd_twitter_reports` (
@@ -799,9 +861,9 @@ CREATE TABLE IF NOT EXISTS `npwd_twitter_tweets` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `npwd_twitter_tweets_npwd_twitter_profiles_id_fk` (`profile_id`) USING BTREE,
   CONSTRAINT `npwd_twitter_tweets_npwd_twitter_profiles_id_fk` FOREIGN KEY (`profile_id`) REFERENCES `npwd_twitter_profiles` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dump dei dati della tabella es_extended.npwd_twitter_tweets: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_twitter_tweets: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.outfits
 CREATE TABLE IF NOT EXISTS `outfits` (
@@ -844,7 +906,7 @@ CREATE TABLE IF NOT EXISTS `ox_inventory` (
   UNIQUE KEY `owner` (`owner`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dump dei dati della tabella es_extended.ox_inventory: ~2 rows (circa)
+-- Dump dei dati della tabella es_extended.ox_inventory: ~4 rows (circa)
 
 -- Dump della struttura di tabella es_extended.rented_vehicles
 CREATE TABLE IF NOT EXISTS `rented_vehicles` (
@@ -897,7 +959,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`identifier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dump dei dati della tabella es_extended.users: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.users: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.user_licenses
 CREATE TABLE IF NOT EXISTS `user_licenses` (
@@ -920,9 +982,9 @@ CREATE TABLE IF NOT EXISTS `uteknark1` (
   `soil` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `stage` (`stage`,`time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dump dei dati della tabella es_extended.uteknark1: ~0 rows (circa)
+-- Dump dei dati della tabella es_extended.uteknark1: ~1 rows (circa)
 
 -- Dump della struttura di tabella es_extended.vehicles
 CREATE TABLE IF NOT EXISTS `vehicles` (
@@ -1186,7 +1248,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_categories` (
 -- Dump dei dati della tabella es_extended.vehicle_categories: ~11 rows (circa)
 INSERT INTO `vehicle_categories` (`name`, `label`) VALUES
 	('compacts', 'Compacts'),
-	('coupes', 'Coupés'),
+	('coupes', 'CoupÃ©s'),
 	('motorcycles', 'Motos'),
 	('muscle', 'Muscle'),
 	('offroad', 'Off Road'),

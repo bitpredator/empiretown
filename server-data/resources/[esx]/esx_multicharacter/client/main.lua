@@ -47,7 +47,7 @@ if ESX.GetConfig().Multichar then
 	end)
 
 	StartLoop = function()
-		local hidePlayers = true
+		hidePlayers = true
 		MumbleSetVolumeOverride(PlayerId(), 0.0)
 		CreateThread(function()
 			local keys = { 18, 27, 172, 173, 174, 175, 176, 177, 187, 188, 191, 201, 108, 109, 209, 19 }
@@ -141,7 +141,7 @@ if ESX.GetConfig().Multichar then
 		})
 	end
 
-	function CharacterDeleteConfirmation(slots, SelectedCharacter, value)
+	function CharacterDeleteConfirmation(Characters, slots, SelectedCharacter, value)
 		local elements = {
 			{ title = _U('char_delete_confirmation'), icon = "fa-solid fa-users", description = _U('char_delete_confirmation_description'), unselectable = true },
 			{ title = _U('char_delete'),              icon = "fa-solid fa-xmark", description = _U('char_delete_yes_description'),          action = 'delete',                                        value = value },
@@ -159,7 +159,7 @@ if ESX.GetConfig().Multichar then
 		end, nil, false)
 	end
 
-	function CharacterOptions(slots, SelectedCharacter)
+	function CharacterOptions(Characters, slots, SelectedCharacter)
 		local elements = { { title = _U('character', Characters[SelectedCharacter.value].firstname .. " " .. Characters[SelectedCharacter.value].lastname), icon = "fa-regular fa-user", unselectable = true },
 			{ title = _U('return'),                                                                                                          unselectable = false,        icon = "fa-solid fa-arrow-left", description = _U('return_description'), action = "return" } }
 		if not Characters[SelectedCharacter.value].disabled then
@@ -183,7 +183,7 @@ if ESX.GetConfig().Multichar then
 		end, nil, false)
 	end
 
-	function SelectCharacterMenu(slots)
+	function SelectCharacterMenu(Characters, slots)
 		local Character = next(Characters)
 		local elements = { { title = _U('select_char'), icon = "fa-solid fa-users", description = _U('select_char_description'), unselectable = true } }
 		for k, v in pairs(Characters) do
