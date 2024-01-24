@@ -13,7 +13,6 @@ Locales['de'] = {
   ['have_deposited']         = 'Du zahlst ein ~r~%s€~s~',
   ['have_withdrawn']         = 'Du zahlst aus ~g~%s€~s~',
   ['check_balance']          = 'Geld ist ~g~%s€',
-  ['invalid_amount']         = 'invalid amount',
   ['invalid_amount_max']     = 'Dieses gehalt ist nicht erlaubt!',
   ['invalid_amount']         = 'Ungültige Anzahl',
   ['invalid_value_nochanges']= 'Ungültige Anzahl! Keine Änderungen gespeichert!',
