@@ -102,3 +102,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 76. [esx_multicharacter]: fix:  fixed problem which prevented the menu from opening @bitpredator
 77. [esx_notify]: refactor: formatting(all): Format with prettier and lua formatter @bitpredator
 78. [esx_progressbar]: refactor: formatting(all): Format with prettier and lua formatter @bitpredator
+79. [esx_society]: refactor: (esx_society):  complete rebuild for esx_society @bitpredator
