@@ -3,7 +3,7 @@ game 'gta5'
 author 'BPT-Framework'
 lua54 'yes'
 description 'BPT Progressbar'
-version '0.0.4'
+version '1.0.0'
 
 client_scripts { 'Progress.lua' }
 shared_script '@es_extended/imports.lua'
