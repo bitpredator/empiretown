@@ -100,3 +100,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 74. [esx_menu_default]: chore: esx_menu_default update to version 1.0.0 @bitpredator
 75. [esx_multicharacter]: refactor: esx_multicharacter @bitpredator
 76. [esx_multicharacter]: fix:  fixed problem which prevented the menu from opening @bitpredator
+77. [esx_notify]: refactor: formatting(all): Format with prettier and lua formatter @bitpredator
