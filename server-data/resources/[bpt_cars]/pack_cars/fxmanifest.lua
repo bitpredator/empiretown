@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'bpt_cars'
 lua54 'yes'
-version '0.0.4'
+version '1.0.0'
 
 files {
 -- p911r

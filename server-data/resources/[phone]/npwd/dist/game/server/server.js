@@ -4,6 +4,7 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __esm = (fn, res) => function __init() {
   return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
 };
@@ -27,6 +28,10 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
 var __accessCheck = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -44,6 +49,18 @@ var __privateSet = (obj, member, value, setter) => {
   __accessCheck(obj, member, "write to private field");
   setter ? setter.call(obj, value) : member.set(obj, value);
   return value;
+};
+var __privateWrapper = (obj, member, setter, getter) => ({
+  set _(value) {
+    __privateSet(obj, member, value, setter);
+  },
+  get _() {
+    return __privateGet(obj, member, getter);
+  }
+});
+var __privateMethod = (obj, member, method) => {
+  __accessCheck(obj, member, "access private method");
+  return method;
 };
 
 // ../../node_modules/.pnpm/tslib@1.14.1/node_modules/tslib/tslib.js
@@ -16719,84 +16736,19 @@ var require_denque = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/lru-cache@7.18.3/node_modules/lru-cache/index.js
-var require_lru_cache = __commonJS({
-  "../../node_modules/.pnpm/lru-cache@7.18.3/node_modules/lru-cache/index.js"(exports, module2) {
+// ../../node_modules/.pnpm/lru-cache@8.0.5/node_modules/lru-cache/dist/cjs/index.js
+var require_cjs = __commonJS({
+  "../../node_modules/.pnpm/lru-cache@8.0.5/node_modules/lru-cache/dist/cjs/index.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.LRUCache = void 0;
     var perf = typeof performance === "object" && performance && typeof performance.now === "function" ? performance : Date;
-    var hasAbortController = typeof AbortController === "function";
-    var AC = hasAbortController ? AbortController : class AbortController {
-      constructor() {
-        this.signal = new AS();
-      }
-      abort(reason = new Error("This operation was aborted")) {
-        this.signal.reason = this.signal.reason || reason;
-        this.signal.aborted = true;
-        this.signal.dispatchEvent({
-          type: "abort",
-          target: this.signal
-        });
-      }
-    };
-    var hasAbortSignal = typeof AbortSignal === "function";
-    var hasACAbortSignal = typeof AC.AbortSignal === "function";
-    var AS = hasAbortSignal ? AbortSignal : hasACAbortSignal ? AC.AbortController : class AbortSignal {
-      constructor() {
-        this.reason = void 0;
-        this.aborted = false;
-        this._listeners = [];
-      }
-      dispatchEvent(e2) {
-        if (e2.type === "abort") {
-          this.aborted = true;
-          this.onabort(e2);
-          this._listeners.forEach((f4) => f4(e2), this);
-        }
-      }
-      onabort() {
-      }
-      addEventListener(ev, fn) {
-        if (ev === "abort") {
-          this._listeners.push(fn);
-        }
-      }
-      removeEventListener(ev, fn) {
-        if (ev === "abort") {
-          this._listeners = this._listeners.filter((f4) => f4 !== fn);
-        }
-      }
-    };
     var warned = /* @__PURE__ */ new Set();
-    var deprecatedOption = (opt, instead) => {
-      const code = `LRU_CACHE_OPTION_${opt}`;
-      if (shouldWarn(code)) {
-        warn(code, `${opt} option`, `options.${instead}`, LRUCache);
-      }
-    };
-    var deprecatedMethod = (method, instead) => {
-      const code = `LRU_CACHE_METHOD_${method}`;
-      if (shouldWarn(code)) {
-        const { prototype } = LRUCache;
-        const { get } = Object.getOwnPropertyDescriptor(prototype, method);
-        warn(code, `${method} method`, `cache.${instead}()`, get);
-      }
-    };
-    var deprecatedProperty = (field, instead) => {
-      const code = `LRU_CACHE_PROPERTY_${field}`;
-      if (shouldWarn(code)) {
-        const { prototype } = LRUCache;
-        const { get } = Object.getOwnPropertyDescriptor(prototype, field);
-        warn(code, `${field} property`, `cache.${instead}`, get);
-      }
-    };
-    var emitWarning = (...a) => {
-      typeof process === "object" && process && typeof process.emitWarning === "function" ? process.emitWarning(...a) : console.error(...a);
+    var emitWarning = (msg, type, code, fn) => {
+      typeof process === "object" && process && typeof process.emitWarning === "function" ? process.emitWarning(msg, type, code, fn) : console.error(`[${code}] ${type}: ${msg}`);
     };
     var shouldWarn = (code) => !warned.has(code);
-    var warn = (code, what, instead, fn) => {
-      warned.add(code);
-      const msg = `The ${what} is deprecated. Please use ${instead} instead.`;
-      emitWarning(msg, "DeprecationWarning", code, fn);
-    };
+    var TYPE = Symbol("type");
     var isPosInt = (n) => n && n === Math.floor(n) && n > 0 && isFinite(n);
     var getUintArray = (max) => !isPosInt(max) ? null : max <= Math.pow(2, 8) ? Uint8Array : max <= Math.pow(2, 16) ? Uint16Array : max <= Math.pow(2, 32) ? Uint32Array : max <= Number.MAX_SAFE_INTEGER ? ZeroArray : null;
     var ZeroArray = class extends Array {
@@ -16805,14 +16757,25 @@ var require_lru_cache = __commonJS({
         this.fill(0);
       }
     };
-    var Stack = class {
-      constructor(max) {
-        if (max === 0) {
-          return [];
+    var _constructing;
+    var _Stack = class {
+      constructor(max, HeapCls) {
+        __publicField(this, "heap");
+        __publicField(this, "length");
+        if (!__privateGet(_Stack, _constructing)) {
+          throw new TypeError("instantiate Stack using Stack.create(n)");
         }
-        const UintArray = getUintArray(max);
-        this.heap = new UintArray(max);
+        this.heap = new HeapCls(max);
         this.length = 0;
+      }
+      static create(max) {
+        const HeapCls = getUintArray(max);
+        if (!HeapCls)
+          return [];
+        __privateSet(_Stack, _constructing, true);
+        const s2 = new _Stack(max, HeapCls);
+        __privateSet(_Stack, _constructing, false);
+        return s2;
       }
       push(n) {
         this.heap[this.length++] = n;
@@ -16821,32 +16784,77 @@ var require_lru_cache = __commonJS({
         return this.heap[--this.length];
       }
     };
-    var LRUCache = class {
-      constructor(options = {}) {
-        const {
-          max = 0,
-          ttl,
-          ttlResolution = 1,
-          ttlAutopurge,
-          updateAgeOnGet,
-          updateAgeOnHas,
-          allowStale,
-          dispose,
-          disposeAfter,
-          noDisposeOnSet,
-          noUpdateTTL,
-          maxSize = 0,
-          maxEntrySize = 0,
-          sizeCalculation,
-          fetchMethod,
-          fetchContext,
-          noDeleteOnFetchRejection,
-          noDeleteOnStaleGet,
-          allowStaleOnFetchRejection,
-          allowStaleOnFetchAbort,
-          ignoreFetchAbort
-        } = options;
-        const { length, maxAge, stale } = options instanceof LRUCache ? {} : options;
+    var Stack = _Stack;
+    _constructing = new WeakMap();
+    __privateAdd(Stack, _constructing, false);
+    var _max, _maxSize, _dispose, _disposeAfter, _fetchMethod, _size2, _calculatedSize, _keyMap, _keyList, _valList, _next, _prev, _head, _tail, _free, _disposed, _sizes, _starts, _ttls, _hasDispose, _hasFetchMethod, _hasDisposeAfter, _initializeTTLTracking, initializeTTLTracking_fn, _updateItemAge, _statusTTL, _setItemTTL, _isStale, _initializeSizeTracking, initializeSizeTracking_fn, _removeItemSize, _addItemSize, _requireSize, _indexes, indexes_fn, _rindexes, rindexes_fn, _isValidIndex, isValidIndex_fn, _evict, evict_fn, _backgroundFetch, backgroundFetch_fn, _isBackgroundFetch, isBackgroundFetch_fn, _connect, connect_fn, _moveToTail, moveToTail_fn;
+    var _LRUCache = class {
+      constructor(options) {
+        __privateAdd(this, _initializeTTLTracking);
+        __privateAdd(this, _initializeSizeTracking);
+        __privateAdd(this, _indexes);
+        __privateAdd(this, _rindexes);
+        __privateAdd(this, _isValidIndex);
+        __privateAdd(this, _evict);
+        __privateAdd(this, _backgroundFetch);
+        __privateAdd(this, _isBackgroundFetch);
+        __privateAdd(this, _connect);
+        __privateAdd(this, _moveToTail);
+        __privateAdd(this, _max, void 0);
+        __privateAdd(this, _maxSize, void 0);
+        __privateAdd(this, _dispose, void 0);
+        __privateAdd(this, _disposeAfter, void 0);
+        __privateAdd(this, _fetchMethod, void 0);
+        __publicField(this, "ttl");
+        __publicField(this, "ttlResolution");
+        __publicField(this, "ttlAutopurge");
+        __publicField(this, "updateAgeOnGet");
+        __publicField(this, "updateAgeOnHas");
+        __publicField(this, "allowStale");
+        __publicField(this, "noDisposeOnSet");
+        __publicField(this, "noUpdateTTL");
+        __publicField(this, "maxEntrySize");
+        __publicField(this, "sizeCalculation");
+        __publicField(this, "noDeleteOnFetchRejection");
+        __publicField(this, "noDeleteOnStaleGet");
+        __publicField(this, "allowStaleOnFetchAbort");
+        __publicField(this, "allowStaleOnFetchRejection");
+        __publicField(this, "ignoreFetchAbort");
+        __privateAdd(this, _size2, void 0);
+        __privateAdd(this, _calculatedSize, void 0);
+        __privateAdd(this, _keyMap, void 0);
+        __privateAdd(this, _keyList, void 0);
+        __privateAdd(this, _valList, void 0);
+        __privateAdd(this, _next, void 0);
+        __privateAdd(this, _prev, void 0);
+        __privateAdd(this, _head, void 0);
+        __privateAdd(this, _tail, void 0);
+        __privateAdd(this, _free, void 0);
+        __privateAdd(this, _disposed, void 0);
+        __privateAdd(this, _sizes, void 0);
+        __privateAdd(this, _starts, void 0);
+        __privateAdd(this, _ttls, void 0);
+        __privateAdd(this, _hasDispose, void 0);
+        __privateAdd(this, _hasFetchMethod, void 0);
+        __privateAdd(this, _hasDisposeAfter, void 0);
+        __privateAdd(this, _updateItemAge, () => {
+        });
+        __privateAdd(this, _statusTTL, () => {
+        });
+        __privateAdd(this, _setItemTTL, () => {
+        });
+        __privateAdd(this, _isStale, () => false);
+        __privateAdd(this, _removeItemSize, (_i) => {
+        });
+        __privateAdd(this, _addItemSize, (_i, _s, _st) => {
+        });
+        __privateAdd(this, _requireSize, (_k, _v, size, sizeCalculation) => {
+          if (size || sizeCalculation) {
+            throw new TypeError("cannot set size without setting maxSize or maxEntrySize on cache");
+          }
+          return 0;
+        });
+        const { max = 0, ttl, ttlResolution = 1, ttlAutopurge, updateAgeOnGet, updateAgeOnHas, allowStale, dispose, disposeAfter, noDisposeOnSet, noUpdateTTL, maxSize = 0, maxEntrySize = 0, sizeCalculation, fetchMethod, noDeleteOnFetchRejection, noDeleteOnStaleGet, allowStaleOnFetchRejection, allowStaleOnFetchAbort, ignoreFetchAbort } = options;
         if (max !== 0 && !isPosInt(max)) {
           throw new TypeError("max option must be a nonnegative integer");
         }
@@ -16854,52 +16862,45 @@ var require_lru_cache = __commonJS({
         if (!UintArray) {
           throw new Error("invalid max value: " + max);
         }
-        this.max = max;
-        this.maxSize = maxSize;
-        this.maxEntrySize = maxEntrySize || this.maxSize;
-        this.sizeCalculation = sizeCalculation || length;
+        __privateSet(this, _max, max);
+        __privateSet(this, _maxSize, maxSize);
+        this.maxEntrySize = maxEntrySize || __privateGet(this, _maxSize);
+        this.sizeCalculation = sizeCalculation;
         if (this.sizeCalculation) {
-          if (!this.maxSize && !this.maxEntrySize) {
-            throw new TypeError(
-              "cannot set sizeCalculation without setting maxSize or maxEntrySize"
-            );
+          if (!__privateGet(this, _maxSize) && !this.maxEntrySize) {
+            throw new TypeError("cannot set sizeCalculation without setting maxSize or maxEntrySize");
           }
           if (typeof this.sizeCalculation !== "function") {
             throw new TypeError("sizeCalculation set to non-function");
           }
         }
-        this.fetchMethod = fetchMethod || null;
-        if (this.fetchMethod && typeof this.fetchMethod !== "function") {
-          throw new TypeError(
-            "fetchMethod must be a function if specified"
-          );
+        if (fetchMethod !== void 0 && typeof fetchMethod !== "function") {
+          throw new TypeError("fetchMethod must be a function if specified");
         }
-        this.fetchContext = fetchContext;
-        if (!this.fetchMethod && fetchContext !== void 0) {
-          throw new TypeError(
-            "cannot set fetchContext without fetchMethod"
-          );
-        }
-        this.keyMap = /* @__PURE__ */ new Map();
-        this.keyList = new Array(max).fill(null);
-        this.valList = new Array(max).fill(null);
-        this.next = new UintArray(max);
-        this.prev = new UintArray(max);
-        this.head = 0;
-        this.tail = 0;
-        this.free = new Stack(max);
-        this.initialFill = 1;
-        this.size = 0;
+        __privateSet(this, _fetchMethod, fetchMethod);
+        __privateSet(this, _hasFetchMethod, !!fetchMethod);
+        __privateSet(this, _keyMap, /* @__PURE__ */ new Map());
+        __privateSet(this, _keyList, new Array(max).fill(void 0));
+        __privateSet(this, _valList, new Array(max).fill(void 0));
+        __privateSet(this, _next, new UintArray(max));
+        __privateSet(this, _prev, new UintArray(max));
+        __privateSet(this, _head, 0);
+        __privateSet(this, _tail, 0);
+        __privateSet(this, _free, Stack.create(max));
+        __privateSet(this, _size2, 0);
+        __privateSet(this, _calculatedSize, 0);
         if (typeof dispose === "function") {
-          this.dispose = dispose;
+          __privateSet(this, _dispose, dispose);
         }
         if (typeof disposeAfter === "function") {
-          this.disposeAfter = disposeAfter;
-          this.disposed = [];
+          __privateSet(this, _disposeAfter, disposeAfter);
+          __privateSet(this, _disposed, []);
         } else {
-          this.disposeAfter = null;
-          this.disposed = null;
+          __privateSet(this, _disposeAfter, void 0);
+          __privateSet(this, _disposed, void 0);
         }
+        __privateSet(this, _hasDispose, !!__privateGet(this, _dispose));
+        __privateSet(this, _hasDisposeAfter, !!__privateGet(this, _disposeAfter));
         this.noDisposeOnSet = !!noDisposeOnSet;
         this.noUpdateTTL = !!noUpdateTTL;
         this.noDeleteOnFetchRejection = !!noDeleteOnFetchRejection;
@@ -16907,300 +16908,191 @@ var require_lru_cache = __commonJS({
         this.allowStaleOnFetchAbort = !!allowStaleOnFetchAbort;
         this.ignoreFetchAbort = !!ignoreFetchAbort;
         if (this.maxEntrySize !== 0) {
-          if (this.maxSize !== 0) {
-            if (!isPosInt(this.maxSize)) {
-              throw new TypeError(
-                "maxSize must be a positive integer if specified"
-              );
+          if (__privateGet(this, _maxSize) !== 0) {
+            if (!isPosInt(__privateGet(this, _maxSize))) {
+              throw new TypeError("maxSize must be a positive integer if specified");
             }
           }
           if (!isPosInt(this.maxEntrySize)) {
-            throw new TypeError(
-              "maxEntrySize must be a positive integer if specified"
-            );
+            throw new TypeError("maxEntrySize must be a positive integer if specified");
           }
-          this.initializeSizeTracking();
+          __privateMethod(this, _initializeSizeTracking, initializeSizeTracking_fn).call(this);
         }
-        this.allowStale = !!allowStale || !!stale;
+        this.allowStale = !!allowStale;
         this.noDeleteOnStaleGet = !!noDeleteOnStaleGet;
         this.updateAgeOnGet = !!updateAgeOnGet;
         this.updateAgeOnHas = !!updateAgeOnHas;
         this.ttlResolution = isPosInt(ttlResolution) || ttlResolution === 0 ? ttlResolution : 1;
         this.ttlAutopurge = !!ttlAutopurge;
-        this.ttl = ttl || maxAge || 0;
+        this.ttl = ttl || 0;
         if (this.ttl) {
           if (!isPosInt(this.ttl)) {
-            throw new TypeError(
-              "ttl must be a positive integer if specified"
-            );
+            throw new TypeError("ttl must be a positive integer if specified");
           }
-          this.initializeTTLTracking();
+          __privateMethod(this, _initializeTTLTracking, initializeTTLTracking_fn).call(this);
         }
-        if (this.max === 0 && this.ttl === 0 && this.maxSize === 0) {
-          throw new TypeError(
-            "At least one of max, maxSize, or ttl is required"
-          );
+        if (__privateGet(this, _max) === 0 && this.ttl === 0 && __privateGet(this, _maxSize) === 0) {
+          throw new TypeError("At least one of max, maxSize, or ttl is required");
         }
-        if (!this.ttlAutopurge && !this.max && !this.maxSize) {
+        if (!this.ttlAutopurge && !__privateGet(this, _max) && !__privateGet(this, _maxSize)) {
           const code = "LRU_CACHE_UNBOUNDED";
           if (shouldWarn(code)) {
             warned.add(code);
             const msg = "TTL caching without ttlAutopurge, max, or maxSize can result in unbounded memory consumption.";
-            emitWarning(msg, "UnboundedCacheWarning", code, LRUCache);
+            emitWarning(msg, "UnboundedCacheWarning", code, _LRUCache);
           }
         }
-        if (stale) {
-          deprecatedOption("stale", "allowStale");
-        }
-        if (maxAge) {
-          deprecatedOption("maxAge", "ttl");
-        }
-        if (length) {
-          deprecatedOption("length", "sizeCalculation");
-        }
+      }
+      static unsafeExposeInternals(c2) {
+        return {
+          starts: __privateGet(c2, _starts),
+          ttls: __privateGet(c2, _ttls),
+          sizes: __privateGet(c2, _sizes),
+          keyMap: __privateGet(c2, _keyMap),
+          keyList: __privateGet(c2, _keyList),
+          valList: __privateGet(c2, _valList),
+          next: __privateGet(c2, _next),
+          prev: __privateGet(c2, _prev),
+          get head() {
+            return __privateGet(c2, _head);
+          },
+          get tail() {
+            return __privateGet(c2, _tail);
+          },
+          free: __privateGet(c2, _free),
+          isBackgroundFetch: (p) => {
+            var _a4;
+            return __privateMethod(_a4 = c2, _isBackgroundFetch, isBackgroundFetch_fn).call(_a4, p);
+          },
+          backgroundFetch: (k, index, options, context) => {
+            var _a4;
+            return __privateMethod(_a4 = c2, _backgroundFetch, backgroundFetch_fn).call(_a4, k, index, options, context);
+          },
+          moveToTail: (index) => {
+            var _a4;
+            return __privateMethod(_a4 = c2, _moveToTail, moveToTail_fn).call(_a4, index);
+          },
+          indexes: (options) => {
+            var _a4;
+            return __privateMethod(_a4 = c2, _indexes, indexes_fn).call(_a4, options);
+          },
+          rindexes: (options) => {
+            var _a4;
+            return __privateMethod(_a4 = c2, _rindexes, rindexes_fn).call(_a4, options);
+          },
+          isStale: (index) => {
+            var _a4;
+            return __privateGet(_a4 = c2, _isStale).call(_a4, index);
+          }
+        };
+      }
+      get max() {
+        return __privateGet(this, _max);
+      }
+      get maxSize() {
+        return __privateGet(this, _maxSize);
+      }
+      get calculatedSize() {
+        return __privateGet(this, _calculatedSize);
+      }
+      get size() {
+        return __privateGet(this, _size2);
+      }
+      get fetchMethod() {
+        return __privateGet(this, _fetchMethod);
+      }
+      get dispose() {
+        return __privateGet(this, _dispose);
+      }
+      get disposeAfter() {
+        return __privateGet(this, _disposeAfter);
       }
       getRemainingTTL(key) {
-        return this.has(key, { updateAgeOnHas: false }) ? Infinity : 0;
-      }
-      initializeTTLTracking() {
-        this.ttls = new ZeroArray(this.max);
-        this.starts = new ZeroArray(this.max);
-        this.setItemTTL = (index, ttl, start = perf.now()) => {
-          this.starts[index] = ttl !== 0 ? start : 0;
-          this.ttls[index] = ttl;
-          if (ttl !== 0 && this.ttlAutopurge) {
-            const t2 = setTimeout(() => {
-              if (this.isStale(index)) {
-                this.delete(this.keyList[index]);
-              }
-            }, ttl + 1);
-            if (t2.unref) {
-              t2.unref();
-            }
-          }
-        };
-        this.updateItemAge = (index) => {
-          this.starts[index] = this.ttls[index] !== 0 ? perf.now() : 0;
-        };
-        this.statusTTL = (status, index) => {
-          if (status) {
-            status.ttl = this.ttls[index];
-            status.start = this.starts[index];
-            status.now = cachedNow || getNow();
-            status.remainingTTL = status.now + status.ttl - status.start;
-          }
-        };
-        let cachedNow = 0;
-        const getNow = () => {
-          const n = perf.now();
-          if (this.ttlResolution > 0) {
-            cachedNow = n;
-            const t2 = setTimeout(
-              () => cachedNow = 0,
-              this.ttlResolution
-            );
-            if (t2.unref) {
-              t2.unref();
-            }
-          }
-          return n;
-        };
-        this.getRemainingTTL = (key) => {
-          const index = this.keyMap.get(key);
-          if (index === void 0) {
-            return 0;
-          }
-          return this.ttls[index] === 0 || this.starts[index] === 0 ? Infinity : this.starts[index] + this.ttls[index] - (cachedNow || getNow());
-        };
-        this.isStale = (index) => {
-          return this.ttls[index] !== 0 && this.starts[index] !== 0 && (cachedNow || getNow()) - this.starts[index] > this.ttls[index];
-        };
-      }
-      updateItemAge(_index) {
-      }
-      statusTTL(_status, _index) {
-      }
-      setItemTTL(_index, _ttl, _start2) {
-      }
-      isStale(_index) {
-        return false;
-      }
-      initializeSizeTracking() {
-        this.calculatedSize = 0;
-        this.sizes = new ZeroArray(this.max);
-        this.removeItemSize = (index) => {
-          this.calculatedSize -= this.sizes[index];
-          this.sizes[index] = 0;
-        };
-        this.requireSize = (k, v, size, sizeCalculation) => {
-          if (this.isBackgroundFetch(v)) {
-            return 0;
-          }
-          if (!isPosInt(size)) {
-            if (sizeCalculation) {
-              if (typeof sizeCalculation !== "function") {
-                throw new TypeError("sizeCalculation must be a function");
-              }
-              size = sizeCalculation(v, k);
-              if (!isPosInt(size)) {
-                throw new TypeError(
-                  "sizeCalculation return invalid (expect positive integer)"
-                );
-              }
-            } else {
-              throw new TypeError(
-                "invalid size value (must be positive integer). When maxSize or maxEntrySize is used, sizeCalculation or size must be set."
-              );
-            }
-          }
-          return size;
-        };
-        this.addItemSize = (index, size, status) => {
-          this.sizes[index] = size;
-          if (this.maxSize) {
-            const maxSize = this.maxSize - this.sizes[index];
-            while (this.calculatedSize > maxSize) {
-              this.evict(true);
-            }
-          }
-          this.calculatedSize += this.sizes[index];
-          if (status) {
-            status.entrySize = size;
-            status.totalCalculatedSize = this.calculatedSize;
-          }
-        };
-      }
-      removeItemSize(_index) {
-      }
-      addItemSize(_index, _size2) {
-      }
-      requireSize(_k, _v, size, sizeCalculation) {
-        if (size || sizeCalculation) {
-          throw new TypeError(
-            "cannot set size without setting maxSize or maxEntrySize on cache"
-          );
-        }
-      }
-      *indexes({ allowStale = this.allowStale } = {}) {
-        if (this.size) {
-          for (let i2 = this.tail; true; ) {
-            if (!this.isValidIndex(i2)) {
-              break;
-            }
-            if (allowStale || !this.isStale(i2)) {
-              yield i2;
-            }
-            if (i2 === this.head) {
-              break;
-            } else {
-              i2 = this.prev[i2];
-            }
-          }
-        }
-      }
-      *rindexes({ allowStale = this.allowStale } = {}) {
-        if (this.size) {
-          for (let i2 = this.head; true; ) {
-            if (!this.isValidIndex(i2)) {
-              break;
-            }
-            if (allowStale || !this.isStale(i2)) {
-              yield i2;
-            }
-            if (i2 === this.tail) {
-              break;
-            } else {
-              i2 = this.next[i2];
-            }
-          }
-        }
-      }
-      isValidIndex(index) {
-        return index !== void 0 && this.keyMap.get(this.keyList[index]) === index;
+        return __privateGet(this, _keyMap).has(key) ? Infinity : 0;
       }
       *entries() {
-        for (const i2 of this.indexes()) {
-          if (this.valList[i2] !== void 0 && this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield [this.keyList[i2], this.valList[i2]];
+        for (const i2 of __privateMethod(this, _indexes, indexes_fn).call(this)) {
+          if (__privateGet(this, _valList)[i2] !== void 0 && __privateGet(this, _keyList)[i2] !== void 0 && !__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, __privateGet(this, _valList)[i2])) {
+            yield [__privateGet(this, _keyList)[i2], __privateGet(this, _valList)[i2]];
           }
         }
       }
       *rentries() {
-        for (const i2 of this.rindexes()) {
-          if (this.valList[i2] !== void 0 && this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield [this.keyList[i2], this.valList[i2]];
+        for (const i2 of __privateMethod(this, _rindexes, rindexes_fn).call(this)) {
+          if (__privateGet(this, _valList)[i2] !== void 0 && __privateGet(this, _keyList)[i2] !== void 0 && !__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, __privateGet(this, _valList)[i2])) {
+            yield [__privateGet(this, _keyList)[i2], __privateGet(this, _valList)[i2]];
           }
         }
       }
       *keys() {
-        for (const i2 of this.indexes()) {
-          if (this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield this.keyList[i2];
+        for (const i2 of __privateMethod(this, _indexes, indexes_fn).call(this)) {
+          const k = __privateGet(this, _keyList)[i2];
+          if (k !== void 0 && !__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, __privateGet(this, _valList)[i2])) {
+            yield k;
           }
         }
       }
       *rkeys() {
-        for (const i2 of this.rindexes()) {
-          if (this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield this.keyList[i2];
+        for (const i2 of __privateMethod(this, _rindexes, rindexes_fn).call(this)) {
+          const k = __privateGet(this, _keyList)[i2];
+          if (k !== void 0 && !__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, __privateGet(this, _valList)[i2])) {
+            yield k;
           }
         }
       }
       *values() {
-        for (const i2 of this.indexes()) {
-          if (this.valList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield this.valList[i2];
+        for (const i2 of __privateMethod(this, _indexes, indexes_fn).call(this)) {
+          const v = __privateGet(this, _valList)[i2];
+          if (v !== void 0 && !__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, __privateGet(this, _valList)[i2])) {
+            yield __privateGet(this, _valList)[i2];
           }
         }
       }
       *rvalues() {
-        for (const i2 of this.rindexes()) {
-          if (this.valList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
-            yield this.valList[i2];
+        for (const i2 of __privateMethod(this, _rindexes, rindexes_fn).call(this)) {
+          const v = __privateGet(this, _valList)[i2];
+          if (v !== void 0 && !__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, __privateGet(this, _valList)[i2])) {
+            yield __privateGet(this, _valList)[i2];
           }
         }
       }
       [Symbol.iterator]() {
         return this.entries();
       }
-      find(fn, getOptions) {
-        for (const i2 of this.indexes()) {
-          const v = this.valList[i2];
-          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+      find(fn, getOptions = {}) {
+        for (const i2 of __privateMethod(this, _indexes, indexes_fn).call(this)) {
+          const v = __privateGet(this, _valList)[i2];
+          const value = __privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v) ? v.__staleWhileFetching : v;
           if (value === void 0)
             continue;
-          if (fn(value, this.keyList[i2], this)) {
-            return this.get(this.keyList[i2], getOptions);
+          if (fn(value, __privateGet(this, _keyList)[i2], this)) {
+            return this.get(__privateGet(this, _keyList)[i2], getOptions);
           }
         }
       }
       forEach(fn, thisp = this) {
-        for (const i2 of this.indexes()) {
-          const v = this.valList[i2];
-          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+        for (const i2 of __privateMethod(this, _indexes, indexes_fn).call(this)) {
+          const v = __privateGet(this, _valList)[i2];
+          const value = __privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v) ? v.__staleWhileFetching : v;
           if (value === void 0)
             continue;
-          fn.call(thisp, value, this.keyList[i2], this);
+          fn.call(thisp, value, __privateGet(this, _keyList)[i2], this);
         }
       }
       rforEach(fn, thisp = this) {
-        for (const i2 of this.rindexes()) {
-          const v = this.valList[i2];
-          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+        for (const i2 of __privateMethod(this, _rindexes, rindexes_fn).call(this)) {
+          const v = __privateGet(this, _valList)[i2];
+          const value = __privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v) ? v.__staleWhileFetching : v;
           if (value === void 0)
             continue;
-          fn.call(thisp, value, this.keyList[i2], this);
+          fn.call(thisp, value, __privateGet(this, _keyList)[i2], this);
         }
-      }
-      get prune() {
-        deprecatedMethod("prune", "purgeStale");
-        return this.purgeStale;
       }
       purgeStale() {
         let deleted = false;
-        for (const i2 of this.rindexes({ allowStale: true })) {
-          if (this.isStale(i2)) {
-            this.delete(this.keyList[i2]);
+        for (const i2 of __privateMethod(this, _rindexes, rindexes_fn).call(this, { allowStale: true })) {
+          if (__privateGet(this, _isStale).call(this, i2)) {
+            this.delete(__privateGet(this, _keyList)[i2]);
             deleted = true;
           }
         }
@@ -17208,20 +17100,20 @@ var require_lru_cache = __commonJS({
       }
       dump() {
         const arr = [];
-        for (const i2 of this.indexes({ allowStale: true })) {
-          const key = this.keyList[i2];
-          const v = this.valList[i2];
-          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
-          if (value === void 0)
+        for (const i2 of __privateMethod(this, _indexes, indexes_fn).call(this, { allowStale: true })) {
+          const key = __privateGet(this, _keyList)[i2];
+          const v = __privateGet(this, _valList)[i2];
+          const value = __privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v) ? v.__staleWhileFetching : v;
+          if (value === void 0 || key === void 0)
             continue;
           const entry = { value };
-          if (this.ttls) {
-            entry.ttl = this.ttls[i2];
-            const age = perf.now() - this.starts[i2];
+          if (__privateGet(this, _ttls) && __privateGet(this, _starts)) {
+            entry.ttl = __privateGet(this, _ttls)[i2];
+            const age = perf.now() - __privateGet(this, _starts)[i2];
             entry.start = Math.floor(Date.now() - age);
           }
-          if (this.sizes) {
-            entry.size = this.sizes[i2];
+          if (__privateGet(this, _sizes)) {
+            entry.size = __privateGet(this, _sizes)[i2];
           }
           arr.unshift([key, entry]);
         }
@@ -17237,18 +17129,11 @@ var require_lru_cache = __commonJS({
           this.set(key, entry.value, entry);
         }
       }
-      dispose(_v, _k, _reason) {
-      }
-      set(k, v, {
-        ttl = this.ttl,
-        start,
-        noDisposeOnSet = this.noDisposeOnSet,
-        size = 0,
-        sizeCalculation = this.sizeCalculation,
-        noUpdateTTL = this.noUpdateTTL,
-        status
-      } = {}) {
-        size = this.requireSize(k, v, size, sizeCalculation);
+      set(k, v, setOptions = {}) {
+        var _a4, _b;
+        const { ttl = this.ttl, start, noDisposeOnSet = this.noDisposeOnSet, sizeCalculation = this.sizeCalculation, status } = setOptions;
+        let { noUpdateTTL = this.noUpdateTTL } = setOptions;
+        const size = __privateGet(this, _requireSize).call(this, k, v, setOptions.size || 0, sizeCalculation);
         if (this.maxEntrySize && size > this.maxEntrySize) {
           if (status) {
             status.set = "miss";
@@ -17257,41 +17142,40 @@ var require_lru_cache = __commonJS({
           this.delete(k);
           return this;
         }
-        let index = this.size === 0 ? void 0 : this.keyMap.get(k);
+        let index = __privateGet(this, _size2) === 0 ? void 0 : __privateGet(this, _keyMap).get(k);
         if (index === void 0) {
-          index = this.newIndex();
-          this.keyList[index] = k;
-          this.valList[index] = v;
-          this.keyMap.set(k, index);
-          this.next[this.tail] = index;
-          this.prev[index] = this.tail;
-          this.tail = index;
-          this.size++;
-          this.addItemSize(index, size, status);
-          if (status) {
+          index = __privateGet(this, _size2) === 0 ? __privateGet(this, _tail) : __privateGet(this, _free).length !== 0 ? __privateGet(this, _free).pop() : __privateGet(this, _size2) === __privateGet(this, _max) ? __privateMethod(this, _evict, evict_fn).call(this, false) : __privateGet(this, _size2);
+          __privateGet(this, _keyList)[index] = k;
+          __privateGet(this, _valList)[index] = v;
+          __privateGet(this, _keyMap).set(k, index);
+          __privateGet(this, _next)[__privateGet(this, _tail)] = index;
+          __privateGet(this, _prev)[index] = __privateGet(this, _tail);
+          __privateSet(this, _tail, index);
+          __privateWrapper(this, _size2)._++;
+          __privateGet(this, _addItemSize).call(this, index, size, status);
+          if (status)
             status.set = "add";
-          }
           noUpdateTTL = false;
         } else {
-          this.moveToTail(index);
-          const oldVal = this.valList[index];
+          __privateMethod(this, _moveToTail, moveToTail_fn).call(this, index);
+          const oldVal = __privateGet(this, _valList)[index];
           if (v !== oldVal) {
-            if (this.isBackgroundFetch(oldVal)) {
+            if (__privateGet(this, _hasFetchMethod) && __privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, oldVal)) {
               oldVal.__abortController.abort(new Error("replaced"));
-            } else {
-              if (!noDisposeOnSet) {
-                this.dispose(oldVal, k, "set");
-                if (this.disposeAfter) {
-                  this.disposed.push([oldVal, k, "set"]);
-                }
+            } else if (!noDisposeOnSet) {
+              if (__privateGet(this, _hasDispose)) {
+                (_a4 = __privateGet(this, _dispose)) == null ? void 0 : _a4.call(this, oldVal, k, "set");
+              }
+              if (__privateGet(this, _hasDisposeAfter)) {
+                __privateGet(this, _disposed)?.push([oldVal, k, "set"]);
               }
             }
-            this.removeItemSize(index);
-            this.valList[index] = v;
-            this.addItemSize(index, size, status);
+            __privateGet(this, _removeItemSize).call(this, index);
+            __privateGet(this, _addItemSize).call(this, index, size, status);
+            __privateGet(this, _valList)[index] = v;
             if (status) {
               status.set = "replace";
-              const oldValue = oldVal && this.isBackgroundFetch(oldVal) ? oldVal.__staleWhileFetching : oldVal;
+              const oldValue = oldVal && __privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, oldVal) ? oldVal.__staleWhileFetching : oldVal;
               if (oldValue !== void 0)
                 status.oldValue = oldValue;
             }
@@ -17299,216 +17183,103 @@ var require_lru_cache = __commonJS({
             status.set = "update";
           }
         }
-        if (ttl !== 0 && this.ttl === 0 && !this.ttls) {
-          this.initializeTTLTracking();
+        if (ttl !== 0 && !__privateGet(this, _ttls)) {
+          __privateMethod(this, _initializeTTLTracking, initializeTTLTracking_fn).call(this);
         }
-        if (!noUpdateTTL) {
-          this.setItemTTL(index, ttl, start);
+        if (__privateGet(this, _ttls)) {
+          if (!noUpdateTTL) {
+            __privateGet(this, _setItemTTL).call(this, index, ttl, start);
+          }
+          if (status)
+            __privateGet(this, _statusTTL).call(this, status, index);
         }
-        this.statusTTL(status, index);
-        if (this.disposeAfter) {
-          while (this.disposed.length) {
-            this.disposeAfter(...this.disposed.shift());
+        if (!noDisposeOnSet && __privateGet(this, _hasDisposeAfter) && __privateGet(this, _disposed)) {
+          const dt = __privateGet(this, _disposed);
+          let task;
+          while (task = dt?.shift()) {
+            (_b = __privateGet(this, _disposeAfter)) == null ? void 0 : _b.call(this, ...task);
           }
         }
         return this;
       }
-      newIndex() {
-        if (this.size === 0) {
-          return this.tail;
-        }
-        if (this.size === this.max && this.max !== 0) {
-          return this.evict(false);
-        }
-        if (this.free.length !== 0) {
-          return this.free.pop();
-        }
-        return this.initialFill++;
-      }
       pop() {
-        if (this.size) {
-          const val = this.valList[this.head];
-          this.evict(true);
-          return val;
-        }
-      }
-      evict(free) {
-        const head = this.head;
-        const k = this.keyList[head];
-        const v = this.valList[head];
-        if (this.isBackgroundFetch(v)) {
-          v.__abortController.abort(new Error("evicted"));
-        } else {
-          this.dispose(v, k, "evict");
-          if (this.disposeAfter) {
-            this.disposed.push([v, k, "evict"]);
+        var _a4;
+        try {
+          while (__privateGet(this, _size2)) {
+            const val = __privateGet(this, _valList)[__privateGet(this, _head)];
+            __privateMethod(this, _evict, evict_fn).call(this, true);
+            if (__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, val)) {
+              if (val.__staleWhileFetching) {
+                return val.__staleWhileFetching;
+              }
+            } else if (val !== void 0) {
+              return val;
+            }
+          }
+        } finally {
+          if (__privateGet(this, _hasDisposeAfter) && __privateGet(this, _disposed)) {
+            const dt = __privateGet(this, _disposed);
+            let task;
+            while (task = dt?.shift()) {
+              (_a4 = __privateGet(this, _disposeAfter)) == null ? void 0 : _a4.call(this, ...task);
+            }
           }
         }
-        this.removeItemSize(head);
-        if (free) {
-          this.keyList[head] = null;
-          this.valList[head] = null;
-          this.free.push(head);
-        }
-        this.head = this.next[head];
-        this.keyMap.delete(k);
-        this.size--;
-        return head;
       }
-      has(k, { updateAgeOnHas = this.updateAgeOnHas, status } = {}) {
-        const index = this.keyMap.get(k);
+      has(k, hasOptions = {}) {
+        const { updateAgeOnHas = this.updateAgeOnHas, status } = hasOptions;
+        const index = __privateGet(this, _keyMap).get(k);
         if (index !== void 0) {
-          if (!this.isStale(index)) {
+          const v = __privateGet(this, _valList)[index];
+          if (__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v) && v.__staleWhileFetching === void 0) {
+            return false;
+          }
+          if (!__privateGet(this, _isStale).call(this, index)) {
             if (updateAgeOnHas) {
-              this.updateItemAge(index);
+              __privateGet(this, _updateItemAge).call(this, index);
             }
-            if (status)
+            if (status) {
               status.has = "hit";
-            this.statusTTL(status, index);
+              __privateGet(this, _statusTTL).call(this, status, index);
+            }
             return true;
           } else if (status) {
             status.has = "stale";
-            this.statusTTL(status, index);
+            __privateGet(this, _statusTTL).call(this, status, index);
           }
         } else if (status) {
           status.has = "miss";
         }
         return false;
       }
-      peek(k, { allowStale = this.allowStale } = {}) {
-        const index = this.keyMap.get(k);
-        if (index !== void 0 && (allowStale || !this.isStale(index))) {
-          const v = this.valList[index];
-          return this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+      peek(k, peekOptions = {}) {
+        const { allowStale = this.allowStale } = peekOptions;
+        const index = __privateGet(this, _keyMap).get(k);
+        if (index !== void 0 && (allowStale || !__privateGet(this, _isStale).call(this, index))) {
+          const v = __privateGet(this, _valList)[index];
+          return __privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v) ? v.__staleWhileFetching : v;
         }
       }
-      backgroundFetch(k, index, options, context) {
-        const v = index === void 0 ? void 0 : this.valList[index];
-        if (this.isBackgroundFetch(v)) {
-          return v;
-        }
-        const ac = new AC();
-        if (options.signal) {
-          options.signal.addEventListener(
-            "abort",
-            () => ac.abort(options.signal.reason)
-          );
-        }
-        const fetchOpts = {
-          signal: ac.signal,
-          options,
-          context
-        };
-        const cb = (v2, updateCache = false) => {
-          const { aborted } = ac.signal;
-          const ignoreAbort = options.ignoreFetchAbort && v2 !== void 0;
-          if (options.status) {
-            if (aborted && !updateCache) {
-              options.status.fetchAborted = true;
-              options.status.fetchError = ac.signal.reason;
-              if (ignoreAbort)
-                options.status.fetchAbortIgnored = true;
-            } else {
-              options.status.fetchResolved = true;
-            }
-          }
-          if (aborted && !ignoreAbort && !updateCache) {
-            return fetchFail(ac.signal.reason);
-          }
-          if (this.valList[index] === p) {
-            if (v2 === void 0) {
-              if (p.__staleWhileFetching) {
-                this.valList[index] = p.__staleWhileFetching;
-              } else {
-                this.delete(k);
-              }
-            } else {
-              if (options.status)
-                options.status.fetchUpdated = true;
-              this.set(k, v2, fetchOpts.options);
-            }
-          }
-          return v2;
-        };
-        const eb = (er) => {
-          if (options.status) {
-            options.status.fetchRejected = true;
-            options.status.fetchError = er;
-          }
-          return fetchFail(er);
-        };
-        const fetchFail = (er) => {
-          const { aborted } = ac.signal;
-          const allowStaleAborted = aborted && options.allowStaleOnFetchAbort;
-          const allowStale = allowStaleAborted || options.allowStaleOnFetchRejection;
-          const noDelete = allowStale || options.noDeleteOnFetchRejection;
-          if (this.valList[index] === p) {
-            const del = !noDelete || p.__staleWhileFetching === void 0;
-            if (del) {
-              this.delete(k);
-            } else if (!allowStaleAborted) {
-              this.valList[index] = p.__staleWhileFetching;
-            }
-          }
-          if (allowStale) {
-            if (options.status && p.__staleWhileFetching !== void 0) {
-              options.status.returnedStale = true;
-            }
-            return p.__staleWhileFetching;
-          } else if (p.__returned === p) {
-            throw er;
-          }
-        };
-        const pcall = (res, rej) => {
-          this.fetchMethod(k, v, fetchOpts).then((v2) => res(v2), rej);
-          ac.signal.addEventListener("abort", () => {
-            if (!options.ignoreFetchAbort || options.allowStaleOnFetchAbort) {
-              res();
-              if (options.allowStaleOnFetchAbort) {
-                res = (v2) => cb(v2, true);
-              }
-            }
-          });
-        };
-        if (options.status)
-          options.status.fetchDispatched = true;
-        const p = new Promise(pcall).then(cb, eb);
-        p.__abortController = ac;
-        p.__staleWhileFetching = v;
-        p.__returned = null;
-        if (index === void 0) {
-          this.set(k, p, { ...fetchOpts.options, status: void 0 });
-          index = this.keyMap.get(k);
-        } else {
-          this.valList[index] = p;
-        }
-        return p;
-      }
-      isBackgroundFetch(p) {
-        return p && typeof p === "object" && typeof p.then === "function" && Object.prototype.hasOwnProperty.call(
-          p,
-          "__staleWhileFetching"
-        ) && Object.prototype.hasOwnProperty.call(p, "__returned") && (p.__returned === p || p.__returned === null);
-      }
-      async fetch(k, {
-        allowStale = this.allowStale,
-        updateAgeOnGet = this.updateAgeOnGet,
-        noDeleteOnStaleGet = this.noDeleteOnStaleGet,
-        ttl = this.ttl,
-        noDisposeOnSet = this.noDisposeOnSet,
-        size = 0,
-        sizeCalculation = this.sizeCalculation,
-        noUpdateTTL = this.noUpdateTTL,
-        noDeleteOnFetchRejection = this.noDeleteOnFetchRejection,
-        allowStaleOnFetchRejection = this.allowStaleOnFetchRejection,
-        ignoreFetchAbort = this.ignoreFetchAbort,
-        allowStaleOnFetchAbort = this.allowStaleOnFetchAbort,
-        fetchContext = this.fetchContext,
-        forceRefresh = false,
-        status,
-        signal
-      } = {}) {
-        if (!this.fetchMethod) {
+      async fetch(k, fetchOptions = {}) {
+        const {
+          allowStale = this.allowStale,
+          updateAgeOnGet = this.updateAgeOnGet,
+          noDeleteOnStaleGet = this.noDeleteOnStaleGet,
+          ttl = this.ttl,
+          noDisposeOnSet = this.noDisposeOnSet,
+          size = 0,
+          sizeCalculation = this.sizeCalculation,
+          noUpdateTTL = this.noUpdateTTL,
+          noDeleteOnFetchRejection = this.noDeleteOnFetchRejection,
+          allowStaleOnFetchRejection = this.allowStaleOnFetchRejection,
+          ignoreFetchAbort = this.ignoreFetchAbort,
+          allowStaleOnFetchAbort = this.allowStaleOnFetchAbort,
+          context,
+          forceRefresh = false,
+          status,
+          signal
+        } = fetchOptions;
+        if (!__privateGet(this, _hasFetchMethod)) {
           if (status)
             status.fetch = "get";
           return this.get(k, {
@@ -17534,15 +17305,15 @@ var require_lru_cache = __commonJS({
           status,
           signal
         };
-        let index = this.keyMap.get(k);
+        let index = __privateGet(this, _keyMap).get(k);
         if (index === void 0) {
           if (status)
             status.fetch = "miss";
-          const p = this.backgroundFetch(k, index, options, fetchContext);
+          const p = __privateMethod(this, _backgroundFetch, backgroundFetch_fn).call(this, k, index, options, context);
           return p.__returned = p;
         } else {
-          const v = this.valList[index];
-          if (this.isBackgroundFetch(v)) {
+          const v = __privateGet(this, _valList)[index];
+          if (__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v)) {
             const stale = allowStale && v.__staleWhileFetching !== void 0;
             if (status) {
               status.fetch = "inflight";
@@ -17551,52 +17322,50 @@ var require_lru_cache = __commonJS({
             }
             return stale ? v.__staleWhileFetching : v.__returned = v;
           }
-          const isStale = this.isStale(index);
+          const isStale = __privateGet(this, _isStale).call(this, index);
           if (!forceRefresh && !isStale) {
             if (status)
               status.fetch = "hit";
-            this.moveToTail(index);
+            __privateMethod(this, _moveToTail, moveToTail_fn).call(this, index);
             if (updateAgeOnGet) {
-              this.updateItemAge(index);
+              __privateGet(this, _updateItemAge).call(this, index);
             }
-            this.statusTTL(status, index);
+            if (status)
+              __privateGet(this, _statusTTL).call(this, status, index);
             return v;
           }
-          const p = this.backgroundFetch(k, index, options, fetchContext);
+          const p = __privateMethod(this, _backgroundFetch, backgroundFetch_fn).call(this, k, index, options, context);
           const hasStale = p.__staleWhileFetching !== void 0;
           const staleVal = hasStale && allowStale;
           if (status) {
-            status.fetch = hasStale && isStale ? "stale" : "refresh";
+            status.fetch = isStale ? "stale" : "refresh";
             if (staleVal && isStale)
               status.returnedStale = true;
           }
           return staleVal ? p.__staleWhileFetching : p.__returned = p;
         }
       }
-      get(k, {
-        allowStale = this.allowStale,
-        updateAgeOnGet = this.updateAgeOnGet,
-        noDeleteOnStaleGet = this.noDeleteOnStaleGet,
-        status
-      } = {}) {
-        const index = this.keyMap.get(k);
+      get(k, getOptions = {}) {
+        const { allowStale = this.allowStale, updateAgeOnGet = this.updateAgeOnGet, noDeleteOnStaleGet = this.noDeleteOnStaleGet, status } = getOptions;
+        const index = __privateGet(this, _keyMap).get(k);
         if (index !== void 0) {
-          const value = this.valList[index];
-          const fetching = this.isBackgroundFetch(value);
-          this.statusTTL(status, index);
-          if (this.isStale(index)) {
+          const value = __privateGet(this, _valList)[index];
+          const fetching = __privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, value);
+          if (status)
+            __privateGet(this, _statusTTL).call(this, status, index);
+          if (__privateGet(this, _isStale).call(this, index)) {
             if (status)
               status.get = "stale";
             if (!fetching) {
               if (!noDeleteOnStaleGet) {
                 this.delete(k);
               }
-              if (status)
-                status.returnedStale = allowStale;
+              if (status && allowStale)
+                status.returnedStale = true;
               return allowStale ? value : void 0;
             } else {
-              if (status) {
-                status.returnedStale = allowStale && value.__staleWhileFetching !== void 0;
+              if (status && allowStale && value.__staleWhileFetching !== void 0) {
+                status.returnedStale = true;
               }
               return allowStale ? value.__staleWhileFetching : void 0;
             }
@@ -17606,9 +17375,9 @@ var require_lru_cache = __commonJS({
             if (fetching) {
               return value.__staleWhileFetching;
             }
-            this.moveToTail(index);
+            __privateMethod(this, _moveToTail, moveToTail_fn).call(this, index);
             if (updateAgeOnGet) {
-              this.updateItemAge(index);
+              __privateGet(this, _updateItemAge).call(this, index);
             }
             return value;
           }
@@ -17616,124 +17385,447 @@ var require_lru_cache = __commonJS({
           status.get = "miss";
         }
       }
-      connect(p, n) {
-        this.prev[n] = p;
-        this.next[p] = n;
-      }
-      moveToTail(index) {
-        if (index !== this.tail) {
-          if (index === this.head) {
-            this.head = this.next[index];
-          } else {
-            this.connect(this.prev[index], this.next[index]);
-          }
-          this.connect(this.tail, index);
-          this.tail = index;
-        }
-      }
-      get del() {
-        deprecatedMethod("del", "delete");
-        return this.delete;
-      }
       delete(k) {
+        var _a4, _b;
         let deleted = false;
-        if (this.size !== 0) {
-          const index = this.keyMap.get(k);
+        if (__privateGet(this, _size2) !== 0) {
+          const index = __privateGet(this, _keyMap).get(k);
           if (index !== void 0) {
             deleted = true;
-            if (this.size === 1) {
+            if (__privateGet(this, _size2) === 1) {
               this.clear();
             } else {
-              this.removeItemSize(index);
-              const v = this.valList[index];
-              if (this.isBackgroundFetch(v)) {
+              __privateGet(this, _removeItemSize).call(this, index);
+              const v = __privateGet(this, _valList)[index];
+              if (__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v)) {
                 v.__abortController.abort(new Error("deleted"));
-              } else {
-                this.dispose(v, k, "delete");
-                if (this.disposeAfter) {
-                  this.disposed.push([v, k, "delete"]);
+              } else if (__privateGet(this, _hasDispose) || __privateGet(this, _hasDisposeAfter)) {
+                if (__privateGet(this, _hasDispose)) {
+                  (_a4 = __privateGet(this, _dispose)) == null ? void 0 : _a4.call(this, v, k, "delete");
+                }
+                if (__privateGet(this, _hasDisposeAfter)) {
+                  __privateGet(this, _disposed)?.push([v, k, "delete"]);
                 }
               }
-              this.keyMap.delete(k);
-              this.keyList[index] = null;
-              this.valList[index] = null;
-              if (index === this.tail) {
-                this.tail = this.prev[index];
-              } else if (index === this.head) {
-                this.head = this.next[index];
+              __privateGet(this, _keyMap).delete(k);
+              __privateGet(this, _keyList)[index] = void 0;
+              __privateGet(this, _valList)[index] = void 0;
+              if (index === __privateGet(this, _tail)) {
+                __privateSet(this, _tail, __privateGet(this, _prev)[index]);
+              } else if (index === __privateGet(this, _head)) {
+                __privateSet(this, _head, __privateGet(this, _next)[index]);
               } else {
-                this.next[this.prev[index]] = this.next[index];
-                this.prev[this.next[index]] = this.prev[index];
+                __privateGet(this, _next)[__privateGet(this, _prev)[index]] = __privateGet(this, _next)[index];
+                __privateGet(this, _prev)[__privateGet(this, _next)[index]] = __privateGet(this, _prev)[index];
               }
-              this.size--;
-              this.free.push(index);
+              __privateWrapper(this, _size2)._--;
+              __privateGet(this, _free).push(index);
             }
           }
         }
-        if (this.disposed) {
-          while (this.disposed.length) {
-            this.disposeAfter(...this.disposed.shift());
+        if (__privateGet(this, _hasDisposeAfter) && __privateGet(this, _disposed)?.length) {
+          const dt = __privateGet(this, _disposed);
+          let task;
+          while (task = dt?.shift()) {
+            (_b = __privateGet(this, _disposeAfter)) == null ? void 0 : _b.call(this, ...task);
           }
         }
         return deleted;
       }
       clear() {
-        for (const index of this.rindexes({ allowStale: true })) {
-          const v = this.valList[index];
-          if (this.isBackgroundFetch(v)) {
+        var _a4, _b;
+        for (const index of __privateMethod(this, _rindexes, rindexes_fn).call(this, { allowStale: true })) {
+          const v = __privateGet(this, _valList)[index];
+          if (__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v)) {
             v.__abortController.abort(new Error("deleted"));
           } else {
-            const k = this.keyList[index];
-            this.dispose(v, k, "delete");
-            if (this.disposeAfter) {
-              this.disposed.push([v, k, "delete"]);
+            const k = __privateGet(this, _keyList)[index];
+            if (__privateGet(this, _hasDispose)) {
+              (_a4 = __privateGet(this, _dispose)) == null ? void 0 : _a4.call(this, v, k, "delete");
+            }
+            if (__privateGet(this, _hasDisposeAfter)) {
+              __privateGet(this, _disposed)?.push([v, k, "delete"]);
             }
           }
         }
-        this.keyMap.clear();
-        this.valList.fill(null);
-        this.keyList.fill(null);
-        if (this.ttls) {
-          this.ttls.fill(0);
-          this.starts.fill(0);
+        __privateGet(this, _keyMap).clear();
+        __privateGet(this, _valList).fill(void 0);
+        __privateGet(this, _keyList).fill(void 0);
+        if (__privateGet(this, _ttls) && __privateGet(this, _starts)) {
+          __privateGet(this, _ttls).fill(0);
+          __privateGet(this, _starts).fill(0);
         }
-        if (this.sizes) {
-          this.sizes.fill(0);
+        if (__privateGet(this, _sizes)) {
+          __privateGet(this, _sizes).fill(0);
         }
-        this.head = 0;
-        this.tail = 0;
-        this.initialFill = 1;
-        this.free.length = 0;
-        this.calculatedSize = 0;
-        this.size = 0;
-        if (this.disposed) {
-          while (this.disposed.length) {
-            this.disposeAfter(...this.disposed.shift());
+        __privateSet(this, _head, 0);
+        __privateSet(this, _tail, 0);
+        __privateGet(this, _free).length = 0;
+        __privateSet(this, _calculatedSize, 0);
+        __privateSet(this, _size2, 0);
+        if (__privateGet(this, _hasDisposeAfter) && __privateGet(this, _disposed)) {
+          const dt = __privateGet(this, _disposed);
+          let task;
+          while (task = dt?.shift()) {
+            (_b = __privateGet(this, _disposeAfter)) == null ? void 0 : _b.call(this, ...task);
           }
         }
       }
-      get reset() {
-        deprecatedMethod("reset", "clear");
-        return this.clear;
-      }
-      get length() {
-        deprecatedProperty("length", "size");
-        return this.size;
-      }
-      static get AbortController() {
-        return AC;
-      }
-      static get AbortSignal() {
-        return AS;
+    };
+    var LRUCache = _LRUCache;
+    _max = new WeakMap();
+    _maxSize = new WeakMap();
+    _dispose = new WeakMap();
+    _disposeAfter = new WeakMap();
+    _fetchMethod = new WeakMap();
+    _size2 = new WeakMap();
+    _calculatedSize = new WeakMap();
+    _keyMap = new WeakMap();
+    _keyList = new WeakMap();
+    _valList = new WeakMap();
+    _next = new WeakMap();
+    _prev = new WeakMap();
+    _head = new WeakMap();
+    _tail = new WeakMap();
+    _free = new WeakMap();
+    _disposed = new WeakMap();
+    _sizes = new WeakMap();
+    _starts = new WeakMap();
+    _ttls = new WeakMap();
+    _hasDispose = new WeakMap();
+    _hasFetchMethod = new WeakMap();
+    _hasDisposeAfter = new WeakMap();
+    _initializeTTLTracking = new WeakSet();
+    initializeTTLTracking_fn = function() {
+      const ttls = new ZeroArray(__privateGet(this, _max));
+      const starts = new ZeroArray(__privateGet(this, _max));
+      __privateSet(this, _ttls, ttls);
+      __privateSet(this, _starts, starts);
+      __privateSet(this, _setItemTTL, (index, ttl, start = perf.now()) => {
+        starts[index] = ttl !== 0 ? start : 0;
+        ttls[index] = ttl;
+        if (ttl !== 0 && this.ttlAutopurge) {
+          const t2 = setTimeout(() => {
+            if (__privateGet(this, _isStale).call(this, index)) {
+              this.delete(__privateGet(this, _keyList)[index]);
+            }
+          }, ttl + 1);
+          if (t2.unref) {
+            t2.unref();
+          }
+        }
+      });
+      __privateSet(this, _updateItemAge, (index) => {
+        starts[index] = ttls[index] !== 0 ? perf.now() : 0;
+      });
+      __privateSet(this, _statusTTL, (status, index) => {
+        if (ttls[index]) {
+          const ttl = ttls[index];
+          const start = starts[index];
+          status.ttl = ttl;
+          status.start = start;
+          status.now = cachedNow || getNow();
+          status.remainingTTL = status.now + ttl - start;
+        }
+      });
+      let cachedNow = 0;
+      const getNow = () => {
+        const n = perf.now();
+        if (this.ttlResolution > 0) {
+          cachedNow = n;
+          const t2 = setTimeout(() => cachedNow = 0, this.ttlResolution);
+          if (t2.unref) {
+            t2.unref();
+          }
+        }
+        return n;
+      };
+      this.getRemainingTTL = (key) => {
+        const index = __privateGet(this, _keyMap).get(key);
+        if (index === void 0) {
+          return 0;
+        }
+        return ttls[index] === 0 || starts[index] === 0 ? Infinity : starts[index] + ttls[index] - (cachedNow || getNow());
+      };
+      __privateSet(this, _isStale, (index) => {
+        return ttls[index] !== 0 && starts[index] !== 0 && (cachedNow || getNow()) - starts[index] > ttls[index];
+      });
+    };
+    _updateItemAge = new WeakMap();
+    _statusTTL = new WeakMap();
+    _setItemTTL = new WeakMap();
+    _isStale = new WeakMap();
+    _initializeSizeTracking = new WeakSet();
+    initializeSizeTracking_fn = function() {
+      const sizes = new ZeroArray(__privateGet(this, _max));
+      __privateSet(this, _calculatedSize, 0);
+      __privateSet(this, _sizes, sizes);
+      __privateSet(this, _removeItemSize, (index) => {
+        __privateSet(this, _calculatedSize, __privateGet(this, _calculatedSize) - sizes[index]);
+        sizes[index] = 0;
+      });
+      __privateSet(this, _requireSize, (k, v, size, sizeCalculation) => {
+        if (__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v)) {
+          return 0;
+        }
+        if (!isPosInt(size)) {
+          if (sizeCalculation) {
+            if (typeof sizeCalculation !== "function") {
+              throw new TypeError("sizeCalculation must be a function");
+            }
+            size = sizeCalculation(v, k);
+            if (!isPosInt(size)) {
+              throw new TypeError("sizeCalculation return invalid (expect positive integer)");
+            }
+          } else {
+            throw new TypeError("invalid size value (must be positive integer). When maxSize or maxEntrySize is used, sizeCalculation or size must be set.");
+          }
+        }
+        return size;
+      });
+      __privateSet(this, _addItemSize, (index, size, status) => {
+        sizes[index] = size;
+        if (__privateGet(this, _maxSize)) {
+          const maxSize = __privateGet(this, _maxSize) - sizes[index];
+          while (__privateGet(this, _calculatedSize) > maxSize) {
+            __privateMethod(this, _evict, evict_fn).call(this, true);
+          }
+        }
+        __privateSet(this, _calculatedSize, __privateGet(this, _calculatedSize) + sizes[index]);
+        if (status) {
+          status.entrySize = size;
+          status.totalCalculatedSize = __privateGet(this, _calculatedSize);
+        }
+      });
+    };
+    _removeItemSize = new WeakMap();
+    _addItemSize = new WeakMap();
+    _requireSize = new WeakMap();
+    _indexes = new WeakSet();
+    indexes_fn = function* ({ allowStale = this.allowStale } = {}) {
+      if (__privateGet(this, _size2)) {
+        for (let i2 = __privateGet(this, _tail); true; ) {
+          if (!__privateMethod(this, _isValidIndex, isValidIndex_fn).call(this, i2)) {
+            break;
+          }
+          if (allowStale || !__privateGet(this, _isStale).call(this, i2)) {
+            yield i2;
+          }
+          if (i2 === __privateGet(this, _head)) {
+            break;
+          } else {
+            i2 = __privateGet(this, _prev)[i2];
+          }
+        }
       }
     };
-    module2.exports = LRUCache;
+    _rindexes = new WeakSet();
+    rindexes_fn = function* ({ allowStale = this.allowStale } = {}) {
+      if (__privateGet(this, _size2)) {
+        for (let i2 = __privateGet(this, _head); true; ) {
+          if (!__privateMethod(this, _isValidIndex, isValidIndex_fn).call(this, i2)) {
+            break;
+          }
+          if (allowStale || !__privateGet(this, _isStale).call(this, i2)) {
+            yield i2;
+          }
+          if (i2 === __privateGet(this, _tail)) {
+            break;
+          } else {
+            i2 = __privateGet(this, _next)[i2];
+          }
+        }
+      }
+    };
+    _isValidIndex = new WeakSet();
+    isValidIndex_fn = function(index) {
+      return index !== void 0 && __privateGet(this, _keyMap).get(__privateGet(this, _keyList)[index]) === index;
+    };
+    _evict = new WeakSet();
+    evict_fn = function(free) {
+      var _a4;
+      const head = __privateGet(this, _head);
+      const k = __privateGet(this, _keyList)[head];
+      const v = __privateGet(this, _valList)[head];
+      if (__privateGet(this, _hasFetchMethod) && __privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v)) {
+        v.__abortController.abort(new Error("evicted"));
+      } else if (__privateGet(this, _hasDispose) || __privateGet(this, _hasDisposeAfter)) {
+        if (__privateGet(this, _hasDispose)) {
+          (_a4 = __privateGet(this, _dispose)) == null ? void 0 : _a4.call(this, v, k, "evict");
+        }
+        if (__privateGet(this, _hasDisposeAfter)) {
+          __privateGet(this, _disposed)?.push([v, k, "evict"]);
+        }
+      }
+      __privateGet(this, _removeItemSize).call(this, head);
+      if (free) {
+        __privateGet(this, _keyList)[head] = void 0;
+        __privateGet(this, _valList)[head] = void 0;
+        __privateGet(this, _free).push(head);
+      }
+      if (__privateGet(this, _size2) === 1) {
+        __privateSet(this, _head, __privateSet(this, _tail, 0));
+        __privateGet(this, _free).length = 0;
+      } else {
+        __privateSet(this, _head, __privateGet(this, _next)[head]);
+      }
+      __privateGet(this, _keyMap).delete(k);
+      __privateWrapper(this, _size2)._--;
+      return head;
+    };
+    _backgroundFetch = new WeakSet();
+    backgroundFetch_fn = function(k, index, options, context) {
+      const v = index === void 0 ? void 0 : __privateGet(this, _valList)[index];
+      if (__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, v)) {
+        return v;
+      }
+      const ac = new AbortController();
+      const { signal } = options;
+      signal?.addEventListener("abort", () => ac.abort(signal.reason), {
+        signal: ac.signal
+      });
+      const fetchOpts = {
+        signal: ac.signal,
+        options,
+        context
+      };
+      const cb = (v2, updateCache = false) => {
+        const { aborted } = ac.signal;
+        const ignoreAbort = options.ignoreFetchAbort && v2 !== void 0;
+        if (options.status) {
+          if (aborted && !updateCache) {
+            options.status.fetchAborted = true;
+            options.status.fetchError = ac.signal.reason;
+            if (ignoreAbort)
+              options.status.fetchAbortIgnored = true;
+          } else {
+            options.status.fetchResolved = true;
+          }
+        }
+        if (aborted && !ignoreAbort && !updateCache) {
+          return fetchFail(ac.signal.reason);
+        }
+        const bf2 = p;
+        if (__privateGet(this, _valList)[index] === p) {
+          if (v2 === void 0) {
+            if (bf2.__staleWhileFetching) {
+              __privateGet(this, _valList)[index] = bf2.__staleWhileFetching;
+            } else {
+              this.delete(k);
+            }
+          } else {
+            if (options.status)
+              options.status.fetchUpdated = true;
+            this.set(k, v2, fetchOpts.options);
+          }
+        }
+        return v2;
+      };
+      const eb = (er) => {
+        if (options.status) {
+          options.status.fetchRejected = true;
+          options.status.fetchError = er;
+        }
+        return fetchFail(er);
+      };
+      const fetchFail = (er) => {
+        const { aborted } = ac.signal;
+        const allowStaleAborted = aborted && options.allowStaleOnFetchAbort;
+        const allowStale = allowStaleAborted || options.allowStaleOnFetchRejection;
+        const noDelete = allowStale || options.noDeleteOnFetchRejection;
+        const bf2 = p;
+        if (__privateGet(this, _valList)[index] === p) {
+          const del = !noDelete || bf2.__staleWhileFetching === void 0;
+          if (del) {
+            this.delete(k);
+          } else if (!allowStaleAborted) {
+            __privateGet(this, _valList)[index] = bf2.__staleWhileFetching;
+          }
+        }
+        if (allowStale) {
+          if (options.status && bf2.__staleWhileFetching !== void 0) {
+            options.status.returnedStale = true;
+          }
+          return bf2.__staleWhileFetching;
+        } else if (bf2.__returned === bf2) {
+          throw er;
+        }
+      };
+      const pcall = (res, rej) => {
+        var _a4;
+        const fmp = (_a4 = __privateGet(this, _fetchMethod)) == null ? void 0 : _a4.call(this, k, v, fetchOpts);
+        if (fmp && fmp instanceof Promise) {
+          fmp.then((v2) => res(v2), rej);
+        }
+        ac.signal.addEventListener("abort", () => {
+          if (!options.ignoreFetchAbort || options.allowStaleOnFetchAbort) {
+            res();
+            if (options.allowStaleOnFetchAbort) {
+              res = (v2) => cb(v2, true);
+            }
+          }
+        });
+      };
+      if (options.status)
+        options.status.fetchDispatched = true;
+      const p = new Promise(pcall).then(cb, eb);
+      const bf = Object.assign(p, {
+        __abortController: ac,
+        __staleWhileFetching: v,
+        __returned: void 0
+      });
+      if (index === void 0) {
+        this.set(k, bf, { ...fetchOpts.options, status: void 0 });
+        index = __privateGet(this, _keyMap).get(k);
+      } else {
+        __privateGet(this, _valList)[index] = bf;
+      }
+      return bf;
+    };
+    _isBackgroundFetch = new WeakSet();
+    isBackgroundFetch_fn = function(p) {
+      if (!__privateGet(this, _hasFetchMethod))
+        return false;
+      const b = p;
+      return !!b && b instanceof Promise && b.hasOwnProperty("__staleWhileFetching") && b.__abortController instanceof AbortController;
+    };
+    _connect = new WeakSet();
+    connect_fn = function(p, n) {
+      __privateGet(this, _prev)[n] = p;
+      __privateGet(this, _next)[p] = n;
+    };
+    _moveToTail = new WeakSet();
+    moveToTail_fn = function(index) {
+      if (index !== __privateGet(this, _tail)) {
+        if (index === __privateGet(this, _head)) {
+          __privateSet(this, _head, __privateGet(this, _next)[index]);
+        } else {
+          __privateMethod(this, _connect, connect_fn).call(this, __privateGet(this, _prev)[index], __privateGet(this, _next)[index]);
+        }
+        __privateMethod(this, _connect, connect_fn).call(this, __privateGet(this, _tail), index);
+        __privateSet(this, _tail, index);
+      }
+    };
+    exports.LRUCache = LRUCache;
+    exports.default = LRUCache;
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/errors.js
+// ../../node_modules/.pnpm/lru-cache@8.0.5/node_modules/lru-cache/dist/cjs/index-cjs.js
+var require_index_cjs = __commonJS({
+  "../../node_modules/.pnpm/lru-cache@8.0.5/node_modules/lru-cache/dist/cjs/index-cjs.js"(exports, module2) {
+    "use strict";
+    var __importDefault = exports && exports.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { "default": mod };
+    };
+    var index_js_1 = __importDefault(require_cjs());
+    module2.exports = Object.assign(index_js_1.default, { default: index_js_1.default, LRUCache: index_js_1.default });
+  }
+});
+
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/errors.js
 var require_errors3 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/errors.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/errors.js"(exports) {
     "use strict";
     exports.EE_CANTCREATEFILE = 1;
     exports.EE_READ = 2;
@@ -17767,11 +17859,72 @@ var require_errors3 = __commonJS({
     exports.EE_CHANGE_OWNERSHIP = 31;
     exports.EE_CHANGE_PERMISSIONS = 32;
     exports.EE_CANT_SEEK = 33;
+    exports.EE_CAPACITY_EXCEEDED = 34;
+    exports.EE_DISK_FULL_WITH_RETRY_MSG = 35;
+    exports.EE_FAILED_TO_CREATE_TIMER = 36;
+    exports.EE_FAILED_TO_DELETE_TIMER = 37;
+    exports.EE_FAILED_TO_CREATE_TIMER_QUEUE = 38;
+    exports.EE_FAILED_TO_START_TIMER_NOTIFY_THREAD = 39;
+    exports.EE_FAILED_TO_CREATE_TIMER_NOTIFY_THREAD_INTERRUPT_EVENT = 40;
+    exports.EE_EXITING_TIMER_NOTIFY_THREAD = 41;
+    exports.EE_WIN_LIBRARY_LOAD_FAILED = 42;
+    exports.EE_WIN_RUN_TIME_ERROR_CHECK = 43;
+    exports.EE_FAILED_TO_DETERMINE_LARGE_PAGE_SIZE = 44;
+    exports.EE_FAILED_TO_KILL_ALL_THREADS = 45;
+    exports.EE_FAILED_TO_CREATE_IO_COMPLETION_PORT = 46;
+    exports.EE_FAILED_TO_OPEN_DEFAULTS_FILE = 47;
+    exports.EE_FAILED_TO_HANDLE_DEFAULTS_FILE = 48;
+    exports.EE_WRONG_DIRECTIVE_IN_CONFIG_FILE = 49;
+    exports.EE_SKIPPING_DIRECTIVE_DUE_TO_MAX_INCLUDE_RECURSION = 50;
+    exports.EE_INCORRECT_GRP_DEFINITION_IN_CONFIG_FILE = 51;
+    exports.EE_OPTION_WITHOUT_GRP_IN_CONFIG_FILE = 52;
+    exports.EE_CONFIG_FILE_PERMISSION_ERROR = 53;
+    exports.EE_IGNORE_WORLD_WRITABLE_CONFIG_FILE = 54;
+    exports.EE_USING_DISABLED_OPTION = 55;
+    exports.EE_USING_DISABLED_SHORT_OPTION = 56;
+    exports.EE_USING_PASSWORD_ON_CLI_IS_INSECURE = 57;
+    exports.EE_UNKNOWN_SUFFIX_FOR_VARIABLE = 58;
+    exports.EE_SSL_ERROR_FROM_FILE = 59;
+    exports.EE_SSL_ERROR = 60;
+    exports.EE_NET_SEND_ERROR_IN_BOOTSTRAP = 61;
+    exports.EE_PACKETS_OUT_OF_ORDER = 62;
+    exports.EE_UNKNOWN_PROTOCOL_OPTION = 63;
+    exports.EE_FAILED_TO_LOCATE_SERVER_PUBLIC_KEY = 64;
+    exports.EE_PUBLIC_KEY_NOT_IN_PEM_FORMAT = 65;
+    exports.EE_DEBUG_INFO = 66;
+    exports.EE_UNKNOWN_VARIABLE = 67;
+    exports.EE_UNKNOWN_OPTION = 68;
+    exports.EE_UNKNOWN_SHORT_OPTION = 69;
+    exports.EE_OPTION_WITHOUT_ARGUMENT = 70;
+    exports.EE_OPTION_REQUIRES_ARGUMENT = 71;
+    exports.EE_SHORT_OPTION_REQUIRES_ARGUMENT = 72;
+    exports.EE_OPTION_IGNORED_DUE_TO_INVALID_VALUE = 73;
+    exports.EE_OPTION_WITH_EMPTY_VALUE = 74;
+    exports.EE_FAILED_TO_ASSIGN_MAX_VALUE_TO_OPTION = 75;
+    exports.EE_INCORRECT_BOOLEAN_VALUE_FOR_OPTION = 76;
+    exports.EE_FAILED_TO_SET_OPTION_VALUE = 77;
+    exports.EE_INCORRECT_INT_VALUE_FOR_OPTION = 78;
+    exports.EE_INCORRECT_UINT_VALUE_FOR_OPTION = 79;
+    exports.EE_ADJUSTED_SIGNED_VALUE_FOR_OPTION = 80;
+    exports.EE_ADJUSTED_UNSIGNED_VALUE_FOR_OPTION = 81;
+    exports.EE_ADJUSTED_ULONGLONG_VALUE_FOR_OPTION = 82;
+    exports.EE_ADJUSTED_DOUBLE_VALUE_FOR_OPTION = 83;
+    exports.EE_INVALID_DECIMAL_VALUE_FOR_OPTION = 84;
+    exports.EE_COLLATION_PARSER_ERROR = 85;
+    exports.EE_FAILED_TO_RESET_BEFORE_PRIMARY_IGNORABLE_CHAR = 86;
+    exports.EE_FAILED_TO_RESET_BEFORE_TERTIARY_IGNORABLE_CHAR = 87;
+    exports.EE_SHIFT_CHAR_OUT_OF_RANGE = 88;
+    exports.EE_RESET_CHAR_OUT_OF_RANGE = 89;
+    exports.EE_UNKNOWN_LDML_TAG = 90;
+    exports.EE_FAILED_TO_RESET_BEFORE_SECONDARY_IGNORABLE_CHAR = 91;
+    exports.EE_FAILED_PROCESSING_DIRECTIVE = 92;
+    exports.EE_PTHREAD_KILL_FAILED = 93;
     exports.HA_ERR_KEY_NOT_FOUND = 120;
     exports.HA_ERR_FOUND_DUPP_KEY = 121;
     exports.HA_ERR_INTERNAL_ERROR = 122;
     exports.HA_ERR_RECORD_CHANGED = 123;
     exports.HA_ERR_WRONG_INDEX = 124;
+    exports.HA_ERR_ROLLED_BACK = 125;
     exports.HA_ERR_CRASHED = 126;
     exports.HA_ERR_WRONG_IN_RECORD = 127;
     exports.HA_ERR_OUT_OF_MEM = 128;
@@ -17784,7 +17937,7 @@ var require_errors3 = __commonJS({
     exports.HA_ERR_INDEX_FILE_FULL = 136;
     exports.HA_ERR_END_OF_FILE = 137;
     exports.HA_ERR_UNSUPPORTED = 138;
-    exports.HA_ERR_TO_BIG_ROW = 139;
+    exports.HA_ERR_TOO_BIG_ROW = 139;
     exports.HA_WRONG_CREATE_OPTION = 140;
     exports.HA_ERR_FOUND_DUPP_UNIQUE = 141;
     exports.HA_ERR_UNKNOWN_CHARSET = 142;
@@ -17837,6 +17990,24 @@ var require_errors3 = __commonJS({
     exports.HA_ERR_TEMP_FILE_WRITE_FAILURE = 189;
     exports.HA_ERR_INNODB_FORCED_RECOVERY = 190;
     exports.HA_ERR_FTS_TOO_MANY_WORDS_IN_PHRASE = 191;
+    exports.HA_ERR_FK_DEPTH_EXCEEDED = 192;
+    exports.HA_MISSING_CREATE_OPTION = 193;
+    exports.HA_ERR_SE_OUT_OF_MEMORY = 194;
+    exports.HA_ERR_TABLE_CORRUPT = 195;
+    exports.HA_ERR_QUERY_INTERRUPTED = 196;
+    exports.HA_ERR_TABLESPACE_MISSING = 197;
+    exports.HA_ERR_TABLESPACE_IS_NOT_EMPTY = 198;
+    exports.HA_ERR_WRONG_FILE_NAME = 199;
+    exports.HA_ERR_NOT_ALLOWED_COMMAND = 200;
+    exports.HA_ERR_COMPUTE_FAILED = 201;
+    exports.HA_ERR_ROW_FORMAT_CHANGED = 202;
+    exports.HA_ERR_NO_WAIT_LOCK = 203;
+    exports.HA_ERR_DISK_FULL_NOWAIT = 204;
+    exports.HA_ERR_NO_SESSION_TEMP = 205;
+    exports.HA_ERR_WRONG_TABLE_NAME = 206;
+    exports.HA_ERR_TOO_LONG_PATH = 207;
+    exports.HA_ERR_SAMPLING_INIT_FAILED = 208;
+    exports.HA_ERR_FTS_TOO_MANY_NESTED_EXP = 209;
     exports.ER_HASHCHK = 1e3;
     exports.ER_NISAMCHK = 1001;
     exports.ER_NO = 1002;
@@ -17987,8 +18158,8 @@ var require_errors3 = __commonJS({
     exports.ER_NONEXISTING_TABLE_GRANT = 1147;
     exports.ER_NOT_ALLOWED_COMMAND = 1148;
     exports.ER_SYNTAX_ERROR = 1149;
-    exports.ER_DELAYED_CANT_CHANGE_LOCK = 1150;
-    exports.ER_TOO_MANY_DELAYED_THREADS = 1151;
+    exports.ER_UNUSED1 = 1150;
+    exports.ER_UNUSED2 = 1151;
     exports.ER_ABORTING_CONNECTION = 1152;
     exports.ER_NET_PACKET_TOO_LARGE = 1153;
     exports.ER_NET_READ_ERROR_FROM_PIPE = 1154;
@@ -18002,7 +18173,7 @@ var require_errors3 = __commonJS({
     exports.ER_TOO_LONG_STRING = 1162;
     exports.ER_TABLE_CANT_HANDLE_BLOB = 1163;
     exports.ER_TABLE_CANT_HANDLE_AUTO_INCREMENT = 1164;
-    exports.ER_DELAYED_INSERT_TABLE_LOCKED = 1165;
+    exports.ER_UNUSED3 = 1165;
     exports.ER_WRONG_COLUMN_NAME = 1166;
     exports.ER_WRONG_KEY_COLUMN = 1167;
     exports.ER_WRONG_MRG_TABLE = 1168;
@@ -18024,13 +18195,9 @@ var require_errors3 = __commonJS({
     exports.ER_NEW_ABORTING_CONNECTION = 1184;
     exports.ER_DUMP_NOT_IMPLEMENTED = 1185;
     exports.ER_FLUSH_MASTER_BINLOG_CLOSED = 1186;
-    exports.ER_FLUSH_SOURCE_BINLOG_CLOSED = 1186;
     exports.ER_INDEX_REBUILD = 1187;
-    exports.ER_MASTER = 1188;
     exports.ER_SOURCE = 1188;
-    exports.ER_MASTER_NET_READ = 1189;
     exports.ER_SOURCE_NET_READ = 1189;
-    exports.ER_MASTER_NET_WRITE = 1190;
     exports.ER_SOURCE_NET_WRITE = 1190;
     exports.ER_FT_MATCHING_KEY_NOT_FOUND = 1191;
     exports.ER_LOCK_OR_ACTIVE_TRANSACTION = 1192;
@@ -18040,14 +18207,9 @@ var require_errors3 = __commonJS({
     exports.ER_WARNING_NOT_COMPLETE_ROLLBACK = 1196;
     exports.ER_TRANS_CACHE_FULL = 1197;
     exports.ER_SLAVE_MUST_STOP = 1198;
-    exports.ER_REPLICA_MUST_STOP = 1198;
-    exports.ER_SLAVE_NOT_RUNNING = 1199;
     exports.ER_REPLICA_NOT_RUNNING = 1199;
-    exports.ER_BAD_SLAVE = 1200;
     exports.ER_BAD_REPLICA = 1200;
-    exports.ER_MASTER_INFO = 1201;
-    exports.ER_SOURCE_INFO = 1201;
-    exports.ER_SLAVE_THREAD = 1202;
+    exports.ER_CONNECTION_METADATA = 1201;
     exports.ER_REPLICA_THREAD = 1202;
     exports.ER_TOO_MANY_USER_CONNECTIONS = 1203;
     exports.ER_SET_CONSTANTS_ONLY = 1204;
@@ -18064,10 +18226,8 @@ var require_errors3 = __commonJS({
     exports.ER_CANNOT_ADD_FOREIGN = 1215;
     exports.ER_NO_REFERENCED_ROW = 1216;
     exports.ER_ROW_IS_REFERENCED = 1217;
-    exports.ER_CONNECT_TO_MASTER = 1218;
     exports.ER_CONNECT_TO_SOURCE = 1218;
     exports.ER_QUERY_ON_MASTER = 1219;
-    exports.ER_QUERY_ON_SOURCE = 1219;
     exports.ER_ERROR_WHEN_EXECUTING_COMMAND = 1220;
     exports.ER_WRONG_USAGE = 1221;
     exports.ER_WRONG_NUMBER_OF_COLUMNS_IN_SELECT = 1222;
@@ -18084,9 +18244,7 @@ var require_errors3 = __commonJS({
     exports.ER_VAR_CANT_BE_READ = 1233;
     exports.ER_CANT_USE_OPTION_HERE = 1234;
     exports.ER_NOT_SUPPORTED_YET = 1235;
-    exports.ER_MASTER_FATAL_ERROR_READING_BINLOG = 1236;
     exports.ER_SOURCE_FATAL_ERROR_READING_BINLOG = 1236;
-    exports.ER_SLAVE_IGNORED_TABLE = 1237;
     exports.ER_REPLICA_IGNORED_TABLE = 1237;
     exports.ER_INCORRECT_GLOBAL_LOCAL_VAR = 1238;
     exports.ER_WRONG_FK_DEF = 1239;
@@ -18105,9 +18263,7 @@ var require_errors3 = __commonJS({
     exports.ER_SPATIAL_CANT_HAVE_NULL = 1252;
     exports.ER_COLLATION_CHARSET_MISMATCH = 1253;
     exports.ER_SLAVE_WAS_RUNNING = 1254;
-    exports.ER_REPLICA_WAS_RUNNING = 1254;
     exports.ER_SLAVE_WAS_NOT_RUNNING = 1255;
-    exports.ER_REPLICA_WAS_NOT_RUNNING = 1255;
     exports.ER_TOO_BIG_FOR_UNCOMPRESS = 1256;
     exports.ER_ZLIB_Z_MEM_ERROR = 1257;
     exports.ER_ZLIB_Z_BUF_ERROR = 1258;
@@ -18117,7 +18273,7 @@ var require_errors3 = __commonJS({
     exports.ER_WARN_TOO_MANY_RECORDS = 1262;
     exports.ER_WARN_NULL_TO_NOTNULL = 1263;
     exports.ER_WARN_DATA_OUT_OF_RANGE = 1264;
-    exports.ER_WARN_DATA_TRUNCATED = 1265;
+    exports.WARN_DATA_TRUNCATED = 1265;
     exports.ER_WARN_USING_OTHER_HANDLER = 1266;
     exports.ER_CANT_AGGREGATE_2COLLATIONS = 1267;
     exports.ER_DROP_USER = 1268;
@@ -18126,13 +18282,10 @@ var require_errors3 = __commonJS({
     exports.ER_CANT_AGGREGATE_NCOLLATIONS = 1271;
     exports.ER_VARIABLE_IS_NOT_STRUCT = 1272;
     exports.ER_UNKNOWN_COLLATION = 1273;
-    exports.ER_SLAVE_IGNORED_SSL_PARAMS = 1274;
     exports.ER_REPLICA_IGNORED_SSL_PARAMS = 1274;
     exports.ER_SERVER_IS_IN_SECURE_AUTH_MODE = 1275;
     exports.ER_WARN_FIELD_RESOLVED = 1276;
-    exports.ER_BAD_SLAVE_UNTIL_COND = 1277;
     exports.ER_BAD_REPLICA_UNTIL_COND = 1277;
-    exports.ER_MISSING_SKIP_SLAVE = 1278;
     exports.ER_MISSING_SKIP_REPLICA = 1278;
     exports.ER_UNTIL_COND_IGNORED = 1279;
     exports.ER_WRONG_NAME_FOR_INDEX = 1280;
@@ -18423,7 +18576,7 @@ var require_errors3 = __commonJS({
     exports.ER_DDL_LOG_ERROR = 1565;
     exports.ER_NULL_IN_VALUES_LESS_THAN = 1566;
     exports.ER_WRONG_PARTITION_NAME = 1567;
-    exports.ER_CANT_CHANGE_TX_ISOLATION = 1568;
+    exports.ER_CANT_CHANGE_TX_CHARACTERISTICS = 1568;
     exports.ER_DUP_ENTRY_AUTOINCREMENT_CASE = 1569;
     exports.ER_EVENT_MODIFY_QUEUE_ERROR = 1570;
     exports.ER_EVENT_SET_VAR_ERROR = 1571;
@@ -18446,19 +18599,13 @@ var require_errors3 = __commonJS({
     exports.ER_EVENT_CANNOT_CREATE_IN_THE_PAST = 1588;
     exports.ER_EVENT_CANNOT_ALTER_IN_THE_PAST = 1589;
     exports.ER_SLAVE_INCIDENT = 1590;
-    exports.ER_REPLICA_INCIDENT = 1590;
     exports.ER_NO_PARTITION_FOR_GIVEN_VALUE_SILENT = 1591;
     exports.ER_BINLOG_UNSAFE_STATEMENT = 1592;
-    exports.ER_SLAVE_FATAL_ERROR = 1593;
-    exports.ER_REPLICA_FATAL_ERROR = 1593;
+    exports.ER_BINLOG_FATAL_ERROR = 1593;
     exports.ER_SLAVE_RELAY_LOG_READ_FAILURE = 1594;
-    exports.ER_REPLICA_RELAY_LOG_READ_FAILURE = 1594;
     exports.ER_SLAVE_RELAY_LOG_WRITE_FAILURE = 1595;
-    exports.ER_REPLICA_RELAY_LOG_WRITE_FAILURE = 1595;
     exports.ER_SLAVE_CREATE_EVENT_FAILURE = 1596;
-    exports.ER_REPLICA_CREATE_EVENT_FAILURE = 1596;
     exports.ER_SLAVE_MASTER_COM_FAILURE = 1597;
-    exports.ER_REPLICA_SOURCE_COM_FAILURE = 1597;
     exports.ER_BINLOG_LOGGING_IMPOSSIBLE = 1598;
     exports.ER_VIEW_NO_CREATION_CTX = 1599;
     exports.ER_VIEW_INVALID_CREATION_CTX = 1600;
@@ -18471,7 +18618,6 @@ var require_errors3 = __commonJS({
     exports.ER_CANT_CREATE_SROUTINE = 1607;
     exports.ER_NEVER_USED = 1608;
     exports.ER_NO_FORMAT_DESCRIPTION_EVENT_BEFORE_BINLOG_STATEMENT = 1609;
-    exports.ER_SLAVE_CORRUPT_EVENT = 1610;
     exports.ER_REPLICA_CORRUPT_EVENT = 1610;
     exports.ER_LOAD_DATA_INVALID_COLUMN = 1611;
     exports.ER_LOG_PURGE_NO_FILE = 1612;
@@ -18479,16 +18625,13 @@ var require_errors3 = __commonJS({
     exports.ER_XA_RBDEADLOCK = 1614;
     exports.ER_NEED_REPREPARE = 1615;
     exports.ER_DELAYED_NOT_SUPPORTED = 1616;
-    exports.WARN_NO_MASTER_INFO = 1617;
-    exports.WARN_NO_SOURCE_INFO = 1617;
+    exports.WARN_NO_CONNECTION_METADATA = 1617;
     exports.WARN_OPTION_IGNORED = 1618;
-    exports.WARN_PLUGIN_DELETE_BUILTIN = 1619;
+    exports.ER_PLUGIN_DELETE_BUILTIN = 1619;
     exports.WARN_PLUGIN_BUSY = 1620;
     exports.ER_VARIABLE_IS_READONLY = 1621;
     exports.ER_WARN_ENGINE_TRANSACTION_ROLLBACK = 1622;
     exports.ER_SLAVE_HEARTBEAT_FAILURE = 1623;
-    exports.ER_REPLICA_HEARTBEAT_FAILURE = 1623;
-    exports.ER_SLAVE_HEARTBEAT_VALUE_OUT_OF_RANGE = 1624;
     exports.ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE = 1624;
     exports.ER_NDB_REPLICATION_SCHEMA_ERROR = 1625;
     exports.ER_CONFLICT_FN_PARSE_ERROR = 1626;
@@ -18515,7 +18658,6 @@ var require_errors3 = __commonJS({
     exports.WARN_COND_ITEM_TRUNCATED = 1647;
     exports.ER_COND_ITEM_TOO_LONG = 1648;
     exports.ER_UNKNOWN_LOCALE = 1649;
-    exports.ER_SLAVE_IGNORE_SERVER_IDS = 1650;
     exports.ER_REPLICA_IGNORE_SERVER_IDS = 1650;
     exports.ER_QUERY_CACHE_DISABLED = 1651;
     exports.ER_SAME_NAME_PARTITION_FIELD = 1652;
@@ -18535,7 +18677,7 @@ var require_errors3 = __commonJS({
     exports.ER_BINLOG_ROW_INJECTION_AND_STMT_MODE = 1666;
     exports.ER_BINLOG_MULTIPLE_ENGINES_AND_SELF_LOGGING_ENGINE = 1667;
     exports.ER_BINLOG_UNSAFE_LIMIT = 1668;
-    exports.ER_BINLOG_UNSAFE_INSERT_DELAYED = 1669;
+    exports.ER_UNUSED4 = 1669;
     exports.ER_BINLOG_UNSAFE_SYSTEM_TABLE = 1670;
     exports.ER_BINLOG_UNSAFE_AUTOINC_COLUMNS = 1671;
     exports.ER_BINLOG_UNSAFE_UDF = 1672;
@@ -18544,8 +18686,6 @@ var require_errors3 = __commonJS({
     exports.ER_BINLOG_UNSAFE_NONTRANS_AFTER_TRANS = 1675;
     exports.ER_MESSAGE_AND_STATEMENT = 1676;
     exports.ER_SLAVE_CONVERSION_FAILED = 1677;
-    exports.ER_REPLICA_CONVERSION_FAILED = 1677;
-    exports.ER_SLAVE_CANT_CREATE_CONVERSION = 1678;
     exports.ER_REPLICA_CANT_CREATE_CONVERSION = 1678;
     exports.ER_INSIDE_TRANSACTION_PREVENTS_SWITCH_BINLOG_FORMAT = 1679;
     exports.ER_PATH_LENGTH = 1680;
@@ -18571,9 +18711,7 @@ var require_errors3 = __commonJS({
     exports.ER_GRANT_PLUGIN_USER_EXISTS = 1700;
     exports.ER_TRUNCATE_ILLEGAL_FK = 1701;
     exports.ER_PLUGIN_IS_PERMANENT = 1702;
-    exports.ER_SLAVE_HEARTBEAT_VALUE_OUT_OF_RANGE_MIN = 1703;
     exports.ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE_MIN = 1703;
-    exports.ER_SLAVE_HEARTBEAT_VALUE_OUT_OF_RANGE_MAX = 1704;
     exports.ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE_MAX = 1704;
     exports.ER_STMT_CACHE_FULL = 1705;
     exports.ER_MULTI_UPDATE_KEY_CONFLICT = 1706;
@@ -18599,7 +18737,6 @@ var require_errors3 = __commonJS({
     exports.ER_UNSUPPORTED_ENGINE = 1726;
     exports.ER_BINLOG_UNSAFE_AUTOINC_NOT_FIRST = 1727;
     exports.ER_CANNOT_LOAD_FROM_TABLE_V2 = 1728;
-    exports.ER_MASTER_DELAY_VALUE_OUT_OF_RANGE = 1729;
     exports.ER_SOURCE_DELAY_VALUE_OUT_OF_RANGE = 1729;
     exports.ER_ONLY_FD_AND_RBR_EVENTS_ALLOWED_IN_BINLOG_STATEMENT = 1730;
     exports.ER_PARTITION_EXCHANGE_DIFFERENT_OPTION = 1731;
@@ -18624,24 +18761,22 @@ var require_errors3 = __commonJS({
     exports.ER_CHANGE_RPL_INFO_REPOSITORY_FAILURE = 1750;
     exports.ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_CREATED_TEMP_TABLE = 1751;
     exports.ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_DROPPED_TEMP_TABLE = 1752;
-    exports.ER_MTS_FEATURE_IS_NOT_SUPPORTED = 1753;
-    exports.ER_MTS_UPDATED_DBS_GREATER_MAX = 1754;
-    exports.ER_MTS_CANT_PARALLEL = 1755;
-    exports.ER_MTS_INCONSISTENT_DATA = 1756;
+    exports.ER_MTA_FEATURE_IS_NOT_SUPPORTED = 1753;
+    exports.ER_MTA_UPDATED_DBS_GREATER_MAX = 1754;
+    exports.ER_MTA_CANT_PARALLEL = 1755;
+    exports.ER_MTA_INCONSISTENT_DATA = 1756;
     exports.ER_FULLTEXT_NOT_SUPPORTED_WITH_PARTITIONING = 1757;
     exports.ER_DA_INVALID_CONDITION_NUMBER = 1758;
     exports.ER_INSECURE_PLAIN_TEXT = 1759;
-    exports.ER_INSECURE_CHANGE_MASTER = 1760;
     exports.ER_INSECURE_CHANGE_SOURCE = 1760;
     exports.ER_FOREIGN_DUPLICATE_KEY_WITH_CHILD_INFO = 1761;
     exports.ER_FOREIGN_DUPLICATE_KEY_WITHOUT_CHILD_INFO = 1762;
-    exports.ER_SQLTHREAD_WITH_SECURE_SLAVE = 1763;
     exports.ER_SQLTHREAD_WITH_SECURE_REPLICA = 1763;
     exports.ER_TABLE_HAS_NO_FT = 1764;
     exports.ER_VARIABLE_NOT_SETTABLE_IN_SF_OR_TRIGGER = 1765;
     exports.ER_VARIABLE_NOT_SETTABLE_IN_TRANSACTION = 1766;
     exports.ER_GTID_NEXT_IS_NOT_IN_GTID_NEXT_LIST = 1767;
-    exports.ER_CANT_CHANGE_GTID_NEXT_IN_TRANSACTION_WHEN_GTID_NEXT_LIST_IS_NULL = 1768;
+    exports.ER_CANT_CHANGE_GTID_NEXT_IN_TRANSACTION = 1768;
     exports.ER_SET_STATEMENT_CANNOT_INVOKE_FUNCTION = 1769;
     exports.ER_GTID_NEXT_CANT_BE_AUTOMATIC_IF_GTID_NEXT_LIST_IS_NON_NULL = 1770;
     exports.ER_SKIPPING_LOGGED_TRANSACTION = 1771;
@@ -18649,11 +18784,10 @@ var require_errors3 = __commonJS({
     exports.ER_MALFORMED_GTID_SET_ENCODING = 1773;
     exports.ER_MALFORMED_GTID_SPECIFICATION = 1774;
     exports.ER_GNO_EXHAUSTED = 1775;
-    exports.ER_BAD_SLAVE_AUTO_POSITION = 1776;
     exports.ER_BAD_REPLICA_AUTO_POSITION = 1776;
-    exports.ER_AUTO_POSITION_REQUIRES_GTID_MODE_ON = 1777;
+    exports.ER_AUTO_POSITION_REQUIRES_GTID_MODE_NOT_OFF = 1777;
     exports.ER_CANT_DO_IMPLICIT_COMMIT_IN_TRX_WHEN_GTID_NEXT_IS_SET = 1778;
-    exports.ER_GTID_MODE_2_OR_3_REQUIRES_ENFORCE_GTID_CONSISTENCY_ON = 1779;
+    exports.ER_GTID_MODE_ON_REQUIRES_ENFORCE_GTID_CONSISTENCY_ON = 1779;
     exports.ER_GTID_MODE_REQUIRES_BINLOG = 1780;
     exports.ER_CANT_SET_GTID_NEXT_TO_GTID_WHEN_GTID_MODE_IS_OFF = 1781;
     exports.ER_CANT_SET_GTID_NEXT_TO_ANONYMOUS_WHEN_GTID_MODE_IS_ON = 1782;
@@ -18661,15 +18795,13 @@ var require_errors3 = __commonJS({
     exports.ER_FOUND_GTID_EVENT_WHEN_GTID_MODE_IS_OFF = 1784;
     exports.ER_GTID_UNSAFE_NON_TRANSACTIONAL_TABLE = 1785;
     exports.ER_GTID_UNSAFE_CREATE_SELECT = 1786;
-    exports.ER_GTID_UNSAFE_CREATE_DROP_TEMPORARY_TABLE_IN_TRANSACTION = 1787;
+    exports.ER_GTID_UNSAFE_CREATE_DROP_TEMP_TABLE_IN_TRANSACTION = 1787;
     exports.ER_GTID_MODE_CAN_ONLY_CHANGE_ONE_STEP_AT_A_TIME = 1788;
-    exports.ER_MASTER_HAS_PURGED_REQUIRED_GTIDS = 1789;
     exports.ER_SOURCE_HAS_PURGED_REQUIRED_GTIDS = 1789;
     exports.ER_CANT_SET_GTID_NEXT_WHEN_OWNING_GTID = 1790;
     exports.ER_UNKNOWN_EXPLAIN_FORMAT = 1791;
     exports.ER_CANT_EXECUTE_IN_READ_ONLY_TRANSACTION = 1792;
     exports.ER_TOO_LONG_TABLE_PARTITION_COMMENT = 1793;
-    exports.ER_SLAVE_CONFIGURATION = 1794;
     exports.ER_REPLICA_CONFIGURATION = 1794;
     exports.ER_INNODB_FT_LIMIT = 1795;
     exports.ER_INNODB_NO_FT_TEMP_TABLE = 1796;
@@ -18678,12 +18810,10 @@ var require_errors3 = __commonJS({
     exports.ER_INNODB_ONLINE_LOG_TOO_BIG = 1799;
     exports.ER_UNKNOWN_ALTER_ALGORITHM = 1800;
     exports.ER_UNKNOWN_ALTER_LOCK = 1801;
-    exports.ER_MTS_CHANGE_MASTER_CANT_RUN_WITH_GAPS = 1802;
-    exports.ER_MTS_CHANGE_SOURCE_CANT_RUN_WITH_GAPS = 1802;
-    exports.ER_MTS_RECOVERY_FAILURE = 1803;
-    exports.ER_MTS_RESET_WORKERS = 1804;
+    exports.ER_MTA_CHANGE_SOURCE_CANT_RUN_WITH_GAPS = 1802;
+    exports.ER_MTA_RECOVERY_FAILURE = 1803;
+    exports.ER_MTA_RESET_WORKERS = 1804;
     exports.ER_COL_COUNT_DOESNT_MATCH_CORRUPTED_V2 = 1805;
-    exports.ER_SLAVE_SILENT_RETRY_TRANSACTION = 1806;
     exports.ER_REPLICA_SILENT_RETRY_TRANSACTION = 1806;
     exports.ER_DISCARD_FK_CHECKS_RUNNING = 1807;
     exports.ER_TABLE_SCHEMA_MISMATCH = 1808;
@@ -18712,10 +18842,10 @@ var require_errors3 = __commonJS({
     exports.ER_DUP_INDEX = 1831;
     exports.ER_FK_COLUMN_CANNOT_CHANGE = 1832;
     exports.ER_FK_COLUMN_CANNOT_CHANGE_CHILD = 1833;
-    exports.ER_FK_CANNOT_DELETE_PARENT = 1834;
+    exports.ER_UNUSED5 = 1834;
     exports.ER_MALFORMED_PACKET = 1835;
     exports.ER_READ_ONLY_MODE = 1836;
-    exports.ER_GTID_NEXT_TYPE_UNDEFINED_GROUP = 1837;
+    exports.ER_GTID_NEXT_TYPE_UNDEFINED_GTID = 1837;
     exports.ER_VARIABLE_NOT_SETTABLE_IN_SP = 1838;
     exports.ER_CANT_SET_GTID_PURGED_WHEN_GTID_MODE_IS_OFF = 1839;
     exports.ER_CANT_SET_GTID_PURGED_WHEN_GTID_EXECUTED_IS_NOT_EMPTY = 1840;
@@ -18730,35 +18860,30 @@ var require_errors3 = __commonJS({
     exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FK_RENAME = 1849;
     exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_COLUMN_TYPE = 1850;
     exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FK_CHECK = 1851;
-    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_IGNORE = 1852;
+    exports.ER_UNUSED6 = 1852;
     exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_NOPK = 1853;
     exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_AUTOINC = 1854;
     exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_HIDDEN_FTS = 1855;
     exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_CHANGE_FTS = 1856;
     exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FTS = 1857;
-    exports.ER_SQL_SLAVE_SKIP_COUNTER_NOT_SETTABLE_IN_GTID_MODE = 1858;
     exports.ER_SQL_REPLICA_SKIP_COUNTER_NOT_SETTABLE_IN_GTID_MODE = 1858;
     exports.ER_DUP_UNKNOWN_IN_INDEX = 1859;
     exports.ER_IDENT_CAUSES_TOO_LONG_PATH = 1860;
     exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_NOT_NULL = 1861;
     exports.ER_MUST_CHANGE_PASSWORD_LOGIN = 1862;
     exports.ER_ROW_IN_WRONG_PARTITION = 1863;
-    exports.ER_MTS_EVENT_BIGGER_PENDING_JOBS_SIZE_MAX = 1864;
+    exports.ER_MTA_EVENT_BIGGER_PENDING_JOBS_SIZE_MAX = 1864;
     exports.ER_INNODB_NO_FT_USES_PARSER = 1865;
     exports.ER_BINLOG_LOGICAL_CORRUPTION = 1866;
     exports.ER_WARN_PURGE_LOG_IN_USE = 1867;
     exports.ER_WARN_PURGE_LOG_IS_ACTIVE = 1868;
     exports.ER_AUTO_INCREMENT_CONFLICT = 1869;
     exports.WARN_ON_BLOCKHOLE_IN_RBR = 1870;
-    exports.ER_SLAVE_MI_INIT_REPOSITORY = 1871;
-    exports.ER_REPLICA_MI_INIT_REPOSITORY = 1871;
-    exports.ER_SLAVE_RLI_INIT_REPOSITORY = 1872;
-    exports.ER_REPLICA_RLI_INIT_REPOSITORY = 1872;
+    exports.ER_REPLICA_CM_INIT_REPOSITORY = 1871;
+    exports.ER_REPLICA_AM_INIT_REPOSITORY = 1872;
     exports.ER_ACCESS_DENIED_CHANGE_USER_ERROR = 1873;
     exports.ER_INNODB_READ_ONLY = 1874;
-    exports.ER_STOP_SLAVE_SQL_THREAD_TIMEOUT = 1875;
     exports.ER_STOP_REPLICA_SQL_THREAD_TIMEOUT = 1875;
-    exports.ER_STOP_SLAVE_IO_THREAD_TIMEOUT = 1876;
     exports.ER_STOP_REPLICA_IO_THREAD_TIMEOUT = 1876;
     exports.ER_TABLE_CORRUPT = 1877;
     exports.ER_TEMP_FILE_WRITE_FAILURE = 1878;
@@ -18766,36 +18891,913 @@ var require_errors3 = __commonJS({
     exports.ER_OLD_TEMPORALS_UPGRADED = 1880;
     exports.ER_INNODB_FORCED_RECOVERY = 1881;
     exports.ER_AES_INVALID_IV = 1882;
-    exports.ER_FILE_CORRUPT = 1883;
-    exports.ER_ERROR_ON_SOURCE = 1884;
-    exports.ER_INCONSISTENT_ERROR = 1885;
-    exports.ER_STORAGE_ENGINE_NOT_LOADED = 1886;
-    exports.ER_GET_STACKED_DA_WITHOUT_ACTIVE_HANDLER = 1887;
-    exports.ER_WARN_LEGACY_SYNTAX_CONVERTED = 1888;
-    exports.ER_BINLOG_UNSAFE_FULLTEXT_PLUGIN = 1889;
-    exports.ER_CANNOT_DISCARD_TEMPORARY_TABLE = 1890;
-    exports.ER_FK_DEPTH_EXCEEDED = 1891;
-    exports.ER_COL_COUNT_DOESNT_MATCH_PLEASE_UPDATE_V2 = 1892;
-    exports.ER_WARN_TRIGGER_DOESNT_HAVE_CREATED = 1893;
-    exports.ER_REFERENCED_TRG_DOES_NOT_EXIST = 1894;
-    exports.ER_EXPLAIN_NOT_SUPPORTED = 1895;
-    exports.ER_INVALID_FIELD_SIZE = 1896;
-    exports.ER_MISSING_HA_CREATE_OPTION = 1897;
-    exports.ER_ENGINE_OUT_OF_MEMORY = 1898;
-    exports.ER_PASSWORD_EXPIRE_ANONYMOUS_USER = 1899;
-    exports.ER_REPLICA_SQL_THREAD_MUST_STOP = 1900;
-    exports.ER_NO_FT_MATERIALIZED_SUBQUERY = 1901;
-    exports.ER_INNODB_UNDO_LOG_FULL = 1902;
-    exports.ER_INVALID_ARGUMENT_FOR_LOGARITHM = 1903;
-    exports.ER_REPLICA_IO_THREAD_MUST_STOP = 1904;
-    exports.ER_WARN_OPEN_TEMP_TABLES_MUST_BE_ZERO = 1905;
-    exports.ER_WARN_ONLY_SOURCE_LOG_FILE_NO_POS = 1906;
-    exports.ER_QUERY_TIMEOUT = 1907;
-    exports.ER_NON_RO_SELECT_DISABLE_TIMER = 1908;
-    exports.ER_DUP_LIST_ENTRY = 1909;
-    exports.ER_SQL_MODE_NO_EFFECT = 1910;
+    exports.ER_PLUGIN_CANNOT_BE_UNINSTALLED = 1883;
+    exports.ER_GTID_UNSAFE_BINLOG_SPLITTABLE_STATEMENT_AND_ASSIGNED_GTID = 1884;
+    exports.ER_REPLICA_HAS_MORE_GTIDS_THAN_SOURCE = 1885;
+    exports.ER_MISSING_KEY = 1886;
+    exports.WARN_NAMED_PIPE_ACCESS_EVERYONE = 1887;
+    exports.ER_FILE_CORRUPT = 3e3;
+    exports.ER_ERROR_ON_SOURCE = 3001;
+    exports.ER_INCONSISTENT_ERROR = 3002;
+    exports.ER_STORAGE_ENGINE_NOT_LOADED = 3003;
+    exports.ER_GET_STACKED_DA_WITHOUT_ACTIVE_HANDLER = 3004;
+    exports.ER_WARN_LEGACY_SYNTAX_CONVERTED = 3005;
+    exports.ER_BINLOG_UNSAFE_FULLTEXT_PLUGIN = 3006;
+    exports.ER_CANNOT_DISCARD_TEMPORARY_TABLE = 3007;
+    exports.ER_FK_DEPTH_EXCEEDED = 3008;
+    exports.ER_COL_COUNT_DOESNT_MATCH_PLEASE_UPDATE_V2 = 3009;
+    exports.ER_WARN_TRIGGER_DOESNT_HAVE_CREATED = 3010;
+    exports.ER_REFERENCED_TRG_DOES_NOT_EXIST = 3011;
+    exports.ER_EXPLAIN_NOT_SUPPORTED = 3012;
+    exports.ER_INVALID_FIELD_SIZE = 3013;
+    exports.ER_MISSING_HA_CREATE_OPTION = 3014;
+    exports.ER_ENGINE_OUT_OF_MEMORY = 3015;
+    exports.ER_PASSWORD_EXPIRE_ANONYMOUS_USER = 3016;
+    exports.ER_REPLICA_SQL_THREAD_MUST_STOP = 3017;
+    exports.ER_NO_FT_MATERIALIZED_SUBQUERY = 3018;
+    exports.ER_INNODB_UNDO_LOG_FULL = 3019;
+    exports.ER_INVALID_ARGUMENT_FOR_LOGARITHM = 3020;
+    exports.ER_REPLICA_CHANNEL_IO_THREAD_MUST_STOP = 3021;
+    exports.ER_WARN_OPEN_TEMP_TABLES_MUST_BE_ZERO = 3022;
+    exports.ER_WARN_ONLY_SOURCE_LOG_FILE_NO_POS = 3023;
+    exports.ER_QUERY_TIMEOUT = 3024;
+    exports.ER_NON_RO_SELECT_DISABLE_TIMER = 3025;
+    exports.ER_DUP_LIST_ENTRY = 3026;
+    exports.ER_SQL_MODE_NO_EFFECT = 3027;
+    exports.ER_AGGREGATE_ORDER_FOR_UNION = 3028;
+    exports.ER_AGGREGATE_ORDER_NON_AGG_QUERY = 3029;
+    exports.ER_REPLICA_WORKER_STOPPED_PREVIOUS_THD_ERROR = 3030;
+    exports.ER_DONT_SUPPORT_REPLICA_PRESERVE_COMMIT_ORDER = 3031;
+    exports.ER_SERVER_OFFLINE_MODE = 3032;
+    exports.ER_GIS_DIFFERENT_SRIDS = 3033;
+    exports.ER_GIS_UNSUPPORTED_ARGUMENT = 3034;
+    exports.ER_GIS_UNKNOWN_ERROR = 3035;
+    exports.ER_GIS_UNKNOWN_EXCEPTION = 3036;
+    exports.ER_GIS_INVALID_DATA = 3037;
+    exports.ER_BOOST_GEOMETRY_EMPTY_INPUT_EXCEPTION = 3038;
+    exports.ER_BOOST_GEOMETRY_CENTROID_EXCEPTION = 3039;
+    exports.ER_BOOST_GEOMETRY_OVERLAY_INVALID_INPUT_EXCEPTION = 3040;
+    exports.ER_BOOST_GEOMETRY_TURN_INFO_EXCEPTION = 3041;
+    exports.ER_BOOST_GEOMETRY_SELF_INTERSECTION_POINT_EXCEPTION = 3042;
+    exports.ER_BOOST_GEOMETRY_UNKNOWN_EXCEPTION = 3043;
+    exports.ER_STD_BAD_ALLOC_ERROR = 3044;
+    exports.ER_STD_DOMAIN_ERROR = 3045;
+    exports.ER_STD_LENGTH_ERROR = 3046;
+    exports.ER_STD_INVALID_ARGUMENT = 3047;
+    exports.ER_STD_OUT_OF_RANGE_ERROR = 3048;
+    exports.ER_STD_OVERFLOW_ERROR = 3049;
+    exports.ER_STD_RANGE_ERROR = 3050;
+    exports.ER_STD_UNDERFLOW_ERROR = 3051;
+    exports.ER_STD_LOGIC_ERROR = 3052;
+    exports.ER_STD_RUNTIME_ERROR = 3053;
+    exports.ER_STD_UNKNOWN_EXCEPTION = 3054;
+    exports.ER_GIS_DATA_WRONG_ENDIANESS = 3055;
+    exports.ER_CHANGE_SOURCE_PASSWORD_LENGTH = 3056;
+    exports.ER_USER_LOCK_WRONG_NAME = 3057;
+    exports.ER_USER_LOCK_DEADLOCK = 3058;
+    exports.ER_REPLACE_INACCESSIBLE_ROWS = 3059;
+    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_GIS = 3060;
+    exports.ER_ILLEGAL_USER_VAR = 3061;
+    exports.ER_GTID_MODE_OFF = 3062;
+    exports.ER_UNSUPPORTED_BY_REPLICATION_THREAD = 3063;
+    exports.ER_INCORRECT_TYPE = 3064;
+    exports.ER_FIELD_IN_ORDER_NOT_SELECT = 3065;
+    exports.ER_AGGREGATE_IN_ORDER_NOT_SELECT = 3066;
+    exports.ER_INVALID_RPL_WILD_TABLE_FILTER_PATTERN = 3067;
+    exports.ER_NET_OK_PACKET_TOO_LARGE = 3068;
+    exports.ER_INVALID_JSON_DATA = 3069;
+    exports.ER_INVALID_GEOJSON_MISSING_MEMBER = 3070;
+    exports.ER_INVALID_GEOJSON_WRONG_TYPE = 3071;
+    exports.ER_INVALID_GEOJSON_UNSPECIFIED = 3072;
+    exports.ER_DIMENSION_UNSUPPORTED = 3073;
+    exports.ER_REPLICA_CHANNEL_DOES_NOT_EXIST = 3074;
+    exports.ER_SLAVE_MULTIPLE_CHANNELS_HOST_PORT = 3075;
+    exports.ER_REPLICA_CHANNEL_NAME_INVALID_OR_TOO_LONG = 3076;
+    exports.ER_REPLICA_NEW_CHANNEL_WRONG_REPOSITORY = 3077;
+    exports.ER_SLAVE_CHANNEL_DELETE = 3078;
+    exports.ER_REPLICA_MULTIPLE_CHANNELS_CMD = 3079;
+    exports.ER_REPLICA_MAX_CHANNELS_EXCEEDED = 3080;
+    exports.ER_REPLICA_CHANNEL_MUST_STOP = 3081;
+    exports.ER_REPLICA_CHANNEL_NOT_RUNNING = 3082;
+    exports.ER_REPLICA_CHANNEL_WAS_RUNNING = 3083;
+    exports.ER_REPLICA_CHANNEL_WAS_NOT_RUNNING = 3084;
+    exports.ER_REPLICA_CHANNEL_SQL_THREAD_MUST_STOP = 3085;
+    exports.ER_REPLICA_CHANNEL_SQL_SKIP_COUNTER = 3086;
+    exports.ER_WRONG_FIELD_WITH_GROUP_V2 = 3087;
+    exports.ER_MIX_OF_GROUP_FUNC_AND_FIELDS_V2 = 3088;
+    exports.ER_WARN_DEPRECATED_SYSVAR_UPDATE = 3089;
+    exports.ER_WARN_DEPRECATED_SQLMODE = 3090;
+    exports.ER_CANNOT_LOG_PARTIAL_DROP_DATABASE_WITH_GTID = 3091;
+    exports.ER_GROUP_REPLICATION_CONFIGURATION = 3092;
+    exports.ER_GROUP_REPLICATION_RUNNING = 3093;
+    exports.ER_GROUP_REPLICATION_APPLIER_INIT_ERROR = 3094;
+    exports.ER_GROUP_REPLICATION_STOP_APPLIER_THREAD_TIMEOUT = 3095;
+    exports.ER_GROUP_REPLICATION_COMMUNICATION_LAYER_SESSION_ERROR = 3096;
+    exports.ER_GROUP_REPLICATION_COMMUNICATION_LAYER_JOIN_ERROR = 3097;
+    exports.ER_BEFORE_DML_VALIDATION_ERROR = 3098;
+    exports.ER_PREVENTS_VARIABLE_WITHOUT_RBR = 3099;
+    exports.ER_RUN_HOOK_ERROR = 3100;
+    exports.ER_TRANSACTION_ROLLBACK_DURING_COMMIT = 3101;
+    exports.ER_GENERATED_COLUMN_FUNCTION_IS_NOT_ALLOWED = 3102;
+    exports.ER_UNSUPPORTED_ALTER_INPLACE_ON_VIRTUAL_COLUMN = 3103;
+    exports.ER_WRONG_FK_OPTION_FOR_GENERATED_COLUMN = 3104;
+    exports.ER_NON_DEFAULT_VALUE_FOR_GENERATED_COLUMN = 3105;
+    exports.ER_UNSUPPORTED_ACTION_ON_GENERATED_COLUMN = 3106;
+    exports.ER_GENERATED_COLUMN_NON_PRIOR = 3107;
+    exports.ER_DEPENDENT_BY_GENERATED_COLUMN = 3108;
+    exports.ER_GENERATED_COLUMN_REF_AUTO_INC = 3109;
+    exports.ER_FEATURE_NOT_AVAILABLE = 3110;
+    exports.ER_CANT_SET_GTID_MODE = 3111;
+    exports.ER_CANT_USE_AUTO_POSITION_WITH_GTID_MODE_OFF = 3112;
+    exports.ER_CANT_REPLICATE_ANONYMOUS_WITH_AUTO_POSITION = 3113;
+    exports.ER_CANT_REPLICATE_ANONYMOUS_WITH_GTID_MODE_ON = 3114;
+    exports.ER_CANT_REPLICATE_GTID_WITH_GTID_MODE_OFF = 3115;
+    exports.ER_CANT_ENFORCE_GTID_CONSISTENCY_WITH_ONGOING_GTID_VIOLATING_TX = 3116;
+    exports.ER_ENFORCE_GTID_CONSISTENCY_WARN_WITH_ONGOING_GTID_VIOLATING_TX = 3117;
+    exports.ER_ACCOUNT_HAS_BEEN_LOCKED = 3118;
+    exports.ER_WRONG_TABLESPACE_NAME = 3119;
+    exports.ER_TABLESPACE_IS_NOT_EMPTY = 3120;
+    exports.ER_WRONG_FILE_NAME = 3121;
+    exports.ER_BOOST_GEOMETRY_INCONSISTENT_TURNS_EXCEPTION = 3122;
+    exports.ER_WARN_OPTIMIZER_HINT_SYNTAX_ERROR = 3123;
+    exports.ER_WARN_BAD_MAX_EXECUTION_TIME = 3124;
+    exports.ER_WARN_UNSUPPORTED_MAX_EXECUTION_TIME = 3125;
+    exports.ER_WARN_CONFLICTING_HINT = 3126;
+    exports.ER_WARN_UNKNOWN_QB_NAME = 3127;
+    exports.ER_UNRESOLVED_HINT_NAME = 3128;
+    exports.ER_WARN_ON_MODIFYING_GTID_EXECUTED_TABLE = 3129;
+    exports.ER_PLUGGABLE_PROTOCOL_COMMAND_NOT_SUPPORTED = 3130;
+    exports.ER_LOCKING_SERVICE_WRONG_NAME = 3131;
+    exports.ER_LOCKING_SERVICE_DEADLOCK = 3132;
+    exports.ER_LOCKING_SERVICE_TIMEOUT = 3133;
+    exports.ER_GIS_MAX_POINTS_IN_GEOMETRY_OVERFLOWED = 3134;
+    exports.ER_SQL_MODE_MERGED = 3135;
+    exports.ER_VTOKEN_PLUGIN_TOKEN_MISMATCH = 3136;
+    exports.ER_VTOKEN_PLUGIN_TOKEN_NOT_FOUND = 3137;
+    exports.ER_CANT_SET_VARIABLE_WHEN_OWNING_GTID = 3138;
+    exports.ER_REPLICA_CHANNEL_OPERATION_NOT_ALLOWED = 3139;
+    exports.ER_INVALID_JSON_TEXT = 3140;
+    exports.ER_INVALID_JSON_TEXT_IN_PARAM = 3141;
+    exports.ER_INVALID_JSON_BINARY_DATA = 3142;
+    exports.ER_INVALID_JSON_PATH = 3143;
+    exports.ER_INVALID_JSON_CHARSET = 3144;
+    exports.ER_INVALID_JSON_CHARSET_IN_FUNCTION = 3145;
+    exports.ER_INVALID_TYPE_FOR_JSON = 3146;
+    exports.ER_INVALID_CAST_TO_JSON = 3147;
+    exports.ER_INVALID_JSON_PATH_CHARSET = 3148;
+    exports.ER_INVALID_JSON_PATH_WILDCARD = 3149;
+    exports.ER_JSON_VALUE_TOO_BIG = 3150;
+    exports.ER_JSON_KEY_TOO_BIG = 3151;
+    exports.ER_JSON_USED_AS_KEY = 3152;
+    exports.ER_JSON_VACUOUS_PATH = 3153;
+    exports.ER_JSON_BAD_ONE_OR_ALL_ARG = 3154;
+    exports.ER_NUMERIC_JSON_VALUE_OUT_OF_RANGE = 3155;
+    exports.ER_INVALID_JSON_VALUE_FOR_CAST = 3156;
+    exports.ER_JSON_DOCUMENT_TOO_DEEP = 3157;
+    exports.ER_JSON_DOCUMENT_NULL_KEY = 3158;
+    exports.ER_SECURE_TRANSPORT_REQUIRED = 3159;
+    exports.ER_NO_SECURE_TRANSPORTS_CONFIGURED = 3160;
+    exports.ER_DISABLED_STORAGE_ENGINE = 3161;
+    exports.ER_USER_DOES_NOT_EXIST = 3162;
+    exports.ER_USER_ALREADY_EXISTS = 3163;
+    exports.ER_AUDIT_API_ABORT = 3164;
+    exports.ER_INVALID_JSON_PATH_ARRAY_CELL = 3165;
+    exports.ER_BUFPOOL_RESIZE_INPROGRESS = 3166;
+    exports.ER_FEATURE_DISABLED_SEE_DOC = 3167;
+    exports.ER_SERVER_ISNT_AVAILABLE = 3168;
     exports.ER_SESSION_WAS_KILLED = 3169;
+    exports.ER_CAPACITY_EXCEEDED = 3170;
+    exports.ER_CAPACITY_EXCEEDED_IN_RANGE_OPTIMIZER = 3171;
+    exports.ER_TABLE_NEEDS_UPG_PART = 3172;
+    exports.ER_CANT_WAIT_FOR_EXECUTED_GTID_SET_WHILE_OWNING_A_GTID = 3173;
+    exports.ER_CANNOT_ADD_FOREIGN_BASE_COL_VIRTUAL = 3174;
+    exports.ER_CANNOT_CREATE_VIRTUAL_INDEX_CONSTRAINT = 3175;
+    exports.ER_ERROR_ON_MODIFYING_GTID_EXECUTED_TABLE = 3176;
+    exports.ER_LOCK_REFUSED_BY_ENGINE = 3177;
+    exports.ER_UNSUPPORTED_ALTER_ONLINE_ON_VIRTUAL_COLUMN = 3178;
+    exports.ER_MASTER_KEY_ROTATION_NOT_SUPPORTED_BY_SE = 3179;
+    exports.ER_MASTER_KEY_ROTATION_ERROR_BY_SE = 3180;
+    exports.ER_MASTER_KEY_ROTATION_BINLOG_FAILED = 3181;
+    exports.ER_MASTER_KEY_ROTATION_SE_UNAVAILABLE = 3182;
+    exports.ER_TABLESPACE_CANNOT_ENCRYPT = 3183;
+    exports.ER_INVALID_ENCRYPTION_OPTION = 3184;
+    exports.ER_CANNOT_FIND_KEY_IN_KEYRING = 3185;
+    exports.ER_CAPACITY_EXCEEDED_IN_PARSER = 3186;
+    exports.ER_UNSUPPORTED_ALTER_ENCRYPTION_INPLACE = 3187;
+    exports.ER_KEYRING_UDF_KEYRING_SERVICE_ERROR = 3188;
+    exports.ER_USER_COLUMN_OLD_LENGTH = 3189;
+    exports.ER_CANT_RESET_SOURCE = 3190;
+    exports.ER_GROUP_REPLICATION_MAX_GROUP_SIZE = 3191;
+    exports.ER_CANNOT_ADD_FOREIGN_BASE_COL_STORED = 3192;
+    exports.ER_TABLE_REFERENCED = 3193;
+    exports.ER_PARTITION_ENGINE_DEPRECATED_FOR_TABLE = 3194;
+    exports.ER_WARN_USING_GEOMFROMWKB_TO_SET_SRID_ZERO = 3195;
+    exports.ER_WARN_USING_GEOMFROMWKB_TO_SET_SRID = 3196;
+    exports.ER_XA_RETRY = 3197;
+    exports.ER_KEYRING_AWS_UDF_AWS_KMS_ERROR = 3198;
+    exports.ER_BINLOG_UNSAFE_XA = 3199;
+    exports.ER_UDF_ERROR = 3200;
+    exports.ER_KEYRING_MIGRATION_FAILURE = 3201;
+    exports.ER_KEYRING_ACCESS_DENIED_ERROR = 3202;
+    exports.ER_KEYRING_MIGRATION_STATUS = 3203;
+    exports.ER_PLUGIN_FAILED_TO_OPEN_TABLES = 3204;
+    exports.ER_PLUGIN_FAILED_TO_OPEN_TABLE = 3205;
+    exports.ER_AUDIT_LOG_NO_KEYRING_PLUGIN_INSTALLED = 3206;
+    exports.ER_AUDIT_LOG_ENCRYPTION_PASSWORD_HAS_NOT_BEEN_SET = 3207;
+    exports.ER_AUDIT_LOG_COULD_NOT_CREATE_AES_KEY = 3208;
+    exports.ER_AUDIT_LOG_ENCRYPTION_PASSWORD_CANNOT_BE_FETCHED = 3209;
+    exports.ER_AUDIT_LOG_JSON_FILTERING_NOT_ENABLED = 3210;
+    exports.ER_AUDIT_LOG_UDF_INSUFFICIENT_PRIVILEGE = 3211;
+    exports.ER_AUDIT_LOG_SUPER_PRIVILEGE_REQUIRED = 3212;
+    exports.ER_COULD_NOT_REINITIALIZE_AUDIT_LOG_FILTERS = 3213;
+    exports.ER_AUDIT_LOG_UDF_INVALID_ARGUMENT_TYPE = 3214;
+    exports.ER_AUDIT_LOG_UDF_INVALID_ARGUMENT_COUNT = 3215;
+    exports.ER_AUDIT_LOG_HAS_NOT_BEEN_INSTALLED = 3216;
+    exports.ER_AUDIT_LOG_UDF_READ_INVALID_MAX_ARRAY_LENGTH_ARG_TYPE = 3217;
+    exports.ER_AUDIT_LOG_UDF_READ_INVALID_MAX_ARRAY_LENGTH_ARG_VALUE = 3218;
+    exports.ER_AUDIT_LOG_JSON_FILTER_PARSING_ERROR = 3219;
+    exports.ER_AUDIT_LOG_JSON_FILTER_NAME_CANNOT_BE_EMPTY = 3220;
+    exports.ER_AUDIT_LOG_JSON_USER_NAME_CANNOT_BE_EMPTY = 3221;
+    exports.ER_AUDIT_LOG_JSON_FILTER_DOES_NOT_EXISTS = 3222;
+    exports.ER_AUDIT_LOG_USER_FIRST_CHARACTER_MUST_BE_ALPHANUMERIC = 3223;
+    exports.ER_AUDIT_LOG_USER_NAME_INVALID_CHARACTER = 3224;
+    exports.ER_AUDIT_LOG_HOST_NAME_INVALID_CHARACTER = 3225;
+    exports.WARN_DEPRECATED_MAXDB_SQL_MODE_FOR_TIMESTAMP = 3226;
+    exports.ER_XA_REPLICATION_FILTERS = 3227;
+    exports.ER_CANT_OPEN_ERROR_LOG = 3228;
+    exports.ER_GROUPING_ON_TIMESTAMP_IN_DST = 3229;
+    exports.ER_CANT_START_SERVER_NAMED_PIPE = 3230;
+    exports.ER_WRITE_SET_EXCEEDS_LIMIT = 3231;
+    exports.ER_DEPRECATED_TLS_VERSION_SESSION_57 = 3232;
+    exports.ER_WARN_DEPRECATED_TLS_VERSION_57 = 3233;
+    exports.ER_WARN_WRONG_NATIVE_TABLE_STRUCTURE = 3234;
+    exports.ER_AES_INVALID_KDF_NAME = 3235;
+    exports.ER_AES_INVALID_KDF_ITERATIONS = 3236;
+    exports.WARN_AES_KEY_SIZE = 3237;
+    exports.ER_AES_INVALID_KDF_OPTION_SIZE = 3238;
+    exports.ER_UNSUPPORT_COMPRESSED_TEMPORARY_TABLE = 3500;
+    exports.ER_ACL_OPERATION_FAILED = 3501;
+    exports.ER_UNSUPPORTED_INDEX_ALGORITHM = 3502;
+    exports.ER_NO_SUCH_DB = 3503;
+    exports.ER_TOO_BIG_ENUM = 3504;
+    exports.ER_TOO_LONG_SET_ENUM_VALUE = 3505;
+    exports.ER_INVALID_DD_OBJECT = 3506;
+    exports.ER_UPDATING_DD_TABLE = 3507;
+    exports.ER_INVALID_DD_OBJECT_ID = 3508;
+    exports.ER_INVALID_DD_OBJECT_NAME = 3509;
+    exports.ER_TABLESPACE_MISSING_WITH_NAME = 3510;
+    exports.ER_TOO_LONG_ROUTINE_COMMENT = 3511;
+    exports.ER_SP_LOAD_FAILED = 3512;
+    exports.ER_INVALID_BITWISE_OPERANDS_SIZE = 3513;
+    exports.ER_INVALID_BITWISE_AGGREGATE_OPERANDS_SIZE = 3514;
+    exports.ER_WARN_UNSUPPORTED_HINT = 3515;
+    exports.ER_UNEXPECTED_GEOMETRY_TYPE = 3516;
+    exports.ER_SRS_PARSE_ERROR = 3517;
+    exports.ER_SRS_PROJ_PARAMETER_MISSING = 3518;
+    exports.ER_WARN_SRS_NOT_FOUND = 3519;
+    exports.ER_SRS_NOT_CARTESIAN = 3520;
+    exports.ER_SRS_NOT_CARTESIAN_UNDEFINED = 3521;
+    exports.ER_PK_INDEX_CANT_BE_INVISIBLE = 3522;
+    exports.ER_UNKNOWN_AUTHID = 3523;
+    exports.ER_FAILED_ROLE_GRANT = 3524;
+    exports.ER_OPEN_ROLE_TABLES = 3525;
+    exports.ER_FAILED_DEFAULT_ROLES = 3526;
+    exports.ER_COMPONENTS_NO_SCHEME = 3527;
+    exports.ER_COMPONENTS_NO_SCHEME_SERVICE = 3528;
+    exports.ER_COMPONENTS_CANT_LOAD = 3529;
+    exports.ER_ROLE_NOT_GRANTED = 3530;
+    exports.ER_FAILED_REVOKE_ROLE = 3531;
+    exports.ER_RENAME_ROLE = 3532;
+    exports.ER_COMPONENTS_CANT_ACQUIRE_SERVICE_IMPLEMENTATION = 3533;
+    exports.ER_COMPONENTS_CANT_SATISFY_DEPENDENCY = 3534;
+    exports.ER_COMPONENTS_LOAD_CANT_REGISTER_SERVICE_IMPLEMENTATION = 3535;
+    exports.ER_COMPONENTS_LOAD_CANT_INITIALIZE = 3536;
+    exports.ER_COMPONENTS_UNLOAD_NOT_LOADED = 3537;
+    exports.ER_COMPONENTS_UNLOAD_CANT_DEINITIALIZE = 3538;
+    exports.ER_COMPONENTS_CANT_RELEASE_SERVICE = 3539;
+    exports.ER_COMPONENTS_UNLOAD_CANT_UNREGISTER_SERVICE = 3540;
+    exports.ER_COMPONENTS_CANT_UNLOAD = 3541;
+    exports.ER_WARN_UNLOAD_THE_NOT_PERSISTED = 3542;
+    exports.ER_COMPONENT_TABLE_INCORRECT = 3543;
+    exports.ER_COMPONENT_MANIPULATE_ROW_FAILED = 3544;
+    exports.ER_COMPONENTS_UNLOAD_DUPLICATE_IN_GROUP = 3545;
+    exports.ER_CANT_SET_GTID_PURGED_DUE_SETS_CONSTRAINTS = 3546;
+    exports.ER_CANNOT_LOCK_USER_MANAGEMENT_CACHES = 3547;
+    exports.ER_SRS_NOT_FOUND = 3548;
+    exports.ER_VARIABLE_NOT_PERSISTED = 3549;
+    exports.ER_IS_QUERY_INVALID_CLAUSE = 3550;
+    exports.ER_UNABLE_TO_STORE_STATISTICS = 3551;
+    exports.ER_NO_SYSTEM_SCHEMA_ACCESS = 3552;
+    exports.ER_NO_SYSTEM_TABLESPACE_ACCESS = 3553;
+    exports.ER_NO_SYSTEM_TABLE_ACCESS = 3554;
+    exports.ER_NO_SYSTEM_TABLE_ACCESS_FOR_DICTIONARY_TABLE = 3555;
+    exports.ER_NO_SYSTEM_TABLE_ACCESS_FOR_SYSTEM_TABLE = 3556;
+    exports.ER_NO_SYSTEM_TABLE_ACCESS_FOR_TABLE = 3557;
+    exports.ER_INVALID_OPTION_KEY = 3558;
+    exports.ER_INVALID_OPTION_VALUE = 3559;
+    exports.ER_INVALID_OPTION_KEY_VALUE_PAIR = 3560;
+    exports.ER_INVALID_OPTION_START_CHARACTER = 3561;
+    exports.ER_INVALID_OPTION_END_CHARACTER = 3562;
+    exports.ER_INVALID_OPTION_CHARACTERS = 3563;
+    exports.ER_DUPLICATE_OPTION_KEY = 3564;
+    exports.ER_WARN_SRS_NOT_FOUND_AXIS_ORDER = 3565;
+    exports.ER_NO_ACCESS_TO_NATIVE_FCT = 3566;
+    exports.ER_RESET_SOURCE_TO_VALUE_OUT_OF_RANGE = 3567;
+    exports.ER_UNRESOLVED_TABLE_LOCK = 3568;
+    exports.ER_DUPLICATE_TABLE_LOCK = 3569;
+    exports.ER_BINLOG_UNSAFE_SKIP_LOCKED = 3570;
+    exports.ER_BINLOG_UNSAFE_NOWAIT = 3571;
+    exports.ER_LOCK_NOWAIT = 3572;
+    exports.ER_CTE_RECURSIVE_REQUIRES_UNION = 3573;
+    exports.ER_CTE_RECURSIVE_REQUIRES_NONRECURSIVE_FIRST = 3574;
+    exports.ER_CTE_RECURSIVE_FORBIDS_AGGREGATION = 3575;
+    exports.ER_CTE_RECURSIVE_FORBIDDEN_JOIN_ORDER = 3576;
+    exports.ER_CTE_RECURSIVE_REQUIRES_SINGLE_REFERENCE = 3577;
+    exports.ER_SWITCH_TMP_ENGINE = 3578;
+    exports.ER_WINDOW_NO_SUCH_WINDOW = 3579;
+    exports.ER_WINDOW_CIRCULARITY_IN_WINDOW_GRAPH = 3580;
+    exports.ER_WINDOW_NO_CHILD_PARTITIONING = 3581;
+    exports.ER_WINDOW_NO_INHERIT_FRAME = 3582;
+    exports.ER_WINDOW_NO_REDEFINE_ORDER_BY = 3583;
+    exports.ER_WINDOW_FRAME_START_ILLEGAL = 3584;
+    exports.ER_WINDOW_FRAME_END_ILLEGAL = 3585;
+    exports.ER_WINDOW_FRAME_ILLEGAL = 3586;
+    exports.ER_WINDOW_RANGE_FRAME_ORDER_TYPE = 3587;
+    exports.ER_WINDOW_RANGE_FRAME_TEMPORAL_TYPE = 3588;
+    exports.ER_WINDOW_RANGE_FRAME_NUMERIC_TYPE = 3589;
+    exports.ER_WINDOW_RANGE_BOUND_NOT_CONSTANT = 3590;
+    exports.ER_WINDOW_DUPLICATE_NAME = 3591;
+    exports.ER_WINDOW_ILLEGAL_ORDER_BY = 3592;
+    exports.ER_WINDOW_INVALID_WINDOW_FUNC_USE = 3593;
+    exports.ER_WINDOW_INVALID_WINDOW_FUNC_ALIAS_USE = 3594;
+    exports.ER_WINDOW_NESTED_WINDOW_FUNC_USE_IN_WINDOW_SPEC = 3595;
+    exports.ER_WINDOW_ROWS_INTERVAL_USE = 3596;
+    exports.ER_WINDOW_NO_GROUP_ORDER = 3597;
+    exports.ER_WINDOW_EXPLAIN_JSON = 3598;
+    exports.ER_WINDOW_FUNCTION_IGNORES_FRAME = 3599;
+    exports.ER_WL9236_NOW = 3600;
+    exports.ER_INVALID_NO_OF_ARGS = 3601;
+    exports.ER_FIELD_IN_GROUPING_NOT_GROUP_BY = 3602;
+    exports.ER_TOO_LONG_TABLESPACE_COMMENT = 3603;
+    exports.ER_ENGINE_CANT_DROP_TABLE = 3604;
+    exports.ER_ENGINE_CANT_DROP_MISSING_TABLE = 3605;
+    exports.ER_TABLESPACE_DUP_FILENAME = 3606;
+    exports.ER_DB_DROP_RMDIR2 = 3607;
+    exports.ER_IMP_NO_FILES_MATCHED = 3608;
+    exports.ER_IMP_SCHEMA_DOES_NOT_EXIST = 3609;
+    exports.ER_IMP_TABLE_ALREADY_EXISTS = 3610;
+    exports.ER_IMP_INCOMPATIBLE_MYSQLD_VERSION = 3611;
+    exports.ER_IMP_INCOMPATIBLE_DD_VERSION = 3612;
+    exports.ER_IMP_INCOMPATIBLE_SDI_VERSION = 3613;
+    exports.ER_WARN_INVALID_HINT = 3614;
+    exports.ER_VAR_DOES_NOT_EXIST = 3615;
+    exports.ER_LONGITUDE_OUT_OF_RANGE = 3616;
+    exports.ER_LATITUDE_OUT_OF_RANGE = 3617;
+    exports.ER_NOT_IMPLEMENTED_FOR_GEOGRAPHIC_SRS = 3618;
+    exports.ER_ILLEGAL_PRIVILEGE_LEVEL = 3619;
+    exports.ER_NO_SYSTEM_VIEW_ACCESS = 3620;
+    exports.ER_COMPONENT_FILTER_FLABBERGASTED = 3621;
+    exports.ER_PART_EXPR_TOO_LONG = 3622;
+    exports.ER_UDF_DROP_DYNAMICALLY_REGISTERED = 3623;
+    exports.ER_UNABLE_TO_STORE_COLUMN_STATISTICS = 3624;
+    exports.ER_UNABLE_TO_UPDATE_COLUMN_STATISTICS = 3625;
+    exports.ER_UNABLE_TO_DROP_COLUMN_STATISTICS = 3626;
+    exports.ER_UNABLE_TO_BUILD_HISTOGRAM = 3627;
+    exports.ER_MANDATORY_ROLE = 3628;
+    exports.ER_MISSING_TABLESPACE_FILE = 3629;
+    exports.ER_PERSIST_ONLY_ACCESS_DENIED_ERROR = 3630;
+    exports.ER_CMD_NEED_SUPER = 3631;
+    exports.ER_PATH_IN_DATADIR = 3632;
+    exports.ER_CLONE_DDL_IN_PROGRESS = 3633;
+    exports.ER_CLONE_TOO_MANY_CONCURRENT_CLONES = 3634;
+    exports.ER_APPLIER_LOG_EVENT_VALIDATION_ERROR = 3635;
+    exports.ER_CTE_MAX_RECURSION_DEPTH = 3636;
+    exports.ER_NOT_HINT_UPDATABLE_VARIABLE = 3637;
+    exports.ER_CREDENTIALS_CONTRADICT_TO_HISTORY = 3638;
+    exports.ER_WARNING_PASSWORD_HISTORY_CLAUSES_VOID = 3639;
+    exports.ER_CLIENT_DOES_NOT_SUPPORT = 3640;
+    exports.ER_I_S_SKIPPED_TABLESPACE = 3641;
+    exports.ER_TABLESPACE_ENGINE_MISMATCH = 3642;
+    exports.ER_WRONG_SRID_FOR_COLUMN = 3643;
+    exports.ER_CANNOT_ALTER_SRID_DUE_TO_INDEX = 3644;
+    exports.ER_WARN_BINLOG_PARTIAL_UPDATES_DISABLED = 3645;
+    exports.ER_WARN_BINLOG_V1_ROW_EVENTS_DISABLED = 3646;
+    exports.ER_WARN_BINLOG_PARTIAL_UPDATES_SUGGESTS_PARTIAL_IMAGES = 3647;
+    exports.ER_COULD_NOT_APPLY_JSON_DIFF = 3648;
+    exports.ER_CORRUPTED_JSON_DIFF = 3649;
+    exports.ER_RESOURCE_GROUP_EXISTS = 3650;
+    exports.ER_RESOURCE_GROUP_NOT_EXISTS = 3651;
+    exports.ER_INVALID_VCPU_ID = 3652;
+    exports.ER_INVALID_VCPU_RANGE = 3653;
+    exports.ER_INVALID_THREAD_PRIORITY = 3654;
+    exports.ER_DISALLOWED_OPERATION = 3655;
+    exports.ER_RESOURCE_GROUP_BUSY = 3656;
+    exports.ER_RESOURCE_GROUP_DISABLED = 3657;
+    exports.ER_FEATURE_UNSUPPORTED = 3658;
+    exports.ER_ATTRIBUTE_IGNORED = 3659;
+    exports.ER_INVALID_THREAD_ID = 3660;
+    exports.ER_RESOURCE_GROUP_BIND_FAILED = 3661;
+    exports.ER_INVALID_USE_OF_FORCE_OPTION = 3662;
+    exports.ER_GROUP_REPLICATION_COMMAND_FAILURE = 3663;
+    exports.ER_SDI_OPERATION_FAILED = 3664;
+    exports.ER_MISSING_JSON_TABLE_VALUE = 3665;
+    exports.ER_WRONG_JSON_TABLE_VALUE = 3666;
+    exports.ER_TF_MUST_HAVE_ALIAS = 3667;
+    exports.ER_TF_FORBIDDEN_JOIN_TYPE = 3668;
+    exports.ER_JT_VALUE_OUT_OF_RANGE = 3669;
+    exports.ER_JT_MAX_NESTED_PATH = 3670;
+    exports.ER_PASSWORD_EXPIRATION_NOT_SUPPORTED_BY_AUTH_METHOD = 3671;
+    exports.ER_INVALID_GEOJSON_CRS_NOT_TOP_LEVEL = 3672;
+    exports.ER_BAD_NULL_ERROR_NOT_IGNORED = 3673;
+    exports.WARN_USELESS_SPATIAL_INDEX = 3674;
+    exports.ER_DISK_FULL_NOWAIT = 3675;
+    exports.ER_PARSE_ERROR_IN_DIGEST_FN = 3676;
+    exports.ER_UNDISCLOSED_PARSE_ERROR_IN_DIGEST_FN = 3677;
+    exports.ER_SCHEMA_DIR_EXISTS = 3678;
+    exports.ER_SCHEMA_DIR_MISSING = 3679;
+    exports.ER_SCHEMA_DIR_CREATE_FAILED = 3680;
+    exports.ER_SCHEMA_DIR_UNKNOWN = 3681;
+    exports.ER_ONLY_IMPLEMENTED_FOR_SRID_0_AND_4326 = 3682;
+    exports.ER_BINLOG_EXPIRE_LOG_DAYS_AND_SECS_USED_TOGETHER = 3683;
+    exports.ER_REGEXP_BUFFER_OVERFLOW = 3684;
+    exports.ER_REGEXP_ILLEGAL_ARGUMENT = 3685;
+    exports.ER_REGEXP_INDEX_OUTOFBOUNDS_ERROR = 3686;
+    exports.ER_REGEXP_INTERNAL_ERROR = 3687;
+    exports.ER_REGEXP_RULE_SYNTAX = 3688;
+    exports.ER_REGEXP_BAD_ESCAPE_SEQUENCE = 3689;
+    exports.ER_REGEXP_UNIMPLEMENTED = 3690;
+    exports.ER_REGEXP_MISMATCHED_PAREN = 3691;
+    exports.ER_REGEXP_BAD_INTERVAL = 3692;
+    exports.ER_REGEXP_MAX_LT_MIN = 3693;
+    exports.ER_REGEXP_INVALID_BACK_REF = 3694;
+    exports.ER_REGEXP_LOOK_BEHIND_LIMIT = 3695;
+    exports.ER_REGEXP_MISSING_CLOSE_BRACKET = 3696;
+    exports.ER_REGEXP_INVALID_RANGE = 3697;
+    exports.ER_REGEXP_STACK_OVERFLOW = 3698;
+    exports.ER_REGEXP_TIME_OUT = 3699;
+    exports.ER_REGEXP_PATTERN_TOO_BIG = 3700;
+    exports.ER_CANT_SET_ERROR_LOG_SERVICE = 3701;
+    exports.ER_EMPTY_PIPELINE_FOR_ERROR_LOG_SERVICE = 3702;
+    exports.ER_COMPONENT_FILTER_DIAGNOSTICS = 3703;
+    exports.ER_NOT_IMPLEMENTED_FOR_CARTESIAN_SRS = 3704;
+    exports.ER_NOT_IMPLEMENTED_FOR_PROJECTED_SRS = 3705;
+    exports.ER_NONPOSITIVE_RADIUS = 3706;
+    exports.ER_RESTART_SERVER_FAILED = 3707;
+    exports.ER_SRS_MISSING_MANDATORY_ATTRIBUTE = 3708;
+    exports.ER_SRS_MULTIPLE_ATTRIBUTE_DEFINITIONS = 3709;
+    exports.ER_SRS_NAME_CANT_BE_EMPTY_OR_WHITESPACE = 3710;
+    exports.ER_SRS_ORGANIZATION_CANT_BE_EMPTY_OR_WHITESPACE = 3711;
+    exports.ER_SRS_ID_ALREADY_EXISTS = 3712;
+    exports.ER_WARN_SRS_ID_ALREADY_EXISTS = 3713;
+    exports.ER_CANT_MODIFY_SRID_0 = 3714;
+    exports.ER_WARN_RESERVED_SRID_RANGE = 3715;
+    exports.ER_CANT_MODIFY_SRS_USED_BY_COLUMN = 3716;
+    exports.ER_SRS_INVALID_CHARACTER_IN_ATTRIBUTE = 3717;
+    exports.ER_SRS_ATTRIBUTE_STRING_TOO_LONG = 3718;
+    exports.ER_DEPRECATED_UTF8_ALIAS = 3719;
+    exports.ER_DEPRECATED_NATIONAL = 3720;
+    exports.ER_INVALID_DEFAULT_UTF8MB4_COLLATION = 3721;
+    exports.ER_UNABLE_TO_COLLECT_LOG_STATUS = 3722;
+    exports.ER_RESERVED_TABLESPACE_NAME = 3723;
+    exports.ER_UNABLE_TO_SET_OPTION = 3724;
+    exports.ER_REPLICA_POSSIBLY_DIVERGED_AFTER_DDL = 3725;
+    exports.ER_SRS_NOT_GEOGRAPHIC = 3726;
+    exports.ER_POLYGON_TOO_LARGE = 3727;
+    exports.ER_SPATIAL_UNIQUE_INDEX = 3728;
+    exports.ER_INDEX_TYPE_NOT_SUPPORTED_FOR_SPATIAL_INDEX = 3729;
+    exports.ER_FK_CANNOT_DROP_PARENT = 3730;
+    exports.ER_GEOMETRY_PARAM_LONGITUDE_OUT_OF_RANGE = 3731;
+    exports.ER_GEOMETRY_PARAM_LATITUDE_OUT_OF_RANGE = 3732;
+    exports.ER_FK_CANNOT_USE_VIRTUAL_COLUMN = 3733;
+    exports.ER_FK_NO_COLUMN_PARENT = 3734;
+    exports.ER_CANT_SET_ERROR_SUPPRESSION_LIST = 3735;
+    exports.ER_SRS_GEOGCS_INVALID_AXES = 3736;
+    exports.ER_SRS_INVALID_SEMI_MAJOR_AXIS = 3737;
+    exports.ER_SRS_INVALID_INVERSE_FLATTENING = 3738;
+    exports.ER_SRS_INVALID_ANGULAR_UNIT = 3739;
+    exports.ER_SRS_INVALID_PRIME_MERIDIAN = 3740;
+    exports.ER_TRANSFORM_SOURCE_SRS_NOT_SUPPORTED = 3741;
+    exports.ER_TRANSFORM_TARGET_SRS_NOT_SUPPORTED = 3742;
+    exports.ER_TRANSFORM_SOURCE_SRS_MISSING_TOWGS84 = 3743;
+    exports.ER_TRANSFORM_TARGET_SRS_MISSING_TOWGS84 = 3744;
+    exports.ER_TEMP_TABLE_PREVENTS_SWITCH_SESSION_BINLOG_FORMAT = 3745;
+    exports.ER_TEMP_TABLE_PREVENTS_SWITCH_GLOBAL_BINLOG_FORMAT = 3746;
+    exports.ER_RUNNING_APPLIER_PREVENTS_SWITCH_GLOBAL_BINLOG_FORMAT = 3747;
+    exports.ER_CLIENT_GTID_UNSAFE_CREATE_DROP_TEMP_TABLE_IN_TRX_IN_SBR = 3748;
+    exports.ER_XA_CANT_CREATE_MDL_BACKUP = 3749;
+    exports.ER_TABLE_WITHOUT_PK = 3750;
+    exports.ER_WARN_DATA_TRUNCATED_FUNCTIONAL_INDEX = 3751;
+    exports.ER_WARN_DATA_OUT_OF_RANGE_FUNCTIONAL_INDEX = 3752;
+    exports.ER_FUNCTIONAL_INDEX_ON_JSON_OR_GEOMETRY_FUNCTION = 3753;
+    exports.ER_FUNCTIONAL_INDEX_REF_AUTO_INCREMENT = 3754;
+    exports.ER_CANNOT_DROP_COLUMN_FUNCTIONAL_INDEX = 3755;
+    exports.ER_FUNCTIONAL_INDEX_PRIMARY_KEY = 3756;
+    exports.ER_FUNCTIONAL_INDEX_ON_LOB = 3757;
+    exports.ER_FUNCTIONAL_INDEX_FUNCTION_IS_NOT_ALLOWED = 3758;
+    exports.ER_FULLTEXT_FUNCTIONAL_INDEX = 3759;
+    exports.ER_SPATIAL_FUNCTIONAL_INDEX = 3760;
+    exports.ER_WRONG_KEY_COLUMN_FUNCTIONAL_INDEX = 3761;
+    exports.ER_FUNCTIONAL_INDEX_ON_FIELD = 3762;
+    exports.ER_GENERATED_COLUMN_NAMED_FUNCTION_IS_NOT_ALLOWED = 3763;
+    exports.ER_GENERATED_COLUMN_ROW_VALUE = 3764;
+    exports.ER_GENERATED_COLUMN_VARIABLES = 3765;
+    exports.ER_DEPENDENT_BY_DEFAULT_GENERATED_VALUE = 3766;
+    exports.ER_DEFAULT_VAL_GENERATED_NON_PRIOR = 3767;
+    exports.ER_DEFAULT_VAL_GENERATED_REF_AUTO_INC = 3768;
+    exports.ER_DEFAULT_VAL_GENERATED_FUNCTION_IS_NOT_ALLOWED = 3769;
+    exports.ER_DEFAULT_VAL_GENERATED_NAMED_FUNCTION_IS_NOT_ALLOWED = 3770;
+    exports.ER_DEFAULT_VAL_GENERATED_ROW_VALUE = 3771;
+    exports.ER_DEFAULT_VAL_GENERATED_VARIABLES = 3772;
+    exports.ER_DEFAULT_AS_VAL_GENERATED = 3773;
+    exports.ER_UNSUPPORTED_ACTION_ON_DEFAULT_VAL_GENERATED = 3774;
+    exports.ER_GTID_UNSAFE_ALTER_ADD_COL_WITH_DEFAULT_EXPRESSION = 3775;
+    exports.ER_FK_CANNOT_CHANGE_ENGINE = 3776;
+    exports.ER_WARN_DEPRECATED_USER_SET_EXPR = 3777;
+    exports.ER_WARN_DEPRECATED_UTF8MB3_COLLATION = 3778;
+    exports.ER_WARN_DEPRECATED_NESTED_COMMENT_SYNTAX = 3779;
+    exports.ER_FK_INCOMPATIBLE_COLUMNS = 3780;
+    exports.ER_GR_HOLD_WAIT_TIMEOUT = 3781;
+    exports.ER_GR_HOLD_KILLED = 3782;
+    exports.ER_GR_HOLD_MEMBER_STATUS_ERROR = 3783;
+    exports.ER_RPL_ENCRYPTION_FAILED_TO_FETCH_KEY = 3784;
+    exports.ER_RPL_ENCRYPTION_KEY_NOT_FOUND = 3785;
+    exports.ER_RPL_ENCRYPTION_KEYRING_INVALID_KEY = 3786;
+    exports.ER_RPL_ENCRYPTION_HEADER_ERROR = 3787;
+    exports.ER_RPL_ENCRYPTION_FAILED_TO_ROTATE_LOGS = 3788;
+    exports.ER_RPL_ENCRYPTION_KEY_EXISTS_UNEXPECTED = 3789;
+    exports.ER_RPL_ENCRYPTION_FAILED_TO_GENERATE_KEY = 3790;
+    exports.ER_RPL_ENCRYPTION_FAILED_TO_STORE_KEY = 3791;
+    exports.ER_RPL_ENCRYPTION_FAILED_TO_REMOVE_KEY = 3792;
+    exports.ER_RPL_ENCRYPTION_UNABLE_TO_CHANGE_OPTION = 3793;
+    exports.ER_RPL_ENCRYPTION_MASTER_KEY_RECOVERY_FAILED = 3794;
+    exports.ER_SLOW_LOG_MODE_IGNORED_WHEN_NOT_LOGGING_TO_FILE = 3795;
+    exports.ER_GRP_TRX_CONSISTENCY_NOT_ALLOWED = 3796;
+    exports.ER_GRP_TRX_CONSISTENCY_BEFORE = 3797;
+    exports.ER_GRP_TRX_CONSISTENCY_AFTER_ON_TRX_BEGIN = 3798;
+    exports.ER_GRP_TRX_CONSISTENCY_BEGIN_NOT_ALLOWED = 3799;
+    exports.ER_FUNCTIONAL_INDEX_ROW_VALUE_IS_NOT_ALLOWED = 3800;
+    exports.ER_RPL_ENCRYPTION_FAILED_TO_ENCRYPT = 3801;
+    exports.ER_PAGE_TRACKING_NOT_STARTED = 3802;
+    exports.ER_PAGE_TRACKING_RANGE_NOT_TRACKED = 3803;
+    exports.ER_PAGE_TRACKING_CANNOT_PURGE = 3804;
+    exports.ER_RPL_ENCRYPTION_CANNOT_ROTATE_BINLOG_MASTER_KEY = 3805;
+    exports.ER_BINLOG_MASTER_KEY_RECOVERY_OUT_OF_COMBINATION = 3806;
+    exports.ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_OPERATE_KEY = 3807;
+    exports.ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_ROTATE_LOGS = 3808;
+    exports.ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_REENCRYPT_LOG = 3809;
+    exports.ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_CLEANUP_UNUSED_KEYS = 3810;
+    exports.ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_CLEANUP_AUX_KEY = 3811;
+    exports.ER_NON_BOOLEAN_EXPR_FOR_CHECK_CONSTRAINT = 3812;
+    exports.ER_COLUMN_CHECK_CONSTRAINT_REFERENCES_OTHER_COLUMN = 3813;
+    exports.ER_CHECK_CONSTRAINT_NAMED_FUNCTION_IS_NOT_ALLOWED = 3814;
+    exports.ER_CHECK_CONSTRAINT_FUNCTION_IS_NOT_ALLOWED = 3815;
+    exports.ER_CHECK_CONSTRAINT_VARIABLES = 3816;
+    exports.ER_CHECK_CONSTRAINT_ROW_VALUE = 3817;
+    exports.ER_CHECK_CONSTRAINT_REFERS_AUTO_INCREMENT_COLUMN = 3818;
+    exports.ER_CHECK_CONSTRAINT_VIOLATED = 3819;
+    exports.ER_CHECK_CONSTRAINT_REFERS_UNKNOWN_COLUMN = 3820;
+    exports.ER_CHECK_CONSTRAINT_NOT_FOUND = 3821;
+    exports.ER_CHECK_CONSTRAINT_DUP_NAME = 3822;
+    exports.ER_CHECK_CONSTRAINT_CLAUSE_USING_FK_REFER_ACTION_COLUMN = 3823;
+    exports.WARN_UNENCRYPTED_TABLE_IN_ENCRYPTED_DB = 3824;
+    exports.ER_INVALID_ENCRYPTION_REQUEST = 3825;
+    exports.ER_CANNOT_SET_TABLE_ENCRYPTION = 3826;
+    exports.ER_CANNOT_SET_DATABASE_ENCRYPTION = 3827;
+    exports.ER_CANNOT_SET_TABLESPACE_ENCRYPTION = 3828;
+    exports.ER_TABLESPACE_CANNOT_BE_ENCRYPTED = 3829;
+    exports.ER_TABLESPACE_CANNOT_BE_DECRYPTED = 3830;
+    exports.ER_TABLESPACE_TYPE_UNKNOWN = 3831;
+    exports.ER_TARGET_TABLESPACE_UNENCRYPTED = 3832;
+    exports.ER_CANNOT_USE_ENCRYPTION_CLAUSE = 3833;
+    exports.ER_INVALID_MULTIPLE_CLAUSES = 3834;
+    exports.ER_UNSUPPORTED_USE_OF_GRANT_AS = 3835;
+    exports.ER_UKNOWN_AUTH_ID_OR_ACCESS_DENIED_FOR_GRANT_AS = 3836;
+    exports.ER_DEPENDENT_BY_FUNCTIONAL_INDEX = 3837;
+    exports.ER_PLUGIN_NOT_EARLY = 3838;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_START_SUBDIR_PATH = 3839;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_START_TIMEOUT = 3840;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_DIRS_INVALID = 3841;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_LABEL_NOT_FOUND = 3842;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_DIR_EMPTY = 3843;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_NO_SUCH_DIR = 3844;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_DIR_CLASH = 3845;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_DIR_PERMISSIONS = 3846;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_FILE_CREATE = 3847;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_ACTIVE = 3848;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_INACTIVE = 3849;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_FAILED = 3850;
+    exports.ER_INNODB_REDO_LOG_ARCHIVE_SESSION = 3851;
+    exports.ER_STD_REGEX_ERROR = 3852;
+    exports.ER_INVALID_JSON_TYPE = 3853;
+    exports.ER_CANNOT_CONVERT_STRING = 3854;
+    exports.ER_DEPENDENT_BY_PARTITION_FUNC = 3855;
+    exports.ER_WARN_DEPRECATED_FLOAT_AUTO_INCREMENT = 3856;
+    exports.ER_RPL_CANT_STOP_REPLICA_WHILE_LOCKED_BACKUP = 3857;
+    exports.ER_WARN_DEPRECATED_FLOAT_DIGITS = 3858;
+    exports.ER_WARN_DEPRECATED_FLOAT_UNSIGNED = 3859;
+    exports.ER_WARN_DEPRECATED_INTEGER_DISPLAY_WIDTH = 3860;
+    exports.ER_WARN_DEPRECATED_ZEROFILL = 3861;
+    exports.ER_CLONE_DONOR = 3862;
+    exports.ER_CLONE_PROTOCOL = 3863;
+    exports.ER_CLONE_DONOR_VERSION = 3864;
+    exports.ER_CLONE_OS = 3865;
+    exports.ER_CLONE_PLATFORM = 3866;
+    exports.ER_CLONE_CHARSET = 3867;
+    exports.ER_CLONE_CONFIG = 3868;
+    exports.ER_CLONE_SYS_CONFIG = 3869;
+    exports.ER_CLONE_PLUGIN_MATCH = 3870;
+    exports.ER_CLONE_LOOPBACK = 3871;
+    exports.ER_CLONE_ENCRYPTION = 3872;
+    exports.ER_CLONE_DISK_SPACE = 3873;
+    exports.ER_CLONE_IN_PROGRESS = 3874;
+    exports.ER_CLONE_DISALLOWED = 3875;
+    exports.ER_CANNOT_GRANT_ROLES_TO_ANONYMOUS_USER = 3876;
+    exports.ER_SECONDARY_ENGINE_PLUGIN = 3877;
+    exports.ER_SECOND_PASSWORD_CANNOT_BE_EMPTY = 3878;
+    exports.ER_DB_ACCESS_DENIED = 3879;
+    exports.ER_DA_AUTH_ID_WITH_SYSTEM_USER_PRIV_IN_MANDATORY_ROLES = 3880;
+    exports.ER_DA_RPL_GTID_TABLE_CANNOT_OPEN = 3881;
+    exports.ER_GEOMETRY_IN_UNKNOWN_LENGTH_UNIT = 3882;
+    exports.ER_DA_PLUGIN_INSTALL_ERROR = 3883;
+    exports.ER_NO_SESSION_TEMP = 3884;
+    exports.ER_DA_UNKNOWN_ERROR_NUMBER = 3885;
+    exports.ER_COLUMN_CHANGE_SIZE = 3886;
+    exports.ER_REGEXP_INVALID_CAPTURE_GROUP_NAME = 3887;
+    exports.ER_DA_SSL_LIBRARY_ERROR = 3888;
+    exports.ER_SECONDARY_ENGINE = 3889;
+    exports.ER_SECONDARY_ENGINE_DDL = 3890;
+    exports.ER_INCORRECT_CURRENT_PASSWORD = 3891;
+    exports.ER_MISSING_CURRENT_PASSWORD = 3892;
+    exports.ER_CURRENT_PASSWORD_NOT_REQUIRED = 3893;
+    exports.ER_PASSWORD_CANNOT_BE_RETAINED_ON_PLUGIN_CHANGE = 3894;
+    exports.ER_CURRENT_PASSWORD_CANNOT_BE_RETAINED = 3895;
+    exports.ER_PARTIAL_REVOKES_EXIST = 3896;
+    exports.ER_CANNOT_GRANT_SYSTEM_PRIV_TO_MANDATORY_ROLE = 3897;
+    exports.ER_XA_REPLICATION_FILTERS = 3898;
+    exports.ER_UNSUPPORTED_SQL_MODE = 3899;
+    exports.ER_REGEXP_INVALID_FLAG = 3900;
+    exports.ER_PARTIAL_REVOKE_AND_DB_GRANT_BOTH_EXISTS = 3901;
+    exports.ER_UNIT_NOT_FOUND = 3902;
+    exports.ER_INVALID_JSON_VALUE_FOR_FUNC_INDEX = 3903;
+    exports.ER_JSON_VALUE_OUT_OF_RANGE_FOR_FUNC_INDEX = 3904;
+    exports.ER_EXCEEDED_MV_KEYS_NUM = 3905;
+    exports.ER_EXCEEDED_MV_KEYS_SPACE = 3906;
+    exports.ER_FUNCTIONAL_INDEX_DATA_IS_TOO_LONG = 3907;
+    exports.ER_WRONG_MVI_VALUE = 3908;
+    exports.ER_WARN_FUNC_INDEX_NOT_APPLICABLE = 3909;
+    exports.ER_GRP_RPL_UDF_ERROR = 3910;
+    exports.ER_UPDATE_GTID_PURGED_WITH_GR = 3911;
+    exports.ER_GROUPING_ON_TIMESTAMP_IN_DST = 3912;
+    exports.ER_TABLE_NAME_CAUSES_TOO_LONG_PATH = 3913;
+    exports.ER_AUDIT_LOG_INSUFFICIENT_PRIVILEGE = 3914;
+    exports.ER_AUDIT_LOG_PASSWORD_HAS_BEEN_COPIED = 3915;
+    exports.ER_DA_GRP_RPL_STARTED_AUTO_REJOIN = 3916;
+    exports.ER_SYSVAR_CHANGE_DURING_QUERY = 3917;
+    exports.ER_GLOBSTAT_CHANGE_DURING_QUERY = 3918;
+    exports.ER_GRP_RPL_MESSAGE_SERVICE_INIT_FAILURE = 3919;
+    exports.ER_CHANGE_SOURCE_WRONG_COMPRESSION_ALGORITHM_CLIENT = 3920;
+    exports.ER_CHANGE_SOURCE_WRONG_COMPRESSION_LEVEL_CLIENT = 3921;
+    exports.ER_WRONG_COMPRESSION_ALGORITHM_CLIENT = 3922;
+    exports.ER_WRONG_COMPRESSION_LEVEL_CLIENT = 3923;
+    exports.ER_CHANGE_SOURCE_WRONG_COMPRESSION_ALGORITHM_LIST_CLIENT = 3924;
+    exports.ER_CLIENT_PRIVILEGE_CHECKS_USER_CANNOT_BE_ANONYMOUS = 3925;
+    exports.ER_CLIENT_PRIVILEGE_CHECKS_USER_DOES_NOT_EXIST = 3926;
+    exports.ER_CLIENT_PRIVILEGE_CHECKS_USER_CORRUPT = 3927;
+    exports.ER_CLIENT_PRIVILEGE_CHECKS_USER_NEEDS_RPL_APPLIER_PRIV = 3928;
+    exports.ER_WARN_DA_PRIVILEGE_NOT_REGISTERED = 3929;
+    exports.ER_CLIENT_KEYRING_UDF_KEY_INVALID = 3930;
+    exports.ER_CLIENT_KEYRING_UDF_KEY_TYPE_INVALID = 3931;
+    exports.ER_CLIENT_KEYRING_UDF_KEY_TOO_LONG = 3932;
+    exports.ER_CLIENT_KEYRING_UDF_KEY_TYPE_TOO_LONG = 3933;
+    exports.ER_JSON_SCHEMA_VALIDATION_ERROR_WITH_DETAILED_REPORT = 3934;
+    exports.ER_DA_UDF_INVALID_CHARSET_SPECIFIED = 3935;
+    exports.ER_DA_UDF_INVALID_CHARSET = 3936;
+    exports.ER_DA_UDF_INVALID_COLLATION = 3937;
+    exports.ER_DA_UDF_INVALID_EXTENSION_ARGUMENT_TYPE = 3938;
+    exports.ER_MULTIPLE_CONSTRAINTS_WITH_SAME_NAME = 3939;
+    exports.ER_CONSTRAINT_NOT_FOUND = 3940;
+    exports.ER_ALTER_CONSTRAINT_ENFORCEMENT_NOT_SUPPORTED = 3941;
+    exports.ER_TABLE_VALUE_CONSTRUCTOR_MUST_HAVE_COLUMNS = 3942;
+    exports.ER_TABLE_VALUE_CONSTRUCTOR_CANNOT_HAVE_DEFAULT = 3943;
+    exports.ER_CLIENT_QUERY_FAILURE_INVALID_NON_ROW_FORMAT = 3944;
+    exports.ER_REQUIRE_ROW_FORMAT_INVALID_VALUE = 3945;
+    exports.ER_FAILED_TO_DETERMINE_IF_ROLE_IS_MANDATORY = 3946;
+    exports.ER_FAILED_TO_FETCH_MANDATORY_ROLE_LIST = 3947;
+    exports.ER_CLIENT_LOCAL_FILES_DISABLED = 3948;
+    exports.ER_IMP_INCOMPATIBLE_CFG_VERSION = 3949;
+    exports.ER_DA_OOM = 3950;
+    exports.ER_DA_UDF_INVALID_ARGUMENT_TO_SET_CHARSET = 3951;
+    exports.ER_DA_UDF_INVALID_RETURN_TYPE_TO_SET_CHARSET = 3952;
+    exports.ER_MULTIPLE_INTO_CLAUSES = 3953;
+    exports.ER_MISPLACED_INTO = 3954;
+    exports.ER_USER_ACCESS_DENIED_FOR_USER_ACCOUNT_BLOCKED_BY_PASSWORD_LOCK = 3955;
+    exports.ER_WARN_DEPRECATED_YEAR_UNSIGNED = 3956;
+    exports.ER_CLONE_NETWORK_PACKET = 3957;
+    exports.ER_SDI_OPERATION_FAILED_MISSING_RECORD = 3958;
+    exports.ER_DEPENDENT_BY_CHECK_CONSTRAINT = 3959;
+    exports.ER_GRP_OPERATION_NOT_ALLOWED_GR_MUST_STOP = 3960;
+    exports.ER_WARN_DEPRECATED_JSON_TABLE_ON_ERROR_ON_EMPTY = 3961;
+    exports.ER_WARN_DEPRECATED_INNER_INTO = 3962;
+    exports.ER_WARN_DEPRECATED_VALUES_FUNCTION_ALWAYS_NULL = 3963;
+    exports.ER_WARN_DEPRECATED_SQL_CALC_FOUND_ROWS = 3964;
+    exports.ER_WARN_DEPRECATED_FOUND_ROWS = 3965;
+    exports.ER_MISSING_JSON_VALUE = 3966;
+    exports.ER_MULTIPLE_JSON_VALUES = 3967;
+    exports.ER_HOSTNAME_TOO_LONG = 3968;
+    exports.ER_WARN_CLIENT_DEPRECATED_PARTITION_PREFIX_KEY = 3969;
+    exports.ER_GROUP_REPLICATION_USER_EMPTY_MSG = 3970;
+    exports.ER_GROUP_REPLICATION_USER_MANDATORY_MSG = 3971;
+    exports.ER_GROUP_REPLICATION_PASSWORD_LENGTH = 3972;
+    exports.ER_SUBQUERY_TRANSFORM_REJECTED = 3973;
+    exports.ER_DA_GRP_RPL_RECOVERY_ENDPOINT_FORMAT = 3974;
+    exports.ER_DA_GRP_RPL_RECOVERY_ENDPOINT_INVALID = 3975;
+    exports.ER_WRONG_VALUE_FOR_VAR_PLUS_ACTIONABLE_PART = 3976;
+    exports.ER_STATEMENT_NOT_ALLOWED_AFTER_START_TRANSACTION = 3977;
+    exports.ER_FOREIGN_KEY_WITH_ATOMIC_CREATE_SELECT = 3978;
+    exports.ER_NOT_ALLOWED_WITH_START_TRANSACTION = 3979;
+    exports.ER_INVALID_JSON_ATTRIBUTE = 3980;
+    exports.ER_ENGINE_ATTRIBUTE_NOT_SUPPORTED = 3981;
+    exports.ER_INVALID_USER_ATTRIBUTE_JSON = 3982;
+    exports.ER_INNODB_REDO_DISABLED = 3983;
+    exports.ER_INNODB_REDO_ARCHIVING_ENABLED = 3984;
+    exports.ER_MDL_OUT_OF_RESOURCES = 3985;
+    exports.ER_IMPLICIT_COMPARISON_FOR_JSON = 3986;
+    exports.ER_FUNCTION_DOES_NOT_SUPPORT_CHARACTER_SET = 3987;
+    exports.ER_IMPOSSIBLE_STRING_CONVERSION = 3988;
+    exports.ER_SCHEMA_READ_ONLY = 3989;
+    exports.ER_RPL_ASYNC_RECONNECT_GTID_MODE_OFF = 3990;
+    exports.ER_RPL_ASYNC_RECONNECT_AUTO_POSITION_OFF = 3991;
+    exports.ER_DISABLE_GTID_MODE_REQUIRES_ASYNC_RECONNECT_OFF = 3992;
+    exports.ER_DISABLE_AUTO_POSITION_REQUIRES_ASYNC_RECONNECT_OFF = 3993;
+    exports.ER_INVALID_PARAMETER_USE = 3994;
+    exports.ER_CHARACTER_SET_MISMATCH = 3995;
+    exports.ER_WARN_VAR_VALUE_CHANGE_NOT_SUPPORTED = 3996;
+    exports.ER_INVALID_TIME_ZONE_INTERVAL = 3997;
+    exports.ER_INVALID_CAST = 3998;
+    exports.ER_HYPERGRAPH_NOT_SUPPORTED_YET = 3999;
+    exports.ER_WARN_HYPERGRAPH_EXPERIMENTAL = 4e3;
+    exports.ER_DA_NO_ERROR_LOG_PARSER_CONFIGURED = 4001;
+    exports.ER_DA_ERROR_LOG_TABLE_DISABLED = 4002;
+    exports.ER_DA_ERROR_LOG_MULTIPLE_FILTERS = 4003;
+    exports.ER_DA_CANT_OPEN_ERROR_LOG = 4004;
+    exports.ER_USER_REFERENCED_AS_DEFINER = 4005;
+    exports.ER_CANNOT_USER_REFERENCED_AS_DEFINER = 4006;
+    exports.ER_REGEX_NUMBER_TOO_BIG = 4007;
+    exports.ER_SPVAR_NONINTEGER_TYPE = 4008;
+    exports.WARN_UNSUPPORTED_ACL_TABLES_READ = 4009;
+    exports.ER_BINLOG_UNSAFE_ACL_TABLE_READ_IN_DML_DDL = 4010;
+    exports.ER_STOP_REPLICA_MONITOR_IO_THREAD_TIMEOUT = 4011;
+    exports.ER_STARTING_REPLICA_MONITOR_IO_THREAD = 4012;
+    exports.ER_CANT_USE_ANONYMOUS_TO_GTID_WITH_GTID_MODE_NOT_ON = 4013;
+    exports.ER_CANT_COMBINE_ANONYMOUS_TO_GTID_AND_AUTOPOSITION = 4014;
+    exports.ER_ASSIGN_GTIDS_TO_ANONYMOUS_TRANSACTIONS_REQUIRES_GTID_MODE_ON = 4015;
+    exports.ER_SQL_REPLICA_SKIP_COUNTER_USED_WITH_GTID_MODE_ON = 4016;
+    exports.ER_USING_ASSIGN_GTIDS_TO_ANONYMOUS_TRANSACTIONS_AS_LOCAL_OR_UUID = 4017;
+    exports.ER_CANT_SET_ANONYMOUS_TO_GTID_AND_WAIT_UNTIL_SQL_THD_AFTER_GTIDS = 4018;
+    exports.ER_CANT_SET_SQL_AFTER_OR_BEFORE_GTIDS_WITH_ANONYMOUS_TO_GTID = 4019;
+    exports.ER_ANONYMOUS_TO_GTID_UUID_SAME_AS_GROUP_NAME = 4020;
+    exports.ER_CANT_USE_SAME_UUID_AS_GROUP_NAME = 4021;
+    exports.ER_GRP_RPL_RECOVERY_CHANNEL_STILL_RUNNING = 4022;
+    exports.ER_INNODB_INVALID_AUTOEXTEND_SIZE_VALUE = 4023;
+    exports.ER_INNODB_INCOMPATIBLE_WITH_TABLESPACE = 4024;
+    exports.ER_INNODB_AUTOEXTEND_SIZE_OUT_OF_RANGE = 4025;
+    exports.ER_CANNOT_USE_AUTOEXTEND_SIZE_CLAUSE = 4026;
+    exports.ER_ROLE_GRANTED_TO_ITSELF = 4027;
+    exports.ER_TABLE_MUST_HAVE_A_VISIBLE_COLUMN = 4028;
+    exports.ER_INNODB_COMPRESSION_FAILURE = 4029;
+    exports.ER_WARN_ASYNC_CONN_FAILOVER_NETWORK_NAMESPACE = 4030;
     exports.ER_CLIENT_INTERACTION_TIMEOUT = 4031;
+    exports.ER_INVALID_CAST_TO_GEOMETRY = 4032;
+    exports.ER_INVALID_CAST_POLYGON_RING_DIRECTION = 4033;
+    exports.ER_GIS_DIFFERENT_SRIDS_AGGREGATION = 4034;
+    exports.ER_RELOAD_KEYRING_FAILURE = 4035;
+    exports.ER_SDI_GET_KEYS_INVALID_TABLESPACE = 4036;
+    exports.ER_CHANGE_RPL_SRC_WRONG_COMPRESSION_ALGORITHM_SIZE = 4037;
+    exports.ER_WARN_DEPRECATED_TLS_VERSION_FOR_CHANNEL_CLI = 4038;
+    exports.ER_CANT_USE_SAME_UUID_AS_VIEW_CHANGE_UUID = 4039;
+    exports.ER_ANONYMOUS_TO_GTID_UUID_SAME_AS_VIEW_CHANGE_UUID = 4040;
+    exports.ER_GRP_RPL_VIEW_CHANGE_UUID_FAIL_GET_VARIABLE = 4041;
+    exports.ER_WARN_ADUIT_LOG_MAX_SIZE_AND_PRUNE_SECONDS = 4042;
+    exports.ER_WARN_ADUIT_LOG_MAX_SIZE_CLOSE_TO_ROTATE_ON_SIZE = 4043;
+    exports.ER_KERBEROS_CREATE_USER = 4044;
+    exports.ER_INSTALL_PLUGIN_CONFLICT_CLIENT = 4045;
+    exports.ER_DA_ERROR_LOG_COMPONENT_FLUSH_FAILED = 4046;
+    exports.ER_WARN_SQL_AFTER_MTS_GAPS_GAP_NOT_CALCULATED = 4047;
+    exports.ER_INVALID_ASSIGNMENT_TARGET = 4048;
+    exports.ER_OPERATION_NOT_ALLOWED_ON_GR_SECONDARY = 4049;
+    exports.ER_GRP_RPL_FAILOVER_CHANNEL_STATUS_PROPAGATION = 4050;
+    exports.ER_WARN_AUDIT_LOG_FORMAT_UNIX_TIMESTAMP_ONLY_WHEN_JSON = 4051;
+    exports.ER_INVALID_MFA_PLUGIN_SPECIFIED = 4052;
+    exports.ER_IDENTIFIED_BY_UNSUPPORTED = 4053;
+    exports.ER_INVALID_PLUGIN_FOR_REGISTRATION = 4054;
+    exports.ER_PLUGIN_REQUIRES_REGISTRATION = 4055;
+    exports.ER_MFA_METHOD_EXISTS = 4056;
+    exports.ER_MFA_METHOD_NOT_EXISTS = 4057;
+    exports.ER_AUTHENTICATION_POLICY_MISMATCH = 4058;
+    exports.ER_PLUGIN_REGISTRATION_DONE = 4059;
+    exports.ER_INVALID_USER_FOR_REGISTRATION = 4060;
+    exports.ER_USER_REGISTRATION_FAILED = 4061;
+    exports.ER_MFA_METHODS_INVALID_ORDER = 4062;
+    exports.ER_MFA_METHODS_IDENTICAL = 4063;
+    exports.ER_INVALID_MFA_OPERATIONS_FOR_PASSWORDLESS_USER = 4064;
+    exports.ER_CHANGE_REPLICATION_SOURCE_NO_OPTIONS_FOR_GTID_ONLY = 4065;
+    exports.ER_CHANGE_REP_SOURCE_CANT_DISABLE_REQ_ROW_FORMAT_WITH_GTID_ONLY = 4066;
+    exports.ER_CHANGE_REP_SOURCE_CANT_DISABLE_AUTO_POSITION_WITH_GTID_ONLY = 4067;
+    exports.ER_CHANGE_REP_SOURCE_CANT_DISABLE_GTID_ONLY_WITHOUT_POSITIONS = 4068;
+    exports.ER_CHANGE_REP_SOURCE_CANT_DISABLE_AUTO_POS_WITHOUT_POSITIONS = 4069;
+    exports.ER_CHANGE_REP_SOURCE_GR_CHANNEL_WITH_GTID_MODE_NOT_ON = 4070;
+    exports.ER_CANT_USE_GTID_ONLY_WITH_GTID_MODE_NOT_ON = 4071;
+    exports.ER_WARN_C_DISABLE_GTID_ONLY_WITH_SOURCE_AUTO_POS_INVALID_POS = 4072;
+    exports.ER_DA_SSL_FIPS_MODE_ERROR = 4073;
+    exports.ER_VALUE_OUT_OF_RANGE = 4074;
+    exports.ER_FULLTEXT_WITH_ROLLUP = 4075;
+    exports.ER_REGEXP_MISSING_RESOURCE = 4076;
+    exports.ER_WARN_REGEXP_USING_DEFAULT = 4077;
+    exports.ER_REGEXP_MISSING_FILE = 4078;
+    exports.ER_WARN_DEPRECATED_COLLATION = 4079;
+    exports.ER_CONCURRENT_PROCEDURE_USAGE = 4080;
+    exports.ER_DA_GLOBAL_CONN_LIMIT = 4081;
+    exports.ER_DA_CONN_LIMIT = 4082;
+    exports.ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_COLUMN_TYPE_INSTANT = 4083;
+    exports.ER_WARN_SF_UDF_NAME_COLLISION = 4084;
+    exports.ER_CANNOT_PURGE_BINLOG_WITH_BACKUP_LOCK = 4085;
+    exports.ER_TOO_MANY_WINDOWS = 4086;
+    exports.ER_MYSQLBACKUP_CLIENT_MSG = 4087;
+    exports.ER_COMMENT_CONTAINS_INVALID_STRING = 4088;
+    exports.ER_DEFINITION_CONTAINS_INVALID_STRING = 4089;
+    exports.ER_CANT_EXECUTE_COMMAND_WITH_ASSIGNED_GTID_NEXT = 4090;
+    exports.ER_XA_TEMP_TABLE = 4091;
+    exports.ER_INNODB_MAX_ROW_VERSION = 4092;
+    exports.ER_INNODB_INSTANT_ADD_NOT_SUPPORTED_MAX_SIZE = 4093;
+    exports.ER_OPERATION_NOT_ALLOWED_WHILE_PRIMARY_CHANGE_IS_RUNNING = 4094;
+    exports.ER_WARN_DEPRECATED_DATETIME_DELIMITER = 4095;
+    exports.ER_WARN_DEPRECATED_SUPERFLUOUS_DELIMITER = 4096;
+    exports.ER_CANNOT_PERSIST_SENSITIVE_VARIABLES = 4097;
+    exports.ER_WARN_CANNOT_SECURELY_PERSIST_SENSITIVE_VARIABLES = 4098;
+    exports.ER_WARN_TRG_ALREADY_EXISTS = 4099;
+    exports.ER_IF_NOT_EXISTS_UNSUPPORTED_TRG_EXISTS_ON_DIFFERENT_TABLE = 4100;
+    exports.ER_IF_NOT_EXISTS_UNSUPPORTED_UDF_NATIVE_FCT_NAME_COLLISION = 4101;
+    exports.ER_SET_PASSWORD_AUTH_PLUGIN_ERROR = 4102;
+    exports.ER_REDUCED_DBLWR_FILE_CORRUPTED = 4103;
+    exports.ER_REDUCED_DBLWR_PAGE_FOUND = 4104;
+    exports.ER_SRS_INVALID_LATITUDE_OF_ORIGIN = 4105;
+    exports.ER_SRS_INVALID_LONGITUDE_OF_ORIGIN = 4106;
+    exports.ER_SRS_UNUSED_PROJ_PARAMETER_PRESENT = 4107;
+    exports.ER_GIPK_COLUMN_EXISTS = 4108;
+    exports.ER_GIPK_FAILED_AUTOINC_COLUMN_EXISTS = 4109;
+    exports.ER_GIPK_COLUMN_ALTER_NOT_ALLOWED = 4110;
+    exports.ER_DROP_PK_COLUMN_TO_DROP_GIPK = 4111;
+    exports.ER_CREATE_SELECT_WITH_GIPK_DISALLOWED_IN_SBR = 4112;
+    exports.ER_DA_EXPIRE_LOGS_DAYS_IGNORED = 4113;
+    exports.ER_CTE_RECURSIVE_NOT_UNION = 4114;
+    exports.ER_COMMAND_BACKEND_FAILED_TO_FETCH_SECURITY_CTX = 4115;
+    exports.ER_COMMAND_SERVICE_BACKEND_FAILED = 4116;
+    exports.ER_CLIENT_FILE_PRIVILEGE_FOR_REPLICATION_CHECKS = 4117;
+    exports.ER_GROUP_REPLICATION_FORCE_MEMBERS_COMMAND_FAILURE = 4118;
+    exports.ER_WARN_DEPRECATED_IDENT = 4119;
+    exports.ER_INTERSECT_ALL_MAX_DUPLICATES_EXCEEDED = 4120;
+    exports.ER_TP_QUERY_THRS_PER_GRP_EXCEEDS_TXN_THR_LIMIT = 4121;
+    exports.ER_BAD_TIMESTAMP_FORMAT = 4122;
+    exports.ER_SHAPE_PRIDICTION_UDF = 4123;
+    exports.ER_SRS_INVALID_HEIGHT = 4124;
+    exports.ER_SRS_INVALID_SCALING = 4125;
+    exports.ER_SRS_INVALID_ZONE_WIDTH = 4126;
+    exports.ER_SRS_INVALID_LATITUDE_POLAR_STERE_VAR_A = 4127;
+    exports.ER_WARN_DEPRECATED_CLIENT_NO_SCHEMA_OPTION = 4128;
+    exports.ER_TABLE_NOT_EMPTY = 4129;
+    exports.ER_TABLE_NO_PRIMARY_KEY = 4130;
+    exports.ER_TABLE_IN_SHARED_TABLESPACE = 4131;
+    exports.ER_INDEX_OTHER_THAN_PK = 4132;
+    exports.ER_LOAD_BULK_DATA_UNSORTED = 4133;
+    exports.ER_BULK_EXECUTOR_ERROR = 4134;
+    exports.ER_BULK_READER_LIBCURL_INIT_FAILED = 4135;
+    exports.ER_BULK_READER_LIBCURL_ERROR = 4136;
+    exports.ER_BULK_READER_SERVER_ERROR = 4137;
+    exports.ER_BULK_READER_COMMUNICATION_ERROR = 4138;
+    exports.ER_BULK_LOAD_DATA_FAILED = 4139;
+    exports.ER_BULK_LOADER_COLUMN_TOO_BIG_FOR_LEFTOVER_BUFFER = 4140;
+    exports.ER_BULK_LOADER_COMPONENT_ERROR = 4141;
+    exports.ER_BULK_LOADER_FILE_CONTAINS_LESS_LINES_THAN_IGNORE_CLAUSE = 4142;
+    exports.ER_BULK_PARSER_MISSING_ENCLOSED_BY = 4143;
+    exports.ER_BULK_PARSER_ROW_BUFFER_MAX_TOTAL_COLS_EXCEEDED = 4144;
+    exports.ER_BULK_PARSER_COPY_BUFFER_SIZE_EXCEEDED = 4145;
+    exports.ER_BULK_PARSER_UNEXPECTED_END_OF_INPUT = 4146;
+    exports.ER_BULK_PARSER_UNEXPECTED_ROW_TERMINATOR = 4147;
+    exports.ER_BULK_PARSER_UNEXPECTED_CHAR_AFTER_ENDING_ENCLOSED_BY = 4148;
+    exports.ER_BULK_PARSER_UNEXPECTED_CHAR_AFTER_NULL_ESCAPE = 4149;
+    exports.ER_BULK_PARSER_UNEXPECTED_CHAR_AFTER_COLUMN_TERMINATOR = 4150;
+    exports.ER_BULK_PARSER_INCOMPLETE_ESCAPE_SEQUENCE = 4151;
+    exports.ER_LOAD_BULK_DATA_FAILED = 4152;
+    exports.ER_LOAD_BULK_DATA_WRONG_VALUE_FOR_FIELD = 4153;
+    exports.ER_LOAD_BULK_DATA_WARN_NULL_TO_NOTNULL = 4154;
+    exports.ER_REQUIRE_TABLE_PRIMARY_KEY_CHECK_GENERATE_WITH_GR = 4155;
+    exports.ER_CANT_CHANGE_SYS_VAR_IN_READ_ONLY_MODE = 4156;
+    exports.ER_INNODB_INSTANT_ADD_DROP_NOT_SUPPORTED_MAX_SIZE = 4157;
+    exports.ER_INNODB_INSTANT_ADD_NOT_SUPPORTED_MAX_FIELDS = 4158;
+    exports.ER_CANT_SET_PERSISTED = 4159;
+    exports.ER_INSTALL_COMPONENT_SET_NULL_VALUE = 4160;
+    exports.ER_INSTALL_COMPONENT_SET_UNUSED_VALUE = 4161;
+    exports.ER_WARN_DEPRECATED_USER_DEFINED_COLLATIONS = 4162;
     exports[1] = "EE_CANTCREATEFILE";
     exports[2] = "EE_READ";
     exports[3] = "EE_WRITE";
@@ -18828,11 +19830,72 @@ var require_errors3 = __commonJS({
     exports[31] = "EE_CHANGE_OWNERSHIP";
     exports[32] = "EE_CHANGE_PERMISSIONS";
     exports[33] = "EE_CANT_SEEK";
+    exports[34] = "EE_CAPACITY_EXCEEDED";
+    exports[35] = "EE_DISK_FULL_WITH_RETRY_MSG";
+    exports[36] = "EE_FAILED_TO_CREATE_TIMER";
+    exports[37] = "EE_FAILED_TO_DELETE_TIMER";
+    exports[38] = "EE_FAILED_TO_CREATE_TIMER_QUEUE";
+    exports[39] = "EE_FAILED_TO_START_TIMER_NOTIFY_THREAD";
+    exports[40] = "EE_FAILED_TO_CREATE_TIMER_NOTIFY_THREAD_INTERRUPT_EVENT";
+    exports[41] = "EE_EXITING_TIMER_NOTIFY_THREAD";
+    exports[42] = "EE_WIN_LIBRARY_LOAD_FAILED";
+    exports[43] = "EE_WIN_RUN_TIME_ERROR_CHECK";
+    exports[44] = "EE_FAILED_TO_DETERMINE_LARGE_PAGE_SIZE";
+    exports[45] = "EE_FAILED_TO_KILL_ALL_THREADS";
+    exports[46] = "EE_FAILED_TO_CREATE_IO_COMPLETION_PORT";
+    exports[47] = "EE_FAILED_TO_OPEN_DEFAULTS_FILE";
+    exports[48] = "EE_FAILED_TO_HANDLE_DEFAULTS_FILE";
+    exports[49] = "EE_WRONG_DIRECTIVE_IN_CONFIG_FILE";
+    exports[50] = "EE_SKIPPING_DIRECTIVE_DUE_TO_MAX_INCLUDE_RECURSION";
+    exports[51] = "EE_INCORRECT_GRP_DEFINITION_IN_CONFIG_FILE";
+    exports[52] = "EE_OPTION_WITHOUT_GRP_IN_CONFIG_FILE";
+    exports[53] = "EE_CONFIG_FILE_PERMISSION_ERROR";
+    exports[54] = "EE_IGNORE_WORLD_WRITABLE_CONFIG_FILE";
+    exports[55] = "EE_USING_DISABLED_OPTION";
+    exports[56] = "EE_USING_DISABLED_SHORT_OPTION";
+    exports[57] = "EE_USING_PASSWORD_ON_CLI_IS_INSECURE";
+    exports[58] = "EE_UNKNOWN_SUFFIX_FOR_VARIABLE";
+    exports[59] = "EE_SSL_ERROR_FROM_FILE";
+    exports[60] = "EE_SSL_ERROR";
+    exports[61] = "EE_NET_SEND_ERROR_IN_BOOTSTRAP";
+    exports[62] = "EE_PACKETS_OUT_OF_ORDER";
+    exports[63] = "EE_UNKNOWN_PROTOCOL_OPTION";
+    exports[64] = "EE_FAILED_TO_LOCATE_SERVER_PUBLIC_KEY";
+    exports[65] = "EE_PUBLIC_KEY_NOT_IN_PEM_FORMAT";
+    exports[66] = "EE_DEBUG_INFO";
+    exports[67] = "EE_UNKNOWN_VARIABLE";
+    exports[68] = "EE_UNKNOWN_OPTION";
+    exports[69] = "EE_UNKNOWN_SHORT_OPTION";
+    exports[70] = "EE_OPTION_WITHOUT_ARGUMENT";
+    exports[71] = "EE_OPTION_REQUIRES_ARGUMENT";
+    exports[72] = "EE_SHORT_OPTION_REQUIRES_ARGUMENT";
+    exports[73] = "EE_OPTION_IGNORED_DUE_TO_INVALID_VALUE";
+    exports[74] = "EE_OPTION_WITH_EMPTY_VALUE";
+    exports[75] = "EE_FAILED_TO_ASSIGN_MAX_VALUE_TO_OPTION";
+    exports[76] = "EE_INCORRECT_BOOLEAN_VALUE_FOR_OPTION";
+    exports[77] = "EE_FAILED_TO_SET_OPTION_VALUE";
+    exports[78] = "EE_INCORRECT_INT_VALUE_FOR_OPTION";
+    exports[79] = "EE_INCORRECT_UINT_VALUE_FOR_OPTION";
+    exports[80] = "EE_ADJUSTED_SIGNED_VALUE_FOR_OPTION";
+    exports[81] = "EE_ADJUSTED_UNSIGNED_VALUE_FOR_OPTION";
+    exports[82] = "EE_ADJUSTED_ULONGLONG_VALUE_FOR_OPTION";
+    exports[83] = "EE_ADJUSTED_DOUBLE_VALUE_FOR_OPTION";
+    exports[84] = "EE_INVALID_DECIMAL_VALUE_FOR_OPTION";
+    exports[85] = "EE_COLLATION_PARSER_ERROR";
+    exports[86] = "EE_FAILED_TO_RESET_BEFORE_PRIMARY_IGNORABLE_CHAR";
+    exports[87] = "EE_FAILED_TO_RESET_BEFORE_TERTIARY_IGNORABLE_CHAR";
+    exports[88] = "EE_SHIFT_CHAR_OUT_OF_RANGE";
+    exports[89] = "EE_RESET_CHAR_OUT_OF_RANGE";
+    exports[90] = "EE_UNKNOWN_LDML_TAG";
+    exports[91] = "EE_FAILED_TO_RESET_BEFORE_SECONDARY_IGNORABLE_CHAR";
+    exports[92] = "EE_FAILED_PROCESSING_DIRECTIVE";
+    exports[93] = "EE_PTHREAD_KILL_FAILED";
     exports[120] = "HA_ERR_KEY_NOT_FOUND";
     exports[121] = "HA_ERR_FOUND_DUPP_KEY";
     exports[122] = "HA_ERR_INTERNAL_ERROR";
     exports[123] = "HA_ERR_RECORD_CHANGED";
     exports[124] = "HA_ERR_WRONG_INDEX";
+    exports[125] = "HA_ERR_ROLLED_BACK";
     exports[126] = "HA_ERR_CRASHED";
     exports[127] = "HA_ERR_WRONG_IN_RECORD";
     exports[128] = "HA_ERR_OUT_OF_MEM";
@@ -18845,7 +19908,7 @@ var require_errors3 = __commonJS({
     exports[136] = "HA_ERR_INDEX_FILE_FULL";
     exports[137] = "HA_ERR_END_OF_FILE";
     exports[138] = "HA_ERR_UNSUPPORTED";
-    exports[139] = "HA_ERR_TO_BIG_ROW";
+    exports[139] = "HA_ERR_TOO_BIG_ROW";
     exports[140] = "HA_WRONG_CREATE_OPTION";
     exports[141] = "HA_ERR_FOUND_DUPP_UNIQUE";
     exports[142] = "HA_ERR_UNKNOWN_CHARSET";
@@ -18898,6 +19961,24 @@ var require_errors3 = __commonJS({
     exports[189] = "HA_ERR_TEMP_FILE_WRITE_FAILURE";
     exports[190] = "HA_ERR_INNODB_FORCED_RECOVERY";
     exports[191] = "HA_ERR_FTS_TOO_MANY_WORDS_IN_PHRASE";
+    exports[192] = "HA_ERR_FK_DEPTH_EXCEEDED";
+    exports[193] = "HA_MISSING_CREATE_OPTION";
+    exports[194] = "HA_ERR_SE_OUT_OF_MEMORY";
+    exports[195] = "HA_ERR_TABLE_CORRUPT";
+    exports[196] = "HA_ERR_QUERY_INTERRUPTED";
+    exports[197] = "HA_ERR_TABLESPACE_MISSING";
+    exports[198] = "HA_ERR_TABLESPACE_IS_NOT_EMPTY";
+    exports[199] = "HA_ERR_WRONG_FILE_NAME";
+    exports[200] = "HA_ERR_NOT_ALLOWED_COMMAND";
+    exports[201] = "HA_ERR_COMPUTE_FAILED";
+    exports[202] = "HA_ERR_ROW_FORMAT_CHANGED";
+    exports[203] = "HA_ERR_NO_WAIT_LOCK";
+    exports[204] = "HA_ERR_DISK_FULL_NOWAIT";
+    exports[205] = "HA_ERR_NO_SESSION_TEMP";
+    exports[206] = "HA_ERR_WRONG_TABLE_NAME";
+    exports[207] = "HA_ERR_TOO_LONG_PATH";
+    exports[208] = "HA_ERR_SAMPLING_INIT_FAILED";
+    exports[209] = "HA_ERR_FTS_TOO_MANY_NESTED_EXP";
     exports[1e3] = "ER_HASHCHK";
     exports[1001] = "ER_NISAMCHK";
     exports[1002] = "ER_NO";
@@ -19048,8 +20129,8 @@ var require_errors3 = __commonJS({
     exports[1147] = "ER_NONEXISTING_TABLE_GRANT";
     exports[1148] = "ER_NOT_ALLOWED_COMMAND";
     exports[1149] = "ER_SYNTAX_ERROR";
-    exports[1150] = "ER_DELAYED_CANT_CHANGE_LOCK";
-    exports[1151] = "ER_TOO_MANY_DELAYED_THREADS";
+    exports[1150] = "ER_UNUSED1";
+    exports[1151] = "ER_UNUSED2";
     exports[1152] = "ER_ABORTING_CONNECTION";
     exports[1153] = "ER_NET_PACKET_TOO_LARGE";
     exports[1154] = "ER_NET_READ_ERROR_FROM_PIPE";
@@ -19063,7 +20144,7 @@ var require_errors3 = __commonJS({
     exports[1162] = "ER_TOO_LONG_STRING";
     exports[1163] = "ER_TABLE_CANT_HANDLE_BLOB";
     exports[1164] = "ER_TABLE_CANT_HANDLE_AUTO_INCREMENT";
-    exports[1165] = "ER_DELAYED_INSERT_TABLE_LOCKED";
+    exports[1165] = "ER_UNUSED3";
     exports[1166] = "ER_WRONG_COLUMN_NAME";
     exports[1167] = "ER_WRONG_KEY_COLUMN";
     exports[1168] = "ER_WRONG_MRG_TABLE";
@@ -19084,7 +20165,7 @@ var require_errors3 = __commonJS({
     exports[1183] = "ER_ERROR_DURING_CHECKPOINT";
     exports[1184] = "ER_NEW_ABORTING_CONNECTION";
     exports[1185] = "ER_DUMP_NOT_IMPLEMENTED";
-    exports[1186] = "ER_FLUSH_SOURCE_BINLOG_CLOSED";
+    exports[1186] = "ER_FLUSH_MASTER_BINLOG_CLOSED";
     exports[1187] = "ER_INDEX_REBUILD";
     exports[1188] = "ER_SOURCE";
     exports[1189] = "ER_SOURCE_NET_READ";
@@ -19096,10 +20177,10 @@ var require_errors3 = __commonJS({
     exports[1195] = "ER_CRASHED_ON_REPAIR";
     exports[1196] = "ER_WARNING_NOT_COMPLETE_ROLLBACK";
     exports[1197] = "ER_TRANS_CACHE_FULL";
-    exports[1198] = "ER_REPLICA_MUST_STOP";
+    exports[1198] = "ER_SLAVE_MUST_STOP";
     exports[1199] = "ER_REPLICA_NOT_RUNNING";
     exports[1200] = "ER_BAD_REPLICA";
-    exports[1201] = "ER_SOURCE_INFO";
+    exports[1201] = "ER_CONNECTION_METADATA";
     exports[1202] = "ER_REPLICA_THREAD";
     exports[1203] = "ER_TOO_MANY_USER_CONNECTIONS";
     exports[1204] = "ER_SET_CONSTANTS_ONLY";
@@ -19117,7 +20198,7 @@ var require_errors3 = __commonJS({
     exports[1216] = "ER_NO_REFERENCED_ROW";
     exports[1217] = "ER_ROW_IS_REFERENCED";
     exports[1218] = "ER_CONNECT_TO_SOURCE";
-    exports[1219] = "ER_QUERY_ON_SOURCE";
+    exports[1219] = "ER_QUERY_ON_MASTER";
     exports[1220] = "ER_ERROR_WHEN_EXECUTING_COMMAND";
     exports[1221] = "ER_WRONG_USAGE";
     exports[1222] = "ER_WRONG_NUMBER_OF_COLUMNS_IN_SELECT";
@@ -19152,8 +20233,8 @@ var require_errors3 = __commonJS({
     exports[1251] = "ER_NOT_SUPPORTED_AUTH_MODE";
     exports[1252] = "ER_SPATIAL_CANT_HAVE_NULL";
     exports[1253] = "ER_COLLATION_CHARSET_MISMATCH";
-    exports[1254] = "ER_REPLICA_WAS_RUNNING";
-    exports[1255] = "ER_REPLICA_WAS_NOT_RUNNING";
+    exports[1254] = "ER_SLAVE_WAS_RUNNING";
+    exports[1255] = "ER_SLAVE_WAS_NOT_RUNNING";
     exports[1256] = "ER_TOO_BIG_FOR_UNCOMPRESS";
     exports[1257] = "ER_ZLIB_Z_MEM_ERROR";
     exports[1258] = "ER_ZLIB_Z_BUF_ERROR";
@@ -19163,7 +20244,7 @@ var require_errors3 = __commonJS({
     exports[1262] = "ER_WARN_TOO_MANY_RECORDS";
     exports[1263] = "ER_WARN_NULL_TO_NOTNULL";
     exports[1264] = "ER_WARN_DATA_OUT_OF_RANGE";
-    exports[1265] = "ER_WARN_DATA_TRUNCATED";
+    exports[1265] = "WARN_DATA_TRUNCATED";
     exports[1266] = "ER_WARN_USING_OTHER_HANDLER";
     exports[1267] = "ER_CANT_AGGREGATE_2COLLATIONS";
     exports[1268] = "ER_DROP_USER";
@@ -19299,7 +20380,7 @@ var require_errors3 = __commonJS({
     exports[1398] = "ER_XAER_INVAL";
     exports[1399] = "ER_XAER_RMFAIL";
     exports[1400] = "ER_XAER_OUTSIDE";
-    exports[1401] = "ER_XA_RMERR";
+    exports[1401] = "ER_XAER_RMERR";
     exports[1402] = "ER_XA_RBROLLBACK";
     exports[1403] = "ER_NONEXISTING_PROC_GRANT";
     exports[1404] = "ER_PROC_AUTO_GRANT_FAIL";
@@ -19466,7 +20547,7 @@ var require_errors3 = __commonJS({
     exports[1565] = "ER_DDL_LOG_ERROR";
     exports[1566] = "ER_NULL_IN_VALUES_LESS_THAN";
     exports[1567] = "ER_WRONG_PARTITION_NAME";
-    exports[1568] = "ER_CANT_CHANGE_TX_ISOLATION";
+    exports[1568] = "ER_CANT_CHANGE_TX_CHARACTERISTICS";
     exports[1569] = "ER_DUP_ENTRY_AUTOINCREMENT_CASE";
     exports[1570] = "ER_EVENT_MODIFY_QUEUE_ERROR";
     exports[1571] = "ER_EVENT_SET_VAR_ERROR";
@@ -19488,14 +20569,14 @@ var require_errors3 = __commonJS({
     exports[1587] = "ER_BINLOG_PURGE_EMFILE";
     exports[1588] = "ER_EVENT_CANNOT_CREATE_IN_THE_PAST";
     exports[1589] = "ER_EVENT_CANNOT_ALTER_IN_THE_PAST";
-    exports[1590] = "ER_REPLICA_INCIDENT";
+    exports[1590] = "ER_SLAVE_INCIDENT";
     exports[1591] = "ER_NO_PARTITION_FOR_GIVEN_VALUE_SILENT";
     exports[1592] = "ER_BINLOG_UNSAFE_STATEMENT";
-    exports[1593] = "ER_REPLICA_FATAL_ERROR";
-    exports[1594] = "ER_REPLICA_RELAY_LOG_READ_FAILURE";
-    exports[1595] = "ER_REPLICA_RELAY_LOG_WRITE_FAILURE";
-    exports[1596] = "ER_REPLICA_CREATE_EVENT_FAILURE";
-    exports[1597] = "ER_REPLICA_SOURCE_COM_FAILURE";
+    exports[1593] = "ER_BINLOG_FATAL_ERROR";
+    exports[1594] = "ER_SLAVE_RELAY_LOG_READ_FAILURE";
+    exports[1595] = "ER_SLAVE_RELAY_LOG_WRITE_FAILURE";
+    exports[1596] = "ER_SLAVE_CREATE_EVENT_FAILURE";
+    exports[1597] = "ER_SLAVE_MASTER_COM_FAILURE";
     exports[1598] = "ER_BINLOG_LOGGING_IMPOSSIBLE";
     exports[1599] = "ER_VIEW_NO_CREATION_CTX";
     exports[1600] = "ER_VIEW_INVALID_CREATION_CTX";
@@ -19515,13 +20596,13 @@ var require_errors3 = __commonJS({
     exports[1614] = "ER_XA_RBDEADLOCK";
     exports[1615] = "ER_NEED_REPREPARE";
     exports[1616] = "ER_DELAYED_NOT_SUPPORTED";
-    exports[1617] = "WARN_NO_SOURCE_INFO";
+    exports[1617] = "WARN_NO_CONNECTION_METADATA";
     exports[1618] = "WARN_OPTION_IGNORED";
-    exports[1619] = "WARN_PLUGIN_DELETE_BUILTIN";
+    exports[1619] = "ER_PLUGIN_DELETE_BUILTIN";
     exports[1620] = "WARN_PLUGIN_BUSY";
     exports[1621] = "ER_VARIABLE_IS_READONLY";
     exports[1622] = "ER_WARN_ENGINE_TRANSACTION_ROLLBACK";
-    exports[1623] = "ER_REPLICA_HEARTBEAT_FAILURE";
+    exports[1623] = "ER_SLAVE_HEARTBEAT_FAILURE";
     exports[1624] = "ER_REPLICA_HEARTBEAT_VALUE_OUT_OF_RANGE";
     exports[1625] = "ER_NDB_REPLICATION_SCHEMA_ERROR";
     exports[1626] = "ER_CONFLICT_FN_PARSE_ERROR";
@@ -19567,7 +20648,7 @@ var require_errors3 = __commonJS({
     exports[1666] = "ER_BINLOG_ROW_INJECTION_AND_STMT_MODE";
     exports[1667] = "ER_BINLOG_MULTIPLE_ENGINES_AND_SELF_LOGGING_ENGINE";
     exports[1668] = "ER_BINLOG_UNSAFE_LIMIT";
-    exports[1669] = "ER_BINLOG_UNSAFE_INSERT_DELAYED";
+    exports[1669] = "ER_UNUSED4";
     exports[1670] = "ER_BINLOG_UNSAFE_SYSTEM_TABLE";
     exports[1671] = "ER_BINLOG_UNSAFE_AUTOINC_COLUMNS";
     exports[1672] = "ER_BINLOG_UNSAFE_UDF";
@@ -19575,7 +20656,7 @@ var require_errors3 = __commonJS({
     exports[1674] = "ER_BINLOG_UNSAFE_SYSTEM_FUNCTION";
     exports[1675] = "ER_BINLOG_UNSAFE_NONTRANS_AFTER_TRANS";
     exports[1676] = "ER_MESSAGE_AND_STATEMENT";
-    exports[1677] = "ER_REPLICA_CONVERSION_FAILED";
+    exports[1677] = "ER_SLAVE_CONVERSION_FAILED";
     exports[1678] = "ER_REPLICA_CANT_CREATE_CONVERSION";
     exports[1679] = "ER_INSIDE_TRANSACTION_PREVENTS_SWITCH_BINLOG_FORMAT";
     exports[1680] = "ER_PATH_LENGTH";
@@ -19651,10 +20732,10 @@ var require_errors3 = __commonJS({
     exports[1750] = "ER_CHANGE_RPL_INFO_REPOSITORY_FAILURE";
     exports[1751] = "ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_CREATED_TEMP_TABLE";
     exports[1752] = "ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_DROPPED_TEMP_TABLE";
-    exports[1753] = "ER_MTS_FEATURE_IS_NOT_SUPPORTED";
-    exports[1754] = "ER_MTS_UPDATED_DBS_GREATER_MAX";
-    exports[1755] = "ER_MTS_CANT_PARALLEL";
-    exports[1756] = "ER_MTS_INCONSISTENT_DATA";
+    exports[1753] = "ER_MTA_FEATURE_IS_NOT_SUPPORTED";
+    exports[1754] = "ER_MTA_UPDATED_DBS_GREATER_MAX";
+    exports[1755] = "ER_MTA_CANT_PARALLEL";
+    exports[1756] = "ER_MTA_INCONSISTENT_DATA";
     exports[1757] = "ER_FULLTEXT_NOT_SUPPORTED_WITH_PARTITIONING";
     exports[1758] = "ER_DA_INVALID_CONDITION_NUMBER";
     exports[1759] = "ER_INSECURE_PLAIN_TEXT";
@@ -19666,7 +20747,7 @@ var require_errors3 = __commonJS({
     exports[1765] = "ER_VARIABLE_NOT_SETTABLE_IN_SF_OR_TRIGGER";
     exports[1766] = "ER_VARIABLE_NOT_SETTABLE_IN_TRANSACTION";
     exports[1767] = "ER_GTID_NEXT_IS_NOT_IN_GTID_NEXT_LIST";
-    exports[1768] = "ER_CANT_CHANGE_GTID_NEXT_IN_TRANSACTION_WHEN_GTID_NEXT_LIST_IS_NULL";
+    exports[1768] = "ER_CANT_CHANGE_GTID_NEXT_IN_TRANSACTION";
     exports[1769] = "ER_SET_STATEMENT_CANNOT_INVOKE_FUNCTION";
     exports[1770] = "ER_GTID_NEXT_CANT_BE_AUTOMATIC_IF_GTID_NEXT_LIST_IS_NON_NULL";
     exports[1771] = "ER_SKIPPING_LOGGED_TRANSACTION";
@@ -19675,9 +20756,9 @@ var require_errors3 = __commonJS({
     exports[1774] = "ER_MALFORMED_GTID_SPECIFICATION";
     exports[1775] = "ER_GNO_EXHAUSTED";
     exports[1776] = "ER_BAD_REPLICA_AUTO_POSITION";
-    exports[1777] = "ER_AUTO_POSITION_REQUIRES_GTID_MODE_ON";
+    exports[1777] = "ER_AUTO_POSITION_REQUIRES_GTID_MODE_NOT_OFF";
     exports[1778] = "ER_CANT_DO_IMPLICIT_COMMIT_IN_TRX_WHEN_GTID_NEXT_IS_SET";
-    exports[1779] = "ER_GTID_MODE_2_OR_3_REQUIRES_ENFORCE_GTID_CONSISTENCY_ON";
+    exports[1779] = "ER_GTID_MODE_ON_REQUIRES_ENFORCE_GTID_CONSISTENCY_ON";
     exports[1780] = "ER_GTID_MODE_REQUIRES_BINLOG";
     exports[1781] = "ER_CANT_SET_GTID_NEXT_TO_GTID_WHEN_GTID_MODE_IS_OFF";
     exports[1782] = "ER_CANT_SET_GTID_NEXT_TO_ANONYMOUS_WHEN_GTID_MODE_IS_ON";
@@ -19685,7 +20766,7 @@ var require_errors3 = __commonJS({
     exports[1784] = "ER_FOUND_GTID_EVENT_WHEN_GTID_MODE_IS_OFF";
     exports[1785] = "ER_GTID_UNSAFE_NON_TRANSACTIONAL_TABLE";
     exports[1786] = "ER_GTID_UNSAFE_CREATE_SELECT";
-    exports[1787] = "ER_GTID_UNSAFE_CREATE_DROP_TEMPORARY_TABLE_IN_TRANSACTION";
+    exports[1787] = "ER_GTID_UNSAFE_CREATE_DROP_TEMP_TABLE_IN_TRANSACTION";
     exports[1788] = "ER_GTID_MODE_CAN_ONLY_CHANGE_ONE_STEP_AT_A_TIME";
     exports[1789] = "ER_SOURCE_HAS_PURGED_REQUIRED_GTIDS";
     exports[1790] = "ER_CANT_SET_GTID_NEXT_WHEN_OWNING_GTID";
@@ -19700,9 +20781,9 @@ var require_errors3 = __commonJS({
     exports[1799] = "ER_INNODB_ONLINE_LOG_TOO_BIG";
     exports[1800] = "ER_UNKNOWN_ALTER_ALGORITHM";
     exports[1801] = "ER_UNKNOWN_ALTER_LOCK";
-    exports[1802] = "ER_MTS_CHANGE_SOURCE_CANT_RUN_WITH_GAPS";
-    exports[1803] = "ER_MTS_RECOVERY_FAILURE";
-    exports[1804] = "ER_MTS_RESET_WORKERS";
+    exports[1802] = "ER_MTA_CHANGE_SOURCE_CANT_RUN_WITH_GAPS";
+    exports[1803] = "ER_MTA_RECOVERY_FAILURE";
+    exports[1804] = "ER_MTA_RESET_WORKERS";
     exports[1805] = "ER_COL_COUNT_DOESNT_MATCH_CORRUPTED_V2";
     exports[1806] = "ER_REPLICA_SILENT_RETRY_TRANSACTION";
     exports[1807] = "ER_DISCARD_FK_CHECKS_RUNNING";
@@ -19732,10 +20813,10 @@ var require_errors3 = __commonJS({
     exports[1831] = "ER_DUP_INDEX";
     exports[1832] = "ER_FK_COLUMN_CANNOT_CHANGE";
     exports[1833] = "ER_FK_COLUMN_CANNOT_CHANGE_CHILD";
-    exports[1834] = "ER_FK_CANNOT_DELETE_PARENT";
+    exports[1834] = "ER_UNUSED5";
     exports[1835] = "ER_MALFORMED_PACKET";
     exports[1836] = "ER_READ_ONLY_MODE";
-    exports[1837] = "ER_GTID_NEXT_TYPE_UNDEFINED_GROUP";
+    exports[1837] = "ER_GTID_NEXT_TYPE_UNDEFINED_GTID";
     exports[1838] = "ER_VARIABLE_NOT_SETTABLE_IN_SP";
     exports[1839] = "ER_CANT_SET_GTID_PURGED_WHEN_GTID_MODE_IS_OFF";
     exports[1840] = "ER_CANT_SET_GTID_PURGED_WHEN_GTID_EXECUTED_IS_NOT_EMPTY";
@@ -19750,7 +20831,7 @@ var require_errors3 = __commonJS({
     exports[1849] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FK_RENAME";
     exports[1850] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_COLUMN_TYPE";
     exports[1851] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_FK_CHECK";
-    exports[1852] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_IGNORE";
+    exports[1852] = "ER_UNUSED6";
     exports[1853] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_NOPK";
     exports[1854] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_AUTOINC";
     exports[1855] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_HIDDEN_FTS";
@@ -19762,15 +20843,15 @@ var require_errors3 = __commonJS({
     exports[1861] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_NOT_NULL";
     exports[1862] = "ER_MUST_CHANGE_PASSWORD_LOGIN";
     exports[1863] = "ER_ROW_IN_WRONG_PARTITION";
-    exports[1864] = "ER_MTS_EVENT_BIGGER_PENDING_JOBS_SIZE_MAX";
+    exports[1864] = "ER_MTA_EVENT_BIGGER_PENDING_JOBS_SIZE_MAX";
     exports[1865] = "ER_INNODB_NO_FT_USES_PARSER";
     exports[1866] = "ER_BINLOG_LOGICAL_CORRUPTION";
     exports[1867] = "ER_WARN_PURGE_LOG_IN_USE";
     exports[1868] = "ER_WARN_PURGE_LOG_IS_ACTIVE";
     exports[1869] = "ER_AUTO_INCREMENT_CONFLICT";
     exports[1870] = "WARN_ON_BLOCKHOLE_IN_RBR";
-    exports[1871] = "ER_REPLICA_MI_INIT_REPOSITORY";
-    exports[1872] = "ER_REPLICA_RLI_INIT_REPOSITORY";
+    exports[1871] = "ER_REPLICA_CM_INIT_REPOSITORY";
+    exports[1872] = "ER_REPLICA_AM_INIT_REPOSITORY";
     exports[1873] = "ER_ACCESS_DENIED_CHANGE_USER_ERROR";
     exports[1874] = "ER_INNODB_READ_ONLY";
     exports[1875] = "ER_STOP_REPLICA_SQL_THREAD_TIMEOUT";
@@ -19781,36 +20862,913 @@ var require_errors3 = __commonJS({
     exports[1880] = "ER_OLD_TEMPORALS_UPGRADED";
     exports[1881] = "ER_INNODB_FORCED_RECOVERY";
     exports[1882] = "ER_AES_INVALID_IV";
-    exports[1883] = "ER_FILE_CORRUPT";
-    exports[1884] = "ER_ERROR_ON_SOURCE";
-    exports[1885] = "ER_INCONSISTENT_ERROR";
-    exports[1886] = "ER_STORAGE_ENGINE_NOT_LOADED";
-    exports[1887] = "ER_GET_STACKED_DA_WITHOUT_ACTIVE_HANDLER";
-    exports[1888] = "ER_WARN_LEGACY_SYNTAX_CONVERTED";
-    exports[1889] = "ER_BINLOG_UNSAFE_FULLTEXT_PLUGIN";
-    exports[1890] = "ER_CANNOT_DISCARD_TEMPORARY_TABLE";
-    exports[1891] = "ER_FK_DEPTH_EXCEEDED";
-    exports[1892] = "ER_COL_COUNT_DOESNT_MATCH_PLEASE_UPDATE_V2";
-    exports[1893] = "ER_WARN_TRIGGER_DOESNT_HAVE_CREATED";
-    exports[1894] = "ER_REFERENCED_TRG_DOES_NOT_EXIST";
-    exports[1895] = "ER_EXPLAIN_NOT_SUPPORTED";
-    exports[1896] = "ER_INVALID_FIELD_SIZE";
-    exports[1897] = "ER_MISSING_HA_CREATE_OPTION";
-    exports[1898] = "ER_ENGINE_OUT_OF_MEMORY";
-    exports[1899] = "ER_PASSWORD_EXPIRE_ANONYMOUS_USER";
-    exports[1900] = "ER_REPLICA_SQL_THREAD_MUST_STOP";
-    exports[1901] = "ER_NO_FT_MATERIALIZED_SUBQUERY";
-    exports[1902] = "ER_INNODB_UNDO_LOG_FULL";
-    exports[1903] = "ER_INVALID_ARGUMENT_FOR_LOGARITHM";
-    exports[1904] = "ER_REPLICA_IO_THREAD_MUST_STOP";
-    exports[1905] = "ER_WARN_OPEN_TEMP_TABLES_MUST_BE_ZERO";
-    exports[1906] = "ER_WARN_ONLY_SOURCE_LOG_FILE_NO_POS";
-    exports[1907] = "ER_QUERY_TIMEOUT";
-    exports[1908] = "ER_NON_RO_SELECT_DISABLE_TIMER";
-    exports[1909] = "ER_DUP_LIST_ENTRY";
-    exports[1910] = "ER_SQL_MODE_NO_EFFECT";
+    exports[1883] = "ER_PLUGIN_CANNOT_BE_UNINSTALLED";
+    exports[1884] = "ER_GTID_UNSAFE_BINLOG_SPLITTABLE_STATEMENT_AND_ASSIGNED_GTID";
+    exports[1885] = "ER_REPLICA_HAS_MORE_GTIDS_THAN_SOURCE";
+    exports[1886] = "ER_MISSING_KEY";
+    exports[1887] = "WARN_NAMED_PIPE_ACCESS_EVERYONE";
+    exports[3e3] = "ER_FILE_CORRUPT";
+    exports[3001] = "ER_ERROR_ON_SOURCE";
+    exports[3002] = "ER_INCONSISTENT_ERROR";
+    exports[3003] = "ER_STORAGE_ENGINE_NOT_LOADED";
+    exports[3004] = "ER_GET_STACKED_DA_WITHOUT_ACTIVE_HANDLER";
+    exports[3005] = "ER_WARN_LEGACY_SYNTAX_CONVERTED";
+    exports[3006] = "ER_BINLOG_UNSAFE_FULLTEXT_PLUGIN";
+    exports[3007] = "ER_CANNOT_DISCARD_TEMPORARY_TABLE";
+    exports[3008] = "ER_FK_DEPTH_EXCEEDED";
+    exports[3009] = "ER_COL_COUNT_DOESNT_MATCH_PLEASE_UPDATE_V2";
+    exports[3010] = "ER_WARN_TRIGGER_DOESNT_HAVE_CREATED";
+    exports[3011] = "ER_REFERENCED_TRG_DOES_NOT_EXIST";
+    exports[3012] = "ER_EXPLAIN_NOT_SUPPORTED";
+    exports[3013] = "ER_INVALID_FIELD_SIZE";
+    exports[3014] = "ER_MISSING_HA_CREATE_OPTION";
+    exports[3015] = "ER_ENGINE_OUT_OF_MEMORY";
+    exports[3016] = "ER_PASSWORD_EXPIRE_ANONYMOUS_USER";
+    exports[3017] = "ER_REPLICA_SQL_THREAD_MUST_STOP";
+    exports[3018] = "ER_NO_FT_MATERIALIZED_SUBQUERY";
+    exports[3019] = "ER_INNODB_UNDO_LOG_FULL";
+    exports[3020] = "ER_INVALID_ARGUMENT_FOR_LOGARITHM";
+    exports[3021] = "ER_REPLICA_CHANNEL_IO_THREAD_MUST_STOP";
+    exports[3022] = "ER_WARN_OPEN_TEMP_TABLES_MUST_BE_ZERO";
+    exports[3023] = "ER_WARN_ONLY_SOURCE_LOG_FILE_NO_POS";
+    exports[3024] = "ER_QUERY_TIMEOUT";
+    exports[3025] = "ER_NON_RO_SELECT_DISABLE_TIMER";
+    exports[3026] = "ER_DUP_LIST_ENTRY";
+    exports[3027] = "ER_SQL_MODE_NO_EFFECT";
+    exports[3028] = "ER_AGGREGATE_ORDER_FOR_UNION";
+    exports[3029] = "ER_AGGREGATE_ORDER_NON_AGG_QUERY";
+    exports[3030] = "ER_REPLICA_WORKER_STOPPED_PREVIOUS_THD_ERROR";
+    exports[3031] = "ER_DONT_SUPPORT_REPLICA_PRESERVE_COMMIT_ORDER";
+    exports[3032] = "ER_SERVER_OFFLINE_MODE";
+    exports[3033] = "ER_GIS_DIFFERENT_SRIDS";
+    exports[3034] = "ER_GIS_UNSUPPORTED_ARGUMENT";
+    exports[3035] = "ER_GIS_UNKNOWN_ERROR";
+    exports[3036] = "ER_GIS_UNKNOWN_EXCEPTION";
+    exports[3037] = "ER_GIS_INVALID_DATA";
+    exports[3038] = "ER_BOOST_GEOMETRY_EMPTY_INPUT_EXCEPTION";
+    exports[3039] = "ER_BOOST_GEOMETRY_CENTROID_EXCEPTION";
+    exports[3040] = "ER_BOOST_GEOMETRY_OVERLAY_INVALID_INPUT_EXCEPTION";
+    exports[3041] = "ER_BOOST_GEOMETRY_TURN_INFO_EXCEPTION";
+    exports[3042] = "ER_BOOST_GEOMETRY_SELF_INTERSECTION_POINT_EXCEPTION";
+    exports[3043] = "ER_BOOST_GEOMETRY_UNKNOWN_EXCEPTION";
+    exports[3044] = "ER_STD_BAD_ALLOC_ERROR";
+    exports[3045] = "ER_STD_DOMAIN_ERROR";
+    exports[3046] = "ER_STD_LENGTH_ERROR";
+    exports[3047] = "ER_STD_INVALID_ARGUMENT";
+    exports[3048] = "ER_STD_OUT_OF_RANGE_ERROR";
+    exports[3049] = "ER_STD_OVERFLOW_ERROR";
+    exports[3050] = "ER_STD_RANGE_ERROR";
+    exports[3051] = "ER_STD_UNDERFLOW_ERROR";
+    exports[3052] = "ER_STD_LOGIC_ERROR";
+    exports[3053] = "ER_STD_RUNTIME_ERROR";
+    exports[3054] = "ER_STD_UNKNOWN_EXCEPTION";
+    exports[3055] = "ER_GIS_DATA_WRONG_ENDIANESS";
+    exports[3056] = "ER_CHANGE_SOURCE_PASSWORD_LENGTH";
+    exports[3057] = "ER_USER_LOCK_WRONG_NAME";
+    exports[3058] = "ER_USER_LOCK_DEADLOCK";
+    exports[3059] = "ER_REPLACE_INACCESSIBLE_ROWS";
+    exports[3060] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_GIS";
+    exports[3061] = "ER_ILLEGAL_USER_VAR";
+    exports[3062] = "ER_GTID_MODE_OFF";
+    exports[3063] = "ER_UNSUPPORTED_BY_REPLICATION_THREAD";
+    exports[3064] = "ER_INCORRECT_TYPE";
+    exports[3065] = "ER_FIELD_IN_ORDER_NOT_SELECT";
+    exports[3066] = "ER_AGGREGATE_IN_ORDER_NOT_SELECT";
+    exports[3067] = "ER_INVALID_RPL_WILD_TABLE_FILTER_PATTERN";
+    exports[3068] = "ER_NET_OK_PACKET_TOO_LARGE";
+    exports[3069] = "ER_INVALID_JSON_DATA";
+    exports[3070] = "ER_INVALID_GEOJSON_MISSING_MEMBER";
+    exports[3071] = "ER_INVALID_GEOJSON_WRONG_TYPE";
+    exports[3072] = "ER_INVALID_GEOJSON_UNSPECIFIED";
+    exports[3073] = "ER_DIMENSION_UNSUPPORTED";
+    exports[3074] = "ER_REPLICA_CHANNEL_DOES_NOT_EXIST";
+    exports[3075] = "ER_SLAVE_MULTIPLE_CHANNELS_HOST_PORT";
+    exports[3076] = "ER_REPLICA_CHANNEL_NAME_INVALID_OR_TOO_LONG";
+    exports[3077] = "ER_REPLICA_NEW_CHANNEL_WRONG_REPOSITORY";
+    exports[3078] = "ER_SLAVE_CHANNEL_DELETE";
+    exports[3079] = "ER_REPLICA_MULTIPLE_CHANNELS_CMD";
+    exports[3080] = "ER_REPLICA_MAX_CHANNELS_EXCEEDED";
+    exports[3081] = "ER_REPLICA_CHANNEL_MUST_STOP";
+    exports[3082] = "ER_REPLICA_CHANNEL_NOT_RUNNING";
+    exports[3083] = "ER_REPLICA_CHANNEL_WAS_RUNNING";
+    exports[3084] = "ER_REPLICA_CHANNEL_WAS_NOT_RUNNING";
+    exports[3085] = "ER_REPLICA_CHANNEL_SQL_THREAD_MUST_STOP";
+    exports[3086] = "ER_REPLICA_CHANNEL_SQL_SKIP_COUNTER";
+    exports[3087] = "ER_WRONG_FIELD_WITH_GROUP_V2";
+    exports[3088] = "ER_MIX_OF_GROUP_FUNC_AND_FIELDS_V2";
+    exports[3089] = "ER_WARN_DEPRECATED_SYSVAR_UPDATE";
+    exports[3090] = "ER_WARN_DEPRECATED_SQLMODE";
+    exports[3091] = "ER_CANNOT_LOG_PARTIAL_DROP_DATABASE_WITH_GTID";
+    exports[3092] = "ER_GROUP_REPLICATION_CONFIGURATION";
+    exports[3093] = "ER_GROUP_REPLICATION_RUNNING";
+    exports[3094] = "ER_GROUP_REPLICATION_APPLIER_INIT_ERROR";
+    exports[3095] = "ER_GROUP_REPLICATION_STOP_APPLIER_THREAD_TIMEOUT";
+    exports[3096] = "ER_GROUP_REPLICATION_COMMUNICATION_LAYER_SESSION_ERROR";
+    exports[3097] = "ER_GROUP_REPLICATION_COMMUNICATION_LAYER_JOIN_ERROR";
+    exports[3098] = "ER_BEFORE_DML_VALIDATION_ERROR";
+    exports[3099] = "ER_PREVENTS_VARIABLE_WITHOUT_RBR";
+    exports[3100] = "ER_RUN_HOOK_ERROR";
+    exports[3101] = "ER_TRANSACTION_ROLLBACK_DURING_COMMIT";
+    exports[3102] = "ER_GENERATED_COLUMN_FUNCTION_IS_NOT_ALLOWED";
+    exports[3103] = "ER_UNSUPPORTED_ALTER_INPLACE_ON_VIRTUAL_COLUMN";
+    exports[3104] = "ER_WRONG_FK_OPTION_FOR_GENERATED_COLUMN";
+    exports[3105] = "ER_NON_DEFAULT_VALUE_FOR_GENERATED_COLUMN";
+    exports[3106] = "ER_UNSUPPORTED_ACTION_ON_GENERATED_COLUMN";
+    exports[3107] = "ER_GENERATED_COLUMN_NON_PRIOR";
+    exports[3108] = "ER_DEPENDENT_BY_GENERATED_COLUMN";
+    exports[3109] = "ER_GENERATED_COLUMN_REF_AUTO_INC";
+    exports[3110] = "ER_FEATURE_NOT_AVAILABLE";
+    exports[3111] = "ER_CANT_SET_GTID_MODE";
+    exports[3112] = "ER_CANT_USE_AUTO_POSITION_WITH_GTID_MODE_OFF";
+    exports[3113] = "ER_CANT_REPLICATE_ANONYMOUS_WITH_AUTO_POSITION";
+    exports[3114] = "ER_CANT_REPLICATE_ANONYMOUS_WITH_GTID_MODE_ON";
+    exports[3115] = "ER_CANT_REPLICATE_GTID_WITH_GTID_MODE_OFF";
+    exports[3116] = "ER_CANT_ENFORCE_GTID_CONSISTENCY_WITH_ONGOING_GTID_VIOLATING_TX";
+    exports[3117] = "ER_ENFORCE_GTID_CONSISTENCY_WARN_WITH_ONGOING_GTID_VIOLATING_TX";
+    exports[3118] = "ER_ACCOUNT_HAS_BEEN_LOCKED";
+    exports[3119] = "ER_WRONG_TABLESPACE_NAME";
+    exports[3120] = "ER_TABLESPACE_IS_NOT_EMPTY";
+    exports[3121] = "ER_WRONG_FILE_NAME";
+    exports[3122] = "ER_BOOST_GEOMETRY_INCONSISTENT_TURNS_EXCEPTION";
+    exports[3123] = "ER_WARN_OPTIMIZER_HINT_SYNTAX_ERROR";
+    exports[3124] = "ER_WARN_BAD_MAX_EXECUTION_TIME";
+    exports[3125] = "ER_WARN_UNSUPPORTED_MAX_EXECUTION_TIME";
+    exports[3126] = "ER_WARN_CONFLICTING_HINT";
+    exports[3127] = "ER_WARN_UNKNOWN_QB_NAME";
+    exports[3128] = "ER_UNRESOLVED_HINT_NAME";
+    exports[3129] = "ER_WARN_ON_MODIFYING_GTID_EXECUTED_TABLE";
+    exports[3130] = "ER_PLUGGABLE_PROTOCOL_COMMAND_NOT_SUPPORTED";
+    exports[3131] = "ER_LOCKING_SERVICE_WRONG_NAME";
+    exports[3132] = "ER_LOCKING_SERVICE_DEADLOCK";
+    exports[3133] = "ER_LOCKING_SERVICE_TIMEOUT";
+    exports[3134] = "ER_GIS_MAX_POINTS_IN_GEOMETRY_OVERFLOWED";
+    exports[3135] = "ER_SQL_MODE_MERGED";
+    exports[3136] = "ER_VTOKEN_PLUGIN_TOKEN_MISMATCH";
+    exports[3137] = "ER_VTOKEN_PLUGIN_TOKEN_NOT_FOUND";
+    exports[3138] = "ER_CANT_SET_VARIABLE_WHEN_OWNING_GTID";
+    exports[3139] = "ER_REPLICA_CHANNEL_OPERATION_NOT_ALLOWED";
+    exports[3140] = "ER_INVALID_JSON_TEXT";
+    exports[3141] = "ER_INVALID_JSON_TEXT_IN_PARAM";
+    exports[3142] = "ER_INVALID_JSON_BINARY_DATA";
+    exports[3143] = "ER_INVALID_JSON_PATH";
+    exports[3144] = "ER_INVALID_JSON_CHARSET";
+    exports[3145] = "ER_INVALID_JSON_CHARSET_IN_FUNCTION";
+    exports[3146] = "ER_INVALID_TYPE_FOR_JSON";
+    exports[3147] = "ER_INVALID_CAST_TO_JSON";
+    exports[3148] = "ER_INVALID_JSON_PATH_CHARSET";
+    exports[3149] = "ER_INVALID_JSON_PATH_WILDCARD";
+    exports[3150] = "ER_JSON_VALUE_TOO_BIG";
+    exports[3151] = "ER_JSON_KEY_TOO_BIG";
+    exports[3152] = "ER_JSON_USED_AS_KEY";
+    exports[3153] = "ER_JSON_VACUOUS_PATH";
+    exports[3154] = "ER_JSON_BAD_ONE_OR_ALL_ARG";
+    exports[3155] = "ER_NUMERIC_JSON_VALUE_OUT_OF_RANGE";
+    exports[3156] = "ER_INVALID_JSON_VALUE_FOR_CAST";
+    exports[3157] = "ER_JSON_DOCUMENT_TOO_DEEP";
+    exports[3158] = "ER_JSON_DOCUMENT_NULL_KEY";
+    exports[3159] = "ER_SECURE_TRANSPORT_REQUIRED";
+    exports[3160] = "ER_NO_SECURE_TRANSPORTS_CONFIGURED";
+    exports[3161] = "ER_DISABLED_STORAGE_ENGINE";
+    exports[3162] = "ER_USER_DOES_NOT_EXIST";
+    exports[3163] = "ER_USER_ALREADY_EXISTS";
+    exports[3164] = "ER_AUDIT_API_ABORT";
+    exports[3165] = "ER_INVALID_JSON_PATH_ARRAY_CELL";
+    exports[3166] = "ER_BUFPOOL_RESIZE_INPROGRESS";
+    exports[3167] = "ER_FEATURE_DISABLED_SEE_DOC";
+    exports[3168] = "ER_SERVER_ISNT_AVAILABLE";
     exports[3169] = "ER_SESSION_WAS_KILLED";
+    exports[3170] = "ER_CAPACITY_EXCEEDED";
+    exports[3171] = "ER_CAPACITY_EXCEEDED_IN_RANGE_OPTIMIZER";
+    exports[3172] = "ER_TABLE_NEEDS_UPG_PART";
+    exports[3173] = "ER_CANT_WAIT_FOR_EXECUTED_GTID_SET_WHILE_OWNING_A_GTID";
+    exports[3174] = "ER_CANNOT_ADD_FOREIGN_BASE_COL_VIRTUAL";
+    exports[3175] = "ER_CANNOT_CREATE_VIRTUAL_INDEX_CONSTRAINT";
+    exports[3176] = "ER_ERROR_ON_MODIFYING_GTID_EXECUTED_TABLE";
+    exports[3177] = "ER_LOCK_REFUSED_BY_ENGINE";
+    exports[3178] = "ER_UNSUPPORTED_ALTER_ONLINE_ON_VIRTUAL_COLUMN";
+    exports[3179] = "ER_MASTER_KEY_ROTATION_NOT_SUPPORTED_BY_SE";
+    exports[3180] = "ER_MASTER_KEY_ROTATION_ERROR_BY_SE";
+    exports[3181] = "ER_MASTER_KEY_ROTATION_BINLOG_FAILED";
+    exports[3182] = "ER_MASTER_KEY_ROTATION_SE_UNAVAILABLE";
+    exports[3183] = "ER_TABLESPACE_CANNOT_ENCRYPT";
+    exports[3184] = "ER_INVALID_ENCRYPTION_OPTION";
+    exports[3185] = "ER_CANNOT_FIND_KEY_IN_KEYRING";
+    exports[3186] = "ER_CAPACITY_EXCEEDED_IN_PARSER";
+    exports[3187] = "ER_UNSUPPORTED_ALTER_ENCRYPTION_INPLACE";
+    exports[3188] = "ER_KEYRING_UDF_KEYRING_SERVICE_ERROR";
+    exports[3189] = "ER_USER_COLUMN_OLD_LENGTH";
+    exports[3190] = "ER_CANT_RESET_SOURCE";
+    exports[3191] = "ER_GROUP_REPLICATION_MAX_GROUP_SIZE";
+    exports[3192] = "ER_CANNOT_ADD_FOREIGN_BASE_COL_STORED";
+    exports[3193] = "ER_TABLE_REFERENCED";
+    exports[3194] = "ER_PARTITION_ENGINE_DEPRECATED_FOR_TABLE";
+    exports[3195] = "ER_WARN_USING_GEOMFROMWKB_TO_SET_SRID_ZERO";
+    exports[3196] = "ER_WARN_USING_GEOMFROMWKB_TO_SET_SRID";
+    exports[3197] = "ER_XA_RETRY";
+    exports[3198] = "ER_KEYRING_AWS_UDF_AWS_KMS_ERROR";
+    exports[3199] = "ER_BINLOG_UNSAFE_XA";
+    exports[3200] = "ER_UDF_ERROR";
+    exports[3201] = "ER_KEYRING_MIGRATION_FAILURE";
+    exports[3202] = "ER_KEYRING_ACCESS_DENIED_ERROR";
+    exports[3203] = "ER_KEYRING_MIGRATION_STATUS";
+    exports[3204] = "ER_PLUGIN_FAILED_TO_OPEN_TABLES";
+    exports[3205] = "ER_PLUGIN_FAILED_TO_OPEN_TABLE";
+    exports[3206] = "ER_AUDIT_LOG_NO_KEYRING_PLUGIN_INSTALLED";
+    exports[3207] = "ER_AUDIT_LOG_ENCRYPTION_PASSWORD_HAS_NOT_BEEN_SET";
+    exports[3208] = "ER_AUDIT_LOG_COULD_NOT_CREATE_AES_KEY";
+    exports[3209] = "ER_AUDIT_LOG_ENCRYPTION_PASSWORD_CANNOT_BE_FETCHED";
+    exports[3210] = "ER_AUDIT_LOG_JSON_FILTERING_NOT_ENABLED";
+    exports[3211] = "ER_AUDIT_LOG_UDF_INSUFFICIENT_PRIVILEGE";
+    exports[3212] = "ER_AUDIT_LOG_SUPER_PRIVILEGE_REQUIRED";
+    exports[3213] = "ER_COULD_NOT_REINITIALIZE_AUDIT_LOG_FILTERS";
+    exports[3214] = "ER_AUDIT_LOG_UDF_INVALID_ARGUMENT_TYPE";
+    exports[3215] = "ER_AUDIT_LOG_UDF_INVALID_ARGUMENT_COUNT";
+    exports[3216] = "ER_AUDIT_LOG_HAS_NOT_BEEN_INSTALLED";
+    exports[3217] = "ER_AUDIT_LOG_UDF_READ_INVALID_MAX_ARRAY_LENGTH_ARG_TYPE";
+    exports[3218] = "ER_AUDIT_LOG_UDF_READ_INVALID_MAX_ARRAY_LENGTH_ARG_VALUE";
+    exports[3219] = "ER_AUDIT_LOG_JSON_FILTER_PARSING_ERROR";
+    exports[3220] = "ER_AUDIT_LOG_JSON_FILTER_NAME_CANNOT_BE_EMPTY";
+    exports[3221] = "ER_AUDIT_LOG_JSON_USER_NAME_CANNOT_BE_EMPTY";
+    exports[3222] = "ER_AUDIT_LOG_JSON_FILTER_DOES_NOT_EXISTS";
+    exports[3223] = "ER_AUDIT_LOG_USER_FIRST_CHARACTER_MUST_BE_ALPHANUMERIC";
+    exports[3224] = "ER_AUDIT_LOG_USER_NAME_INVALID_CHARACTER";
+    exports[3225] = "ER_AUDIT_LOG_HOST_NAME_INVALID_CHARACTER";
+    exports[3226] = "WARN_DEPRECATED_MAXDB_SQL_MODE_FOR_TIMESTAMP";
+    exports[3227] = "ER_XA_REPLICATION_FILTERS";
+    exports[3228] = "ER_CANT_OPEN_ERROR_LOG";
+    exports[3229] = "ER_GROUPING_ON_TIMESTAMP_IN_DST";
+    exports[3230] = "ER_CANT_START_SERVER_NAMED_PIPE";
+    exports[3231] = "ER_WRITE_SET_EXCEEDS_LIMIT";
+    exports[3232] = "ER_DEPRECATED_TLS_VERSION_SESSION_57";
+    exports[3233] = "ER_WARN_DEPRECATED_TLS_VERSION_57";
+    exports[3234] = "ER_WARN_WRONG_NATIVE_TABLE_STRUCTURE";
+    exports[3235] = "ER_AES_INVALID_KDF_NAME";
+    exports[3236] = "ER_AES_INVALID_KDF_ITERATIONS";
+    exports[3237] = "WARN_AES_KEY_SIZE";
+    exports[3238] = "ER_AES_INVALID_KDF_OPTION_SIZE";
+    exports[3500] = "ER_UNSUPPORT_COMPRESSED_TEMPORARY_TABLE";
+    exports[3501] = "ER_ACL_OPERATION_FAILED";
+    exports[3502] = "ER_UNSUPPORTED_INDEX_ALGORITHM";
+    exports[3503] = "ER_NO_SUCH_DB";
+    exports[3504] = "ER_TOO_BIG_ENUM";
+    exports[3505] = "ER_TOO_LONG_SET_ENUM_VALUE";
+    exports[3506] = "ER_INVALID_DD_OBJECT";
+    exports[3507] = "ER_UPDATING_DD_TABLE";
+    exports[3508] = "ER_INVALID_DD_OBJECT_ID";
+    exports[3509] = "ER_INVALID_DD_OBJECT_NAME";
+    exports[3510] = "ER_TABLESPACE_MISSING_WITH_NAME";
+    exports[3511] = "ER_TOO_LONG_ROUTINE_COMMENT";
+    exports[3512] = "ER_SP_LOAD_FAILED";
+    exports[3513] = "ER_INVALID_BITWISE_OPERANDS_SIZE";
+    exports[3514] = "ER_INVALID_BITWISE_AGGREGATE_OPERANDS_SIZE";
+    exports[3515] = "ER_WARN_UNSUPPORTED_HINT";
+    exports[3516] = "ER_UNEXPECTED_GEOMETRY_TYPE";
+    exports[3517] = "ER_SRS_PARSE_ERROR";
+    exports[3518] = "ER_SRS_PROJ_PARAMETER_MISSING";
+    exports[3519] = "ER_WARN_SRS_NOT_FOUND";
+    exports[3520] = "ER_SRS_NOT_CARTESIAN";
+    exports[3521] = "ER_SRS_NOT_CARTESIAN_UNDEFINED";
+    exports[3522] = "ER_PK_INDEX_CANT_BE_INVISIBLE";
+    exports[3523] = "ER_UNKNOWN_AUTHID";
+    exports[3524] = "ER_FAILED_ROLE_GRANT";
+    exports[3525] = "ER_OPEN_ROLE_TABLES";
+    exports[3526] = "ER_FAILED_DEFAULT_ROLES";
+    exports[3527] = "ER_COMPONENTS_NO_SCHEME";
+    exports[3528] = "ER_COMPONENTS_NO_SCHEME_SERVICE";
+    exports[3529] = "ER_COMPONENTS_CANT_LOAD";
+    exports[3530] = "ER_ROLE_NOT_GRANTED";
+    exports[3531] = "ER_FAILED_REVOKE_ROLE";
+    exports[3532] = "ER_RENAME_ROLE";
+    exports[3533] = "ER_COMPONENTS_CANT_ACQUIRE_SERVICE_IMPLEMENTATION";
+    exports[3534] = "ER_COMPONENTS_CANT_SATISFY_DEPENDENCY";
+    exports[3535] = "ER_COMPONENTS_LOAD_CANT_REGISTER_SERVICE_IMPLEMENTATION";
+    exports[3536] = "ER_COMPONENTS_LOAD_CANT_INITIALIZE";
+    exports[3537] = "ER_COMPONENTS_UNLOAD_NOT_LOADED";
+    exports[3538] = "ER_COMPONENTS_UNLOAD_CANT_DEINITIALIZE";
+    exports[3539] = "ER_COMPONENTS_CANT_RELEASE_SERVICE";
+    exports[3540] = "ER_COMPONENTS_UNLOAD_CANT_UNREGISTER_SERVICE";
+    exports[3541] = "ER_COMPONENTS_CANT_UNLOAD";
+    exports[3542] = "ER_WARN_UNLOAD_THE_NOT_PERSISTED";
+    exports[3543] = "ER_COMPONENT_TABLE_INCORRECT";
+    exports[3544] = "ER_COMPONENT_MANIPULATE_ROW_FAILED";
+    exports[3545] = "ER_COMPONENTS_UNLOAD_DUPLICATE_IN_GROUP";
+    exports[3546] = "ER_CANT_SET_GTID_PURGED_DUE_SETS_CONSTRAINTS";
+    exports[3547] = "ER_CANNOT_LOCK_USER_MANAGEMENT_CACHES";
+    exports[3548] = "ER_SRS_NOT_FOUND";
+    exports[3549] = "ER_VARIABLE_NOT_PERSISTED";
+    exports[3550] = "ER_IS_QUERY_INVALID_CLAUSE";
+    exports[3551] = "ER_UNABLE_TO_STORE_STATISTICS";
+    exports[3552] = "ER_NO_SYSTEM_SCHEMA_ACCESS";
+    exports[3553] = "ER_NO_SYSTEM_TABLESPACE_ACCESS";
+    exports[3554] = "ER_NO_SYSTEM_TABLE_ACCESS";
+    exports[3555] = "ER_NO_SYSTEM_TABLE_ACCESS_FOR_DICTIONARY_TABLE";
+    exports[3556] = "ER_NO_SYSTEM_TABLE_ACCESS_FOR_SYSTEM_TABLE";
+    exports[3557] = "ER_NO_SYSTEM_TABLE_ACCESS_FOR_TABLE";
+    exports[3558] = "ER_INVALID_OPTION_KEY";
+    exports[3559] = "ER_INVALID_OPTION_VALUE";
+    exports[3560] = "ER_INVALID_OPTION_KEY_VALUE_PAIR";
+    exports[3561] = "ER_INVALID_OPTION_START_CHARACTER";
+    exports[3562] = "ER_INVALID_OPTION_END_CHARACTER";
+    exports[3563] = "ER_INVALID_OPTION_CHARACTERS";
+    exports[3564] = "ER_DUPLICATE_OPTION_KEY";
+    exports[3565] = "ER_WARN_SRS_NOT_FOUND_AXIS_ORDER";
+    exports[3566] = "ER_NO_ACCESS_TO_NATIVE_FCT";
+    exports[3567] = "ER_RESET_SOURCE_TO_VALUE_OUT_OF_RANGE";
+    exports[3568] = "ER_UNRESOLVED_TABLE_LOCK";
+    exports[3569] = "ER_DUPLICATE_TABLE_LOCK";
+    exports[3570] = "ER_BINLOG_UNSAFE_SKIP_LOCKED";
+    exports[3571] = "ER_BINLOG_UNSAFE_NOWAIT";
+    exports[3572] = "ER_LOCK_NOWAIT";
+    exports[3573] = "ER_CTE_RECURSIVE_REQUIRES_UNION";
+    exports[3574] = "ER_CTE_RECURSIVE_REQUIRES_NONRECURSIVE_FIRST";
+    exports[3575] = "ER_CTE_RECURSIVE_FORBIDS_AGGREGATION";
+    exports[3576] = "ER_CTE_RECURSIVE_FORBIDDEN_JOIN_ORDER";
+    exports[3577] = "ER_CTE_RECURSIVE_REQUIRES_SINGLE_REFERENCE";
+    exports[3578] = "ER_SWITCH_TMP_ENGINE";
+    exports[3579] = "ER_WINDOW_NO_SUCH_WINDOW";
+    exports[3580] = "ER_WINDOW_CIRCULARITY_IN_WINDOW_GRAPH";
+    exports[3581] = "ER_WINDOW_NO_CHILD_PARTITIONING";
+    exports[3582] = "ER_WINDOW_NO_INHERIT_FRAME";
+    exports[3583] = "ER_WINDOW_NO_REDEFINE_ORDER_BY";
+    exports[3584] = "ER_WINDOW_FRAME_START_ILLEGAL";
+    exports[3585] = "ER_WINDOW_FRAME_END_ILLEGAL";
+    exports[3586] = "ER_WINDOW_FRAME_ILLEGAL";
+    exports[3587] = "ER_WINDOW_RANGE_FRAME_ORDER_TYPE";
+    exports[3588] = "ER_WINDOW_RANGE_FRAME_TEMPORAL_TYPE";
+    exports[3589] = "ER_WINDOW_RANGE_FRAME_NUMERIC_TYPE";
+    exports[3590] = "ER_WINDOW_RANGE_BOUND_NOT_CONSTANT";
+    exports[3591] = "ER_WINDOW_DUPLICATE_NAME";
+    exports[3592] = "ER_WINDOW_ILLEGAL_ORDER_BY";
+    exports[3593] = "ER_WINDOW_INVALID_WINDOW_FUNC_USE";
+    exports[3594] = "ER_WINDOW_INVALID_WINDOW_FUNC_ALIAS_USE";
+    exports[3595] = "ER_WINDOW_NESTED_WINDOW_FUNC_USE_IN_WINDOW_SPEC";
+    exports[3596] = "ER_WINDOW_ROWS_INTERVAL_USE";
+    exports[3597] = "ER_WINDOW_NO_GROUP_ORDER";
+    exports[3598] = "ER_WINDOW_EXPLAIN_JSON";
+    exports[3599] = "ER_WINDOW_FUNCTION_IGNORES_FRAME";
+    exports[3600] = "ER_WL9236_NOW";
+    exports[3601] = "ER_INVALID_NO_OF_ARGS";
+    exports[3602] = "ER_FIELD_IN_GROUPING_NOT_GROUP_BY";
+    exports[3603] = "ER_TOO_LONG_TABLESPACE_COMMENT";
+    exports[3604] = "ER_ENGINE_CANT_DROP_TABLE";
+    exports[3605] = "ER_ENGINE_CANT_DROP_MISSING_TABLE";
+    exports[3606] = "ER_TABLESPACE_DUP_FILENAME";
+    exports[3607] = "ER_DB_DROP_RMDIR2";
+    exports[3608] = "ER_IMP_NO_FILES_MATCHED";
+    exports[3609] = "ER_IMP_SCHEMA_DOES_NOT_EXIST";
+    exports[3610] = "ER_IMP_TABLE_ALREADY_EXISTS";
+    exports[3611] = "ER_IMP_INCOMPATIBLE_MYSQLD_VERSION";
+    exports[3612] = "ER_IMP_INCOMPATIBLE_DD_VERSION";
+    exports[3613] = "ER_IMP_INCOMPATIBLE_SDI_VERSION";
+    exports[3614] = "ER_WARN_INVALID_HINT";
+    exports[3615] = "ER_VAR_DOES_NOT_EXIST";
+    exports[3616] = "ER_LONGITUDE_OUT_OF_RANGE";
+    exports[3617] = "ER_LATITUDE_OUT_OF_RANGE";
+    exports[3618] = "ER_NOT_IMPLEMENTED_FOR_GEOGRAPHIC_SRS";
+    exports[3619] = "ER_ILLEGAL_PRIVILEGE_LEVEL";
+    exports[3620] = "ER_NO_SYSTEM_VIEW_ACCESS";
+    exports[3621] = "ER_COMPONENT_FILTER_FLABBERGASTED";
+    exports[3622] = "ER_PART_EXPR_TOO_LONG";
+    exports[3623] = "ER_UDF_DROP_DYNAMICALLY_REGISTERED";
+    exports[3624] = "ER_UNABLE_TO_STORE_COLUMN_STATISTICS";
+    exports[3625] = "ER_UNABLE_TO_UPDATE_COLUMN_STATISTICS";
+    exports[3626] = "ER_UNABLE_TO_DROP_COLUMN_STATISTICS";
+    exports[3627] = "ER_UNABLE_TO_BUILD_HISTOGRAM";
+    exports[3628] = "ER_MANDATORY_ROLE";
+    exports[3629] = "ER_MISSING_TABLESPACE_FILE";
+    exports[3630] = "ER_PERSIST_ONLY_ACCESS_DENIED_ERROR";
+    exports[3631] = "ER_CMD_NEED_SUPER";
+    exports[3632] = "ER_PATH_IN_DATADIR";
+    exports[3633] = "ER_CLONE_DDL_IN_PROGRESS";
+    exports[3634] = "ER_CLONE_TOO_MANY_CONCURRENT_CLONES";
+    exports[3635] = "ER_APPLIER_LOG_EVENT_VALIDATION_ERROR";
+    exports[3636] = "ER_CTE_MAX_RECURSION_DEPTH";
+    exports[3637] = "ER_NOT_HINT_UPDATABLE_VARIABLE";
+    exports[3638] = "ER_CREDENTIALS_CONTRADICT_TO_HISTORY";
+    exports[3639] = "ER_WARNING_PASSWORD_HISTORY_CLAUSES_VOID";
+    exports[3640] = "ER_CLIENT_DOES_NOT_SUPPORT";
+    exports[3641] = "ER_I_S_SKIPPED_TABLESPACE";
+    exports[3642] = "ER_TABLESPACE_ENGINE_MISMATCH";
+    exports[3643] = "ER_WRONG_SRID_FOR_COLUMN";
+    exports[3644] = "ER_CANNOT_ALTER_SRID_DUE_TO_INDEX";
+    exports[3645] = "ER_WARN_BINLOG_PARTIAL_UPDATES_DISABLED";
+    exports[3646] = "ER_WARN_BINLOG_V1_ROW_EVENTS_DISABLED";
+    exports[3647] = "ER_WARN_BINLOG_PARTIAL_UPDATES_SUGGESTS_PARTIAL_IMAGES";
+    exports[3648] = "ER_COULD_NOT_APPLY_JSON_DIFF";
+    exports[3649] = "ER_CORRUPTED_JSON_DIFF";
+    exports[3650] = "ER_RESOURCE_GROUP_EXISTS";
+    exports[3651] = "ER_RESOURCE_GROUP_NOT_EXISTS";
+    exports[3652] = "ER_INVALID_VCPU_ID";
+    exports[3653] = "ER_INVALID_VCPU_RANGE";
+    exports[3654] = "ER_INVALID_THREAD_PRIORITY";
+    exports[3655] = "ER_DISALLOWED_OPERATION";
+    exports[3656] = "ER_RESOURCE_GROUP_BUSY";
+    exports[3657] = "ER_RESOURCE_GROUP_DISABLED";
+    exports[3658] = "ER_FEATURE_UNSUPPORTED";
+    exports[3659] = "ER_ATTRIBUTE_IGNORED";
+    exports[3660] = "ER_INVALID_THREAD_ID";
+    exports[3661] = "ER_RESOURCE_GROUP_BIND_FAILED";
+    exports[3662] = "ER_INVALID_USE_OF_FORCE_OPTION";
+    exports[3663] = "ER_GROUP_REPLICATION_COMMAND_FAILURE";
+    exports[3664] = "ER_SDI_OPERATION_FAILED";
+    exports[3665] = "ER_MISSING_JSON_TABLE_VALUE";
+    exports[3666] = "ER_WRONG_JSON_TABLE_VALUE";
+    exports[3667] = "ER_TF_MUST_HAVE_ALIAS";
+    exports[3668] = "ER_TF_FORBIDDEN_JOIN_TYPE";
+    exports[3669] = "ER_JT_VALUE_OUT_OF_RANGE";
+    exports[3670] = "ER_JT_MAX_NESTED_PATH";
+    exports[3671] = "ER_PASSWORD_EXPIRATION_NOT_SUPPORTED_BY_AUTH_METHOD";
+    exports[3672] = "ER_INVALID_GEOJSON_CRS_NOT_TOP_LEVEL";
+    exports[3673] = "ER_BAD_NULL_ERROR_NOT_IGNORED";
+    exports[3674] = "WARN_USELESS_SPATIAL_INDEX";
+    exports[3675] = "ER_DISK_FULL_NOWAIT";
+    exports[3676] = "ER_PARSE_ERROR_IN_DIGEST_FN";
+    exports[3677] = "ER_UNDISCLOSED_PARSE_ERROR_IN_DIGEST_FN";
+    exports[3678] = "ER_SCHEMA_DIR_EXISTS";
+    exports[3679] = "ER_SCHEMA_DIR_MISSING";
+    exports[3680] = "ER_SCHEMA_DIR_CREATE_FAILED";
+    exports[3681] = "ER_SCHEMA_DIR_UNKNOWN";
+    exports[3682] = "ER_ONLY_IMPLEMENTED_FOR_SRID_0_AND_4326";
+    exports[3683] = "ER_BINLOG_EXPIRE_LOG_DAYS_AND_SECS_USED_TOGETHER";
+    exports[3684] = "ER_REGEXP_BUFFER_OVERFLOW";
+    exports[3685] = "ER_REGEXP_ILLEGAL_ARGUMENT";
+    exports[3686] = "ER_REGEXP_INDEX_OUTOFBOUNDS_ERROR";
+    exports[3687] = "ER_REGEXP_INTERNAL_ERROR";
+    exports[3688] = "ER_REGEXP_RULE_SYNTAX";
+    exports[3689] = "ER_REGEXP_BAD_ESCAPE_SEQUENCE";
+    exports[3690] = "ER_REGEXP_UNIMPLEMENTED";
+    exports[3691] = "ER_REGEXP_MISMATCHED_PAREN";
+    exports[3692] = "ER_REGEXP_BAD_INTERVAL";
+    exports[3693] = "ER_REGEXP_MAX_LT_MIN";
+    exports[3694] = "ER_REGEXP_INVALID_BACK_REF";
+    exports[3695] = "ER_REGEXP_LOOK_BEHIND_LIMIT";
+    exports[3696] = "ER_REGEXP_MISSING_CLOSE_BRACKET";
+    exports[3697] = "ER_REGEXP_INVALID_RANGE";
+    exports[3698] = "ER_REGEXP_STACK_OVERFLOW";
+    exports[3699] = "ER_REGEXP_TIME_OUT";
+    exports[3700] = "ER_REGEXP_PATTERN_TOO_BIG";
+    exports[3701] = "ER_CANT_SET_ERROR_LOG_SERVICE";
+    exports[3702] = "ER_EMPTY_PIPELINE_FOR_ERROR_LOG_SERVICE";
+    exports[3703] = "ER_COMPONENT_FILTER_DIAGNOSTICS";
+    exports[3704] = "ER_NOT_IMPLEMENTED_FOR_CARTESIAN_SRS";
+    exports[3705] = "ER_NOT_IMPLEMENTED_FOR_PROJECTED_SRS";
+    exports[3706] = "ER_NONPOSITIVE_RADIUS";
+    exports[3707] = "ER_RESTART_SERVER_FAILED";
+    exports[3708] = "ER_SRS_MISSING_MANDATORY_ATTRIBUTE";
+    exports[3709] = "ER_SRS_MULTIPLE_ATTRIBUTE_DEFINITIONS";
+    exports[3710] = "ER_SRS_NAME_CANT_BE_EMPTY_OR_WHITESPACE";
+    exports[3711] = "ER_SRS_ORGANIZATION_CANT_BE_EMPTY_OR_WHITESPACE";
+    exports[3712] = "ER_SRS_ID_ALREADY_EXISTS";
+    exports[3713] = "ER_WARN_SRS_ID_ALREADY_EXISTS";
+    exports[3714] = "ER_CANT_MODIFY_SRID_0";
+    exports[3715] = "ER_WARN_RESERVED_SRID_RANGE";
+    exports[3716] = "ER_CANT_MODIFY_SRS_USED_BY_COLUMN";
+    exports[3717] = "ER_SRS_INVALID_CHARACTER_IN_ATTRIBUTE";
+    exports[3718] = "ER_SRS_ATTRIBUTE_STRING_TOO_LONG";
+    exports[3719] = "ER_DEPRECATED_UTF8_ALIAS";
+    exports[3720] = "ER_DEPRECATED_NATIONAL";
+    exports[3721] = "ER_INVALID_DEFAULT_UTF8MB4_COLLATION";
+    exports[3722] = "ER_UNABLE_TO_COLLECT_LOG_STATUS";
+    exports[3723] = "ER_RESERVED_TABLESPACE_NAME";
+    exports[3724] = "ER_UNABLE_TO_SET_OPTION";
+    exports[3725] = "ER_REPLICA_POSSIBLY_DIVERGED_AFTER_DDL";
+    exports[3726] = "ER_SRS_NOT_GEOGRAPHIC";
+    exports[3727] = "ER_POLYGON_TOO_LARGE";
+    exports[3728] = "ER_SPATIAL_UNIQUE_INDEX";
+    exports[3729] = "ER_INDEX_TYPE_NOT_SUPPORTED_FOR_SPATIAL_INDEX";
+    exports[3730] = "ER_FK_CANNOT_DROP_PARENT";
+    exports[3731] = "ER_GEOMETRY_PARAM_LONGITUDE_OUT_OF_RANGE";
+    exports[3732] = "ER_GEOMETRY_PARAM_LATITUDE_OUT_OF_RANGE";
+    exports[3733] = "ER_FK_CANNOT_USE_VIRTUAL_COLUMN";
+    exports[3734] = "ER_FK_NO_COLUMN_PARENT";
+    exports[3735] = "ER_CANT_SET_ERROR_SUPPRESSION_LIST";
+    exports[3736] = "ER_SRS_GEOGCS_INVALID_AXES";
+    exports[3737] = "ER_SRS_INVALID_SEMI_MAJOR_AXIS";
+    exports[3738] = "ER_SRS_INVALID_INVERSE_FLATTENING";
+    exports[3739] = "ER_SRS_INVALID_ANGULAR_UNIT";
+    exports[3740] = "ER_SRS_INVALID_PRIME_MERIDIAN";
+    exports[3741] = "ER_TRANSFORM_SOURCE_SRS_NOT_SUPPORTED";
+    exports[3742] = "ER_TRANSFORM_TARGET_SRS_NOT_SUPPORTED";
+    exports[3743] = "ER_TRANSFORM_SOURCE_SRS_MISSING_TOWGS84";
+    exports[3744] = "ER_TRANSFORM_TARGET_SRS_MISSING_TOWGS84";
+    exports[3745] = "ER_TEMP_TABLE_PREVENTS_SWITCH_SESSION_BINLOG_FORMAT";
+    exports[3746] = "ER_TEMP_TABLE_PREVENTS_SWITCH_GLOBAL_BINLOG_FORMAT";
+    exports[3747] = "ER_RUNNING_APPLIER_PREVENTS_SWITCH_GLOBAL_BINLOG_FORMAT";
+    exports[3748] = "ER_CLIENT_GTID_UNSAFE_CREATE_DROP_TEMP_TABLE_IN_TRX_IN_SBR";
+    exports[3749] = "ER_XA_CANT_CREATE_MDL_BACKUP";
+    exports[3750] = "ER_TABLE_WITHOUT_PK";
+    exports[3751] = "ER_WARN_DATA_TRUNCATED_FUNCTIONAL_INDEX";
+    exports[3752] = "ER_WARN_DATA_OUT_OF_RANGE_FUNCTIONAL_INDEX";
+    exports[3753] = "ER_FUNCTIONAL_INDEX_ON_JSON_OR_GEOMETRY_FUNCTION";
+    exports[3754] = "ER_FUNCTIONAL_INDEX_REF_AUTO_INCREMENT";
+    exports[3755] = "ER_CANNOT_DROP_COLUMN_FUNCTIONAL_INDEX";
+    exports[3756] = "ER_FUNCTIONAL_INDEX_PRIMARY_KEY";
+    exports[3757] = "ER_FUNCTIONAL_INDEX_ON_LOB";
+    exports[3758] = "ER_FUNCTIONAL_INDEX_FUNCTION_IS_NOT_ALLOWED";
+    exports[3759] = "ER_FULLTEXT_FUNCTIONAL_INDEX";
+    exports[3760] = "ER_SPATIAL_FUNCTIONAL_INDEX";
+    exports[3761] = "ER_WRONG_KEY_COLUMN_FUNCTIONAL_INDEX";
+    exports[3762] = "ER_FUNCTIONAL_INDEX_ON_FIELD";
+    exports[3763] = "ER_GENERATED_COLUMN_NAMED_FUNCTION_IS_NOT_ALLOWED";
+    exports[3764] = "ER_GENERATED_COLUMN_ROW_VALUE";
+    exports[3765] = "ER_GENERATED_COLUMN_VARIABLES";
+    exports[3766] = "ER_DEPENDENT_BY_DEFAULT_GENERATED_VALUE";
+    exports[3767] = "ER_DEFAULT_VAL_GENERATED_NON_PRIOR";
+    exports[3768] = "ER_DEFAULT_VAL_GENERATED_REF_AUTO_INC";
+    exports[3769] = "ER_DEFAULT_VAL_GENERATED_FUNCTION_IS_NOT_ALLOWED";
+    exports[3770] = "ER_DEFAULT_VAL_GENERATED_NAMED_FUNCTION_IS_NOT_ALLOWED";
+    exports[3771] = "ER_DEFAULT_VAL_GENERATED_ROW_VALUE";
+    exports[3772] = "ER_DEFAULT_VAL_GENERATED_VARIABLES";
+    exports[3773] = "ER_DEFAULT_AS_VAL_GENERATED";
+    exports[3774] = "ER_UNSUPPORTED_ACTION_ON_DEFAULT_VAL_GENERATED";
+    exports[3775] = "ER_GTID_UNSAFE_ALTER_ADD_COL_WITH_DEFAULT_EXPRESSION";
+    exports[3776] = "ER_FK_CANNOT_CHANGE_ENGINE";
+    exports[3777] = "ER_WARN_DEPRECATED_USER_SET_EXPR";
+    exports[3778] = "ER_WARN_DEPRECATED_UTF8MB3_COLLATION";
+    exports[3779] = "ER_WARN_DEPRECATED_NESTED_COMMENT_SYNTAX";
+    exports[3780] = "ER_FK_INCOMPATIBLE_COLUMNS";
+    exports[3781] = "ER_GR_HOLD_WAIT_TIMEOUT";
+    exports[3782] = "ER_GR_HOLD_KILLED";
+    exports[3783] = "ER_GR_HOLD_MEMBER_STATUS_ERROR";
+    exports[3784] = "ER_RPL_ENCRYPTION_FAILED_TO_FETCH_KEY";
+    exports[3785] = "ER_RPL_ENCRYPTION_KEY_NOT_FOUND";
+    exports[3786] = "ER_RPL_ENCRYPTION_KEYRING_INVALID_KEY";
+    exports[3787] = "ER_RPL_ENCRYPTION_HEADER_ERROR";
+    exports[3788] = "ER_RPL_ENCRYPTION_FAILED_TO_ROTATE_LOGS";
+    exports[3789] = "ER_RPL_ENCRYPTION_KEY_EXISTS_UNEXPECTED";
+    exports[3790] = "ER_RPL_ENCRYPTION_FAILED_TO_GENERATE_KEY";
+    exports[3791] = "ER_RPL_ENCRYPTION_FAILED_TO_STORE_KEY";
+    exports[3792] = "ER_RPL_ENCRYPTION_FAILED_TO_REMOVE_KEY";
+    exports[3793] = "ER_RPL_ENCRYPTION_UNABLE_TO_CHANGE_OPTION";
+    exports[3794] = "ER_RPL_ENCRYPTION_MASTER_KEY_RECOVERY_FAILED";
+    exports[3795] = "ER_SLOW_LOG_MODE_IGNORED_WHEN_NOT_LOGGING_TO_FILE";
+    exports[3796] = "ER_GRP_TRX_CONSISTENCY_NOT_ALLOWED";
+    exports[3797] = "ER_GRP_TRX_CONSISTENCY_BEFORE";
+    exports[3798] = "ER_GRP_TRX_CONSISTENCY_AFTER_ON_TRX_BEGIN";
+    exports[3799] = "ER_GRP_TRX_CONSISTENCY_BEGIN_NOT_ALLOWED";
+    exports[3800] = "ER_FUNCTIONAL_INDEX_ROW_VALUE_IS_NOT_ALLOWED";
+    exports[3801] = "ER_RPL_ENCRYPTION_FAILED_TO_ENCRYPT";
+    exports[3802] = "ER_PAGE_TRACKING_NOT_STARTED";
+    exports[3803] = "ER_PAGE_TRACKING_RANGE_NOT_TRACKED";
+    exports[3804] = "ER_PAGE_TRACKING_CANNOT_PURGE";
+    exports[3805] = "ER_RPL_ENCRYPTION_CANNOT_ROTATE_BINLOG_MASTER_KEY";
+    exports[3806] = "ER_BINLOG_MASTER_KEY_RECOVERY_OUT_OF_COMBINATION";
+    exports[3807] = "ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_OPERATE_KEY";
+    exports[3808] = "ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_ROTATE_LOGS";
+    exports[3809] = "ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_REENCRYPT_LOG";
+    exports[3810] = "ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_CLEANUP_UNUSED_KEYS";
+    exports[3811] = "ER_BINLOG_MASTER_KEY_ROTATION_FAIL_TO_CLEANUP_AUX_KEY";
+    exports[3812] = "ER_NON_BOOLEAN_EXPR_FOR_CHECK_CONSTRAINT";
+    exports[3813] = "ER_COLUMN_CHECK_CONSTRAINT_REFERENCES_OTHER_COLUMN";
+    exports[3814] = "ER_CHECK_CONSTRAINT_NAMED_FUNCTION_IS_NOT_ALLOWED";
+    exports[3815] = "ER_CHECK_CONSTRAINT_FUNCTION_IS_NOT_ALLOWED";
+    exports[3816] = "ER_CHECK_CONSTRAINT_VARIABLES";
+    exports[3817] = "ER_CHECK_CONSTRAINT_ROW_VALUE";
+    exports[3818] = "ER_CHECK_CONSTRAINT_REFERS_AUTO_INCREMENT_COLUMN";
+    exports[3819] = "ER_CHECK_CONSTRAINT_VIOLATED";
+    exports[3820] = "ER_CHECK_CONSTRAINT_REFERS_UNKNOWN_COLUMN";
+    exports[3821] = "ER_CHECK_CONSTRAINT_NOT_FOUND";
+    exports[3822] = "ER_CHECK_CONSTRAINT_DUP_NAME";
+    exports[3823] = "ER_CHECK_CONSTRAINT_CLAUSE_USING_FK_REFER_ACTION_COLUMN";
+    exports[3824] = "WARN_UNENCRYPTED_TABLE_IN_ENCRYPTED_DB";
+    exports[3825] = "ER_INVALID_ENCRYPTION_REQUEST";
+    exports[3826] = "ER_CANNOT_SET_TABLE_ENCRYPTION";
+    exports[3827] = "ER_CANNOT_SET_DATABASE_ENCRYPTION";
+    exports[3828] = "ER_CANNOT_SET_TABLESPACE_ENCRYPTION";
+    exports[3829] = "ER_TABLESPACE_CANNOT_BE_ENCRYPTED";
+    exports[3830] = "ER_TABLESPACE_CANNOT_BE_DECRYPTED";
+    exports[3831] = "ER_TABLESPACE_TYPE_UNKNOWN";
+    exports[3832] = "ER_TARGET_TABLESPACE_UNENCRYPTED";
+    exports[3833] = "ER_CANNOT_USE_ENCRYPTION_CLAUSE";
+    exports[3834] = "ER_INVALID_MULTIPLE_CLAUSES";
+    exports[3835] = "ER_UNSUPPORTED_USE_OF_GRANT_AS";
+    exports[3836] = "ER_UKNOWN_AUTH_ID_OR_ACCESS_DENIED_FOR_GRANT_AS";
+    exports[3837] = "ER_DEPENDENT_BY_FUNCTIONAL_INDEX";
+    exports[3838] = "ER_PLUGIN_NOT_EARLY";
+    exports[3839] = "ER_INNODB_REDO_LOG_ARCHIVE_START_SUBDIR_PATH";
+    exports[3840] = "ER_INNODB_REDO_LOG_ARCHIVE_START_TIMEOUT";
+    exports[3841] = "ER_INNODB_REDO_LOG_ARCHIVE_DIRS_INVALID";
+    exports[3842] = "ER_INNODB_REDO_LOG_ARCHIVE_LABEL_NOT_FOUND";
+    exports[3843] = "ER_INNODB_REDO_LOG_ARCHIVE_DIR_EMPTY";
+    exports[3844] = "ER_INNODB_REDO_LOG_ARCHIVE_NO_SUCH_DIR";
+    exports[3845] = "ER_INNODB_REDO_LOG_ARCHIVE_DIR_CLASH";
+    exports[3846] = "ER_INNODB_REDO_LOG_ARCHIVE_DIR_PERMISSIONS";
+    exports[3847] = "ER_INNODB_REDO_LOG_ARCHIVE_FILE_CREATE";
+    exports[3848] = "ER_INNODB_REDO_LOG_ARCHIVE_ACTIVE";
+    exports[3849] = "ER_INNODB_REDO_LOG_ARCHIVE_INACTIVE";
+    exports[3850] = "ER_INNODB_REDO_LOG_ARCHIVE_FAILED";
+    exports[3851] = "ER_INNODB_REDO_LOG_ARCHIVE_SESSION";
+    exports[3852] = "ER_STD_REGEX_ERROR";
+    exports[3853] = "ER_INVALID_JSON_TYPE";
+    exports[3854] = "ER_CANNOT_CONVERT_STRING";
+    exports[3855] = "ER_DEPENDENT_BY_PARTITION_FUNC";
+    exports[3856] = "ER_WARN_DEPRECATED_FLOAT_AUTO_INCREMENT";
+    exports[3857] = "ER_RPL_CANT_STOP_REPLICA_WHILE_LOCKED_BACKUP";
+    exports[3858] = "ER_WARN_DEPRECATED_FLOAT_DIGITS";
+    exports[3859] = "ER_WARN_DEPRECATED_FLOAT_UNSIGNED";
+    exports[3860] = "ER_WARN_DEPRECATED_INTEGER_DISPLAY_WIDTH";
+    exports[3861] = "ER_WARN_DEPRECATED_ZEROFILL";
+    exports[3862] = "ER_CLONE_DONOR";
+    exports[3863] = "ER_CLONE_PROTOCOL";
+    exports[3864] = "ER_CLONE_DONOR_VERSION";
+    exports[3865] = "ER_CLONE_OS";
+    exports[3866] = "ER_CLONE_PLATFORM";
+    exports[3867] = "ER_CLONE_CHARSET";
+    exports[3868] = "ER_CLONE_CONFIG";
+    exports[3869] = "ER_CLONE_SYS_CONFIG";
+    exports[3870] = "ER_CLONE_PLUGIN_MATCH";
+    exports[3871] = "ER_CLONE_LOOPBACK";
+    exports[3872] = "ER_CLONE_ENCRYPTION";
+    exports[3873] = "ER_CLONE_DISK_SPACE";
+    exports[3874] = "ER_CLONE_IN_PROGRESS";
+    exports[3875] = "ER_CLONE_DISALLOWED";
+    exports[3876] = "ER_CANNOT_GRANT_ROLES_TO_ANONYMOUS_USER";
+    exports[3877] = "ER_SECONDARY_ENGINE_PLUGIN";
+    exports[3878] = "ER_SECOND_PASSWORD_CANNOT_BE_EMPTY";
+    exports[3879] = "ER_DB_ACCESS_DENIED";
+    exports[3880] = "ER_DA_AUTH_ID_WITH_SYSTEM_USER_PRIV_IN_MANDATORY_ROLES";
+    exports[3881] = "ER_DA_RPL_GTID_TABLE_CANNOT_OPEN";
+    exports[3882] = "ER_GEOMETRY_IN_UNKNOWN_LENGTH_UNIT";
+    exports[3883] = "ER_DA_PLUGIN_INSTALL_ERROR";
+    exports[3884] = "ER_NO_SESSION_TEMP";
+    exports[3885] = "ER_DA_UNKNOWN_ERROR_NUMBER";
+    exports[3886] = "ER_COLUMN_CHANGE_SIZE";
+    exports[3887] = "ER_REGEXP_INVALID_CAPTURE_GROUP_NAME";
+    exports[3888] = "ER_DA_SSL_LIBRARY_ERROR";
+    exports[3889] = "ER_SECONDARY_ENGINE";
+    exports[3890] = "ER_SECONDARY_ENGINE_DDL";
+    exports[3891] = "ER_INCORRECT_CURRENT_PASSWORD";
+    exports[3892] = "ER_MISSING_CURRENT_PASSWORD";
+    exports[3893] = "ER_CURRENT_PASSWORD_NOT_REQUIRED";
+    exports[3894] = "ER_PASSWORD_CANNOT_BE_RETAINED_ON_PLUGIN_CHANGE";
+    exports[3895] = "ER_CURRENT_PASSWORD_CANNOT_BE_RETAINED";
+    exports[3896] = "ER_PARTIAL_REVOKES_EXIST";
+    exports[3897] = "ER_CANNOT_GRANT_SYSTEM_PRIV_TO_MANDATORY_ROLE";
+    exports[3898] = "ER_XA_REPLICATION_FILTERS";
+    exports[3899] = "ER_UNSUPPORTED_SQL_MODE";
+    exports[3900] = "ER_REGEXP_INVALID_FLAG";
+    exports[3901] = "ER_PARTIAL_REVOKE_AND_DB_GRANT_BOTH_EXISTS";
+    exports[3902] = "ER_UNIT_NOT_FOUND";
+    exports[3903] = "ER_INVALID_JSON_VALUE_FOR_FUNC_INDEX";
+    exports[3904] = "ER_JSON_VALUE_OUT_OF_RANGE_FOR_FUNC_INDEX";
+    exports[3905] = "ER_EXCEEDED_MV_KEYS_NUM";
+    exports[3906] = "ER_EXCEEDED_MV_KEYS_SPACE";
+    exports[3907] = "ER_FUNCTIONAL_INDEX_DATA_IS_TOO_LONG";
+    exports[3908] = "ER_WRONG_MVI_VALUE";
+    exports[3909] = "ER_WARN_FUNC_INDEX_NOT_APPLICABLE";
+    exports[3910] = "ER_GRP_RPL_UDF_ERROR";
+    exports[3911] = "ER_UPDATE_GTID_PURGED_WITH_GR";
+    exports[3912] = "ER_GROUPING_ON_TIMESTAMP_IN_DST";
+    exports[3913] = "ER_TABLE_NAME_CAUSES_TOO_LONG_PATH";
+    exports[3914] = "ER_AUDIT_LOG_INSUFFICIENT_PRIVILEGE";
+    exports[3915] = "ER_AUDIT_LOG_PASSWORD_HAS_BEEN_COPIED";
+    exports[3916] = "ER_DA_GRP_RPL_STARTED_AUTO_REJOIN";
+    exports[3917] = "ER_SYSVAR_CHANGE_DURING_QUERY";
+    exports[3918] = "ER_GLOBSTAT_CHANGE_DURING_QUERY";
+    exports[3919] = "ER_GRP_RPL_MESSAGE_SERVICE_INIT_FAILURE";
+    exports[3920] = "ER_CHANGE_SOURCE_WRONG_COMPRESSION_ALGORITHM_CLIENT";
+    exports[3921] = "ER_CHANGE_SOURCE_WRONG_COMPRESSION_LEVEL_CLIENT";
+    exports[3922] = "ER_WRONG_COMPRESSION_ALGORITHM_CLIENT";
+    exports[3923] = "ER_WRONG_COMPRESSION_LEVEL_CLIENT";
+    exports[3924] = "ER_CHANGE_SOURCE_WRONG_COMPRESSION_ALGORITHM_LIST_CLIENT";
+    exports[3925] = "ER_CLIENT_PRIVILEGE_CHECKS_USER_CANNOT_BE_ANONYMOUS";
+    exports[3926] = "ER_CLIENT_PRIVILEGE_CHECKS_USER_DOES_NOT_EXIST";
+    exports[3927] = "ER_CLIENT_PRIVILEGE_CHECKS_USER_CORRUPT";
+    exports[3928] = "ER_CLIENT_PRIVILEGE_CHECKS_USER_NEEDS_RPL_APPLIER_PRIV";
+    exports[3929] = "ER_WARN_DA_PRIVILEGE_NOT_REGISTERED";
+    exports[3930] = "ER_CLIENT_KEYRING_UDF_KEY_INVALID";
+    exports[3931] = "ER_CLIENT_KEYRING_UDF_KEY_TYPE_INVALID";
+    exports[3932] = "ER_CLIENT_KEYRING_UDF_KEY_TOO_LONG";
+    exports[3933] = "ER_CLIENT_KEYRING_UDF_KEY_TYPE_TOO_LONG";
+    exports[3934] = "ER_JSON_SCHEMA_VALIDATION_ERROR_WITH_DETAILED_REPORT";
+    exports[3935] = "ER_DA_UDF_INVALID_CHARSET_SPECIFIED";
+    exports[3936] = "ER_DA_UDF_INVALID_CHARSET";
+    exports[3937] = "ER_DA_UDF_INVALID_COLLATION";
+    exports[3938] = "ER_DA_UDF_INVALID_EXTENSION_ARGUMENT_TYPE";
+    exports[3939] = "ER_MULTIPLE_CONSTRAINTS_WITH_SAME_NAME";
+    exports[3940] = "ER_CONSTRAINT_NOT_FOUND";
+    exports[3941] = "ER_ALTER_CONSTRAINT_ENFORCEMENT_NOT_SUPPORTED";
+    exports[3942] = "ER_TABLE_VALUE_CONSTRUCTOR_MUST_HAVE_COLUMNS";
+    exports[3943] = "ER_TABLE_VALUE_CONSTRUCTOR_CANNOT_HAVE_DEFAULT";
+    exports[3944] = "ER_CLIENT_QUERY_FAILURE_INVALID_NON_ROW_FORMAT";
+    exports[3945] = "ER_REQUIRE_ROW_FORMAT_INVALID_VALUE";
+    exports[3946] = "ER_FAILED_TO_DETERMINE_IF_ROLE_IS_MANDATORY";
+    exports[3947] = "ER_FAILED_TO_FETCH_MANDATORY_ROLE_LIST";
+    exports[3948] = "ER_CLIENT_LOCAL_FILES_DISABLED";
+    exports[3949] = "ER_IMP_INCOMPATIBLE_CFG_VERSION";
+    exports[3950] = "ER_DA_OOM";
+    exports[3951] = "ER_DA_UDF_INVALID_ARGUMENT_TO_SET_CHARSET";
+    exports[3952] = "ER_DA_UDF_INVALID_RETURN_TYPE_TO_SET_CHARSET";
+    exports[3953] = "ER_MULTIPLE_INTO_CLAUSES";
+    exports[3954] = "ER_MISPLACED_INTO";
+    exports[3955] = "ER_USER_ACCESS_DENIED_FOR_USER_ACCOUNT_BLOCKED_BY_PASSWORD_LOCK";
+    exports[3956] = "ER_WARN_DEPRECATED_YEAR_UNSIGNED";
+    exports[3957] = "ER_CLONE_NETWORK_PACKET";
+    exports[3958] = "ER_SDI_OPERATION_FAILED_MISSING_RECORD";
+    exports[3959] = "ER_DEPENDENT_BY_CHECK_CONSTRAINT";
+    exports[3960] = "ER_GRP_OPERATION_NOT_ALLOWED_GR_MUST_STOP";
+    exports[3961] = "ER_WARN_DEPRECATED_JSON_TABLE_ON_ERROR_ON_EMPTY";
+    exports[3962] = "ER_WARN_DEPRECATED_INNER_INTO";
+    exports[3963] = "ER_WARN_DEPRECATED_VALUES_FUNCTION_ALWAYS_NULL";
+    exports[3964] = "ER_WARN_DEPRECATED_SQL_CALC_FOUND_ROWS";
+    exports[3965] = "ER_WARN_DEPRECATED_FOUND_ROWS";
+    exports[3966] = "ER_MISSING_JSON_VALUE";
+    exports[3967] = "ER_MULTIPLE_JSON_VALUES";
+    exports[3968] = "ER_HOSTNAME_TOO_LONG";
+    exports[3969] = "ER_WARN_CLIENT_DEPRECATED_PARTITION_PREFIX_KEY";
+    exports[3970] = "ER_GROUP_REPLICATION_USER_EMPTY_MSG";
+    exports[3971] = "ER_GROUP_REPLICATION_USER_MANDATORY_MSG";
+    exports[3972] = "ER_GROUP_REPLICATION_PASSWORD_LENGTH";
+    exports[3973] = "ER_SUBQUERY_TRANSFORM_REJECTED";
+    exports[3974] = "ER_DA_GRP_RPL_RECOVERY_ENDPOINT_FORMAT";
+    exports[3975] = "ER_DA_GRP_RPL_RECOVERY_ENDPOINT_INVALID";
+    exports[3976] = "ER_WRONG_VALUE_FOR_VAR_PLUS_ACTIONABLE_PART";
+    exports[3977] = "ER_STATEMENT_NOT_ALLOWED_AFTER_START_TRANSACTION";
+    exports[3978] = "ER_FOREIGN_KEY_WITH_ATOMIC_CREATE_SELECT";
+    exports[3979] = "ER_NOT_ALLOWED_WITH_START_TRANSACTION";
+    exports[3980] = "ER_INVALID_JSON_ATTRIBUTE";
+    exports[3981] = "ER_ENGINE_ATTRIBUTE_NOT_SUPPORTED";
+    exports[3982] = "ER_INVALID_USER_ATTRIBUTE_JSON";
+    exports[3983] = "ER_INNODB_REDO_DISABLED";
+    exports[3984] = "ER_INNODB_REDO_ARCHIVING_ENABLED";
+    exports[3985] = "ER_MDL_OUT_OF_RESOURCES";
+    exports[3986] = "ER_IMPLICIT_COMPARISON_FOR_JSON";
+    exports[3987] = "ER_FUNCTION_DOES_NOT_SUPPORT_CHARACTER_SET";
+    exports[3988] = "ER_IMPOSSIBLE_STRING_CONVERSION";
+    exports[3989] = "ER_SCHEMA_READ_ONLY";
+    exports[3990] = "ER_RPL_ASYNC_RECONNECT_GTID_MODE_OFF";
+    exports[3991] = "ER_RPL_ASYNC_RECONNECT_AUTO_POSITION_OFF";
+    exports[3992] = "ER_DISABLE_GTID_MODE_REQUIRES_ASYNC_RECONNECT_OFF";
+    exports[3993] = "ER_DISABLE_AUTO_POSITION_REQUIRES_ASYNC_RECONNECT_OFF";
+    exports[3994] = "ER_INVALID_PARAMETER_USE";
+    exports[3995] = "ER_CHARACTER_SET_MISMATCH";
+    exports[3996] = "ER_WARN_VAR_VALUE_CHANGE_NOT_SUPPORTED";
+    exports[3997] = "ER_INVALID_TIME_ZONE_INTERVAL";
+    exports[3998] = "ER_INVALID_CAST";
+    exports[3999] = "ER_HYPERGRAPH_NOT_SUPPORTED_YET";
+    exports[4e3] = "ER_WARN_HYPERGRAPH_EXPERIMENTAL";
+    exports[4001] = "ER_DA_NO_ERROR_LOG_PARSER_CONFIGURED";
+    exports[4002] = "ER_DA_ERROR_LOG_TABLE_DISABLED";
+    exports[4003] = "ER_DA_ERROR_LOG_MULTIPLE_FILTERS";
+    exports[4004] = "ER_DA_CANT_OPEN_ERROR_LOG";
+    exports[4005] = "ER_USER_REFERENCED_AS_DEFINER";
+    exports[4006] = "ER_CANNOT_USER_REFERENCED_AS_DEFINER";
+    exports[4007] = "ER_REGEX_NUMBER_TOO_BIG";
+    exports[4008] = "ER_SPVAR_NONINTEGER_TYPE";
+    exports[4009] = "WARN_UNSUPPORTED_ACL_TABLES_READ";
+    exports[4010] = "ER_BINLOG_UNSAFE_ACL_TABLE_READ_IN_DML_DDL";
+    exports[4011] = "ER_STOP_REPLICA_MONITOR_IO_THREAD_TIMEOUT";
+    exports[4012] = "ER_STARTING_REPLICA_MONITOR_IO_THREAD";
+    exports[4013] = "ER_CANT_USE_ANONYMOUS_TO_GTID_WITH_GTID_MODE_NOT_ON";
+    exports[4014] = "ER_CANT_COMBINE_ANONYMOUS_TO_GTID_AND_AUTOPOSITION";
+    exports[4015] = "ER_ASSIGN_GTIDS_TO_ANONYMOUS_TRANSACTIONS_REQUIRES_GTID_MODE_ON";
+    exports[4016] = "ER_SQL_REPLICA_SKIP_COUNTER_USED_WITH_GTID_MODE_ON";
+    exports[4017] = "ER_USING_ASSIGN_GTIDS_TO_ANONYMOUS_TRANSACTIONS_AS_LOCAL_OR_UUID";
+    exports[4018] = "ER_CANT_SET_ANONYMOUS_TO_GTID_AND_WAIT_UNTIL_SQL_THD_AFTER_GTIDS";
+    exports[4019] = "ER_CANT_SET_SQL_AFTER_OR_BEFORE_GTIDS_WITH_ANONYMOUS_TO_GTID";
+    exports[4020] = "ER_ANONYMOUS_TO_GTID_UUID_SAME_AS_GROUP_NAME";
+    exports[4021] = "ER_CANT_USE_SAME_UUID_AS_GROUP_NAME";
+    exports[4022] = "ER_GRP_RPL_RECOVERY_CHANNEL_STILL_RUNNING";
+    exports[4023] = "ER_INNODB_INVALID_AUTOEXTEND_SIZE_VALUE";
+    exports[4024] = "ER_INNODB_INCOMPATIBLE_WITH_TABLESPACE";
+    exports[4025] = "ER_INNODB_AUTOEXTEND_SIZE_OUT_OF_RANGE";
+    exports[4026] = "ER_CANNOT_USE_AUTOEXTEND_SIZE_CLAUSE";
+    exports[4027] = "ER_ROLE_GRANTED_TO_ITSELF";
+    exports[4028] = "ER_TABLE_MUST_HAVE_A_VISIBLE_COLUMN";
+    exports[4029] = "ER_INNODB_COMPRESSION_FAILURE";
+    exports[4030] = "ER_WARN_ASYNC_CONN_FAILOVER_NETWORK_NAMESPACE";
     exports[4031] = "ER_CLIENT_INTERACTION_TIMEOUT";
+    exports[4032] = "ER_INVALID_CAST_TO_GEOMETRY";
+    exports[4033] = "ER_INVALID_CAST_POLYGON_RING_DIRECTION";
+    exports[4034] = "ER_GIS_DIFFERENT_SRIDS_AGGREGATION";
+    exports[4035] = "ER_RELOAD_KEYRING_FAILURE";
+    exports[4036] = "ER_SDI_GET_KEYS_INVALID_TABLESPACE";
+    exports[4037] = "ER_CHANGE_RPL_SRC_WRONG_COMPRESSION_ALGORITHM_SIZE";
+    exports[4038] = "ER_WARN_DEPRECATED_TLS_VERSION_FOR_CHANNEL_CLI";
+    exports[4039] = "ER_CANT_USE_SAME_UUID_AS_VIEW_CHANGE_UUID";
+    exports[4040] = "ER_ANONYMOUS_TO_GTID_UUID_SAME_AS_VIEW_CHANGE_UUID";
+    exports[4041] = "ER_GRP_RPL_VIEW_CHANGE_UUID_FAIL_GET_VARIABLE";
+    exports[4042] = "ER_WARN_ADUIT_LOG_MAX_SIZE_AND_PRUNE_SECONDS";
+    exports[4043] = "ER_WARN_ADUIT_LOG_MAX_SIZE_CLOSE_TO_ROTATE_ON_SIZE";
+    exports[4044] = "ER_KERBEROS_CREATE_USER";
+    exports[4045] = "ER_INSTALL_PLUGIN_CONFLICT_CLIENT";
+    exports[4046] = "ER_DA_ERROR_LOG_COMPONENT_FLUSH_FAILED";
+    exports[4047] = "ER_WARN_SQL_AFTER_MTS_GAPS_GAP_NOT_CALCULATED";
+    exports[4048] = "ER_INVALID_ASSIGNMENT_TARGET";
+    exports[4049] = "ER_OPERATION_NOT_ALLOWED_ON_GR_SECONDARY";
+    exports[4050] = "ER_GRP_RPL_FAILOVER_CHANNEL_STATUS_PROPAGATION";
+    exports[4051] = "ER_WARN_AUDIT_LOG_FORMAT_UNIX_TIMESTAMP_ONLY_WHEN_JSON";
+    exports[4052] = "ER_INVALID_MFA_PLUGIN_SPECIFIED";
+    exports[4053] = "ER_IDENTIFIED_BY_UNSUPPORTED";
+    exports[4054] = "ER_INVALID_PLUGIN_FOR_REGISTRATION";
+    exports[4055] = "ER_PLUGIN_REQUIRES_REGISTRATION";
+    exports[4056] = "ER_MFA_METHOD_EXISTS";
+    exports[4057] = "ER_MFA_METHOD_NOT_EXISTS";
+    exports[4058] = "ER_AUTHENTICATION_POLICY_MISMATCH";
+    exports[4059] = "ER_PLUGIN_REGISTRATION_DONE";
+    exports[4060] = "ER_INVALID_USER_FOR_REGISTRATION";
+    exports[4061] = "ER_USER_REGISTRATION_FAILED";
+    exports[4062] = "ER_MFA_METHODS_INVALID_ORDER";
+    exports[4063] = "ER_MFA_METHODS_IDENTICAL";
+    exports[4064] = "ER_INVALID_MFA_OPERATIONS_FOR_PASSWORDLESS_USER";
+    exports[4065] = "ER_CHANGE_REPLICATION_SOURCE_NO_OPTIONS_FOR_GTID_ONLY";
+    exports[4066] = "ER_CHANGE_REP_SOURCE_CANT_DISABLE_REQ_ROW_FORMAT_WITH_GTID_ONLY";
+    exports[4067] = "ER_CHANGE_REP_SOURCE_CANT_DISABLE_AUTO_POSITION_WITH_GTID_ONLY";
+    exports[4068] = "ER_CHANGE_REP_SOURCE_CANT_DISABLE_GTID_ONLY_WITHOUT_POSITIONS";
+    exports[4069] = "ER_CHANGE_REP_SOURCE_CANT_DISABLE_AUTO_POS_WITHOUT_POSITIONS";
+    exports[4070] = "ER_CHANGE_REP_SOURCE_GR_CHANNEL_WITH_GTID_MODE_NOT_ON";
+    exports[4071] = "ER_CANT_USE_GTID_ONLY_WITH_GTID_MODE_NOT_ON";
+    exports[4072] = "ER_WARN_C_DISABLE_GTID_ONLY_WITH_SOURCE_AUTO_POS_INVALID_POS";
+    exports[4073] = "ER_DA_SSL_FIPS_MODE_ERROR";
+    exports[4074] = "ER_VALUE_OUT_OF_RANGE";
+    exports[4075] = "ER_FULLTEXT_WITH_ROLLUP";
+    exports[4076] = "ER_REGEXP_MISSING_RESOURCE";
+    exports[4077] = "ER_WARN_REGEXP_USING_DEFAULT";
+    exports[4078] = "ER_REGEXP_MISSING_FILE";
+    exports[4079] = "ER_WARN_DEPRECATED_COLLATION";
+    exports[4080] = "ER_CONCURRENT_PROCEDURE_USAGE";
+    exports[4081] = "ER_DA_GLOBAL_CONN_LIMIT";
+    exports[4082] = "ER_DA_CONN_LIMIT";
+    exports[4083] = "ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_COLUMN_TYPE_INSTANT";
+    exports[4084] = "ER_WARN_SF_UDF_NAME_COLLISION";
+    exports[4085] = "ER_CANNOT_PURGE_BINLOG_WITH_BACKUP_LOCK";
+    exports[4086] = "ER_TOO_MANY_WINDOWS";
+    exports[4087] = "ER_MYSQLBACKUP_CLIENT_MSG";
+    exports[4088] = "ER_COMMENT_CONTAINS_INVALID_STRING";
+    exports[4089] = "ER_DEFINITION_CONTAINS_INVALID_STRING";
+    exports[4090] = "ER_CANT_EXECUTE_COMMAND_WITH_ASSIGNED_GTID_NEXT";
+    exports[4091] = "ER_XA_TEMP_TABLE";
+    exports[4092] = "ER_INNODB_MAX_ROW_VERSION";
+    exports[4093] = "ER_INNODB_INSTANT_ADD_NOT_SUPPORTED_MAX_SIZE";
+    exports[4094] = "ER_OPERATION_NOT_ALLOWED_WHILE_PRIMARY_CHANGE_IS_RUNNING";
+    exports[4095] = "ER_WARN_DEPRECATED_DATETIME_DELIMITER";
+    exports[4096] = "ER_WARN_DEPRECATED_SUPERFLUOUS_DELIMITER";
+    exports[4097] = "ER_CANNOT_PERSIST_SENSITIVE_VARIABLES";
+    exports[4098] = "ER_WARN_CANNOT_SECURELY_PERSIST_SENSITIVE_VARIABLES";
+    exports[4099] = "ER_WARN_TRG_ALREADY_EXISTS";
+    exports[4100] = "ER_IF_NOT_EXISTS_UNSUPPORTED_TRG_EXISTS_ON_DIFFERENT_TABLE";
+    exports[4101] = "ER_IF_NOT_EXISTS_UNSUPPORTED_UDF_NATIVE_FCT_NAME_COLLISION";
+    exports[4102] = "ER_SET_PASSWORD_AUTH_PLUGIN_ERROR";
+    exports[4103] = "ER_REDUCED_DBLWR_FILE_CORRUPTED";
+    exports[4104] = "ER_REDUCED_DBLWR_PAGE_FOUND";
+    exports[4105] = "ER_SRS_INVALID_LATITUDE_OF_ORIGIN";
+    exports[4106] = "ER_SRS_INVALID_LONGITUDE_OF_ORIGIN";
+    exports[4107] = "ER_SRS_UNUSED_PROJ_PARAMETER_PRESENT";
+    exports[4108] = "ER_GIPK_COLUMN_EXISTS";
+    exports[4109] = "ER_GIPK_FAILED_AUTOINC_COLUMN_EXISTS";
+    exports[4110] = "ER_GIPK_COLUMN_ALTER_NOT_ALLOWED";
+    exports[4111] = "ER_DROP_PK_COLUMN_TO_DROP_GIPK";
+    exports[4112] = "ER_CREATE_SELECT_WITH_GIPK_DISALLOWED_IN_SBR";
+    exports[4113] = "ER_DA_EXPIRE_LOGS_DAYS_IGNORED";
+    exports[4114] = "ER_CTE_RECURSIVE_NOT_UNION";
+    exports[4115] = "ER_COMMAND_BACKEND_FAILED_TO_FETCH_SECURITY_CTX";
+    exports[4116] = "ER_COMMAND_SERVICE_BACKEND_FAILED";
+    exports[4117] = "ER_CLIENT_FILE_PRIVILEGE_FOR_REPLICATION_CHECKS";
+    exports[4118] = "ER_GROUP_REPLICATION_FORCE_MEMBERS_COMMAND_FAILURE";
+    exports[4119] = "ER_WARN_DEPRECATED_IDENT";
+    exports[4120] = "ER_INTERSECT_ALL_MAX_DUPLICATES_EXCEEDED";
+    exports[4121] = "ER_TP_QUERY_THRS_PER_GRP_EXCEEDS_TXN_THR_LIMIT";
+    exports[4122] = "ER_BAD_TIMESTAMP_FORMAT";
+    exports[4123] = "ER_SHAPE_PRIDICTION_UDF";
+    exports[4124] = "ER_SRS_INVALID_HEIGHT";
+    exports[4125] = "ER_SRS_INVALID_SCALING";
+    exports[4126] = "ER_SRS_INVALID_ZONE_WIDTH";
+    exports[4127] = "ER_SRS_INVALID_LATITUDE_POLAR_STERE_VAR_A";
+    exports[4128] = "ER_WARN_DEPRECATED_CLIENT_NO_SCHEMA_OPTION";
+    exports[4129] = "ER_TABLE_NOT_EMPTY";
+    exports[4130] = "ER_TABLE_NO_PRIMARY_KEY";
+    exports[4131] = "ER_TABLE_IN_SHARED_TABLESPACE";
+    exports[4132] = "ER_INDEX_OTHER_THAN_PK";
+    exports[4133] = "ER_LOAD_BULK_DATA_UNSORTED";
+    exports[4134] = "ER_BULK_EXECUTOR_ERROR";
+    exports[4135] = "ER_BULK_READER_LIBCURL_INIT_FAILED";
+    exports[4136] = "ER_BULK_READER_LIBCURL_ERROR";
+    exports[4137] = "ER_BULK_READER_SERVER_ERROR";
+    exports[4138] = "ER_BULK_READER_COMMUNICATION_ERROR";
+    exports[4139] = "ER_BULK_LOAD_DATA_FAILED";
+    exports[4140] = "ER_BULK_LOADER_COLUMN_TOO_BIG_FOR_LEFTOVER_BUFFER";
+    exports[4141] = "ER_BULK_LOADER_COMPONENT_ERROR";
+    exports[4142] = "ER_BULK_LOADER_FILE_CONTAINS_LESS_LINES_THAN_IGNORE_CLAUSE";
+    exports[4143] = "ER_BULK_PARSER_MISSING_ENCLOSED_BY";
+    exports[4144] = "ER_BULK_PARSER_ROW_BUFFER_MAX_TOTAL_COLS_EXCEEDED";
+    exports[4145] = "ER_BULK_PARSER_COPY_BUFFER_SIZE_EXCEEDED";
+    exports[4146] = "ER_BULK_PARSER_UNEXPECTED_END_OF_INPUT";
+    exports[4147] = "ER_BULK_PARSER_UNEXPECTED_ROW_TERMINATOR";
+    exports[4148] = "ER_BULK_PARSER_UNEXPECTED_CHAR_AFTER_ENDING_ENCLOSED_BY";
+    exports[4149] = "ER_BULK_PARSER_UNEXPECTED_CHAR_AFTER_NULL_ESCAPE";
+    exports[4150] = "ER_BULK_PARSER_UNEXPECTED_CHAR_AFTER_COLUMN_TERMINATOR";
+    exports[4151] = "ER_BULK_PARSER_INCOMPLETE_ESCAPE_SEQUENCE";
+    exports[4152] = "ER_LOAD_BULK_DATA_FAILED";
+    exports[4153] = "ER_LOAD_BULK_DATA_WRONG_VALUE_FOR_FIELD";
+    exports[4154] = "ER_LOAD_BULK_DATA_WARN_NULL_TO_NOTNULL";
+    exports[4155] = "ER_REQUIRE_TABLE_PRIMARY_KEY_CHECK_GENERATE_WITH_GR";
+    exports[4156] = "ER_CANT_CHANGE_SYS_VAR_IN_READ_ONLY_MODE";
+    exports[4157] = "ER_INNODB_INSTANT_ADD_DROP_NOT_SUPPORTED_MAX_SIZE";
+    exports[4158] = "ER_INNODB_INSTANT_ADD_NOT_SUPPORTED_MAX_FIELDS";
+    exports[4159] = "ER_CANT_SET_PERSISTED";
+    exports[4160] = "ER_INSTALL_COMPONENT_SET_NULL_VALUE";
+    exports[4161] = "ER_INSTALL_COMPONENT_SET_UNUSED_VALUE";
+    exports[4162] = "ER_WARN_DEPRECATED_USER_DEFINED_COLLATIONS";
   }
 });
 
@@ -23985,9 +25943,9 @@ var require_lib = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/string.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/string.js
 var require_string2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/string.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/string.js"(exports) {
     "use strict";
     var Iconv = require_lib();
     exports.decode = function(buffer, encoding, start, end, options) {
@@ -24011,9 +25969,9 @@ var require_string2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/packet.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/packet.js
 var require_packet = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/packet.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/packet.js"(exports, module2) {
     "use strict";
     var ErrorCodeToName = require_errors3();
     var NativeBuffer = require("buffer").Buffer;
@@ -24771,9 +26729,9 @@ var require_packet = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packet_parser.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packet_parser.js
 var require_packet_parser = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packet_parser.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packet_parser.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var MAX_PACKET_LENGTH = 16777215;
@@ -24938,9 +26896,9 @@ var require_packet_parser = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_next_factor.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_next_factor.js
 var require_auth_next_factor = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_next_factor.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_next_factor.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var AuthNextFactor = class {
@@ -24972,9 +26930,9 @@ var require_auth_next_factor = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_request.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_request.js
 var require_auth_switch_request = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_request.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_request.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var AuthSwitchRequest = class {
@@ -25006,9 +26964,9 @@ var require_auth_switch_request = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js
 var require_auth_switch_request_more_data = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_request_more_data.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var AuthSwitchRequestMoreData = class {
@@ -25037,9 +26995,9 @@ var require_auth_switch_request_more_data = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_response.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_response.js
 var require_auth_switch_response = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/auth_switch_response.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/auth_switch_response.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var AuthSwitchResponse = class {
@@ -25066,9 +27024,9 @@ var require_auth_switch_response = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/types.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/types.js
 var require_types = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/types.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/types.js"(exports, module2) {
     "use strict";
     module2.exports = {
       0: "DECIMAL",
@@ -25131,9 +27089,9 @@ var require_types = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binary_row.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binary_row.js
 var require_binary_row = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binary_row.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binary_row.js"(exports, module2) {
     "use strict";
     var Types = require_types();
     var Packet = require_packet();
@@ -25216,9 +27174,9 @@ var require_binary_row = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/commands.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/commands.js
 var require_commands = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/commands.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/commands.js"(exports, module2) {
     "use strict";
     module2.exports = {
       SLEEP: 0,
@@ -25257,9 +27215,9 @@ var require_commands = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binlog_dump.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binlog_dump.js
 var require_binlog_dump = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binlog_dump.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binlog_dump.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCodes = require_commands();
@@ -25287,9 +27245,9 @@ var require_binlog_dump = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/client.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/client.js
 var require_client = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/client.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/client.js"(exports) {
     "use strict";
     exports.LONG_PASSWORD = 1;
     exports.FOUND_ROWS = 2;
@@ -25322,9 +27280,9 @@ var require_client = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_41.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_41.js
 var require_auth_41 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_41.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_41.js"(exports) {
     "use strict";
     var crypto = require("crypto");
     function sha1(msg, msg1, msg2) {
@@ -25381,9 +27339,9 @@ var require_auth_41 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/charset_encodings.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/charset_encodings.js
 var require_charset_encodings = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/charset_encodings.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/charset_encodings.js"(exports, module2) {
     "use strict";
     module2.exports = [
       "utf8",
@@ -25699,9 +27657,9 @@ var require_charset_encodings = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/change_user.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/change_user.js
 var require_change_user = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/change_user.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/change_user.js"(exports, module2) {
     "use strict";
     var CommandCode = require_commands();
     var ClientConstants = require_client();
@@ -25791,9 +27749,9 @@ var require_change_user = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/close_statement.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/close_statement.js
 var require_close_statement = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/close_statement.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/close_statement.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCodes = require_commands();
@@ -25813,9 +27771,31 @@ var require_close_statement = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/column_definition.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/field_flags.js
+var require_field_flags = __commonJS({
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/field_flags.js"(exports) {
+    "use strict";
+    exports.NOT_NULL = 1;
+    exports.PRI_KEY = 2;
+    exports.UNIQUE_KEY = 4;
+    exports.MULTIPLE_KEY = 8;
+    exports.BLOB = 16;
+    exports.UNSIGNED = 32;
+    exports.ZEROFILL = 64;
+    exports.BINARY = 128;
+    exports.ENUM = 256;
+    exports.AUTO_INCREMENT = 512;
+    exports.TIMESTAMP = 1024;
+    exports.SET = 2048;
+    exports.NO_DEFAULT_VALUE = 4096;
+    exports.ON_UPDATE_NOW = 8192;
+    exports.NUM = 32768;
+  }
+});
+
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/column_definition.js
 var require_column_definition = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/column_definition.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/column_definition.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var StringParser = require_string2();
@@ -25867,12 +27847,131 @@ var require_column_definition = __commonJS({
           table: this.table,
           orgTable: this.orgTable,
           characterSet: this.characterSet,
+          encoding: this.encoding,
           columnLength: this.columnLength,
-          columnType: this.columnType,
           type: this.columnType,
           flags: this.flags,
           decimals: this.decimals
         };
+      }
+      [Symbol.for("nodejs.util.inspect.custom")](depth, inspectOptions, inspect) {
+        const Types = require_types();
+        const typeNames = [];
+        for (const t2 in Types) {
+          typeNames[Types[t2]] = t2;
+        }
+        const fiedFlags = require_field_flags();
+        const flagNames = [];
+        const inspectFlags = this.flags;
+        for (const f4 in fiedFlags) {
+          if (inspectFlags & fiedFlags[f4]) {
+            if (f4 === "PRI_KEY") {
+              flagNames.push("PRIMARY KEY");
+            } else if (f4 === "NOT_NULL") {
+              flagNames.push("NOT NULL");
+            } else if (f4 === "BINARY") {
+            } else if (f4 === "MULTIPLE_KEY") {
+            } else if (f4 === "NO_DEFAULT_VALUE") {
+            } else if (f4 === "BLOB") {
+            } else if (f4 === "UNSIGNED") {
+            } else if (f4 === "TIMESTAMP") {
+            } else if (f4 === "ON_UPDATE_NOW") {
+              flagNames.push("ON UPDATE CURRENT_TIMESTAMP");
+            } else {
+              flagNames.push(f4);
+            }
+          }
+        }
+        if (depth > 1) {
+          return inspect({
+            ...this.inspect(),
+            typeName: typeNames[this.columnType],
+            flags: flagNames
+          });
+        }
+        const isUnsigned = this.flags & fiedFlags.UNSIGNED;
+        let typeName = typeNames[this.columnType];
+        if (typeName === "BLOB") {
+          if (this.columnLength === 4294967295) {
+            typeName = "LONGTEXT";
+          } else if (this.columnLength === 67108860) {
+            typeName = "MEDIUMTEXT";
+          } else if (this.columnLength === 262140) {
+            typeName = "TEXT";
+          } else if (this.columnLength === 1020) {
+            typeName = "TINYTEXT";
+          } else {
+            typeName = `BLOB(${this.columnLength})`;
+          }
+        } else if (typeName === "VAR_STRING") {
+          typeName = `VARCHAR(${Math.ceil(this.columnLength / 4)})`;
+        } else if (typeName === "TINY") {
+          if (this.columnLength === 3 && isUnsigned || this.columnLength === 4 && !isUnsigned) {
+            typeName = "TINYINT";
+          } else {
+            typeName = `TINYINT(${this.columnLength})`;
+          }
+        } else if (typeName === "LONGLONG") {
+          if (this.columnLength === 20) {
+            typeName = "BIGINT";
+          } else {
+            typeName = `BIGINT(${this.columnLength})`;
+          }
+        } else if (typeName === "SHORT") {
+          if (isUnsigned && this.columnLength === 5) {
+            typeName = "SMALLINT";
+          } else if (!isUnsigned && this.columnLength === 6) {
+            typeName = "SMALLINT";
+          } else {
+            typeName = `SMALLINT(${this.columnLength})`;
+          }
+        } else if (typeName === "LONG") {
+          if (isUnsigned && this.columnLength === 10) {
+            typeName = "INT";
+          } else if (!isUnsigned && this.columnLength === 11) {
+            typeName = "INT";
+          } else {
+            typeName = `INT(${this.columnLength})`;
+          }
+        } else if (typeName === "INT24") {
+          if (isUnsigned && this.columnLength === 8) {
+            typeName = "MEDIUMINT";
+          } else if (!isUnsigned && this.columnLength === 9) {
+            typeName = "MEDIUMINT";
+          } else {
+            typeName = `MEDIUMINT(${this.columnLength})`;
+          }
+        } else if (typeName === "DOUBLE") {
+          if (this.columnLength === 22 && this.decimals === 31) {
+            typeName = "DOUBLE";
+          } else {
+            typeName = `DOUBLE(${this.columnLength},${this.decimals})`;
+          }
+        } else if (typeName === "FLOAT") {
+          if (this.columnLength === 12 && this.decimals === 31) {
+            typeName = "FLOAT";
+          } else {
+            typeName = `FLOAT(${this.columnLength},${this.decimals})`;
+          }
+        } else if (typeName === "NEWDECIMAL") {
+          if (this.columnLength === 11 && this.decimals === 0) {
+            typeName = "DECIMAL";
+          } else if (this.decimals === 0) {
+            if (isUnsigned) {
+              typeName = `DECIMAL(${this.columnLength})`;
+            } else {
+              typeName = `DECIMAL(${this.columnLength - 1})`;
+            }
+          } else {
+            typeName = `DECIMAL(${this.columnLength - 2},${this.decimals})`;
+          }
+        } else {
+          typeName = `${typeNames[this.columnType]}(${this.columnLength})`;
+        }
+        if (isUnsigned) {
+          typeName += " UNSIGNED";
+        }
+        return `\`${this.name}\` ${[typeName, ...flagNames].join(" ")}`;
       }
       static toPacket(column, sequenceId) {
         let length = 17;
@@ -25935,9 +28034,9 @@ var require_column_definition = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/cursor.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/cursor.js
 var require_cursor = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/cursor.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/cursor.js"(exports, module2) {
     "use strict";
     module2.exports = {
       NO_CURSOR: 0,
@@ -25948,9 +28047,9 @@ var require_cursor = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/execute.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/execute.js
 var require_execute = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/execute.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/execute.js"(exports, module2) {
     "use strict";
     var CursorType = require_cursor();
     var CommandCodes = require_commands();
@@ -26112,9 +28211,9 @@ var require_execute = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/handshake.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/handshake.js
 var require_handshake = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/handshake.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/handshake.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var ClientConstants = require_client();
@@ -26214,9 +28313,9 @@ var require_handshake = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/handshake_response.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/handshake_response.js
 var require_handshake_response = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/handshake_response.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/handshake_response.js"(exports, module2) {
     "use strict";
     var ClientConstants = require_client();
     var CharsetToEncoding = require_charset_encodings();
@@ -26354,9 +28453,9 @@ var require_handshake_response = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/prepare_statement.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/prepare_statement.js
 var require_prepare_statement = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/prepare_statement.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/prepare_statement.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCodes = require_commands();
@@ -26383,9 +28482,9 @@ var require_prepare_statement = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/prepared_statement_header.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/prepared_statement_header.js
 var require_prepared_statement_header = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/prepared_statement_header.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/prepared_statement_header.js"(exports, module2) {
     "use strict";
     var PreparedStatementHeader = class {
       constructor(packet) {
@@ -26401,9 +28500,9 @@ var require_prepared_statement_header = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/query.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/query.js
 var require_query = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/query.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/query.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCode = require_commands();
@@ -26430,9 +28529,9 @@ var require_query = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/register_slave.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/register_slave.js
 var require_register_slave = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/register_slave.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/register_slave.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var CommandCodes = require_commands();
@@ -26469,9 +28568,9 @@ var require_register_slave = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/server_status.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/server_status.js
 var require_server_status = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/server_status.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/server_status.js"(exports) {
     "use strict";
     exports.SERVER_STATUS_IN_TRANS = 1;
     exports.SERVER_STATUS_AUTOCOMMIT = 2;
@@ -26490,9 +28589,9 @@ var require_server_status = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/encoding_charset.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/encoding_charset.js
 var require_encoding_charset = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/encoding_charset.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/encoding_charset.js"(exports, module2) {
     "use strict";
     module2.exports = {
       big5: 1,
@@ -26541,9 +28640,9 @@ var require_encoding_charset = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/session_track.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/session_track.js
 var require_session_track = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/session_track.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/session_track.js"(exports) {
     "use strict";
     exports.SYSTEM_VARIABLES = 0;
     exports.SCHEMA = 1;
@@ -26556,9 +28655,9 @@ var require_session_track = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/resultset_header.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/resultset_header.js
 var require_resultset_header = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/resultset_header.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/resultset_header.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var ClientConstants = require_client();
@@ -26601,6 +28700,7 @@ var require_resultset_header = __commonJS({
               stateChanges = {
                 systemVariables: {},
                 schema: null,
+                gtids: [],
                 trackStateChange: null
               };
             }
@@ -26623,6 +28723,10 @@ var require_resultset_header = __commonJS({
                 stateChanges.trackStateChange = packet.readLengthCodedString(
                   encoding
                 );
+              } else if (type === sessionInfoTypes.STATE_GTIDS) {
+                const _unknownString = packet.readLengthCodedString(encoding);
+                const gtid = packet.readLengthCodedString(encoding);
+                stateChanges.gtids = gtid.split(",");
               } else {
               }
               packet.offset = stateEnd;
@@ -26637,6 +28741,8 @@ var require_resultset_header = __commonJS({
         const m2 = this.info.match(/\schanged:\s*(\d+)/i);
         if (m2 !== null) {
           this.changedRows = parseInt(m2[1], 10);
+        } else {
+          this.changedRows = 0;
         }
       }
       static toPacket(fieldCount, insertId) {
@@ -26658,9 +28764,9 @@ var require_resultset_header = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/ssl_request.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/ssl_request.js
 var require_ssl_request = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/ssl_request.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/ssl_request.js"(exports, module2) {
     "use strict";
     var ClientConstants = require_client();
     var Packet = require_packet();
@@ -26685,9 +28791,9 @@ var require_ssl_request = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/text_row.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/text_row.js
 var require_text_row = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/text_row.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/text_row.js"(exports, module2) {
     "use strict";
     var Packet = require_packet();
     var TextRow = class {
@@ -26732,9 +28838,9 @@ var require_text_row = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/index.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/index.js
 var require_packets = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/index.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/index.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var AuthNextFactor = require_auth_next_factor();
@@ -26862,9 +28968,9 @@ var require_packets = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/command.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/command.js
 var require_command = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/command.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/command.js"(exports, module2) {
     "use strict";
     var EventEmitter = require("events").EventEmitter;
     var Timers = require("timers");
@@ -26915,9 +29021,9 @@ var require_command = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/sha256_password.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/sha256_password.js
 var require_sha256_password = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/sha256_password.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/sha256_password.js"(exports, module2) {
     "use strict";
     var PLUGIN_NAME = "sha256_password";
     var crypto = require("crypto");
@@ -26969,9 +29075,9 @@ var require_sha256_password = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js
 var require_caching_sha2_password = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/caching_sha2_password.js"(exports, module2) {
     "use strict";
     var PLUGIN_NAME = "caching_sha2_password";
     var crypto = require("crypto");
@@ -27057,9 +29163,9 @@ var require_caching_sha2_password = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js
 var require_mysql_native_password = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/mysql_native_password.js"(exports, module2) {
     "use strict";
     var auth41 = require_auth_41();
     module2.exports = (pluginOptions) => ({ connection, command }) => {
@@ -27088,9 +29194,9 @@ var require_mysql_native_password = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/mysql_clear_password.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/mysql_clear_password.js
 var require_mysql_clear_password = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/mysql_clear_password.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/mysql_clear_password.js"(exports, module2) {
     "use strict";
     function bufferFromStr(str) {
       return Buffer.from(`${str}\0`);
@@ -27105,9 +29211,9 @@ var require_mysql_clear_password = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/auth_switch.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/auth_switch.js
 var require_auth_switch = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/auth_switch.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/auth_switch.js"(exports, module2) {
     "use strict";
     var Packets = require_packets();
     var sha256_password = require_sha256_password();
@@ -27317,9 +29423,9 @@ var require_seq_queue2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/compressed_protocol.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/compressed_protocol.js
 var require_compressed_protocol = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/compressed_protocol.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/compressed_protocol.js"(exports, module2) {
     "use strict";
     var zlib2 = require("zlib");
     var PacketParser = require_packet_parser();
@@ -27418,9 +29524,9 @@ var require_compressed_protocol = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/client_handshake.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/client_handshake.js
 var require_client_handshake = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/client_handshake.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/client_handshake.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -27604,9 +29710,9 @@ var require_client_handshake = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/server_handshake.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/server_handshake.js
 var require_server_handshake = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/server_handshake.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/server_handshake.js"(exports, module2) {
     "use strict";
     var CommandCode = require_commands();
     var Errors = require_errors3();
@@ -27723,7 +29829,7 @@ var require_server_handshake = __commonJS({
             break;
           case CommandCode.FIELD_LIST:
             if (connection.listeners("field_list").length) {
-              const table = packet.readNullTerminatedString();
+              const table = packet.readNullTerminatedString(encoding);
               const fields = packet.readString(void 0, encoding);
               connection.emit("field_list", table, fields);
             } else {
@@ -27755,9 +29861,9 @@ var require_server_handshake = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/charsets.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/charsets.js
 var require_charsets = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/charsets.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/charsets.js"(exports) {
     "use strict";
     exports.BIG5_CHINESE_CI = 1;
     exports.LATIN2_CZECH_CS = 2;
@@ -28075,9 +30181,9 @@ var require_charsets = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/helpers.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/helpers.js
 var require_helpers = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/helpers.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/helpers.js"(exports) {
     "use strict";
     function srcEscape(str) {
       return JSON.stringify({
@@ -28296,11 +30402,11 @@ var require_generate_function = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/parser_cache.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/parser_cache.js
 var require_parser_cache = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/parser_cache.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/parser_cache.js"(exports, module2) {
     "use strict";
-    var LRU = require_lru_cache();
+    var LRU = require_index_cjs().default;
     var parserCache = new LRU({
       max: 15e3
     });
@@ -28336,9 +30442,9 @@ var require_parser_cache = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/text_parser.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/text_parser.js
 var require_text_parser = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/text_parser.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/text_parser.js"(exports, module2) {
     "use strict";
     var Types = require_types();
     var Charsets = require_charsets();
@@ -28511,9 +30617,9 @@ var require_text_parser = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/query.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/query.js
 var require_query2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/query.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/query.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var Timers = require("timers");
@@ -28546,7 +30652,7 @@ var require_query2 = __commonJS({
         this._connection = null;
       }
       then() {
-        const err = "You have tried to call .then(), .catch(), or invoked await on the result of query that is not a promise, which is a programming error. Try calling con.promise().query(), or require('mysql2/promise') instead of 'mysql2' for a promise-compatible version of the query interface. To learn how to use async/await or Promises check out documentation at https://www.npmjs.com/package/mysql2#using-promise-wrapper, or the mysql2 documentation at https://github.com/sidorares/node-mysql2/tree/master/documentation/Promise-Wrapper.md";
+        const err = "You have tried to call .then(), .catch(), or invoked await on the result of query that is not a promise, which is a programming error. Try calling con.promise().query(), or require('mysql2/promise') instead of 'mysql2' for a promise-compatible version of the query interface. To learn how to use async/await or Promises check out documentation at https://www.npmjs.com/package/mysql2#using-promise-wrapper, or the mysql2 documentation at https://github.com/sidorares/node-mysql2/tree/master/documentation/en/Promise-Wrapper.md";
         console.log(err);
         throw new Error(err);
       }
@@ -28798,9 +30904,9 @@ var require_query2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/close_statement.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/close_statement.js
 var require_close_statement2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/close_statement.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/close_statement.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -28818,31 +30924,9 @@ var require_close_statement2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/field_flags.js
-var require_field_flags = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/field_flags.js"(exports) {
-    "use strict";
-    exports.NOT_NULL = 1;
-    exports.PRI_KEY = 2;
-    exports.UNIQUE_KEY = 4;
-    exports.MULTIPLE_KEY = 8;
-    exports.BLOB = 16;
-    exports.UNSIGNED = 32;
-    exports.ZEROFILL = 64;
-    exports.BINARY = 128;
-    exports.ENUM = 256;
-    exports.AUTO_INCREMENT = 512;
-    exports.TIMESTAMP = 1024;
-    exports.SET = 2048;
-    exports.NO_DEFAULT_VALUE = 4096;
-    exports.ON_UPDATE_NOW = 8192;
-    exports.NUM = 32768;
-  }
-});
-
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/binary_parser.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/binary_parser.js
 var require_binary_parser = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/parsers/binary_parser.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/parsers/binary_parser.js"(exports, module2) {
     "use strict";
     var FieldFlags = require_field_flags();
     var Charsets = require_charsets();
@@ -28989,9 +31073,9 @@ var require_binary_parser = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/execute.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/execute.js
 var require_execute2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/execute.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/execute.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Query = require_query2();
@@ -29080,9 +31164,9 @@ var require_execute2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/prepare.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/prepare.js
 var require_prepare = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/prepare.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/prepare.js"(exports, module2) {
     "use strict";
     var Packets = require_packets();
     var Command = require_command();
@@ -29154,6 +31238,12 @@ var require_prepare = __commonJS({
         return this.prepareDone(connection);
       }
       readParameter(packet, connection) {
+        if (packet.isEOF()) {
+          if (this.fieldCount > 0) {
+            return Prepare.prototype.readField;
+          }
+          return this.prepareDone(connection);
+        }
         const def = new Packets.ColumnDefinition(packet, connection.clientEncoding);
         this.parameterDefinitions.push(def);
         if (this.parameterDefinitions.length === this.parameterCount) {
@@ -29162,6 +31252,9 @@ var require_prepare = __commonJS({
         return this.readParameter;
       }
       readField(packet, connection) {
+        if (packet.isEOF()) {
+          return this.prepareDone(connection);
+        }
         const def = new Packets.ColumnDefinition(packet, connection.clientEncoding);
         this.fields.push(def);
         if (this.fields.length === this.fieldCount) {
@@ -29203,9 +31296,9 @@ var require_prepare = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/ping.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/ping.js
 var require_ping = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/ping.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/ping.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var CommandCode = require_commands();
@@ -29236,9 +31329,9 @@ var require_ping = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/register_slave.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/register_slave.js
 var require_register_slave2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/register_slave.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/register_slave.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -29264,9 +31357,9 @@ var require_register_slave2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binlog_query_statusvars.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binlog_query_statusvars.js
 var require_binlog_query_statusvars = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/packets/binlog_query_statusvars.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/packets/binlog_query_statusvars.js"(exports, module2) {
     "use strict";
     var keys = {
       FLAGS2: 0,
@@ -29375,9 +31468,9 @@ var require_binlog_query_statusvars = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/binlog_dump.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/binlog_dump.js
 var require_binlog_dump2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/binlog_dump.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/binlog_dump.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -29472,9 +31565,9 @@ var require_binlog_dump2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/change_user.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/change_user.js
 var require_change_user2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/change_user.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/change_user.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var Packets = require_packets();
@@ -29527,9 +31620,9 @@ var require_change_user2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/quit.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/quit.js
 var require_quit = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/quit.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/quit.js"(exports, module2) {
     "use strict";
     var Command = require_command();
     var CommandCode = require_commands();
@@ -29558,9 +31651,9 @@ var require_quit = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/index.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/index.js
 var require_commands2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/commands/index.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/commands/index.js"(exports, module2) {
     "use strict";
     var ClientHandshake = require_client_handshake();
     var ServerHandshake = require_server_handshake();
@@ -29589,12 +31682,12 @@ var require_commands2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/package.json
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/package.json
 var require_package2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/package.json"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/package.json"(exports, module2) {
     module2.exports = {
       name: "mysql2",
-      version: "3.2.0",
+      version: "3.5.1",
       description: "fast mysql driver. Implements core protocol, prepared statements, ssl and compression in native JS",
       main: "index.js",
       directories: {
@@ -29603,17 +31696,18 @@ var require_package2 = __commonJS({
       typings: "typings/mysql/index",
       scripts: {
         lint: "npm run lint:docs && npm run lint:code",
-        "lint:code": 'eslint index.js promise.js "lib/**/*.js" "test/**/*.js" "benchmarks/**/*.js"',
-        "lint:docs": 'eslint Contributing.md "documentation/**/*.md" "examples/*.js"',
+        "lint:code": 'eslint index.js promise.js index.d.ts promise.d.ts "typings/**/*.ts" "lib/**/*.js" "test/**/*.{js,ts}" "benchmarks/**/*.js"',
+        "lint:docs": 'eslint Contributing.md README.md "documentation/**/*.md" "examples/*.js"',
         test: "node ./test/run.js",
+        "test:builtin-node-runner": "NODE_V8_COVERAGE=./coverage node --test --experimental-test-coverage test/builtin-runner",
+        "test:tsc-build": 'cd "test/tsc-build" && npx tsc -p "tsconfig.json"',
         "coverage-test": "c8 -r cobertura -r lcov -r text node ./test/run.js",
         benchmark: "node ./benchmarks/benchmark.js",
         prettier: 'prettier --single-quote --trailing-comma none --write "{lib,examples,test}/**/*.js"',
         "prettier:docs": "prettier --single-quote --trailing-comma none --write README.md documentation/*",
         precommit: "lint-staged",
         "eslint-check": "eslint --print-config .eslintrc | eslint-config-prettier-check",
-        "wait-port": "wait-on",
-        "type-test": "node ./node_modules/typescript/bin/tsc -p tests.json && mocha typings/test --timeout 10000"
+        "wait-port": "wait-on"
       },
       "lint-staged": {
         "*.js": [
@@ -29640,34 +31734,32 @@ var require_package2 = __commonJS({
       ],
       exports: {
         ".": "./index.js",
+        "./package.json": "./package.json",
         "./promise": "./promise.js",
         "./promise.js": "./promise.js"
       },
       engines: {
         node: ">= 8.0"
       },
-      author: "Andrey Sidorov <sidorares@yandex.ru>",
+      author: "Andrey Sidorov <andrey.sidorov@gmail.com>",
       license: "MIT",
       dependencies: {
         denque: "^2.1.0",
         "generate-function": "^2.3.1",
         "iconv-lite": "^0.6.3",
         long: "^5.2.1",
-        "lru-cache": "^7.14.1",
+        "lru-cache": "^8.0.0",
         "named-placeholders": "^1.1.3",
         "seq-queue": "^0.0.5",
         sqlstring: "^2.3.2"
       },
       devDependencies: {
-        "@types/chai": "^4.3.4",
-        "@types/mocha": "^10.0.0",
-        "@types/node": "^18.7.1",
+        "@types/node": "^20.0.0",
         "@typescript-eslint/eslint-plugin": "^5.42.1",
         "@typescript-eslint/parser": "^5.42.1",
         "assert-diff": "^3.0.2",
         benchmark: "^2.1.4",
-        c8: "^7.10.0",
-        chai: "^4.3.7",
+        c8: "^8.0.0",
         "error-stack-parser": "^2.0.3",
         eslint: "^8.27.0",
         "eslint-config-prettier": "^8.5.0",
@@ -29675,11 +31767,10 @@ var require_package2 = __commonJS({
         "eslint-plugin-markdown": "^3.0.0",
         husky: "^8.0.2",
         "lint-staged": "^13.0.3",
-        mocha: "^10.0.0",
         portfinder: "^1.0.28",
-        prettier: "^2.4.1",
+        prettier: "^3.0.0",
         progress: "^2.0.3",
-        typescript: "^4.4.3",
+        typescript: "^5.0.2",
         urun: "0.0.8",
         utest: "0.0.8"
       }
@@ -29687,9 +31778,9 @@ var require_package2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/ssl_profiles.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/ssl_profiles.js
 var require_ssl_profiles = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/constants/ssl_profiles.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/constants/ssl_profiles.js"(exports) {
     "use strict";
     exports["Amazon RDS"] = {
       ca: [
@@ -29755,9 +31846,9 @@ var require_ssl_profiles = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/connection_config.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/connection_config.js
 var require_connection_config = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/connection_config.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/connection_config.js"(exports, module2) {
     "use strict";
     var { URL: URL2 } = require("url");
     var ClientConstants = require_client();
@@ -29858,7 +31949,7 @@ var require_connection_config = __commonJS({
         this.debug = options.debug;
         this.trace = options.trace !== false;
         this.stringifyObjects = options.stringifyObjects || false;
-        this.enableKeepAlive = !!options.enableKeepAlive;
+        this.enableKeepAlive = options.enableKeepAlive !== false;
         this.keepAliveInitialDelay = options.keepAliveInitialDelay || 0;
         if (options.timezone && !/^(?:local|Z|[ +-]\d\d:\d\d)$/.test(options.timezone)) {
           console.error(
@@ -29988,6 +32079,1018 @@ var require_connection_config = __commonJS({
       }
     };
     module2.exports = ConnectionConfig;
+  }
+});
+
+// ../../node_modules/.pnpm/lru-cache@7.18.3/node_modules/lru-cache/index.js
+var require_lru_cache = __commonJS({
+  "../../node_modules/.pnpm/lru-cache@7.18.3/node_modules/lru-cache/index.js"(exports, module2) {
+    var perf = typeof performance === "object" && performance && typeof performance.now === "function" ? performance : Date;
+    var hasAbortController = typeof AbortController === "function";
+    var AC = hasAbortController ? AbortController : class AbortController {
+      constructor() {
+        this.signal = new AS();
+      }
+      abort(reason = new Error("This operation was aborted")) {
+        this.signal.reason = this.signal.reason || reason;
+        this.signal.aborted = true;
+        this.signal.dispatchEvent({
+          type: "abort",
+          target: this.signal
+        });
+      }
+    };
+    var hasAbortSignal = typeof AbortSignal === "function";
+    var hasACAbortSignal = typeof AC.AbortSignal === "function";
+    var AS = hasAbortSignal ? AbortSignal : hasACAbortSignal ? AC.AbortController : class AbortSignal {
+      constructor() {
+        this.reason = void 0;
+        this.aborted = false;
+        this._listeners = [];
+      }
+      dispatchEvent(e2) {
+        if (e2.type === "abort") {
+          this.aborted = true;
+          this.onabort(e2);
+          this._listeners.forEach((f4) => f4(e2), this);
+        }
+      }
+      onabort() {
+      }
+      addEventListener(ev, fn) {
+        if (ev === "abort") {
+          this._listeners.push(fn);
+        }
+      }
+      removeEventListener(ev, fn) {
+        if (ev === "abort") {
+          this._listeners = this._listeners.filter((f4) => f4 !== fn);
+        }
+      }
+    };
+    var warned = /* @__PURE__ */ new Set();
+    var deprecatedOption = (opt, instead) => {
+      const code = `LRU_CACHE_OPTION_${opt}`;
+      if (shouldWarn(code)) {
+        warn(code, `${opt} option`, `options.${instead}`, LRUCache);
+      }
+    };
+    var deprecatedMethod = (method, instead) => {
+      const code = `LRU_CACHE_METHOD_${method}`;
+      if (shouldWarn(code)) {
+        const { prototype } = LRUCache;
+        const { get } = Object.getOwnPropertyDescriptor(prototype, method);
+        warn(code, `${method} method`, `cache.${instead}()`, get);
+      }
+    };
+    var deprecatedProperty = (field, instead) => {
+      const code = `LRU_CACHE_PROPERTY_${field}`;
+      if (shouldWarn(code)) {
+        const { prototype } = LRUCache;
+        const { get } = Object.getOwnPropertyDescriptor(prototype, field);
+        warn(code, `${field} property`, `cache.${instead}`, get);
+      }
+    };
+    var emitWarning = (...a) => {
+      typeof process === "object" && process && typeof process.emitWarning === "function" ? process.emitWarning(...a) : console.error(...a);
+    };
+    var shouldWarn = (code) => !warned.has(code);
+    var warn = (code, what, instead, fn) => {
+      warned.add(code);
+      const msg = `The ${what} is deprecated. Please use ${instead} instead.`;
+      emitWarning(msg, "DeprecationWarning", code, fn);
+    };
+    var isPosInt = (n) => n && n === Math.floor(n) && n > 0 && isFinite(n);
+    var getUintArray = (max) => !isPosInt(max) ? null : max <= Math.pow(2, 8) ? Uint8Array : max <= Math.pow(2, 16) ? Uint16Array : max <= Math.pow(2, 32) ? Uint32Array : max <= Number.MAX_SAFE_INTEGER ? ZeroArray : null;
+    var ZeroArray = class extends Array {
+      constructor(size) {
+        super(size);
+        this.fill(0);
+      }
+    };
+    var Stack = class {
+      constructor(max) {
+        if (max === 0) {
+          return [];
+        }
+        const UintArray = getUintArray(max);
+        this.heap = new UintArray(max);
+        this.length = 0;
+      }
+      push(n) {
+        this.heap[this.length++] = n;
+      }
+      pop() {
+        return this.heap[--this.length];
+      }
+    };
+    var LRUCache = class {
+      constructor(options = {}) {
+        const {
+          max = 0,
+          ttl,
+          ttlResolution = 1,
+          ttlAutopurge,
+          updateAgeOnGet,
+          updateAgeOnHas,
+          allowStale,
+          dispose,
+          disposeAfter,
+          noDisposeOnSet,
+          noUpdateTTL,
+          maxSize = 0,
+          maxEntrySize = 0,
+          sizeCalculation,
+          fetchMethod,
+          fetchContext,
+          noDeleteOnFetchRejection,
+          noDeleteOnStaleGet,
+          allowStaleOnFetchRejection,
+          allowStaleOnFetchAbort,
+          ignoreFetchAbort
+        } = options;
+        const { length, maxAge, stale } = options instanceof LRUCache ? {} : options;
+        if (max !== 0 && !isPosInt(max)) {
+          throw new TypeError("max option must be a nonnegative integer");
+        }
+        const UintArray = max ? getUintArray(max) : Array;
+        if (!UintArray) {
+          throw new Error("invalid max value: " + max);
+        }
+        this.max = max;
+        this.maxSize = maxSize;
+        this.maxEntrySize = maxEntrySize || this.maxSize;
+        this.sizeCalculation = sizeCalculation || length;
+        if (this.sizeCalculation) {
+          if (!this.maxSize && !this.maxEntrySize) {
+            throw new TypeError(
+              "cannot set sizeCalculation without setting maxSize or maxEntrySize"
+            );
+          }
+          if (typeof this.sizeCalculation !== "function") {
+            throw new TypeError("sizeCalculation set to non-function");
+          }
+        }
+        this.fetchMethod = fetchMethod || null;
+        if (this.fetchMethod && typeof this.fetchMethod !== "function") {
+          throw new TypeError(
+            "fetchMethod must be a function if specified"
+          );
+        }
+        this.fetchContext = fetchContext;
+        if (!this.fetchMethod && fetchContext !== void 0) {
+          throw new TypeError(
+            "cannot set fetchContext without fetchMethod"
+          );
+        }
+        this.keyMap = /* @__PURE__ */ new Map();
+        this.keyList = new Array(max).fill(null);
+        this.valList = new Array(max).fill(null);
+        this.next = new UintArray(max);
+        this.prev = new UintArray(max);
+        this.head = 0;
+        this.tail = 0;
+        this.free = new Stack(max);
+        this.initialFill = 1;
+        this.size = 0;
+        if (typeof dispose === "function") {
+          this.dispose = dispose;
+        }
+        if (typeof disposeAfter === "function") {
+          this.disposeAfter = disposeAfter;
+          this.disposed = [];
+        } else {
+          this.disposeAfter = null;
+          this.disposed = null;
+        }
+        this.noDisposeOnSet = !!noDisposeOnSet;
+        this.noUpdateTTL = !!noUpdateTTL;
+        this.noDeleteOnFetchRejection = !!noDeleteOnFetchRejection;
+        this.allowStaleOnFetchRejection = !!allowStaleOnFetchRejection;
+        this.allowStaleOnFetchAbort = !!allowStaleOnFetchAbort;
+        this.ignoreFetchAbort = !!ignoreFetchAbort;
+        if (this.maxEntrySize !== 0) {
+          if (this.maxSize !== 0) {
+            if (!isPosInt(this.maxSize)) {
+              throw new TypeError(
+                "maxSize must be a positive integer if specified"
+              );
+            }
+          }
+          if (!isPosInt(this.maxEntrySize)) {
+            throw new TypeError(
+              "maxEntrySize must be a positive integer if specified"
+            );
+          }
+          this.initializeSizeTracking();
+        }
+        this.allowStale = !!allowStale || !!stale;
+        this.noDeleteOnStaleGet = !!noDeleteOnStaleGet;
+        this.updateAgeOnGet = !!updateAgeOnGet;
+        this.updateAgeOnHas = !!updateAgeOnHas;
+        this.ttlResolution = isPosInt(ttlResolution) || ttlResolution === 0 ? ttlResolution : 1;
+        this.ttlAutopurge = !!ttlAutopurge;
+        this.ttl = ttl || maxAge || 0;
+        if (this.ttl) {
+          if (!isPosInt(this.ttl)) {
+            throw new TypeError(
+              "ttl must be a positive integer if specified"
+            );
+          }
+          this.initializeTTLTracking();
+        }
+        if (this.max === 0 && this.ttl === 0 && this.maxSize === 0) {
+          throw new TypeError(
+            "At least one of max, maxSize, or ttl is required"
+          );
+        }
+        if (!this.ttlAutopurge && !this.max && !this.maxSize) {
+          const code = "LRU_CACHE_UNBOUNDED";
+          if (shouldWarn(code)) {
+            warned.add(code);
+            const msg = "TTL caching without ttlAutopurge, max, or maxSize can result in unbounded memory consumption.";
+            emitWarning(msg, "UnboundedCacheWarning", code, LRUCache);
+          }
+        }
+        if (stale) {
+          deprecatedOption("stale", "allowStale");
+        }
+        if (maxAge) {
+          deprecatedOption("maxAge", "ttl");
+        }
+        if (length) {
+          deprecatedOption("length", "sizeCalculation");
+        }
+      }
+      getRemainingTTL(key) {
+        return this.has(key, { updateAgeOnHas: false }) ? Infinity : 0;
+      }
+      initializeTTLTracking() {
+        this.ttls = new ZeroArray(this.max);
+        this.starts = new ZeroArray(this.max);
+        this.setItemTTL = (index, ttl, start = perf.now()) => {
+          this.starts[index] = ttl !== 0 ? start : 0;
+          this.ttls[index] = ttl;
+          if (ttl !== 0 && this.ttlAutopurge) {
+            const t2 = setTimeout(() => {
+              if (this.isStale(index)) {
+                this.delete(this.keyList[index]);
+              }
+            }, ttl + 1);
+            if (t2.unref) {
+              t2.unref();
+            }
+          }
+        };
+        this.updateItemAge = (index) => {
+          this.starts[index] = this.ttls[index] !== 0 ? perf.now() : 0;
+        };
+        this.statusTTL = (status, index) => {
+          if (status) {
+            status.ttl = this.ttls[index];
+            status.start = this.starts[index];
+            status.now = cachedNow || getNow();
+            status.remainingTTL = status.now + status.ttl - status.start;
+          }
+        };
+        let cachedNow = 0;
+        const getNow = () => {
+          const n = perf.now();
+          if (this.ttlResolution > 0) {
+            cachedNow = n;
+            const t2 = setTimeout(
+              () => cachedNow = 0,
+              this.ttlResolution
+            );
+            if (t2.unref) {
+              t2.unref();
+            }
+          }
+          return n;
+        };
+        this.getRemainingTTL = (key) => {
+          const index = this.keyMap.get(key);
+          if (index === void 0) {
+            return 0;
+          }
+          return this.ttls[index] === 0 || this.starts[index] === 0 ? Infinity : this.starts[index] + this.ttls[index] - (cachedNow || getNow());
+        };
+        this.isStale = (index) => {
+          return this.ttls[index] !== 0 && this.starts[index] !== 0 && (cachedNow || getNow()) - this.starts[index] > this.ttls[index];
+        };
+      }
+      updateItemAge(_index) {
+      }
+      statusTTL(_status, _index) {
+      }
+      setItemTTL(_index, _ttl, _start2) {
+      }
+      isStale(_index) {
+        return false;
+      }
+      initializeSizeTracking() {
+        this.calculatedSize = 0;
+        this.sizes = new ZeroArray(this.max);
+        this.removeItemSize = (index) => {
+          this.calculatedSize -= this.sizes[index];
+          this.sizes[index] = 0;
+        };
+        this.requireSize = (k, v, size, sizeCalculation) => {
+          if (this.isBackgroundFetch(v)) {
+            return 0;
+          }
+          if (!isPosInt(size)) {
+            if (sizeCalculation) {
+              if (typeof sizeCalculation !== "function") {
+                throw new TypeError("sizeCalculation must be a function");
+              }
+              size = sizeCalculation(v, k);
+              if (!isPosInt(size)) {
+                throw new TypeError(
+                  "sizeCalculation return invalid (expect positive integer)"
+                );
+              }
+            } else {
+              throw new TypeError(
+                "invalid size value (must be positive integer). When maxSize or maxEntrySize is used, sizeCalculation or size must be set."
+              );
+            }
+          }
+          return size;
+        };
+        this.addItemSize = (index, size, status) => {
+          this.sizes[index] = size;
+          if (this.maxSize) {
+            const maxSize = this.maxSize - this.sizes[index];
+            while (this.calculatedSize > maxSize) {
+              this.evict(true);
+            }
+          }
+          this.calculatedSize += this.sizes[index];
+          if (status) {
+            status.entrySize = size;
+            status.totalCalculatedSize = this.calculatedSize;
+          }
+        };
+      }
+      removeItemSize(_index) {
+      }
+      addItemSize(_index, _size2) {
+      }
+      requireSize(_k, _v, size, sizeCalculation) {
+        if (size || sizeCalculation) {
+          throw new TypeError(
+            "cannot set size without setting maxSize or maxEntrySize on cache"
+          );
+        }
+      }
+      *indexes({ allowStale = this.allowStale } = {}) {
+        if (this.size) {
+          for (let i2 = this.tail; true; ) {
+            if (!this.isValidIndex(i2)) {
+              break;
+            }
+            if (allowStale || !this.isStale(i2)) {
+              yield i2;
+            }
+            if (i2 === this.head) {
+              break;
+            } else {
+              i2 = this.prev[i2];
+            }
+          }
+        }
+      }
+      *rindexes({ allowStale = this.allowStale } = {}) {
+        if (this.size) {
+          for (let i2 = this.head; true; ) {
+            if (!this.isValidIndex(i2)) {
+              break;
+            }
+            if (allowStale || !this.isStale(i2)) {
+              yield i2;
+            }
+            if (i2 === this.tail) {
+              break;
+            } else {
+              i2 = this.next[i2];
+            }
+          }
+        }
+      }
+      isValidIndex(index) {
+        return index !== void 0 && this.keyMap.get(this.keyList[index]) === index;
+      }
+      *entries() {
+        for (const i2 of this.indexes()) {
+          if (this.valList[i2] !== void 0 && this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield [this.keyList[i2], this.valList[i2]];
+          }
+        }
+      }
+      *rentries() {
+        for (const i2 of this.rindexes()) {
+          if (this.valList[i2] !== void 0 && this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield [this.keyList[i2], this.valList[i2]];
+          }
+        }
+      }
+      *keys() {
+        for (const i2 of this.indexes()) {
+          if (this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield this.keyList[i2];
+          }
+        }
+      }
+      *rkeys() {
+        for (const i2 of this.rindexes()) {
+          if (this.keyList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield this.keyList[i2];
+          }
+        }
+      }
+      *values() {
+        for (const i2 of this.indexes()) {
+          if (this.valList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield this.valList[i2];
+          }
+        }
+      }
+      *rvalues() {
+        for (const i2 of this.rindexes()) {
+          if (this.valList[i2] !== void 0 && !this.isBackgroundFetch(this.valList[i2])) {
+            yield this.valList[i2];
+          }
+        }
+      }
+      [Symbol.iterator]() {
+        return this.entries();
+      }
+      find(fn, getOptions) {
+        for (const i2 of this.indexes()) {
+          const v = this.valList[i2];
+          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+          if (value === void 0)
+            continue;
+          if (fn(value, this.keyList[i2], this)) {
+            return this.get(this.keyList[i2], getOptions);
+          }
+        }
+      }
+      forEach(fn, thisp = this) {
+        for (const i2 of this.indexes()) {
+          const v = this.valList[i2];
+          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+          if (value === void 0)
+            continue;
+          fn.call(thisp, value, this.keyList[i2], this);
+        }
+      }
+      rforEach(fn, thisp = this) {
+        for (const i2 of this.rindexes()) {
+          const v = this.valList[i2];
+          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+          if (value === void 0)
+            continue;
+          fn.call(thisp, value, this.keyList[i2], this);
+        }
+      }
+      get prune() {
+        deprecatedMethod("prune", "purgeStale");
+        return this.purgeStale;
+      }
+      purgeStale() {
+        let deleted = false;
+        for (const i2 of this.rindexes({ allowStale: true })) {
+          if (this.isStale(i2)) {
+            this.delete(this.keyList[i2]);
+            deleted = true;
+          }
+        }
+        return deleted;
+      }
+      dump() {
+        const arr = [];
+        for (const i2 of this.indexes({ allowStale: true })) {
+          const key = this.keyList[i2];
+          const v = this.valList[i2];
+          const value = this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+          if (value === void 0)
+            continue;
+          const entry = { value };
+          if (this.ttls) {
+            entry.ttl = this.ttls[i2];
+            const age = perf.now() - this.starts[i2];
+            entry.start = Math.floor(Date.now() - age);
+          }
+          if (this.sizes) {
+            entry.size = this.sizes[i2];
+          }
+          arr.unshift([key, entry]);
+        }
+        return arr;
+      }
+      load(arr) {
+        this.clear();
+        for (const [key, entry] of arr) {
+          if (entry.start) {
+            const age = Date.now() - entry.start;
+            entry.start = perf.now() - age;
+          }
+          this.set(key, entry.value, entry);
+        }
+      }
+      dispose(_v, _k, _reason) {
+      }
+      set(k, v, {
+        ttl = this.ttl,
+        start,
+        noDisposeOnSet = this.noDisposeOnSet,
+        size = 0,
+        sizeCalculation = this.sizeCalculation,
+        noUpdateTTL = this.noUpdateTTL,
+        status
+      } = {}) {
+        size = this.requireSize(k, v, size, sizeCalculation);
+        if (this.maxEntrySize && size > this.maxEntrySize) {
+          if (status) {
+            status.set = "miss";
+            status.maxEntrySizeExceeded = true;
+          }
+          this.delete(k);
+          return this;
+        }
+        let index = this.size === 0 ? void 0 : this.keyMap.get(k);
+        if (index === void 0) {
+          index = this.newIndex();
+          this.keyList[index] = k;
+          this.valList[index] = v;
+          this.keyMap.set(k, index);
+          this.next[this.tail] = index;
+          this.prev[index] = this.tail;
+          this.tail = index;
+          this.size++;
+          this.addItemSize(index, size, status);
+          if (status) {
+            status.set = "add";
+          }
+          noUpdateTTL = false;
+        } else {
+          this.moveToTail(index);
+          const oldVal = this.valList[index];
+          if (v !== oldVal) {
+            if (this.isBackgroundFetch(oldVal)) {
+              oldVal.__abortController.abort(new Error("replaced"));
+            } else {
+              if (!noDisposeOnSet) {
+                this.dispose(oldVal, k, "set");
+                if (this.disposeAfter) {
+                  this.disposed.push([oldVal, k, "set"]);
+                }
+              }
+            }
+            this.removeItemSize(index);
+            this.valList[index] = v;
+            this.addItemSize(index, size, status);
+            if (status) {
+              status.set = "replace";
+              const oldValue = oldVal && this.isBackgroundFetch(oldVal) ? oldVal.__staleWhileFetching : oldVal;
+              if (oldValue !== void 0)
+                status.oldValue = oldValue;
+            }
+          } else if (status) {
+            status.set = "update";
+          }
+        }
+        if (ttl !== 0 && this.ttl === 0 && !this.ttls) {
+          this.initializeTTLTracking();
+        }
+        if (!noUpdateTTL) {
+          this.setItemTTL(index, ttl, start);
+        }
+        this.statusTTL(status, index);
+        if (this.disposeAfter) {
+          while (this.disposed.length) {
+            this.disposeAfter(...this.disposed.shift());
+          }
+        }
+        return this;
+      }
+      newIndex() {
+        if (this.size === 0) {
+          return this.tail;
+        }
+        if (this.size === this.max && this.max !== 0) {
+          return this.evict(false);
+        }
+        if (this.free.length !== 0) {
+          return this.free.pop();
+        }
+        return this.initialFill++;
+      }
+      pop() {
+        if (this.size) {
+          const val = this.valList[this.head];
+          this.evict(true);
+          return val;
+        }
+      }
+      evict(free) {
+        const head = this.head;
+        const k = this.keyList[head];
+        const v = this.valList[head];
+        if (this.isBackgroundFetch(v)) {
+          v.__abortController.abort(new Error("evicted"));
+        } else {
+          this.dispose(v, k, "evict");
+          if (this.disposeAfter) {
+            this.disposed.push([v, k, "evict"]);
+          }
+        }
+        this.removeItemSize(head);
+        if (free) {
+          this.keyList[head] = null;
+          this.valList[head] = null;
+          this.free.push(head);
+        }
+        this.head = this.next[head];
+        this.keyMap.delete(k);
+        this.size--;
+        return head;
+      }
+      has(k, { updateAgeOnHas = this.updateAgeOnHas, status } = {}) {
+        const index = this.keyMap.get(k);
+        if (index !== void 0) {
+          if (!this.isStale(index)) {
+            if (updateAgeOnHas) {
+              this.updateItemAge(index);
+            }
+            if (status)
+              status.has = "hit";
+            this.statusTTL(status, index);
+            return true;
+          } else if (status) {
+            status.has = "stale";
+            this.statusTTL(status, index);
+          }
+        } else if (status) {
+          status.has = "miss";
+        }
+        return false;
+      }
+      peek(k, { allowStale = this.allowStale } = {}) {
+        const index = this.keyMap.get(k);
+        if (index !== void 0 && (allowStale || !this.isStale(index))) {
+          const v = this.valList[index];
+          return this.isBackgroundFetch(v) ? v.__staleWhileFetching : v;
+        }
+      }
+      backgroundFetch(k, index, options, context) {
+        const v = index === void 0 ? void 0 : this.valList[index];
+        if (this.isBackgroundFetch(v)) {
+          return v;
+        }
+        const ac = new AC();
+        if (options.signal) {
+          options.signal.addEventListener(
+            "abort",
+            () => ac.abort(options.signal.reason)
+          );
+        }
+        const fetchOpts = {
+          signal: ac.signal,
+          options,
+          context
+        };
+        const cb = (v2, updateCache = false) => {
+          const { aborted } = ac.signal;
+          const ignoreAbort = options.ignoreFetchAbort && v2 !== void 0;
+          if (options.status) {
+            if (aborted && !updateCache) {
+              options.status.fetchAborted = true;
+              options.status.fetchError = ac.signal.reason;
+              if (ignoreAbort)
+                options.status.fetchAbortIgnored = true;
+            } else {
+              options.status.fetchResolved = true;
+            }
+          }
+          if (aborted && !ignoreAbort && !updateCache) {
+            return fetchFail(ac.signal.reason);
+          }
+          if (this.valList[index] === p) {
+            if (v2 === void 0) {
+              if (p.__staleWhileFetching) {
+                this.valList[index] = p.__staleWhileFetching;
+              } else {
+                this.delete(k);
+              }
+            } else {
+              if (options.status)
+                options.status.fetchUpdated = true;
+              this.set(k, v2, fetchOpts.options);
+            }
+          }
+          return v2;
+        };
+        const eb = (er) => {
+          if (options.status) {
+            options.status.fetchRejected = true;
+            options.status.fetchError = er;
+          }
+          return fetchFail(er);
+        };
+        const fetchFail = (er) => {
+          const { aborted } = ac.signal;
+          const allowStaleAborted = aborted && options.allowStaleOnFetchAbort;
+          const allowStale = allowStaleAborted || options.allowStaleOnFetchRejection;
+          const noDelete = allowStale || options.noDeleteOnFetchRejection;
+          if (this.valList[index] === p) {
+            const del = !noDelete || p.__staleWhileFetching === void 0;
+            if (del) {
+              this.delete(k);
+            } else if (!allowStaleAborted) {
+              this.valList[index] = p.__staleWhileFetching;
+            }
+          }
+          if (allowStale) {
+            if (options.status && p.__staleWhileFetching !== void 0) {
+              options.status.returnedStale = true;
+            }
+            return p.__staleWhileFetching;
+          } else if (p.__returned === p) {
+            throw er;
+          }
+        };
+        const pcall = (res, rej) => {
+          this.fetchMethod(k, v, fetchOpts).then((v2) => res(v2), rej);
+          ac.signal.addEventListener("abort", () => {
+            if (!options.ignoreFetchAbort || options.allowStaleOnFetchAbort) {
+              res();
+              if (options.allowStaleOnFetchAbort) {
+                res = (v2) => cb(v2, true);
+              }
+            }
+          });
+        };
+        if (options.status)
+          options.status.fetchDispatched = true;
+        const p = new Promise(pcall).then(cb, eb);
+        p.__abortController = ac;
+        p.__staleWhileFetching = v;
+        p.__returned = null;
+        if (index === void 0) {
+          this.set(k, p, { ...fetchOpts.options, status: void 0 });
+          index = this.keyMap.get(k);
+        } else {
+          this.valList[index] = p;
+        }
+        return p;
+      }
+      isBackgroundFetch(p) {
+        return p && typeof p === "object" && typeof p.then === "function" && Object.prototype.hasOwnProperty.call(
+          p,
+          "__staleWhileFetching"
+        ) && Object.prototype.hasOwnProperty.call(p, "__returned") && (p.__returned === p || p.__returned === null);
+      }
+      async fetch(k, {
+        allowStale = this.allowStale,
+        updateAgeOnGet = this.updateAgeOnGet,
+        noDeleteOnStaleGet = this.noDeleteOnStaleGet,
+        ttl = this.ttl,
+        noDisposeOnSet = this.noDisposeOnSet,
+        size = 0,
+        sizeCalculation = this.sizeCalculation,
+        noUpdateTTL = this.noUpdateTTL,
+        noDeleteOnFetchRejection = this.noDeleteOnFetchRejection,
+        allowStaleOnFetchRejection = this.allowStaleOnFetchRejection,
+        ignoreFetchAbort = this.ignoreFetchAbort,
+        allowStaleOnFetchAbort = this.allowStaleOnFetchAbort,
+        fetchContext = this.fetchContext,
+        forceRefresh = false,
+        status,
+        signal
+      } = {}) {
+        if (!this.fetchMethod) {
+          if (status)
+            status.fetch = "get";
+          return this.get(k, {
+            allowStale,
+            updateAgeOnGet,
+            noDeleteOnStaleGet,
+            status
+          });
+        }
+        const options = {
+          allowStale,
+          updateAgeOnGet,
+          noDeleteOnStaleGet,
+          ttl,
+          noDisposeOnSet,
+          size,
+          sizeCalculation,
+          noUpdateTTL,
+          noDeleteOnFetchRejection,
+          allowStaleOnFetchRejection,
+          allowStaleOnFetchAbort,
+          ignoreFetchAbort,
+          status,
+          signal
+        };
+        let index = this.keyMap.get(k);
+        if (index === void 0) {
+          if (status)
+            status.fetch = "miss";
+          const p = this.backgroundFetch(k, index, options, fetchContext);
+          return p.__returned = p;
+        } else {
+          const v = this.valList[index];
+          if (this.isBackgroundFetch(v)) {
+            const stale = allowStale && v.__staleWhileFetching !== void 0;
+            if (status) {
+              status.fetch = "inflight";
+              if (stale)
+                status.returnedStale = true;
+            }
+            return stale ? v.__staleWhileFetching : v.__returned = v;
+          }
+          const isStale = this.isStale(index);
+          if (!forceRefresh && !isStale) {
+            if (status)
+              status.fetch = "hit";
+            this.moveToTail(index);
+            if (updateAgeOnGet) {
+              this.updateItemAge(index);
+            }
+            this.statusTTL(status, index);
+            return v;
+          }
+          const p = this.backgroundFetch(k, index, options, fetchContext);
+          const hasStale = p.__staleWhileFetching !== void 0;
+          const staleVal = hasStale && allowStale;
+          if (status) {
+            status.fetch = hasStale && isStale ? "stale" : "refresh";
+            if (staleVal && isStale)
+              status.returnedStale = true;
+          }
+          return staleVal ? p.__staleWhileFetching : p.__returned = p;
+        }
+      }
+      get(k, {
+        allowStale = this.allowStale,
+        updateAgeOnGet = this.updateAgeOnGet,
+        noDeleteOnStaleGet = this.noDeleteOnStaleGet,
+        status
+      } = {}) {
+        const index = this.keyMap.get(k);
+        if (index !== void 0) {
+          const value = this.valList[index];
+          const fetching = this.isBackgroundFetch(value);
+          this.statusTTL(status, index);
+          if (this.isStale(index)) {
+            if (status)
+              status.get = "stale";
+            if (!fetching) {
+              if (!noDeleteOnStaleGet) {
+                this.delete(k);
+              }
+              if (status)
+                status.returnedStale = allowStale;
+              return allowStale ? value : void 0;
+            } else {
+              if (status) {
+                status.returnedStale = allowStale && value.__staleWhileFetching !== void 0;
+              }
+              return allowStale ? value.__staleWhileFetching : void 0;
+            }
+          } else {
+            if (status)
+              status.get = "hit";
+            if (fetching) {
+              return value.__staleWhileFetching;
+            }
+            this.moveToTail(index);
+            if (updateAgeOnGet) {
+              this.updateItemAge(index);
+            }
+            return value;
+          }
+        } else if (status) {
+          status.get = "miss";
+        }
+      }
+      connect(p, n) {
+        this.prev[n] = p;
+        this.next[p] = n;
+      }
+      moveToTail(index) {
+        if (index !== this.tail) {
+          if (index === this.head) {
+            this.head = this.next[index];
+          } else {
+            this.connect(this.prev[index], this.next[index]);
+          }
+          this.connect(this.tail, index);
+          this.tail = index;
+        }
+      }
+      get del() {
+        deprecatedMethod("del", "delete");
+        return this.delete;
+      }
+      delete(k) {
+        let deleted = false;
+        if (this.size !== 0) {
+          const index = this.keyMap.get(k);
+          if (index !== void 0) {
+            deleted = true;
+            if (this.size === 1) {
+              this.clear();
+            } else {
+              this.removeItemSize(index);
+              const v = this.valList[index];
+              if (this.isBackgroundFetch(v)) {
+                v.__abortController.abort(new Error("deleted"));
+              } else {
+                this.dispose(v, k, "delete");
+                if (this.disposeAfter) {
+                  this.disposed.push([v, k, "delete"]);
+                }
+              }
+              this.keyMap.delete(k);
+              this.keyList[index] = null;
+              this.valList[index] = null;
+              if (index === this.tail) {
+                this.tail = this.prev[index];
+              } else if (index === this.head) {
+                this.head = this.next[index];
+              } else {
+                this.next[this.prev[index]] = this.next[index];
+                this.prev[this.next[index]] = this.prev[index];
+              }
+              this.size--;
+              this.free.push(index);
+            }
+          }
+        }
+        if (this.disposed) {
+          while (this.disposed.length) {
+            this.disposeAfter(...this.disposed.shift());
+          }
+        }
+        return deleted;
+      }
+      clear() {
+        for (const index of this.rindexes({ allowStale: true })) {
+          const v = this.valList[index];
+          if (this.isBackgroundFetch(v)) {
+            v.__abortController.abort(new Error("deleted"));
+          } else {
+            const k = this.keyList[index];
+            this.dispose(v, k, "delete");
+            if (this.disposeAfter) {
+              this.disposed.push([v, k, "delete"]);
+            }
+          }
+        }
+        this.keyMap.clear();
+        this.valList.fill(null);
+        this.keyList.fill(null);
+        if (this.ttls) {
+          this.ttls.fill(0);
+          this.starts.fill(0);
+        }
+        if (this.sizes) {
+          this.sizes.fill(0);
+        }
+        this.head = 0;
+        this.tail = 0;
+        this.initialFill = 1;
+        this.free.length = 0;
+        this.calculatedSize = 0;
+        this.size = 0;
+        if (this.disposed) {
+          while (this.disposed.length) {
+            this.disposeAfter(...this.disposed.shift());
+          }
+        }
+      }
+      get reset() {
+        deprecatedMethod("reset", "clear");
+        return this.clear;
+      }
+      get length() {
+        deprecatedProperty("length", "size");
+        return this.size;
+      }
+      static get AbortController() {
+        return AC;
+      }
+      static get AbortSignal() {
+        return AS;
+      }
+    };
+    module2.exports = LRUCache;
   }
 });
 
@@ -30154,9 +33257,9 @@ var require_named_placeholders = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/connection.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/connection.js
 var require_connection = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/connection.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/connection.js"(exports, module2) {
     "use strict";
     var Net = require("net");
     var Tls = require("tls");
@@ -30165,7 +33268,7 @@ var require_connection = __commonJS({
     var Readable = require("stream").Readable;
     var Queue = require_denque();
     var SqlString = require_sqlstring();
-    var LRU = require_lru_cache();
+    var LRU = require_index_cjs().default;
     var PacketParser = require_packet_parser();
     var Packets = require_packets();
     var Commands = require_commands2();
@@ -30185,7 +33288,11 @@ var require_connection = __commonJS({
               opts.config.port,
               opts.config.host
             );
-            this.stream.setKeepAlive(true, this.config.keepAliveInitialDelay);
+            if (this.config.enableKeepAlive) {
+              this.stream.on("connect", () => {
+                this.stream.setKeepAlive(true, this.config.keepAliveInitialDelay);
+              });
+            }
             this.stream.setNoDelay(true);
           }
         } else if (typeof opts.config.stream === "function") {
@@ -30424,58 +33531,41 @@ var require_connection = __commonJS({
         });
         const rejectUnauthorized = this.config.ssl.rejectUnauthorized;
         const verifyIdentity = this.config.ssl.verifyIdentity;
-        const host = this.config.host;
+        const servername = this.config.host;
         let secureEstablished = false;
-        const secureSocket = new Tls.TLSSocket(this.stream, {
+        this.stream.removeAllListeners("data");
+        const secureSocket = Tls.connect({
           rejectUnauthorized,
-          requestCert: true,
+          requestCert: rejectUnauthorized,
           secureContext,
-          isServer: false
+          isServer: false,
+          socket: this.stream,
+          servername
+        }, () => {
+          secureEstablished = true;
+          if (rejectUnauthorized) {
+            if (typeof servername === "string" && verifyIdentity) {
+              const cert = secureSocket.getPeerCertificate(true);
+              const serverIdentityCheckError = Tls.checkServerIdentity(servername, cert);
+              if (serverIdentityCheckError) {
+                onSecure(serverIdentityCheckError);
+                return;
+              }
+            }
+          }
+          onSecure();
         });
-        if (typeof host === "string") {
-          secureSocket.setServername(host);
-        }
-        secureSocket.on("_tlsError", (err) => {
+        secureSocket.on("error", (err) => {
           if (secureEstablished) {
             this._handleNetworkError(err);
           } else {
             onSecure(err);
           }
         });
-        secureSocket.on("secure", () => {
-          secureEstablished = true;
-          let callbackValue = null;
-          if (rejectUnauthorized) {
-            callbackValue = secureSocket.ssl.verifyError();
-            if (!callbackValue && typeof host === "string" && verifyIdentity) {
-              const cert = secureSocket.ssl.getPeerCertificate(true);
-              callbackValue = Tls.checkServerIdentity(host, cert);
-            }
-          }
-          onSecure(callbackValue);
-        });
         secureSocket.on("data", (data) => {
           this.packetParser.execute(data);
         });
-        this.write = (buffer) => {
-          secureSocket.write(buffer);
-        };
-        secureSocket._start();
-      }
-      pipe() {
-        if (this.stream instanceof Net.Stream) {
-          this.stream.ondata = (data, start, end) => {
-            this.packetParser.execute(data, start, end);
-          };
-        } else {
-          this.stream.on("data", (data) => {
-            this.packetParser.execute(
-              data.parent,
-              data.offset,
-              data.offset + data.length
-            );
-          });
-        }
+        this.write = (buffer) => secureSocket.write(buffer);
       }
       protocolError(message, code) {
         if (this._closing) {
@@ -30533,14 +33623,22 @@ var require_connection = __commonJS({
           }
           this._bumpSequenceId(packet.numPackets);
         }
-        const done = this._command.execute(packet, this);
-        if (done) {
-          this._command = this._commands.shift();
-          if (this._command) {
-            this.sequenceId = 0;
-            this.compressedSequenceId = 0;
-            this.handlePacket();
+        try {
+          if (this._fatalError) {
+            return;
           }
+          const done = this._command.execute(packet, this);
+          if (done) {
+            this._command = this._commands.shift();
+            if (this._command) {
+              this.sequenceId = 0;
+              this.compressedSequenceId = 0;
+              this.handlePacket();
+            }
+          }
+        } catch (err) {
+          this._handleFatalError(err);
+          this.stream.destroy();
         }
       }
       addCommand(cmd) {
@@ -30909,53 +34007,13 @@ var require_connection = __commonJS({
         return `${typeof options.nestTables}/${options.nestTables}/${options.rowsAsArray}${options.sql}`;
       }
     };
-    if (Tls.TLSSocket) {
-    } else {
-      Connection.prototype.startTLS = function _startTLS(onSecure) {
-        if (this.config.debug) {
-          console.log("Upgrading connection to TLS");
-        }
-        const crypto = require("crypto");
-        const config4 = this.config;
-        const stream = this.stream;
-        const rejectUnauthorized = this.config.ssl.rejectUnauthorized;
-        const credentials = crypto.createCredentials({
-          key: config4.ssl.key,
-          cert: config4.ssl.cert,
-          passphrase: config4.ssl.passphrase,
-          ca: config4.ssl.ca,
-          ciphers: config4.ssl.ciphers
-        });
-        const securePair = Tls.createSecurePair(
-          credentials,
-          false,
-          true,
-          rejectUnauthorized
-        );
-        if (stream.ondata) {
-          stream.ondata = null;
-        }
-        stream.removeAllListeners("data");
-        stream.pipe(securePair.encrypted);
-        securePair.encrypted.pipe(stream);
-        securePair.cleartext.on("data", (data) => {
-          this.packetParser.execute(data);
-        });
-        this.write = function(buffer) {
-          securePair.cleartext.write(buffer);
-        };
-        securePair.on("secure", () => {
-          onSecure(rejectUnauthorized ? securePair.ssl.verifyError() : null);
-        });
-      };
-    }
     module2.exports = Connection;
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_connection.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_connection.js
 var require_pool_connection = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_connection.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_connection.js"(exports, module2) {
     "use strict";
     var Connection = require_mysql2().Connection;
     var PoolConnection = class extends Connection {
@@ -31008,9 +34066,9 @@ var require_pool_connection = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool.js
 var require_pool = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var mysql2 = require_mysql2();
@@ -31217,9 +34275,9 @@ var require_pool = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_config.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_config.js
 var require_pool_config = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_config.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_config.js"(exports, module2) {
     "use strict";
     var ConnectionConfig = require_connection_config();
     var PoolConfig = class {
@@ -31239,9 +34297,9 @@ var require_pool_config = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_cluster.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_cluster.js
 var require_pool_cluster = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/pool_cluster.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/pool_cluster.js"(exports, module2) {
     "use strict";
     var process2 = require("process");
     var Pool = require_pool();
@@ -31476,9 +34534,9 @@ var require_pool_cluster = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/server.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/server.js
 var require_server = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/server.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/server.js"(exports, module2) {
     "use strict";
     var net = require("net");
     var EventEmitter = require("events").EventEmitter;
@@ -31511,9 +34569,9 @@ var require_server = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/index.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/index.js
 var require_auth_plugins = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/lib/auth_plugins/index.js"(exports, module2) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/lib/auth_plugins/index.js"(exports, module2) {
     "use strict";
     module2.exports = {
       caching_sha2_password: require_caching_sha2_password(),
@@ -31524,9 +34582,9 @@ var require_auth_plugins = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/index.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/index.js
 var require_mysql2 = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/index.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/index.js"(exports) {
     "use strict";
     var SqlString = require_sqlstring();
     var Connection = require_connection();
@@ -31595,12 +34653,13 @@ var require_mysql2 = __commonJS({
   }
 });
 
-// ../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/promise.js
+// ../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/promise.js
 var require_promise = __commonJS({
-  "../../node_modules/.pnpm/mysql2@3.2.0/node_modules/mysql2/promise.js"(exports) {
+  "../../node_modules/.pnpm/mysql2@3.5.1/node_modules/mysql2/promise.js"(exports) {
     "use strict";
     var core = require_mysql2();
     var EventEmitter = require("events").EventEmitter;
+    var parserCache = require_parser_cache();
     function makeDoneCb(resolve, reject, localErr) {
       return function(err, rows, fields) {
         if (err) {
@@ -31901,6 +34960,10 @@ var require_promise = __commonJS({
           });
         });
       }
+      releaseConnection(connection) {
+        if (connection instanceof PromisePoolConnection)
+          connection.release();
+      }
       query(sql, args) {
         const corePool = this.pool;
         const localErr = new Error();
@@ -32084,6 +35147,21 @@ var require_promise = __commonJS({
     exports.PromisePool = PromisePool;
     exports.PromiseConnection = PromiseConnection;
     exports.PromisePoolConnection = PromisePoolConnection;
+    exports.__defineGetter__("Types", () => require_types());
+    exports.__defineGetter__(
+      "Charsets",
+      () => require_charsets()
+    );
+    exports.__defineGetter__(
+      "CharsetToEncoding",
+      () => require_charset_encodings()
+    );
+    exports.setMaxParserCache = function(max) {
+      parserCache.setMaxCache(max);
+    };
+    exports.clearParserCache = function() {
+      parserCache.clearCache();
+    };
   }
 });
 
@@ -36659,8 +39737,8 @@ var require_ponyfill_es2018 = __commonJS({
       function byobReaderBrandCheckException(name) {
         return new TypeError(`ReadableStreamBYOBReader.prototype.${name} can only be used on a ReadableStreamBYOBReader`);
       }
-      function ExtractHighWaterMark(strategy, defaultHWM) {
-        const { highWaterMark } = strategy;
+      function ExtractHighWaterMark(strategy2, defaultHWM) {
+        const { highWaterMark } = strategy2;
         if (highWaterMark === void 0) {
           return defaultHWM;
         }
@@ -36669,8 +39747,8 @@ var require_ponyfill_es2018 = __commonJS({
         }
         return highWaterMark;
       }
-      function ExtractSizeAlgorithm(strategy) {
-        const { size } = strategy;
+      function ExtractSizeAlgorithm(strategy2) {
+        const { size } = strategy2;
         if (!size) {
           return () => 1;
         }
@@ -36749,15 +39827,15 @@ var require_ponyfill_es2018 = __commonJS({
           } else {
             assertObject(rawUnderlyingSink, "First parameter");
           }
-          const strategy = convertQueuingStrategy(rawStrategy, "Second parameter");
+          const strategy2 = convertQueuingStrategy(rawStrategy, "Second parameter");
           const underlyingSink = convertUnderlyingSink(rawUnderlyingSink, "First parameter");
           InitializeWritableStream(this);
           const type = underlyingSink.type;
           if (type !== void 0) {
             throw new RangeError("Invalid type is specified");
           }
-          const sizeAlgorithm = ExtractSizeAlgorithm(strategy);
-          const highWaterMark = ExtractHighWaterMark(strategy, 1);
+          const sizeAlgorithm = ExtractSizeAlgorithm(strategy2);
+          const highWaterMark = ExtractHighWaterMark(strategy2, 1);
           SetUpWritableStreamDefaultControllerFromUnderlyingSink(this, underlyingSink, highWaterMark, sizeAlgorithm);
         }
         get locked() {
@@ -38322,18 +41400,18 @@ var require_ponyfill_es2018 = __commonJS({
           } else {
             assertObject(rawUnderlyingSource, "First parameter");
           }
-          const strategy = convertQueuingStrategy(rawStrategy, "Second parameter");
+          const strategy2 = convertQueuingStrategy(rawStrategy, "Second parameter");
           const underlyingSource = convertUnderlyingDefaultOrByteSource(rawUnderlyingSource, "First parameter");
           InitializeReadableStream(this);
           if (underlyingSource.type === "bytes") {
-            if (strategy.size !== void 0) {
+            if (strategy2.size !== void 0) {
               throw new RangeError("The strategy for a byte stream cannot have a size function");
             }
-            const highWaterMark = ExtractHighWaterMark(strategy, 0);
+            const highWaterMark = ExtractHighWaterMark(strategy2, 0);
             SetUpReadableByteStreamControllerFromUnderlyingSource(this, underlyingSource, highWaterMark);
           } else {
-            const sizeAlgorithm = ExtractSizeAlgorithm(strategy);
-            const highWaterMark = ExtractHighWaterMark(strategy, 1);
+            const sizeAlgorithm = ExtractSizeAlgorithm(strategy2);
+            const highWaterMark = ExtractHighWaterMark(strategy2, 1);
             SetUpReadableStreamDefaultControllerFromUnderlyingSource(this, underlyingSource, highWaterMark, sizeAlgorithm);
           }
         }
@@ -46655,7 +49733,8 @@ var config_default_default = {
       "i.projecterror.dev",
       "upcdn.io",
       "i.fivemanage.com",
-      "api.fivemanage.com"
+      "api.fivemanage.com",
+      "r2.fivemanage.com"
     ]
   },
   profanityFilter: {
@@ -46683,6 +49762,9 @@ var config_default_default = {
   },
   marketplace: {
     persistListings: false
+  },
+  browser: {
+    homepageUrl: "https://docs.projecterror.dev"
   },
   debug: {
     level: "error",
@@ -46788,7 +49870,7 @@ var formatLogs = (log) => {
 };
 var findLogPath = () => `${import_path.default.join(GetResourcePath(GetCurrentResourceName()), "sv_npwd.log")}`;
 var mainLogger = (0, import_winston.createLogger)({
-  silent: !config.debug.enabled,
+  silent: !config2.debug.enabled,
   transports: [
     new import_winston.transports.File({
       filename: findLogPath(),
@@ -46796,7 +49878,7 @@ var mainLogger = (0, import_winston.createLogger)({
       format: import_winston.format.combine(import_winston.format.errors({ stack: true }), import_winston.format.timestamp(), import_winston.format.json())
     }),
     new import_winston.transports.Console({
-      level: config.debug.level ?? "info",
+      level: config2.debug.level ?? "info",
       format: import_winston.format.combine(
         import_winston.format.label({ label: "[NPWD]" }),
         import_winston.format.colorize({ all: true }),
@@ -46808,20 +49890,6 @@ var mainLogger = (0, import_winston.createLogger)({
 
 // ../../packages/database/src/db/db_utils.ts
 var CONNECTION_STRING = "mysql_connection_string";
-function parseSemiColonFormat(connectionString) {
-  const parts = connectionString.replace(/(?:host(?:name)|ip|server|data\s?source|addr(?:ess)?)=/gi, "host=").replace(/(?:user\s?(?:id|name)?|uid)=/gi, "user=").replace(/(?:pwd|pass)=/gi, "password=").replace(/(?:db)=/gi, "database=").split(";");
-  if (parts.length === 1) {
-    throw new Error(
-      `Connection string ${connectionString} is in the incorrect format. Please follow the README.`
-    );
-  }
-  return parts.reduce((connectionInfo, parameter) => {
-    const [key, value] = parameter.split("=");
-    if (value)
-      connectionInfo[key] = value;
-    return connectionInfo;
-  }, {});
-}
 
 // ../../packages/database/src/db/pool.ts
 var import_promise = __toESM(require_promise());
@@ -46855,6 +49923,31 @@ var mainLogger2 = (0, import_winston2.createLogger)({
   ]
 });
 
+// ../../packages/database/src/db/parseUri.ts
+var parseUri2 = (connectionString) => {
+  const splitMatchGroups = connectionString.match(
+    new RegExp(
+      "^(?:([^:/?#.]+):)?(?://(?:([^/?#]*)@)?([\\w\\d\\-\\u0100-\\uffff.%]*)(?::([0-9]+))?)?([^?#]+)?(?:\\?([^#]*))?$"
+    )
+  );
+  if (!splitMatchGroups)
+    throw new Error(`mysql_connection_string structure was invalid (${connectionString})`);
+  const authTarget = splitMatchGroups[2] ? splitMatchGroups[2].split(":") : [];
+  const options = {
+    user: authTarget[0] || void 0,
+    password: authTarget[1] || void 0,
+    host: splitMatchGroups[3],
+    port: parseInt(splitMatchGroups[4]),
+    database: splitMatchGroups[5].replace(/^\/+/, ""),
+    ...splitMatchGroups[6] && splitMatchGroups[6].split("&").reduce((connectionInfo, parameter) => {
+      const [key, value] = parameter.split("=");
+      connectionInfo[key] = value;
+      return connectionInfo;
+    }, {})
+  };
+  return options;
+};
+
 // ../../packages/database/src/db/pool.ts
 var mysqlConnectionString = GetConvar(CONNECTION_STRING, "none");
 if (mysqlConnectionString === "none") {
@@ -46866,10 +49959,20 @@ if (mysqlConnectionString === "none") {
 }
 function generateConnectionPool() {
   try {
-    const config4 = mysqlConnectionString.includes("mysql://") ? { uri: mysqlConnectionString } : parseSemiColonFormat(mysqlConnectionString);
+    const config4 = mysqlConnectionString.includes("mysql://") ? parseUri2(mysqlConnectionString) : mysqlConnectionString.replace(/(?:host(?:name)|ip|server|data\s?source|addr(?:ess)?)=/gi, "host=").replace(/(?:user\s?(?:id|name)?|uid)=/gi, "user=").replace(/(?:pwd|pass)=/gi, "password=").replace(/(?:db)=/gi, "database=").split(";").reduce((connectionInfo, parameter) => {
+      const [key, value] = parameter.split("=");
+      if (key)
+        connectionInfo[key] = value;
+      return connectionInfo;
+    }, {});
     return import_promise.default.createPool({
+      ...config4,
       connectTimeout: 6e4,
-      ...config4
+      host: config4.host,
+      database: config4.database,
+      port: parseInt(config4.port, 10),
+      user: config4.user,
+      password: config4.password
     });
   } catch (e2) {
     mainLogger2.error(`SQL Connection Pool Error: ${e2.message}`, {
@@ -46877,6 +49980,15 @@ function generateConnectionPool() {
     });
   }
 }
+var getDbConfig = () => {
+  const config4 = mysqlConnectionString.includes("mysql://") ? parseUri2(mysqlConnectionString) : mysqlConnectionString.replace(/(?:host(?:name)|ip|server|data\s?source|addr(?:ess)?)=/gi, "host=").replace(/(?:user\s?(?:id|name)?|uid)=/gi, "user=").replace(/(?:pwd|pass)=/gi, "password=").replace(/(?:db)=/gi, "database=").split(";").reduce((connectionInfo, parameter) => {
+    const [key, value] = parameter.split("=");
+    if (key)
+      connectionInfo[key] = value;
+    return connectionInfo;
+  }, {});
+  return config4;
+};
 var pool = generateConnectionPool();
 
 // ../../packages/database/src/db/db_wrapper.ts
@@ -46924,50 +50036,6 @@ var _DbInterface = class {
 };
 var DbInterface = new _DbInterface();
 
-// ../../packages/database/src/db/parseUri.ts
-var parseUri = (connectionUri) => {
-  if (connectionUri.includes("mysql://")) {
-    const parsedUrl = new URL(connectionUri);
-    const options = {
-      driver: parsedUrl.protocol,
-      host: parsedUrl.hostname,
-      port: parseInt(parsedUrl.port),
-      database: parsedUrl.pathname.slice(1),
-      user: parsedUrl.username,
-      password: decodeURIComponent(parsedUrl.password)
-    };
-    parsedUrl.searchParams.forEach((value, key) => {
-      try {
-        options[key] = JSON.parse(value);
-      } catch (err) {
-        if (key === "username")
-          options["user"] = value;
-        else
-          options[key] = value;
-      }
-    });
-    if (!options.password && !options.user || !options.database) {
-      const regex = new RegExp("^(?:([^:/?#.]+):)?(?://(?:([^/?]*):([^/?]*)@)?([[A-Za-z0-9_.]+]*)(?::([0-9]+))?)?(?:\\\\?([^#]*))?$", "");
-      const specialCharactersRegex = regex.exec(connectionUri);
-      if (specialCharactersRegex) {
-        options.user = specialCharactersRegex[2] || void 0;
-        options.password = specialCharactersRegex[3] || void 0;
-        options.host = specialCharactersRegex[4];
-        options.port = parseInt(specialCharactersRegex[5]);
-        options.database = specialCharactersRegex[6].replace(/^\/+/, "");
-      }
-    }
-    for (let key in options)
-      !options[key] && delete options[key];
-    return options;
-  }
-  return connectionUri.replace(/(?:host(?:name)|ip|server|data\s?source|addr(?:ess)?)=/gi, "host=").replace(/(?:user\s?(?:id|name)?|uid)=/gi, "user=").replace(/(?:pwd|pass)=/gi, "password=").replace(/(?:db)=/gi, "database=").split(";").reduce((connectionInfo, parameter) => {
-    const [key, value] = parameter.split("=");
-    connectionInfo[key] = value;
-    return connectionInfo;
-  }, {});
-};
-
 // server/players/player.utils.ts
 var playerLogger = mainLogger.child({
   module: "player"
@@ -46990,22 +50058,22 @@ async function getDefaultProfileNames(source2) {
 
 // server/misc/generateUniquePhoneNumber.ts
 var exp = global.exports;
-var genNumber = (length) => {
-  const addAmount = 1;
-  let localMax = 11;
-  if (length > localMax) {
-    return genNumber(localMax) + genNumber(length - localMax);
+function generatePhoneNumber(pattern) {
+  const digitGroups = pattern.match(/\d+/g);
+  if (!digitGroups) {
+    mainLogger.error("Invalid phone number format");
+    throw new Error("Invalid phone number format");
   }
-  localMax = Math.pow(10, length + addAmount);
-  const min = localMax / 10;
-  const number = Math.floor(Math.random() * (localMax - min + 1)) + min;
-  const strNumber = "" + number;
-  return strNumber.substr(addAmount);
-};
-var generateUsNumber = () => {
-  const rawNumber = genNumber(10);
-  return rawNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-};
+  const randomNumberParts = digitGroups.map((group) => {
+    const length = parseInt(group);
+    let randomNumber = "";
+    for (let i2 = 0; i2 < length; i2++) {
+      randomNumber += Math.floor(Math.random() * 10).toString();
+    }
+    return randomNumber;
+  });
+  return randomNumberParts.join(randomNumberParts.length > 1 ? "-" : "");
+}
 async function generateUniquePhoneNumber() {
   if (config3.customPhoneNumber.enabled) {
     try {
@@ -47017,7 +50085,7 @@ async function generateUniquePhoneNumber() {
     }
   }
   const query = `SELECT EXISTS(SELECT * FROM ${config3.database.playerTable} WHERE ${config3.database.phoneNumberColumn} = ?)`;
-  const dashNumber = generateUsNumber();
+  const dashNumber = generatePhoneNumber(config3.general.phoneNumberFormat);
   const [results] = await DbInterface._rawExec(query, [dashNumber]);
   if (!results)
     return generateUniquePhoneNumber();
@@ -47478,13 +50546,13 @@ var checkAndFilterImage = (imageUrl) => {
   if (image == "") {
     return image;
   }
-  if (!config.imageSafety.filterUnsafeImageUrls)
+  if (!config2.imageSafety.filterUnsafeImageUrls)
     return image;
   const hostname = new URL(imageUrl).hostname;
-  if (config.imageSafety.safeImageUrls.includes(hostname))
+  if (config2.imageSafety.safeImageUrls.includes(hostname))
     return image;
-  if (config.imageSafety.embedUnsafeImages)
-    return `${config.imageSafety.embedUrl}?url=${imageUrl}`;
+  if (config2.imageSafety.embedUnsafeImages)
+    return `${config2.imageSafety.embedUrl}?url=${imageUrl}`;
   return null;
 };
 
@@ -48004,7 +51072,7 @@ var _PlayerService = class {
   }
   async clearPlayerData(src) {
     const identifier = this.getIdentifier(src);
-    if (!config.marketplace.persistListings) {
+    if (!config2.marketplace.persistListings) {
       try {
         await marketplace_service_default.handleDeleteListingsOnDrop(identifier);
       } catch (e2) {
@@ -48186,13 +51254,13 @@ var mysqlConnectionString2 = GetConvar(CONNECTION_STRING, "none");
 var npwdDebugDumpCommand = async (src) => {
   if (src !== 0)
     return;
-  const tableSchema = parseUri(mysqlConnectionString2).database;
-  if (config.debug.level === "error") {
+  const tableSchema = parseUri2(mysqlConnectionString2).database;
+  if (config2.debug.level === "error") {
     console.log("SET DEBUG LEVEL TO INFO/SILLY TO SEE LOGS");
   }
   mainLogger.info("NPWD DEBUG DUMP STARTED, THIS WILL WRITE TO THE SV_NPWD.LOG FILE");
   mainLogger.info("Resource Config >");
-  mainLogger.info(config);
+  mainLogger.info(config2);
   const versionInfo = GetResourceMetadata(GetCurrentResourceName(), "version", 0);
   mainLogger.info(`Manifest VERSION > ${versionInfo}`);
   const fxServerVersion = GetConvar("version", "unknown");
@@ -48205,7 +51273,7 @@ var npwdDebugDumpCommand = async (src) => {
        FROM information_schema.COLUMNS
        WHERE TABLE_NAME = ?
          AND TABLE_SCHEMA = ?`,
-      [config.database.playerTable, tableSchema]
+      [config2.database.playerTable, tableSchema]
     );
     const tableExists = playerTableResults.length > 0;
     if (tableExists) {
@@ -48213,7 +51281,7 @@ var npwdDebugDumpCommand = async (src) => {
       mainLogger.info(playerTableResults[0]);
     } else {
       mainLogger.error(
-        `Unable to locate schema metadata for specified player table of ${config.database.playerTable}. Maybe it doesn't exist?`
+        `Unable to locate schema metadata for specified player table of ${config2.database.playerTable}. Maybe it doesn't exist?`
       );
     }
   } catch (e2) {
@@ -48224,19 +51292,262 @@ var registerCommands = () => {
   RegisterCommand("npwd-debug-dump", npwdDebugDumpCommand, false);
 };
 
+// server/bridge/esx/esx-server.ts
+var ESXFramework = class {
+  constructor() {
+    mainLogger.info("Loading ESX bridge....");
+    config2.general.useResourceIntegration = true;
+    config2.database.identifierColumn = "identifier";
+    config2.database.phoneNumberColumn = "phone_number";
+    config2.database.playerTable = "users";
+    config2.database.identifierType = "license";
+  }
+  init() {
+    on("esx:playerLoaded", async (playerId, xPlayer) => {
+      const ESX = global.exports["es_extended"].getSharedObject();
+      if (!xPlayer) {
+        xPlayer = ESX.GetPlayerFromId(playerId);
+      }
+      await player_service_default.handleNewPlayerEvent({
+        identifier: xPlayer.identifier,
+        source: playerId,
+        firstname: xPlayer.firstname || xPlayer.variables?.lastName || xPlayer.get("firstName"),
+        lastname: xPlayer.lastname || xPlayer.variables?.lastName || xPlayer.get("lastName")
+      });
+    });
+    on("esx:playerLogout", async () => {
+      await player_service_default.handleUnloadPlayerEvent(global.source);
+    });
+    mainLogger.info("ESX bridge initialized");
+  }
+  onStart() {
+    on("onServerResourceStart", async (resource) => {
+      const ESX = global.exports["es_extended"].getSharedObject();
+      if (resource === GetCurrentResourceName()) {
+        const xPlayers = ESX.GetPlayers();
+        for (const xPlayer of xPlayers) {
+          await player_service_default.handleNewPlayerEvent({
+            identifier: xPlayer.identifier,
+            source: xPlayer.source,
+            firstname: xPlayer.firstname || xPlayer.variables?.lastName || xPlayer.get("firstName"),
+            lastname: xPlayer.lastname || xPlayer.variables?.lastName || xPlayer.get("lastName")
+          });
+        }
+      }
+    });
+  }
+};
+
+// server/bridge/ndcore/ndcore-server.ts
+var NDCoreFramework = class {
+  constructor() {
+    mainLogger.info("Loading NDCore bridge....");
+    config2.general.useResourceIntegration = true;
+    config2.database.identifierColumn = "charid";
+    config2.database.phoneNumberColumn = "phonenumber";
+    config2.database.playerTable = "nd_characters";
+    config2.database.identifierType = "license";
+  }
+  init() {
+    on("ND:characterLoaded", async (player) => {
+      const playerIdent = player.id;
+      const phoneNumber = player?.phonenumber;
+      mainLogger.debug(`ND Core Player Phone number: ${player?.phonenumber ?? "no phone number found"}`);
+      const playerSrc = player.source;
+      await player_service_default.handleNewPlayerEvent({
+        identifier: playerIdent,
+        source: playerSrc,
+        phoneNumber: phoneNumber ?? null,
+        firstname: player.firstname,
+        lastname: player.lastname
+      });
+    });
+    on("ND:characterUnloaded", async (source2) => {
+      await player_service_default.handleUnloadPlayerEvent(source2);
+    });
+    mainLogger.info("NDCore bridge initialized");
+  }
+  onStart() {
+    on("onServerResourceStart", async (resource) => {
+      const NDCore = global.exports["ND_Core"];
+      if (resource === GetCurrentResourceName()) {
+        const onlinePlayers = NDCore.getPlayers();
+        for (const player of onlinePlayers) {
+          const phoneNumber = player?.phonenumber;
+          await player_service_default.handleNewPlayerEvent({
+            source: player.source,
+            identifier: player.id,
+            phoneNumber: phoneNumber ?? null,
+            firstname: player.firstname,
+            lastname: player.lastname
+          });
+        }
+      }
+    });
+  }
+};
+
+// server/bridge/qb/qbcore-server.ts
+var QBCoreFramework = class {
+  constructor() {
+    mainLogger.info("Loading QBCore bridge....");
+    config2.general.useResourceIntegration = true;
+    config2.database.identifierColumn = "citizenid";
+    config2.database.phoneNumberColumn = "phone_number";
+    config2.database.playerTable = "players";
+    config2.database.identifierType = "license";
+  }
+  init() {
+    on("QBCore:Server:PlayerLoaded", async (qbPlayer) => {
+      const playerIdent = qbPlayer.PlayerData.citizenid;
+      const phoneNumber = qbPlayer.PlayerData.charinfo.phone;
+      const charInfo = qbPlayer.PlayerData.charinfo;
+      const playerSrc = qbPlayer.PlayerData.source;
+      await player_service_default.handleNewPlayerEvent({
+        identifier: playerIdent,
+        source: playerSrc,
+        phoneNumber: phoneNumber.toString(),
+        firstname: charInfo.firstname,
+        lastname: charInfo.lastname
+      });
+    });
+    on("QBCore:Server:OnPlayerUnload", async () => {
+      await player_service_default.handleUnloadPlayerEvent(global.source);
+    });
+    mainLogger.info("QBCore bridge initialized");
+  }
+  onStart() {
+    on("onServerResourceStart", async (resource) => {
+      const QBCore = global.exports["qb-core"].GetCoreObject();
+      if (resource === GetCurrentResourceName()) {
+        const onlinePlayers = QBCore.Functions.GetQBPlayers();
+        for (const player of onlinePlayers) {
+          await player_service_default.handleNewPlayerEvent({
+            source: player.PlayerData.source,
+            identifier: player.PlayerData.citizenid,
+            phoneNumber: player.PlayerData.charinfo.phone.toString(),
+            firstname: player.PlayerData.charinfo.firstname,
+            lastname: player.PlayerData.charinfo.lastname
+          });
+        }
+      }
+    });
+  }
+};
+
+// server/bridge/qbx/qbx-server.ts
+var QBXFramework = class {
+  constructor() {
+    mainLogger.info("Loading QBX bridge....");
+    config2.general.useResourceIntegration = true;
+    config2.database.identifierColumn = "citizenid";
+    config2.database.phoneNumberColumn = "phone_number";
+    config2.database.playerTable = "players";
+    config2.database.identifierType = "license";
+  }
+  init() {
+    on("QBCore:Server:PlayerLoaded", async (qbPlayer) => {
+      const playerIdent = qbPlayer.PlayerData.citizenid;
+      const phoneNumber = qbPlayer.PlayerData.charinfo.phone;
+      const charInfo = qbPlayer.PlayerData.charinfo;
+      const playerSrc = qbPlayer.PlayerData.source;
+      await player_service_default.handleNewPlayerEvent({
+        identifier: playerIdent,
+        source: playerSrc,
+        phoneNumber: phoneNumber.toString(),
+        firstname: charInfo.firstname,
+        lastname: charInfo.lastname
+      });
+    });
+    on("QBCore:Server:OnPlayerUnload", async () => {
+      await player_service_default.handleUnloadPlayerEvent(global.source);
+    });
+    mainLogger.info("QBX bridge initialized");
+  }
+  onStart() {
+    on("onServerResourceStart", async (resource) => {
+      const QBCore = global.exports["qb-core"].GetCoreObject();
+      if (resource === GetCurrentResourceName()) {
+        const onlinePlayers = QBCore.Functions.GetQBPlayers();
+        for (const player of onlinePlayers) {
+          await player_service_default.handleNewPlayerEvent({
+            source: player.PlayerData.source,
+            identifier: player.PlayerData.citizenid,
+            phoneNumber: player.PlayerData.charinfo.phone.toString(),
+            firstname: player.PlayerData.charinfo.firstname,
+            lastname: player.PlayerData.charinfo.lastname
+          });
+        }
+      }
+    });
+  }
+};
+
+// server/bridge/standalone/standalone-server.ts
+var Standalone = class {
+  constructor() {
+    mainLogger.info("Loading NPWD Standalone");
+  }
+  init() {
+    return;
+  }
+  onStart() {
+    return;
+  }
+};
+
+// server/bridge/framework-strategy.ts
+var FrameworkStrategy = class {
+  constructor(strategy2) {
+    switch (strategy2) {
+      case "qbcore":
+        this.strategy = new QBCoreFramework();
+        break;
+      case "qbx":
+        this.strategy = new QBXFramework();
+        break;
+      case "esx":
+        this.strategy = new ESXFramework();
+        break;
+      case "ndcore":
+        this.strategy = new NDCoreFramework();
+        break;
+      case "standalone":
+        this.strategy = new Standalone();
+        break;
+      default:
+        this.strategy = new Standalone();
+        break;
+    }
+  }
+  onStart() {
+    this.strategy.onStart();
+  }
+  init() {
+    this.strategy.init();
+  }
+};
+var framework = GetConvar("npwd:framework", "standalone");
+var strategy = new FrameworkStrategy(framework);
+if (strategy) {
+  strategy.init();
+  strategy.onStart();
+}
+
 // server/boot/boot.db.ts
-var mysqlConnectionString3 = GetConvar(CONNECTION_STRING, "none");
 var _BootDb = class {
   async doesPlayerTableExist() {
-    const tableSchema = parseUri(mysqlConnectionString3).database;
-    const tblsh = `Tables_in_${tableSchema}`;
-    const query = `SHOW TABLES WHERE \`${tblsh}\`LIKE ?`;
-    const [results] = await DbInterface._rawExec(query, [config.database.playerTable]);
-    const tableDetails = results;
-    return !!tableDetails.length;
+    const tableSchema = getDbConfig();
+    const query = `SELECT COUNT(*) as count
+                       FROM information_schema.tables
+                       WHERE table_schema = ?
+                         AND table_name = ?`;
+    const [results] = await DbInterface._rawExec(query, [tableSchema.database, config2.database.playerTable]);
+    const result = results;
+    return result[0].count > 0;
   }
   async getPlayerTableColumns() {
-    const query = `SHOW COLUMNS IN ${config.database.playerTable}`;
+    const query = `SHOW COLUMNS IN ${config2.database.playerTable}`;
     const [results] = await DbInterface._rawExec(query, []);
     const columnResults = results;
     return columnResults.map((columnData) => columnData.Field);
@@ -48263,8 +51574,6 @@ This error is most likely caused by incorrect values in the config.json file.
 ==============================================^0`
   );
 };
-var { identifierColumn, phoneNumberColumn } = config.database;
-var requiredDbColumns = [identifierColumn, phoneNumberColumn];
 var frameworkDependencies = {
   ["es_extended"]: ["esx-npwd"],
   ["qb-core"]: ["qb-npwd"]
@@ -48278,27 +51587,23 @@ var _BootService = class {
   }
   async handleResourceStarting() {
     await this.validateDatabaseSchema();
-    this.performConfigChecks();
   }
   async validateDatabaseSchema() {
     bootLogger.debug("Beginning database schema validation");
     const doesPlayerTableExist = await this.bootDb.doesPlayerTableExist();
     if (!doesPlayerTableExist) {
       fatalDbError(
-        `Player table "${config.database.playerTable}" does not exist in the configured database.`
+        `Player table "${config2.database.playerTable}" does not exist in the configured database.`
       );
     }
     const columnData = await this.bootDb.getPlayerTableColumns();
+    const { identifierColumn, phoneNumberColumn } = config2.database;
+    const requiredDbColumns = [identifierColumn, phoneNumberColumn];
     if (!requiredDbColumns.every((elem) => columnData.includes(elem))) {
       const missingColumns = requiredDbColumns.filter((elem) => !columnData.includes(elem));
       fatalDbError(`Player table is missing required columns: [${missingColumns.join(", ")}]`);
     }
     bootLogger.debug("Database schema successfully validated");
-  }
-  performConfigChecks() {
-    if (config.general.useResourceIntegration) {
-      this.checkFrameworkDependencies();
-    }
   }
   checkFrameworkDependencies() {
     bootLogger.debug("Checking for missing framework dependencies");
@@ -48412,7 +51717,7 @@ onNetPromise("npwd:getPhoneNumber" /* GET_PHONE_NUMBER */, async (reqObj, resp) 
   const phoneNumber = player_service_default.getPlayer(src).getPhoneNumber();
   resp({ status: "ok", data: phoneNumber });
 });
-if (!config.general.useResourceIntegration) {
+if (!config2.general.useResourceIntegration) {
   on("playerJoining", async () => {
     const src = getSource();
     await player_service_default.handleNewPlayerJoined(src);
@@ -48426,7 +51731,7 @@ on("playerDropped", async () => {
     playerLogger.debug(`${src} failed to unload, likely was never loaded in the first place.`);
   }
 });
-if (!config.general.useResourceIntegration) {
+if (!config2.general.useResourceIntegration) {
   on("onServerResourceStart", async (resource) => {
     if (resource === GetCurrentResourceName()) {
       const onlinePlayers = getPlayers();
@@ -48930,6 +52235,7 @@ onNetPromise("npwd:beginCall" /* INITIALIZE_CALL */, async (reqObj, resp) => {
     try {
       await new Promise((resolve, reject) => {
         funcRef({
+          receiverNumber: reqObj.data.receiverNumber,
           incomingCaller,
           next: () => {
             resolve();
@@ -49125,10 +52431,16 @@ var contactsLogger = mainLogger.child({ module: "contact" });
 
 // server/contacts/contacts.database.ts
 var _ContactsDB = class {
+  constructor() {
+    this.defaultContacts = config2.defaultContacts.map((contact) => ({
+      id: `${contact.display}:${contact.number}`,
+      ...contact
+    }));
+  }
   async fetchAllContacts(identifier) {
     const query = "SELECT * FROM npwd_phone_contacts WHERE identifier = ? ORDER BY display ASC";
     const [results] = await DbInterface._rawExec(query, [identifier]);
-    return results;
+    return this.defaultContacts.concat(results);
   }
   async addContact(identifier, { display, avatar, number }) {
     const query = "INSERT INTO npwd_phone_contacts (identifier, number, display, avatar) VALUES (?, ?, ?, ?)";
@@ -49221,11 +52533,11 @@ var contacts_service_default = ContactService;
 var exps = global.exports;
 onNetPromise("npwd-contact-pay" /* PAY_CONTACT */, (reqObj, resp) => {
   player_service_default.getIdentifierByPhoneNumber(reqObj.data.number, true).then((response) => {
-    const resourceExport = exps[config.contacts.payResource ?? ""];
+    const resourceExport = exps[config2.contacts.payResource ?? ""];
     if (resourceExport) {
-      exps[config.contacts.payResource][config.contacts.payFunction](reqObj.source, response, reqObj.data.amount);
+      exps[config2.contacts.payResource][config2.contacts.payFunction](reqObj.source, response, reqObj.data.amount);
     } else {
-      contactsLogger.error(`No such resource exists for ${config.contacts.payResource} (${reqObj.source})`);
+      contactsLogger.error(`No such resource exists for ${config2.contacts.payResource} (${reqObj.source})`);
       return resp({ status: "error", errorMsg: "INTERNAL_ERROR" });
     }
     resp({ status: "ok", errorMsg: "" });
@@ -50514,12 +53826,12 @@ async function tweetDiscordPost(url, body) {
 }
 async function apiPhotoUpload(body, token) {
   return new Promise(
-    (resolve, reject) => fetch2(config.images.url, {
+    (resolve, reject) => fetch2(config2.images.url, {
       method: "POST",
       body,
       headers: {
-        [config.images.useAuthorization && config.images.authorizationHeader]: `${config.images.authorizationPrefix} ${token}`,
-        [config.images.useContentType && "Content-Type"]: config.images.contentType
+        [config2.images.useAuthorization && config2.images.authorizationHeader]: `${config2.images.authorizationPrefix} ${token}`,
+        [config2.images.useContentType && "Content-Type"]: config2.images.contentType
       }
     }).then(async (result) => {
       if (result.status !== 200) {
@@ -50533,7 +53845,7 @@ async function apiPhotoUpload(body, token) {
 }
 async function webhookPhotoUpload(webhook, imagePath, blob, player) {
   const form = new FormData2();
-  form.append("file0", blob, `fivemscreenshot.${config.images.imageEncoding}`);
+  form.append("file0", blob, `fivemscreenshot.${config2.images.imageEncoding}`);
   form.append(
     "payload_json",
     JSON.stringify({
@@ -50567,14 +53879,14 @@ var _PhotoService = class {
       exp3["screenshot-basic"].requestClientScreenshot(
         reqObj.source,
         {
-          encoding: config.images.imageEncoding,
+          encoding: config2.images.imageEncoding,
           quality: 0.85
         },
         async (err, data) => {
           if (!fs2.existsSync(path3))
             fs2.mkdirSync(path3);
           let type;
-          switch (config.images.imageEncoding) {
+          switch (config2.images.imageEncoding) {
             case "jpg":
               type = "image/jpeg";
               break;
@@ -50585,19 +53897,19 @@ var _PhotoService = class {
               type = "image/webp";
               break;
           }
-          const filePath = `${path3}/screenshot-${v4()}.${config.images.imageEncoding}`;
+          const filePath = `${path3}/screenshot-${v4()}.${config2.images.imageEncoding}`;
           const _data = Buffer.from(data.replace(`data:${type};base64`, ""), "base64");
           fs2.writeFileSync(filePath, _data);
           let body = new FormData2();
           const blob = fileFromSync(filePath, type);
-          if (config.images.type === "imgur") {
+          if (config2.images.type === "imgur") {
             body = data.replace(/^data:image\/[a-z]+;base64,/, "").trim();
-          } else if (config.images.type === "upload.io") {
+          } else if (config2.images.type === "upload.io") {
             body = blob;
           } else {
-            body.append(config.images.type, blob);
+            body.append(config2.images.type, blob);
           }
-          if (config.images.useWebhook) {
+          if (config2.images.useWebhook) {
             try {
               const player = player_service_default.getPlayer(reqObj.source);
               const res = await webhookPhotoUpload(this.TOKEN, filePath, blob, player);
@@ -50606,7 +53918,7 @@ var _PhotoService = class {
               fs2.rmSync(filePath);
               return resp({ status: "ok", data: photo2 });
             } catch (err2) {
-              photoLogger.error(`Failed to upload photo`, {
+              photoLogger.error(`Failed to upload photo: Error: ${err2}. Message: ${err2.message}`, {
                 source: reqObj.source
               });
               return resp({ status: "error", errorMsg: "GENERIC_DB_ERROR" });
@@ -50627,7 +53939,7 @@ var _PhotoService = class {
           fs2.rmSync(filePath);
           if (!returnData)
             return;
-          for (const index of config.images.returnedDataIndexes)
+          for (const index of config2.images.returnedDataIndexes)
             returnData = returnData[index];
           const identifier = player_service_default.getIdentifier(reqObj.source);
           const photo = await this.photoDB.uploadPhoto(identifier, returnData);
@@ -51448,7 +54760,7 @@ onNetPromise("npwd:fetchTweets" /* FETCH_TWEETS */, (req, res) => {
     (e2) => twitterLogger.error(`Error occurred in fetchTweets event (${req.source}), Error: ${e2.message}`)
   );
 });
-if (!config.twitter.allowEditableProfileName && !config.twitter.generateProfileNameFromUsers) {
+if (!config2.twitter.allowEditableProfileName && !config2.twitter.generateProfileNameFromUsers) {
   const warning = `Both allowEdtiableProfileName and generateProfileNameFromUsers are set false - this means users will likely not have profile names for the Twitter App and won't be able to use it!`;
   twitterLogger.warn(warning);
 }
@@ -51804,7 +55116,7 @@ onNet("phone:initializeMatch" /* INITIALIZE */, () => {
     (e2) => matchLogger.error(`Error occurred in initialize event (${_source}), Error: ${e2.message}`)
   );
 });
-if (!config.match.allowEditableProfileName && !config.match.generateProfileNameFromUsers) {
+if (!config2.match.allowEditableProfileName && !config2.match.generateProfileNameFromUsers) {
   const warning = `Both allowEdtiableProfileName and generateProfileNameFromUsers are set false - this means users will likely not have profile names for the Match App and won't be able to use it!`;
   matchLogger.warn(warning);
 }
@@ -52126,10 +55438,10 @@ var _AudioService = class {
       const form_data = new FormData2();
       const blob = fileFromSync(filePath, "audio/ogg");
       form_data.append("recording", blob);
-      const res = await fetch2(config.voiceMessage.url, {
+      const res = await fetch2(config2.voiceMessage.url, {
         method: "POST",
         headers: {
-          [config.voiceMessage.authorizationHeader]: this.TOKEN
+          [config2.voiceMessage.authorizationHeader]: this.TOKEN
         },
         body: form_data
       });
@@ -52141,7 +55453,7 @@ var _AudioService = class {
       }
       const response = await res.json();
       let recordingUrl = "";
-      for (const index of config.voiceMessage.returnedDataIndexes) {
+      for (const index of config2.voiceMessage.returnedDataIndexes) {
         recordingUrl = response[index];
       }
       resp({ status: "ok", data: { url: recordingUrl } });
@@ -52177,7 +55489,7 @@ exp5("generatePhoneNumber", async () => {
   logExport("generatePhoneNumber", num);
   return num;
 });
-if (config.general.useResourceIntegration) {
+if (config2.general.useResourceIntegration) {
   exp5("newPlayer", async (playerDTO) => {
     if (typeof playerDTO.source !== "number") {
       return playerLogger.error("Source must be passed as a number when loading a player");
