@@ -10,7 +10,7 @@ Society management for ESX. Adds employee management (hire, fire, promote / demo
 
 ### Using [fvm](https://github.com/qlaffont/fvm-installer)
 ```
-fvm install --save --folder=esx esx-framework/esx_society
+fvm install --save --folder=esx esx-org/esx_society
 ```
 
 ### Using Git
@@ -20,7 +20,7 @@ git clone https://github.com/ESX-Org/esx_society [esx]/esx_society
 ```
 
 ### Manually
-- Download https://github.com/esx-framework/esx_society/archive/master.zip
+- Download https://github.com/ESX-Org/esx_society/archive/master.zip
 - Put it in the `[esx]` directory
 
 ## Installation
@@ -44,8 +44,8 @@ TriggerServerEvent('esx_society:depositMoney', society, amount)
 TriggerServerEvent('esx_society:washMoney', society, amount)
 
 
-TriggerEvent('esx_society:openBossMenu', society, function (menu)
-	ESX.CloseContext() 
+TriggerEvent('esx_society:openBossMenu', society, function (data, menu)
+	menu.close()
 end, {wash = false}) -- set custom options, e.g disable washing
 ```
 
