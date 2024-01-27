@@ -131,7 +131,7 @@ function OpenDMVSchoolMenu()
 		end
 	end
 
-	ESX.OpenContext("right", elements, function(_, element)
+	ESX.OpenContext("right", elements, function(menu,element)
 		if element.value == "theory_test" then
 			ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
 				if haveMoney then
@@ -151,26 +151,27 @@ function OpenDMVSchoolMenu()
 				end
 			end, element.type)
 		end
-	end, function()
+	end, function(menu)
 		CurrentAction     = 'dmvschool_menu'
 		CurrentActionMsg  = _U('press_open_menu')
 		CurrentActionData = {}
 	end)
 end
 
-RegisterNUICallback('question', function(_, cb)
+RegisterNUICallback('question', function(data, cb)
 	SendNUIMessage({
 		openSection = 'question'
 	})
+
 	cb()
 end)
 
-RegisterNUICallback('close', function(_, cb)
+RegisterNUICallback('close', function(data, cb)
 	StopTheoryTest(true)
 	cb()
 end)
 
-RegisterNUICallback('kick', function(_, cb)
+RegisterNUICallback('kick', function(data, cb)
 	StopTheoryTest(false)
 	cb()
 end)
@@ -183,7 +184,7 @@ AddEventHandler('esx_dmvschool:hasEnteredMarker', function(zone)
 	end
 end)
 
-AddEventHandler('esx_dmvschool:hasExitedMarker', function()
+AddEventHandler('esx_dmvschool:hasExitedMarker', function(zone)
 	CurrentAction = nil
 	ESX.CloseContext()
 end)
@@ -198,6 +199,7 @@ CreateThread(function()
 	local blip = AddBlipForCoord(Config.Zones.DMVSchool.Pos.x, Config.Zones.DMVSchool.Pos.y, Config.Zones.DMVSchool.Pos.z)
 
 	SetBlipSprite (blip, 408)
+	SetBlipColour (blip, 0)
 	SetBlipDisplay(blip, 4)
 	SetBlipScale  (blip, 1.2)
 	SetBlipAsShortRange(blip, true)
@@ -214,7 +216,7 @@ CreateThread(function()
 		local playerPed = PlayerPedId()
 		local coords = GetEntityCoords(playerPed)
 
-		for _, v in pairs(Config.Zones) do
+		for k,v in pairs(Config.Zones) do
 			local Pos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
 			if(v.Type ~= -1 and #(coords - Pos) < Config.DrawDistance) then
 				sleep = 0
@@ -332,7 +334,7 @@ CreateThread(function()
 						tooMuchSpeed = true
 
 						if not IsAboveSpeedLimit then
-							DriveErrors       = DriveErrors + 1
+							DriveErrors       += 1
 							IsAboveSpeedLimit = true
 
 							ESX.ShowNotification(_U('driving_too_fast', v))
@@ -348,14 +350,14 @@ CreateThread(function()
 				local health = GetEntityHealth(vehicle)
 				if health < LastVehicleHealth then
 
-					DriveErrors = DriveErrors + 1
+					DriveErrors += 1
 
 					ESX.ShowNotification(_U('you_damaged_veh'))
 					ESX.ShowNotification(_U('errors', DriveErrors, Config.MaxErrors))
 
 					-- avoid stacking faults
 					LastVehicleHealth = health
-					Wait(1500)
+					sleep = 1500
 				end
 			end
 		end
