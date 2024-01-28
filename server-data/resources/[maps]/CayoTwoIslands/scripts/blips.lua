@@ -1,10 +1,8 @@
 local blips = {
     -- Airports --
-	
     { title = "Cayo Perico Runway", colour = 3, id = 90, x = 3961.97, y = -4689.05, z = 3.6 },
 
     -- Cayo Perico Island Blips --
-
     -- Island Beach Party
     { title = "Island Beach Party", colour = 23, id = 614, x = 4918.11, y = -4906.8, z = 3.44 },
 
