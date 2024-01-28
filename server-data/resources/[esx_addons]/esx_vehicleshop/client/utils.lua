@@ -1,7 +1,7 @@
-local NumberCharset = {}
-local Charset = {}
+local NumberCharset, Charset = {}, {}
 
 for i = 48,  57 do table.insert(NumberCharset, string.char(i)) end
+
 for i = 65,  90 do table.insert(Charset, string.char(i)) end
 for i = 97, 122 do table.insert(Charset, string.char(i)) end
 
@@ -11,7 +11,7 @@ function GeneratePlate()
 	local generatedPlate = string.upper(GetRandomLetter(Config.PlateLetters) .. (Config.PlateUseSpace and ' ' or '') .. GetRandomNumber(Config.PlateNumbers))
 
 	local isTaken = IsPlateTaken(generatedPlate)
-	if isTaken then 
+	if isTaken then
 		return GeneratePlate()
 	end
 
@@ -21,7 +21,7 @@ end
 -- mixing async with sync tasks
 function IsPlateTaken(plate)
 	local p = promise.new()
-	
+
 	ESX.TriggerServerCallback('esx_vehicleshop:isPlateTaken', function(isPlateTaken)
 		p:resolve(isPlateTaken)
 	end, plate)
@@ -37,4 +37,8 @@ end
 function GetRandomLetter(length)
 	Wait(0)
 	return length > 0 and GetRandomLetter(length - 1) .. Charset[math.random(1, #Charset)] or ''
+end
+
+function TableInsert(t, v)
+	t[#t + 1] = v
 end

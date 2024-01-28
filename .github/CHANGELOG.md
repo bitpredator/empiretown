@@ -105,3 +105,4 @@ fix lint error: unused argument last; accessing undefined variable Invoke; unuse
 79. [esx_society]: refactor: (esx_society):  complete rebuild for esx_society @bitpredator
 80. [npwd]: fix: database error npwd @bitpredator
 81. [CayoTwoIslands]: fix: nil value (global 'Config') @bitpredator
+82. [esx_vehicleshop]fix: globalstate rewrite + inventory removal via ox_inventory @bitpredator
