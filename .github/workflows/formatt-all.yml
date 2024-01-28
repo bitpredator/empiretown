@@ -16,26 +16,10 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-      - name: Install stylua and format files
-        uses: JohnnyMorganz/stylua-action@v3
+      - uses: actions/checkout@v4
+      - uses: JohnnyMorganz/stylua-action@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: v0.18.0
-          args: -- .
-      - name: Format files with Prettier
-        run: |
-            npx prettier --write '**/*.{ts,js,css,html}'
-      - name: Update repo before push
-        run: |
-          git pull
-      - name: Commit changes and push current branch
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: :art:Code formatted in all files
+          version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
+          # CLI arguments
+          args: --check .
