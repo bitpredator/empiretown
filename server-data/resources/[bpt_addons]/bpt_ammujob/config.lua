@@ -45,9 +45,10 @@ Config.Zones = {
 	},
 
 	Cloakroom = {
-		Pos     = {x = 810.065918, y = -2162.439453, z = 29.616821},
-		Size    = {x = 0.5, y = 0.5, z = 0.5},
-		Color   = {r = 204, g = 204, b = 0},
-		Type    = 21, Rotate = true
-	}
+		Pos = { x = 810.065918, y = -2162.439453, z = 29.616821 },
+		Size = { x = 0.5, y = 0.5, z = 0.5 },
+		Color = { r = 204, g = 204, b = 0 },
+		Type = 21,
+		Rotate = true,
+	},
 }
