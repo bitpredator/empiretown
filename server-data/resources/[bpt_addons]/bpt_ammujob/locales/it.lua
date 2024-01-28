@@ -29,6 +29,6 @@ Locales["it"] = {
 	["blip_ammu"] = "Armeria.",
 	["ammu"] = "ammu",
 	-- billing
-	["bill_amount"] = "importo della fattura",
-	["confirm"] = "Conferma",
+  ["bill_amount"] = "importo della fattura",
+  ["confirm"] = "Conferma",
 }

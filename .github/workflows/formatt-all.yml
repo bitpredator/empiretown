@@ -1,11 +1,18 @@
 # Check Lua Formatting
 name: Check Lua Formatting
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ labeled ]
 
 jobs:
   stylua-check:
     name: Stylua Check
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.label.name == 'format_all') }}
     steps:
       - uses: actions/checkout@v4
       - uses: JohnnyMorganz/stylua-action@v3
