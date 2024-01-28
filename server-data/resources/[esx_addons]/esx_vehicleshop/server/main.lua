@@ -1,12 +1,12 @@
 local Config = Config
 
 local vehicleShop = {
-    categories = {}, 
-    vehicles = {}, 
-    vehiclesByModel = {}, 
-    soldVehicles = {}, 
-    cardealerVehicles = {}, 
-    rentedVehicles = {} 
+    categories = {},
+    vehicles = {},
+    vehiclesByModel = {},
+    soldVehicles = {},
+    cardealerVehicles = {},
+    rentedVehicles = {}
 }
 CreateThread(function()
     while true do
@@ -17,17 +17,17 @@ end)
 
 local function getCategories()
 	vehicleShop.categories = MySQL.query.await('SELECT * FROM vehicle_categories')
-	GlobalState.vehicleShop = vehicleShop 
+	GlobalState.vehicleShop = vehicleShop
 	return true
 end
 
 local function getVehicles()
 	vehicleShop.vehicles = MySQL.query.await('SELECT vehicles.*, vehicle_categories.label AS categoryLabel FROM vehicles JOIN vehicle_categories ON vehicles.category = vehicle_categories.name')
-	
+
 	for _, vehicle in pairs(vehicleShop.vehicles) do
 		vehicleShop.vehiclesByModel[vehicle.model] = vehicle
 	end
-	
+
     GlobalState.vehicleShop = vehicleShop
 	return true
 end
@@ -56,7 +56,7 @@ local function getRentedVehicles()
 				playerName = vehicle.player_name
 			}
 		end
-		GlobalState.vehicleShop = vehicleShop		
+		GlobalState.vehicleShop = vehicleShop
 		return true
 	end)
 end
@@ -108,7 +108,7 @@ AddEventHandler('esx_vehicleshop:setVehicleOwnedPlayerId', function(playerId, ve
 		end
 	end
 
-	MySQL.insert('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (?, ?, ?)', {xTarget.identifier, vehicleProps.plate, json.encode(vehicleProps)}, function(id)
+	MySQL.insert('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (?, ?, ?)', {xTarget.identifier, vehicleProps.plate, json.encode(vehicleProps)}, function()
 		xPlayer.showNotification(_U('vehicle_set_owned', vehicleProps.plate, xTarget.getName()))
 		xTarget.showNotification(_U('vehicle_belongs', vehicleProps.plate))
 	end)
@@ -146,7 +146,7 @@ AddEventHandler('esx_vehicleshop:rentVehicle', function(vehicle, plate, rentPric
 	if not price then return end
 
 	MySQL.insert('INSERT INTO rented_vehicles (vehicle, plate, player_name, base_price, rent_price, owner) VALUES (?, ?, ?, ?, ?, ?)', {vehicle, plate, xTarget.getName(), price, rentPrice, xTarget.identifier},
-	function(id)
+	function()
 		xPlayer.showNotification(_U('vehicle_set_rented', plate, xTarget.getName()))
 	end)
 end)
