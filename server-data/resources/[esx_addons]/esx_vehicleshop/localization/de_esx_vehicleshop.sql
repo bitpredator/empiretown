@@ -1,21 +1,19 @@
-
-
 INSERT INTO `addon_account` (name, label, shared) VALUES
-	('society_cardealer','Händler',1)
+	('society_cardealer','Autohändler',1)
 ;
 
 INSERT INTO `addon_inventory` (name, label, shared) VALUES
-	('society_cardealer','Händler',1)
+	('society_cardealer','Autohändler',1)
 ;
 
 INSERT INTO `jobs` (name, label) VALUES
-	('cardealer','Händler')
+	('cardealer','Autohändler')
 ;
 
 INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_female) VALUES
-	('cardealer',0,'recruit','Neuling',10,'{}','{}'),
-	('cardealer',1,'novice','Verkäufer',25,'{}','{}'),
-	('cardealer',2,'experienced','Verkaufsleiter',40,'{}','{}'),
+	('cardealer',0,'recruit','Rekrut',10,'{}','{}'),
+	('cardealer',1,'novice','Neuling',25,'{}','{}'),
+	('cardealer',2,'experienced','Erfahren',40,'{}','{}'),
 	('cardealer',3,'boss','Boss',0,'{}','{}')
 ;
 
@@ -72,17 +70,17 @@ CREATE TABLE `vehicle_categories` (
 
 
 INSERT INTO `vehicle_categories` (name, label) VALUES
-	('compacts','Compacts'),
-	('coupes','Coupés'),
-	('sedans','Sedans'),
-	('sports','Sports'),
-	('sportsclassics','Sports Classics'),
-	('super','Super'),
-	('muscle','Muscle'),
-	('offroad','Off Road'),
+	('compacts','Kompaktwagen'),
+	('coupes','Coupes'),
+	('sedans','Limousinen'),
+	('sports','Sportwagen'),
+	('sportsclassics','Sportwagen Klassik'),
+	('super','Supersportwagen'),
+	('muscle','Musclewagen'),
+	('offroad','Off-Road'),
 	('suvs','SUVs'),
 	('vans','Vans'),
-	('motorcycles','Motos')
+	('motorcycles','Motorräder')
 ;
 
 CREATE TABLE `vehicles` (
@@ -143,7 +141,7 @@ INSERT INTO `vehicles` (name, model, price, category) VALUES
 	('Asea','asea',5500,'sedans'),
 	('Cognoscenti','cognoscenti',55000,'sedans'),
 	('Emperor','emperor',8500,'sedans'),
-	('Fugitive','fugitive',12000,'sedans'),
+	('Fugitive','fugitive',1200000,'sedans'),
 	('Glendale','glendale',6500,'sedans'),
 	('Intruder','intruder',7500,'sedans'),
 	('Premier','premier',8000,'sedans'),
