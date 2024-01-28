@@ -1,4 +1,4 @@
-Config.zones = {
+local zones = {
     ["AIRP"] = "Los Santos International Airport",
     ["ALAMO"] = "Alamo Sea",
     ["ALTA"] = "Alta",
