@@ -1,121 +1,121 @@
 Config = {
-UseLimitSystem = false, -- Enable if your esx uses limit system
-CraftingStopWithDistance = false, -- Crafting will stop when not near workbench
-ExperiancePerCraft = 5, -- The amount of experiance added per craft (100 Experiance is 1 level)
-HideWhenCantCraft = false, -- Instead of lowering the opacity it hides the item that is not craftable due to low level or wrong job
+	UseLimitSystem = false, -- Enable if your esx uses limit system
+	CraftingStopWithDistance = false, -- Crafting will stop when not near workbench
+	ExperiancePerCraft = 5, -- The amount of experiance added per craft (100 Experiance is 1 level)
+	HideWhenCantCraft = false, -- Instead of lowering the opacity it hides the item that is not craftable due to low level or wrong job
 
-Categories = {
-	['medical'] = {
-	 Label = 'Ospedale',
-	 Image = 'bandage',
-	 Jobs = {'ambulance'}
+	Categories = {
+		["medical"] = {
+			Label = "Ospedale",
+			Image = "bandage",
+			Jobs = { "ambulance" },
+		},
+		["import"] = {
+			Label = "Import",
+			Image = "Import",
+			Jobs = { "import" },
+		},
+		["mechanic"] = {
+			Label = "Meccanico",
+			Image = "Mechanic",
+			Jobs = { "mechanic" },
+		},
+		["ammu"] = {
+			Label = "Armeria",
+			Image = "ammu",
+			Jobs = { "ammu" },
+		},
+		["unicorn"] = {
+			Label = "Unicorn",
+			Image = "unicorn",
+			Jobs = { "unicorn" },
+		},
+		["dustman"] = {
+			Label = "Dustman",
+			Image = "dustman",
+			Jobs = { "dustman" },
+		},
+		["ballas"] = {
+			Label = "Ballas",
+			Image = "ballas",
+			Jobs = { "ballas" },
+		},
+		["baker"] = {
+			Label = "Baker",
+			Image = "baker",
+			Jobs = { "baker" },
+		},
+		["fisherman"] = {
+			Label = "fisherman",
+			Image = "fisherman",
+			Jobs = { "fisherman" },
+		},
 	},
-	['import'] = {
-	 Label = 'Import',
-	 Image = 'Import',
-	 Jobs = {'import'}
-	},
-	['mechanic'] = {
-	 Label = 'Meccanico',
-	 Image = 'Mechanic',
-	 Jobs = {'mechanic'}
-	},
-	['ammu'] = {
-	 Label = 'Armeria',
-	 Image = 'ammu',
-	 Jobs = {'ammu'}
-	},
-	['unicorn'] = {
-	 Label = 'Unicorn',
-	 Image = 'unicorn',
-	 Jobs = {'unicorn'}
-	},
-	['dustman'] = {
-	 Label = 'Dustman',
-	 Image = 'dustman',
-	 Jobs = {'dustman'}
-	},
-	['ballas'] = {
-	 Label = 'Ballas',
-	 Image = 'ballas',
-	 Jobs = {'ballas'}
-	},
-	['baker'] = {
-	 Label = 'Baker',
-	 Image = 'baker',
-	 Jobs = {'baker'}
-	},
-	['fisherman'] = {
-		Label = 'fisherman',
-		Image = 'fisherman',
-		Jobs = {'fisherman'}
-	},
-},
 
-PermanentItems = { -- Items that dont get removed when crafting
- ['wrench'] = true
+	PermanentItems = { -- Items that dont get removed when crafting
+	["wrench"] = true,
 },
 
 Recipes = { -- Enter Item name and then the speed value! The higher the value the more torque
-['bandage'] = {
+["bandage"] = {
 	Level = 0,
-	Category = 'medical',
+	Category = "medical",
 	isGun = false,
-	Jobs = {'ambulance'},
+	Jobs = { "ambulance" },
 	JobGrades = {},
 	Amount = 1,
 	SuccessRate = 100,
 	requireBlueprint = false,
 	Time = 20,
 	Ingredients = {
-		['cottonforbandages'] = 2
-	}
+		["cottonforbandages"] = 2,
+	},
 },
 
-['cottonforbandages'] = {
- Level = 0, -- From what level this item will be craftable
- Category = 'import', -- The category item will be put in
- isGun = false, -- Specify if this is a gun so it will be added to the loadout
- Jobs = {'import'}, -- What jobs can craft this item, leaving {} allows any job
- JobGrades = {}, -- What job grades can craft this item, leaving {} allows any grade
- Amount = 1, -- The amount that will be crafted
- SuccessRate = 100, -- 100% you will recieve the item
- requireBlueprint = false, -- Requires a blueprint whitch you need to add in the database yourself TEMPLATE: itemname_blueprint EXAMPLE: bandage_blueprint
- Time = 20, -- Time in seconds it takes to craft this item
+["cottonforbandages"] = {
+	Level = 0, -- From what level this item will be craftable
+	Category = "import", -- The category item will be put in
+	isGun = false, -- Specify if this is a gun so it will be added to the loadout
+	Jobs = { "import" }, -- What jobs can craft this item, leaving {} allows any job
+	JobGrades = {}, -- What job grades can craft this item, leaving {} allows any grade
+	Amount = 1, -- The amount that will be crafted
+	SuccessRate = 100, -- 100% you will recieve the item
+	requireBlueprint = false, -- Requires a blueprint whitch you need to add in the database yourself TEMPLATE: itemname_blueprint EXAMPLE: bandage_blueprint
+	Time = 20, -- Time in seconds it takes to craft this item
 	Ingredients = { -- Ingredients needed to craft this item
-	 ['cotton'] = 4 -- item name and count, adding items that dont exist in database will crash the script
-	}
+	["cotton"] = 4, -- item name and count, adding items that dont exist in database will crash the script
+},
 },
 
-['ironsheet'] = {
- Level = 0,
- Category = 'dustman',
- isGun = false,
- Jobs = {'dustman'},
- JobGrades = {},
- Amount = 2,
- SuccessRate = 100,
- requireBlueprint = false,
- Time = 60,
+["ironsheet"] = {
+	Level = 0,
+	Category = "dustman",
+	isGun = false,
+	Jobs = { "dustman" },
+	JobGrades = {},
+	Amount = 2,
+	SuccessRate = 100,
+	requireBlueprint = false,
+	Time = 60,
 	Ingredients = {
-	 ['trash_can'] = 5,
-	 ['hammer'] = 1
-	}
+		["trash_can"] = 5,
+		["hammer"] = 1,
+	},
 },
 
-['recycled_paper'] = {
- Level = 0,
- Category = 'dustman',
- isGun = false,
- Jobs = {'dustman'},
- JobGrades = {},
- Amount = 1,
- SuccessRate = 100,
- requireBlueprint = false,
- Time = 30,
+["recycled_paper"] = {
+	Level = 0,
+	Category = "dustman",
+	isGun = false,
+	Jobs = { "dustman" },
+	JobGrades = {},
+	Amount = 1,
+	SuccessRate = 100,
+	requireBlueprint = false,
+	Time = 30,
 	Ingredients = {
-	 ['paper'] = 2
-	}
+		["paper"] = 2,
+	},
 },
 
 ['paper'] = {

@@ -32,5 +32,5 @@ Citizen.CreateThread(function()
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString(info.title)
 		EndTextCommandSetBlipName(info.blip)
-    end
+	end
 end)
