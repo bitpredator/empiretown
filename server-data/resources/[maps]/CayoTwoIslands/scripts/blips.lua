@@ -1,13 +1,13 @@
 local blips = {
-	-- Airports --
-	{ title = "Cayo Perico Runway", colour = 3, id = 90, x = 3961.97, y = -4689.05, z = 3.6 },
+    -- Airports --
+    { title = "Cayo Perico Runway", colour = 3, id = 90, x = 3961.97, y = -4689.05, z = 3.6 },
 
-	-- Cayo Perico Island Blips --
-	-- Island Beach Party
-	{ title = "Island Beach Party", colour = 23, id = 614, x = 4918.11, y = -4906.8, z = 3.44 },
+    -- Cayo Perico Island Blips --
+    -- Island Beach Party
+    { title = "Island Beach Party", colour = 23, id = 614, x = 4918.11, y = -4906.8, z = 3.44 },
 
-	-- Island Weed Farm
-	{ title = "Island Weed Farm", colour = 25, id = 496, x = 5319.28, y = -5248.54, z = 32.58 },
+    -- Island Weed Farm
+    { title = "Island Weed Farm", colour = 25, id = 496, x = 5319.28, y = -5248.54, z = 32.58 },
 
 	-- Island Helipad 1 --
 	{ title = "Island Helipad", colour = 26, id = 542, x = 4890.52, y = -5736.66, z = 26.35 },
