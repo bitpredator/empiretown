@@ -55,23 +55,4 @@ return {
 		weight = 70000,
 		groups = {['unicorn'] = 0}
 	},
-
-	{
-		coords = vec3(-344.452759, -127.437363, 39.002197),
-		target = {
-			loc = vec3(-344.452759, -127.437363, 39.002197),
-			length = 0.6,
-			width = 1.8,
-			heading = 340,
-			minZ = 43.34,
-			maxZ = 44.74,
-			label = 'Storage'
-		},
-		name = 'mechaniclocker',
-		label = 'Storage',
-		owner = false,
-		slots = 70,
-		weight = 70000,
-		groups = {['mechanic'] = 0}
-	},
 }

@@ -1,8 +1,8 @@
 Config = {
-	UseLimitSystem = false, -- Enable if your esx uses limit system
-	CraftingStopWithDistance = false, -- Crafting will stop when not near workbench
-	ExperiancePerCraft = 5, -- The amount of experiance added per craft (100 Experiance is 1 level)
-	HideWhenCantCraft = false, -- Instead of lowering the opacity it hides the item that is not craftable due to low level or wrong job
+    UseLimitSystem = false, -- Enable if your esx uses limit system
+    CraftingStopWithDistance = false, -- Crafting will stop when not near workbench
+    ExperiancePerCraft = 5, -- The amount of experiance added per craft (100 Experiance is 1 level)
+    HideWhenCantCraft = false, -- Instead of lowering the opacity it hides the item that is not craftable due to low level or wrong job
 
 	Categories = {
 		["medical"] = {
