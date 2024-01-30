@@ -7,29 +7,29 @@ Config.Locale = "en"
 Config.OxInventory = ESX.GetConfig().OxInventory
 
 Config.AuthorizedVehicles = {
-	{ model = "rumpo", label = "Rumpo" },
+    { model = "rumpo", label = "Rumpo" },
 }
 
 Config.Zones = {
 
-	VehicleSpawner = {
-		Pos = { x = 821.340637, y = -2146.417480, z = 28.706909 },
-		Size = { x = 1.0, y = 1.0, z = 1.0 },
-		Color = { r = 145, g = 30, b = 30 },
-		Type = 36,
-		Rotate = true,
-	},
+    VehicleSpawner = {
+        Pos = { x = 821.340637, y = -2146.417480, z = 28.706909 },
+        Size = { x = 1.0, y = 1.0, z = 1.0 },
+        Color = { r = 145, g = 30, b = 30 },
+        Type = 36,
+        Rotate = true,
+    },
 
-	VehicleSpawnPoint = {
-		Pos = { x = 822.540649, y = -2134.575928, z = 29.279907 },
-		Size = { x = 1.5, y = 1.5, z = 1.0 },
-		Type = -1,
-		Rotate = false,
-		Heading = 225.0,
-	},
+    VehicleSpawnPoint = {
+        Pos = { x = 822.540649, y = -2134.575928, z = 29.279907 },
+        Size = { x = 1.5, y = 1.5, z = 1.0 },
+        Type = -1,
+        Rotate = false,
+        Heading = 225.0,
+    },
 
-	VehicleDeleter = {
-		Pos = { x = 822.540649, y = -2134.575928, z = 28.279907 },
+    VehicleDeleter = {
+        Pos = { x = 822.540649, y = -2134.575928, z = 28.279907 },
 		Size = { x = 3.0, y = 3.0, z = 0.25 },
 		Color = { r = 255, g = 0, b = 0 },
 		Type = 1,
