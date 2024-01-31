@@ -30,25 +30,25 @@ Config.Zones = {
 
     VehicleDeleter = {
         Pos = { x = 822.540649, y = -2134.575928, z = 28.279907 },
-		Size = { x = 3.0, y = 3.0, z = 0.25 },
-		Color = { r = 255, g = 0, b = 0 },
-		Type = 1,
-		Rotate = false,
-	},
+        Size = { x = 3.0, y = 3.0, z = 0.25 },
+        Color = { r = 255, g = 0, b = 0 },
+        Type = 1,
+        Rotate = false,
+    },
 
-	AmmuActions = {
-		Pos = { x = 812.479126, y = -2159.182373, z = 29.616821 },
-		Size = { x = 0.5, y = 0.5, z = 0.5 },
-		Color = { r = 204, g = 204, b = 0 },
-		Type = 20,
-		Rotate = true,
-	},
+    AmmuActions = {
+        Pos = { x = 812.479126, y = -2159.182373, z = 29.616821 },
+        Size = { x = 0.5, y = 0.5, z = 0.5 },
+        Color = { r = 204, g = 204, b = 0 },
+        Type = 20,
+        Rotate = true,
+    },
 
-	Cloakroom = {
-		Pos = { x = 810.065918, y = -2162.439453, z = 29.616821 },
-		Size = { x = 0.5, y = 0.5, z = 0.5 },
-		Color = { r = 204, g = 204, b = 0 },
-		Type = 21,
-		Rotate = true,
-	},
+    Cloakroom = {
+        Pos = { x = 810.065918, y = -2162.439453, z = 29.616821 },
+        Size = { x = 0.5, y = 0.5, z = 0.5 },
+        Color = { r = 204, g = 204, b = 0 },
+        Type = 21,
+        Rotate = true,
+    },
 }

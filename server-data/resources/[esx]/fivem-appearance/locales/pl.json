@@ -80,7 +80,7 @@
       "title": "Włosy",
       "style": "Styl",
       "color": "Kolor",
-      "highlight": "Rozjaśnienie", 
+      "highlight": "Rozjaśnienie",
       "fade": "Blask"
     },
     "opacity": "Przezroczystość",
@@ -124,7 +124,7 @@
     "ear": "Uszy",
     "watches": "Zegarek",
     "bracelets": "Bransoletka"
-  }, 
+  },
   "tattoos": {
     "title": "Tatuaże",
     "items": {
@@ -135,7 +135,7 @@
       "ZONE_LEFT_LEG": "Lewa noga",
       "ZONE_RIGHT_LEG": "Prawa noga"
     },
-    "apply": "Zastosuj", 
+    "apply": "Zastosuj",
     "delete": "Usuń"
   }
 }

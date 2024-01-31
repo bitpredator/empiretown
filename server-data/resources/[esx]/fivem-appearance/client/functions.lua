@@ -6,14 +6,14 @@ closeMenu = function()
     SetEntityInvincible(PlayerPedId(), false)
 
     SetNuiFocus(false, false)
-    SendNUIMessage{
-        type = 'appearance_hide',
-        payload = {}
-    }
+    SendNUIMessage({
+        type = "appearance_hide",
+        payload = {},
+    })
 end
 
 addCommas = function(n)
-	return tostring(math.floor(n)):reverse():gsub("(%d%d%d)","%1,") :gsub(",(%-?)$","%1"):reverse()
+    return tostring(math.floor(n)):reverse():gsub("(%d%d%d)", "%1,"):gsub(",(%-?)$", "%1"):reverse()
 end
 
 createBlip = function(coords, sprite, color, text, scale)
@@ -30,22 +30,22 @@ end
 
 consolidateShops = function()
     local shops = {}
-    for _,v in ipairs(Config.ClothingShops) do
-        shops[#shops + 1] = {coords = v.coords, distance = v.distance, price = v.price, store = 'clothing'}
+    for _, v in ipairs(Config.ClothingShops) do
+        shops[#shops + 1] = { coords = v.coords, distance = v.distance, price = v.price, store = "clothing" }
     end
-    for _,v in ipairs(Config.BarberShops) do
-        shops[#shops + 1] = {coords = v.coords, distance = v.distance, price = v.price, store = 'barber'}
+    for _, v in ipairs(Config.BarberShops) do
+        shops[#shops + 1] = { coords = v.coords, distance = v.distance, price = v.price, store = "barber" }
     end
-    for _,v in ipairs(Config.TattooShops) do
-        shops[#shops + 1] = {coords = v.coords, distance = v.distance, price = v.price, store = 'tattoo'}
+    for _, v in ipairs(Config.TattooShops) do
+        shops[#shops + 1] = { coords = v.coords, distance = v.distance, price = v.price, store = "tattoo" }
     end
     return shops
 end
 
 showTextUI = function(store)
-    if store == 'clothing' then
+    if store == "clothing" then
         store = Strings.clothing_menu
-    elseif store == 'barber' then
+    elseif store == "barber" then
         store = Strings.barber_menu
     else
         store = Strings.tattoo_menu
@@ -55,15 +55,15 @@ end
 
 openShop = function(store, price)
     local ped = cache.ped
-    local currentAppearance = exports['fivem-appearance']:getPedAppearance(ped)
-    local tetovaze = exports['fivem-appearance']:getPedTattoos(ped)
+    local currentAppearance = exports["fivem-appearance"]:getPedAppearance(ped)
+    local tetovaze = exports["fivem-appearance"]:getPedTattoos(ped)
     currentAppearance.tattoos = tetovaze
     local config = {}
     InMenu = true
-    if store == 'clothing' then
-        TriggerEvent('fivem-appearance:clothingShop', price)
+    if store == "clothing" then
+        TriggerEvent("fivem-appearance:clothingShop", price)
     else
-        if store == 'clothing_menu' then
+        if store == "clothing_menu" then
             config = {
                 ped = false,
                 headBlend = false,
@@ -71,9 +71,9 @@ openShop = function(store, price)
                 headOverlays = false,
                 components = true,
                 props = true,
-                tattoos = false
+                tattoos = false,
             }
-        elseif store == 'barber' then
+        elseif store == "barber" then
             config = {
                 ped = false,
                 headBlend = true,
@@ -81,9 +81,9 @@ openShop = function(store, price)
                 headOverlays = true,
                 components = false,
                 props = false,
-                tattoos = false
+                tattoos = false,
             }
-        elseif store == 'tattoo' then
+        elseif store == "tattoo" then
             config = {
                 ped = false,
                 headBlend = false,
@@ -91,47 +91,47 @@ openShop = function(store, price)
                 headOverlays = false,
                 components = false,
                 props = false,
-                tattoos = true
+                tattoos = true,
             }
         end
-        exports['fivem-appearance']:startPlayerCustomization(function (appearance)
-            if (appearance) then
-		if json.encode(appearance.tattoos) == '[]' then
+        exports["fivem-appearance"]:startPlayerCustomization(function(appearance)
+            if appearance then
+                if json.encode(appearance.tattoos) == "[]" then
                     appearance.tattoos = tetovaze
                 end
                 if price then
-                    local paid = lib.callback.await('fivem-appearance:payFunds', 100, price)
+                    local paid = lib.callback.await("fivem-appearance:payFunds", 100, price)
                     if paid then
                         lib.notify({
                             title = Strings.success,
                             description = (Strings.success_desc):format(addCommas(price)),
                             duration = 3500,
-                            icon = 'basket-shopping',
-                            type = 'success'
+                            icon = "basket-shopping",
+                            type = "success",
                         })
-                        TriggerServerEvent('fivem-appearance:save', appearance)
+                        TriggerServerEvent("fivem-appearance:save", appearance)
                         InMenu = false
-                        ESX.SetPlayerData('ped', PlayerPedId())
+                        ESX.SetPlayerData("ped", PlayerPedId())
                     else
                         lib.notify({
                             title = Strings.no_funds,
                             description = Strings.no_funds_desc,
                             duration = 3500,
-                            icon = 'ban',
-                            type = 'error'
+                            icon = "ban",
+                            type = "error",
                         })
-                        exports['fivem-appearance']:setPlayerAppearance(currentAppearance)
+                        exports["fivem-appearance"]:setPlayerAppearance(currentAppearance)
                         InMenu = false
-                        TriggerServerEvent('fivem-appearance:save',currentAppearance)
-                        ESX.SetPlayerData('ped', PlayerPedId())
+                        TriggerServerEvent("fivem-appearance:save", currentAppearance)
+                        ESX.SetPlayerData("ped", PlayerPedId())
                     end
                 else
-                    TriggerServerEvent('fivem-appearance:save', appearance)
+                    TriggerServerEvent("fivem-appearance:save", appearance)
                     InMenu = false
-                    ESX.SetPlayerData('ped', PlayerPedId())
+                    ESX.SetPlayerData("ped", PlayerPedId())
                 end
             else
-                ESX.SetPlayerData('ped', PlayerPedId())
+                ESX.SetPlayerData("ped", PlayerPedId())
                 inMenu = false
             end
         end, config)
@@ -139,45 +139,45 @@ openShop = function(store, price)
 end
 
 openWardrobe = function()
-    local outfits = lib.callback.await('fivem-appearance:getOutfits', 100)
+    local outfits = lib.callback.await("fivem-appearance:getOutfits", 100)
     local Options = {}
     if outfits then
         Options = {}
-        for i=1, #outfits do
+        for i = 1, #outfits do
             Options[#Options + 1] = {
                 title = outfits[i].name,
-                event = 'fivem-appearance:setOutfit',
+                event = "fivem-appearance:setOutfit",
                 args = {
                     ped = outfits[i].ped,
                     components = outfits[i].components,
-                    props = outfits[i].props
-                }
+                    props = outfits[i].props,
+                },
             }
         end
     else
         Options = {
             {
                 title = Strings.go_back_desc,
-                event = ''
-            }
+                event = "",
+            },
         }
     end
     lib.registerContext({
-        id = 'wardrobe_menu',
+        id = "wardrobe_menu",
         title = Strings.wardrobe_title,
-        options = Options
+        options = Options,
     })
-    lib.showContext('wardrobe_menu')
+    lib.showContext("wardrobe_menu")
 end
 
-exports('openWardrobe', openWardrobe)
+exports("openWardrobe", openWardrobe)
 
 -- ESX Skin/Skin Changer compatibility
 convertClothes = function(outfit)
     local data = {}
-    data.Components = exports['fivem-appearance']:getPedComponents(cache.ped)
-    data.Props = exports['fivem-appearance']:getPedProps(cache.ped)
-    for i=1, #data.Components do
+    data.Components = exports["fivem-appearance"]:getPedComponents(cache.ped)
+    data.Props = exports["fivem-appearance"]:getPedProps(cache.ped)
+    for i = 1, #data.Components do
         if data.Components[i].component_id == 1 and outfit.mask_1 then
             data.Components[i].drawable = outfit.mask_1
             data.Components[i].texture = (outfit.mask_2 or 0)
@@ -219,7 +219,7 @@ convertClothes = function(outfit)
             data.Components[i].texture = (outfit.torso_2 or 0)
         end
     end
-    for i=1, #data.Props do
+    for i = 1, #data.Props do
         if data.Props[i].prop_id == 0 and outfit.helmet_1 then
             data.Props[i].drawable = outfit.helmet_1
             data.Props[i].texture = (outfit.helmet_2 or 0)

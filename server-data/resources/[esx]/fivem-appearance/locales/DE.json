@@ -11,12 +11,10 @@
     "accept": "Ja",
     "decline": "Nein"
   },
-
   "ped": {
     "title": "Ped",
     "model": "Modell"
   },
-
   "headBlend": {
     "title": "Vererbung",
     "shape": {
@@ -25,7 +23,6 @@
       "secondOption": "Mutter",
       "mix": "Ähnlichkeit"
     },
-
     "skin": {
       "title": "Hautfarbe",
       "firstOption": "Vater",
@@ -33,7 +30,6 @@
       "mix": "Ähnlichkeit"
     }
   },
-
   "faceFeatures": {
     "title": "Gesichtsmerkmale",
     "nose": {
@@ -45,32 +41,27 @@
       "boneTwist": "Versatz Nasenbein",
       "peakHeight": "Höhe Nasenspitze"
     },
-
     "eyebrows": {
       "title": "Augenbrauen",
       "height": "Höhe",
       "depth": "Tiefe"
     },
-
     "cheeks": {
       "title": "Wangen",
       "boneHeight": "Höhe Wangenknochen",
       "boneWidth": "Breite Wangenknochen",
       "width": "Breite"
     },
-
     "eyesAndMouth": {
       "title": "Augen / Mundbereich",
       "eyesOpening": "Augengröße",
       "lipsThickness": "Lippendicke"
     },
-
     "jaw": {
       "title": "Kiefer",
       "width": "Breite",
       "size": "Größe"
     },
-
     "chin": {
       "title": "Kinn",
       "lowering": "Höhe",
@@ -78,23 +69,20 @@
       "size": "Größe",
       "hole": "Kerbengröße"
     },
-
     "neck": {
       "title": "Nacken",
       "thickness": "Dicke"
     }
   },
-
   "headOverlays": {
     "title": "Aussehen",
     "hair": {
       "title": "Haar",
       "style": "Stil",
       "color": "Farbe",
-      "highlight": "Sekundärfarbe", 
+      "highlight": "Sekundärfarbe",
       "fade": "verblassen"
     },
-
     "opacity": "Intensität",
     "style": "Stil",
     "color": "Farbe",
@@ -112,7 +100,6 @@
     "bodyBlemishes": "Körperunreinheiten",
     "eyeColor": "Augenfarbe"
   },
-
   "components": {
     "title": "Kleidung",
     "drawable": "Modell",
@@ -128,7 +115,6 @@
     "decals": "Aufnäher",
     "jackets": "Oberbekleidung"
   },
-
   "props": {
     "title": "Accessoires",
     "drawable": "Modell",
@@ -138,8 +124,7 @@
     "ear": "Ohrschuck",
     "watches": "Uhren",
     "bracelets": "Armreif"
-  }, 
-
+  },
   "tattoos": {
     "title": "Tattoos",
     "items": {
@@ -150,8 +135,7 @@
       "ZONE_LEFT_LEG": "Bein Links",
       "ZONE_RIGHT_LEG": "Bein Rechts"
     },
-    
-    "apply": "Akzeptieren", 
+    "apply": "Akzeptieren",
     "delete": "Entfernen"
   }
 }

@@ -20,11 +20,11 @@
         }
     }
     var ne = () => {
-            let e = PlayerPedId(),
-                a = GetEntityHealth(e),
-                o = GetPedArmour(e);
-            return [a, o]
-        },
+        let e = PlayerPedId(),
+            a = GetEntityHealth(e),
+            o = GetPedArmour(e);
+        return [a, o]
+    },
         ie = (e, a) => {
             let o = PlayerPedId();
             SetEntityHealth(o, e), SetPedArmour(o, a)
@@ -457,7 +457,7 @@
 
     function de() {
         RegisterNuiCallbackType("appearance_get_locales"), RegisterNuiCallbackType("appearance_get_settings_and_data"), RegisterNuiCallbackType("appearance_set_camera"), RegisterNuiCallbackType("appearance_turn_around"), RegisterNuiCallbackType("appearance_rotate_camera"), RegisterNuiCallbackType("appearance_change_model"), RegisterNuiCallbackType("appearance_change_head_blend"), RegisterNuiCallbackType("appearance_change_face_feature"), RegisterNuiCallbackType("appearance_change_hair"), RegisterNuiCallbackType("appearance_change_head_overlay"), RegisterNuiCallbackType("appearance_change_eye_color"), RegisterNuiCallbackType("appearance_change_component"), RegisterNuiCallbackType("appearance_change_prop"), RegisterNuiCallbackType("appearance_apply_tattoo"), RegisterNuiCallbackType("appearance_preview_tattoo"), RegisterNuiCallbackType("appearance_delete_tattoo"), RegisterNuiCallbackType("appearance_wear_clothes"), RegisterNuiCallbackType("appearance_remove_clothes"), RegisterNuiCallbackType("appearance_save"), RegisterNuiCallbackType("appearance_exit"), on("__cfx_nui:appearance_get_locales", (e, a) => {
-            let o = LoadResourceFile(GetCurrentResourceName(), `locales/${GetConvar("fivem-appearance:locale","en")}.json`);
+            let o = LoadResourceFile(GetCurrentResourceName(), `locales/${GetConvar("fivem-appearance:locale", "en")}.json`);
             a(o)
         }), on("__cfx_nui:appearance_get_settings_and_data", (e, a) => {
             let o = _e(),
@@ -822,18 +822,18 @@
                 }
                 buki(J());
             } else
-                for (let y = 0; y < c.length; y++) {
-                    let [v] = c[y];
-                    for (let P = 0; P < _.length; P++) {
-                        let {
-                            component_id: V,
-                            drawable: U,
-                            texture: K
-                        } = _[P];
-                        V === v && SetPedComponentVariation(p, v, U, K, 2)
-                    }
+            for (let y = 0; y < c.length; y++) {
+                let [v] = c[y];
+                for (let P = 0; P < _.length; P++) {
+                    let {
+                        component_id: V,
+                        drawable: U,
+                        texture: K
+                    } = _[P];
+                    V === v && SetPedComponentVariation(p, v, U, K, 2)
                 }
-                buki(J());
+            }
+        buki(J());
         TaskPlayAnim(p, r, n, 3, 3, i, l, 0, !1, !1, !1)
     }
     async function me(e) {
@@ -856,19 +856,19 @@
                 if (u != 12) {
                     SetPedComponentVariation(c, u, y, 0, 2)
                 }
-                else{
-                    SetPedPropIndex(c,0,y,0,true)
+                else {
+                    SetPedPropIndex(c, 0, y, 0, true)
                 }
             } else
-                for (let p = 0; p < s.length; p++) {
-                    let [u, y] = s[p];
-                    if (u != 12) {
-                        SetPedComponentVariation(c, u, y, 0, 2)
-                    }
-                    else{
-                        SetPedPropIndex(c,0,y,0,true)
-                    }
+            for (let p = 0; p < s.length; p++) {
+                let [u, y] = s[p];
+                if (u != 12) {
+                    SetPedComponentVariation(c, u, y, 0, 2)
                 }
+                else {
+                    SetPedPropIndex(c, 0, y, 0, true)
+                }
+            }
         TaskPlayAnim(c, t, r, 3, 3, l, n, 0, !1, !1, !1)
     }
     var ee = () => he,
@@ -1212,7 +1212,7 @@
             drawable: t,
             texture: r
         } = a;
-        if (o==0) {
+        if (o == 0) {
             t === -1 ? ClearPedProp(e, o) : SetPedPropIndex(e, o, t, r, !1)
         }
     }
