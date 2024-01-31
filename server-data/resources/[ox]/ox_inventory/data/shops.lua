@@ -67,7 +67,8 @@ return {
 		blip = {
 			id = 59, colour = 69, scale = 0.8
 		}, inventory = {
-			{ name = 'backpack',   price = 800 }
+			{ name = 'backpack',   price = 800 },
+			{ name = 'wallet', price = 300 }
 		}, locations = {
 			vec3(-1131.481323, -1635.652710, 4.359009)
 		}, targets = {
