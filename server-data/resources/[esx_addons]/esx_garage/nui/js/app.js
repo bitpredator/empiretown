@@ -95,7 +95,7 @@ $(window).ready(function () {
     }
   }
 
-  function getVehicles (locale, vehicle, amount = null) {
+  function getVehicles(locale, vehicle, amount = null) {
     let html = ''
     let vehicleData = JSON.parse(vehicle)
     let bodyHealth = 1000
@@ -129,7 +129,7 @@ $(window).ready(function () {
     return html
   }
 
-  function getImpoundedVehicles (locale, vehicle) {
+  function getImpoundedVehicles(locale, vehicle) {
     let html = ''
     let vehicleData = JSON.parse(vehicle)
     let bodyHealth = 1000
