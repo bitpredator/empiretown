@@ -410,20 +410,18 @@ class Render {
 						<h4>${transactionData[i].label || transactionData[i].type}</h4>
 						<span>${Utils.dateFormat(transactionData[i].time)}</span>
 					</div>
-					<span class=${
-            transactionData[i].type == this.language.withdraw ||
-            transactionData[i].type == this.language.transfer
-              ? "red-text"
-              : "green-text"
-          }>${
-        transactionData[i].type == this.language.withdraw ||
-        transactionData[i].type == this.language.transfer
+					<span class=${transactionData[i].type == this.language.withdraw ||
+          transactionData[i].type == this.language.transfer
+          ? "red-text"
+          : "green-text"
+        }>${transactionData[i].type == this.language.withdraw ||
+          transactionData[i].type == this.language.transfer
           ? "-"
           : "+"
-      }${this.language.moneyFormat.replace(
-        "__replaceData__",
-        transactionData[i].amount
-      )}</span>
+        }${this.language.moneyFormat.replace(
+          "__replaceData__",
+          transactionData[i].amount
+        )}</span>
 				</div>
 			`;
 

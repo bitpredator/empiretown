@@ -13,11 +13,9 @@
   --columnsBackground: var(--background-dark);
   --allTitleColor: var(--text-color);
   --yourMoneyPriceTextColor: var(--accent-green);
-  --bankCardBackgroundColor: linear-gradient(
-    110deg,
-    var(--primary-color) 0%,
-    var(--secondary-color) 100%
-  );
+  --bankCardBackgroundColor: linear-gradient(110deg,
+      var(--primary-color) 0%,
+      var(--secondary-color) 100%);
   --buttonBackgroundColor: var(--background-light);
   --inputBackgroundColor: var(--background-light);
   --inputTextColor: var(--text-color);
@@ -303,11 +301,7 @@
   font-size: 1.8vmin;
 }
 
-#menu
-  #third-column
-  #transactions-container
-  .transaction-container
-  .transaction {
+#menu #third-column #transactions-container .transaction-container .transaction {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -315,12 +309,7 @@
   margin-bottom: 0.8vmin;
 }
 
-#menu
-  #third-column
-  #transactions-container
-  .transaction-container
-  .transaction
-  span {
+#menu #third-column #transactions-container .transaction-container .transaction span {
   color: var(--transactionDataTextColor);
   background: var(--columnsBackground);
   border-radius: 0.27vmin;
@@ -492,17 +481,17 @@ input::-webkit-inner-spin-button {
   color: var(--tableAllTextColor) !important;
 }
 
-table.dataTable thead > tr > th.sorting,
-table.dataTable thead > tr > th.sorting_asc,
-table.dataTable thead > tr > th.sorting_desc,
-table.dataTable thead > tr > th.sorting_asc_disabled,
-table.dataTable thead > tr > th.sorting_desc_disabled,
-table.dataTable thead > tr > td.sorting,
-table.dataTable thead > tr > td.sorting_asc,
-table.dataTable thead > tr > td.sorting_desc,
-table.dataTable thead > tr > td.sorting_asc_disabled,
-table.dataTable thead > tr > td.sorting_desc_disabled,
-table.dataTable thead > tr > td.sorting_disabled {
+table.dataTable thead>tr>th.sorting,
+table.dataTable thead>tr>th.sorting_asc,
+table.dataTable thead>tr>th.sorting_desc,
+table.dataTable thead>tr>th.sorting_asc_disabled,
+table.dataTable thead>tr>th.sorting_desc_disabled,
+table.dataTable thead>tr>td.sorting,
+table.dataTable thead>tr>td.sorting_asc,
+table.dataTable thead>tr>td.sorting_desc,
+table.dataTable thead>tr>td.sorting_asc_disabled,
+table.dataTable thead>tr>td.sorting_desc_disabled,
+table.dataTable thead>tr>td.sorting_disabled {
   cursor: pointer;
   position: relative;
   padding-right: 26px;
@@ -581,14 +570,7 @@ table.dataTable tbody tr:hover {
   background-color: var(--tableRowHoverBackgroundColor) !important;
 }
 
-#example_wrapper
-  > div.dataTables_scroll
-  > div.dataTables_scrollHead
-  > div
-  > table
-  > thead
-  > tr
-  > th.sorting_disabled {
+#example_wrapper>div.dataTables_scroll>div.dataTables_scrollHead>div>table>thead>tr>th.sorting_disabled {
   color: var(--tableAllTextColor) !important;
 }
 
@@ -598,12 +580,15 @@ table.dataTable tbody tr:hover {
 ::-webkit-scrollbar {
   width: 5px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--tableScrollBarBackgroundColor2);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--tableScrollBarBackgroundColor);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--tableScrollBarBackgroundColorHover);
 }
@@ -633,15 +618,13 @@ table.dataTable tbody tr:hover {
 }
 
 .circular-loader {
-  animation: rotate var(--rotation-animation-speed)
-    var(--rotation-animation-easing) infinite;
+  animation: rotate var(--rotation-animation-speed) var(--rotation-animation-easing) infinite;
 }
 
 .loader-path {
   fill: none;
   stroke-width: var(--stroke-width);
-  animation: animate-stroke var(--stroke-animation-speed)
-    var(--stroke-animation-easing) infinite;
+  animation: animate-stroke var(--stroke-animation-speed) var(--stroke-animation-easing) infinite;
   stroke-linecap: round;
 }
 
@@ -657,11 +640,13 @@ table.dataTable tbody tr:hover {
     stroke-dashoffset: 0;
     stroke: var(--columnsBackground);
   }
+
   50% {
     stroke-dasharray: var(--stroke-end-dasharray);
     stroke-dashoffset: -35;
     stroke: var(--loadingCircle);
   }
+
   100% {
     stroke-dasharray: var(--stroke-end-dasharray);
     stroke-dashoffset: -124;
