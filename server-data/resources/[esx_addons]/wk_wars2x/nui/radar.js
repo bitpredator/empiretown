@@ -538,7 +538,7 @@ function menu(optionText, option) {
 	elements.antennas.front.fastSpeed.html(optionText[1]);
 
 	// Set the patrol speed to the value 
-	elements.patrolSpeed.html(option);
+	elements.patrolSpeed.html(option)
 }
 
 var keyLockTimeout;
