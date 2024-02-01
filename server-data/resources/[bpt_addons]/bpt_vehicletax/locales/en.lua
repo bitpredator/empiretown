@@ -1,3 +1,3 @@
-Locales['en'] = {
-    ['vehicle_tax'] = 'vehicle tax'
+Locales["en"] = {
+    ["vehicle_tax"] = "vehicle tax",
 }

@@ -3,10 +3,10 @@ local percentage = 1
 ESX = exports["es_extended"]:getSharedObject()
 
 MySQL.ready(function()
-    local result = MySQL.Sync.fetchAll('SELECT * FROM vehicles')
+    local result = MySQL.Sync.fetchAll("SELECT * FROM vehicles")
     for i = 1, #result, 1 do
         if vehicleprices[(GetHashKey(result[i].model))] == nil then
-            table.insert(vehicleprices, {model = GetHashKey(result[i].model), price = result[i].price})
+            table.insert(vehicleprices, { model = GetHashKey(result[i].model), price = result[i].price })
         end
     end
 end)
@@ -24,12 +24,12 @@ function Tax()
                     local xPlayer = ESX.GetPlayerFromId(xPlayers[j])
 
                     if xPlayer.identifier == result[i].owner then
-                        local model = (json.decode(result[i].vehicle).model)
+                        local model = json.decode(result[i].vehicle).model
 
                         for m = 1, #vehicleprices, 1 do
                             if vehicleprices[m].model == model then
-                             TriggerEvent('esx_billing:sendBill', xPlayer[j], 'society_cardealer', _U('vehicle_tax')..result[i].plate, ((vehicleprices[m].price * percentage) / 100),1)
-                             break
+                                TriggerEvent("esx_billing:sendBill", xPlayer[j], "society_cardealer", _U("vehicle_tax") .. result[i].plate, ((vehicleprices[m].price * percentage) / 100), 1)
+                                break
                             end
                         end
                     end
