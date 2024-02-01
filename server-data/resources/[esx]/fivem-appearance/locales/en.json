@@ -80,7 +80,7 @@
       "title": "Hair",
       "style": "Style",
       "color": "Color",
-      "highlight": "Highlight", 
+      "highlight": "Highlight",
       "fade": "Fade"
     },
     "opacity": "Opacity",
@@ -124,7 +124,7 @@
     "ear": "Ear",
     "watches": "Watches",
     "bracelets": "Bracelets"
-  }, 
+  },
   "tattoos": {
     "title": "Tattoos",
     "items": {
@@ -135,7 +135,7 @@
       "ZONE_LEFT_LEG": "Left leg",
       "ZONE_RIGHT_LEG": "Right leg"
     },
-    "apply": "Apply", 
+    "apply": "Apply",
     "delete": "Delete"
   }
 }

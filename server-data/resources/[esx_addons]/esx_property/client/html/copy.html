@@ -1,28 +1,30 @@
 <!-- Cred: https://github.com/TerbSEC/FiveM-CoordsSaver/tree/master/html -->
 <html>
-  <script>
-    function ready(fn) {
+<script>
+  function ready(fn) {
     if (document.readyState !== "loading") {
-        fn();
+      fn();
     } else {
-        document.addEventListener("DOMContentLoaded", fn);
-    }}
+      document.addEventListener("DOMContentLoaded", fn);
+    }
+  }
 
-    ready(function () {
-      window.addEventListener("message", function (event) {
-        let node = document.createElement("textarea");
-        let selection = document.getSelection();
+  ready(function () {
+    window.addEventListener("message", function (event) {
+      let node = document.createElement("textarea");
+      let selection = document.getSelection();
 
-        node.textContent = event.data.link;
-        document.body.appendChild(node);
+      node.textContent = event.data.link;
+      document.body.appendChild(node);
 
-        selection.removeAllRanges();
-        node.select();
-        document.execCommand("copy");
+      selection.removeAllRanges();
+      node.select();
+      document.execCommand("copy");
 
-        selection.removeAllRanges();
-        document.body.removeChild(node);
-      });
+      selection.removeAllRanges();
+      document.body.removeChild(node);
     });
-  </script>
+  });
+</script>
+
 </html>

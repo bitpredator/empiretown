@@ -10,35 +10,47 @@ local function get_key(t)
 end
 
 -- Resource starting
-AddEventHandler('onResourceStart', function(resourceName)
-    if (GetCurrentResourceName() ~= resourceName) then return end
-    if Config.EnablePeds then BANK.CreatePeds() end
+AddEventHandler("onResourceStart", function(resourceName)
+    if GetCurrentResourceName() ~= resourceName then
+        return
+    end
+    if Config.EnablePeds then
+        BANK.CreatePeds()
+    end
     local twoMonthMs = (os.time() - 5259487) * 1000
-    MySQL.Sync.fetchScalar('DELETE FROM banking WHERE time < ? ', {twoMonthMs})
+    MySQL.Sync.fetchScalar("DELETE FROM banking WHERE time < ? ", { twoMonthMs })
 end)
 
-AddEventHandler('onResourceStop', function(resourceName)
-    if (GetCurrentResourceName() ~= resourceName) then return end
-    if Config.EnablePeds then BANK.DeletePeds() end
+AddEventHandler("onResourceStop", function(resourceName)
+    if GetCurrentResourceName() ~= resourceName then
+        return
+    end
+    if Config.EnablePeds then
+        BANK.DeletePeds()
+    end
 end)
 
 if Config.EnablePeds then
-    AddEventHandler('esx:playerLoaded', function(playerId)
-        TriggerClientEvent('esx_banking:pedHandler', playerId, netIdTable)
+    AddEventHandler("esx:playerLoaded", function(playerId)
+        TriggerClientEvent("esx_banking:pedHandler", playerId, netIdTable)
     end)
 end
 
 -- event
-RegisterServerEvent('esx_banking:doingType')
-AddEventHandler('esx_banking:doingType', function(typeData)
-    if source == nil then return end
-    if (typeData == nil) then return end
+RegisterServerEvent("esx_banking:doingType")
+AddEventHandler("esx_banking:doingType", function(typeData)
+    if source == nil then
+        return
+    end
+    if typeData == nil then
+        return
+    end
 
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local identifier = xPlayer.getIdentifier()
-    local money = xPlayer.getAccount('money').money
-    local bankMoney = xPlayer.getAccount('bank').money
+    local money = xPlayer.getAccount("money").money
+    local bankMoney = xPlayer.getAccount("bank").money
     local amount
 
     local key = get_key(typeData)
@@ -52,11 +64,13 @@ AddEventHandler('esx_banking:doingType', function(typeData)
         amount = tonumber(typeData.pincode)
     end
 
-    if not tonumber(amount) then return end
+    if not tonumber(amount) then
+        return
+    end
     amount = ESX.Math.Round(amount)
 
     if amount == nil or (not typeData.pincode and amount <= 0) then
-        TriggerClientEvent("esx:showNotification", source, _U('invalid_amount'), "error")
+        TriggerClientEvent("esx:showNotification", source, _U("invalid_amount"), "error")
     else
         if typeData.deposit and amount <= money then
             -- deposit
@@ -75,7 +89,7 @@ AddEventHandler('esx_banking:doingType', function(typeData)
             end
 
             if bankMoney < amount then
-                TriggerClientEvent("esx:showNotification", source, _U('not_enough_money', amount), "error")
+                TriggerClientEvent("esx:showNotification", source, _U("not_enough_money", amount), "error")
                 return
             end
 
@@ -84,20 +98,19 @@ AddEventHandler('esx_banking:doingType', function(typeData)
                 return
             end
         else
-            TriggerClientEvent("esx:showNotification", source, _U('not_enough_money', amount), "error")
+            TriggerClientEvent("esx:showNotification", source, _U("not_enough_money", amount), "error")
             return
         end
 
-        money = xPlayer.getAccount('money').money
-        bankMoney = xPlayer.getAccount('bank').money
+        money = xPlayer.getAccount("money").money
+        bankMoney = xPlayer.getAccount("bank").money
         if typeData.transfer then
-            TriggerClientEvent("esx:showNotification", source,
-                _U(string.format('%s_money', key), amount, typeData.transfer.playerId), "success")
+            TriggerClientEvent("esx:showNotification", source, _U(string.format("%s_money", key), amount, typeData.transfer.playerId), "success")
         else
-            TriggerClientEvent("esx:showNotification", source, _U(string.format('%s_money', key), typeData.pincode and (string.format("%04d", amount)) or amount), "success")
+            TriggerClientEvent("esx:showNotification", source, _U(string.format("%s_money", key), typeData.pincode and (string.format("%04d", amount)) or amount), "success")
         end
         if not typeData.pincode then
-            BANK.LogTransaction(source,string.upper(key), string.upper(key), amount, bankMoney)
+            BANK.LogTransaction(source, string.upper(key), string.upper(key), amount, bankMoney)
         end
 
         TriggerClientEvent("esx_banking:updateMoneyInUI", source, key, bankMoney, money)
@@ -109,13 +122,12 @@ ESX.RegisterServerCallback("esx_banking:getPlayerData", function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     local identifier = xPlayer.getIdentifier()
     local weekAgo = (os.time() - 604800) * 1000
-    local transactionHistory = MySQL.Sync.fetchAll(
-        'SELECT * FROM banking WHERE identifier = ? AND time > ? ORDER BY time DESC LIMIT 10', {identifier, weekAgo})
+    local transactionHistory = MySQL.Sync.fetchAll("SELECT * FROM banking WHERE identifier = ? AND time > ? ORDER BY time DESC LIMIT 10", { identifier, weekAgo })
     local playerData = {
         playerName = xPlayer.getName(),
-        money = xPlayer.getAccount('money').money,
-        bankMoney = xPlayer.getAccount('bank').money,
-        transactionHistory = transactionHistory
+        money = xPlayer.getAccount("money").money,
+        bankMoney = xPlayer.getAccount("bank").money,
+        transactionHistory = transactionHistory,
     }
 
     cb(playerData)
@@ -124,12 +136,11 @@ end)
 ESX.RegisterServerCallback("esx_banking:checkPincode", function(source, cb, inputPincode)
     local xPlayer = ESX.GetPlayerFromId(source)
     local identifier = xPlayer.getIdentifier()
-    local pincode = MySQL.Sync.fetchScalar('SELECT COUNT(1) AS pincode FROM users WHERE identifier = ? AND pincode = ?',
-        {identifier, inputPincode})
+    local pincode = MySQL.Sync.fetchScalar("SELECT COUNT(1) AS pincode FROM users WHERE identifier = ? AND pincode = ?", { identifier, inputPincode })
     cb(pincode > 0)
 end)
 
-function logTransaction(targetSource,label, key,amount)
+function logTransaction(targetSource, label, key, amount)
     if targetSource == nil then
         print("ERROR: TargetSource nil!")
         return
@@ -139,8 +150,8 @@ function logTransaction(targetSource,label, key,amount)
         print("ERROR: Do you need use these: WITHDRAW,DEPOSIT,TRANSFER_RECEIVE")
         return
     end
-    
-    if type(key) ~= "string" or key == '' then
+
+    if type(key) ~= "string" or key == "" then
         print("ERROR: Do you need use these: WITHDRAW,DEPOSIT,TRANSFER_RECEIVE and can only be string type!")
         return
     end
@@ -157,7 +168,7 @@ function logTransaction(targetSource,label, key,amount)
     local xPlayer = ESX.GetPlayerFromId(tonumber(targetSource))
 
     if xPlayer ~= nil then
-        local bankCurrentMoney = xPlayer.getAccount('bank').money
+        local bankCurrentMoney = xPlayer.getAccount("bank").money
         BANK.LogTransaction(targetSource, label, string.upper(key), amount, bankCurrentMoney)
     else
         print("ERROR: xPlayer is nil!")
@@ -165,9 +176,9 @@ function logTransaction(targetSource,label, key,amount)
 end
 exports("logTransaction", logTransaction)
 
-RegisterServerEvent('esx_banking:logTransaction')
-AddEventHandler('esx_banking:logTransaction', function(label,key,amount)
-    logTransaction(source,label,key,amount)
+RegisterServerEvent("esx_banking:logTransaction")
+AddEventHandler("esx_banking:logTransaction", function(label, key, amount)
+    logTransaction(source, label, key, amount)
 end)
 
 -- bank functions
@@ -178,11 +189,13 @@ BANK = {
             local coords = Config.Peds[i].Position
             spawnedPeds[i] = CreatePed(0, model, coords.x, coords.y, coords.z, coords.w, true, true)
             netIdTable[i] = NetworkGetNetworkIdFromEntity(spawnedPeds[i])
-            while not DoesEntityExist(spawnedPeds[i]) do Wait(50) end
+            while not DoesEntityExist(spawnedPeds[i]) do
+                Wait(50)
+            end
         end
 
         Wait(100)
-        TriggerClientEvent('esx_banking:PedHandler', -1, netIdTable)
+        TriggerClientEvent("esx_banking:PedHandler", -1, netIdTable)
     end,
     DeletePeds = function()
         for i = 1, #spawnedPeds do
@@ -191,12 +204,12 @@ BANK = {
         end
     end,
     Withdraw = function(amount, xPlayer)
-        xPlayer.addAccountMoney('money', amount)
-        xPlayer.removeAccountMoney('bank', amount)
+        xPlayer.addAccountMoney("money", amount)
+        xPlayer.removeAccountMoney("bank", amount)
     end,
     Deposit = function(amount, xPlayer)
-        xPlayer.removeAccountMoney('money', amount)
-        xPlayer.addAccountMoney('bank', amount)
+        xPlayer.removeAccountMoney("money", amount)
+        xPlayer.addAccountMoney("bank", amount)
     end,
     Transfer = function(xTarget, xPlayer, amount)
         if xTarget == nil or xPlayer.source == xTarget.source then
@@ -204,17 +217,16 @@ BANK = {
             return false
         end
 
-        xPlayer.removeAccountMoney('bank', amount)
-        xTarget.addAccountMoney('bank', amount)
-        local bankMoney = xTarget.getAccount('bank').money
+        xPlayer.removeAccountMoney("bank", amount)
+        xTarget.addAccountMoney("bank", amount)
+        local bankMoney = xTarget.getAccount("bank").money
         BANK.LogTransaction(xTarget.source, "TRANSFER_RECEIVE", amount, bankMoney)
-        TriggerClientEvent("esx:showNotification", xTarget.source, _U('receive_transfer', amount, xPlayer.source),
-            "success")
+        TriggerClientEvent("esx:showNotification", xTarget.source, _U("receive_transfer", amount, xPlayer.source), "success")
 
         return true
     end,
     Pincode = function(amount, identifier)
-        MySQL.update('UPDATE users SET pincode = ? WHERE identifier = ? ', {amount, identifier})
+        MySQL.update("UPDATE users SET pincode = ? WHERE identifier = ? ", { amount, identifier })
     end,
     LogTransaction = function(playerId, label, logType, amount, bankMoney)
         if playerId == nil then
@@ -228,7 +240,6 @@ BANK = {
         local xPlayer = ESX.GetPlayerFromId(playerId)
         local identifier = xPlayer.getIdentifier()
 
-        MySQL.insert('INSERT INTO banking (identifier, label, type, amount, time, balance) VALUES (?, ?, ?, ?, ?, ?)',
-            {identifier,label,logType,amount, os.time() * 1000, bankMoney})
-    end
+        MySQL.insert("INSERT INTO banking (identifier, label, type, amount, time, balance) VALUES (?, ?, ?, ?, ?, ?)", { identifier, label, logType, amount, os.time() * 1000, bankMoney })
+    end,
 }

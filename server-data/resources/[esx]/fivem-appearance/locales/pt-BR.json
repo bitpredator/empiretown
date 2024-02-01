@@ -80,7 +80,7 @@
       "title": "Cabelo",
       "style": "Estilo",
       "color": "Cor",
-      "highlight": "Reflexo", 
+      "highlight": "Reflexo",
       "fade": "Desvaneça"
     },
     "opacity": "Opacidade",
@@ -134,7 +134,7 @@
       "ZONE_RIGHT_ARM": "Braço direito",
       "ZONE_LEFT_LEG": "Perna esquerda",
       "ZONE_RIGHT_LEG": "Perna direita"
-    }, 
+    },
     "apply": "Aplicar",
     "delete": "Apagar"
   }

@@ -1,3 +1,3 @@
-Locales['it'] = {
-    ['you_have_licensed'] = 'hai ricevuto la tua licenza'
+Locales["it"] = {
+    ["you_have_licensed"] = "hai ricevuto la tua licenza",
 }

@@ -5,7 +5,7 @@ lua54 'yes'
 
 author 'ESX-Framework'
 description 'Official ESX-Legacy Property System'
-version '0.0.4'
+version '1.0.0'
 
 shared_scripts {'@es_extended/imports.lua', '@es_extended/locale.lua', 'locales/*.lua'}
 file "client/html/copy.html"

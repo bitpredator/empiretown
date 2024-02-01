@@ -64,6 +64,7 @@ body {
   background-color: rgba(0, 0, 0, 0.356);
   border-right: 3px solid #7186ad;
 }
+
 #header li.selected {
   font-weight: bold;
   background-color: rgba(0, 0, 0, 0.356);
@@ -114,8 +115,10 @@ body {
   color: white;
   height: 655px;
   overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .content h2 {
@@ -139,8 +142,10 @@ body {
   color: white;
   height: 655px;
   overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .impounded_content h2 {
@@ -181,7 +186,7 @@ body {
   border-radius: 10px;
 }
 
-.group > button {
+.group>button {
   color: white;
   width: 50%;
   padding: 12px 20px;
@@ -191,7 +196,7 @@ body {
   background-color: #353e4f;
 }
 
-.group > input {
+.group>input {
   color: white;
   width: 100%;
   padding: 12px 20px;
@@ -204,7 +209,7 @@ body {
   -webkit-appearance: none;
 }
 
-.group > input::-webkit-outer-spin-button,
+.group>input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;

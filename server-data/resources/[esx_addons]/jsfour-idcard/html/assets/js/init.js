@@ -1,17 +1,17 @@
-$(document).ready(function(){
+$(document).ready(function () {
   // LUA listener
-  window.addEventListener('message', function( event ) {
+  window.addEventListener('message', function (event) {
     if (event.data.action == 'open') {
-      var type        = event.data.type;
-      var userData    = event.data.array['user'][0];
+      var type = event.data.type;
+      var userData = event.data.array['user'][0];
       var licenseData = event.data.array['licenses'];
-      var sex         = userData.sex;
+      var sex = userData.sex;
 
-      if ( type == 'driver' || type == null) {
+      if (type == 'driver' || type == null) {
         $('img').show();
         $('#name').css('color', '#282828');
 
-        if ( sex.toLowerCase() == 'm' ) {
+        if (sex.toLowerCase() == 'm') {
           $('img').attr('src', 'assets/images/male.png');
           $('#sex').text('male');
         } else {
@@ -24,34 +24,34 @@ $(document).ready(function(){
         $('#height').text(userData.height);
         $('#signature').text(userData.firstname + ' ' + userData.lastname);
 
-        if ( type == 'driver' ) {
-          if ( licenseData != null ) {
-          Object.keys(licenseData).forEach(function(key) {
-            var type = licenseData[key].type;
+        if (type == 'driver') {
+          if (licenseData != null) {
+            Object.keys(licenseData).forEach(function (key) {
+              var type = licenseData[key].type;
 
-            if ( type == 'drive_bike') {
-              type = 'bike';
-            } else if ( type == 'drive_truck' ) {
-              type = 'truck';
-            } else if ( type == 'drive' ) {
-              type = 'car';
-            }
+              if (type == 'drive_bike') {
+                type = 'bike';
+              } else if (type == 'drive_truck') {
+                type = 'truck';
+              } else if (type == 'drive') {
+                type = 'car';
+              }
 
-            if ( type == 'bike') {
-              $('#licenses').append('<p>'+ 'Bike' +'</p>');
-             } else if ( type == 'truck') {
-               $('#licenses').append('<p>'+ 'Truck' +'</p>');
-             } else if ( type == 'car') {
-               $('#licenses').append('<p>'+ 'Car' +'</p>');
-             }
-          });
-        }
+              if (type == 'bike') {
+                $('#licenses').append('<p>' + 'Bike' + '</p>');
+              } else if (type == 'truck') {
+                $('#licenses').append('<p>' + 'Truck' + '</p>');
+              } else if (type == 'car') {
+                $('#licenses').append('<p>' + 'Car' + '</p>');
+              }
+            });
+          }
 
           $('#id-card').css('background', 'url(assets/images/license.png)');
         } else {
           $('#id-card').css('background', 'url(assets/images/idcard.png)');
         }
-      } else if ( type == 'weapon' ) {
+      } else if (type == 'weapon') {
         $('img').hide();
         $('#name').css('color', '#d9d9d9');
         $('#name').text(userData.firstname + ' ' + userData.lastname);

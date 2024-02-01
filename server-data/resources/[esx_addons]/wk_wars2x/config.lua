@@ -7,7 +7,7 @@ CONFIG = {}
 CONFIG.allow_fast_limit = true
 
 -- Radar fast limit menu order
--- When enabled, the fast limit options menu will be displayed first followed by fast lock toggle, then all default menu options. 
+-- When enabled, the fast limit options menu will be displayed first followed by fast lock toggle, then all default menu options.
 CONFIG.fast_limit_first_in_menu = false
 
 -- Radar only lock players with auto fast locking
@@ -33,78 +33,74 @@ CONFIG.use_sonorancad = false
 
 -- Sets the defaults of all keybinds
 -- These keybinds can be changed by each person in their GTA Settings->Keybinds->FiveM
-CONFIG.keyDefaults =
-{
-	-- Remote control key
-	remote_control = "f5",
+CONFIG.keyDefaults = {
+    -- Remote control key
+    remote_control = "f5",
 
-	-- Radar key lock key
-	key_lock = "l",
+    -- Radar key lock key
+    key_lock = "l",
 
-	-- Radar front antenna lock/unlock Key
-	front_lock = "numpad8",
+    -- Radar front antenna lock/unlock Key
+    front_lock = "numpad8",
 
-	-- Radar rear antenna lock/unlock Key
-	rear_lock = "numpad5",
+    -- Radar rear antenna lock/unlock Key
+    rear_lock = "numpad5",
 
-	-- Plate reader front lock/unlock Key
-	plate_front_lock = "numpad9",
+    -- Plate reader front lock/unlock Key
+    plate_front_lock = "numpad9",
 
-	-- Plate reader rear lock/unlock Key
-	plate_rear_lock = "numpad6"
+    -- Plate reader rear lock/unlock Key
+    plate_rear_lock = "numpad6",
 }
 
 -- Here you can change the default values for the operator menu, do note, if any of these values are not
 -- one of the options listed, the script will not work.
-CONFIG.menuDefaults =
-{
-	-- Should the system calculate and display faster targets
-	-- Options: true or false
-	["fastDisplay"] = true,
+CONFIG.menuDefaults = {
+    -- Should the system calculate and display faster targets
+    -- Options: true or false
+    ["fastDisplay"] = true,
 
-	-- Sensitivity for each radar mode, this changes how far the antennas will detect vehicles
-	-- Options: 0.2, 0.4, 0.6, 0.8, 1.0
-	["same"] = 0.6,
-	["opp"] = 0.6,
+    -- Sensitivity for each radar mode, this changes how far the antennas will detect vehicles
+    -- Options: 0.2, 0.4, 0.6, 0.8, 1.0
+    ["same"] = 0.6,
+    ["opp"] = 0.6,
 
-	-- The volume of the audible beep
-	-- Options: 0.0, 0.2, 0.4, 0.6, 0.8, 1.0
-	["beep"] = 0.6,
+    -- The volume of the audible beep
+    -- Options: 0.0, 0.2, 0.4, 0.6, 0.8, 1.0
+    ["beep"] = 0.6,
 
-	-- The volume of the verbal lock confirmation
-	-- Options: 0.0, 0.2, 0.4, 0.6, 0.8, 1.0
-	["voice"] = 0.6,
+    -- The volume of the verbal lock confirmation
+    -- Options: 0.0, 0.2, 0.4, 0.6, 0.8, 1.0
+    ["voice"] = 0.6,
 
-	-- The volume of the plate reader audio
-	-- Options: 0.0, 0.2, 0.4, 0.6, 0.8, 1.0
-	["plateAudio"] = 0.6,
+    -- The volume of the plate reader audio
+    -- Options: 0.0, 0.2, 0.4, 0.6, 0.8, 1.0
+    ["plateAudio"] = 0.6,
 
-	-- The speed unit used in conversions
-	-- Options: mph or kmh
-	["speedType"] = "mph",
+    -- The speed unit used in conversions
+    -- Options: mph or kmh
+    ["speedType"] = "mph",
 
-	-- The state for automatic speed locking. This requires CONFIG.allow_fast_limit to be true.
-	-- Options: true or false
-	["fastLock"] = false,
+    -- The state for automatic speed locking. This requires CONFIG.allow_fast_limit to be true.
+    -- Options: true or false
+    ["fastLock"] = false,
 
-	-- The speed limit required for automatic speed locking. This requires CONFIG.allow_fast_limit to be true.
-	-- Options: 0 to 200
-	["fastLimit"] = 60
+    -- The speed limit required for automatic speed locking. This requires CONFIG.allow_fast_limit to be true.
+    -- Options: 0 to 200
+    ["fastLimit"] = 60,
 }
 
 -- Here you can change the default scale of the UI elements, as well as the safezone size
-CONFIG.uiDefaults =
-{
-	-- The default scale of the UI elements.
-	-- Options: 0.25 - 2.5
-	scale =
-	{
-		radar = 0.75,
-		remote = 0.75,
-		plateReader = 0.75
-	},
+CONFIG.uiDefaults = {
+    -- The default scale of the UI elements.
+    -- Options: 0.25 - 2.5
+    scale = {
+        radar = 0.75,
+        remote = 0.75,
+        plateReader = 0.75,
+    },
 
-	-- The safezone size, must be a multiple of 5.
-	-- Options: 0 - 100
-	safezone = 20
+    -- The safezone size, must be a multiple of 5.
+    -- Options: 0 - 100
+    safezone = 20,
 }
