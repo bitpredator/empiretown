@@ -19,4 +19,3 @@ CREATE TABLE `addon_inventory_items` (
 	INDEX `index_addon_inventory_items_inventory_name_name_owner` (`inventory_name`, `name`, `owner`),
 	INDEX `index_addon_inventory_inventory_name` (`inventory_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
