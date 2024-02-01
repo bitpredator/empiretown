@@ -2,7 +2,6 @@ ESX = exports['es_extended']:getSharedObject()
 local swapHooks, createHooks = {}, {}
 
 CreateThread(function()
-    while ESX == nil do Wait() end
     for k,_ in pairs(Config.Shops) do
         TriggerEvent('esx_society:registerSociety', k, k, 'society_'..k, 'society_'..k, 'society_'..k, {type = 'public'})
     end

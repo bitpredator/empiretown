@@ -1,24 +1,24 @@
-fx_version 'cerulean'
-game 'gta5'
-lua54 'yes'
+fx_version("cerulean")
+game("gta5")
+lua54("yes")
 
-description 'Wasabi OX Inventory Player Owned Shops'
-author 'wasabirobby#5110'
-version '1.0.0'
+description("Wasabi OX Inventory Player Owned Shops")
+author("wasabirobby#5110")
+version("1.0.0")
 
-shared_scripts {
-    '@ox_lib/init.lua',
-    'configuration/*.lua'
-}
+shared_scripts({
+    "@ox_lib/init.lua",
+    "configuration/*.lua",
+})
 
-client_scripts {
-    'client/*.lua'
-}
+client_scripts({
+    "client/*.lua",
+})
 
-server_scripts {
-    'server/*.lua'
-}
+server_scripts({
+    "server/*.lua",
+})
 
-dependencies {
-    'ox_inventory'
-}
+dependencies({
+    "ox_inventory",
+})
