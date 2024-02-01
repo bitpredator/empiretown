@@ -1,25 +1,25 @@
-fx_version 'adamant'
+fx_version("adamant")
 
-game 'gta5'
+game("gta5")
 
-description 'ESX RP Chat'
+description("ESX RP Chat")
 
-version '0.0.4'
+version("1.0.0")
 
-shared_script '@es_extended/imports.lua'
+shared_script("@es_extended/imports.lua")
 
-server_scripts {
-	'@es_extended/locale.lua',
-	'locales/*.lua',
-	'config.lua',
-	'server/main.lua'
-}
+server_scripts({
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
+    "server/main.lua",
+})
 
-client_scripts {
-	'@es_extended/locale.lua',
-	'locales/*.lua',
-	'config.lua',
-	'client/main.lua'
-}
+client_scripts({
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
+    "client/main.lua",
+})
 
-dependency 'es_extended'
+dependency("es_extended")
