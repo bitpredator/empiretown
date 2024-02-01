@@ -1,8 +1,8 @@
-exports('GetBikerGangObject', function()
+exports("GetBikerGangObject", function()
     return BikerGang
 end)
 
-AddEventHandler('onClientResourceStop', function(res)
+AddEventHandler("onClientResourceStop", function(res)
     if GetCurrentResourceName() ~= res then
         return
     end
@@ -20,7 +20,7 @@ BikerGang = {
             red = 4,
             green = 5,
             yellow = 6,
-            blue = 7
+            blue = 7,
         },
         Fonts = {
             font1 = 0,
@@ -35,7 +35,7 @@ BikerGang = {
             font10 = 9,
             font11 = 10,
             font12 = 11,
-            font13 = 12
+            font13 = 12,
         },
         name = "",
         color = 0,
@@ -46,7 +46,7 @@ BikerGang = {
             BikerGang.Name.color = color
             BikerGang.Name.font = font
             BikerGang.Clubhouse.ClubName.stage = 0
-        end
+        end,
     },
     Emblem = {
         Logo = {
@@ -58,7 +58,7 @@ BikerGang = {
             fox = "MPClubPreset6",
             city = "MPClubPreset7",
             dices = "MPClubPreset8",
-            target = "MPClubPreset9"
+            target = "MPClubPreset9",
         },
         emblem = "MPClubPreset1",
         rot = 90.0, -- Rotation for 0.0 to 360.0
@@ -67,7 +67,7 @@ BikerGang = {
             BikerGang.Emblem.emblem = logo
             BikerGang.Emblem.rot = rotation
             BikerGang.Clubhouse.Emblem.stage = 0
-        end
+        end,
     },
     Clubhouse = {
         interiorId1 = 246273,
@@ -95,7 +95,7 @@ BikerGang = {
                 end,
                 Clear = function()
                     BikerGang.Clubhouse.Members.Clear(BikerGang.Clubhouse.Members.President)
-                end
+                end,
             },
             VicePresident = {
                 needToLoad = false,
@@ -118,7 +118,7 @@ BikerGang = {
                 end,
                 Clear = function()
                     BikerGang.Clubhouse.Members.Clear(BikerGang.Clubhouse.Members.VicePresident)
-                end
+                end,
             },
             RoadCaptain = {
                 needToLoad = false,
@@ -141,7 +141,7 @@ BikerGang = {
                 end,
                 Clear = function()
                     BikerGang.Clubhouse.Members.Clear(BikerGang.Clubhouse.Members.RoadCaptain)
-                end
+                end,
             },
             Enforcer = {
                 needToLoad = false,
@@ -164,7 +164,7 @@ BikerGang = {
                 end,
                 Clear = function()
                     BikerGang.Clubhouse.Members.Clear(BikerGang.Clubhouse.Members.Enforcer)
-                end
+                end,
             },
             SergeantAtArms = {
                 needToLoad = false,
@@ -187,7 +187,7 @@ BikerGang = {
                 end,
                 Clear = function()
                     BikerGang.Clubhouse.Members.Clear(BikerGang.Clubhouse.Members.SergeantAtArms)
-                end
+                end,
             },
             Set = function(member, ped)
                 member.Clear()
@@ -199,7 +199,7 @@ BikerGang = {
                     local IsTextureDictLoaded = LoadStreamedTextureDict(member.textureDict)
 
                     if not IsTextureDictLoaded then
-                        Citizen.Trace("ERROR: BikerClubhouseDrawMembers - Textures dictionnary \"" .. tostring(member.textureDict) .. "\" cannot be loaded.")
+                        Citizen.Trace('ERROR: BikerClubhouseDrawMembers - Textures dictionnary "' .. tostring(member.textureDict) .. '" cannot be loaded.')
                     end
                 else
                     Citizen.Trace("ERROR: BikerClubhouseDrawMembers - PedHeadShot not ready.")
@@ -222,7 +222,7 @@ BikerGang = {
                 member.textureDict = ""
                 member.pedheadshot = -1
                 member.stage = 0
-            end
+            end,
         },
 
         ClubName = {
@@ -252,7 +252,7 @@ BikerGang = {
                 BikerGang.Clubhouse.ClubName.renderId = -1
                 BikerGang.Clubhouse.ClubName.movieId = -1
                 BikerGang.Clubhouse.ClubName.stage = 0
-            end
+            end,
         },
 
         Emblem = {
@@ -277,7 +277,7 @@ BikerGang = {
 
                 BikerGang.Clubhouse.Emblem.renderId = -1
                 BikerGang.Clubhouse.Emblem.stage = 0
-            end
+            end,
         },
 
         MissionsWall = {
@@ -302,7 +302,7 @@ BikerGang = {
                     torchedUpper = "BA_SH_BIG",
                     torched = "BA_SH_TITLE",
                     outriderUpper = "SHU_SH_BIG",
-                    outrider = "SHU_SH_TITLE"
+                    outrider = "SHU_SH_TITLE",
                 },
                 Descriptions = {
                     byThePound = "DEAL_DEALND",
@@ -315,7 +315,7 @@ BikerGang = {
                     cracked = "SC_MENU_DESC",
                     fragileGoods = "DV_MENU_DESC",
                     torched = "BA_MENU_DESC",
-                    outrider = "SHU_MENU_DESC"
+                    outrider = "SHU_MENU_DESC",
                 },
                 Pictures = {
                     byThePound = "CHM_IMG0", -- Pickup car parked
@@ -328,7 +328,7 @@ BikerGang = {
                     cracked = "CHM_IMG1", -- Safe
                     fragileGoods = "CHM_IMG2", -- Lost Van
                     torched = "CHM_IMG9", -- Explosive crate
-                    outrider = "CHM_IMG7" -- Sport ride
+                    outrider = "CHM_IMG7", -- Sport ride
                 },
             },
             needToLoad = false,
@@ -342,7 +342,7 @@ BikerGang = {
                 none = -1,
                 left = 0,
                 middle = 1,
-                right = 2
+                right = 2,
             },
 
             Init = function()
@@ -410,7 +410,7 @@ BikerGang = {
                 BikerGang.Clubhouse.MissionsWall.renderId = -1
                 BikerGang.Clubhouse.MissionsWall.movieId = -1
                 BikerGang.Clubhouse.MissionsWall.stage = 0
-            end
+            end,
         },
 
         ClearAll = function()
@@ -429,8 +429,8 @@ BikerGang = {
                     member.loaded = false
                 end
             end
-        end
-    }
+        end,
+    },
 }
 
 Citizen.CreateThread(function()
@@ -446,7 +446,16 @@ Citizen.CreateThread(function()
     BikerGang.Clubhouse.MissionsWall.Init()
 
     while true do
-        if BikerGang.Clubhouse.ClubName.needToLoad or BikerGang.Clubhouse.Emblem.needToLoad or BikerGang.Clubhouse.MissionsWall.needToLoad or BikerGang.Clubhouse.Members.President.needToLoad or BikerGang.Clubhouse.Members.VicePresident.needToLoad or BikerGang.Clubhouse.Members.RoadCaptain.needToLoad or BikerGang.Clubhouse.Members.Enforcer.needToLoad or BikerGang.Clubhouse.Members.SergeantAtArms.needToLoad then
+        if
+            BikerGang.Clubhouse.ClubName.needToLoad
+            or BikerGang.Clubhouse.Emblem.needToLoad
+            or BikerGang.Clubhouse.MissionsWall.needToLoad
+            or BikerGang.Clubhouse.Members.President.needToLoad
+            or BikerGang.Clubhouse.Members.VicePresident.needToLoad
+            or BikerGang.Clubhouse.Members.RoadCaptain.needToLoad
+            or BikerGang.Clubhouse.Members.Enforcer.needToLoad
+            or BikerGang.Clubhouse.Members.SergeantAtArms.needToLoad
+        then
             -- If we are inside a clubhouse, then we load
             if Global.Biker.isInsideClubhouse1 or Global.Biker.isInsideClubhouse2 then
                 -- Club name
@@ -518,9 +527,9 @@ function DrawClubName(name, color, font)
     elseif BikerGang.Clubhouse.ClubName.stage == 1 then
         if HasScaleformMovieLoaded(BikerGang.Clubhouse.ClubName.movieId) then
             local parameters = {
-                p0 = {type = "string", value = name},
-                p1 = {type = "int", value = color},
-                p2 = {type = "int", value = font}
+                p0 = { type = "string", value = name },
+                p1 = { type = "int", value = color },
+                p2 = { type = "int", value = font },
             }
 
             SetupScaleform(BikerGang.Clubhouse.ClubName.movieId, "SET_CLUBHOUSE_NAME", parameters)
@@ -561,7 +570,7 @@ function DrawEmblem(texturesDict, rotation)
         SetScriptGfxAlign(73, 73)
         SetScriptGfxDrawOrder(4)
         SetScriptGfxDrawBehindPausemenu(true)
-        DrawInteractiveSprite(texturesDict, texturesDict, 0.5, 0.5, 1.0, 1.0, rotation, 255, 255, 255, 255);
+        DrawInteractiveSprite(texturesDict, texturesDict, 0.5, 0.5, 1.0, 1.0, rotation, 255, 255, 255, 255)
         ResetScriptGfxAlign()
         SetTextRenderId(GetDefaultScriptRendertargetRenderId())
     end

@@ -1,5 +1,5 @@
 -- Nightclub: -1604.664 -3012.583 -78.000
-exports('GetAfterHoursNightclubsObject', function()
+exports("GetAfterHoursNightclubsObject", function()
     return AfterHoursNightclubs
 end)
 
@@ -15,8 +15,8 @@ AfterHoursNightclubs = {
             end,
             Remove = function()
                 EnableIpl(AfterHoursNightclubs.Ipl.Interior.ipl, false)
-            end
-        }
+            end,
+        },
     },
 
     Interior = {
@@ -42,7 +42,7 @@ AfterHoursNightclubs = {
                         SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         Style = {
             trad = "Int01_ba_Style01",
@@ -60,7 +60,7 @@ AfterHoursNightclubs = {
                         SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         Podium = {
             none = "",
@@ -79,14 +79,14 @@ AfterHoursNightclubs = {
                         SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         Speakers = {
             none = "",
             basic = "Int01_ba_equipment_setup",
             upgrade = {
                 "Int01_ba_equipment_setup",
-                "Int01_ba_equipment_upgrade"
+                "Int01_ba_equipment_upgrade",
             },
 
             Set = function(speakers, refresh)
@@ -100,7 +100,7 @@ AfterHoursNightclubs = {
                         SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         Security = {
             off = "",
@@ -113,7 +113,7 @@ AfterHoursNightclubs = {
             end,
             Clear = function(refresh)
                 SetIplPropState(AfterHoursNightclubs.interiorId, AfterHoursNightclubs.Interior.Security.on, false, refresh)
-            end
+            end,
         },
         Turntables = {
             none = "",
@@ -139,7 +139,7 @@ AfterHoursNightclubs = {
                         SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         Lights = {
             Droplets = {
@@ -159,7 +159,7 @@ AfterHoursNightclubs = {
                             SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             Neons = {
                 yellow = "DJ_01_Lights_02",
@@ -178,7 +178,7 @@ AfterHoursNightclubs = {
                             SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             Bands = {
                 yellow = "DJ_01_Lights_03",
@@ -197,7 +197,7 @@ AfterHoursNightclubs = {
                             SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             Lasers = {
                 yellow = "DJ_01_Lights_04",
@@ -216,19 +216,19 @@ AfterHoursNightclubs = {
                             SetIplPropState(AfterHoursNightclubs.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             Clear = function()
                 AfterHoursNightclubs.Interior.Lights.Droplets.Clear()
                 AfterHoursNightclubs.Interior.Lights.Neons.Clear()
                 AfterHoursNightclubs.Interior.Lights.Bands.Clear()
                 AfterHoursNightclubs.Interior.Lights.Lasers.Clear()
-            end
+            end,
         },
         Bar = {
             Enable = function(state, refresh)
                 SetIplPropState(AfterHoursNightclubs.interiorId, "Int01_ba_bar_content", state, refresh)
-            end
+            end,
         },
         Booze = {
             A = "Int01_ba_booze_01",
@@ -245,13 +245,13 @@ AfterHoursNightclubs = {
                 else
                     SetIplPropState(AfterHoursNightclubs.interiorId, booze, state, refresh)
                 end
-            end
+            end,
         },
         Trophy = {
             Color = {
                 bronze = 0,
                 silver = 1,
-                gold = 2
+                gold = 2,
             },
             number1 = "Int01_ba_trophy01",
             battler = "Int01_ba_trophy02",
@@ -260,27 +260,27 @@ AfterHoursNightclubs = {
             Enable = function(trophy, state, color, refresh)
                 SetIplPropState(AfterHoursNightclubs.interiorId, trophy, state, refresh)
                 SetInteriorPropColor(AfterHoursNightclubs.interiorId, trophy, color)
-            end
+            end,
         },
         DryIce = {
             scale = 5.0,
             Emitters = {
                 {
                     pos = vector3(-1602.932, -3019.1, -79.99),
-                    rot = vector3(0.0, -10.0, 66.0)
+                    rot = vector3(0.0, -10.0, 66.0),
                 },
                 {
                     pos = vector3(-1593.238, -3017.05, -79.99),
-                    rot = vector3(0.0, -10.0, 110.0)
+                    rot = vector3(0.0, -10.0, 110.0),
                 },
                 {
                     pos = vector3(-1597.134, -3008.2, -79.99),
-                    rot = vector3(0.0, -10.0, -122.53)
+                    rot = vector3(0.0, -10.0, -122.53),
                 },
                 {
                     pos = vector3(-1589.966, -3008.518, -79.99),
-                    rot = vector3(0.0, -10.0, -166.97)
-                }
+                    rot = vector3(0.0, -10.0, -166.97),
+                },
             },
 
             Enable = function(state)
@@ -321,8 +321,8 @@ AfterHoursNightclubs = {
 
             Enable = function(details, state, refresh)
                 SetIplPropState(AfterHoursNightclubs.interiorId, details, state, refresh)
-            end
-        }
+            end,
+        },
     },
 
     -- 760, -1337, 27
@@ -336,7 +336,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.Mesa.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -348,8 +348,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.Mesa.id)
-            end
-        }
+            end,
+        },
     },
 
     -- 348, -979, 30
@@ -363,7 +363,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.MissionRow.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -375,8 +375,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.MissionRow.id)
-            end
-        }
+            end,
+        },
     },
 
     -- -118, -1260, 30
@@ -390,7 +390,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.Strawberry.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -402,8 +402,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.Strawberry.id)
-            end
-        }
+            end,
+        },
     },
 
     -- 9, 221, 109
@@ -417,7 +417,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.VinewoodWest.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -429,8 +429,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.VinewoodWest.id)
-            end
-        }
+            end,
+        },
     },
 
     -- 868, -2098, 31
@@ -444,7 +444,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.Cypress.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -456,8 +456,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.Cypress.id)
-            end
-        }
+            end,
+        },
     },
 
     -- -1287, -647, 27
@@ -471,7 +471,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.DelPerro.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -483,8 +483,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.DelPerro.id)
-            end
-        }
+            end,
+        },
     },
 
     -- -680, -2461, 14
@@ -498,7 +498,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.Airport.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -510,8 +510,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.Airport.id)
-            end
-        }
+            end,
+        },
     },
 
     -- 192, -3168, 6
@@ -525,7 +525,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.Elysian.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -537,8 +537,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.Elysian.id)
-            end
-        }
+            end,
+        },
     },
 
     -- 373, 254, 103
@@ -552,7 +552,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.Vinewood.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -564,8 +564,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.Vinewood.id)
-            end
-        }
+            end,
+        },
     },
 
     -- -1171, -1150, 6
@@ -578,7 +578,7 @@ AfterHoursNightclubs = {
                 end
 
                 AfterHoursNightclubs.Barrier.Enable(AfterHoursNightclubs.Vespucci.id, state)
-            end
+            end,
         },
         Posters = {
             Enable = function(poster, state)
@@ -590,8 +590,8 @@ AfterHoursNightclubs = {
             end,
             Clear = function()
                 AfterHoursNightclubs.Posters.Clear(AfterHoursNightclubs.Vespucci.id)
-            end
-        }
+            end,
+        },
     },
 
     Barrier = {
@@ -601,7 +601,7 @@ AfterHoursNightclubs = {
             local value
             value = AfterHoursNightclubs.Barrier.barrier:gsub("caseX", "case" .. tostring(clubId))
             EnableIpl(value, state)
-        end
+        end,
     },
     Posters = {
         forSale = "ba_caseX_forsale",
@@ -633,7 +633,7 @@ AfterHoursNightclubs = {
                     EnableIpl(value, false)
                 end
             end
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -699,5 +699,5 @@ AfterHoursNightclubs = {
         AfterHoursNightclubs.Vespucci.Barrier.Enable(true)
         AfterHoursNightclubs.Vespucci.Posters.Enable(AfterHoursNightclubs.Posters, true)
         AfterHoursNightclubs.Vespucci.Posters.Enable(AfterHoursNightclubs.Posters.forSale, false)
-    end
+    end,
 }

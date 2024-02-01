@@ -1,5 +1,5 @@
 -- Heist Yatch: -2043.974,-1031.582, 11.981
-exports('GetHeistYachtObject', function()
+exports("GetHeistYachtObject", function()
     return HeistYacht
 end)
 
@@ -17,7 +17,7 @@ HeistYacht = {
         "hei_yacht_heist_lod",
         "hei_yacht_heist_lounge",
         "hei_yacht_heist_lounge_lod",
-        "hei_yacht_heist_slod"
+        "hei_yacht_heist_slod",
     },
 
     Enable = function(state)
@@ -48,10 +48,10 @@ HeistYacht = {
                     DeleteEntity(handle)
                 end
             end
-        end
+        end,
     },
 
     LoadDefault = function()
         HeistYacht.Enable(true)
-    end
+    end,
 }

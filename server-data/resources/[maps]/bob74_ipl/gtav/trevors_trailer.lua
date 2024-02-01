@@ -1,4 +1,4 @@
-exports('GetTrevorsTrailerObject', function()
+exports("GetTrevorsTrailerObject", function()
     return TrevorsTrailer
 end)
 
@@ -17,9 +17,9 @@ TrevorsTrailer = {
         Clear = function()
             EnableIpl({
                 TrevorsTrailer.Interior.tidy,
-                TrevorsTrailer.Interior.trash
+                TrevorsTrailer.Interior.trash,
             }, false)
-        end
+        end,
     },
     Details = {
         copHelmet = "V_26_Trevor_Helmet3", -- Cop helmet in the closet
@@ -28,7 +28,7 @@ TrevorsTrailer = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(TrevorsTrailer.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -38,5 +38,5 @@ TrevorsTrailer = {
         TrevorsTrailer.Details.Enable(TrevorsTrailer.Details.michaelStuff, false, false)
 
         RefreshInterior(TrevorsTrailer.interiorId)
-    end
+    end,
 }

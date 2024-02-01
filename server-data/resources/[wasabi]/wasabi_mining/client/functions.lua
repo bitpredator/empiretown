@@ -1,5 +1,5 @@
 showHelp = function(msg)
-    BeginTextCommandDisplayHelp('STRING')
+    BeginTextCommandDisplayHelp("STRING")
     AddTextComponentSubstringPlayerName(msg)
     EndTextCommandDisplayHelp(0, false, true, -1)
 end
@@ -10,12 +10,12 @@ CreateBlip = function(coords, sprite, colour, text, scale)
     SetBlipColour(blip, colour)
     SetBlipAsShortRange(blip, true)
     SetBlipScale(blip, scale)
-	AddTextEntry(text, text)
-	BeginTextCommandSetBlipName(text)
-	EndTextCommandSetBlipName(blip)
+    AddTextEntry(text, text)
+    BeginTextCommandSetBlipName(text)
+    EndTextCommandSetBlipName(blip)
     return blip
 end
 
 tryMine = function(data, index)
-    TriggerServerEvent('wasabi_mining:mineRock', data, index)
+    TriggerServerEvent("wasabi_mining:mineRock", data, index)
 end

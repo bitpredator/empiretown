@@ -1,5 +1,5 @@
 -- Office 4: -1392.667, -480.4736, 72.04217 (Maze Bank West)
-exports('GetFinanceOffice4Object', function()
+exports("GetFinanceOffice4Object", function()
     return FinanceOffice4
 end)
 
@@ -7,7 +7,7 @@ FinanceOffice4 = {
     currentInteriorId = -1,
     currentSafeDoors = {
         hashL = "",
-        hashR = ""
+        hashR = "",
     },
 
     Style = {
@@ -15,48 +15,48 @@ FinanceOffice4 = {
             warm = {
                 interiorId = 243201,
                 ipl = "ex_sm_15_office_01a",
-                safe = "ex_prop_safedoor_office1a"
+                safe = "ex_prop_safedoor_office1a",
             },
             classical = {
                 interiorId = 243457,
                 ipl = "ex_sm_15_office_01b",
-                safe = "ex_prop_safedoor_office1b"
+                safe = "ex_prop_safedoor_office1b",
             },
             vintage = {
                 interiorId = 243713,
                 ipl = "ex_sm_15_office_01c",
-                safe = "ex_prop_safedoor_office1c"
+                safe = "ex_prop_safedoor_office1c",
             },
             contrast = {
                 interiorId = 243969,
                 ipl = "ex_sm_15_office_02a",
-                safe = "ex_prop_safedoor_office2a"
+                safe = "ex_prop_safedoor_office2a",
             },
             rich = {
                 interiorId = 244225,
                 ipl = "ex_sm_15_office_02b",
-                safe = "ex_prop_safedoor_office2a"
+                safe = "ex_prop_safedoor_office2a",
             },
             cool = {
                 interiorId = 244481,
                 ipl = "ex_sm_15_office_02c",
-                safe = "ex_prop_safedoor_office2a"
+                safe = "ex_prop_safedoor_office2a",
             },
             ice = {
                 interiorId = 244737,
                 ipl = "ex_sm_15_office_03a",
-                safe = "ex_prop_safedoor_office3a"
+                safe = "ex_prop_safedoor_office3a",
             },
             conservative = {
                 interiorId = 244993,
                 ipl = "ex_sm_15_office_03b",
-                safe = "ex_prop_safedoor_office3a"
+                safe = "ex_prop_safedoor_office3a",
             },
             polished = {
                 interiorId = 245249,
                 ipl = "ex_sm_15_office_03c",
-                safe = "ex_prop_safedoor_office3c"
-            }
+                safe = "ex_prop_safedoor_office3c",
+            },
         },
         Set = function(style, refresh)
             if refresh == nil then
@@ -68,7 +68,7 @@ FinanceOffice4 = {
                 FinanceOffice4.currentInteriorId = style.interiorId
                 FinanceOffice4.currentSafeDoors = {
                     hashL = GetHashKey(style.safe .. "_l"),
-                    hashR = GetHashKey(style.safe .. "_r")
+                    hashR = GetHashKey(style.safe .. "_r"),
                 }
 
                 EnableIpl(style.ipl, true)
@@ -85,7 +85,7 @@ FinanceOffice4 = {
                         SetIplPropState(themeValue.interiorId, {
                             swagValue.A,
                             swagValue.B,
-                            swagValue.C
+                            swagValue.C,
                         }, false)
                     end
                 end
@@ -95,12 +95,12 @@ FinanceOffice4 = {
 
                 FinanceOffice4.currentSafeDoors = {
                     hashL = 0,
-                    hashR = 0
+                    hashR = 0,
                 }
 
                 EnableIpl(themeValue.ipl, false)
             end
-        end
+        end,
     },
     Safe = {
         doorHeadingL = 188.0, -- Only need the heading of the Left door to get the Right ones
@@ -176,7 +176,7 @@ FinanceOffice4 = {
             end
 
             return doorHandle
-        end
+        end,
     },
     Swag = {
         Cash = {
@@ -203,82 +203,82 @@ FinanceOffice4 = {
             U = "cash_set_21",
             V = "cash_set_22",
             W = "cash_set_23",
-            X = "cash_set_24"
+            X = "cash_set_24",
         },
         BoozeCigs = {
             A = "swag_booze_cigs",
             B = "swag_booze_cigs2",
-            C = "swag_booze_cigs3"
+            C = "swag_booze_cigs3",
         },
         Counterfeit = {
             A = "swag_counterfeit",
             B = "swag_counterfeit2",
-            C = "swag_counterfeit3"
+            C = "swag_counterfeit3",
         },
         DrugBags = {
             A = "swag_drugbags",
             B = "swag_drugbags2",
-            C = "swag_drugbags3"
+            C = "swag_drugbags3",
         },
         DrugStatue = {
             A = "swag_drugstatue",
             B = "swag_drugstatue2",
-            C = "swag_drugstatue3"
+            C = "swag_drugstatue3",
         },
         Electronic = {
             A = "swag_electronic",
             B = "swag_electronic2",
-            C = "swag_electronic3"
+            C = "swag_electronic3",
         },
         FurCoats = {
             A = "swag_furcoats",
             B = "swag_furcoats2",
-            C = "swag_furcoats3"
+            C = "swag_furcoats3",
         },
         Gems = {
             A = "swag_gems",
             B = "swag_gems2",
-            C = "swag_gems3"
+            C = "swag_gems3",
         },
         Guns = {
             A = "swag_guns",
             B = "swag_guns2",
-            C = "swag_guns3"
+            C = "swag_guns3",
         },
         Ivory = {
             A = "swag_ivory",
             B = "swag_ivory2",
-            C = "swag_ivory3"
+            C = "swag_ivory3",
         },
         Jewel = {
             A = "swag_jewelwatch",
             B = "swag_jewelwatch2",
-            C = "swag_jewelwatch3"
+            C = "swag_jewelwatch3",
         },
         Med = {
             A = "swag_med",
             B = "swag_med2",
-            C = "swag_med3"
+            C = "swag_med3",
         },
         Painting = {
             A = "swag_art",
             B = "swag_art2",
-            C = "swag_art3"
+            C = "swag_art3",
         },
         Pills = {
             A = "swag_pills",
             B = "swag_pills2",
-            C = "swag_pills3"
+            C = "swag_pills3",
         },
         Silver = {
             A = "swag_silver",
             B = "swag_silver2",
-            C = "swag_silver3"
+            C = "swag_silver3",
         },
 
         Enable = function(details, state, refresh)
             SetIplPropState(FinanceOffice4.currentInteriorId, details, state, refresh)
-        end
+        end,
     },
     Chairs = {
         off = "",
@@ -297,7 +297,7 @@ FinanceOffice4 = {
         end,
         Clear = function(refresh)
             SetIplPropState(FinanceOffice4.currentInteriorId, FinanceOffice4.Chairs.on, false, refresh)
-        end
+        end,
     },
     Booze = {
         off = "",
@@ -316,11 +316,11 @@ FinanceOffice4 = {
         end,
         Clear = function(refresh)
             SetIplPropState(FinanceOffice4.currentInteriorId, FinanceOffice4.Booze.on, false, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
         FinanceOffice4.Style.Set(FinanceOffice4.Style.Theme.cool)
         FinanceOffice4.Chairs.Set(FinanceOffice4.Chairs.on, true)
-    end
+    end,
 }

@@ -32,9 +32,9 @@ Citizen.CreateThread(function()
     RequestIpl("atriumglmission")
 
     -- FIB Fountain 174.184, -667.902, 43.140
-    RemoveIpl('dt1_05_hc_end')
-    RemoveIpl('dt1_05_hc_req')
-    RequestIpl('dt1_05_hc_remove')
+    RemoveIpl("dt1_05_hc_end")
+    RemoveIpl("dt1_05_hc_req")
+    RequestIpl("dt1_05_hc_remove")
 
     -- Billboard: iFruit
     RequestIpl("FruitBB")

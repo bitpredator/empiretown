@@ -1,5 +1,5 @@
 -- Document forgery: 1165, -3196.6, -39.01306
-exports('GetBikerDocumentForgeryObject', function()
+exports("GetBikerDocumentForgeryObject", function()
     return BikerDocumentForgery
 end)
 
@@ -15,8 +15,8 @@ BikerDocumentForgery = {
             end,
             Remove = function()
                 EnableIpl(BikerDocumentForgery.Ipl.Interior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Style = {
         basic = "interior_basic",
@@ -30,9 +30,9 @@ BikerDocumentForgery = {
         Clear = function(refresh)
             SetIplPropState(BikerDocumentForgery.interiorId, {
                 BikerDocumentForgery.Style.basic,
-                BikerDocumentForgery.Style.upgrade
+                BikerDocumentForgery.Style.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Equipment = {
         none = "",
@@ -53,9 +53,9 @@ BikerDocumentForgery = {
         Clear = function(refresh)
             SetIplPropState(BikerDocumentForgery.interiorId, {
                 BikerDocumentForgery.Equipment.basic,
-                BikerDocumentForgery.Equipment.upgrade
+                BikerDocumentForgery.Equipment.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Security = {
         basic = "security_low",
@@ -69,9 +69,9 @@ BikerDocumentForgery = {
         Clear = function(refresh)
             SetIplPropState(BikerDocumentForgery.interiorId, {
                 BikerDocumentForgery.Security.basic,
-                BikerDocumentForgery.Security.upgrade
+                BikerDocumentForgery.Security.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Details = {
         Chairs = {
@@ -81,7 +81,7 @@ BikerDocumentForgery = {
             D = "chair04",
             E = "chair05",
             F = "chair06",
-            G = "chair07"
+            G = "chair07",
         },
         production = "production", -- Papers, pencils
         furnitures = "set_up", -- Printers, shredders
@@ -89,7 +89,7 @@ BikerDocumentForgery = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(BikerDocumentForgery.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -103,5 +103,5 @@ BikerDocumentForgery = {
         BikerDocumentForgery.Details.Enable(BikerDocumentForgery.Details.Chairs, true)
 
         RefreshInterior(BikerDocumentForgery.interiorId)
-    end
+    end,
 }

@@ -1,5 +1,5 @@
 -- Bahama Mamas: -1388.0013, -618.41967, 30.819599
-exports('GetBahamaMamasObject', function()
+exports("GetBahamaMamasObject", function()
     return BahamaMamas
 end)
 
@@ -8,5 +8,5 @@ BahamaMamas = {
 
     Enable = function(state)
         EnableIpl(BahamaMamas.ipl, state)
-    end
+    end,
 }

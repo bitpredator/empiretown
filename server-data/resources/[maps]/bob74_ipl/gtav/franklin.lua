@@ -1,4 +1,4 @@
-exports('GetFranklinObject', function()
+exports("GetFranklinObject", function()
     return Franklin
 end)
 
@@ -10,7 +10,7 @@ Franklin = {
         unpacking = "franklin_unpacking",
         settled = {
             "franklin_unpacking",
-            "franklin_settled"
+            "franklin_settled",
         },
         cardboxes = "showhome_only",
 
@@ -29,9 +29,9 @@ Franklin = {
             SetIplPropState(Franklin.interiorId, {
                 Franklin.Style.settled,
                 Franklin.Style.unpacking,
-                Franklin.Style.cardboxes
+                Franklin.Style.cardboxes,
             }, false, refresh)
-        end
+        end,
     },
     GlassDoor = {
         opened = "unlocked",
@@ -45,9 +45,9 @@ Franklin = {
         Clear = function(refresh)
             SetIplPropState(Franklin.interiorId, {
                 Franklin.GlassDoor.opened,
-                Franklin.GlassDoor.closed
+                Franklin.GlassDoor.closed,
             }, false, refresh)
-        end
+        end,
     },
     Details = {
         flyer = "progress_flyer", -- Mountain flyer on the kitchen counter
@@ -57,7 +57,7 @@ Franklin = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(Franklin.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -69,5 +69,5 @@ Franklin = {
         Franklin.Details.Enable(Franklin.Details.bong, false)
 
         RefreshInterior(Franklin.interiorId)
-    end
+    end,
 }

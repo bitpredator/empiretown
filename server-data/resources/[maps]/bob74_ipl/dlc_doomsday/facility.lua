@@ -1,5 +1,5 @@
 -- DoomsdayFacility: 345.00000000 4842.00000000 -60.00000000
-exports('GetDoomsdayFacilityObject', function()
+exports("GetDoomsdayFacilityObject", function()
     return DoomsdayFacility
 end)
 
@@ -16,7 +16,7 @@ DoomsdayFacility = {
             end,
             Remove = function()
                 EnableIpl(DoomsdayFacility.Ipl.Interior.ipl, false)
-            end
+            end,
         },
         Exterior = {
             ipl = {
@@ -33,7 +33,7 @@ DoomsdayFacility = {
                 "xm_siloentranceclosed_x17", -- Closed silo: 598.4869 5556.846 716.7615
                 "xm_bunkerentrance_door", -- Bunker entrance closed door: 2050.85 2950.0 47.75
                 "xm_hatches_terrain", -- Terrain adjustments for facilities (all) + silo
-                "xm_hatches_terrain_lod"
+                "xm_hatches_terrain_lod",
             },
 
             Load = function()
@@ -41,8 +41,8 @@ DoomsdayFacility = {
             end,
             Remove = function()
                 EnableIpl(DoomsdayFacility.Ipl.Exterior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Colors = {
         utility = 1,
@@ -53,7 +53,7 @@ DoomsdayFacility = {
         influence = 6,
         order = 7,
         empire = 8,
-        supremacy = 9
+        supremacy = 9,
     },
     Walls = {
         SetColor = function(color, refresh)
@@ -62,7 +62,7 @@ DoomsdayFacility = {
             if refresh then
                 RefreshInterior(DoomsdayFacility.interiorId)
             end
-        end
+        end,
     },
     Decals = {
         none = "",
@@ -89,11 +89,17 @@ DoomsdayFacility = {
         end,
         Clear = function(refresh)
             SetIplPropState(DoomsdayFacility.interiorId, {
-                DoomsdayFacility.Decals.style01, DoomsdayFacility.Decals.style02, DoomsdayFacility.Decals.style03,
-                DoomsdayFacility.Decals.style04, DoomsdayFacility.Decals.style05, DoomsdayFacility.Decals.style06,
-                DoomsdayFacility.Decals.style07, DoomsdayFacility.Decals.style08, DoomsdayFacility.Decals.style09
+                DoomsdayFacility.Decals.style01,
+                DoomsdayFacility.Decals.style02,
+                DoomsdayFacility.Decals.style03,
+                DoomsdayFacility.Decals.style04,
+                DoomsdayFacility.Decals.style05,
+                DoomsdayFacility.Decals.style06,
+                DoomsdayFacility.Decals.style07,
+                DoomsdayFacility.Decals.style08,
+                DoomsdayFacility.Decals.style09,
             }, false, refresh)
-        end
+        end,
     },
     Lounge = {
         utility = "set_int_02_lounge1",
@@ -110,9 +116,9 @@ DoomsdayFacility = {
             SetIplPropState(DoomsdayFacility.interiorId, {
                 DoomsdayFacility.Lounge.utility,
                 DoomsdayFacility.Lounge.prestige,
-                DoomsdayFacility.Lounge.premier
+                DoomsdayFacility.Lounge.premier,
             }, false, refresh)
-        end
+        end,
     },
     Sleeping = {
         none = "set_int_02_no_sleep",
@@ -131,9 +137,9 @@ DoomsdayFacility = {
                 DoomsdayFacility.Sleeping.none,
                 DoomsdayFacility.Sleeping.utility,
                 DoomsdayFacility.Sleeping.prestige,
-                DoomsdayFacility.Sleeping.premier
+                DoomsdayFacility.Sleeping.premier,
             }, false, refresh)
-        end
+        end,
     },
     Security = {
         off = "set_int_02_no_security",
@@ -148,9 +154,9 @@ DoomsdayFacility = {
         Clear = function(refresh)
             SetIplPropState(DoomsdayFacility.interiorId, {
                 DoomsdayFacility.Security.off,
-                DoomsdayFacility.Security.on
+                DoomsdayFacility.Security.on,
             }, false, refresh)
-        end
+        end,
     },
     Cannon = {
         off = "set_int_02_no_cannon",
@@ -165,9 +171,9 @@ DoomsdayFacility = {
         Clear = function(refresh)
             SetIplPropState(DoomsdayFacility.interiorId, {
                 DoomsdayFacility.Cannon.off,
-                DoomsdayFacility.Cannon.on
+                DoomsdayFacility.Cannon.on,
             }, false, refresh)
-        end
+        end,
     },
     PrivacyGlass = {
         controlModelHash = `xm_prop_x17_tem_control_01`,
@@ -205,7 +211,8 @@ DoomsdayFacility = {
                 rotation = vector3(0.0, 0.0, 0.0),
 
                 Enable = function(state)
-                    local handle = GetClosestObjectOfType(DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.x, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.y, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.z, 1.0, DoomsdayFacility.PrivacyGlass.controlModelHash, false, false, false)
+                    local handle =
+                        GetClosestObjectOfType(DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.x, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.y, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.z, 1.0, DoomsdayFacility.PrivacyGlass.controlModelHash, false, false, false)
 
                     if state then
                         if handle == 0 then
@@ -214,7 +221,8 @@ DoomsdayFacility = {
                                 Citizen.Wait(0)
                             end
 
-                            local privacyGlass = CreateObjectNoOffset(DoomsdayFacility.PrivacyGlass.controlModelHash, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.x, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.y, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.z, true, true, false)
+                            local privacyGlass =
+                                CreateObjectNoOffset(DoomsdayFacility.PrivacyGlass.controlModelHash, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.x, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.y, DoomsdayFacility.PrivacyGlass.Bedroom.Control.position.z, true, true, false)
 
                             SetEntityRotation(privacyGlass, DoomsdayFacility.PrivacyGlass.Bedroom.Control.rotation.x, DoomsdayFacility.PrivacyGlass.Bedroom.Control.rotation.y, DoomsdayFacility.PrivacyGlass.Bedroom.Control.rotation.z, 2, true)
                             FreezeEntityPosition(privacyGlass, true)
@@ -227,35 +235,35 @@ DoomsdayFacility = {
                         end
                     end
                 end,
-            }
+            },
         },
         Lounge = {
             Glasses = {
                 {
                     modelHash = `xm_prop_x17_l_door_glass_01`,
                     entityHash = `xm_prop_x17_l_door_frame_01`,
-                    entityPos = vector3(359.22, 4846.043, -58.85)
+                    entityPos = vector3(359.22, 4846.043, -58.85),
                 },
                 {
                     modelHash = `xm_prop_x17_l_door_glass_01`,
                     entityHash = `xm_prop_x17_l_door_frame_01`,
-                    entityPos = vector3(369.066, 4846.273, -58.85)
+                    entityPos = vector3(369.066, 4846.273, -58.85),
                 },
                 {
                     modelHash = `xm_prop_x17_l_glass_01`,
                     entityHash = `xm_prop_x17_l_frame_01`,
-                    entityPos = vector3(358.843, 4845.103, -60.0)
+                    entityPos = vector3(358.843, 4845.103, -60.0),
                 },
                 {
                     modelHash = `xm_prop_x17_l_glass_02`,
                     entityHash = `xm_prop_x17_l_frame_02`,
-                    entityPos = vector3(366.309, 4847.281, -60.0)
+                    entityPos = vector3(366.309, 4847.281, -60.0),
                 },
                 {
                     modelHash = `xm_prop_x17_l_glass_03`,
                     entityHash = `xm_prop_x17_l_frame_03`,
-                    entityPos = vector3(371.194, 4841.27, -60.0)
-                }
+                    entityPos = vector3(371.194, 4841.27, -60.0),
+                },
             },
 
             Enable = function(state)
@@ -295,7 +303,8 @@ DoomsdayFacility = {
                 rotation = vector3(0.0, 0.0, -16.0),
 
                 Enable = function(state)
-                    local handle = GetClosestObjectOfType(DoomsdayFacility.PrivacyGlass.Lounge.Control.position.x, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.y, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.z, 1.0, DoomsdayFacility.PrivacyGlass.controlModelHash, false, false, false)
+                    local handle =
+                        GetClosestObjectOfType(DoomsdayFacility.PrivacyGlass.Lounge.Control.position.x, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.y, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.z, 1.0, DoomsdayFacility.PrivacyGlass.controlModelHash, false, false, false)
 
                     if state then
                         if handle == 0 then
@@ -304,7 +313,8 @@ DoomsdayFacility = {
                                 Citizen.Wait(0)
                             end
 
-                            local privacyGlass = CreateObjectNoOffset(DoomsdayFacility.PrivacyGlass.controlModelHash, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.x, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.y, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.z, true, true, false)
+                            local privacyGlass =
+                                CreateObjectNoOffset(DoomsdayFacility.PrivacyGlass.controlModelHash, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.x, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.y, DoomsdayFacility.PrivacyGlass.Lounge.Control.position.z, true, true, false)
 
                             SetEntityRotation(privacyGlass, DoomsdayFacility.PrivacyGlass.Lounge.Control.rotation.x, DoomsdayFacility.PrivacyGlass.Lounge.Control.rotation.y, DoomsdayFacility.PrivacyGlass.Lounge.Control.rotation.z, 2, true)
                             FreezeEntityPosition(privacyGlass, true)
@@ -316,35 +326,35 @@ DoomsdayFacility = {
                             DeleteEntity(handle)
                         end
                     end
-                end
-            }
-        }
+                end,
+            },
+        },
     },
     Details = {
         KhanjaliParts = {
             A = "Set_Int_02_Parts_Panther1",
             B = "Set_Int_02_Parts_Panther2",
-            C = "Set_Int_02_Parts_Panther3"
+            C = "Set_Int_02_Parts_Panther3",
         },
         RiotParts = {
             A = "Set_Int_02_Parts_Riot1",
             B = "Set_Int_02_Parts_Riot2",
-            C = "Set_Int_02_Parts_Riot3"
+            C = "Set_Int_02_Parts_Riot3",
         },
         ChenoParts = {
             A = "Set_Int_02_Parts_Cheno1",
             B = "Set_Int_02_Parts_Cheno2",
-            C = "Set_Int_02_Parts_Cheno3"
+            C = "Set_Int_02_Parts_Cheno3",
         },
         ThrusterParts = {
             A = "Set_Int_02_Parts_Thruster1",
             B = "Set_Int_02_Parts_Thruster2",
-            C = "Set_Int_02_Parts_Thruster3"
+            C = "Set_Int_02_Parts_Thruster3",
         },
         AvengerParts = {
             A = "Set_Int_02_Parts_Avenger1",
             B = "Set_Int_02_Parts_Avenger2",
-            C = "Set_Int_02_Parts_Avenger3"
+            C = "Set_Int_02_Parts_Avenger3",
         },
         Outfits = {
             paramedic = "Set_Int_02_outfit_paramedic",
@@ -358,7 +368,7 @@ DoomsdayFacility = {
             submarine = "Set_Int_02_outfit_sub_finale",
             predator = "Set_Int_02_outfit_predator",
             khanjali = "Set_Int_02_outfit_khanjali",
-            volatol = "Set_Int_02_outfit_volatol"
+            volatol = "Set_Int_02_outfit_volatol",
         },
         Trophies = {
             eagle = "set_int_02_trophy1",
@@ -371,20 +381,20 @@ DoomsdayFacility = {
                 if refresh then
                     RefreshInterior(DoomsdayFacility.interiorId)
                 end
-            end
+            end,
         },
         Clutter = {
             A = "set_int_02_clutter1",
             B = "set_int_02_clutter2",
             C = "set_int_02_clutter3",
             D = "set_int_02_clutter4",
-            E = "set_int_02_clutter5"
+            E = "set_int_02_clutter5",
         },
         crewEmblem = "set_int_02_crewemblem",
 
         Enable = function(details, state, refresh)
             SetIplPropState(DoomsdayFacility.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -413,9 +423,9 @@ DoomsdayFacility = {
 
         DoomsdayFacility.Details.Enable({
             DoomsdayFacility.Details.Clutter.A,
-            DoomsdayFacility.Details.Clutter.B
+            DoomsdayFacility.Details.Clutter.B,
         }, true)
 
         RefreshInterior(DoomsdayFacility.interiorId)
-    end
+    end,
 }

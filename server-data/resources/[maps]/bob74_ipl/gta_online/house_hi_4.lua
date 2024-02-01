@@ -1,6 +1,6 @@
 -- 2862 Hillcrest Avenue
 -- High end house 4: -676.127 588.612 145.1698
-exports('GetGTAOHouseHi4Object', function()
+exports("GetGTAOHouseHi4Object", function()
     return GTAOHouseHi4
 end)
 
@@ -14,7 +14,7 @@ GTAOHouseHi4 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(GTAOHouseHi4.interiorId, details, state, refresh)
-        end
+        end,
     },
     Booze = {
         A = "Apart_Hi_Booze_A",
@@ -23,7 +23,7 @@ GTAOHouseHi4 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(GTAOHouseHi4.interiorId, details, state, refresh)
-        end
+        end,
     },
     Smoke = {
         A = "Apart_Hi_Smokes_A",
@@ -32,26 +32,26 @@ GTAOHouseHi4 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(GTAOHouseHi4.interiorId, details, state, refresh)
-        end
+        end,
     },
-    
+
     LoadDefault = function()
         GTAOHouseHi4.Strip.Enable({
             GTAOHouseHi4.Strip.A,
             GTAOHouseHi4.Strip.B,
-            GTAOHouseHi4.Strip.C
+            GTAOHouseHi4.Strip.C,
         }, false)
         GTAOHouseHi4.Booze.Enable({
             GTAOHouseHi4.Booze.A,
             GTAOHouseHi4.Booze.B,
-            GTAOHouseHi4.Booze.C
+            GTAOHouseHi4.Booze.C,
         }, false)
         GTAOHouseHi4.Smoke.Enable({
             GTAOHouseHi4.Smoke.A,
             GTAOHouseHi4.Smoke.B,
-            GTAOHouseHi4.Smoke.C
+            GTAOHouseHi4.Smoke.C,
         }, false)
 
         RefreshInterior(GTAOHouseHi4.interiorId)
-    end
+    end,
 }

@@ -1,4 +1,4 @@
-exports('GetTunerGarageObject', function()
+exports("GetTunerGarageObject", function()
     return TunerGarage
 end)
 
@@ -8,12 +8,12 @@ TunerGarage = {
     Ipl = {
         Interior = {
             ipl = {
-                'tr_tuner_shop_burton',
-                'tr_tuner_shop_mesa',
-                'tr_tuner_shop_mission',
-                'tr_tuner_shop_rancho',
-                'tr_tuner_shop_strawberry'
-            }
+                "tr_tuner_shop_burton",
+                "tr_tuner_shop_mesa",
+                "tr_tuner_shop_mission",
+                "tr_tuner_shop_rancho",
+                "tr_tuner_shop_strawberry",
+            },
         },
 
         Load = function()
@@ -71,18 +71,18 @@ TunerGarage = {
         end,
         Load = function()
             for entity, state in pairs(TunerGarage.Entities) do
-                if type(entity) == 'string' and state then
+                if type(entity) == "string" and state then
                     ActivateInteriorEntitySet(TunerGarage.InteriorId, entity)
                 end
             end
         end,
         Clear = function()
             for entity, _ in pairs(TunerGarage.Entities) do
-                if type(entity) == 'string' then
+                if type(entity) == "string" then
                     DeactivateInteriorEntitySet(TunerGarage.InteriorId, entity)
                 end
             end
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -90,5 +90,5 @@ TunerGarage = {
         TunerGarage.Entities.Load()
 
         RefreshInterior(TunerGarage.interiorId)
-    end
+    end,
 }

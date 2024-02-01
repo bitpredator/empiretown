@@ -1,5 +1,5 @@
 -- Cocaine lockup: 1093.6, -3196.6, -38.99841
-exports('GetBikerCocaineObject', function()
+exports("GetBikerCocaineObject", function()
     return BikerCocaine
 end)
 
@@ -15,8 +15,8 @@ BikerCocaine = {
             end,
             Remove = function()
                 EnableIpl(BikerCocaine.Ipl.Interior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Style = {
         none = "",
@@ -25,14 +25,14 @@ BikerCocaine = {
             "equipment_basic",
             "coke_press_basic",
             "production_basic",
-            "table_equipment"
+            "table_equipment",
         },
         upgrade = {
             "set_up",
             "equipment_upgrade",
             "coke_press_upgrade",
             "production_upgrade",
-            "table_equipment_upgrade"
+            "table_equipment_upgrade",
         },
 
         Set = function(style, refresh)
@@ -49,9 +49,9 @@ BikerCocaine = {
         Clear = function(refresh)
             SetIplPropState(BikerCocaine.interiorId, {
                 BikerCocaine.Style.basic,
-                BikerCocaine.Style.upgrade
+                BikerCocaine.Style.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Security = {
         none = "",
@@ -72,9 +72,9 @@ BikerCocaine = {
         Clear = function(refresh)
             SetIplPropState(BikerCocaine.interiorId, {
                 BikerCocaine.Security.basic,
-                BikerCocaine.Security.upgrade
+                BikerCocaine.Security.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Details = {
         cokeBasic1 = "coke_cut_01", -- On the basic tables
@@ -85,7 +85,7 @@ BikerCocaine = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(BikerCocaine.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -94,5 +94,5 @@ BikerCocaine = {
         BikerCocaine.Security.Set(BikerCocaine.Security.none)
 
         RefreshInterior(BikerCocaine.interiorId)
-    end
+    end,
 }

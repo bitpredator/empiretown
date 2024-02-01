@@ -1,5 +1,5 @@
 -- Apartment 3: -787.78050000 334.92320000 186.11340000
-exports('GetExecApartment3Object', function()
+exports("GetExecApartment3Object", function()
     return ExecApartment3
 end)
 
@@ -10,36 +10,36 @@ ExecApartment3 = {
         Theme = {
             modern = {
                 interiorId = 227841,
-                ipl = "apa_v_mp_h_01_c"
+                ipl = "apa_v_mp_h_01_c",
             },
             moody = {
                 interiorId = 228609,
-                ipl = "apa_v_mp_h_02_c"
+                ipl = "apa_v_mp_h_02_c",
             },
             vibrant = {
                 interiorId = 229377,
-                ipl = "apa_v_mp_h_03_c"
+                ipl = "apa_v_mp_h_03_c",
             },
             sharp = {
                 interiorId = 230145,
-                ipl = "apa_v_mp_h_04_c"
+                ipl = "apa_v_mp_h_04_c",
             },
             monochrome = {
                 interiorId = 230913,
-                ipl = "apa_v_mp_h_05_c"
+                ipl = "apa_v_mp_h_05_c",
             },
             seductive = {
                 interiorId = 231681,
-                ipl = "apa_v_mp_h_06_c"
+                ipl = "apa_v_mp_h_06_c",
             },
             regal = {
                 interiorId = 232449,
-                ipl = "apa_v_mp_h_07_c"
+                ipl = "apa_v_mp_h_07_c",
             },
             aqua = {
                 interiorId = 233217,
-                ipl = "apa_v_mp_h_08_c"
-            }
+                ipl = "apa_v_mp_h_08_c",
+            },
         },
 
         Set = function(style, refresh)
@@ -59,21 +59,21 @@ ExecApartment3 = {
                 SetIplPropState(value.interiorId, {
                     "Apart_Hi_Strip_A",
                     "Apart_Hi_Strip_B",
-                    "Apart_Hi_Strip_C"
+                    "Apart_Hi_Strip_C",
                 }, false)
                 SetIplPropState(value.interiorId, {
                     "Apart_Hi_Booze_A",
                     "Apart_Hi_Booze_B",
-                    "Apart_Hi_Booze_C"
+                    "Apart_Hi_Booze_C",
                 }, false)
                 SetIplPropState(value.interiorId, {
                     "Apart_Hi_Smokes_A",
                     "Apart_Hi_Smokes_B",
-                    "Apart_Hi_Smokes_C"
+                    "Apart_Hi_Smokes_C",
                 }, false, true)
                 EnableIpl(value.ipl, false)
             end
-        end
+        end,
     },
     Strip = {
         A = "Apart_Hi_Strip_A",
@@ -82,7 +82,7 @@ ExecApartment3 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(ExecApartment3.currentInteriorId, details, state, refresh)
-        end
+        end,
     },
     Booze = {
         A = "Apart_Hi_Booze_A",
@@ -91,7 +91,7 @@ ExecApartment3 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(ExecApartment3.currentInteriorId, details, state, refresh)
-        end
+        end,
     },
     Smoke = {
         none = "",
@@ -114,9 +114,9 @@ ExecApartment3 = {
             SetIplPropState(ExecApartment3.currentInteriorId, {
                 ExecApartment3.Smoke.stage1,
                 ExecApartment3.Smoke.stage2,
-                ExecApartment3.Smoke.stage3
+                ExecApartment3.Smoke.stage3,
             }, false, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -124,13 +124,13 @@ ExecApartment3 = {
         ExecApartment3.Strip.Enable({
             ExecApartment3.Strip.A,
             ExecApartment3.Strip.B,
-            ExecApartment3.Strip.C
+            ExecApartment3.Strip.C,
         }, false)
         ExecApartment3.Booze.Enable({
             ExecApartment3.Booze.A,
             ExecApartment3.Booze.B,
-            ExecApartment3.Booze.C
+            ExecApartment3.Booze.C,
         }, false)
         ExecApartment3.Smoke.Set(ExecApartment3.Smoke.none)
-    end
+    end,
 }

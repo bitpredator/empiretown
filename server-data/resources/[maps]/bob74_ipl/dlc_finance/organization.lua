@@ -1,8 +1,8 @@
-exports('GetFinanceOrganizationObject', function()
+exports("GetFinanceOrganizationObject", function()
     return FinanceOrganization
 end)
 
-AddEventHandler('onClientResourceStop', function(res)
+AddEventHandler("onClientResourceStop", function(res)
     if GetCurrentResourceName() ~= res then
         return
     end
@@ -19,7 +19,7 @@ FinanceOrganization = {
             blue = 3,
             orange = 5,
             red = 6,
-            green = 7
+            green = 7,
         },
         Fonts = {
             font1 = 0,
@@ -34,11 +34,11 @@ FinanceOrganization = {
             font10 = 9,
             font11 = 10,
             font12 = 11,
-            font13 = 12
+            font13 = 12,
         },
         Style = {
             normal = 3,
-            light = 1
+            light = 1,
         },
         name = "",
         style = 0,
@@ -51,7 +51,7 @@ FinanceOrganization = {
             FinanceOrganization.Name.color = color
             FinanceOrganization.Name.font = font
             FinanceOrganization.Office.stage = 0
-        end
+        end,
     },
     Office = {
         needToLoad = false,
@@ -80,8 +80,8 @@ FinanceOrganization = {
             FinanceOrganization.Office.renderId = -1
             FinanceOrganization.Office.movieId = -1
             FinanceOrganization.Office.stage = 0
-        end
-    }
+        end,
+    },
 }
 
 Citizen.CreateThread(function()
@@ -128,20 +128,20 @@ function DrawOrganizationName(name, style, color, font)
             local parameters = {
                 p0 = {
                     type = "string",
-                    value = name
+                    value = name,
                 },
                 p1 = {
                     type = "int",
-                    value = style
+                    value = style,
                 },
                 p2 = {
                     type = "int",
-                    value = color
+                    value = color,
                 },
                 p3 = {
                     type = "int",
-                    value = font
-                }
+                    value = font,
+                },
             }
 
             SetupScaleform(FinanceOrganization.Office.movieId, "SET_ORGANISATION_NAME", parameters)

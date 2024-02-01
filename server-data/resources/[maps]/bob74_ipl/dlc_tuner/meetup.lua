@@ -1,4 +1,4 @@
-exports('GetTunerMeetupObject', function()
+exports("GetTunerMeetupObject", function()
     return TunerMeetup
 end)
 
@@ -8,9 +8,9 @@ TunerMeetup = {
     Ipl = {
         Interior = {
             ipl = {
-                'tr_tuner_meetup',
-                'tr_tuner_race_line'
-            }
+                "tr_tuner_meetup",
+                "tr_tuner_race_line",
+            },
         },
 
         Load = function()
@@ -18,7 +18,7 @@ TunerMeetup = {
         end,
         Remove = function()
             EnableIpl(TunerMeetup.Ipl.Interior.ipl, false)
-        end
+        end,
     },
     Entities = {
         entity_set_meet_crew = true,
@@ -41,18 +41,18 @@ TunerMeetup = {
         end,
         Load = function()
             for entity, state in pairs(TunerMeetup.Entities) do
-                if type(entity) == 'string' and state then
+                if type(entity) == "string" and state then
                     ActivateInteriorEntitySet(TunerMeetup.InteriorId, entity)
                 end
             end
         end,
         Clear = function()
             for entity, _ in pairs(TunerMeetup.Entities) do
-                if type(entity) == 'string' then
+                if type(entity) == "string" then
                     DeactivateInteriorEntitySet(TunerMeetup.InteriorId, entity)
                 end
             end
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -60,5 +60,5 @@ TunerMeetup = {
         TunerMeetup.Entities.Load()
 
         RefreshInterior(TunerMeetup.interiorId)
-    end
+    end,
 }

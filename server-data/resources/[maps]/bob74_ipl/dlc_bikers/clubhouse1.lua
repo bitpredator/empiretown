@@ -1,5 +1,5 @@
 -- Clubhouse1: 1107.04, -3157.399, -37.51859
-exports('GetBikerClubhouse1Object', function()
+exports("GetBikerClubhouse1Object", function()
     return BikerClubhouse1
 end)
 
@@ -15,8 +15,8 @@ BikerClubhouse1 = {
             end,
             Remove = function()
                 EnableIpl(BikerClubhouse1.Ipl.Interior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Walls = {
         brick = "walls_01",
@@ -31,7 +31,7 @@ BikerClubhouse1 = {
             lightYellowGray = 6,
             lightGray = 7,
             orange = 8,
-            gray = 9
+            gray = 9,
         },
 
         Set = function(walls, color, refresh)
@@ -47,9 +47,9 @@ BikerClubhouse1 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.Walls.brick,
-                BikerClubhouse1.Walls.plain
+                BikerClubhouse1.Walls.plain,
             }, false, refresh)
-        end
+        end,
     },
     Furnitures = {
         A = "furnishings_01",
@@ -68,9 +68,9 @@ BikerClubhouse1 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.Furnitures.A,
-                BikerClubhouse1.Furnitures.B
+                BikerClubhouse1.Furnitures.B,
             }, false, refresh)
-        end
+        end,
     },
     Decoration = {
         A = "decorative_01",
@@ -84,9 +84,9 @@ BikerClubhouse1 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.Decoration.A,
-                BikerClubhouse1.Decoration.B
+                BikerClubhouse1.Decoration.B,
             }, false, refresh)
-        end
+        end,
     },
     Mural = {
         none = "",
@@ -121,9 +121,9 @@ BikerClubhouse1 = {
                 BikerClubhouse1.Mural.mods2,
                 BikerClubhouse1.Mural.rideForever,
                 BikerClubhouse1.Mural.heart,
-                BikerClubhouse1.Mural.route68
+                BikerClubhouse1.Mural.route68,
             }, false, refresh)
-        end
+        end,
     },
     GunLocker = {
         none = "",
@@ -144,9 +144,9 @@ BikerClubhouse1 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.GunLocker.on,
-                BikerClubhouse1.GunLocker.off
+                BikerClubhouse1.GunLocker.off,
             }, false, refresh)
-        end
+        end,
     },
     ModBooth = {
         none = "",
@@ -167,21 +167,21 @@ BikerClubhouse1 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.ModBooth.on,
-                BikerClubhouse1.ModBooth.off
+                BikerClubhouse1.ModBooth.off,
             }, false, refresh)
-        end
+        end,
     },
     Meth = {
         none = "",
         stage1 = "meth_stash1",
         stage2 = {
             "meth_stash1",
-            "meth_stash2"
+            "meth_stash2",
         },
         stage3 = {
             "meth_stash1",
             "meth_stash2",
-            "meth_stash3"
+            "meth_stash3",
         },
 
         Set = function(stage, refresh)
@@ -199,21 +199,21 @@ BikerClubhouse1 = {
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.Meth.stage1,
                 BikerClubhouse1.Meth.stage2,
-                BikerClubhouse1.Meth.stage3
+                BikerClubhouse1.Meth.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Cash = {
         none = "",
         stage1 = "cash_stash1",
         stage2 = {
             "cash_stash1",
-            "cash_stash2"
+            "cash_stash2",
         },
         stage3 = {
             "cash_stash1",
             "cash_stash2",
-            "cash_stash3"
+            "cash_stash3",
         },
 
         Set = function(stage, refresh)
@@ -231,21 +231,21 @@ BikerClubhouse1 = {
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.Cash.stage1,
                 BikerClubhouse1.Cash.stage2,
-                BikerClubhouse1.Cash.stage3
+                BikerClubhouse1.Cash.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Weed = {
         none = "",
         stage1 = "weed_stash1",
         stage2 = {
             "weed_stash1",
-            "weed_stash2"
+            "weed_stash2",
         },
         stage3 = {
             "weed_stash1",
             "weed_stash2",
-            "weed_stash3"
+            "weed_stash3",
         },
 
         Set = function(stage, refresh)
@@ -263,21 +263,21 @@ BikerClubhouse1 = {
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.Weed.stage1,
                 BikerClubhouse1.Weed.stage2,
-                BikerClubhouse1.Weed.stage3
+                BikerClubhouse1.Weed.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Coke = {
         none = "",
         stage1 = "coke_stash1",
         stage2 = {
             "coke_stash1",
-            "coke_stash2"
+            "coke_stash2",
         },
         stage3 = {
             "coke_stash1",
             "coke_stash2",
-            "coke_stash3"
+            "coke_stash3",
         },
 
         Set = function(stage, refresh)
@@ -295,21 +295,21 @@ BikerClubhouse1 = {
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.Coke.stage1,
                 BikerClubhouse1.Coke.stage2,
-                BikerClubhouse1.Coke.stage3
+                BikerClubhouse1.Coke.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Counterfeit = {
         none = "",
         stage1 = "counterfeit_stash1",
         stage2 = {
             "counterfeit_stash1",
-            "counterfeit_stash2"
+            "counterfeit_stash2",
         },
         stage3 = {
             "counterfeit_stash1",
             "counterfeit_stash2",
-            "counterfeit_stash3"
+            "counterfeit_stash3",
         },
 
         Set = function(stage, refresh)
@@ -327,21 +327,21 @@ BikerClubhouse1 = {
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.Counterfeit.stage1,
                 BikerClubhouse1.Counterfeit.stage2,
-                BikerClubhouse1.Counterfeit.stage3
+                BikerClubhouse1.Counterfeit.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Documents = {
         none = "",
         stage1 = "id_stash1",
         stage2 = {
             "id_stash1",
-            "id_stash2"
+            "id_stash2",
         },
         stage3 = {
             "id_stash1",
             "id_stash2",
-            "id_stash3"
+            "id_stash3",
         },
 
         Set = function(stage, refresh)
@@ -359,9 +359,9 @@ BikerClubhouse1 = {
             SetIplPropState(BikerClubhouse1.interiorId, {
                 BikerClubhouse1.Documents.stage1,
                 BikerClubhouse1.Documents.stage2,
-                BikerClubhouse1.Documents.stage3
+                BikerClubhouse1.Documents.stage3,
             }, false, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -384,5 +384,5 @@ BikerClubhouse1 = {
         BikerClubhouse1.Documents.Set(BikerClubhouse1.Documents.none)
 
         RefreshInterior(BikerClubhouse1.interiorId)
-    end
+    end,
 }

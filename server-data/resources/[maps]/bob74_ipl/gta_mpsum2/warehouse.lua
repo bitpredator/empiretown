@@ -1,4 +1,4 @@
-exports('GetCriminalEnterpriseWarehouseObject', function()
+exports("GetCriminalEnterpriseWarehouseObject", function()
     return CriminalEnterpriseWarehouse
 end)
 
@@ -8,8 +8,8 @@ CriminalEnterpriseWarehouse = {
     Ipl = {
         Interior = {
             ipl = {
-                'reh_int_placement_sum2_interior_1_dlc_int_04_sum2_milo_',
-            }
+                "reh_int_placement_sum2_interior_1_dlc_int_04_sum2_milo_",
+            },
         },
 
         Load = function()
@@ -17,7 +17,7 @@ CriminalEnterpriseWarehouse = {
         end,
         Remove = function()
             EnableIpl(CriminalEnterpriseWarehouse.Ipl.Interior.ipl, false)
-        end
+        end,
     },
     Entities = {
         entity_set_style_1 = false,
@@ -37,18 +37,18 @@ CriminalEnterpriseWarehouse = {
         end,
         Load = function()
             for entity, state in pairs(CriminalEnterpriseWarehouse.Entities) do
-                if type(entity) == 'string' and state then
+                if type(entity) == "string" and state then
                     ActivateInteriorEntitySet(CriminalEnterpriseWarehouse.InteriorId, entity)
                 end
             end
         end,
         Clear = function()
             for entity, _ in pairs(CriminalEnterpriseWarehouse.Entities) do
-                if type(entity) == 'string' then
+                if type(entity) == "string" then
                     DeactivateInteriorEntitySet(CriminalEnterpriseWarehouse.InteriorId, entity)
                 end
             end
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -56,5 +56,5 @@ CriminalEnterpriseWarehouse = {
         CriminalEnterpriseWarehouse.Entities.Load()
 
         RefreshInterior(CriminalEnterpriseWarehouse.interiorId)
-    end
+    end,
 }

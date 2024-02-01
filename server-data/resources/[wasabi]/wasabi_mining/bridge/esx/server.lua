@@ -1,6 +1,8 @@
-if GetResourceState('es_extended') ~= 'started' then return end
-ESX = exports['es_extended']:getSharedObject()
-Framework = 'esx'
+if GetResourceState("es_extended") ~= "started" then
+    return
+end
+ESX = exports["es_extended"]:getSharedObject()
+Framework = "esx"
 
 function GetPlayer(source)
     return ESX.GetPlayerFromId(source)
@@ -15,20 +17,20 @@ function HasGroup(source, filter)
     local player = GetPlayer(source)
     local type = type(filter)
 
-    if type == 'string' then
+    if type == "string" then
         if player.job.name == filter then
             return player.job.name, player.job.grade
         end
     else
         local tabletype = table.type(filter)
 
-        if tabletype == 'hash' then
+        if tabletype == "hash" then
             local grade = filter[player.job.name]
 
             if grade and grade <= player.job.grade then
                 return player.job.name, player.job.grade
             end
-        elseif tabletype == 'array' then
+        elseif tabletype == "array" then
             for i = 1, #filter do
                 if player.job.name == filter[i] then
                     return player.job.name, player.job.grade
@@ -73,13 +75,17 @@ function RemoveItem(source, item, count, slot, metadata)
 end
 
 function AddMoney(source, type, amount)
-    if type == 'cash' then type = 'money' end
+    if type == "cash" then
+        type = "money"
+    end
     local player = GetPlayer(source)
     player.addAccountMoney(type, amount)
 end
 
 function RemoveMoney(source, type, amount)
-    if type == 'cash' then type = 'money' end
+    if type == "cash" then
+        type = "money"
+    end
     local player = GetPlayer(source)
     player.removeAccountMoney(type, amount)
 end

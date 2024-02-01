@@ -1,4 +1,4 @@
-exports('GetCriminalEnterpriseSmeonFixObject', function()
+exports("GetCriminalEnterpriseSmeonFixObject", function()
     return CriminalEnterpriseSmeonFix
 end)
 
@@ -8,8 +8,8 @@ CriminalEnterpriseSmeonFix = {
     Ipl = {
         Interior = {
             ipl = {
-                'reh_simeonfix',
-            }
+                "reh_simeonfix",
+            },
         },
 
         Load = function()
@@ -17,7 +17,7 @@ CriminalEnterpriseSmeonFix = {
         end,
         Remove = function()
             EnableIpl(CriminalEnterpriseSmeonFix.Ipl.Interior.ipl, false)
-        end
+        end,
     },
     Entities = {
 
@@ -32,18 +32,18 @@ CriminalEnterpriseSmeonFix = {
         end,
         Load = function()
             for entity, state in pairs(CriminalEnterpriseSmeonFix.Entities) do
-                if type(entity) == 'string' and state then
+                if type(entity) == "string" and state then
                     ActivateInteriorEntitySet(CriminalEnterpriseSmeonFix.InteriorId, entity)
                 end
             end
         end,
         Clear = function()
             for entity, _ in pairs(CriminalEnterpriseSmeonFix.Entities) do
-                if type(entity) == 'string' then
+                if type(entity) == "string" then
                     DeactivateInteriorEntitySet(CriminalEnterpriseSmeonFix.InteriorId, entity)
                 end
             end
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -51,5 +51,5 @@ CriminalEnterpriseSmeonFix = {
         CriminalEnterpriseSmeonFix.Entities.Load()
 
         RefreshInterior(CriminalEnterpriseSmeonFix.interiorId)
-    end
+    end,
 }

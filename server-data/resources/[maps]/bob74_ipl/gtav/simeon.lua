@@ -1,4 +1,4 @@
-exports('GetSimeonObject', function()
+exports("GetSimeonObject", function()
     return Simeon
 end)
 
@@ -8,7 +8,7 @@ Simeon = {
     Ipl = {
         Interior = {
             ipl = {
-                "shr_int"
+                "shr_int",
             },
 
             Load = function()
@@ -16,8 +16,8 @@ Simeon = {
             end,
             Remove = function()
                 EnableIpl(Simeon.Ipl.Interior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Style = {
         normal = "csr_beforeMission",
@@ -35,9 +35,9 @@ Simeon = {
                 Simeon.Style.normal,
                 Simeon.Style.noGlass,
                 Simeon.Style.destroyed,
-                Simeon.Style.fixed
+                Simeon.Style.fixed,
             }, false, refresh)
-        end
+        end,
     },
     Shutter = {
         none = "",
@@ -58,9 +58,9 @@ Simeon = {
         Clear = function(refresh)
             SetIplPropState(Simeon.interiorId, {
                 Simeon.Shutter.opened,
-                Simeon.Shutter.closed
+                Simeon.Shutter.closed,
             }, false, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -69,5 +69,5 @@ Simeon = {
         Simeon.Shutter.Set(Simeon.Shutter.opened)
 
         RefreshInterior(Simeon.interiorId)
-    end
+    end,
 }

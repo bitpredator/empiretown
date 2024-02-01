@@ -1,4 +1,4 @@
-exports('GetMpSecurityMusicRoofTopObject', function()
+exports("GetMpSecurityMusicRoofTopObject", function()
     return MpSecurityMusicRoofTop
 end)
 
@@ -6,8 +6,8 @@ MpSecurityMusicRoofTop = {
     Ipl = {
         Interior = {
             ipl = {
-                'sf_musicrooftop'
-            }
+                "sf_musicrooftop",
+            },
         },
 
         Load = function()
@@ -15,10 +15,10 @@ MpSecurityMusicRoofTop = {
         end,
         Remove = function()
             EnableIpl(MpSecurityMusicRoofTop.Ipl.Interior.ipl, false)
-        end
+        end,
     },
 
     LoadDefault = function()
         MpSecurityMusicRoofTop.Ipl.Load()
-    end
+    end,
 }

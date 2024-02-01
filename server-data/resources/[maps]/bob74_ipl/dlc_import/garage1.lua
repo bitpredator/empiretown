@@ -1,5 +1,5 @@
 -- Garage 1: Arcadius Business Centre
-exports('GetImportCEOGarage1Object', function()
+exports("GetImportCEOGarage1Object", function()
     return ImportCEOGarage1
 end)
 
@@ -7,19 +7,19 @@ ImportCEOGarage1 = {
     Part = {
         Garage1 = { -- -191.0133, -579.1428, 135.0000
             interiorId = 253441,
-            ipl = "imp_dt1_02_cargarage_a"
+            ipl = "imp_dt1_02_cargarage_a",
         },
         Garage2 = { -- -117.4989, -568.1132, 135.0000
             interiorId = 253697,
-            ipl = "imp_dt1_02_cargarage_b"
+            ipl = "imp_dt1_02_cargarage_b",
         },
         Garage3 = { -- -136.0780, -630.1852, 135.0000
             interiorId = 253953,
-            ipl = "imp_dt1_02_cargarage_c"
+            ipl = "imp_dt1_02_cargarage_c",
         },
         ModShop = { -- -146.6166, -596.6301, 166.0000
             interiorId = 254209,
-            ipl = "imp_dt1_02_modgarage"
+            ipl = "imp_dt1_02_modgarage",
         },
 
         Load = function(part)
@@ -32,7 +32,7 @@ ImportCEOGarage1 = {
             EnableIpl({
                 ImportCEOGarage1.Part.Garage1.ipl,
                 ImportCEOGarage1.Part.Garage2.ipl,
-                ImportCEOGarage1.Part.Garage3.ipl
+                ImportCEOGarage1.Part.Garage3.ipl,
             }, false)
         end,
     },
@@ -52,9 +52,9 @@ ImportCEOGarage1 = {
                 ImportCEOGarage1.Style.concrete,
                 ImportCEOGarage1.Style.plain,
                 ImportCEOGarage1.Style.marble,
-                ImportCEOGarage1.Style.wooden
+                ImportCEOGarage1.Style.wooden,
             }, false, true)
-        end
+        end,
     },
     Numbering = {
         none = "",
@@ -67,7 +67,7 @@ ImportCEOGarage1 = {
             style6 = "numbering_style06_n1",
             style7 = "numbering_style07_n1",
             style8 = "numbering_style08_n1",
-            style9 = "numbering_style09_n1"
+            style9 = "numbering_style09_n1",
         },
         Level2 = {
             style1 = "numbering_style01_n2",
@@ -78,7 +78,7 @@ ImportCEOGarage1 = {
             style6 = "numbering_style06_n2",
             style7 = "numbering_style07_n2",
             style8 = "numbering_style08_n2",
-            style9 = "numbering_style09_n2"
+            style9 = "numbering_style09_n2",
         },
         Level3 = {
             style1 = "numbering_style01_n3",
@@ -89,7 +89,7 @@ ImportCEOGarage1 = {
             style6 = "numbering_style06_n3",
             style7 = "numbering_style07_n3",
             style8 = "numbering_style08_n3",
-            style9 = "numbering_style09_n3"
+            style9 = "numbering_style09_n3",
         },
 
         Set = function(part, num, refresh)
@@ -107,9 +107,9 @@ ImportCEOGarage1 = {
             SetIplPropState(part.interiorId, {
                 ImportCEOGarage1.Numbering.Level1,
                 ImportCEOGarage1.Numbering.Level2,
-                ImportCEOGarage1.Numbering.Level3
+                ImportCEOGarage1.Numbering.Level3,
             }, false, true)
-        end
+        end,
     },
     Lighting = {
         none = "",
@@ -136,11 +136,17 @@ ImportCEOGarage1 = {
         end,
         Clear = function(part)
             SetIplPropState(part.interiorId, {
-                ImportCEOGarage1.Lighting.style1, ImportCEOGarage1.Lighting.style2, ImportCEOGarage1.Lighting.style3,
-                ImportCEOGarage1.Lighting.style4, ImportCEOGarage1.Lighting.style5, ImportCEOGarage1.Lighting.style6,
-                ImportCEOGarage1.Lighting.style7, ImportCEOGarage1.Lighting.style8, ImportCEOGarage1.Lighting.style9
+                ImportCEOGarage1.Lighting.style1,
+                ImportCEOGarage1.Lighting.style2,
+                ImportCEOGarage1.Lighting.style3,
+                ImportCEOGarage1.Lighting.style4,
+                ImportCEOGarage1.Lighting.style5,
+                ImportCEOGarage1.Lighting.style6,
+                ImportCEOGarage1.Lighting.style7,
+                ImportCEOGarage1.Lighting.style8,
+                ImportCEOGarage1.Lighting.style9,
             }, false, true)
-        end
+        end,
     },
     ModShop = {
         Floor = {
@@ -178,16 +184,28 @@ ImportCEOGarage1 = {
             end,
             Clear = function()
                 SetIplPropState(ImportCEOGarage1.Part.ModShop.interiorId, {
-                    ImportCEOGarage1.ModShop.Floor.city, ImportCEOGarage1.ModShop.Floor.seabed, ImportCEOGarage1.ModShop.Floor.aliens,
-                    ImportCEOGarage1.ModShop.Floor.clouds, ImportCEOGarage1.ModShop.Floor.money, ImportCEOGarage1.ModShop.Floor.zebra,
-                    ImportCEOGarage1.ModShop.Floor.blackWhite, ImportCEOGarage1.ModShop.Floor.barcode, ImportCEOGarage1.ModShop.Floor.paintbrushBW,
-                    ImportCEOGarage1.ModShop.Floor.grid, ImportCEOGarage1.ModShop.Floor.splashes, ImportCEOGarage1.ModShop.Floor.squares,
-                    ImportCEOGarage1.ModShop.Floor.mosaic, ImportCEOGarage1.ModShop.Floor.paintbrushColor, ImportCEOGarage1.ModShop.Floor.curvesColor,
-                    ImportCEOGarage1.ModShop.Floor.marbleBrown, ImportCEOGarage1.ModShop.Floor.marbleBlue, ImportCEOGarage1.ModShop.Floor.marbleBW,
-                    ImportCEOGarage1.ModShop.Floor.maze
+                    ImportCEOGarage1.ModShop.Floor.city,
+                    ImportCEOGarage1.ModShop.Floor.seabed,
+                    ImportCEOGarage1.ModShop.Floor.aliens,
+                    ImportCEOGarage1.ModShop.Floor.clouds,
+                    ImportCEOGarage1.ModShop.Floor.money,
+                    ImportCEOGarage1.ModShop.Floor.zebra,
+                    ImportCEOGarage1.ModShop.Floor.blackWhite,
+                    ImportCEOGarage1.ModShop.Floor.barcode,
+                    ImportCEOGarage1.ModShop.Floor.paintbrushBW,
+                    ImportCEOGarage1.ModShop.Floor.grid,
+                    ImportCEOGarage1.ModShop.Floor.splashes,
+                    ImportCEOGarage1.ModShop.Floor.squares,
+                    ImportCEOGarage1.ModShop.Floor.mosaic,
+                    ImportCEOGarage1.ModShop.Floor.paintbrushColor,
+                    ImportCEOGarage1.ModShop.Floor.curvesColor,
+                    ImportCEOGarage1.ModShop.Floor.marbleBrown,
+                    ImportCEOGarage1.ModShop.Floor.marbleBlue,
+                    ImportCEOGarage1.ModShop.Floor.marbleBW,
+                    ImportCEOGarage1.ModShop.Floor.maze,
                 }, false, true)
-            end
-        }
+            end,
+        },
     },
 
     LoadDefault = function()
@@ -198,5 +216,5 @@ ImportCEOGarage1 = {
 
         ImportCEOGarage1.Part.Load(ImportCEOGarage1.Part.ModShop)
         ImportCEOGarage1.ModShop.Floor.Set(ImportCEOGarage1.ModShop.Floor.default, true)
-    end
+    end,
 }

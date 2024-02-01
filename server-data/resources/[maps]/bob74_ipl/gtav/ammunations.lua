@@ -1,4 +1,4 @@
-exports('GetAmmunationsObject', function()
+exports("GetAmmunationsObject", function()
     return Ammunations
 end)
 
@@ -12,11 +12,11 @@ Ammunations = {
         175617, -- -1116.0, 2694.1, 18.6
         200961, -- 1695.2, 3756.0, 34.7
         180481, -- -328.7, 6079.0, 31.5
-        178689 -- 2569.8, 297.8, 108.7
+        178689, -- 2569.8, 297.8, 108.7
     },
     gunclubsId = {
-        137729,     -- 19.1, -1110.0, 29.8
-        248065 -- 811.0, -2152.0, 29.6
+        137729, -- 19.1, -1110.0, 29.8
+        248065, -- 811.0, -2152.0, 29.6
     },
 
     Details = {
@@ -29,11 +29,11 @@ Ammunations = {
             elseif details == Ammunations.Details.hooksClub then
                 SetIplPropState(Ammunations.gunclubsId, details, state, refresh)
             end
-        end
+        end,
     },
 
     LoadDefault = function()
         Ammunations.Details.Enable(Ammunations.Details.hooks, true, true)
         Ammunations.Details.Enable(Ammunations.Details.hooksClub, true, true)
-    end
+    end,
 }

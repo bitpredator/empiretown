@@ -1,4 +1,4 @@
-exports('GetTunerMethLabObject', function()
+exports("GetTunerMethLabObject", function()
     return TunerMethLab
 end)
 
@@ -19,18 +19,18 @@ TunerMethLab = {
         end,
         Load = function()
             for entity, state in pairs(TunerMethLab.Entities) do
-                if type(entity) == 'string' and state then
+                if type(entity) == "string" and state then
                     ActivateInteriorEntitySet(TunerMethLab.InteriorId, entity)
                 end
             end
         end,
         Clear = function()
             for entity, _ in pairs(TunerMethLab.Entities) do
-                if type(entity) == 'string' then
+                if type(entity) == "string" then
                     DeactivateInteriorEntitySet(TunerMethLab.InteriorId, entity)
                 end
             end
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -38,5 +38,5 @@ TunerMethLab = {
 
         SetInteriorEntitySetColor(TunerMethLab.interiorId, TunerMethLab.Entities.tintable_walls, 3)
         RefreshInterior(TunerMethLab.interiorId)
-    end
+    end,
 }
