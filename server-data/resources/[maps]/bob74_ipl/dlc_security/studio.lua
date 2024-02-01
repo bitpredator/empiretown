@@ -1,4 +1,4 @@
-exports('GetMpSecurityStudioObject', function()
+exports("GetMpSecurityStudioObject", function()
     return MpSecurityStudio
 end)
 
@@ -8,8 +8,8 @@ MpSecurityStudio = {
     Ipl = {
         Interior = {
             ipl = {
-                'sf_int_placement_sec_interior_1_dlc_studio_sec_milo_ '
-            }
+                "sf_int_placement_sec_interior_1_dlc_studio_sec_milo_ ",
+            },
         },
 
         Load = function()
@@ -37,18 +37,18 @@ MpSecurityStudio = {
         end,
         Load = function()
             for entity, state in pairs(MpSecurityStudio.Entities) do
-                if type(entity) == 'string' and state then
+                if type(entity) == "string" and state then
                     ActivateInteriorEntitySet(MpSecurityStudio.InteriorId, entity)
                 end
             end
         end,
         Clear = function()
             for entity, _ in pairs(MpSecurityStudio.Entities) do
-                if type(entity) == 'string' then
+                if type(entity) == "string" then
                     DeactivateInteriorEntitySet(MpSecurityStudio.InteriorId, entity)
                 end
             end
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -56,5 +56,5 @@ MpSecurityStudio = {
         MpSecurityStudio.Entities.Load()
 
         RefreshInterior(MpSecurityStudio.interiorId)
-    end
+    end,
 }

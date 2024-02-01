@@ -1,4 +1,4 @@
-exports('GetRedCarpetObject', function()
+exports("GetRedCarpetObject", function()
     return RedCarpet
 end)
 
@@ -7,5 +7,5 @@ RedCarpet = {
 
     Enable = function(state)
         EnableIpl(RedCarpet.ipl, state)
-    end
+    end,
 }

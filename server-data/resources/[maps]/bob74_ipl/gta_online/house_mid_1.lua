@@ -1,5 +1,5 @@
 -- Middle end house 1: 347.2686 -999.2955 -99.19622
-exports('GetGTAOHouseMid1Object', function()
+exports("GetGTAOHouseMid1Object", function()
     return GTAOHouseMid1
 end)
 
@@ -13,7 +13,7 @@ GTAOHouseMid1 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(GTAOHouseMid1.interiorId, details, state, refresh)
-        end
+        end,
     },
     Booze = {
         A = "Apart_Mid_Booze_A",
@@ -22,7 +22,7 @@ GTAOHouseMid1 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(GTAOHouseMid1.interiorId, details, state, refresh)
-        end
+        end,
     },
     Smoke = {
         none = "",
@@ -45,24 +45,24 @@ GTAOHouseMid1 = {
             SetIplPropState(GTAOHouseMid1.interiorId, {
                 GTAOHouseMid1.Smoke.stage1,
                 GTAOHouseMid1.Smoke.stage2,
-                GTAOHouseMid1.Smoke.stage3
+                GTAOHouseMid1.Smoke.stage3,
             }, false, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
         GTAOHouseMid1.Strip.Enable({
             GTAOHouseMid1.Strip.A,
             GTAOHouseMid1.Strip.B,
-            GTAOHouseMid1.Strip.C
+            GTAOHouseMid1.Strip.C,
         }, false)
         GTAOHouseMid1.Booze.Enable({
             GTAOHouseMid1.Booze.A,
             GTAOHouseMid1.Booze.B,
-            GTAOHouseMid1.Booze.C
+            GTAOHouseMid1.Booze.C,
         }, false)
         GTAOHouseMid1.Smoke.Set(GTAOHouseMid1.Smoke.none)
 
         RefreshInterior(GTAOHouseMid1.interiorId)
-    end
+    end,
 }

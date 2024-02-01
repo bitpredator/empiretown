@@ -1,4 +1,4 @@
-exports('GetMichaelObject', function()
+exports("GetMichaelObject", function()
     return Michael
 end)
 
@@ -12,7 +12,7 @@ Michael = {
             "V_Michael_M_items",
             "V_Michael_D_items",
             "V_Michael_S_items",
-            "V_Michael_L_Items"
+            "V_Michael_L_Items",
         },
         moved = {
             "V_Michael_bed_Messy",
@@ -20,7 +20,7 @@ Michael = {
             "V_Michael_D_Moved",
             "V_Michael_L_Moved",
             "V_Michael_S_items_swap",
-            "V_Michael_M_items_swap"
+            "V_Michael_M_items_swap",
         },
 
         Set = function(style, refresh)
@@ -31,9 +31,9 @@ Michael = {
         Clear = function(refresh)
             SetIplPropState(Michael.interiorId, {
                 Michael.Style.normal,
-                Michael.Style.moved
+                Michael.Style.moved,
             }, false, refresh)
-        end
+        end,
     },
     Bed = {
         tidy = "V_Michael_bed_tidy",
@@ -47,16 +47,16 @@ Michael = {
         Clear = function(refresh)
             SetIplPropState(Michael.interiorId, {
                 Michael.Bed.tidy,
-                Michael.Bed.messy
+                Michael.Bed.messy,
             }, false, refresh)
-        end
+        end,
     },
     Garage = {
         scuba = "V_Michael_Scuba", -- Scuba diver gear
 
         Enable = function(scuba, state, refresh)
             SetIplPropState(Michael.garageId, scuba, state, refresh)
-        end
+        end,
     },
     Details = {
         moviePoster = "Michael_premier", -- Meltdown movie poster
@@ -67,7 +67,7 @@ Michael = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(Michael.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -81,5 +81,5 @@ Michael = {
         Michael.Details.Enable(Michael.Details.bugershot, false)
 
         RefreshInterior(Michael.interiorId)
-    end
+    end,
 }

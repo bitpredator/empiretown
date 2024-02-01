@@ -1,6 +1,6 @@
 -- Dell Perro Heights, Apt 7
 -- High end apartment 2: -1477.14 -538.7499 55.5264
-exports('GetGTAOApartmentHi2Object', function()
+exports("GetGTAOApartmentHi2Object", function()
     return GTAOApartmentHi2
 end)
 
@@ -14,7 +14,7 @@ GTAOApartmentHi2 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(GTAOApartmentHi2.interiorId, details, state, refresh)
-        end
+        end,
     },
     Booze = {
         A = "Apart_Hi_Booze_A",
@@ -23,7 +23,7 @@ GTAOApartmentHi2 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(GTAOApartmentHi2.interiorId, details, state, refresh)
-        end
+        end,
     },
     Smoke = {
         A = "Apart_Hi_Smokes_A",
@@ -32,26 +32,26 @@ GTAOApartmentHi2 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(GTAOApartmentHi2.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
         GTAOApartmentHi2.Strip.Enable({
             GTAOApartmentHi2.Strip.A,
             GTAOApartmentHi2.Strip.B,
-            GTAOApartmentHi2.Strip.C
+            GTAOApartmentHi2.Strip.C,
         }, false)
         GTAOApartmentHi2.Booze.Enable({
             GTAOApartmentHi2.Booze.A,
             GTAOApartmentHi2.Booze.B,
-            GTAOApartmentHi2.Booze.C
+            GTAOApartmentHi2.Booze.C,
         }, false)
         GTAOApartmentHi2.Smoke.Enable({
             GTAOApartmentHi2.Smoke.A,
             GTAOApartmentHi2.Smoke.B,
-            GTAOApartmentHi2.Smoke.C
+            GTAOApartmentHi2.Smoke.C,
         }, false)
 
         RefreshInterior(GTAOApartmentHi2.interiorId)
-    end
+    end,
 }

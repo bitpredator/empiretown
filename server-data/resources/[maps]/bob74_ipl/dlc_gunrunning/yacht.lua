@@ -1,5 +1,5 @@
 -- Gunrunning Yacht: -1363.724, 6734.108, 2.44598
-exports('GetGunrunningYachtObject', function()
+exports("GetGunrunningYachtObject", function()
     return GunrunningYacht
 end)
 
@@ -48,10 +48,10 @@ GunrunningYacht = {
                     DeleteEntity(handle)
                 end
             end
-        end
+        end,
     },
 
     LoadDefault = function()
         GunrunningYacht.Enable(true)
-    end
+    end,
 }

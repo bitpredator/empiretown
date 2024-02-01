@@ -1,5 +1,5 @@
 -- Clubhouse2: 998.4809, -3164.711, -38.90733
-exports('GetBikerClubhouse2Object', function()
+exports("GetBikerClubhouse2Object", function()
     return BikerClubhouse2
 end)
 
@@ -15,8 +15,8 @@ BikerClubhouse2 = {
             end,
             Remove = function()
                 EnableIpl(BikerClubhouse2.Ipl.Interior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Walls = {
         brick = "walls_01",
@@ -30,7 +30,7 @@ BikerClubhouse2 = {
             greenAndRed = 6,
             yellowAndGray = 7,
             red = 8,
-            fuchsiaAndGray = 9
+            fuchsiaAndGray = 9,
         },
 
         Set = function(walls, color, refresh)
@@ -46,9 +46,9 @@ BikerClubhouse2 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.Walls.brick,
-                BikerClubhouse2.Walls.plain
+                BikerClubhouse2.Walls.plain,
             }, false, refresh)
-        end
+        end,
     },
     LowerWalls = {
         default = "lower_walls_default",
@@ -72,7 +72,7 @@ BikerClubhouse2 = {
             red = 6,
             darkGray = 7,
             black = 8,
-            red2 = 9
+            red2 = 9,
         },
 
         Set = function(furn, color, refresh)
@@ -88,9 +88,9 @@ BikerClubhouse2 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.Furnitures.A,
-                BikerClubhouse2.Furnitures.B
+                BikerClubhouse2.Furnitures.B,
             }, false, refresh)
-        end
+        end,
     },
     Decoration = {
         A = "decorative_01",
@@ -104,9 +104,9 @@ BikerClubhouse2 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.Decoration.A,
-                BikerClubhouse2.Decoration.B
+                BikerClubhouse2.Decoration.B,
             }, false, refresh)
-        end
+        end,
     },
     Mural = {
         none = "",
@@ -141,9 +141,9 @@ BikerClubhouse2 = {
                 BikerClubhouse2.Mural.cityColor3,
                 BikerClubhouse2.Mural.cityColor4,
                 BikerClubhouse2.Mural.cityBlack,
-                BikerClubhouse2.Mural.death3
+                BikerClubhouse2.Mural.death3,
             }, false, refresh)
-        end
+        end,
     },
     GunLocker = {
         on = "gun_locker",
@@ -159,9 +159,9 @@ BikerClubhouse2 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.GunLocker.on,
-                BikerClubhouse2.GunLocker.off
+                BikerClubhouse2.GunLocker.off,
             }, false, refresh)
-        end
+        end,
     },
     ModBooth = {
         none = "",
@@ -182,21 +182,21 @@ BikerClubhouse2 = {
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.ModBooth.on,
-                BikerClubhouse2.ModBooth.off
+                BikerClubhouse2.ModBooth.off,
             }, false, refresh)
-        end
+        end,
     },
     Meth = {
         none = "",
         stage1 = "meth_small",
         stage2 = {
             "meth_small",
-            "meth_medium"
+            "meth_medium",
         },
         stage3 = {
             "meth_small",
             "meth_medium",
-            "meth_large"
+            "meth_large",
         },
 
         Set = function(stage, refresh)
@@ -214,21 +214,21 @@ BikerClubhouse2 = {
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.Meth.stage1,
                 BikerClubhouse2.Meth.stage2,
-                BikerClubhouse2.Meth.stage3
+                BikerClubhouse2.Meth.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Cash = {
         none = "",
         stage1 = "cash_small",
         stage2 = {
             "cash_small",
-            "cash_medium"
+            "cash_medium",
         },
         stage3 = {
             "cash_small",
             "cash_medium",
-            "cash_large"
+            "cash_large",
         },
 
         Set = function(stage, refresh)
@@ -246,21 +246,21 @@ BikerClubhouse2 = {
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.Cash.stage1,
                 BikerClubhouse2.Cash.stage2,
-                BikerClubhouse2.Cash.stage3
+                BikerClubhouse2.Cash.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Weed = {
         none = "",
         stage1 = "weed_small",
         stage2 = {
             "weed_small",
-            "weed_medium"
+            "weed_medium",
         },
         stage3 = {
             "weed_small",
             "weed_medium",
-            "weed_large"
+            "weed_large",
         },
 
         Set = function(stage, refresh)
@@ -278,21 +278,21 @@ BikerClubhouse2 = {
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.Weed.stage1,
                 BikerClubhouse2.Weed.stage2,
-                BikerClubhouse2.Weed.stage3
+                BikerClubhouse2.Weed.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Coke = {
         none = "",
         stage1 = "coke_small",
         stage2 = {
             "coke_small",
-            "coke_medium"
+            "coke_medium",
         },
         stage3 = {
             "coke_small",
             "coke_medium",
-            "coke_large"
+            "coke_large",
         },
 
         Set = function(stage, refresh)
@@ -310,21 +310,21 @@ BikerClubhouse2 = {
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.Coke.stage1,
                 BikerClubhouse2.Coke.stage2,
-                BikerClubhouse2.Coke.stage3
+                BikerClubhouse2.Coke.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Counterfeit = {
         none = "",
         stage1 = "counterfeit_small",
         stage2 = {
             "counterfeit_small",
-            "counterfeit_medium"
+            "counterfeit_medium",
         },
         stage3 = {
             "counterfeit_small",
             "counterfeit_medium",
-            "counterfeit_large"
+            "counterfeit_large",
         },
 
         Set = function(stage, refresh)
@@ -342,21 +342,21 @@ BikerClubhouse2 = {
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.Counterfeit.stage1,
                 BikerClubhouse2.Counterfeit.stage2,
-                BikerClubhouse2.Counterfeit.stage3
+                BikerClubhouse2.Counterfeit.stage3,
             }, false, refresh)
-        end
+        end,
     },
     Documents = {
         none = "",
         stage1 = "id_small",
         stage2 = {
             "id_small",
-            "id_medium"
+            "id_medium",
         },
         stage3 = {
             "id_small",
             "id_medium",
-            "id_large"
+            "id_large",
         },
 
         Set = function(stage, refresh)
@@ -365,16 +365,18 @@ BikerClubhouse2 = {
             if stage ~= "" then
                 SetIplPropState(BikerClubhouse2.interiorId, stage, true, refresh)
             else
-                if refresh then RefreshInterior(BikerClubhouse2.interiorId) end
+                if refresh then
+                    RefreshInterior(BikerClubhouse2.interiorId)
+                end
             end
         end,
         Clear = function(refresh)
             SetIplPropState(BikerClubhouse2.interiorId, {
                 BikerClubhouse2.Documents.stage1,
                 BikerClubhouse2.Documents.stage2,
-                BikerClubhouse2.Documents.stage3
+                BikerClubhouse2.Documents.stage3,
             }, false, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -398,5 +400,5 @@ BikerClubhouse2 = {
         BikerClubhouse2.Documents.Set(BikerClubhouse2.Documents.none)
 
         RefreshInterior(BikerClubhouse2.interiorId)
-    end
+    end,
 }

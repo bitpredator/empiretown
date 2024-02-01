@@ -1,4 +1,4 @@
-exports('GetDiamondPenthouseObject', function()
+exports("GetDiamondPenthouseObject", function()
     return DiamondPenthouse
 end)
 
@@ -17,14 +17,14 @@ DiamondPenthouse = {
             end,
             Remove = function()
                 EnableIpl(DiamondPenthouse.Ipl.Interior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Colors = {
         default = 0,
         sharp = 1,
         vibrant = 2,
-        timeless = 3
+        timeless = 3,
     },
     Interior = {
         Walls = {
@@ -34,7 +34,7 @@ DiamondPenthouse = {
                 if refresh then
                     RefreshInterior(DiamondPenthouse.interiorId)
                 end
-            end
+            end,
         },
         Pattern = {
             pattern01 = "Set_Pent_Pattern_01",
@@ -65,7 +65,7 @@ DiamondPenthouse = {
                 if refresh then
                     RefreshInterior(DiamondPenthouse.interiorId)
                 end
-            end
+            end,
         },
         SpaBar = {
             open = "Set_Pent_Spa_Bar_Open",
@@ -82,7 +82,7 @@ DiamondPenthouse = {
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         MediaBar = {
             open = "Set_Pent_Media_Bar_Open",
@@ -99,7 +99,7 @@ DiamondPenthouse = {
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         Dealer = {
             open = "Set_Pent_Dealer",
@@ -116,7 +116,7 @@ DiamondPenthouse = {
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         Arcade = {
             none = "",
@@ -134,7 +134,7 @@ DiamondPenthouse = {
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         Clutter = {
             bar = "Set_Pent_Bar_Clutter",
@@ -153,7 +153,7 @@ DiamondPenthouse = {
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         BarLight = {
             none = "",
@@ -172,7 +172,7 @@ DiamondPenthouse = {
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         BarParty = {
             none = "",
@@ -192,7 +192,7 @@ DiamondPenthouse = {
                         SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                     end
                 end
-            end
+            end,
         },
         Blockers = {
             Guest = {
@@ -210,7 +210,7 @@ DiamondPenthouse = {
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             Lounge = {
                 enabled = "Set_Pent_LOUNGE_BLOCKER",
@@ -227,7 +227,7 @@ DiamondPenthouse = {
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             Office = {
                 enabled = "Set_Pent_OFFICE_BLOCKER",
@@ -244,7 +244,7 @@ DiamondPenthouse = {
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             Cinema = {
                 enabled = "Set_Pent_CINE_BLOCKER",
@@ -261,7 +261,7 @@ DiamondPenthouse = {
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             Spa = {
                 enabled = "Set_Pent_SPA_BLOCKER",
@@ -278,7 +278,7 @@ DiamondPenthouse = {
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             Bar = {
                 enabled = "Set_Pent_BAR_BLOCKER",
@@ -295,7 +295,7 @@ DiamondPenthouse = {
                             SetIplPropState(DiamondPenthouse.interiorId, value, false, refresh)
                         end
                     end
-                end
+                end,
             },
             EnableAllBlockers = function()
                 DiamondPenthouse.Interior.Blockers.Bar.Set(DiamondPenthouse.Interior.Blockers.Bar.enabled)
@@ -312,8 +312,8 @@ DiamondPenthouse = {
                 DiamondPenthouse.Interior.Blockers.Cinema.Set(DiamondPenthouse.Interior.Blockers.Cinema.disabled)
                 DiamondPenthouse.Interior.Blockers.Lounge.Set(DiamondPenthouse.Interior.Blockers.Lounge.disabled)
                 DiamondPenthouse.Interior.Blockers.Office.Set(DiamondPenthouse.Interior.Blockers.Office.disabled)
-            end
-        }
+            end,
+        },
     },
 
     LoadDefault = function()
@@ -331,5 +331,5 @@ DiamondPenthouse = {
         DiamondPenthouse.Interior.Dealer.Set(DiamondPenthouse.Interior.Dealer.open)
 
         RefreshInterior(DiamondPenthouse.interiorId)
-    end
+    end,
 }

@@ -1,4 +1,4 @@
-exports('GetLesterFactoryObject', function()
+exports("GetLesterFactoryObject", function()
     return LesterFactory
 end)
 
@@ -15,7 +15,7 @@ LesterFactory = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(LesterFactory.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -27,5 +27,5 @@ LesterFactory = {
         LesterFactory.Details.Enable(LesterFactory.Details.janitorStuff, false)
 
         RefreshInterior(LesterFactory.interiorId)
-    end
+    end,
 }

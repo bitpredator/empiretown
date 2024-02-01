@@ -1,5 +1,5 @@
 -- Weed farm: 1051.491, -3196.536, -39.14842
-exports('GetBikerWeedFarmObject', function()
+exports("GetBikerWeedFarmObject", function()
     return BikerWeedFarm
 end)
 
@@ -15,7 +15,7 @@ BikerWeedFarm = {
             end,
             Remove = function()
                 EnableIpl(BikerWeedFarm.Ipl.Interior.ipl, false)
-            end
+            end,
         },
     },
     Style = {
@@ -30,9 +30,9 @@ BikerWeedFarm = {
         Clear = function(refresh)
             SetIplPropState(BikerWeedFarm.interiorId, {
                 BikerWeedFarm.Style.basic,
-                BikerWeedFarm.Style.upgrade
+                BikerWeedFarm.Style.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Security = {
         basic = "weed_low_security",
@@ -46,9 +46,9 @@ BikerWeedFarm = {
         Clear = function(refresh)
             SetIplPropState(BikerWeedFarm.interiorId, {
                 BikerWeedFarm.Security.basic,
-                BikerWeedFarm.Security.upgrade
+                BikerWeedFarm.Security.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Plant1 = {
         Stage = {
@@ -65,9 +65,9 @@ BikerWeedFarm = {
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant1.Stage.small,
                     BikerWeedFarm.Plant1.Stage.medium,
-                    BikerWeedFarm.Plant1.Stage.full
+                    BikerWeedFarm.Plant1.Stage.full,
                 }, false, refresh)
-            end
+            end,
         },
         Light = {
             basic = "light_growtha_stage23_standard",
@@ -81,14 +81,14 @@ BikerWeedFarm = {
             Clear = function(refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant1.Light.basic,
-                    BikerWeedFarm.Plant1.Light.upgrade
+                    BikerWeedFarm.Plant1.Light.upgrade,
                 }, false, refresh)
-            end
+            end,
         },
         Hose = {
             Enable = function(state, refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, "weed_hosea", state, refresh)
-            end
+            end,
         },
         Set = function(stage, upgrade)
             BikerWeedFarm.Plant1.Stage.Set(stage, false)
@@ -99,7 +99,7 @@ BikerWeedFarm = {
             BikerWeedFarm.Plant1.Stage.Clear()
             BikerWeedFarm.Plant1.Light.Clear()
             BikerWeedFarm.Plant1.Hose.Enable(false, true)
-        end
+        end,
     },
     Plant2 = {
         Stage = {
@@ -116,9 +116,9 @@ BikerWeedFarm = {
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant2.Stage.small,
                     BikerWeedFarm.Plant2.Stage.medium,
-                    BikerWeedFarm.Plant2.Stage.full
+                    BikerWeedFarm.Plant2.Stage.full,
                 }, false, refresh)
-            end
+            end,
         },
         Light = {
             basic = "light_growthb_stage23_standard",
@@ -132,14 +132,14 @@ BikerWeedFarm = {
             Clear = function(refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant2.Light.basic,
-                    BikerWeedFarm.Plant2.Light.upgrade
+                    BikerWeedFarm.Plant2.Light.upgrade,
                 }, false, refresh)
-            end
+            end,
         },
         Hose = {
             Enable = function(state, refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, "weed_hoseb", state, refresh)
-            end
+            end,
         },
         Set = function(stage, upgrade)
             BikerWeedFarm.Plant2.Stage.Set(stage, false)
@@ -150,7 +150,7 @@ BikerWeedFarm = {
             BikerWeedFarm.Plant2.Stage.Clear()
             BikerWeedFarm.Plant2.Light.Clear()
             BikerWeedFarm.Plant2.Hose.Enable(false, true)
-        end
+        end,
     },
     Plant3 = {
         Stage = {
@@ -167,9 +167,9 @@ BikerWeedFarm = {
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant3.Stage.small,
                     BikerWeedFarm.Plant3.Stage.medium,
-                    BikerWeedFarm.Plant3.Stage.full
+                    BikerWeedFarm.Plant3.Stage.full,
                 }, false, refresh)
-            end
+            end,
         },
         Light = {
             basic = "light_growthc_stage23_standard",
@@ -183,14 +183,14 @@ BikerWeedFarm = {
             Clear = function(refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant3.Light.basic,
-                    BikerWeedFarm.Plant3.Light.upgrade
+                    BikerWeedFarm.Plant3.Light.upgrade,
                 }, false, refresh)
-            end
+            end,
         },
         Hose = {
             Enable = function(state, refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, "weed_hosec", state, refresh)
-            end
+            end,
         },
         Set = function(stage, upgrade)
             BikerWeedFarm.Plant3.Stage.Set(stage, false)
@@ -201,7 +201,7 @@ BikerWeedFarm = {
             BikerWeedFarm.Plant3.Stage.Clear()
             BikerWeedFarm.Plant3.Light.Clear()
             BikerWeedFarm.Plant3.Hose.Enable(false, true)
-        end
+        end,
     },
     Plant4 = {
         Stage = {
@@ -218,9 +218,9 @@ BikerWeedFarm = {
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant4.Stage.small,
                     BikerWeedFarm.Plant4.Stage.medium,
-                    BikerWeedFarm.Plant4.Stage.full
+                    BikerWeedFarm.Plant4.Stage.full,
                 }, false, refresh)
-            end
+            end,
         },
         Light = {
             basic = "light_growthd_stage23_standard",
@@ -234,14 +234,14 @@ BikerWeedFarm = {
             Clear = function(refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant4.Light.basic,
-                    BikerWeedFarm.Plant4.Light.upgrade
+                    BikerWeedFarm.Plant4.Light.upgrade,
                 }, false, refresh)
-            end
+            end,
         },
         Hose = {
             Enable = function(state, refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, "weed_hosed", state, refresh)
-            end
+            end,
         },
         Set = function(stage, upgrade)
             BikerWeedFarm.Plant4.Stage.Set(stage, false)
@@ -252,7 +252,7 @@ BikerWeedFarm = {
             BikerWeedFarm.Plant4.Stage.Clear()
             BikerWeedFarm.Plant4.Light.Clear()
             BikerWeedFarm.Plant4.Hose.Enable(false, true)
-        end
+        end,
     },
     Plant5 = {
         Stage = {
@@ -269,9 +269,9 @@ BikerWeedFarm = {
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant5.Stage.small,
                     BikerWeedFarm.Plant5.Stage.medium,
-                    BikerWeedFarm.Plant5.Stage.full
+                    BikerWeedFarm.Plant5.Stage.full,
                 }, false, refresh)
-            end
+            end,
         },
         Light = {
             basic = "light_growthe_stage23_standard",
@@ -285,14 +285,14 @@ BikerWeedFarm = {
             Clear = function(refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant5.Light.basic,
-                    BikerWeedFarm.Plant5.Light.upgrade
+                    BikerWeedFarm.Plant5.Light.upgrade,
                 }, false, refresh)
-            end
+            end,
         },
         Hose = {
             Enable = function(state, refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, "weed_hosee", state, refresh)
-            end
+            end,
         },
         Set = function(stage, upgrade)
             BikerWeedFarm.Plant5.Stage.Set(stage, false)
@@ -303,7 +303,7 @@ BikerWeedFarm = {
             BikerWeedFarm.Plant5.Stage.Clear()
             BikerWeedFarm.Plant5.Light.Clear()
             BikerWeedFarm.Plant5.Hose.Enable(false, true)
-        end
+        end,
     },
     Plant6 = {
         Stage = {
@@ -320,9 +320,9 @@ BikerWeedFarm = {
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant6.Stage.small,
                     BikerWeedFarm.Plant6.Stage.medium,
-                    BikerWeedFarm.Plant6.Stage.full
+                    BikerWeedFarm.Plant6.Stage.full,
                 }, false, refresh)
-            end
+            end,
         },
         Light = {
             basic = "light_growthf_stage23_standard",
@@ -336,14 +336,14 @@ BikerWeedFarm = {
             Clear = function(refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant6.Light.basic,
-                    BikerWeedFarm.Plant6.Light.upgrade
+                    BikerWeedFarm.Plant6.Light.upgrade,
                 }, false, refresh)
-            end
+            end,
         },
         Hose = {
             Enable = function(state, refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, "weed_hosef", state, refresh)
-            end
+            end,
         },
         Set = function(stage, upgrade)
             BikerWeedFarm.Plant6.Stage.Set(stage, false)
@@ -354,7 +354,7 @@ BikerWeedFarm = {
             BikerWeedFarm.Plant6.Stage.Clear()
             BikerWeedFarm.Plant6.Light.Clear()
             BikerWeedFarm.Plant6.Hose.Enable(false, true)
-        end
+        end,
     },
     Plant7 = {
         Stage = {
@@ -371,9 +371,9 @@ BikerWeedFarm = {
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant7.Stage.small,
                     BikerWeedFarm.Plant7.Stage.medium,
-                    BikerWeedFarm.Plant7.Stage.full
+                    BikerWeedFarm.Plant7.Stage.full,
                 }, false, refresh)
-            end
+            end,
         },
         Light = {
             basic = "light_growthg_stage23_standard",
@@ -387,14 +387,14 @@ BikerWeedFarm = {
             Clear = function(refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant7.Light.basic,
-                    BikerWeedFarm.Plant7.Light.upgrade
+                    BikerWeedFarm.Plant7.Light.upgrade,
                 }, false, refresh)
-            end
+            end,
         },
         Hose = {
             Enable = function(state, refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, "weed_hoseg", state, refresh)
-            end
+            end,
         },
         Set = function(stage, upgrade)
             BikerWeedFarm.Plant7.Stage.Set(stage, false)
@@ -405,7 +405,7 @@ BikerWeedFarm = {
             BikerWeedFarm.Plant7.Stage.Clear()
             BikerWeedFarm.Plant7.Light.Clear()
             BikerWeedFarm.Plant7.Hose.Enable(false, true)
-        end
+        end,
     },
     Plant8 = {
         Stage = {
@@ -422,9 +422,9 @@ BikerWeedFarm = {
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant8.Stage.small,
                     BikerWeedFarm.Plant8.Stage.medium,
-                    BikerWeedFarm.Plant8.Stage.full
+                    BikerWeedFarm.Plant8.Stage.full,
                 }, false, refresh)
-            end
+            end,
         },
         Light = {
             basic = "light_growthh_stage23_standard",
@@ -438,14 +438,14 @@ BikerWeedFarm = {
             Clear = function(refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant8.Light.basic,
-                    BikerWeedFarm.Plant8.Light.upgrade
+                    BikerWeedFarm.Plant8.Light.upgrade,
                 }, false, refresh)
-            end
+            end,
         },
         Hose = {
             Enable = function(state, refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, "weed_hoseh", state, refresh)
-            end
+            end,
         },
         Set = function(stage, upgrade)
             BikerWeedFarm.Plant8.Stage.Set(stage, false)
@@ -456,7 +456,7 @@ BikerWeedFarm = {
             BikerWeedFarm.Plant8.Stage.Clear()
             BikerWeedFarm.Plant8.Light.Clear()
             BikerWeedFarm.Plant8.Hose.Enable(false, true)
-        end
+        end,
     },
     Plant9 = {
         Stage = {
@@ -473,9 +473,9 @@ BikerWeedFarm = {
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant9.Stage.small,
                     BikerWeedFarm.Plant9.Stage.medium,
-                    BikerWeedFarm.Plant9.Stage.full
+                    BikerWeedFarm.Plant9.Stage.full,
                 }, false, refresh)
-            end
+            end,
         },
         Light = {
             basic = "light_growthi_stage23_standard",
@@ -489,14 +489,14 @@ BikerWeedFarm = {
             Clear = function(refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, {
                     BikerWeedFarm.Plant9.Light.basic,
-                    BikerWeedFarm.Plant9.Light.upgrade
+                    BikerWeedFarm.Plant9.Light.upgrade,
                 }, false, refresh)
-            end
+            end,
         },
         Hose = {
             Enable = function(state, refresh)
                 SetIplPropState(BikerWeedFarm.interiorId, "weed_hosei", state, refresh)
-            end
+            end,
         },
         Set = function(stage, upgrade)
             BikerWeedFarm.Plant9.Stage.Set(stage, false)
@@ -507,7 +507,7 @@ BikerWeedFarm = {
             BikerWeedFarm.Plant9.Stage.Clear()
             BikerWeedFarm.Plant9.Light.Clear()
             BikerWeedFarm.Plant9.Hose.Enable(false, true)
-        end
+        end,
     },
     Details = {
         production = "weed_production", -- Weed on the tables
@@ -517,7 +517,7 @@ BikerWeedFarm = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(BikerWeedFarm.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -531,7 +531,7 @@ BikerWeedFarm = {
         BikerWeedFarm.Details.Enable({
             BikerWeedFarm.Details.production,
             BikerWeedFarm.Details.chairs,
-            BikerWeedFarm.Details.drying
+            BikerWeedFarm.Details.drying,
         }, true)
 
         BikerWeedFarm.Plant1.Set(BikerWeedFarm.Plant1.Stage.medium, BikerWeedFarm.Plant1.Light.basic)
@@ -545,5 +545,5 @@ BikerWeedFarm = {
         BikerWeedFarm.Plant9.Set(BikerWeedFarm.Plant9.Stage.full, BikerWeedFarm.Plant9.Light.basic)
 
         RefreshInterior(BikerWeedFarm.interiorId)
-    end
+    end,
 }

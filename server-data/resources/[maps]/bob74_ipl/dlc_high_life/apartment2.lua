@@ -1,5 +1,5 @@
 -- Apartment 2: -914.90260000, -374.87310000, 112.6748
-exports('GetHLApartment2Object', function()
+exports("GetHLApartment2Object", function()
     return HLApartment2
 end)
 
@@ -15,7 +15,7 @@ HLApartment2 = {
             end,
             Remove = function()
                 EnableIpl(HLApartment2.Ipl.Interior.ipl, false)
-            end
+            end,
         },
     },
     Strip = {
@@ -25,7 +25,7 @@ HLApartment2 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(HLApartment2.interiorId, details, state, refresh)
-        end
+        end,
     },
     Booze = {
         A = "Apart_Hi_Booze_A",
@@ -34,7 +34,7 @@ HLApartment2 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(HLApartment2.interiorId, details, state, refresh)
-        end
+        end,
     },
     Smoke = {
         A = "Apart_Hi_Smokes_A",
@@ -43,7 +43,7 @@ HLApartment2 = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(HLApartment2.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -51,19 +51,19 @@ HLApartment2 = {
         HLApartment2.Strip.Enable({
             HLApartment2.Strip.A,
             HLApartment2.Strip.B,
-            HLApartment2.Strip.C
+            HLApartment2.Strip.C,
         }, false)
         HLApartment2.Booze.Enable({
             HLApartment2.Booze.A,
             HLApartment2.Booze.B,
-            HLApartment2.Booze.C
+            HLApartment2.Booze.C,
         }, false)
         HLApartment2.Smoke.Enable({
             HLApartment2.Smoke.A,
             HLApartment2.Smoke.B,
-            HLApartment2.Smoke.C
+            HLApartment2.Smoke.C,
         }, false)
 
         RefreshInterior(HLApartment2.interiorId)
-    end
+    end,
 }

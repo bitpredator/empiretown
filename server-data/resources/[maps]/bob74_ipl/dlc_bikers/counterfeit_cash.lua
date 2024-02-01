@@ -1,5 +1,5 @@
 -- Counterfeit cash factory: 1121.897, -3195.338, -40.4025
-exports('GetBikerCounterfeitObject', function()
+exports("GetBikerCounterfeitObject", function()
     return BikerCounterfeit
 end)
 
@@ -15,8 +15,8 @@ BikerCounterfeit = {
             end,
             Remove = function()
                 EnableIpl(BikerCounterfeit.Ipl.Interior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Printer = {
         none = "",
@@ -41,9 +41,9 @@ BikerCounterfeit = {
                 BikerCounterfeit.Printer.basic,
                 BikerCounterfeit.Printer.basicProd,
                 BikerCounterfeit.Printer.upgrade,
-                BikerCounterfeit.Printer.upgradeProd
+                BikerCounterfeit.Printer.upgradeProd,
             }, false, refresh)
-        end
+        end,
     },
     Security = {
         basic = "counterfeit_low_security",
@@ -57,9 +57,9 @@ BikerCounterfeit = {
         Clear = function(refresh)
             SetIplPropState(BikerCounterfeit.interiorId, {
                 BikerCounterfeit.Security.basic,
-                BikerCounterfeit.Security.upgrade
+                BikerCounterfeit.Security.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Dryer1 = {
         none = "",
@@ -82,9 +82,9 @@ BikerCounterfeit = {
             SetIplPropState(BikerCounterfeit.interiorId, {
                 BikerCounterfeit.Dryer1.on,
                 BikerCounterfeit.Dryer1.off,
-                BikerCounterfeit.Dryer1.open
+                BikerCounterfeit.Dryer1.open,
             }, false, refresh)
-        end
+        end,
     },
     Dryer2 = {
         none = "",
@@ -107,9 +107,9 @@ BikerCounterfeit = {
             SetIplPropState(BikerCounterfeit.interiorId, {
                 BikerCounterfeit.Dryer2.on,
                 BikerCounterfeit.Dryer2.off,
-                BikerCounterfeit.Dryer2.open
+                BikerCounterfeit.Dryer2.open,
             }, false, refresh)
-        end
+        end,
     },
     Dryer3 = {
         none = "",
@@ -132,9 +132,9 @@ BikerCounterfeit = {
             SetIplPropState(BikerCounterfeit.interiorId, {
                 BikerCounterfeit.Dryer3.on,
                 BikerCounterfeit.Dryer3.off,
-                BikerCounterfeit.Dryer3.open
+                BikerCounterfeit.Dryer3.open,
             }, false, refresh)
-        end
+        end,
     },
     Dryer4 = {
         none = "",
@@ -157,9 +157,9 @@ BikerCounterfeit = {
             SetIplPropState(BikerCounterfeit.interiorId, {
                 BikerCounterfeit.Dryer4.on,
                 BikerCounterfeit.Dryer4.off,
-                BikerCounterfeit.Dryer4.open
+                BikerCounterfeit.Dryer4.open,
             }, false, refresh)
-        end
+        end,
     },
     Details = {
         Cash10 = {
@@ -186,7 +186,7 @@ BikerCounterfeit = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(BikerCounterfeit.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -202,5 +202,5 @@ BikerCounterfeit = {
         BikerCounterfeit.Details.Enable(BikerCounterfeit.Details.Cash100, true)
 
         RefreshInterior(BikerCounterfeit.interiorId)
-    end
+    end,
 }

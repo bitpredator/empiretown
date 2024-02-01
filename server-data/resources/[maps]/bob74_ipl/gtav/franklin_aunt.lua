@@ -1,4 +1,4 @@
-exports('GetFranklinAuntObject', function()
+exports("GetFranklinAuntObject", function()
     return FranklinAunt
 end)
 
@@ -24,9 +24,9 @@ FranklinAunt = {
         Clear = function(refresh)
             SetIplPropState(FranklinAunt.interiorId, {
                 FranklinAunt.Style.franklinStuff,
-                FranklinAunt.Style.franklinLeft
+                FranklinAunt.Style.franklinLeft,
             }, false, refresh)
-        end
+        end,
     },
     Details = {
         bandana = "V_57_GangBandana", -- Bandana on the bed
@@ -34,7 +34,7 @@ FranklinAunt = {
 
         Enable = function(details, state, refresh)
             SetIplPropState(FranklinAunt.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -43,5 +43,5 @@ FranklinAunt = {
         FranklinAunt.Details.Enable(FranklinAunt.Details.bag, false)
 
         RefreshInterior(FranklinAunt.interiorId)
-    end
+    end,
 }

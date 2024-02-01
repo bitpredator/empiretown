@@ -1,4 +1,4 @@
-exports('GetGunrunningBunkerObject', function()
+exports("GetGunrunningBunkerObject", function()
     return GunrunningBunker
 end)
 
@@ -16,12 +16,12 @@ GunrunningBunker = {
             -- Remove interiors IPLs.
             Remove = function()
                 EnableIpl(GunrunningBunker.Ipl.Interior.ipl, false)
-            end
+            end,
         },
         Exterior = {
             ipl = {
                 "gr_case0_bunkerclosed", -- Desert: 848.6175, 2996.567, 45.81612
-                "gr_case1_bunkerclosed",-- SmokeTree: 2126.785, 3335.04, 48.21422
+                "gr_case1_bunkerclosed", -- SmokeTree: 2126.785, 3335.04, 48.21422
                 "gr_case2_bunkerclosed", -- Scrapyard: 2493.654, 3140.399, 51.28789
                 "gr_case3_bunkerclosed", -- Oilfields: 481.0465, 2995.135, 43.96672
                 "gr_case4_bunkerclosed", -- RatonCanyon: -391.3216, 4363.728, 58.65862
@@ -30,7 +30,7 @@ GunrunningBunker = {
                 "gr_case7_bunkerclosed", -- Paletto: -783.0755, 5934.686, 24.31475
                 "gr_case9_bunkerclosed", -- Route68: 24.43542, 2959.705, 58.35517
                 "gr_case10_bunkerclosed", -- Zancudo: -3058.714, 3329.19, 12.5844
-                "gr_case11_bunkerclosed" -- Great Ocean Highway: -3180.466, 1374.192, 19.9597
+                "gr_case11_bunkerclosed", -- Great Ocean Highway: -3180.466, 1374.192, 19.9597
             },
 
             -- Load exteriors IPLs.
@@ -40,8 +40,8 @@ GunrunningBunker = {
             -- Remove exteriors IPLs.
             Remove = function()
                 EnableIpl(GunrunningBunker.Ipl.Exterior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Style = {
         default = "Bunker_Style_A",
@@ -62,9 +62,9 @@ GunrunningBunker = {
             SetIplPropState(GunrunningBunker.interiorId, {
                 GunrunningBunker.Style.default,
                 GunrunningBunker.Style.blue,
-                GunrunningBunker.Style.yellow
+                GunrunningBunker.Style.yellow,
             }, false, refresh)
-        end
+        end,
     },
     Tier = {
         default = "standard_bunker_set",
@@ -83,9 +83,9 @@ GunrunningBunker = {
         Clear = function(refresh)
             SetIplPropState(GunrunningBunker.interiorId, {
                 GunrunningBunker.Tier.default,
-                GunrunningBunker.Tier.upgrade
+                GunrunningBunker.Tier.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Security = {
         noEntryGate = "",
@@ -111,9 +111,9 @@ GunrunningBunker = {
         Clear = function(refresh)
             SetIplPropState(GunrunningBunker.interiorId, {
                 GunrunningBunker.Security.default,
-                GunrunningBunker.Security.upgrade
+                GunrunningBunker.Security.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Details = {
         office = "Office_Upgrade_set", -- Office interior
@@ -130,7 +130,7 @@ GunrunningBunker = {
         --     refresh: Reload the whole interior (values: true / false)
         Enable = function(details, state, refresh)
             SetIplPropState(GunrunningBunker.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -151,5 +151,5 @@ GunrunningBunker = {
 
         -- Must be called in order to spawn or remove the props
         RefreshInterior(GunrunningBunker.interiorId)
-    end
+    end,
 }

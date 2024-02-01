@@ -1,7 +1,7 @@
 -- Vehicle warehouse
 -- Upper: 994.5925, -3002.594, -39.64699
 -- Lower: 969.5376, -3000.411, -48.64689
-exports('GetImportVehicleWarehouseObject', function()
+exports("GetImportVehicleWarehouseObject", function()
     return ImportVehicleWarehouse
 end)
 
@@ -18,8 +18,8 @@ ImportVehicleWarehouse = {
                 end,
                 Remove = function()
                     EnableIpl(ImportVehicleWarehouse.Upper.Ipl.Interior.ipl, false)
-                end
-            }
+                end,
+            },
         },
         Style = {
             basic = "basic_style_set",
@@ -35,9 +35,9 @@ ImportVehicleWarehouse = {
                 SetIplPropState(ImportVehicleWarehouse.Upper.interiorId, {
                     ImportVehicleWarehouse.Upper.Style.basic,
                     ImportVehicleWarehouse.Upper.Style.branded,
-                    ImportVehicleWarehouse.Upper.Style.urban
+                    ImportVehicleWarehouse.Upper.Style.urban,
                 }, false, refresh)
-            end
+            end,
         },
         Details = {
             floorHatch = "car_floor_hatch",
@@ -45,8 +45,8 @@ ImportVehicleWarehouse = {
 
             Enable = function(details, state, refresh)
                 SetIplPropState(ImportVehicleWarehouse.Upper.interiorId, details, state, refresh)
-            end
-        }
+            end,
+        },
     },
     Lower = {
         interiorId = 253185,
@@ -60,8 +60,8 @@ ImportVehicleWarehouse = {
                 end,
                 Remove = function()
                     EnableIpl(ImportVehicleWarehouse.Lower.Ipl.Interior.ipl, false)
-                end
-            }
+                end,
+            },
         },
         Details = {
             Pumps = {
@@ -72,12 +72,12 @@ ImportVehicleWarehouse = {
                 pump5 = "pump_05",
                 pump6 = "pump_06",
                 pump7 = "pump_07",
-                pump8 = "pump_08"
+                pump8 = "pump_08",
             },
             Enable = function(details, state, refresh)
                 SetIplPropState(ImportVehicleWarehouse.Lower.interiorId, details, state, refresh)
-            end
-        }
+            end,
+        },
     },
 
     LoadDefault = function()
@@ -92,5 +92,5 @@ ImportVehicleWarehouse = {
         ImportVehicleWarehouse.Lower.Details.Enable(ImportVehicleWarehouse.Lower.Details.Pumps, true)
 
         RefreshInterior(ImportVehicleWarehouse.Lower.interiorId)
-    end
+    end,
 }

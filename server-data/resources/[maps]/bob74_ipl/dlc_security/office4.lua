@@ -1,4 +1,4 @@
-exports('GetMpSecurityOffice4Object', function()
+exports("GetMpSecurityOffice4Object", function()
     return MpSecurityOffice4
 end)
 
@@ -8,8 +8,8 @@ MpSecurityOffice4 = {
     Ipl = {
         Interior = {
             ipl = {
-                'sf_fixeroffice_kt1_08'
-            }
+                "sf_fixeroffice_kt1_08",
+            },
         },
 
         Load = function()
@@ -83,14 +83,14 @@ MpSecurityOffice4 = {
         end,
         Load = function()
             for entity, state in pairs(MpSecurityOffice4.Entities) do
-                if type(entity) == 'string' and state then
+                if type(entity) == "string" and state then
                     ActivateInteriorEntitySet(MpSecurityOffice4.InteriorId, entity)
                 end
             end
         end,
         Clear = function()
             for entity, _ in pairs(MpSecurityOffice4.Entities) do
-                if type(entity) == 'string' then
+                if type(entity) == "string" then
                     DeactivateInteriorEntitySet(MpSecurityOffice4.InteriorId, entity)
                 end
             end
@@ -102,5 +102,5 @@ MpSecurityOffice4 = {
         MpSecurityOffice4.Entities.Load()
 
         RefreshInterior(MpSecurityOffice4.interiorId)
-    end
+    end,
 }

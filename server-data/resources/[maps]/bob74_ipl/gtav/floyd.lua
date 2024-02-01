@@ -1,4 +1,4 @@
-exports('GetFloydObject', function()
+exports("GetFloydObject", function()
     return Floyd
 end)
 
@@ -10,7 +10,7 @@ Floyd = {
             "swap_clean_apt",
             "layer_debra_pic",
             "layer_whiskey",
-            "swap_sofa_A"
+            "swap_sofa_A",
         },
         messedUp = {
             "layer_mess_A",
@@ -20,7 +20,7 @@ Floyd = {
             "swap_sofa_B",
             "swap_wade_sofa_A",
             "layer_wade_shit",
-            "layer_torture"
+            "layer_torture",
         },
 
         Set = function(style, refresh)
@@ -31,9 +31,9 @@ Floyd = {
         Clear = function(refresh)
             SetIplPropState(Floyd.interiorId, {
                 Floyd.Style.normal,
-                Floyd.Style.messedUp
+                Floyd.Style.messedUp,
             }, false, refresh)
-        end
+        end,
     },
     MrJam = {
         normal = "swap_mrJam_A",
@@ -49,9 +49,9 @@ Floyd = {
             SetIplPropState(Floyd.interiorId, {
                 Floyd.MrJam.normal,
                 Floyd.MrJam.jammed,
-                Floyd.MrJam.jammedOnTable
+                Floyd.MrJam.jammedOnTable,
             }, false, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -59,5 +59,5 @@ Floyd = {
         Floyd.MrJam.Set(Floyd.MrJam.normal)
 
         RefreshInterior(Floyd.interiorId)
-    end
+    end,
 }

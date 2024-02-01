@@ -1,5 +1,5 @@
 -- Meth lab: 1009.5, -3196.6, -38.99682
-exports('GetBikerMethLabObject', function()
+exports("GetBikerMethLabObject", function()
     return BikerMethLab
 end)
 
@@ -15,19 +15,19 @@ BikerMethLab = {
             end,
             Remove = function()
                 EnableIpl(BikerMethLab.Ipl.Interior.ipl, false)
-            end
-        }
+            end,
+        },
     },
     Style = {
         none = "",
         empty = "meth_lab_empty",
         basic = {
             "meth_lab_basic",
-            "meth_lab_setup"
+            "meth_lab_setup",
         },
         upgrade = {
             "meth_lab_upgrade",
-            "meth_lab_setup"
+            "meth_lab_setup",
         },
 
         Set = function(style, refresh)
@@ -45,9 +45,9 @@ BikerMethLab = {
             SetIplPropState(BikerMethLab.interiorId, {
                 BikerMethLab.Style.empty,
                 BikerMethLab.Style.basic,
-                BikerMethLab.Style.upgrade
+                BikerMethLab.Style.upgrade,
             }, false, refresh)
-        end
+        end,
     },
     Security = {
         none = "",
@@ -66,14 +66,14 @@ BikerMethLab = {
         end,
         Clear = function(refresh)
             SetIplPropState(BikerMethLab.interiorId, BikerMethLab.Security.upgrade, false, refresh)
-        end
+        end,
     },
     Details = {
         production = "meth_lab_production", -- Products
 
         Enable = function(details, state, refresh)
             SetIplPropState(BikerMethLab.interiorId, details, state, refresh)
-        end
+        end,
     },
 
     LoadDefault = function()
@@ -83,5 +83,5 @@ BikerMethLab = {
         BikerMethLab.Details.Enable(BikerMethLab.Details.production, false)
 
         RefreshInterior(BikerMethLab.interiorId)
-    end
+    end,
 }
