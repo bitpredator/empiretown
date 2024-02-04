@@ -321,9 +321,9 @@ end)
 
 CreateThread(function()
     SetZoneEnabled(GetZoneFromNameId("PrLog"), false) -- REMOVES SNOW FROM CP
-    SetScenarioGroupEnabled('Heist_Island_Peds', true)
-    SetAmbientZoneListStatePersistent('AZL_DLC_Hei4_Island_Zones', 1, 1) -- Ambient Sounds For Cayo Perico 
-    SetAmbientZoneListStatePersistent('AZL_DLC_Hei4_Island_Disabled_Zones', 0, 1) -- Disable Other Ambient Sounds
+    SetScenarioGroupEnabled("Heist_Island_Peds", true)
+    SetAmbientZoneListStatePersistent("AZL_DLC_Hei4_Island_Zones", 1, 1) -- Ambient Sounds For Cayo Perico
+    SetAmbientZoneListStatePersistent("AZL_DLC_Hei4_Island_Disabled_Zones", 0, 1) -- Disable Other Ambient Sounds
 
     while true do
         local coords = GetEntityCoords(PlayerPedId())
@@ -370,7 +370,6 @@ CreateThread(function()
             SetRadarAsExteriorThisFrame()
             SetRadarAsInteriorThisFrame(GetHashKey("h4_fake_islandx"), 4700.0, -5145.0, 0, 0)
             wait = 0
-
         elseif not isCayoMinimapLoaded and nearIsland then
             -- If the minimap is not loaded with SetToggleMinimapHeistIsland and the player is close to cayo perico, then we load it
             isCayoMinimapLoaded = true

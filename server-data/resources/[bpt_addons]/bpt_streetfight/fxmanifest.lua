@@ -1,25 +1,25 @@
-fx_version 'adamant'
+fx_version("adamant")
 
-game 'gta5'
+game("gta5")
 
-description 'bpt_streetfight'
+description("bpt_streetfight")
 
-version '1.0.0'
+version("1.0.0")
 
-server_script {
-    '@es_extended/locale.lua',
-    'server/server.lua',
-    'locales/*.lua',
-    'config.lua'
-}
+server_script({
+    "@es_extended/locale.lua",
+    "server/server.lua",
+    "locales/*.lua",
+    "config.lua",
+})
 
-client_script {
-    '@es_extended/locale.lua',
-    'client/client.lua',
-    'locales/*.lua',
-    'config.lua'
-}
+client_script({
+    "@es_extended/locale.lua",
+    "client/client.lua",
+    "locales/*.lua",
+    "config.lua",
+})
 
-dependencies {
-    'es_extended'
-}
+dependencies({
+    "es_extended",
+})

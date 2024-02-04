@@ -1,20 +1,20 @@
-fx_version 'cerulean'
-game 'gta5'
-author 'bitpredator'
-description 'bpt_teleport'
-version '1.0.0'
+fx_version("cerulean")
+game("gta5")
+author("bitpredator")
+description("bpt_teleport")
+version("1.0.0")
 
-shared_script '@es_extended/imports.lua'
+shared_script("@es_extended/imports.lua")
 
-client_scripts {
-    '@es_extended/locale.lua',
-    'locales/*.lua',
-    'config.lua',
-    'warehouses.lua'
-}
+client_scripts({
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
+    "warehouses.lua",
+})
 
-server_scripts {
-    '@es_extended/locale.lua',
-    'locales/*.lua',
-    'config.lua'
-}
+server_scripts({
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
+})
