@@ -1,32 +1,31 @@
 local Status = {
-	DELIVERY_INACTIVE                 = 0,
-	PLAYER_STARTED_DELIVERY           = 1,
-	PLAYER_REACHED_VEHICLE_POINT      = 2,
+	DELIVERY_INACTIVE = 0,
+	PLAYER_STARTED_DELIVERY = 1,
+	PLAYER_REACHED_VEHICLE_POINT = 2,
 	PLAYER_REMOVED_GOODS_FROM_VEHICLE = 3,
-	PLAYER_REACHED_DELIVERY_POINT     = 4,
-	PLAYER_RETURNING_TO_BASE          = 5
+	PLAYER_REACHED_DELIVERY_POINT = 4,
+	PLAYER_RETURNING_TO_BASE = 5,
 }
 
 -- Don't touch this, pls :)
-local CurrentStatus             = Status.DELIVERY_INACTIVE
-local CurrentSubtitle           = nil
-local CurrentBlip               = nil
-local CurrentType               = nil
-local CurrentVehicle            = nil
-local CurrentAttachments        = {}
+local CurrentStatus = Status.DELIVERY_INACTIVE
+local CurrentSubtitle = nil
+local CurrentBlip = nil
+local CurrentType = nil
+local CurrentVehicle = nil
+local CurrentAttachments = {}
 local CurrentVehicleAttachments = {}
-local DeliveryLocation          = {}
-local DeliveryComplete          = {}
-local DeliveryRoutes            = {}
-local PlayerJob                 = nil
-local FinishedJobs              = 0
+local DeliveryLocation = {}
+local DeliveryComplete = {}
+local DeliveryRoutes = {}
+local PlayerJob = nil
+local FinishedJobs = 0
 
 -- Make player look like a worker
 function LoadWorkPlayerSkin(deliveryType)
-
 	local playerPed = PlayerPedId()
 
-	if deliveryType == 'scooter' then
+	if deliveryType == "scooter" then
 		if IsPedMale(playerPed) then
 			for k, v in pairs(Config.OutfitScooter) do
 				SetPedComponentVariation(playerPed, k, v.drawables, v.texture, 1)
@@ -51,14 +50,13 @@ end
 
 -- Load the default player skin (for esx_skin)
 function LoadDefaultPlayerSkin()
-	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-		TriggerEvent('skinchanger:loadSkin', skin)
+	ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function(skin)
+		TriggerEvent("skinchanger:loadSkin", skin)
 	end)
 end
 
 -- Control the input
 function HandleInput()
-
 	if PlayerJob ~= "delivery" then
 		return
 	end
@@ -72,13 +70,12 @@ end
 
 -- Main logic handler
 function HandleLogic()
-
 	if PlayerJob ~= "delivery" then
 		return
 	end
 
 	local playerPed = PlayerPedId()
-	local pCoords   = GetEntityCoords(playerPed)
+	local pCoords = GetEntityCoords(playerPed)
 
 	if CurrentStatus ~= Status.DELIVERY_INACTIVE then
 		if IsPedDeadOrDying(playerPed, true) then
@@ -96,7 +93,17 @@ function HandleLogic()
 				CurrentSubtitle = nil
 			end
 
-			if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, DeliveryLocation.Item1.x, DeliveryLocation.Item1.y, DeliveryLocation.Item1.z, true) < 1.5 then
+			if
+				GetDistanceBetweenCoords(
+					pCoords.x,
+					pCoords.y,
+					pCoords.z,
+					DeliveryLocation.Item1.x,
+					DeliveryLocation.Item1.y,
+					DeliveryLocation.Item1.z,
+					true
+				) < 1.5
+			then
 				CurrentStatus = Status.PLAYER_REACHED_VEHICLE_POINT
 				CurrentSubtitle = _U("remove_goods_subtext")
 				PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", false, 0, true)
@@ -104,15 +111,24 @@ function HandleLogic()
 		end
 
 		if CurrentStatus == Status.PLAYER_REMOVED_GOODS_FROM_VEHICLE then
-			if CurrentType == 'van' or CurrentType == 'truck' then
+			if CurrentType == "van" or CurrentType == "truck" then
 				CurrentSubtitle = _U("deliver_inside_shop")
-				if CurrentType == 'van' and not IsEntityPlayingAnim(playerPed, "anim@heists@box_carry@", "walk", 3) then
-					ForceCarryAnimation();
+				if CurrentType == "van" and not IsEntityPlayingAnim(playerPed, "anim@heists@box_carry@", "walk", 3) then
+					ForceCarryAnimation()
 				end
 			end
 
-			if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, DeliveryLocation.Item2.x, DeliveryLocation.Item2.y, DeliveryLocation.Item2.z, true) < 1.5 then
-
+			if
+				GetDistanceBetweenCoords(
+					pCoords.x,
+					pCoords.y,
+					pCoords.z,
+					DeliveryLocation.Item2.x,
+					DeliveryLocation.Item2.y,
+					DeliveryLocation.Item2.z,
+					true
+				) < 1.5
+			then
 				TriggerServerEvent("bpt_deliveries:finishDelivery:server", CurrentType)
 				PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", false, 0, true)
 				FinishedJobs = FinishedJobs + 1
@@ -120,13 +136,14 @@ function HandleLogic()
 				ESX.ShowNotification(_U("finish_job") .. FinishedJobs .. "/" .. #DeliveryRoutes)
 
 				if FinishedJobs >= #DeliveryRoutes then
-				 RemovePlayerProps()
-				 RemoveBlip(CurrentBlip)
-				 DeliveryLocation.Item1 = Config.Base.retveh
-				 DeliveryLocation.Item2 = {x = 0, y = 0, z = 0}
-				 CurrentBlip            = CreateBlipAt(DeliveryLocation.Item1.x, DeliveryLocation.Item1.y, DeliveryLocation.Item1.z)
-				 CurrentSubtitle        = _U("get_back_to_deliveryhub")
-				 CurrentStatus          = Status.PLAYER_RETURNING_TO_BASE
+					RemovePlayerProps()
+					RemoveBlip(CurrentBlip)
+					DeliveryLocation.Item1 = Config.Base.retveh
+					DeliveryLocation.Item2 = { x = 0, y = 0, z = 0 }
+					CurrentBlip =
+						CreateBlipAt(DeliveryLocation.Item1.x, DeliveryLocation.Item1.y, DeliveryLocation.Item1.z)
+					CurrentSubtitle = _U("get_back_to_deliveryhub")
+					CurrentStatus = Status.PLAYER_RETURNING_TO_BASE
 					return
 				else
 					RemovePlayerProps()
@@ -145,7 +162,6 @@ end
 
 -- Handling markers and object status
 function HandleMarkers()
-
 	if PlayerJob ~= "delivery" then
 		return
 	end
@@ -154,7 +170,27 @@ function HandleMarkers()
 	local deleter = Config.Base.deleter
 
 	if CurrentStatus ~= Status.DELIVERY_INACTIVE then
-		DrawMarker(20, deleter.x, deleter.y, deleter.z, 0, 0, 0, 0, 180.0, 0, 1.5, 1.5, 1.5, 249, 38, 114, 150, true, true)
+		DrawMarker(
+			20,
+			deleter.x,
+			deleter.y,
+			deleter.z,
+			0,
+			0,
+			0,
+			0,
+			180.0,
+			0,
+			1.5,
+			1.5,
+			1.5,
+			249,
+			38,
+			114,
+			150,
+			true,
+			true
+		)
 		if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, deleter.x, deleter.y, deleter.z) < 1.5 then
 			DisplayHelpText(_U("end_delivery"))
 			if IsControlJustReleased(0, 51) then
@@ -168,23 +204,62 @@ function HandleMarkers()
 				local VehiclePos = GetEntityCoords(CurrentVehicle)
 				local ArrowHeight = VehiclePos.z
 
-				if CurrentType == 'van' then
+				if CurrentType == "van" then
 					ArrowHeight = ArrowHeight + 1.0
-				elseif CurrentType == 'truck' then
+				elseif CurrentType == "truck" then
 					ArrowHeight = ArrowHeight + 2.0
 				end
 
-				DrawMarker(20, VehiclePos.x, VehiclePos.y, ArrowHeight, 0, 0, 0, 0, 180.0, 0, 0.8, 0.8, 0.8, 102, 217, 239, 150, true, true)
+				DrawMarker(
+					20,
+					VehiclePos.x,
+					VehiclePos.y,
+					ArrowHeight,
+					0,
+					0,
+					0,
+					0,
+					180.0,
+					0,
+					0.8,
+					0.8,
+					0.8,
+					102,
+					217,
+					239,
+					150,
+					true,
+					true
+				)
 			else
 				local dl = DeliveryLocation.Item1
 				if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, dl.x, dl.y, dl.z, true) < 150 then
-					DrawMarker(20, dl.x, dl.y, dl.z, 0, 0, 0, 0, 180.0, 0, 1.5, 1.5, 1.5, 102, 217, 239, 150, true, true)
+					DrawMarker(
+						20,
+						dl.x,
+						dl.y,
+						dl.z,
+						0,
+						0,
+						0,
+						0,
+						180.0,
+						0,
+						1.5,
+						1.5,
+						1.5,
+						102,
+						217,
+						239,
+						150,
+						true,
+						true
+					)
 				end
 			end
 		end
 
 		if CurrentStatus == Status.PLAYER_REACHED_VEHICLE_POINT then
-
 			if not IsPlayerInsideDeliveryVehicle() then
 				local TrunkPos = GetEntityCoords(CurrentVehicle)
 				local TrunkForward = GetEntityForwardVector(CurrentVehicle)
@@ -200,15 +275,38 @@ function HandleMarkers()
 				TrunkPos = TrunkPos - (TrunkForward * ScaleFactor)
 				TrunkHeight = TrunkPos.z + 0.7
 
-				local ArrowSize = {x = 0.8, y = 0.8, z = 0.8}
+				local ArrowSize = { x = 0.8, y = 0.8, z = 0.8 }
 
-				if CurrentType == 'scooter' then
-					ArrowSize = {x = 0.15, y = 0.15, z = 0.15}
+				if CurrentType == "scooter" then
+					ArrowSize = { x = 0.15, y = 0.15, z = 0.15 }
 				end
 
-				DrawMarker(20, TrunkPos.x, TrunkPos.y, TrunkHeight, 0, 0, 0, 180.0, 0, 0, ArrowSize.x, ArrowSize.y, ArrowSize.z, 102, 217, 239, 150, true, true)
+				DrawMarker(
+					20,
+					TrunkPos.x,
+					TrunkPos.y,
+					TrunkHeight,
+					0,
+					0,
+					0,
+					180.0,
+					0,
+					0,
+					ArrowSize.x,
+					ArrowSize.y,
+					ArrowSize.z,
+					102,
+					217,
+					239,
+					150,
+					true,
+					true
+				)
 
-				if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, TrunkPos.x, TrunkPos.y, TrunkHeight, true) < 1.0 then
+				if
+					GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, TrunkPos.x, TrunkPos.y, TrunkHeight, true)
+					< 1.0
+				then
 					DisplayHelpText(_U("remove_goods"))
 					if IsControlJustReleased(0, 51) then
 						PlayTrunkAnimation()
@@ -232,24 +330,79 @@ function HandleMarkers()
 		local bCoords = Config.Base.coords
 		if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, bCoords.x, bCoords.y, bCoords.z, true) < 150.0 then
 			local ScooterPos = Config.Base.scooter
-			local VanPos     = Config.Base.van
-			local TruckPos   = Config.Base.truck
+			local VanPos = Config.Base.van
+			local TruckPos = Config.Base.truck
 
-			DrawMarker(37, ScooterPos.x, ScooterPos.y, ScooterPos.z, 0, 0, 0, 0, 0, 0, 2.5, 2.5, 2.5, 243, 56, 56, 150, true, true)
+			DrawMarker(
+				37,
+				ScooterPos.x,
+				ScooterPos.y,
+				ScooterPos.z,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				2.5,
+				2.5,
+				2.5,
+				243,
+				56,
+				56,
+				150,
+				true,
+				true
+			)
 			DrawMarker(36, VanPos.x, VanPos.y, VanPos.z, 0, 0, 0, 0, 0, 0, 2.5, 2.5, 2.5, 250, 170, 60, 150, true, true)
-			DrawMarker(39, TruckPos.x, TruckPos.y, TruckPos.z, 0, 0, 0, 0, 0, 0, 2.5, 2.5, 2.5, 230, 219, 91, 150, true, true)
+			DrawMarker(
+				39,
+				TruckPos.x,
+				TruckPos.y,
+				TruckPos.z,
+				0,
+				0,
+				0,
+				0,
+				0,
+				0,
+				2.5,
+				2.5,
+				2.5,
+				230,
+				219,
+				91,
+				150,
+				true,
+				true
+			)
 
 			local SelectType
 
-			if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, ScooterPos.x, ScooterPos.y, ScooterPos.z, true) < 1.5 then
+			if
+				GetDistanceBetweenCoords(
+					pCoords.x,
+					pCoords.y,
+					pCoords.z,
+					ScooterPos.x,
+					ScooterPos.y,
+					ScooterPos.z,
+					true
+				) < 1.5
+			then
 				DisplayHelpText(_U("start_delivery") .. tostring(Config.Safe.scooter))
-				SelectType = 'scooter'
-			elseif GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, VanPos.x, VanPos.y, VanPos.z, true) < 1.5 then
+				SelectType = "scooter"
+			elseif
+				GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, VanPos.x, VanPos.y, VanPos.z, true) < 1.5
+			then
 				DisplayHelpText(_U("start_delivery") .. tostring(Config.Safe.van))
-				SelectType = 'van'
-			elseif GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, TruckPos.x, TruckPos.y, TruckPos.z, true) < 1.5 then
+				SelectType = "van"
+			elseif
+				GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, TruckPos.x, TruckPos.y, TruckPos.z, true)
+				< 1.5
+			then
 				DisplayHelpText(_U("start_delivery") .. tostring(Config.Safe.truck))
-				SelectType = 'truck'
+				SelectType = "truck"
 			else
 				SelectType = false
 			end
@@ -267,28 +420,27 @@ end
 -- The trunk animation when the player remove the goods from the vehicle
 function PlayTrunkAnimation()
 	CreateThread(function()
-		if CurrentType == 'truck' then
+		if CurrentType == "truck" then
 			if Config.Models.vehDoor.usingTrunkForTruck then
 				SetVehicleDoorOpen(CurrentVehicle, 5, false, false)
 			else
 				SetVehicleDoorOpen(CurrentVehicle, 2, false, false)
 				SetVehicleDoorOpen(CurrentVehicle, 3, false, false)
 			end
-		elseif CurrentType == 'van' then
+		elseif CurrentType == "van" then
 			if Config.Models.vehDoor.usingTrunkForVan then
 				SetVehicleDoorOpen(CurrentVehicle, 5, false, false)
 			end
-
 		end
 		Wait(1000)
-		if CurrentType == 'truck' then
+		if CurrentType == "truck" then
 			if Config.Models.vehDoor.usingTrunkForTruck then
 				SetVehicleDoorShut(CurrentVehicle, 5, false)
 			else
 				SetVehicleDoorShut(CurrentVehicle, 2, false)
 				SetVehicleDoorShut(CurrentVehicle, 3, false)
 			end
-		elseif CurrentType == 'van' then
+		elseif CurrentType == "van" then
 			if Config.Models.vehDoor.usingTrunkForVan then
 				SetVehicleDoorShut(CurrentVehicle, 5, false)
 			else
@@ -301,16 +453,16 @@ end
 
 -- Create a blip for the location
 function CreateBlipAt(x, y, z)
- local tmpBlip = AddBlipForCoord(x, y, z)
- SetBlipSprite(tmpBlip, 1)
- SetBlipColour(tmpBlip, 66)
- SetBlipAsShortRange(tmpBlip, true)
- BeginTextCommandSetBlipName("STRING")
- AddTextComponentString(_U("dst_blip"))
- SetBlipAsMissionCreatorBlip(tmpBlip, true)
- SetBlipRoute(tmpBlip, true)
+	local tmpBlip = AddBlipForCoord(x, y, z)
+	SetBlipSprite(tmpBlip, 1)
+	SetBlipColour(tmpBlip, 66)
+	SetBlipAsShortRange(tmpBlip, true)
+	BeginTextCommandSetBlipName("STRING")
+	AddTextComponentString(_U("dst_blip"))
+	SetBlipAsMissionCreatorBlip(tmpBlip, true)
+	SetBlipRoute(tmpBlip, true)
 
- return tmpBlip
+	return tmpBlip
 end
 
 local blip
@@ -352,13 +504,12 @@ end
 
 -- Spawn an object and attach it to the player
 function GetPlayerPropsForDelivery(deliveryType)
-
 	RequestAnimDict("anim@heists@box_carry@")
 	while not HasAnimDictLoaded("anim@heists@box_carry@") do
-	 Wait(0)
+		Wait(0)
 	end
 
-	if deliveryType == 'scooter' then
+	if deliveryType == "scooter" then
 		local ModelHash = GetHashKey("prop_paper_bag_01")
 		local PlayerPed = PlayerPedId()
 		local PlayerPos = GetEntityCoords(PlayerPed)
@@ -367,14 +518,30 @@ function GetPlayerPropsForDelivery(deliveryType)
 
 		local Object = CreateObject(ModelHash, PlayerPos.x, PlayerPos.y, PlayerPos.z, true, true, false)
 
-		AttachEntityToEntity(Object, PlayerPed, GetPedBoneIndex(PlayerPed, 28422), 0.25, 0.0, 0.06, 65.0, -130.0, -65.0, true, true, false, true, 0, true)
+		AttachEntityToEntity(
+			Object,
+			PlayerPed,
+			GetPedBoneIndex(PlayerPed, 28422),
+			0.25,
+			0.0,
+			0.06,
+			65.0,
+			-130.0,
+			-65.0,
+			true,
+			true,
+			false,
+			true,
+			0,
+			true
+		)
 		table.insert(CurrentAttachments, Object)
 	end
 
-	if deliveryType == 'van' then
+	if deliveryType == "van" then
 		TaskPlayAnim(PlayerPedId(), "anim@heists@box_carry@", "walk", 8.0, 8.0, -1, 51)
 
-		local Rand      = GetRandomFromRange(1, #Config.VanGoodsPropNames)
+		local Rand = GetRandomFromRange(1, #Config.VanGoodsPropNames)
 		local ModelHash = GetHashKey(Config.VanGoodsPropNames[Rand])
 
 		WaitModelLoad(ModelHash)
@@ -383,11 +550,27 @@ function GetPlayerPropsForDelivery(deliveryType)
 		local PlayerPos = GetOffsetFromEntityInWorldCoords(PlayerPed, 0.0, 0.0, -5.0)
 		local Object = CreateObject(ModelHash, PlayerPos.x, PlayerPos.y, PlayerPos.z, true, false, false)
 
-		AttachEntityToEntity(Object, PlayerPed, GetPedBoneIndex(PlayerPed, 28422), 0.0, 0.0, -0.55, 0.0, 0.0, 90.0, true, false, false, true, 1, true)
+		AttachEntityToEntity(
+			Object,
+			PlayerPed,
+			GetPedBoneIndex(PlayerPed, 28422),
+			0.0,
+			0.0,
+			-0.55,
+			0.0,
+			0.0,
+			90.0,
+			true,
+			false,
+			false,
+			true,
+			1,
+			true
+		)
 		table.insert(CurrentAttachments, Object)
 	end
 
-	if deliveryType == 'truck' then
+	if deliveryType == "truck" then
 		TaskPlayAnim(PlayerPedId(), "anim@heists@box_carry@", "walk", 8.0, 8.0, -1, 51)
 
 		local ModelHash = GetHashKey("prop_sacktruck_02b")
@@ -398,7 +581,23 @@ function GetPlayerPropsForDelivery(deliveryType)
 		local PlayerPos = GetOffsetFromEntityInWorldCoords(PlayerPed, 0.0, 0.0, -5.0)
 		local Object = CreateObject(ModelHash, PlayerPos.x, PlayerPos.y, PlayerPos.z, true, false, false)
 
-		AttachEntityToEntity(Object, PlayerPed, GetEntityBoneIndexByName(PlayerPed, "SKEL_Pelvis"), -0.075, 0.90, -0.86, -20.0, -0.5, 181.0, true, false, false, true, 1, true)
+		AttachEntityToEntity(
+			Object,
+			PlayerPed,
+			GetEntityBoneIndexByName(PlayerPed, "SKEL_Pelvis"),
+			-0.075,
+			0.90,
+			-0.86,
+			-20.0,
+			-0.5,
+			181.0,
+			true,
+			false,
+			false,
+			true,
+			1,
+			true
+		)
 		table.insert(CurrentAttachments, Object)
 	end
 
@@ -418,27 +617,29 @@ end
 
 -- Spawn the scooter, truck or van
 function SpawnDeliveryVehicle(deliveryType)
-
-	local Rnd           = GetRandomFromRange(1, #Config.ParkingSpawns)
+	local Rnd = GetRandomFromRange(1, #Config.ParkingSpawns)
 	local SpawnLocation = Config.ParkingSpawns[Rnd]
 
-	if deliveryType == 'scooter' then
+	if deliveryType == "scooter" then
 		local ModelHash = GetHashKey(Config.Models.scooter)
 		WaitModelLoad(ModelHash)
-		CurrentVehicle = CreateVehicle(ModelHash, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, SpawnLocation.h, true, true)
+		CurrentVehicle =
+			CreateVehicle(ModelHash, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, SpawnLocation.h, true, true)
 	end
 
-	if deliveryType == 'truck' then
+	if deliveryType == "truck" then
 		local ModelHash = GetHashKey(Config.Models.truck)
 		WaitModelLoad(ModelHash)
-		CurrentVehicle = CreateVehicle(ModelHash, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, SpawnLocation.h, true, true)
+		CurrentVehicle =
+			CreateVehicle(ModelHash, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, SpawnLocation.h, true, true)
 		SetVehicleLivery(CurrentVehicle, 2)
 	end
 
-	if deliveryType == 'van' then
+	if deliveryType == "van" then
 		local ModelHash = GetHashKey(Config.Models.van)
 		WaitModelLoad(ModelHash)
-		CurrentVehicle = CreateVehicle(ModelHash, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, SpawnLocation.h, true, true)
+		CurrentVehicle =
+			CreateVehicle(ModelHash, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, SpawnLocation.h, true, true)
 		SetVehicleExtra(CurrentVehicle, 2, false)
 		SetVehicleLivery(CurrentVehicle, 0)
 		SetVehicleColours(CurrentVehicle, 0, 0)
@@ -447,15 +648,31 @@ function SpawnDeliveryVehicle(deliveryType)
 	DecorSetInt(CurrentVehicle, "Delivery.Rental", Config.DecorCode)
 	SetVehicleOnGroundProperly(CurrentVehicle)
 
-	if deliveryType == 'scooter' then
+	if deliveryType == "scooter" then
 		local ModelHash = GetHashKey("prop_med_bag_01")
 		WaitModelLoad(ModelHash)
 		local Object = CreateObject(ModelHash, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, true, false, false)
-		AttachEntityToEntity(Object, CurrentVehicle, GetEntityBoneIndexByName(CurrentVehicle, "misc_a"), 0.0, -0.55, 0.45, 0.0, 0.0, 0.0, true, true, false, true, 0, true)
+		AttachEntityToEntity(
+			Object,
+			CurrentVehicle,
+			GetEntityBoneIndexByName(CurrentVehicle, "misc_a"),
+			0.0,
+			-0.55,
+			0.45,
+			0.0,
+			0.0,
+			0.0,
+			true,
+			true,
+			false,
+			true,
+			0,
+			true
+		)
 		table.insert(CurrentVehicleAttachments, Object)
 	end
 
-	if deliveryType == 'van' then
+	if deliveryType == "van" then
 		local ModelHash1 = GetHashKey("prop_crate_11e")
 		local ModelHash2 = GetHashKey("prop_cardbordbox_02a")
 		WaitModelLoad(ModelHash1)
@@ -463,9 +680,57 @@ function SpawnDeliveryVehicle(deliveryType)
 		local Object1 = CreateObject(ModelHash1, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, true, false, false)
 		local Object2 = CreateObject(ModelHash1, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, true, false, false)
 		local Object3 = CreateObject(ModelHash2, SpawnLocation.x, SpawnLocation.y, SpawnLocation.z, true, false, false)
-		AttachEntityToEntity(Object1, CurrentVehicle, GetEntityBoneIndexByName(CurrentVehicle, "chassic"), 0.25, -1.55, -0.12, 0.0, 0.0, 0.0, true, true, false, true, 0, true)
-		AttachEntityToEntity(Object2, CurrentVehicle, GetEntityBoneIndexByName(CurrentVehicle, "chassic"), -0.26, -1.55, 0.2, 0.0, 0.0, 0.0, true, true, false, true, 0, true)
-		AttachEntityToEntity(Object3, CurrentVehicle, GetEntityBoneIndexByName(CurrentVehicle, "chassic"), -0.26, -1.55, -0.12, 0.0, 0.0, 0.0, true, true, false, true, 0, true)
+		AttachEntityToEntity(
+			Object1,
+			CurrentVehicle,
+			GetEntityBoneIndexByName(CurrentVehicle, "chassic"),
+			0.25,
+			-1.55,
+			-0.12,
+			0.0,
+			0.0,
+			0.0,
+			true,
+			true,
+			false,
+			true,
+			0,
+			true
+		)
+		AttachEntityToEntity(
+			Object2,
+			CurrentVehicle,
+			GetEntityBoneIndexByName(CurrentVehicle, "chassic"),
+			-0.26,
+			-1.55,
+			0.2,
+			0.0,
+			0.0,
+			0.0,
+			true,
+			true,
+			false,
+			true,
+			0,
+			true
+		)
+		AttachEntityToEntity(
+			Object3,
+			CurrentVehicle,
+			GetEntityBoneIndexByName(CurrentVehicle, "chassic"),
+			-0.26,
+			-1.55,
+			-0.12,
+			0.0,
+			0.0,
+			0.0,
+			true,
+			true,
+			false,
+			true,
+			0,
+			true
+		)
 		table.insert(CurrentVehicleAttachments, Object1)
 		table.insert(CurrentVehicleAttachments, Object2)
 		table.insert(CurrentVehicleAttachments, Object3)
@@ -498,13 +763,12 @@ end
 
 -- Create some random destinations
 function CreateRoute(deliveryType)
-
 	local TotalDeliveries = GetRandomFromRange(Config.Deliveries.min, Config.Deliveries.max)
 	local DeliveryPoints
 
-	if deliveryType == 'scooter' then
+	if deliveryType == "scooter" then
 		DeliveryPoints = Config.DeliveryLocationsScooter
-	elseif deliveryType == 'van' then
+	elseif deliveryType == "van" then
 		DeliveryPoints = Config.DeliveryLocationsVan
 	else
 		DeliveryPoints = Config.DeliveryLocationsTruck
@@ -518,12 +782,20 @@ function CreateRoute(deliveryType)
 			PreviousPoint = DeliveryRoutes[#DeliveryRoutes].Item1
 		end
 
-		local Rnd             = GetRandomFromRange(1, #DeliveryPoints)
-		local NextPoint       = DeliveryPoints[Rnd]
+		local Rnd = GetRandomFromRange(1, #DeliveryPoints)
+		local NextPoint = DeliveryPoints[Rnd]
 		local HasPlayerAround = false
 
 		for i = 1, #DeliveryRoutes do
-			local Distance = GetDistanceBetweenCoords(NextPoint.Item1.x, NextPoint.Item1.y, NextPoint.Item1.z, DeliveryRoutes[i].x, DeliveryRoutes[i].y, DeliveryRoutes[i].z, true)
+			local Distance = GetDistanceBetweenCoords(
+				NextPoint.Item1.x,
+				NextPoint.Item1.y,
+				NextPoint.Item1.z,
+				DeliveryRoutes[i].x,
+				DeliveryRoutes[i].y,
+				DeliveryRoutes[i].z,
+				true
+			)
 			if Distance < 50 then
 				HasPlayerAround = true
 			end
@@ -540,10 +812,10 @@ end
 function EndDelivery()
 	local PlayerPed = PlayerPedId()
 	if not IsPedSittingInAnyVehicle(PlayerPed) or GetVehiclePedIsIn(PlayerPed) ~= CurrentVehicle then
-		TriggerEvent("MpGameMessage:send", _U("delivery_end"), _U("delivery_failed"), 3500, 'error')
+		TriggerEvent("MpGameMessage:send", _U("delivery_end"), _U("delivery_failed"), 3500, "error")
 		FinishDelivery(CurrentType, false)
 	else
-		TriggerEvent("MpGameMessage:send", _U("delivery_end"), _U("delivery_finish"), 3500, 'success')
+		TriggerEvent("MpGameMessage:send", _U("delivery_end"), _U("delivery_finish"), 3500, "success")
 		ReturnVehicle(CurrentType)
 	end
 end
@@ -567,11 +839,11 @@ function FinishDelivery(deliveryType, safeReturn)
 		DeleteEntity(CurrentVehicle)
 	end
 
-	CurrentStatus    = Status.DELIVERY_INACTIVE
-	CurrentVehicle   = nil
-	CurrentSubtitle  = nil
-	FinishedJobs     = 0
-	DeliveryRoutes   = {}
+	CurrentStatus = Status.DELIVERY_INACTIVE
+	CurrentVehicle = nil
+	CurrentSubtitle = nil
+	FinishedJobs = 0
+	DeliveryRoutes = {}
 	DeliveryComplete = {}
 	DeliveryLocation = {}
 
@@ -580,7 +852,7 @@ function FinishDelivery(deliveryType, safeReturn)
 	end
 
 	CurrentBlip = nil
-	CurrentType = ''
+	CurrentType = ""
 
 	TriggerServerEvent("bpt_deliveries:returnSafe:server", deliveryType, safeReturn)
 
@@ -589,7 +861,7 @@ end
 
 -- Some helpful functions
 function DisplayHelpText(text)
-	SetTextComponentFormat('STRING')
+	SetTextComponentFormat("STRING")
 	AddTextComponentString(text)
 	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
@@ -606,53 +878,53 @@ function WaitModelLoad(name)
 end
 
 function Draw2DTextCenter(x, y, text, scale)
-    SetTextFont(0)
-    SetTextProportional(7)
-    SetTextScale(scale, scale)
-    SetTextColour(255, 255, 255, 255)
-    SetTextDropShadow(0, 0, 0, 0,255)
-    SetTextDropShadow()
-    SetTextEdge(4, 0, 0, 0, 255)
-    SetTextOutline()
+	SetTextFont(0)
+	SetTextProportional(7)
+	SetTextScale(scale, scale)
+	SetTextColour(255, 255, 255, 255)
+	SetTextDropShadow(0, 0, 0, 0, 255)
+	SetTextDropShadow()
+	SetTextEdge(4, 0, 0, 0, 255)
+	SetTextOutline()
 	SetTextCentre(true)
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x, y)
+	SetTextEntry("STRING")
+	AddTextComponentString(text)
+	DrawText(x, y)
 end
 
 -- Initialize ESX
 CreateThread(function()
- ESX = exports["es_extended"]:getSharedObject()
-    while ESX.GetPlayerData().job == nil do
-     Wait(10)
-    end
-    ESX.PlayerData = ESX.GetPlayerData()
+	ESX = exports["es_extended"]:getSharedObject()
+	while ESX.GetPlayerData().job == nil do
+		Wait(10)
+	end
+	ESX.PlayerData = ESX.GetPlayerData()
 	TriggerServerEvent("bpt_deliveries:getPlayerJob:server")
 end)
 
 -- Main thread
 CreateThread(function()
- blip = AddBlipForCoord(Config.Base.coords.x, Config.Base.coords.y, Config.Base.coords.z)
- SetBlipSprite(blip, 85)
- SetBlipColour(blip, 5)
- SetBlipAsShortRange(blip, true)
- BeginTextCommandSetBlipName("STRING")
- AddTextComponentString(_U('blip_name'))
- EndTextCommandSetBlipName(blip)
+	blip = AddBlipForCoord(Config.Base.coords.x, Config.Base.coords.y, Config.Base.coords.z)
+	SetBlipSprite(blip, 85)
+	SetBlipColour(blip, 5)
+	SetBlipAsShortRange(blip, true)
+	BeginTextCommandSetBlipName("STRING")
+	AddTextComponentString(_U("blip_name"))
+	EndTextCommandSetBlipName(blip)
 end)
 
 -- The other 4 threads
 CreateThread(function()
 	while true do
-	 Wait(0)
-	 HandleInput()
+		Wait(0)
+		HandleInput()
 	end
 end)
 
 CreateThread(function()
 	while true do
-	 Wait(0)
-	 HandleLogic()
+		Wait(0)
+		HandleLogic()
 	end
 end)
 
@@ -673,27 +945,27 @@ CreateThread(function()
 end)
 
 -- Register events and handlers
-RegisterNetEvent('esx:setJob')
-RegisterNetEvent('bpt_deliveries:setPlayerJob:client')
-RegisterNetEvent('bpt_deliveries:startJob:client')
+RegisterNetEvent("esx:setJob")
+RegisterNetEvent("bpt_deliveries:setPlayerJob:client")
+RegisterNetEvent("bpt_deliveries:startJob:client")
 
-AddEventHandler('esx:setJob', function(job)
+AddEventHandler("esx:setJob", function(job)
 	PlayerJob = job.name
 end)
 
-AddEventHandler('bpt_deliveries:setPlayerJob:client', function(job)
+AddEventHandler("bpt_deliveries:setPlayerJob:client", function(job)
 	print("Player job: " .. job)
 	PlayerJob = job
 end)
 
-AddEventHandler('bpt_deliveries:startJob:client', function(deliveryType)
-	TriggerEvent("MpGameMessage:send", _U("delivery_start"), _U("delivery_tips"), 3500, 'success')
+AddEventHandler("bpt_deliveries:startJob:client", function(deliveryType)
+	TriggerEvent("MpGameMessage:send", _U("delivery_start"), _U("delivery_tips"), 3500, "success")
 	LoadWorkPlayerSkin(deliveryType)
 	local ModelHash = GetHashKey("prop_paper_bag_01")
 	WaitModelLoad(ModelHash)
 	SpawnDeliveryVehicle(deliveryType)
 	CreateRoute(deliveryType)
 	GetNextDeliveryPoint(true)
-	CurrentType   = deliveryType
+	CurrentType = deliveryType
 	CurrentStatus = Status.PLAYER_STARTED_DELIVERY
 end)
