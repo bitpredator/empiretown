@@ -3,7 +3,5 @@ function AddTextEntry(key, value)
 end
 
 CreateThread(function()
-	AddTextEntry('p911r', 'p911r')
-
-
+	AddTextEntry("p911r", "p911r")
 end)
