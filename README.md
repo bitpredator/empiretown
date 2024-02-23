@@ -18,4 +18,4 @@ You should have received a copy of the GNU General Public License along with thi
 ### 📌 License
 
 EMPIRETOWN - FRAMEWORK FOR FIVEM
-Copyright (C) 2022-2023 bitpredator
+Copyright (C) 2022-2024 bitpredator

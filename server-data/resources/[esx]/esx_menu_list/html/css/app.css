@@ -22,14 +22,14 @@
     font-family: bankgothic;
 }
 
-.menu > table {
+.menu>table {
     border-collapse: separate;
     border-spacing: 0 5px;
     min-width: 400px;
     background: rgba(33, 33, 33, 0);
 }
 
-.menu > table > thead {
+.menu>table>thead {
     background: rgba(10, 10, 10, 0.9);
     text-align: center;
     height: 20px;

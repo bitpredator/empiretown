@@ -1,15 +1,15 @@
 CreateThread(function()
-	local MenuType    = 'list'
+	local MenuType = "list"
 	local OpenedMenus = {}
 
 	local function openMenu(namespace, name, data)
-		OpenedMenus[namespace .. '_' .. name] = true
+		OpenedMenus[namespace .. "_" .. name] = true
 
 		SendNUIMessage({
-			action    = 'openMenu',
+			action = "openMenu",
 			namespace = namespace,
-			name      = name,
-			data      = data
+			name = name,
+			data = data,
 		})
 		SetTimeout(200, function()
 			SetNuiFocus(true, true)
@@ -17,13 +17,13 @@ CreateThread(function()
 	end
 
 	local function closeMenu(namespace, name)
-		OpenedMenus[namespace .. '_' .. name] = nil
+		OpenedMenus[namespace .. "_" .. name] = nil
 		local OpenedMenuCount = 0
 
 		SendNUIMessage({
-			action    = 'closeMenu',
+			action = "closeMenu",
 			namespace = namespace,
-			name      = name,
+			name = name,
 		})
 
 		for _, v in pairs(OpenedMenus) do
@@ -39,21 +39,21 @@ CreateThread(function()
 
 	ESX.UI.Menu.RegisterType(MenuType, openMenu, closeMenu)
 
-	RegisterNUICallback('menu_submit', function(data, cb)
+	RegisterNUICallback("menu_submit", function(data, cb)
 		local menu = ESX.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
 		if menu.submit then
 			menu.submit(data, menu)
 		end
-		cb('OK')
+		cb("OK")
 	end)
 
-	RegisterNUICallback('menu_cancel', function(data, cb)
+	RegisterNUICallback("menu_cancel", function(data, cb)
 		local menu = ESX.UI.Menu.GetOpened(MenuType, data._namespace, data._name)
 
 		if menu.cancel ~= nil then
 			menu.cancel(data, menu)
 		end
 
-		cb('OK')
+		cb("OK")
 	end)
 end)
