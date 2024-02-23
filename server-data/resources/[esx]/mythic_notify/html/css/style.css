@@ -2,7 +2,8 @@ body {
     background-color: transparent !important;
 }
 
-.template, .notification {
+.template,
+.notification {
     display: none;
 }
 

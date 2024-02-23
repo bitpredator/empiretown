@@ -10,7 +10,7 @@ function CreateNotification(data) {
     $notification.html(data.text);
     $notification.fadeIn();
     if (data.style !== undefined) {
-        Object.keys(data.style).forEach(function(css) {
+        Object.keys(data.style).forEach(function (css) {
             $notification.css(css, data.style[css])
         });
     }
@@ -24,7 +24,7 @@ function UpdateNotification(data) {
     $notification.html(data.text);
 
     if (data.style !== undefined) {
-        Object.keys(data.style).forEach(function(css) {
+        Object.keys(data.style).forEach(function (css) {
             $notification.css(css, data.style[css])
         });
     }
@@ -37,7 +37,7 @@ function ShowNotif(data) {
                 let $notification = CreateNotification(data);
                 $('.notif-container').append($notification);
                 notifs[data.id] = {
-                    notif: $notification  
+                    notif: $notification
                 };
             } else {
                 UpdateNotification(data);
@@ -45,7 +45,7 @@ function ShowNotif(data) {
         } else if (data.persist.toUpperCase() == 'END') {
             if (notifs[data.id] != null) {
                 let $notification = $(notifs[data.id].notif);
-                $.when($notification.fadeOut()).done(function() {
+                $.when($notification.fadeOut()).done(function () {
                     $notification.remove();
                     delete notifs[data.id];
                 });
@@ -58,9 +58,9 @@ function ShowNotif(data) {
                 $('.notif-container').append($notification);
                 notifs[data.id] = {
                     notif: $notification,
-                    timer: setTimeout(function() {
+                    timer: setTimeout(function () {
                         let $notification = notifs[data.id].notif;
-                        $.when($notification.fadeOut()).done(function() {
+                        $.when($notification.fadeOut()).done(function () {
                             $notification.remove();
                             clearTimeout(notifs[data.id].timer);
                             delete notifs[data.id];
@@ -71,9 +71,9 @@ function ShowNotif(data) {
                 clearTimeout(notifs[data.id].timer);
                 UpdateNotification(data);
 
-                notifs[data.id].timer = setTimeout(function() {
+                notifs[data.id].timer = setTimeout(function () {
                     let $notification = notifs[data.id].notif;
-                    $.when($notification.fadeOut()).done(function() {
+                    $.when($notification.fadeOut()).done(function () {
                         $notification.remove();
                         clearTimeout(notifs[data.id].timer);
                         delete notifs[data.id];
@@ -83,8 +83,8 @@ function ShowNotif(data) {
         } else {
             let $notification = CreateNotification(data);
             $('.notif-container').append($notification);
-            setTimeout(function() {
-                $.when($notification.fadeOut()).done(function() {
+            setTimeout(function () {
+                $.when($notification.fadeOut()).done(function () {
                     $notification.remove()
                 });
             }, data.length != null ? data.length : 2500);

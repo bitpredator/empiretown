@@ -49,7 +49,7 @@ lib.onCache('ped', function(value)
 end)
 
 exports('openBackpack', function(data, slot)
-    if not slot?.metadata?.identifier then
+    if not slot.metadata.identifier then
         local identifier = lib.callback.await('wasabi_backpack:getNewIdentifier', 100, data.slot)
         ox_inventory:openInventory('stash', 'bag_'..identifier)
     else

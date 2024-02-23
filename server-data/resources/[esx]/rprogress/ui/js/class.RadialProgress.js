@@ -130,8 +130,8 @@ class RProgress {
 
         this.config.onStart.call(this);
         animate();
-    }	
-	
+    }
+
     pause() {
         cancelAnimationFrame(this.frame);
     }
@@ -139,7 +139,7 @@ class RProgress {
     stop() {
         cancelAnimationFrame(this.frame);
         this.remove();
-    }	
+    }
 
     render(element) {
         if (!this.rendered) {
@@ -147,7 +147,7 @@ class RProgress {
                 typeof element === "string" ? document.querySelector(element) : element;
 
             element.appendChild(this.container);
-			
+
             this.setPosition();
 
             this.rendered = true;
@@ -169,7 +169,7 @@ class RProgress {
 
     hide() {
         this.container.classList.add("done");
-    }    
+    }
 }
 
 /**
@@ -195,10 +195,10 @@ class RadialProgress extends RProgress {
             zoneColor: "rgba(51, 105, 30, 1)",
             bgColor: "rgba(0, 0, 0, 0.4)",
             easing: "easeLinear",
-            onStart: () => {},
-            onChange: () => {},
-            onComplete: () => {},
-            onTimeout: () => {},
+            onStart: () => { },
+            onChange: () => { },
+            onComplete: () => { },
+            onTimeout: () => { },
         };
 
         this.config = Object.assign({}, defaultConfig, config);
@@ -212,7 +212,7 @@ class RadialProgress extends RProgress {
         const arc = this.config.maxAngle - this.config.minAngle;
 
         this.config.padding *= 2;
-				
+
         this.config.w = (this.config.r * 2) + this.config.padding;
         this.config.h = (this.config.r * 2) + this.config.padding;
 
@@ -234,7 +234,7 @@ class RadialProgress extends RProgress {
             )
         };
 
-        if ( this.config.zone ) {
+        if (this.config.zone) {
             this.zoneArc = (this.config.zone / 100) * arc;
             this.zonePos = getRandomInt(0, arc - this.zoneArc);
 
@@ -249,18 +249,17 @@ class RadialProgress extends RProgress {
                 this.zoneArc,
                 true
             )
-        }        
+        }
 
         this.svg.getNode().appendChild(this.dials.bg.getNode());
         this.svg.getNode().appendChild(this.dials.fg.getNode());
 
-        if ( this.dials.zone ) {
+        if (this.dials.zone) {
             this.svg.getNode().appendChild(this.dials.zone.getNode());
-            this.dials.zone.getNode().setAttributeNS(null, "stroke", this.config.zoneColor); 
+            this.dials.zone.getNode().setAttributeNS(null, "stroke", this.config.zoneColor);
 
-            this.dials.zone.getNode().style.transform = `rotate(${
-                this.zonePos
-            }deg)`;
+            this.dials.zone.getNode().style.transform = `rotate(${this.zonePos
+                }deg)`;
 
             this.dials.zone.getNode().style.transformOrigin = `50% 50% 0`;
         }
@@ -270,8 +269,8 @@ class RadialProgress extends RProgress {
         fgNode.setAttributeNS(null, "cx", (this.config.w / 2));
         fgNode.setAttributeNS(null, "cy", (this.config.h / 2));
         fgNode.setAttributeNS(null, "stroke-linecap", this.config.cap);
-        fgNode.setAttributeNS(null, "stroke", this.config.color);   
-         
+        fgNode.setAttributeNS(null, "stroke", this.config.color);
+
         this.dials.bg.getNode().setAttributeNS(null, "stroke", this.config.bgColor);
 
 
@@ -306,12 +305,10 @@ class RadialProgress extends RProgress {
 
         this.container.style.width = `${(this.config.r * 2) + this.config.padding}px`;
         this.container.style.height = `${(this.config.r * 2) + this.config.padding}px`;
-        this.container.style.left = `${
-            (this.config.x * window.innerWidth) - (size / 2) - (this.config.padding / 2)
-        }px`;
-        this.container.style.top = `${
-            (this.config.y * window.innerHeight) - (size / 2) - (this.config.padding / 2)
-        }px`;
+        this.container.style.left = `${(this.config.x * window.innerWidth) - (size / 2) - (this.config.padding / 2)
+            }px`;
+        this.container.style.top = `${(this.config.y * window.innerHeight) - (size / 2) - (this.config.padding / 2)
+            }px`;
     }
 
     setEndAngle(angle) {
@@ -329,9 +326,8 @@ class RadialProgress extends RProgress {
 
     setRotation(angle) {
         this.config.rotation = angle;
-        this.svg.getNode().style.transform = `rotate(${
-            this.config.rotation - 90
-        }deg)`;
+        this.svg.getNode().style.transform = `rotate(${this.config.rotation - 90
+            }deg)`;
     }
 
     setProgress(progress, e) {
@@ -352,7 +348,7 @@ class RadialProgress extends RProgress {
 class LinearProgress extends RProgress {
     constructor(config) {
         super();
-		
+
         const defaultConfig = {
             w: 300,
             h: 10,
@@ -365,9 +361,9 @@ class LinearProgress extends RProgress {
             color: "rgba(255, 255, 255, 1.0)",
             bgColor: "rgba(0, 0, 0, 0.4)",
             easing: "easeLinear",
-            onStart: () => {},
-            onChange: () => {},
-            onComplete: () => {}
+            onStart: () => { },
+            onChange: () => { },
+            onComplete: () => { }
         };
 
         this.config = Object.assign({}, defaultConfig, config);
@@ -384,52 +380,52 @@ class LinearProgress extends RProgress {
 
         this.bg = document.createElement("div");
         this.fg = document.createElement("div");
-		
+
         this.bg.classList.add("linear-progress-bg");
         this.fg.classList.add("linear-progress-fg");
 
         this.label = document.createElement("div");
         this.label.classList.add("linear-progress-label");
-		
+
         this.container.appendChild(this.bg);
         this.container.appendChild(this.fg);
         this.container.appendChild(this.label);
     }
-	
+
     setPosition() {
         let contCss = `width:${this.config.w}px;height:${this.config.h}px;left:${this.config.x * window.innerWidth - this.config.w / 2}px;top:${this.config.y * window.innerHeight - this.config.h / 2}px;`;
         let bgCss = `background-color:${this.config.bgColor};padding:${this.config.padding}px;left:${-this.config.padding}px;top:${-this.config.padding}px;`;
-		
+
         this.container.style.cssText = contCss;
-		
+
         this.fg.style.backgroundColor = this.config.color;
-		
-        if ( this.config.cap == 'round' ) {
+
+        if (this.config.cap == 'round') {
             this.fg.style.borderRadius = `${this.config.h / 2}px`
             this.fg.style.transform = "scale(1, 1)";
-			
+
             bgCss += `border-radius:${this.config.h / 2 + this.config.padding}px;`;
         } else {
             this.fg.style.width = "100%";
         }
-		
+
 
         this.bg.style.cssText = bgCss;
     }
-	
+
     setProgress(progress, e) {
         if (progress === undefined) {
             progress = this.config.progress;
         }
-		
+
         const p = (progress / 100);
-		
-        if ( this.config.cap == 'round' ) {
+
+        if (this.config.cap == 'round') {
             this.fg.style.width = `${progress}%`;
         } else {
             this.fg.style.transform = `scale(${p}, 1)`;
         }
-		
+
         this.progress = progress;
 
         if (e === undefined) {
