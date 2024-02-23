@@ -13,34 +13,34 @@ var money = Intl.NumberFormat("en-US", {
         $("[data-charid=1]")
             .html(
                 '<div class="character-info"><p class="character-info-name"><h1>' +
-                    `${translate.name} ` +
-                    "</h1><span>" +
-                    data.firstname +
-                    " " +
-                    data.lastname +
-                    '</span></p><p class="character-info-work"><h1>' +
-                    `${translate.job} ` +
-                    "</h1><span>" +
-                    data.job +
-                    " " +
-                    data.job_grade +
-                    '</span></p><p class="character-info-money"><h1>' +
-                    `${translate.money} ` +
-                    "</h1><span> " +
-                    money.format(data.money) +
-                    '</span></p><p class="character-info-bank"><h1>' +
-                    `${translate.bank} ` +
-                    "</h1><span> " +
-                    money.format(data.bank) +
-                    '</span></p> <p class="character-info-dateofbirth"><h1>' +
-                    `${translate.dob} ` +
-                    "</h1><span>" +
-                    data.dateofbirth +
-                    '</span></p> <p class="character-info-gender"><h1>' +
-                    `${translate.gender} ` +
-                    "</h1><span>" +
-                    data.sex +
-                    "</span></p></div>"
+                `${translate.name} ` +
+                "</h1><span>" +
+                data.firstname +
+                " " +
+                data.lastname +
+                '</span></p><p class="character-info-work"><h1>' +
+                `${translate.job} ` +
+                "</h1><span>" +
+                data.job +
+                " " +
+                data.job_grade +
+                '</span></p><p class="character-info-money"><h1>' +
+                `${translate.money} ` +
+                "</h1><span> " +
+                money.format(data.money) +
+                '</span></p><p class="character-info-bank"><h1>' +
+                `${translate.bank} ` +
+                "</h1><span> " +
+                money.format(data.bank) +
+                '</span></p> <p class="character-info-dateofbirth"><h1>' +
+                `${translate.dob} ` +
+                "</h1><span>" +
+                data.dateofbirth +
+                '</span></p> <p class="character-info-gender"><h1>' +
+                `${translate.gender} ` +
+                "</h1><span>" +
+                data.sex +
+                "</span></p></div>"
             )
             .attr("data-ischar", "true");
     };

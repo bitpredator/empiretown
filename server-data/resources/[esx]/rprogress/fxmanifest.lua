@@ -1,32 +1,32 @@
-fx_version 'bodacious'
-game 'gta5'
+fx_version("bodacious")
+game("gta5")
 
-description 'Radial Progress'
+description("Radial Progress")
 
-author 'Karl Saunders'
+author("Karl Saunders")
 
-version '0.7.9'
+version("0.7.9")
 
-client_scripts {
-    'config.lua',
-    'utils.lua',
-    'client.lua',
-}
+client_scripts({
+	"config.lua",
+	"utils.lua",
+	"client.lua",
+})
 
-ui_page 'ui/ui.html'
+ui_page("ui/ui.html")
 
-files {
-    'ui/ui.html',
-    'ui/fonts/*.ttf',
-    'ui/css/*.css',
-    'ui/js/*.js',
-}
+files({
+	"ui/ui.html",
+	"ui/fonts/*.ttf",
+	"ui/css/*.css",
+	"ui/js/*.js",
+})
 
-exports {
-    "Start",
-    "Custom",
-    "Stop",
-    "Static",
-    "Linear",
-    "MiniGame"
-}
+exports({
+	"Start",
+	"Custom",
+	"Stop",
+	"Static",
+	"Linear",
+	"MiniGame",
+})

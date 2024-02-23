@@ -57,7 +57,8 @@ body {
     opacity: 0.8;
 }
 
-.ui-dial.done, .linear-progress.done {
+.ui-dial.done,
+.linear-progress.done {
     -webkit-animation: done 200ms ease 0ms forwards;
     animation: done 200ms ease 0ms forwards;
 }
@@ -80,6 +81,7 @@ body {
     top: 100%;
     margin: 20px 0;
 }
+
 .ui-dial.label-right .ui-label {
     left: 100%;
     margin: 0 20px;

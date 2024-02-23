@@ -6,290 +6,301 @@ local Run, MiniGameCompleted = false, false
 ------------------------------------------------------------
 
 function Start(text, duration, linear)
-    if type(text) ~= "string" then
-        PrintError("param 'text' must be type:string")
-        return
-    end
+	if type(text) ~= "string" then
+		PrintError("param 'text' must be type:string")
+		return
+	end
 
-    if tonumber(duration) == nil then
-        PrintError("param 'duration' must be type:number")
-        return
-    end
-    
-    local options = MergeConfig(Config, {
-        display = true,
-        Duration = duration,
-        Label = text
-    })
+	if tonumber(duration) == nil then
+		PrintError("param 'duration' must be type:number")
+		return
+	end
 
-    if linear ~= nil then
-        options.Type = 'linear'
-    end
+	local options = MergeConfig(Config, {
+		display = true,
+		Duration = duration,
+		Label = text,
+	})
 
-    options.Async = false
-    options.MiniGame = false
+	if linear ~= nil then
+		options.Type = "linear"
+	end
 
-    -- CAN'T SEND FUNCTIONS TO NUI
-    options.onStart = nil
-    options.onComplete = nil
-    
-    OnStart = nil
-    OnComplete = nil
+	options.Async = false
+	options.MiniGame = false
 
-    SendNUIMessage(options)
+	-- CAN'T SEND FUNCTIONS TO NUI
+	options.onStart = nil
+	options.onComplete = nil
 
-    Run = true
+	OnStart = nil
+	OnComplete = nil
 
-    while Run do
-        DisableControls(options)
-        Wait(1)
-    end
+	SendNUIMessage(options)
+
+	Run = true
+
+	while Run do
+		DisableControls(options)
+		Wait(1)
+	end
 end
 
 function Custom(options, static)
-    local Controls = {
-        Mouse = Config.DisableControls.Mouse,
-        Player = Config.DisableControls.Player,
-        Vehicle = Config.DisableControls.Vehicle,
-    }
+	local Controls = {
+		Mouse = Config.DisableControls.Mouse,
+		Player = Config.DisableControls.Player,
+		Vehicle = Config.DisableControls.Vehicle,
+	}
 
-    if options.DisableControls ~= nil then
-        Controls = options.DisableControls
-    end
+	if options.DisableControls ~= nil then
+		Controls = options.DisableControls
+	end
 
-    -- MERGE USER OPTIONS
-    options = MergeConfig(Config, options)
+	-- MERGE USER OPTIONS
+	options = MergeConfig(Config, options)
 
-    options.DisableControls = MergeConfig(Config.DisableControls, Controls)
+	options.DisableControls = MergeConfig(Config.DisableControls, Controls)
 
-    options.display = true
+	options.display = true
 
-    if options.ShowProgress == true then
-        options.ShowTimer = false
-    end
-    
-    OnStart = options.onStart
-    OnComplete = options.onComplete
-    OnTimeout = options.onTimeout
+	if options.ShowProgress == true then
+		options.ShowTimer = false
+	end
 
-    Animation = nil
-    if options.Animation ~= nil then
-        Animation = options.Animation
-    end
+	OnStart = options.onStart
+	OnComplete = options.onComplete
+	OnTimeout = options.onTimeout
 
-    -- CAN'T SEND FUNCTIONS TO NUI
-    options.onStart = nil
-    options.onComplete = nil
-    options.onTimeout = nil
+	Animation = nil
+	if options.Animation ~= nil then
+		Animation = options.Animation
+	end
 
-    -- Static Progress
-    if static == true then
-        return options
-    end
+	-- CAN'T SEND FUNCTIONS TO NUI
+	options.onStart = nil
+	options.onComplete = nil
+	options.onTimeout = nil
 
-    if options.MiniGame then
-        SetNuiFocus(true, true)
-    end
+	-- Static Progress
+	if static == true then
+		return options
+	end
 
-    SendNUIMessage(options)
+	if options.MiniGame then
+		SetNuiFocus(true, true)
+	end
 
-    Run = true
+	SendNUIMessage(options)
 
-    PlayAnimation(options)
+	Run = true
 
-    local cancelKey = Config.CancelKey
+	PlayAnimation(options)
 
-    if options.cancelKey and tonumber(options.cancelKey) then
-        cancelKey = options.cancelKey
-    end
+	local cancelKey = Config.CancelKey
 
-    if options.Async == false then
-        while Run do
+	if options.cancelKey and tonumber(options.cancelKey) then
+		cancelKey = options.cancelKey
+	end
 
-            if IsControlJustPressed(0, cancelKey) and options.canCancel then
-                OnComplete(true)
-                TriggerEvent("rprogress:stop")
-            end
+	if options.Async == false then
+		while Run do
+			if IsControlJustPressed(0, cancelKey) and options.canCancel then
+				OnComplete(true)
+				TriggerEvent("rprogress:stop")
+			end
 
-            DisableControls(options)
-            Wait(1)
-        end
+			DisableControls(options)
+			Wait(1)
+		end
 
-        StopAnimation()
-    else
-        CreateThread(function()
-            while Run do
+		StopAnimation()
+	else
+		CreateThread(function()
+			while Run do
+				if IsControlJustPressed(0, cancelKey) and options.canCancel then
+					OnComplete(true)
+					TriggerEvent("rprogress:stop")
+				end
 
-                if IsControlJustPressed(0, cancelKey) and options.canCancel then
-                    OnComplete(true)
-                    TriggerEvent("rprogress:stop")
-                end
-
-                DisableControls(options)
-                Wait(0)
-            end
-        end)
-    end
+				DisableControls(options)
+				Wait(0)
+			end
+		end)
+	end
 end
 
 function Linear(text, duration)
-    Start(text, duration, true)
+	Start(text, duration, true)
 end
 
 function Stop()
-    SendNUIMessage({
-        stop = true
-    })
+	SendNUIMessage({
+		stop = true,
+	})
 end
 
 function Static(config)
-    local options = Custom(config, true)
+	local options = Custom(config, true)
 
-    options.display = false
-    options.static = true
+	options.display = false
+	options.static = true
 
-    SendNUIMessage(options)
+	SendNUIMessage(options)
 
-    return {
-        Show = function()
-            options.hide = false
-            options.show = true
-            options.progress = false
-            SendNUIMessage(options)
-        end,
-        SetProgress = function(progress)
-            options.hide = false
-            options.show = true
-            options.progress = tonumber(progress)
+	return {
+		Show = function()
+			options.hide = false
+			options.show = true
+			options.progress = false
+			SendNUIMessage(options)
+		end,
+		SetProgress = function(progress)
+			options.hide = false
+			options.show = true
+			options.progress = tonumber(progress)
 
-            if options.progress < 0 then
-                options.progress = 0
-            elseif options.progress > 100 then
-                options.progress = 100
-            end
+			if options.progress < 0 then
+				options.progress = 0
+			elseif options.progress > 100 then
+				options.progress = 100
+			end
 
-            SendNUIMessage(options)
-        end,
-        Hide = function()
-            options.show = false
-            options.hide = true
-            options.progress = false
-            SendNUIMessage(options)
-        end,
-        Destroy = function()
-            options.show = false
-            options.hide = false
-            options.progress = false
-            options.destroy = true
-            SendNUIMessage(options)  
-        end
-    }
+			SendNUIMessage(options)
+		end,
+		Hide = function()
+			options.show = false
+			options.hide = true
+			options.progress = false
+			SendNUIMessage(options)
+		end,
+		Destroy = function()
+			options.show = false
+			options.hide = false
+			options.progress = false
+			options.destroy = true
+			SendNUIMessage(options)
+		end,
+	}
 end
 
 function MiniGame(options)
-    if Run then return end
+	if Run then
+		return
+	end
 
-    MiniGameCompleted = false
+	MiniGameCompleted = false
 
-    -- MERGE USER OPTIONS
-    options = MergeConfig(Config.MiniGameOptions, options)
-    
-    if options.Zone == nil and options.Duration == nil then
-        local difficulty = "Easy"
+	-- MERGE USER OPTIONS
+	options = MergeConfig(Config.MiniGameOptions, options)
 
-        if options.Difficulty ~= nil then
-            difficulty = options.Difficulty
-        end
-    
-        options.Zone = Config.MiniGameOptions.Difficulty[difficulty].Zone
-        options.Duration = Config.MiniGameOptions.Difficulty[difficulty].Duration
-    end
-    
-    options.Difficulty = nil
-    options.MiniGame = true
+	if options.Zone == nil and options.Duration == nil then
+		local difficulty = "Easy"
 
-    Custom(options)
+		if options.Difficulty ~= nil then
+			difficulty = options.Difficulty
+		end
 
-    if options.Timeout ~= nil and options.Timeout > 0 then
-        Citizen.SetTimeout(options.Timeout, function()
-            if OnTimeout ~= nil then
-                if not MiniGameCompleted then
-                    Stop()
-                    OnTimeout()
-                end
-            end
-        end)
-    end
+		options.Zone = Config.MiniGameOptions.Difficulty[difficulty].Zone
+		options.Duration = Config.MiniGameOptions.Difficulty[difficulty].Duration
+	end
+
+	options.Difficulty = nil
+	options.MiniGame = true
+
+	Custom(options)
+
+	if options.Timeout ~= nil and options.Timeout > 0 then
+		Citizen.SetTimeout(options.Timeout, function()
+			if OnTimeout ~= nil then
+				if not MiniGameCompleted then
+					Stop()
+					OnTimeout()
+				end
+			end
+		end)
+	end
 end
 
 function DisableControls(options)
-    if options.DisableControls.Mouse then
-        DisableControlAction(1, 1, true)
-        DisableControlAction(1, 2, true)
-        DisableControlAction(1, 106, true)
-    end
-    
-    if options.DisableControls.Player then
-        DisableControlAction(0, 21, true)
-        DisableControlAction(0, 30, true)
-        DisableControlAction(0, 31, true)
-        DisableControlAction(0, 36, true)
-    end
+	if options.DisableControls.Mouse then
+		DisableControlAction(1, 1, true)
+		DisableControlAction(1, 2, true)
+		DisableControlAction(1, 106, true)
+	end
 
-    if options.DisableControls.Vehicle then
-        DisableControlAction(0, 71, true)
-        DisableControlAction(0, 72, true)
-        DisableControlAction(0, 75, true)
-    end
+	if options.DisableControls.Player then
+		DisableControlAction(0, 21, true)
+		DisableControlAction(0, 30, true)
+		DisableControlAction(0, 31, true)
+		DisableControlAction(0, 36, true)
+	end
+
+	if options.DisableControls.Vehicle then
+		DisableControlAction(0, 71, true)
+		DisableControlAction(0, 72, true)
+		DisableControlAction(0, 75, true)
+	end
 end
 
 -- Start the scenario / animation
 function PlayAnimation()
-    if Animation ~= nil then
-        local player = PlayerPedId()
-        if DoesEntityExist(player) and not IsEntityDead(player) then
-            CreateThread(function()
-                if Animation.scenario ~= nil then
-                    TaskStartScenarioInPlace(player, Animation.scenario, 0, true)
-                else
-                    if Animation.animationDictionary ~= nil and Animation.animationName ~= nil then
-                        
-                        if Animation.flag == nil then
-                            Animation.flag = 1
-                        end
+	if Animation ~= nil then
+		local player = PlayerPedId()
+		if DoesEntityExist(player) and not IsEntityDead(player) then
+			CreateThread(function()
+				if Animation.scenario ~= nil then
+					TaskStartScenarioInPlace(player, Animation.scenario, 0, true)
+				else
+					if Animation.animationDictionary ~= nil and Animation.animationName ~= nil then
+						if Animation.flag == nil then
+							Animation.flag = 1
+						end
 
-                        RequestAnimDict( Animation.animationDictionary )
-                        while not HasAnimDictLoaded( Animation.animationDictionary ) do
-                            Wait(1)
-                        end
-                        TaskPlayAnim( player, Animation.animationDictionary, Animation.animationName, 3.0, 1.0, -1, Animation.flag, 0, 0, 0, 0 )
-                    end
-                end
-            end)
-        end
-    end
+						RequestAnimDict(Animation.animationDictionary)
+						while not HasAnimDictLoaded(Animation.animationDictionary) do
+							Wait(1)
+						end
+						TaskPlayAnim(
+							player,
+							Animation.animationDictionary,
+							Animation.animationName,
+							3.0,
+							1.0,
+							-1,
+							Animation.flag,
+							0,
+							0,
+							0,
+							0
+						)
+					end
+				end
+			end)
+		end
+	end
 end
 
 -- Stop the scenario / animation
 function StopAnimation()
-    if Animation ~= nil then
-        local player = PlayerPedId()
-        if DoesEntityExist( player ) and not IsEntityDead( player ) then
-            if Animation.scenario ~= nil then
-                ClearPedTasks(player)
-            else
-                if Animation.animationDictionary ~= nil and Animation.animationName ~= nil then
-                    StopAnimTask(player, Animation.animationDictionary, Animation.animationName, 1.0)
-                end
-            end
-        end
-    end
+	if Animation ~= nil then
+		local player = PlayerPedId()
+		if DoesEntityExist(player) and not IsEntityDead(player) then
+			if Animation.scenario ~= nil then
+				ClearPedTasks(player)
+			else
+				if Animation.animationDictionary ~= nil and Animation.animationName ~= nil then
+					StopAnimTask(player, Animation.animationDictionary, Animation.animationName, 1.0)
+				end
+			end
+		end
+	end
 end
 
 function Reset()
-    Run = false
+	Run = false
 
-    SetNuiFocus(false, false)
+	SetNuiFocus(false, false)
 end
 
 Reset()
@@ -298,48 +309,48 @@ Reset()
 --                     NUI CALLBACKS                      --
 ------------------------------------------------------------
 
-RegisterNUICallback('progress_start', function(_, cb)
-    if OnStart ~= nil then
-        OnStart()
-    end
+RegisterNUICallback("progress_start", function(_, cb)
+	if OnStart ~= nil then
+		OnStart()
+	end
 
-    cb('ok')
+	cb("ok")
 end)
 
-RegisterNUICallback('progress_complete', function(_, cb)
-    Reset()
+RegisterNUICallback("progress_complete", function(_, cb)
+	Reset()
 
-    if OnComplete ~= nil then
-        OnComplete()
-        StopAnimation()
-    end
+	if OnComplete ~= nil then
+		OnComplete()
+		StopAnimation()
+	end
 
-    cb('ok')
+	cb("ok")
 end)
 
-RegisterNUICallback('progress_stop', function(_, cb)
-    Reset()
+RegisterNUICallback("progress_stop", function(_, cb)
+	Reset()
 
-    StopAnimation()
+	StopAnimation()
 
-    cb('ok')
+	cb("ok")
 end)
 
-RegisterNUICallback('progress_minigame_input', function(data, cb)
-    if not MiniGameCompleted then
-        if OnComplete ~= nil then
-            OnComplete(data.success == true)
-        end
-        StopAnimation()
-        MiniGameCompleted = true
-    end
-    cb('ok')
+RegisterNUICallback("progress_minigame_input", function(data, cb)
+	if not MiniGameCompleted then
+		if OnComplete ~= nil then
+			OnComplete(data.success == true)
+		end
+		StopAnimation()
+		MiniGameCompleted = true
+	end
+	cb("ok")
 end)
 
-RegisterNUICallback('progress_minigame_complete', function(_, cb)
-    Reset()
+RegisterNUICallback("progress_minigame_complete", function(_, cb)
+	Reset()
 
-    cb('ok')
+	cb("ok")
 end)
 
 ------------------------------------------------------------
@@ -355,23 +366,22 @@ RegisterNetEvent("rprogress:minigame")
 AddEventHandler("rprogress:start", Start)
 AddEventHandler("rprogress:stop", Stop)
 AddEventHandler("rprogress:custom", function(options)
-    options.Async = false
-    options.onStart = nil
-    options.onComplete = nil
+	options.Async = false
+	options.onStart = nil
+	options.onComplete = nil
 
-    Custom(options)
+	Custom(options)
 end)
 AddEventHandler("rprogress:linear", Linear)
 AddEventHandler("rprogress:minigame", MiniGame)
-
 
 ------------------------------------------------------------
 --                        EXPORTS                         --
 ------------------------------------------------------------
 
-exports('Start', Start)
-exports('Custom', Custom)
-exports('Stop', Stop)
-exports('Static', Static)
-exports('Linear', Linear)
-exports('MiniGame', MiniGame)
+exports("Start", Start)
+exports("Custom", Custom)
+exports("Stop", Stop)
+exports("Static", Static)
+exports("Linear", Linear)
+exports("MiniGame", MiniGame)
