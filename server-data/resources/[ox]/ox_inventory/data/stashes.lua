@@ -8,14 +8,14 @@ return {
 			heading = 0,
 			minZ = 29.49,
 			maxZ = 32.09,
-			label = 'Open personal locker'
+			label = "Open personal locker",
 		},
-		name = 'policelocker',
-		label = 'Personal locker',
+		name = "policelocker",
+		label = "Personal locker",
 		owner = true,
 		slots = 70,
 		weight = 70000,
-		groups = shared.police
+		groups = shared.police,
 	},
 
 	{
@@ -27,14 +27,14 @@ return {
 			heading = 340,
 			minZ = 43.34,
 			maxZ = 44.74,
-			label = 'Open personal locker'
+			label = "Open personal locker",
 		},
-		name = 'emslocker',
-		label = 'Personal Locker',
+		name = "emslocker",
+		label = "Personal Locker",
 		owner = true,
 		slots = 70,
 		weight = 70000,
-		groups = {['ambulance'] = 0}
+		groups = { ["ambulance"] = 0 },
 	},
 
 	{
@@ -46,13 +46,13 @@ return {
 			heading = 340,
 			minZ = 43.34,
 			maxZ = 44.74,
-			label = 'Storage'
+			label = "Storage",
 		},
-		name = 'unicornlocker',
-		label = 'Storage',
+		name = "unicornlocker",
+		label = "Storage",
 		owner = false,
 		slots = 70,
 		weight = 70000,
-		groups = {['unicorn'] = 0}
+		groups = { ["unicorn"] = 0 },
 	},
 }

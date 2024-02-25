@@ -28,7 +28,7 @@ local GTComponents = {
 	MC_ROLE_ENFORCER = 26,
 	MC_ROLE_PROSPECT = 27,
 	MP_TRANSMITTER = 28,
-	MP_BOMB = 29
+	MP_BOMB = 29,
 }
 
 activeTags = {}
@@ -41,10 +41,10 @@ CreateThread(function()
 	local GetPlayerName = GetPlayerName
 
 	local function sanitizeString(s)
-		if type(s) ~= "string" then return "" end
-		local res = s:gsub("[^\32-\126]", "")
-			:gsub('[<>]', '')
-			:gsub('~.*~', '')
+		if type(s) ~= "string" then
+			return ""
+		end
+		local res = s:gsub("[^\32-\126]", ""):gsub("[<>]", ""):gsub("~.*~", "")
 
 		if res:len() < s:len() then
 			local trimmedRes = res:gsub("%s", "")
@@ -88,12 +88,15 @@ CreateThread(function()
 							if targetPed > 0 then
 								local targetPlayerServerId = GetPlayerServerId(targetPlayer)
 								local sanitizedName = sanitizeString(GetPlayerName(targetPlayer))
-								local renderedText = ("[%d] %s"):format(targetPlayerServerId, sanitizedName == "" and "Inconnu" or sanitizedName)
+								local renderedText = ("[%d] %s"):format(
+									targetPlayerServerId,
+									sanitizedName == "" and "Inconnu" or sanitizedName
+								)
 								local tagHandle = CreateFakeMpGamerTag(targetPed, renderedText, false, false, "", 0)
 
 								activeTagsMutex[#activeTagsMutex + 1] = {
 									handle = tagHandle,
-									playerId = targetPlayer
+									playerId = targetPlayer,
 								}
 							end
 						end
