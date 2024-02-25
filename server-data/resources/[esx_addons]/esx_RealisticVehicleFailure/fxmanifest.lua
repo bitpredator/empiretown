@@ -1,17 +1,17 @@
-fx_version 'adamant'
-game 'gta5'
+fx_version("adamant")
+game("gta5")
 
-description 'esx_realisticvehicle'
-lua54 'yes'
-version '1.0.0'
+description("esx_realisticvehicle")
+lua54("yes")
+version("1.0.0")
 
-shared_script '@es_extended/imports.lua'
+shared_script("@es_extended/imports.lua")
 
-client_scripts {
+client_scripts({
 	"config.lua",
-	"client.lua"
-}
+	"client.lua",
+})
 
-server_scripts {
-	"config.lua"
-}
+server_scripts({
+	"config.lua",
+})

@@ -88,22 +88,18 @@ function createESXPlayer(identifier, playerId, data)
 			loadESXPlayer(identifier, playerId, true)
 		end)
 	else
-		MySQL.prepare(
-			newPlayer,
-			{
-				json.encode(accounts),
-				identifier,
-				defaultGroup,
-				data.firstname,
-				data.lastname,
-				data.dateofbirth,
-				data.sex,
-				data.height,
-			},
-			function()
-				loadESXPlayer(identifier, playerId, true)
-			end
-		)
+		MySQL.prepare(newPlayer, {
+			json.encode(accounts),
+			identifier,
+			defaultGroup,
+			data.firstname,
+			data.lastname,
+			data.dateofbirth,
+			data.sex,
+			data.height,
+		}, function()
+			loadESXPlayer(identifier, playerId, true)
+		end)
 	end
 end
 
@@ -230,18 +226,15 @@ function loadESXPlayer(identifier, playerId, isNew)
 				userData.weight = userData.weight + (item.weight * count)
 			end
 
-			table.insert(
-				userData.inventory,
-				{
-					name = name,
-					count = count,
-					label = item.label,
-					weight = item.weight,
-					usable = Core.UsableItemsCallbacks[name] ~= nil,
-					rare = item.rare,
-					canRemove = item.canRemove,
-				}
-			)
+			table.insert(userData.inventory, {
+				name = name,
+				count = count,
+				label = item.label,
+				weight = item.weight,
+				usable = Core.UsableItemsCallbacks[name] ~= nil,
+				rare = item.rare,
+				canRemove = item.canRemove,
+			})
 		end
 
 		table.sort(userData.inventory, function(a, b)
@@ -283,16 +276,13 @@ function loadESXPlayer(identifier, playerId, isNew)
 						weapon.tintIndex = 0
 					end
 
-					table.insert(
-						userData.loadout,
-						{
-							name = name,
-							ammo = weapon.ammo,
-							label = label,
-							components = weapon.components,
-							tintIndex = weapon.tintIndex,
-						}
-					)
+					table.insert(userData.loadout, {
+						name = name,
+						ammo = weapon.ammo,
+						label = label,
+						components = weapon.components,
+						tintIndex = weapon.tintIndex,
+					})
 				end
 			end
 		end

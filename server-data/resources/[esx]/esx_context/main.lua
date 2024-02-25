@@ -7,7 +7,7 @@ local Debug = ESX.GetConfig().EnableDebug
 function Post(fn, ...)
 	SendNUIMessage({
 		func = fn,
-		args = { ... }
+		args = { ... },
 	})
 end
 
@@ -18,7 +18,7 @@ function Open(position, eles, onSelect, onClose, canClose)
 		eles = eles,
 		canClose = canClose,
 		onSelect = onSelect,
-		onClose = onClose
+		onClose = onClose,
 	}
 
 	LocalPlayer.state:set("context:active", true)
@@ -96,7 +96,9 @@ RegisterNUICallback("selected", function(data, cb)
 	end
 
 	activeMenu:onSelect(ele)
-	if cb then cb('ok') end
+	if cb then
+		cb("ok")
+	end
 end)
 
 RegisterNUICallback("changed", function(data, cb)
@@ -126,7 +128,9 @@ RegisterNUICallback("changed", function(data, cb)
 	elseif ele.inputType == "radio" then
 		ele.inputValue = data.value
 	end
-	if cb then cb('ok') end
+	if cb then
+		cb("ok")
+	end
 end)
 
 -- Keybind
@@ -163,18 +167,18 @@ if Debug then
 		{
 			icon = "fas fa-check",
 			title = "Item A",
-			description = "Some description here. Add some words to make the text overflow."
+			description = "Some description here. Add some words to make the text overflow.",
 		},
 		{
 			disabled = true,
 			icon = "fas fa-times",
 			title = "Disabled Item",
-			description = "Some description here. Add some words to make the text overflow."
+			description = "Some description here. Add some words to make the text overflow.",
 		},
 		{
 			icon = "fas fa-check",
 			title = "Item B",
-			description = "Some description here. Add some words to make the text overflow."
+			description = "Some description here. Add some words to make the text overflow.",
 		},
 	}
 
@@ -251,8 +255,8 @@ if Debug then
 			{
 				icon = "fas fa-check",
 				title = "Submit",
-				name = "submit"
-			}
+				name = "submit",
+			},
 		}
 
 		exports["esx_context"]:Open(position, formMenu, onSelect, onClose)
