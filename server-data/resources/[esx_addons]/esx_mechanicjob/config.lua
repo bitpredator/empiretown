@@ -1,41 +1,41 @@
-Config                            = {}
-Config.Locale = GetConvar('esx:locale', 'en')
+Config = {}
+Config.Locale = GetConvar("esx:locale", "en")
 
-Config.DrawDistance               = 10.0 -- How close you need to be in order for the markers to be drawn (in GTA units).
-Config.MaxInService               = -1
-Config.EnablePlayerManagement     = true -- Enable society managing.
+Config.DrawDistance = 10.0 -- How close you need to be in order for the markers to be drawn (in GTA units).
+Config.MaxInService = -1
+Config.EnablePlayerManagement = true -- Enable society managing.
 Config.EnableSocietyOwnedVehicles = false
 
-Config.NPCSpawnDistance           = 500.0
-Config.NPCNextToDistance          = 25.0
-Config.NPCJobEarnings             = { min = 15, max = 40 }
+Config.NPCSpawnDistance = 500.0
+Config.NPCNextToDistance = 25.0
+Config.NPCJobEarnings = { min = 15, max = 40 }
 
-Config.OxInventory                = ESX.GetConfig().OxInventory
+Config.OxInventory = ESX.GetConfig().OxInventory
 
 Config.Vehicles = {
-	'adder',
-	'asea',
-	'asterope',
-	'banshee',
-	'buffalo',
-	'sultan',
-	'baller3'
+	"adder",
+	"asea",
+	"asterope",
+	"banshee",
+	"buffalo",
+	"sultan",
+	"baller3",
 }
 
 Config.Zones = {
 
 	MechanicActions = {
-		Pos   = vector3(-342.291, -133.370, 39.009 ),
-		Size  = { x = 1.0, y = 1.0, z = 1.0 },
+		Pos = vector3(-342.291, -133.370, 39.009),
+		Size = { x = 1.0, y = 1.0, z = 1.0 },
 		Color = { r = 50, g = 200, b = 50 },
-		Type  = 21
+		Type = 21,
 	},
 
 	Garage = {
-		Pos   = vector3(-97.5, 6496.1, 31.4 ),
-		Size  = { x = 1.0, y = 1.0, z = 1.0 },
+		Pos = vector3(-97.5, 6496.1, 31.4),
+		Size = { x = 1.0, y = 1.0, z = 1.0 },
 		Color = { r = 50, g = 200, b = 50 },
-		Type  = 21
+		Type = 21,
 	},
 
 	--[[Craft = {
@@ -43,27 +43,28 @@ Config.Zones = {
 		Size  = { x = 1.0, y = 1.0, z = 1.0 },
 		Color = { r = 50, g = 200, b = 50 },
 		Type  = 21
-	},]]--
+	},]]
+	--
 
 	VehicleSpawnPoint = {
-		Pos   = vector3(-366.354, -110.766, 37.696 ),
-		Size  = { x = 1.5, y = 1.5, z = 1.0 },
-		Type  = -1
+		Pos = vector3(-366.354, -110.766, 37.696),
+		Size = { x = 1.5, y = 1.5, z = 1.0 },
+		Type = -1,
 	},
 
 	VehicleDeleter = {
-		Pos   = vector3(-386.899, -105.675, 37.683 ),
-		Size  = { x = 3.0, y = 3.0, z = 1.0 },
+		Pos = vector3(-386.899, -105.675, 37.683),
+		Size = { x = 3.0, y = 3.0, z = 1.0 },
 		Color = { r = 204, g = 204, b = 0 },
-		Type  = 1
+		Type = 1,
 	},
 
 	VehicleDelivery = {
-		Pos   = vector3(-382.925, -133.748, 37.685 ),
-		Size  = { x = 20.0, y = 20.0, z = 3.0 },
+		Pos = vector3(-382.925, -133.748, 37.685),
+		Size = { x = 20.0, y = 20.0, z = 3.0 },
 		Color = { r = 204, g = 204, b = 0 },
-		Type  = -1
-	}
+		Type = -1,
+	},
 }
 
 Config.Towables = {
@@ -106,14 +107,14 @@ Config.Towables = {
 	vector3(-1709.8, 55.1, 65.7),
 	vector3(-521.9, -266.8, 34.9),
 	vector3(-451.1, -333.5, 34.0),
-	vector3(322.4, -1900.5, 25.8)
+	vector3(322.4, -1900.5, 25.8),
 }
 
-for k,v in ipairs(Config.Towables) do
-	Config.Zones['Towable' .. k] = {
-		Pos   = v,
-		Size  = { x = 1.5, y = 1.5, z = 1.0 },
+for k, v in ipairs(Config.Towables) do
+	Config.Zones["Towable" .. k] = {
+		Pos = v,
+		Size = { x = 1.5, y = 1.5, z = 1.0 },
 		Color = { r = 204, g = 204, b = 0 },
-		Type  = -1
+		Type = -1,
 	}
 end

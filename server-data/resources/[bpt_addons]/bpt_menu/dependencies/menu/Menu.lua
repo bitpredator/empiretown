@@ -27,7 +27,11 @@ function RageUI.CreateMenu(Title, Subtitle, X, Y, TextureDictionary, TextureName
 	Menu.Open = false
 	Menu.Controls = RageUI.Settings.Controls
 	Menu.Index = 1
-	Menu.Sprite = { Dictionary = TextureDictionary or "commonmenu", Texture = TextureName or "interaction_bgd", Color = { R = R, G = G, B = B, A = A } }
+	Menu.Sprite = {
+		Dictionary = TextureDictionary or "commonmenu",
+		Texture = TextureName or "interaction_bgd",
+		Color = { R = R, G = G, B = B, A = A },
+	}
 	Menu.Rectangle = nil
 	Menu.Pagination = { Minimum = 1, Maximum = 10, Total = 10 }
 	Menu.Safezone = true
@@ -44,7 +48,21 @@ function RageUI.CreateMenu(Title, Subtitle, X, Y, TextureDictionary, TextureName
 	end
 
 	if Menu.Subtitle ~= "" then
-		local SubtitleLineCount = GetLineCount(Menu.Subtitle, Menu.X + RageUI.Settings.Items.Subtitle.Text.X, Menu.Y + RageUI.Settings.Items.Subtitle.Text.Y, 0, RageUI.Settings.Items.Subtitle.Text.Scale, 245, 245, 245, 255, nil, false, false, RageUI.Settings.Items.Subtitle.Background.Width + Menu.WidthOffset)
+		local SubtitleLineCount = GetLineCount(
+			Menu.Subtitle,
+			Menu.X + RageUI.Settings.Items.Subtitle.Text.X,
+			Menu.Y + RageUI.Settings.Items.Subtitle.Text.Y,
+			0,
+			RageUI.Settings.Items.Subtitle.Text.Scale,
+			245,
+			245,
+			245,
+			255,
+			nil,
+			false,
+			false,
+			RageUI.Settings.Items.Subtitle.Background.Width + Menu.WidthOffset
+		)
 
 		if SubtitleLineCount > 1 then
 			Menu.SubtitleHeight = 18 * SubtitleLineCount
@@ -113,7 +131,21 @@ function RageUI.CreateSubMenu(ParentMenu, Title, Subtitle, X, Y, TextureDictiona
 			end
 
 			if Menu.Subtitle ~= "" then
-				local SubtitleLineCount = GetLineCount(Menu.Subtitle, Menu.X + RageUI.Settings.Items.Subtitle.Text.X, Menu.Y + RageUI.Settings.Items.Subtitle.Text.Y, 0, RageUI.Settings.Items.Subtitle.Text.Scale, 245, 245, 245, 255, nil, false, false, RageUI.Settings.Items.Subtitle.Background.Width + Menu.WidthOffset)
+				local SubtitleLineCount = GetLineCount(
+					Menu.Subtitle,
+					Menu.X + RageUI.Settings.Items.Subtitle.Text.X,
+					Menu.Y + RageUI.Settings.Items.Subtitle.Text.Y,
+					0,
+					RageUI.Settings.Items.Subtitle.Text.Scale,
+					245,
+					245,
+					245,
+					255,
+					nil,
+					false,
+					false,
+					RageUI.Settings.Items.Subtitle.Background.Width + Menu.WidthOffset
+				)
 
 				if SubtitleLineCount > 1 then
 					Menu.SubtitleHeight = 18 * SubtitleLineCount
@@ -123,7 +155,16 @@ function RageUI.CreateSubMenu(ParentMenu, Title, Subtitle, X, Y, TextureDictiona
 			end
 
 			if ParentMenu.Sprite then
-				Menu.Sprite = { Dictionary = TextureDictionary or ParentMenu.Sprite.Dictionary, Texture = TextureName or ParentMenu.Sprite.Texture, Color = { R = R or ParentMenu.Sprite.Color.R, G = G or ParentMenu.Sprite.Color.G, B = B or ParentMenu.Sprite.Color.B, A = A or ParentMenu.Sprite.Color.A } }
+				Menu.Sprite = {
+					Dictionary = TextureDictionary or ParentMenu.Sprite.Dictionary,
+					Texture = TextureName or ParentMenu.Sprite.Texture,
+					Color = {
+						R = R or ParentMenu.Sprite.Color.R,
+						G = G or ParentMenu.Sprite.Color.G,
+						B = B or ParentMenu.Sprite.Color.B,
+						A = A or ParentMenu.Sprite.Color.A,
+					},
+				}
 			else
 				Menu.Rectangle = ParentMenu.Rectangle
 			end
@@ -166,14 +207,27 @@ function RageUI.Menus:SetSubtitle(Subtitle)
 	end
 
 	if self.Subtitle ~= "" then
-		local SubtitleLineCount = GetLineCount(self.Subtitle, self.X + RageUI.Settings.Items.Subtitle.Text.X, self.Y + RageUI.Settings.Items.Subtitle.Text.Y, 0, RageUI.Settings.Items.Subtitle.Text.Scale, 245, 245, 245, 255, nil, false, false, RageUI.Settings.Items.Subtitle.Background.Width + self.WidthOffset)
+		local SubtitleLineCount = GetLineCount(
+			self.Subtitle,
+			self.X + RageUI.Settings.Items.Subtitle.Text.X,
+			self.Y + RageUI.Settings.Items.Subtitle.Text.Y,
+			0,
+			RageUI.Settings.Items.Subtitle.Text.Scale,
+			245,
+			245,
+			245,
+			255,
+			nil,
+			false,
+			false,
+			RageUI.Settings.Items.Subtitle.Background.Width + self.WidthOffset
+		)
 
 		if SubtitleLineCount > 1 then
 			self.SubtitleHeight = 18 * SubtitleLineCount
 		else
 			self.SubtitleHeight = 0
 		end
-
 	else
 		self.SubtitleHeight = -37
 	end
@@ -302,7 +356,7 @@ function RageUI.Menus:UpdateInstructionalButtons(Visible)
 
 	local count = 2
 
-	if (self.InstructionalButtons ~= nil) then
+	if self.InstructionalButtons ~= nil then
 		for i = 1, #self.InstructionalButtons do
 			if self.InstructionalButtons[i] then
 				if #self.InstructionalButtons[i] == 2 then
