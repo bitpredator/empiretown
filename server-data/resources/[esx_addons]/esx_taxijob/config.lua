@@ -1,58 +1,63 @@
-Config                            = {}
+Config = {}
 
-Config.DrawDistance               = 10.0 -- How close do you need to be for the markers to be drawn (in GTA units).
+Config.DrawDistance = 10.0 -- How close do you need to be for the markers to be drawn (in GTA units).
 
-Config.NPCJobEarnings             = {min = 300, max = 600}
-Config.MinimumDistance            = 3000 -- Minimum NPC job destination distance from the pickup in GTA units, a higher number prevents nearby destionations.
+Config.NPCJobEarnings = { min = 300, max = 600 }
+Config.MinimumDistance = 3000 -- Minimum NPC job destination distance from the pickup in GTA units, a higher number prevents nearby destionations.
 
-Config.MaxInService               = -1 -- How much people can be in service at once?
-Config.EnablePlayerManagement     = true -- Enable society managing.
+Config.MaxInService = -1 -- How much people can be in service at once?
+Config.EnablePlayerManagement = true -- Enable society managing.
 Config.EnableSocietyOwnedVehicles = false
 
-Config.Locale                     = 'en'
+Config.Locale = "en"
 
-Config.OxInventory                = ESX.GetConfig().OxInventory
+Config.OxInventory = ESX.GetConfig().OxInventory
 
 Config.AuthorizedVehicles = {
-	{model = 'taxi', title ='Taxi', icon = 'fas fa-car'}
+	{ model = "taxi", title = "Taxi", icon = "fas fa-car" },
 }
 
 Config.Zones = {
 
 	VehicleSpawner = {
-		Pos   = {x = 915.039, y = -162.187, z = 74.5},
-		Size  = {x = 1.0, y = 1.0, z = 1.0},
-		Color = {r = 204, g = 204, b = 0},
-		Type  = 36, Rotate = true
+		Pos = { x = 915.039, y = -162.187, z = 74.5 },
+		Size = { x = 1.0, y = 1.0, z = 1.0 },
+		Color = { r = 204, g = 204, b = 0 },
+		Type = 36,
+		Rotate = true,
 	},
 
 	VehicleSpawnPoint = {
-		Pos     = {x = 911.108, y = -177.867, z = 74.283},
-		Size    = {x = 1.5, y = 1.5, z = 1.0},
-		Type    = -1, Rotate = false,
-		Heading = 225.0
+		Pos = { x = 911.108, y = -177.867, z = 74.283 },
+		Size = { x = 1.5, y = 1.5, z = 1.0 },
+		Type = -1,
+		Rotate = false,
+		Heading = 225.0,
 	},
 
 	VehicleDeleter = {
-		Pos   = {x = 908.317, y = -183.070, z = 73.201},
-		Size  = {x = 3.0, y = 3.0, z = 0.25},
-		Color = {r = 255, g = 0, b = 0},
-		Type  = 1, Rotate = false
+		Pos = { x = 908.317, y = -183.070, z = 73.201 },
+		Size = { x = 3.0, y = 3.0, z = 0.25 },
+		Color = { r = 255, g = 0, b = 0 },
+		Type = 1,
+		Rotate = false,
 	},
 
 	TaxiActions = {
-		Pos   = {x = 903.32, y = -170.55, z = 74.0},
-		Size  = {x = 1.0, y = 1.0, z = 1.0},
-		Color = {r = 204, g = 204, b = 0},
-		Type  = 20, Rotate = true
+		Pos = { x = 903.32, y = -170.55, z = 74.0 },
+		Size = { x = 1.0, y = 1.0, z = 1.0 },
+		Color = { r = 204, g = 204, b = 0 },
+		Type = 20,
+		Rotate = true,
 	},
 
 	Cloakroom = {
-		Pos     = {x = 894.88, y = -180.23, z = 74.5},
-		Size    = {x = 1.0, y = 1.0, z = 1.0},
-		Color   = {r = 204, g = 204, b = 0},
-		Type    = 21, Rotate = true
-	}
+		Pos = { x = 894.88, y = -180.23, z = 74.5 },
+		Size = { x = 1.0, y = 1.0, z = 1.0 },
+		Color = { r = 204, g = 204, b = 0 },
+		Type = 21,
+		Rotate = true,
+	},
 }
 
 Config.JobLocations = {
@@ -147,5 +152,5 @@ Config.JobLocations = {
 	vector3(-1297.5, -654.9, 26.1),
 	vector3(-1645.5, 144.6, 61.7),
 	vector3(-1160.6, 744.4, 154.6),
-	vector3(-798.1, 831.7, 204.4)
+	vector3(-798.1, 831.7, 204.4),
 }

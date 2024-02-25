@@ -4,7 +4,7 @@ ESX.Table = {}
 function ESX.Table.SizeOf(t)
 	local count = 0
 
-	for _,_ in pairs(t) do
+	for _, _ in pairs(t) do
 		count = count + 1
 	end
 
@@ -13,12 +13,14 @@ end
 
 function ESX.Table.Set(t)
 	local set = {}
-	for _,v in ipairs(t) do set[v] = true end
+	for _, v in ipairs(t) do
+		set[v] = true
+	end
 	return set
 end
 
 function ESX.Table.IndexOf(t, value)
-	for i=1, #t, 1 do
+	for i = 1, #t, 1 do
 		if t[i] == value then
 			return i
 		end
@@ -28,7 +30,7 @@ function ESX.Table.IndexOf(t, value)
 end
 
 function ESX.Table.LastIndexOf(t, value)
-	for i=#t, 1, -1 do
+	for i = #t, 1, -1 do
 		if t[i] == value then
 			return i
 		end
@@ -38,7 +40,7 @@ function ESX.Table.LastIndexOf(t, value)
 end
 
 function ESX.Table.Find(t, cb)
-	for i=1, #t, 1 do
+	for i = 1, #t, 1 do
 		if cb(t[i]) then
 			return t[i]
 		end
@@ -48,7 +50,7 @@ function ESX.Table.Find(t, cb)
 end
 
 function ESX.Table.FindIndex(t, cb)
-	for i=1, #t, 1 do
+	for i = 1, #t, 1 do
 		if cb(t[i]) then
 			return i
 		end
@@ -60,7 +62,7 @@ end
 function ESX.Table.Filter(t, cb)
 	local newTable = {}
 
-	for i=1, #t, 1 do
+	for i = 1, #t, 1 do
 		if cb(t[i]) then
 			table.insert(newTable, t[i])
 		end
@@ -72,7 +74,7 @@ end
 function ESX.Table.Map(t, cb)
 	local newTable = {}
 
-	for i=1, #t, 1 do
+	for i = 1, #t, 1 do
 		newTable[i] = cb(t[i], i)
 	end
 
@@ -82,7 +84,7 @@ end
 function ESX.Table.Reverse(t)
 	local newTable = {}
 
-	for i=#t, 1, -1 do
+	for i = #t, 1, -1 do
 		table.insert(newTable, t[i])
 	end
 
@@ -90,13 +92,15 @@ function ESX.Table.Reverse(t)
 end
 
 function ESX.Table.Clone(t)
-	if type(t) ~= 'table' then return t end
+	if type(t) ~= "table" then
+		return t
+	end
 
 	local meta = getmetatable(t)
 	local target = {}
 
-	for k,v in pairs(t) do
-		if type(v) == 'table' then
+	for k, v in pairs(t) do
+		if type(v) == "table" then
 			target[k] = ESX.Table.Clone(v)
 		else
 			target[k] = v
@@ -111,7 +115,7 @@ end
 function ESX.Table.Concat(t1, t2)
 	local t3 = ESX.Table.Clone(t1)
 
-	for i=1, #t2, 1 do
+	for i = 1, #t2, 1 do
 		table.insert(t3, t2[i])
 	end
 
@@ -119,11 +123,11 @@ function ESX.Table.Concat(t1, t2)
 end
 
 function ESX.Table.Join(t, sep)
-	local str = ''
+	local str = ""
 
 	for i = 1, #t, 1 do
 		if i > 1 then
-			str = str .. (sep or ',')
+			str = str .. (sep or ",")
 		end
 
 		str = str .. t[i]
@@ -138,14 +142,14 @@ function ESX.Table.Sort(t, order)
 	-- collect the keys
 	local keys = {}
 
-	for k,_ in pairs(t) do
+	for k, _ in pairs(t) do
 		keys[#keys + 1] = k
 	end
 
 	-- if order function given, sort by it by passing the table and keys a, b,
 	-- otherwise just sort the keys
 	if order then
-		table.sort(keys, function(a,b)
+		table.sort(keys, function(a, b)
 			return order(t, a, b)
 		end)
 	else

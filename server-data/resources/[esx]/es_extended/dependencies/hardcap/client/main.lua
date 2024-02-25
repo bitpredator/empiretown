@@ -2,7 +2,7 @@ CreateThread(function()
 	while true do
 		Wait(0)
 		if NetworkIsSessionStarted() then
-			TriggerServerEvent('hardcap:playerActivated')
+			TriggerServerEvent("hardcap:playerActivated")
 
 			return
 		end
