@@ -61,7 +61,7 @@ setmetatable(Items --[[@as table]], {
 local function Item(name, cb)
 	local item = Items[name]
 	if item then
-		if not item.client?.export and not item.client?.event then
+		if not item.client.export and not item.client.event then
 			item.effect = cb
 		end
 	end

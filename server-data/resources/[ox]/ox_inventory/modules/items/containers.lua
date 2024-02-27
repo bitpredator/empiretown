@@ -27,20 +27,20 @@ local function setContainerProperties(itemName, properties)
 	if blacklist then
 		local tableType = table.type(blacklist)
 
-		if tableType == 'array' then
+		if tableType == "array" then
 			blacklist = arrayToSet(blacklist)
-		elseif tableType ~= 'hash' then
-			TypeError('blacklist', 'table', type(blacklist))
+		elseif tableType ~= "hash" then
+			TypeError("blacklist", "table", type(blacklist))
 		end
 	end
 
 	if whitelist then
 		local tableType = table.type(whitelist)
 
-		if tableType == 'array' then
+		if tableType == "array" then
 			whitelist = arrayToSet(whitelist)
-		elseif tableType ~= 'hash' then
-			TypeError('whitelist', 'table', type(whitelist))
+		elseif tableType ~= "hash" then
+			TypeError("whitelist", "table", type(whitelist))
 		end
 	end
 
@@ -51,16 +51,16 @@ local function setContainerProperties(itemName, properties)
 	}
 end
 
-setContainerProperties('paperbag', {
+setContainerProperties("paperbag", {
 	slots = 5,
 	maxWeight = 1000,
-	blacklist = { 'testburger' }
+	blacklist = { "testburger" },
 })
 
-setContainerProperties('pizzabox', {
+setContainerProperties("pizzabox", {
 	slots = 5,
 	maxWeight = 1000,
-	whitelist = { 'pizza' }
+	whitelist = { "pizza" },
 })
 
 return containers
