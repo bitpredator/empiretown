@@ -1,5 +1,4 @@
-function updateColors()
-{
+function updateColors() {
     // color background
     document.documentElement.style.setProperty("--header-color", config.BASE.color.background);
 

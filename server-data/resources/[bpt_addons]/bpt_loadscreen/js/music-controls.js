@@ -5,53 +5,43 @@ var playButton = document.getElementById("play-button")
 
 var playing = false;
 
-if(config.MUSIC.enable)
-{
+if (config.MUSIC.enable) {
     InitControls();
     setInterval(UpdateMusicInfo, 1000);
 }
-else
-{
+else {
     container.style.display = "none";
 }
 
-function InitControls()
-{
+function InitControls() {
     slider.value = config.MUSIC.Volume
     slider.addEventListener("input", UpdateVolume, false);
 }
 
-function UpdateVolume()
-{
-    setVolume((slider.value-1));
+function UpdateVolume() {
+    setVolume((slider.value - 1));
 }
 
-function UpdateMusicInfo()
-{
+function UpdateMusicInfo() {
 
-    if(title.length != 0)
-    {
+    if (title.length != 0) {
         np.innerHTML = config.MUSIC.TextPrefix + "『 " + title + " 』";
     }
-    else
-    {
+    else {
         np.innerHTML = config.MUSIC.TextPrefix + "n.a.";
     }
 }
 
-function OnPlayClick()
-{
-    if(playing)
-    {
+function OnPlayClick() {
+    if (playing) {
         playing = false;
         pause();
 
         playButton.classList.remove("icon-pause2")
         playButton.classList.add("icon-play3")
-        
+
     }
-    else
-    {
+    else {
         playing = true;
         resume();
 
@@ -60,10 +50,8 @@ function OnPlayClick()
     }
 }
 
-function OnSkipClick()
-{
-    if(playing)
-    {
+function OnSkipClick() {
+    if (playing) {
         skip();
     }
 }

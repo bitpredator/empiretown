@@ -1,19 +1,20 @@
-(function($) { "use strict";
+(function ($) {
+    "use strict";
 
-    $(window).mousemove(function(e) {     
+    $(window).mousemove(function (e) {
         $(".cursor1").css({
             left: e.pageX,
             top: e.pageY
-        })    
+        })
     })
 
-    document.getElementsByTagName("body")[0].addEventListener("mousemove", function(n) {
-        t.style.left = n.clientX + "px", 
-        t.style.top = n.clientY + "px", 
-        e.style.left = n.clientX + "px", 
-        e.style.top = n.clientY + "px", 
-        i.style.left = n.clientX + "px", 
-        i.style.top = n.clientY + "px"
+    document.getElementsByTagName("body")[0].addEventListener("mousemove", function (n) {
+        t.style.left = n.clientX + "px",
+            t.style.top = n.clientY + "px",
+            e.style.left = n.clientX + "px",
+            e.style.top = n.clientY + "px",
+            i.style.left = n.clientX + "px",
+            i.style.top = n.clientY + "px"
     });
     var t = document.getElementById("cursor"),
         e = document.getElementById("cursor2"),
@@ -31,25 +32,21 @@
     function o(t) {
         t.addEventListener("mouseover", n), t.addEventListener("mouseout", s)
     }
-    
 
-    function navlist()
-    {
-        if (config.NAV.enable)
-        {
+
+    function navlist() {
+        if (config.NAV.enable) {
             const el = document.querySelector('.nav__list');
 
             let output = '';
 
-            for (let i = 0; i < Object.keys(config.NAV.list).length; i++)
-            {
+            for (let i = 0; i < Object.keys(config.NAV.list).length; i++) {
                 output += `<li class="nav__list-item"><a class="hover-target" href="#" onclick="window.invokeNative('openUrl', '${Object.values(config.NAV.list)[i][1]}')">${Object.values(config.NAV.list)[i][0]}</a></li>`;
             }
 
             el.innerHTML = output;
         }
-        else
-        {
+        else {
             const nav = document.querySelector('.nav-but-wrap');
 
             nav.style.display = "none";
@@ -75,12 +72,12 @@
             });
         };
         var toggleClass = function toggleClass(element, stringClass) {
-            if (element.classList.contains(stringClass)) element.classList.remove(stringClass);else element.classList.add(stringClass);
+            if (element.classList.contains(stringClass)) element.classList.remove(stringClass); else element.classList.add(stringClass);
         };
         init();
     }();
 
-    
+
     $("#switch").on('click', function () {
         if ($("body").hasClass("light")) {
             $("body").removeClass("light");
@@ -90,6 +87,6 @@
             $("body").addClass("light");
             $("#switch").addClass("switched");
         }
-    });      
-              
+    });
+
 })(jQuery);

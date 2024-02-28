@@ -1,33 +1,28 @@
 var player;
 
-var lib = 
+var lib =
 {
-    rand: function(min, max)
-    {
-        return min + Math.floor(Math.random()*max);
+    rand: function (min, max) {
+        return min + Math.floor(Math.random() * max);
     },
 
-    fadeInOut: function(duration, elementId, min, max)
-    {
+    fadeInOut: function (duration, elementId, min, max) {
         var halfDuration = duration / 2;
 
-        setTimeout(function()  
-        {
+        setTimeout(function () {
             var element = document.getElementById(elementId);
             element.style.opacity = min;
 
-            setTimeout(function()  
-            {
+            setTimeout(function () {
                 element.style.opacity = max;
 
-            }, halfDuration);  
+            }, halfDuration);
 
         }, halfDuration);
     },
 }
 
-if(config.MUSIC.enable)
-{
+if (config.MUSIC.enable) {
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
 
@@ -38,8 +33,7 @@ if(config.MUSIC.enable)
     var title = "n.a.";
 }
 
-function onYouTubeIframeAPIReady() 
-{
+function onYouTubeIframeAPIReady() {
     var videoId = config.MUSIC.music[musicIndex];
 
     player = new YT.Player('player', {
@@ -54,37 +48,31 @@ function onYouTubeIframeAPIReady()
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
-            'onError': onPlayerError 
+            'onError': onPlayerError
         }
     });
 }
 
-function onPlayerReady(event) 
-{
+function onPlayerReady(event) {
     title = event.target.getVideoData().title;
     player.setVolume(config.MUSIC.Volume);
 }
 
-function onPlayerStateChange(event) 
-{
-    if(event.data == YT.PlayerState.PLAYING)
-    {
+function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
         title = event.target.getVideoData().title;
     }
 
-    if (event.data == YT.PlayerState.ENDED) 
-    {
+    if (event.data == YT.PlayerState.ENDED) {
         musicIndex++;
         play();
     }
 }
 
-function onPlayerError(event)
-{
+function onPlayerError(event) {
     var videoId = config.MUSIC.music[musicIndex];
 
-    switch (event.data) 
-    {
+    switch (event.data) {
         case 2:
             console.log("Invalid video url!");
             break;
@@ -94,7 +82,7 @@ function onPlayerError(event)
             console.log("Video not found!");
         case 101:
         case 150:
-            console.log("Video embedding not allowed. [" + videoId + "]" );
+            console.log("Video embedding not allowed. [" + videoId + "]");
             break;
         default:
             console.log("Looks like you got an error bud.")
@@ -102,14 +90,12 @@ function onPlayerError(event)
     skip();
 }
 
-function skip()
-{
+function skip() {
     musicIndex++;
     play();
 }
 
-function play() 
-{
+function play() {
     title = "n.a.";
 
     var idx = musicIndex % config.MUSIC.music.length;
@@ -119,22 +105,18 @@ function play()
     player.playVideo();
 }
 
-function resume()
-{
+function resume() {
     player.playVideo();
 }
 
-function pause() 
-{
+function pause() {
     player.pauseVideo();
 }
 
-function stop() 
-{
+function stop() {
     player.stopVideo();
 }
 
-function setVolume(volume)
-{
+function setVolume(volume) {
     player.setVolume(volume)
 }
