@@ -15,9 +15,9 @@ INSERT INTO `jobs` (name, label) VALUES
 ;
 
 INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_female) VALUES
-	('baker',0,'apprentice','Apprentice',20,'{}','{}'),
-	('baker',1,'baker','Baker',40,'{}','{}'),
-	('baker',2,'chief','Chief',60,'{}','{}'),
-	('baker',3,'deputydirector','Deputy Director',85,'{}','{}'),
-	('baker',4,'boss','Boss',100,'{}','{}')
+	('baker',0,'apprentice','Apprendista',20,'{}','{}'),
+	('baker',1,'gunsmith','Panettiere',40,'{}','{}'),
+	('baker',2,'chief','Capo',60,'{}','{}'),
+	('baker',3,'deputydirector','Vice direttore',85,'{}','{}'),
+	('baker',4,'boss','Direttore',100,'{}','{}')
 ;
