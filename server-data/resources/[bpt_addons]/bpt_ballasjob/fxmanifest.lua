@@ -4,7 +4,7 @@ game("gta5")
 
 description("bpt_ballasjob")
 lua54("yes")
-version("1.0.0")
+version("1.0.1")
 autthor("bitpredator")
 
 shared_script("@es_extended/imports.lua")
