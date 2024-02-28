@@ -1,26 +1,27 @@
-
-.main{
+.main {
 	position: absolute;
-    padding: 0;
-    margin: 0;
-    right: 42.5%;
-    bottom:  0.3%;
+	padding: 0;
+	margin: 0;
+	right: 42.5%;
+	bottom: 0.3%;
 
 }
-ul{
-	padding-left:0vw;
-	margin:0px;
+
+ul {
+	padding-left: 0vw;
+	margin: 0px;
 }
-ul > li{
+
+ul>li {
 	display: inline-block;
-    margin-left: 5px
+	margin-left: 5px
 }
 
-img{
+img {
 	width: 70%;
 	position: absolute;
-  top: 50%;
-  left: 50%;
+	top: 50%;
+	left: 50%;
 	transform: translate(-50%, -50%);
 	background-color: transparent
 }
@@ -30,7 +31,7 @@ img{
 	top: 50%;
 	left: 50%;
 	width: 2vw;
-	height:2vw;
+	height: 2vw;
 	border: 2px solid transparent;
 	box-shadow: 0 0 0 2px #37AD6F;
 	border-radius: 50%;
@@ -43,10 +44,10 @@ img{
 	top: 50%;
 	left: 50%;
 	width: 2vw;
-	height:2vw;
+	height: 2vw;
 
 	border: 2px solid transparent;
-	box-shadow: 0 0 0 2px rgba(40,40,198,1);
+	box-shadow: 0 0 0 2px rgba(40, 40, 198, 1);
 	border-radius: 50%;
 	overflow: hidden;
 }
@@ -56,7 +57,7 @@ img{
 	top: 50%;
 	left: 50%;
 	width: 2vw;
-	height:2vw;
+	height: 2vw;
 	/*background: #ccc;*/
 	border: 2px solid transparent;
 	box-shadow: 0 0 0 2px #FAAA03;
@@ -69,12 +70,12 @@ img{
 	top: 50%;
 	left: 50%;
 	width: 2vw;
-	height:2vw;
+	height: 2vw;
 	border: 2px solid transparent;
 	box-shadow: 0 0 0 2px #1EB7E6;
 	border-radius: 50%;
 	overflow: hidden;
-	
+
 }
 
 .circle5 {
@@ -82,7 +83,7 @@ img{
 	top: 50%;
 	left: 50%;
 	width: 2vw;
-	height:2vw;
+	height: 2vw;
 	/*background: #ccc;*/
 	border: 2px solid transparent;
 	box-shadow: 0 0 0 2px #677BBB;
@@ -95,121 +96,118 @@ img{
 	top: 50%;
 	left: 50%;
 	width: 2vw;
-	height:2vw;
+	height: 2vw;
 	/*background: #ccc;*/
 	border: 2px solid transparent;
-	box-shadow: 0 0 0 2px rgba(198.40,40,1);
+	box-shadow: 0 0 0 2px rgba(198.40, 40, 1);
 	border-radius: 50%;
 	overflow: hidden;
 }
 
-.wave{
+.wave {
 	position: relative;
 	width: 100%;
-	height:100%;
-	
+	height: 100%;
+
 	background: #37AD6F;
 	border-radius: 20%;
 	/*color: rgba(225,0,0,1)*/
-	
+
 
 }
 
-.wave2{
+.wave2 {
 	position: relative;
 	width: 100%;
-	height:100%;
-	background: rgba(40,40,198,1);
+	height: 100%;
+	background: rgba(40, 40, 198, 1);
 	border-radius: 20%;
 	/*color: rgba(225,0,0,1)*/
 
 }
 
 .wave2:before,
-.wave2:after{
+.wave2:after {
 	content: '';
 	position: absolute;
 	width: 200%;
 	height: 200%;
 	top: var(--top, -50%);
 	left: 50%;
-	transform: translate(-50%,-75%);
+	transform: translate(-50%, -75%);
 	background: #000
-
 }
 
-.wave2:before{
+.wave2:before {
 	border-radius: 75%;
 	animation: animate 5s linear infinite;
 }
 
-.wave2:after{
+.wave2:after {
 	border-radius: 40%;
-	background: rgba(225,225,225,.5);
+	background: rgba(225, 225, 225, .5);
 	animation: animate 5s linear infinite;
 }
 
 .wave:before,
-.wave:after{
+.wave:after {
 	content: '';
 	position: absolute;
 	width: 200%;
 	height: 200%;
 	top: var(--top, -40%);
 	left: 50%;
-	transform: translate(-50%,-75%);
+	transform: translate(-50%, -75%);
 	background: #000
-
 }
 
-.wave:before{
+.wave:before {
 	border-radius: 75%;
 	animation: animate 5s linear infinite;
 }
 
-.wave:after{
+.wave:after {
 	border-radius: 40%;
-	background: rgba(225,225,225,.5);
+	background: rgba(225, 225, 225, .5);
 	animation: animate 5s linear infinite;
 }
 
-.wave3{
+.wave3 {
 	position: relative;
 	width: 100%;
-	height:100%;
+	height: 100%;
 	background: #FAAA03;
 	border-radius: 20%;
 
 }
 
 .wave3:before,
-.wave3:after{
+.wave3:after {
 	content: '';
 	position: absolute;
 	width: 200%;
 	height: 200%;
 	top: var(--top, -50%);
 	left: 50%;
-	transform: translate(-50%,-75%);
+	transform: translate(-50%, -75%);
 	background: #000
-
 }
 
-.wave3:before{
+.wave3:before {
 	border-radius: 75%;
 	animation: animate 5s linear infinite;
 }
 
-.wave3:after{
+.wave3:after {
 	border-radius: 40%;
-	background: rgba(225,225,225,.5);
+	background: rgba(225, 225, 225, .5);
 	animation: animate 5s linear infinite;
 }
 
-.wave4{
+.wave4 {
 	position: relative;
 	width: 100%;
-	height:100%;
+	height: 100%;
 	background: #1EB7E6;
 	border-radius: 20%;
 	/*color: rgba(225,0,0,1)*/
@@ -217,33 +215,32 @@ img{
 }
 
 .wave4:before,
-.wave4:after{
+.wave4:after {
 	content: '';
 	position: absolute;
 	width: 200%;
 	height: 200%;
 	top: var(--top, -50%);
 	left: 50%;
-	transform: translate(-50%,-75%);
+	transform: translate(-50%, -75%);
 	background: #000
-
 }
 
-.wave4:before{
+.wave4:before {
 	border-radius: 75%;
 	animation: animate 5s linear infinite;
 }
 
-.wave4:after{
+.wave4:after {
 	border-radius: 40%;
-	background: rgba(225,225,225,.5);
+	background: rgba(225, 225, 225, .5);
 	animation: animate 5s linear infinite;
 }
 
-.wave5{
+.wave5 {
 	position: relative;
 	width: 100%;
-	height:100%;
+	height: 100%;
 	background: #677BBB;
 	border-radius: 20%;
 	/*color: rgba(225,0,0,1)*/
@@ -251,72 +248,68 @@ img{
 }
 
 .wave5:before,
-.wave5:after{
+.wave5:after {
 	content: '';
 	position: absolute;
 	width: 200%;
 	height: 200%;
 	top: var(--top, -50%);
 	left: 50%;
-	transform: translate(-50%,-75%);
+	transform: translate(-50%, -75%);
 	background: #000
-
 }
 
-.wave5:before{
+.wave5:before {
 	border-radius: 75%;
 	animation: animate 5s linear infinite;
 }
 
-.wave5:after{
+.wave5:after {
 	border-radius: 40%;
-	background: rgba(225,225,225,.5);
+	background: rgba(225, 225, 225, .5);
 	animation: animate 5s linear infinite;
 }
 
-.wave6{
+.wave6 {
 	position: relative;
 	width: 100%;
-	height:100%;
-	background: rgba(198.40,40,1);
+	height: 100%;
+	background: rgba(198.40, 40, 1);
 	border-radius: 20%;
 	/*color: rgba(225,0,0,1)*/
 
 }
 
 .wave6:before,
-.wave6:after{
+.wave6:after {
 	content: '';
 	position: absolute;
 	width: 200%;
 	height: 200%;
 	top: var(--top, -50%);
 	left: 50%;
-	transform: translate(-50%,-75%);
+	transform: translate(-50%, -75%);
 	background: #000
-
 }
 
-.wave6:before{
+.wave6:before {
 	border-radius: 75%;
 	animation: animate 5s linear infinite;
 }
 
-.wave6:after{
+.wave6:after {
 	border-radius: 40%;
-	background: rgba(225,225,225,.5);
+	background: rgba(225, 225, 225, .5);
 	animation: animate 5s linear infinite;
 }
 
-@keyframes animate
-{
-	0%
-	{
-		transform: translate(-50%,-75%) rotate(0deg);
+@keyframes animate {
+	0% {
+		transform: translate(-50%, -75%) rotate(0deg);
 	}
-	100%
-	{
-		transform: translate(-50%,-75%) rotate(360deg);
+
+	100% {
+		transform: translate(-50%, -75%) rotate(360deg);
 	}
 }
 
@@ -332,77 +325,77 @@ img{
 .mapborder {
 	width: 24.25vh;
 	height: 21.5vh;
-	border: 0.45vh solid rgb(159,163,171,0.85);
+	border: 0.45vh solid rgb(159, 163, 171, 0.85);
 	border-radius: 50%;
-	box-shadow: 0px 0px 16px rgba(0,0,0,0.5) inset; 
+	box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5) inset;
 	position: relative;
 	right: 2.8vh;
 	top: 2.75vh;
 	display: inline-block;
 }
-   
+
 @media only screen and (max-width: 1366px) {
 	.outline {
-	  position: fixed;
-	  bottom: 10vh;
-	  left: 2.6vh;
-	  width: 29.529vh;
-	  text-align: center;
+		position: fixed;
+		bottom: 10vh;
+		left: 2.6vh;
+		width: 29.529vh;
+		text-align: center;
 	}
-  
+
 	.mapborder {
-	  width: 24.25vh;
-	  height: 21.5vh;
-	  border: 4px solid #9fa3ab;
-	  border-radius: 50%;
-	  box-shadow: 0px 0px 16px rgba(0,0,0,0.5); 
-	  position: relative;
-	  right: 2.8vh;
-	  top: 2.4vh;
-	  display: inline-block;
+		width: 24.25vh;
+		height: 21.5vh;
+		border: 4px solid #9fa3ab;
+		border-radius: 50%;
+		box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+		position: relative;
+		right: 2.8vh;
+		top: 2.4vh;
+		display: inline-block;
 	}
 }
-  
+
 @media only screen and (max-width: 1280px) {
 	.outline {
-	  position: fixed;
-	  bottom: 10vh;
-	  left: 2.8vh;
-	  width: 29.529vh;
-	  text-align: center;
+		position: fixed;
+		bottom: 10vh;
+		left: 2.8vh;
+		width: 29.529vh;
+		text-align: center;
 	}
-  
+
 	.mapborder {
-	  width: 180px;
-	  height: 150.25px;
-	  border: 4px solid #9fa3ab;
-	  border-radius: 50%;
-	  box-shadow: 0px 0px 16px rgba(0,0,0,0.5); 
-	  position: relative;
-	  right: 36.50px;
-	  top: 39.5px;
-	  display: inline-block;
-	} 
+		width: 180px;
+		height: 150.25px;
+		border: 4px solid #9fa3ab;
+		border-radius: 50%;
+		box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+		position: relative;
+		right: 36.50px;
+		top: 39.5px;
+		display: inline-block;
+	}
 }
-   
+
 @media only screen and (max-width: 1768px) {
 	.outline {
-	  position: fixed;
-	  bottom: 8.5vh;
-	  left: 1.4vh;
-	  width: 29.529vh;
-	  text-align: center;
+		position: fixed;
+		bottom: 8.5vh;
+		left: 1.4vh;
+		width: 29.529vh;
+		text-align: center;
 	}
-  
+
 	.mapborder {
-	  width: 240px;
-	  height: 210.25px;
-	  border: 4px solid #9fa3ab;
-	  border-radius: 50%;
-	  box-shadow: 0px 0px 16px rgba(0,0,0,0.5); 
-	  position: relative;
-	  right: 36.50px;
-	  top: 39.5px;
-	  display: inline-block;
+		width: 240px;
+		height: 210.25px;
+		border: 4px solid #9fa3ab;
+		border-radius: 50%;
+		box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+		position: relative;
+		right: 36.50px;
+		top: 39.5px;
+		display: inline-block;
 	}
 }

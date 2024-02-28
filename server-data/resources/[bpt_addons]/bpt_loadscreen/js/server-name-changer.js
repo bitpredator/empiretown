@@ -63,10 +63,9 @@ el.style.color = config.SVN.color1
 
 let counter = 0;
 const next = () => {
-  if (config.SVN.enable)
-  {
+  if (config.SVN.enable) {
     fx.setText(config.SVN.phrases[counter]).then(() => {
-      setTimeout(next, Math.floor((Math.random() * (config.SVN.changeTime*100)*2.33) + config.SVN.changeTime*100));
+      setTimeout(next, Math.floor((Math.random() * (config.SVN.changeTime * 100) * 2.33) + config.SVN.changeTime * 100));
     });
     counter = (counter + 1) % config.SVN.phrases.length;
   }

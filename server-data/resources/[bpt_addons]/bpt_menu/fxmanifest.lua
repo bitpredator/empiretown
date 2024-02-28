@@ -5,7 +5,7 @@ lua54("yes")
 
 author("bitpredator")
 description("bpt_menu developed for fivem, compatible with esx")
-version("1.0.0")
+version("1.0.1")
 
 shared_scripts({
 	"@es_extended/locale.lua",

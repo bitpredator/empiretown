@@ -12,9 +12,9 @@ Config.E_KEY = 38 -- Action key 'E' default
 Config.Locale = "en"
 
 Config.BLIP = {
-    coords = { x = -517.61, y = -1712.04, z = 20.45 },
-    text = _U("street_fighting"),
-    sprite = 491,
-    color = 1,
-    scale = 1.0,
+	coords = { x = -517.61, y = -1712.04, z = 20.45 },
+	text = _U("street_fighting"),
+	sprite = 491,
+	color = 1,
+	scale = 1.0,
 }
