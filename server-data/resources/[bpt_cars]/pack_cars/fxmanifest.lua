@@ -1,10 +1,11 @@
 fx_version("adamant")
 author("bitpredator")
 game("gta5")
+author("bitpredator")
 
 description("bpt_cars")
 lua54("yes")
-version("1.0.0")
+version("1.0.1")
 
 files({
 	-- p911r
