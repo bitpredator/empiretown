@@ -1,5 +1,12 @@
 Locales["pl"] = {
 	-- Inventory
+	["inventory"] = "ekwipunek %s / %s",
+	["use"] = "użyj",
+	["give"] = "daj",
+	["remove"] = "usuń",
+	["return"] = "wróć",
+	["give_to"] = "daj dla",
+	["amount"] = "ilość",
 	["giveammo"] = "daj amunicje",
 	["amountammo"] = "ilość amunicji",
 	["noammo"] = "nie posiadasz wystarczającej ilości amunicji!",
@@ -44,12 +51,16 @@ Locales["pl"] = {
 	["account_money"] = "pieniądze",
 	["act_imp"] = "działanie niemożliwe",
 	["in_vehicle"] = "nie możesz przekazywać przedmiotów w pojeździe",
+	["not_in_vehicle"] = "Cannot Perform Action, Player isn't in a vehicle",
 
 	-- Commands
 	["command_car"] = "przywołaj pojazd",
 	["command_car_car"] = "nazwa lub hash przywołanego pojazdu",
 	["command_cardel"] = "usuń pojazd w pobliżu",
 	["command_cardel_radius"] = "opcjonalnie usuń każdy pojazd w obszarze",
+	["command_repair"] = "Repair your vehicle",
+	["command_repair_success"] = "Successfully repaired vehicle",
+	["command_repair_success_target"] = "An admin repaired your vehicle",
 	["command_clear"] = "wyczyść czat",
 	["command_clearall"] = "wyczyść czat dla wszystkich graczy",
 	["command_clearinventory"] = "wyczyść ekwipunek gracza",
@@ -86,12 +97,16 @@ Locales["pl"] = {
 	["command_setgroup_group"] = "nazwa grupy",
 	["commanderror_argumentmismatch"] = "nieprawiłowa ilość argumentów (przeszło %s, wymagane %s)",
 	["commanderror_argumentmismatch_number"] = "nieprawidłowy typ argumentu #%s (przeszedł tekst, wymagany numer)",
+	["commanderror_argumentmismatch_string"] = "Invalid Argument #%s data type (passed number, wanted string)",
 	["commanderror_invaliditem"] = "nieprawidłowa nazwa przedmiotu",
 	["commanderror_invalidweapon"] = "nieprawidłowa broń",
 	["commanderror_console"] = "podana komenda nie może zostać uruchomiona przez konsole",
 	["commanderror_invalidcommand"] = "/%s nie jest poprawną komendą!",
 	["commanderror_invalidplayerid"] = "brak dostepnego gracza pasującego do podanego id serwerowego",
 	["commandgeneric_playerid"] = "id gracza",
+	["command_giveammo_noweapon_found"] = "%s does not have that weapon",
+	["command_giveammo_weapon"] = "Weapon name",
+	["command_giveammo_ammo"] = "Ammo Quantity",
 
 	-- Locale settings
 	["locale_digit_grouping_symbol"] = ",",
@@ -172,6 +187,7 @@ Locales["pl"] = {
 	["gadget_parachute"] = "spadochron",
 	["weapon_flare"] = "pistolet sygnałowy",
 	["weapon_doubleaction"] = "double-Action Revolver",
+	["weapon_heavyrifle"] = "Heavy Rifle", -- Not Translated
 
 	-- Weapon Components
 	["component_clip_default"] = "domyślny tłumik",
@@ -184,6 +200,12 @@ Locales["pl"] = {
 	["component_suppressor"] = "tłumik",
 	["component_grip"] = "uchwyt",
 	["component_luxary_finish"] = "luksusowe wykończenie broni",
+
+	-- Drug Wars DLC
+	["weapon_candycane"] = "Candy Cane", -- not translated
+	["weapon_acidpackage"] = "Acid Package", -- not translated
+	["weapon_pistolxm3"] = "WM 29 Pistol", -- not translated
+	["weapon_railgunxm3"] = "Railgun", -- not translated
 
 	-- Weapon Ammo
 	["ammo_rounds"] = "nabój/oi",

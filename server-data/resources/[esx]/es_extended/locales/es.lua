@@ -1,5 +1,12 @@
 Locales["es"] = {
 	-- Inventory
+	["inventory"] = "Inventario %s / %s",
+	["use"] = "Usar",
+	["give"] = "Dar",
+	["remove"] = "Tirar",
+	["return"] = "Volver",
+	["give_to"] = "Dar a",
+	["amount"] = "Cantidad",
 	["giveammo"] = "Dar munición",
 	["amountammo"] = "Cantidad de munición",
 	["noammo"] = "No tienes suficiente munición!",
@@ -43,16 +50,20 @@ Locales["es"] = {
 	["account_black_money"] = "Dinero Negro",
 	["account_money"] = "Efectivo",
 
-	["act_imp"] = "Acción imposible",
-	["in_vehicle"] = "No se puede dar nada a alguien en un vehículo",
+	["act_imp"] = "No se pudo realizar la acción.",
+	["in_vehicle"] = "Acción rechazada. El jugador se encuentra en un vehículo",
+	["not_in_vehicle"] = "Cannot Perform Action, Player isn't in a vehicle",
 
 	-- Commands
 	["command_bring"] = "Traer un jugador hacia ti",
-	["command_car"] = "Generar un vehiculo",
-	["command_car_car"] = "Nombre o hash del vehículo",
+	["command_car"] = "Spawnear un vehículo",
+	["command_car_car"] = "Nombre del vehículo",
 	["command_cardel"] = "Eliminar vehículos cercanos",
 	["command_cardel_radius"] = "Opcional, eliminar todos los vehículos en el radio especificado",
-	["command_clear"] = "Limpiar chat",
+	["command_repair"] = "Reparar tu vehiculo",
+	["command_repair_success"] = "Vehiculo reparado correctamente",
+	["command_repair_success_target"] = "Un administrador reparo tu vehiculo",
+	["command_clear"] = "Limpiar chat para ti",
 	["command_clearall"] = "Limpiar chat para todos los jugadores",
 	["command_clearinventory"] = "Limpiar el inventario del jugador",
 	["command_clearloadout"] = "Limpiar inventario de un jugador",
@@ -61,7 +72,7 @@ Locales["es"] = {
 	["command_giveaccountmoney"] = "Dar dinero",
 	["command_giveaccountmoney_account"] = "Nombre de cuenta válido",
 	["command_giveaccountmoney_amount"] = "Cantidad a añadir",
-	["command_giveaccountmoney_invalid"] = "Nombre de cuenta inválido",
+	["command_giveaccountmoney_invalid"] = "Nombre de cuenta no existente. [bank, money, black_money]",
 	["command_giveitem"] = "Dar un objeto a un jugador",
 	["command_giveitem_item"] = "Nombre del artículo",
 	["command_giveitem_count"] = "Cantidad de articulos",
@@ -74,11 +85,12 @@ Locales["es"] = {
 	["command_giveweaponcomponent_invalid"] = "Componente del arma no válido",
 	["command_giveweaponcomponent_hasalready"] = "El jugador ya tiene ese componente del arma",
 	["command_giveweaponcomponent_missingweapon"] = "El jugador no tiene esa arma",
-	["command_goto"] = "Teletransporte hacia un jugador",
-	["command_save"] = "Guardar un jugador en la base de datos",
-	["command_saveall"] = "Guardar todos los jugadores en la base de datos",
+	["command_goto"] = "Teletransportarte hacia un jugador",
+	["command_kill"] = "Matar un jugador",
+	["command_save"] = "Guardar la informacion de un jugador en la base de datos.",
+	["command_saveall"] = "Guardar toda la informacion de jugadores en la base de datos.",
 	["command_setaccountmoney"] = "Establecer el dinero de la cuenta para un jugador",
-	["command_setaccountmoney_amount"] = "Cantidad de dinero para fijar",
+	["command_setaccountmoney_amount"] = "Cantidad de dinero a establecer",
 	["command_setcoords"] = "Teletransporte a coordenadas",
 	["command_setcoords_x"] = "Eje X",
 	["command_setcoords_y"] = "Eje Y",
@@ -86,23 +98,33 @@ Locales["es"] = {
 	["command_setjob"] = "Dar un trabajo a un jugador",
 	["command_setjob_job"] = "Nombre del trabajo",
 	["command_setjob_grade"] = "Rango del trabajo",
-	["command_setjob_invalid"] = "El trabajo, el rango o ambos no son válidos",
+	["command_setjob_invalid"] = "El trabajo o el rango no son válidos",
 	["command_setgroup"] = "Establecer el grupo de un jugador",
 	["command_setgroup_group"] = "Nombre del grupo",
-	["commanderror_argumentmismatch"] = "error en el recuento de argumentos (pasado %s, deseado %s)",
-	["commanderror_argumentmismatch_number"] = "argumento #%s tipo no coincide (cadena pasada, número deseado)",
+	["commanderror_argumentmismatch"] = "Error en el recuento de argumentos (pasado %s, deseado %s)",
+	["commanderror_argumentmismatch_number"] = "Argumento #%s tipo no coincide (cadena pasada, número deseado)",
+	["commanderror_argumentmismatch_string"] = "Invalid Argument #%s data type (passed number, wanted string)",
 	["commanderror_invaliditem"] = "Nombre del artículo no válido",
 	["commanderror_invalidweapon"] = "Arma inválida",
 	["commanderror_console"] = "Ese comando no se puede ejecutar desde la consola",
 	["commanderror_invalidcommand"] = "/%s ¡No es un comando válido!",
-	["commanderror_invalidplayerid"] = "No hay ningún jugador en línea que coincida con la ID del servidor",
+	["commanderror_invalidplayerid"] = "No hay ningún jugador online con la ID especificada",
 	["commandgeneric_playerid"] = "ID del jugador",
+	["command_giveammo_noweapon_found"] = "%s no posee esa arma",
+	["command_giveammo_weapon"] = "Nombre del arma",
+	["command_giveammo_ammo"] = "Cantidad de municion",
 
 	-- Locale settings
 	["locale_digit_grouping_symbol"] = ",",
 	["locale_currency"] = "$%s",
 
 	-- Weapons
+
+	-- Drug Wars DLC
+	["weapon_candycane"] = "Hacha de Caramelo ",
+	["weapon_acidpackage"] = "Paquete de Acido",
+	["weapon_pistolxm3"] = "Pistola WM 29",
+	["weapon_railgunxm3"] = "Fusil electromagnético",
 
 	-- Melee
 	["weapon_dagger"] = "Daga",
@@ -111,11 +133,11 @@ Locales["es"] = {
 	["weapon_bottle"] = "Botella",
 	["weapon_crowbar"] = "Palanca",
 	["weapon_flashlight"] = "Linterna",
-	["weapon_golfclub"] = "Palos de Golf",
+	["weapon_golfclub"] = "Palo de Golf",
 	["weapon_hammer"] = "Martillo",
 	["weapon_hatchet"] = "Hacha",
 	["weapon_knife"] = "Cuchillo",
-	["weapon_knuckle"] = "Puños Americanos",
+	["weapon_knuckle"] = "Puño Americano",
 	["weapon_machete"] = "Machete",
 	["weapon_nightstick"] = "Porra",
 	["weapon_wrench"] = "Llave Inglesa",
@@ -124,9 +146,9 @@ Locales["es"] = {
 	["weapon_switchblade"] = "Navaja",
 
 	-- Handguns
-	["weapon_appistol"] = "Pistola AP ",
-	["weapon_ceramicpistol"] = "Pistola Corta",
-	["weapon_combatpistol"] = "Pistola Combate",
+	["weapon_appistol"] = "Pistola AP",
+	["weapon_ceramicpistol"] = "Pistola de Ceramica",
+	["weapon_combatpistol"] = "Pistola de Combate",
 	["weapon_doubleaction"] = "Revólver de Doble Acción",
 	["weapon_navyrevolver"] = "Revólver de la Armada",
 	["weapon_flaregun"] = "Pistola de Bengalas",
@@ -135,12 +157,12 @@ Locales["es"] = {
 	["weapon_revolver"] = "Revólver Pesado",
 	["weapon_revolver_mk2"] = "Revólver Pesado MK2",
 	["weapon_marksmanpistol"] = "Pistola Marksman",
-	["weapon_pistol"] = "Pistola",
+	["weapon_pistol"] = "Pistola 9mm",
 	["weapon_pistol_mk2"] = "Pistola MK2",
 	["weapon_pistol50"] = "Pistola .50",
 	["weapon_snspistol"] = "Pistola SNS",
 	["weapon_snspistol_mk2"] = "Pistola SNS MK2",
-	["weapon_stungun"] = "Tazer",
+	["weapon_stungun"] = "Taser",
 	["weapon_raypistol"] = "Up-N-Atomizer",
 	["weapon_vintagepistol"] = "Pistola Vintage",
 
@@ -182,6 +204,7 @@ Locales["es"] = {
 	["weapon_militaryrifle"] = "Rifle Militar",
 	["weapon_specialcarbine"] = "Carabina Especial",
 	["weapon_specialcarbine_mk2"] = "Carabina Especial MK2",
+	["weapon_heavyrifle"] = "Rifle Pesado",
 
 	-- Sniper
 	["weapon_heavysniper"] = "Francotirador Pesado",
@@ -209,9 +232,9 @@ Locales["es"] = {
 	["weapon_hazardcan"] = "Bidón de Gasolina Peligroso",
 	["weapon_molotov"] = "Molotov",
 	["weapon_proxmine"] = "Mina de Proximidad ",
-	["weapon_pipebomb"] = "Bomba de Tubo",
+	["weapon_pipebomb"] = "Bomba casera",
 	["weapon_snowball"] = "Bola de nieve",
-	["weapon_stickybomb"] = "Bomba Pegajosa",
+	["weapon_stickybomb"] = "C4",
 	["weapon_smokegrenade"] = "Granada de Humo",
 
 	-- Special
@@ -272,7 +295,7 @@ Locales["es"] = {
 	["component_clip_drum"] = "Cargador Barril",
 	["component_clip_box"] = "Caja de Cargador",
 
-	["component_scope_holo"] = "Mira Holográfico",
+	["component_scope_holo"] = "Mira Holográfica",
 	["component_scope_small"] = "Mira Pequeña",
 	["component_scope_medium"] = "Mira Mediana",
 	["component_scope_large"] = "Mira Larga",
@@ -280,8 +303,8 @@ Locales["es"] = {
 	["component_scope_advanced"] = "Mira Avanzada",
 	["component_ironsights"] = "Mira de Hierro",
 
-	["component_suppressor"] = "Supresor",
-	["component_compensator"] = "Compensador",
+	["component_suppressor"] = "Silenciador",
+	["component_compensator"] = "Estabilizador",
 
 	["component_muzzle_flat"] = "Boquilla de Freno Plana",
 	["component_muzzle_tactical"] = "Boquilla de Freno Tactica",
@@ -332,7 +355,7 @@ Locales["es"] = {
 	["ammo_flaregun"] = "Bengala(s)",
 
 	-- Weapon Tints
-	["tint_default"] = "Skin Por Defecto",
+	["tint_default"] = "Skin común",
 	["tint_green"] = "Skin Verde",
 	["tint_gold"] = "Skin Oro",
 	["tint_pink"] = "Skin Rosa",
@@ -340,4 +363,8 @@ Locales["es"] = {
 	["tint_lspd"] = "Skin Azul",
 	["tint_orange"] = "Skin Naranja",
 	["tint_platinum"] = "Skin Plata",
+
+	-- Duty related
+	["stopped_duty"] = "Has salido de servicio.",
+	["started_duty"] = "Has entrado de servicio.",
 }
