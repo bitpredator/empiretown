@@ -85,6 +85,9 @@
     "cannot_give": "Kan ikke gi %s %s til målet",
     "evidence_cannot_take": "Du er ikke autorisert til å trekke ut bevis",
     "dumpster": "Søppelkasse",
+    "crafting_item": "Lager %s",
+    "crafting_bench": "Lagebenk",
+    "open_crafting_bench": "Åpne lagebenk",
     "not_enough_durability": "%s har ikke nok holdbarhet"
-}
+  }
   

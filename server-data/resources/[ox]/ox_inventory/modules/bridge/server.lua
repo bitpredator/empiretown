@@ -37,45 +37,23 @@ function server.buyLicense()
 	warn('Licenses are not supported for the current framework.')
 end
 
-local Inventory
+local Inventory = require 'modules.inventory.server'
 
-CreateThread(function()
-	Inventory = require 'modules.inventory.server'
-end)
-
-local function playerDropped(source)
+function server.playerDropped(source)
 	local inv = Inventory(source) --[[@as OxInventory]]
 
 	if inv?.player then
 		inv:closeInventory()
-
-		if shared.framework ~= 'esx' then
-			db.savePlayer(inv.owner, json.encode(inv:minimal()))
-		end
-
-		Inventory.Remove(inv, true)
+		Inventory.Remove(inv)
 	end
 end
 
-AddEventHandler('playerDropped', function()
-	playerDropped(source)
-end)
+local success, result = pcall(lib.load, ('modules.bridge.%s.server'):format(shared.framework))
 
-local scriptPath = ('modules/bridge/%s/server.lua'):format(shared.framework)
-local resourceFile = LoadResourceFile(cache.resource, scriptPath)
-
-if not resourceFile then
-	lib = nil
-	return error(("Unable to find framework bridge for '%s'"):format(shared.framework))
+if not success then
+    lib.print.error(result)
+    lib = nil
+    return
 end
-
-local func, err = load(resourceFile, ('@@%s/%s'):format(cache.resource, scriptPath))
-
-if not func or err then
-	lib = nil
-	return error(err)
-end
-
-func(playerDropped)
 
 if server.convertInventory then exports('ConvertItems', server.convertInventory) end

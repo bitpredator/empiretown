@@ -171,7 +171,7 @@ local function ConvertQB()
 					inventory[slot].metadata.durability = v.info.quality or 100
 					inventory[slot].metadata.ammo = v.info.ammo or 0
 					inventory[slot].metadata.components = {}
-					inventory[slot].metadata.serial = GenerateSerial()
+					inventory[slot].metadata.serial = v.info.serie or GenerateSerial()
 					inventory[slot].metadata.quality = nil
 				end
 			end
@@ -228,7 +228,7 @@ local function ConvertQB()
 									inventory[slot].metadata.durability = v.info.quality or 100
 									inventory[slot].metadata.ammo = v.info.ammo or 0
 									inventory[slot].metadata.components = {}
-									inventory[slot].metadata.serial = GenerateSerial()
+									inventory[slot].metadata.serial = v.info.serie or GenerateSerial()
 									inventory[slot].metadata.quality = nil
 								end
 							end
@@ -280,7 +280,7 @@ local function ConvertQB()
 									inventory[slot].metadata.durability = v.info.quality or 100
 									inventory[slot].metadata.ammo = v.info.ammo or 0
 									inventory[slot].metadata.components = {}
-									inventory[slot].metadata.serial = GenerateSerial()
+									inventory[slot].metadata.serial = v.info.serie or GenerateSerial()
 									inventory[slot].metadata.quality = nil
 								end
 							end
@@ -330,8 +330,7 @@ local function ConvertQB()
 		for name, items in pairs(oxEvidence) do
 			count += 1
 			parameters[count] = { "INSERT INTO ox_inventory (owner, name, data) VALUES ('', ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), data = VALUES(data)", {
-				name = name,
-				data = json.encode(items)
+				name, json.encode(items)
 			}}
 		end
 

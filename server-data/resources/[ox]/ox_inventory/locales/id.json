@@ -82,5 +82,7 @@
   "cannot_give": "Tidak dapat memberikan %s %s ke target",
   "evidence_cannot_take": "Anda tidak berwenang untuk mengambil barang bukti",
   "dumpster": "Tempat Sampah",
+  "crafting_item": "Membuat %s",
+  "crafting_bench": "Bangku Kerajinan",
   "not_enough_durability": "%s tidak memiliki daya tahan yang cukup"
 }

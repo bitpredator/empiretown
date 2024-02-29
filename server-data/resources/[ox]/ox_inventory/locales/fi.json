@@ -85,5 +85,8 @@
   "cannot_give": "Ei voida antaa %s %s kohteelle",
   "evidence_cannot_take": "Et ole tarpeeksi korkea-arvoinen, että voisit ottaa tavaraa todistusaineista",
   "dumpster": "Roskis",
+  "crafting_item": "Valmistetaan %s",
+  "crafting_bench": "Työkalupenkki",
+  "open_crafting_bench": "Avaa työkalupenkki",
   "not_enough_durability": "%s on liian huonossa kunnossa"
 }
