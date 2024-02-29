@@ -3,17 +3,17 @@ game("gta5")
 lua54("yes")
 author("bitpredator")
 description("BPT Wallet for ox_inventory")
-version("1.0.0")
+version("1.0.1")
 
 client_scripts({
-    "client/**.lua",
+	"client/**.lua",
 })
 
 server_scripts({
-    "server/**.lua",
+	"server/**.lua",
 })
 
 shared_scripts({
-    "@ox_lib/init.lua",
-    "config.lua",
+	"@ox_lib/init.lua",
+	"config.lua",
 })
