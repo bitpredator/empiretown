@@ -1,9 +1,10 @@
 fx_version("adamant")
+
 game("gta5")
-author("BPT-Framework")
+author("bitpredator")
 lua54("yes")
-description("BPT Progressbar")
-version("1.0.0")
+version("1.0.1")
+description("Progressbar")
 
 client_scripts({ "Progress.lua" })
 shared_script("@es_extended/imports.lua")

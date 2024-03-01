@@ -85,5 +85,8 @@
   "cannot_give": "Nie można przekazać %s %s",
   "evidence_cannot_take": "Nie posiadasz autoryzacji do zabrania dowodu",
   "dumpster": "Śmietnik",
+  "crafting_item": "Wytwórz %s",
+  "crafting_bench": "Stół do wytwarzania",
+  "open_crafting_bench": "Otwórz stół do wytwarzania",
   "not_enough_durability": "%s nie posiada wystarczjąco wytrzymałości"
 }

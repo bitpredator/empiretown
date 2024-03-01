@@ -65,7 +65,7 @@ if not Config.UseDeferrals then
 				return
 			end
 
-			ESX.ShowNotification(_U("thank_you_for_registering"))
+			ESX.ShowNotification(TranslateCap("thank_you_for_registering"))
 			setGuiState(false)
 
 			if not ESX.GetConfig().Multichar then

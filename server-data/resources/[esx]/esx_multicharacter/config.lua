@@ -1,5 +1,5 @@
 Config = {}
-Config.Locale = "it"
+Config.Locale = GetConvar("esx:locale", "en")
 
 -- Allows players to delete their characters
 Config.CanDelete = true

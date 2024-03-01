@@ -52,6 +52,7 @@ Locales["hu"] = {
 
 	["act_imp"] = "Érvénytelen mennyiség",
 	["in_vehicle"] = "Nem tudod átadni, mivel benne ül a jármüben",
+	["not_in_vehicle"] = "Cannot Perform Action, Player isn't in a vehicle",
 
 	-- Commands
 	["command_bring"] = "Játékos magadhoz teleportálása",
@@ -59,6 +60,9 @@ Locales["hu"] = {
 	["command_car_car"] = "Jármű név vagy hash",
 	["command_cardel"] = "Közeli járművek törlése",
 	["command_cardel_radius"] = "Megadott radiusban lévő járművek törlése",
+	["command_repair"] = "Repair your vehicle",
+	["command_repair_success"] = "Successfully repaired vehicle",
+	["command_repair_success_target"] = "An admin repaired your vehicle",
 	["command_clear"] = "Chat ürítése",
 	["command_clearall"] = "Chat ürítése minden játékosnál",
 	["command_clearinventory"] = "Minden tárgy törlése a játékos inventoryból",
@@ -99,12 +103,22 @@ Locales["hu"] = {
 	["command_setgroup_group"] = "Csoport neve",
 	["commanderror_argumentmismatch"] = "Érvénytelen argumentumszám (%s megadva, %s szükséges)",
 	["commanderror_argumentmismatch_number"] = "Érvénytelen argumentum #%s adat típus (szöveg megadva, szám szükséges)",
+	["commanderror_argumentmismatch_string"] = "Invalid Argument #%s data type (passed number, wanted string)",
 	["commanderror_invaliditem"] = "Érvénytelen tárgy",
 	["commanderror_invalidweapon"] = "Érvénytelen fegyver",
 	["commanderror_console"] = "Parancs nem használható konzolból",
 	["commanderror_invalidcommand"] = "Érvénytelen parancs - /%s",
 	["commanderror_invalidplayerid"] = "Megadott játékos nem online.",
 	["commandgeneric_playerid"] = "Játékos Szerver Id",
+	["command_giveammo_noweapon_found"] = "Nincs ilyen fegyvered: %s",
+	["command_giveammo_weapon"] = "Fegyver név",
+	["command_giveammo_ammo"] = "Lőszer mennyiség",
+	["tpm_nowaypoint"] = "Nincs kijelölve pozíció!",
+	["tpm_success"] = "Sikeres teleportálás",
+
+	["noclip_message"] = "Noclip %s",
+	["enabled"] = "~g~engedélyezve~s~",
+	["disabled"] = "~r~letiltva~s~",
 
 	-- Locale settings
 	["locale_digit_grouping_symbol"] = ",",
@@ -190,6 +204,7 @@ Locales["hu"] = {
 	["weapon_militaryrifle"] = "Military Rifle",
 	["weapon_specialcarbine"] = "Special Carbine",
 	["weapon_specialcarbine_mk2"] = "Special Carbine MK2",
+	["weapon_heavyrifle"] = "Heavy Rifle", -- Not Translated
 
 	-- Sniper
 	["weapon_heavysniper"] = "Heavy Sniper",
@@ -212,6 +227,12 @@ Locales["hu"] = {
 	["weapon_metaldetector"] = "Fémkereső",
 	["weapon_precisionrifle"] = "Precision Rifle",
 	["weapon_tactilerifle"] = "Service Carbine",
+
+	-- Drug Wars DLC
+	["weapon_candycane"] = "Candy Cane", -- not translated
+	["weapon_acidpackage"] = "Acid Package", -- not translated
+	["weapon_pistolxm3"] = "WM 29 Pistol", -- not translated
+	["weapon_railgunxm3"] = "Railgun", -- not translated
 
 	-- Thrown
 	["weapon_ball"] = "Baseball",
@@ -353,4 +374,8 @@ Locales["hu"] = {
 	["tint_lspd"] = "blue skin",
 	["tint_orange"] = "orange skin",
 	["tint_platinum"] = "platinum skin",
+
+	-- Duty related
+	["stopped_duty"] = "Leadtad a szolgálatot.",
+	["started_duty"] = "Szolgálatba álltál.",
 }

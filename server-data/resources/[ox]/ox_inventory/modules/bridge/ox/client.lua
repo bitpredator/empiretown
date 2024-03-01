@@ -1,10 +1,10 @@
-local onLogout = ...
+CreateThread(function() lib.load('@ox_core.imports.client') end)
 
-RegisterNetEvent("ox:playerLogout", onLogout)
+RegisterNetEvent('ox:playerLogout', client.onLogout)
 
-RegisterNetEvent("ox:setGroup", function(name, grade)
+RegisterNetEvent('ox:setGroup', function(name, grade)
 	PlayerData.groups[name] = grade
-	OnPlayerData("groups")
+	OnPlayerData('groups')
 end)
 
 ---@diagnostic disable-next-line: duplicate-set-field
@@ -14,7 +14,7 @@ function client.setPlayerStatus(values)
 		-- we need to awkwardly change the value
 		if value > 100 or value < -100 then
 			-- Hunger and thirst start at 0 and go up to 100 as you get hungry/thirsty (inverse of ESX)
-			if name == "hunger" or name == "thirst" then
+			if (name == 'hunger' or name == 'thirst') then
 				value = -value
 			end
 

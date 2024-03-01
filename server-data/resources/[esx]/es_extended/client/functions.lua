@@ -2,9 +2,6 @@ ESX = {}
 Core = {}
 ESX.PlayerData = {}
 ESX.PlayerLoaded = false
-Core.CurrentRequestId = 0
-Core.ServerCallbacks = {}
-Core.TimeoutCallbacks = {}
 Core.Input = {}
 ESX.UI = {}
 ESX.UI.Menu = {}
@@ -19,18 +16,6 @@ ESX.Scaleform.Utils = {}
 
 ESX.Streaming = {}
 
-function ESX.SetTimeout(msec, cb)
-	table.insert(Core.TimeoutCallbacks, {
-		time = GetGameTimer() + msec,
-		cb = cb,
-	})
-	return #Core.TimeoutCallbacks
-end
-
-function ESX.ClearTimeout(i)
-	Core.TimeoutCallbacks[i] = nil
-end
-
 function ESX.IsPlayerLoaded()
 	return ESX.PlayerLoaded
 end
@@ -40,31 +25,18 @@ function ESX.GetPlayerData()
 end
 
 function ESX.SearchInventory(items, count)
-	if type(items) == "string" then
-		items = { items }
-	end
+	items = type(items) == "string" and { items } or items
 
-	local returnData = {}
-	local itemCount = #items
-
-	for i = 1, itemCount do
-		local itemName = items[i]
-		returnData[itemName] = count and 0
-
-		for _, item in pairs(ESX.PlayerData.inventory) do
-			if item.name == itemName then
-				if count then
-					returnData[itemName] = returnData[itemName] + item.count
-				else
-					returnData[itemName] = item
-				end
+	local data = {}
+	for i = 1, #items do
+		for c = 1, #ESX.PlayerData.inventory do
+			if ESX.PlayerData.inventory[c].name == items[i] then
+				data[items[i]] = (count and ESX.PlayerData.inventory[c].count) or ESX.PlayerData.inventory[c]
 			end
 		end
 	end
 
-	if next(returnData) then
-		return itemCount == 1 and returnData[items[1]] or returnData
-	end
+	return #items == 1 and data[items[1]] or data
 end
 
 function ESX.SetPlayerData(key, val)
@@ -78,33 +50,35 @@ function ESX.SetPlayerData(key, val)
 end
 
 function ESX.Progressbar(message, length, Options)
-	exports["esx_progressbar"]:Progressbar(message, length, Options)
+	if GetResourceState("esx_progressbar") ~= "missing" then
+		return exports["esx_progressbar"]:Progressbar(message, length, Options)
+	end
+
+	print("[^1ERROR^7] ^5ESX Progressbar^7 is Missing!")
 end
 
-function ESX.ShowNotification(message, type, length)
+function ESX.ShowNotification(message, notifyType, length)
 	if GetResourceState("esx_notify") ~= "missing" then
-		exports["esx_notify"]:Notify(type, length, message)
-	else
-		print("[^1ERROR^7] ^5BPT Notify^7 is Missing!")
+		return exports["esx_notify"]:Notify(notifyType, length, message)
 	end
+
+	print("[^1ERROR^7] ^5ESX Notify^7 is Missing!")
 end
 
-function ESX.TextUI(message, type)
+function ESX.TextUI(message, notifyType)
 	if GetResourceState("esx_textui") ~= "missing" then
-		exports["esx_textui"]:TextUI(message, type)
-	else
-		print("[^1ERROR^7] ^5BPT TextUI^7 is Missing!")
-		return
+		return exports["esx_textui"]:TextUI(message, notifyType)
 	end
+
+	print("[^1ERROR^7] ^5ESX TextUI^7 is Missing!")
 end
 
 function ESX.HideUI()
 	if GetResourceState("esx_textui") ~= "missing" then
-		exports["esx_textui"]:HideUI()
-	else
-		print("[^1ERROR^7] ^5BPT TextUI^7 is Missing!")
-		return
+		return exports["esx_textui"]:HideUI()
 	end
+
+	print("[^1ERROR^7] ^5ESX TextUI^7 is Missing!")
 end
 
 function ESX.ShowAdvancedNotification(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
@@ -153,38 +127,30 @@ ESX.HashString = function(str)
 	return input_map
 end
 
-if GetResourceState("esx_context") ~= "missing" then
-	function ESX.OpenContext(...)
-		exports["esx_context"]:Open(...)
-	end
+local contextAvailable = GetResourceState("esx_context") ~= "missing"
 
-	function ESX.PreviewContext(...)
-		exports["esx_context"]:Preview(...)
-	end
+function ESX.OpenContext(...)
+	return contextAvailable and exports["esx_context"]:Open(...)
+		or not contextAvailable
+			and print("[^1ERROR^7] Tried to ^5open^7 context menu, but ^5esx_context^7 is missing!")
+end
 
-	function ESX.CloseContext(...)
-		exports["esx_context"]:Close(...)
-	end
+function ESX.PreviewContext(...)
+	return contextAvailable and exports["esx_context"]:Preview(...)
+		or not contextAvailable
+			and print("[^1ERROR^7] Tried to ^5preview^7 context menu, but ^5esx_context^7 is missing!")
+end
 
-	function ESX.RefreshContext(...)
-		exports["esx_context"]:Refresh(...)
-	end
-else
-	function ESX.OpenContext()
-		print("[^1ERROR^7] Tried to ^5open^7 context menu, but ^5esx_context^7 is missing!")
-	end
+function ESX.CloseContext(...)
+	return contextAvailable and exports["esx_context"]:Close(...)
+		or not contextAvailable
+			and print("[^1ERROR^7] Tried to ^5close^7 context menu, but ^5esx_context^7 is missing!")
+end
 
-	function ESX.PreviewContext()
-		print("[^1ERROR^7] Tried to ^5preview^7 context menu, but ^5esx_context^7 is missing!")
-	end
-
-	function ESX.CloseContext()
-		print("[^1ERROR^7] Tried to ^5close^7 context menu, but ^5esx_context^7 is missing!")
-	end
-
-	function ESX.RefreshContext()
-		print("[^1ERROR^7] Tried to ^5Refresh^7 context menu, but ^5esx_context^7 is missing!")
-	end
+function ESX.RefreshContext(...)
+	return contextAvailable and exports["esx_context"]:Refresh(...)
+		or not contextAvailable
+			and print("[^1ERROR^7] Tried to ^5Refresh^7 context menu, but ^5esx_context^7 is missing!")
 end
 
 ESX.RegisterInput = function(command_name, label, input_group, key, on_press, on_release)
@@ -196,26 +162,19 @@ ESX.RegisterInput = function(command_name, label, input_group, key, on_press, on
 	RegisterKeyMapping(on_release ~= nil and "+" .. command_name or command_name, label, input_group, key)
 end
 
-function ESX.TriggerServerCallback(name, cb, ...)
-	local Invoke = GetInvokingResource() or "unknown"
-	Core.ServerCallbacks[Core.CurrentRequestId] = cb
-
-	TriggerServerEvent("esx:triggerServerCallback", name, Core.CurrentRequestId, Invoke, ...)
-	Core.CurrentRequestId = Core.CurrentRequestId < 65535 and Core.CurrentRequestId + 1 or 0
-end
-
-function ESX.UI.Menu.RegisterType(type, open, close)
-	ESX.UI.Menu.RegisteredTypes[type] = {
+function ESX.UI.Menu.RegisterType(menuType, open, close)
+	ESX.UI.Menu.RegisteredTypes[menuType] = {
 		open = open,
 		close = close,
 	}
 end
 
-function ESX.UI.Menu.Open(type, namespace, name, data, submit, cancel, change, close)
+function ESX.UI.Menu.Open(menuType, namespace, name, data, submit, cancel, change, close)
 	local menu = {}
 
-	menu.type = type
+	menu.type = menuType
 	menu.namespace = namespace
+	menu.resourceName = (GetInvokingResource() or "Unknown")
 	menu.name = name
 	menu.data = data
 	menu.submit = submit
@@ -223,12 +182,12 @@ function ESX.UI.Menu.Open(type, namespace, name, data, submit, cancel, change, c
 	menu.change = change
 
 	menu.close = function()
-		ESX.UI.Menu.RegisteredTypes[type].close(namespace, name)
+		ESX.UI.Menu.RegisteredTypes[menuType].close(namespace, name)
 
 		for i = 1, #ESX.UI.Menu.Opened, 1 do
 			if ESX.UI.Menu.Opened[i] then
 				if
-					ESX.UI.Menu.Opened[i].type == type
+					ESX.UI.Menu.Opened[i].type == menuType
 					and ESX.UI.Menu.Opened[i].namespace == namespace
 					and ESX.UI.Menu.Opened[i].name == name
 				then
@@ -261,7 +220,7 @@ function ESX.UI.Menu.Open(type, namespace, name, data, submit, cancel, change, c
 	end
 
 	menu.refresh = function()
-		ESX.UI.Menu.RegisteredTypes[type].open(namespace, name, menu.data)
+		ESX.UI.Menu.RegisteredTypes[menuType].open(namespace, name, menu.data)
 	end
 
 	menu.setElement = function(i, key, val)
@@ -290,16 +249,16 @@ function ESX.UI.Menu.Open(type, namespace, name, data, submit, cancel, change, c
 	end
 
 	ESX.UI.Menu.Opened[#ESX.UI.Menu.Opened + 1] = menu
-	ESX.UI.Menu.RegisteredTypes[type].open(namespace, name, data)
+	ESX.UI.Menu.RegisteredTypes[menuType].open(namespace, name, data)
 
 	return menu
 end
 
-function ESX.UI.Menu.Close(type, namespace, name)
+function ESX.UI.Menu.Close(menuType, namespace, name)
 	for i = 1, #ESX.UI.Menu.Opened, 1 do
 		if ESX.UI.Menu.Opened[i] then
 			if
-				ESX.UI.Menu.Opened[i].type == type
+				ESX.UI.Menu.Opened[i].type == menuType
 				and ESX.UI.Menu.Opened[i].namespace == namespace
 				and ESX.UI.Menu.Opened[i].name == name
 			then
@@ -319,11 +278,11 @@ function ESX.UI.Menu.CloseAll()
 	end
 end
 
-function ESX.UI.Menu.GetOpened(type, namespace, name)
+function ESX.UI.Menu.GetOpened(menuType, namespace, name)
 	for i = 1, #ESX.UI.Menu.Opened, 1 do
 		if ESX.UI.Menu.Opened[i] then
 			if
-				ESX.UI.Menu.Opened[i].type == type
+				ESX.UI.Menu.Opened[i].type == menuType
 				and ESX.UI.Menu.Opened[i].namespace == namespace
 				and ESX.UI.Menu.Opened[i].name == name
 			then
@@ -337,8 +296,8 @@ function ESX.UI.Menu.GetOpenedMenus()
 	return ESX.UI.Menu.Opened
 end
 
-function ESX.UI.Menu.IsOpen(type, namespace, name)
-	return ESX.UI.Menu.GetOpened(type, namespace, name) ~= nil
+function ESX.UI.Menu.IsOpen(menuType, namespace, name)
+	return ESX.UI.Menu.GetOpened(menuType, namespace, name) ~= nil
 end
 
 function ESX.UI.ShowInventoryItemNotification(add, item, count)
@@ -385,34 +344,17 @@ end
 
 function ESX.Game.SpawnObject(object, coords, cb, networked)
 	networked = networked == nil and true or networked
-	if networked then
-		ESX.TriggerServerCallback("esx:Onesync:SpawnObject", function(NetworkID)
-			if cb then
-				local obj = NetworkGetEntityFromNetworkId(NetworkID)
-				local Tries = 0
-				while not DoesEntityExist(obj) do
-					obj = NetworkGetEntityFromNetworkId(NetworkID)
-					Wait(0)
-					Tries = Tries + 1
-					if Tries > 250 then
-						break
-					end
-				end
-				cb(obj)
-			end
-		end, object, coords, 0.0)
-	else
-		local model = type(object) == "number" and object or joaat(object)
-		local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
-		CreateThread(function()
-			ESX.Streaming.RequestModel(model)
 
-			local obj = CreateObject(model, vector.xyz, networked, false, true)
-			if cb then
-				cb(obj)
-			end
-		end)
-	end
+	local model = type(object) == "number" and object or joaat(object)
+	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
+	CreateThread(function()
+		ESX.Streaming.RequestModel(model)
+
+		local obj = CreateObject(model, vector.xyz, networked, false, true)
+		if cb then
+			cb(obj)
+		end
+	end)
 end
 
 function ESX.Game.SpawnLocalObject(object, coords, cb)
@@ -429,13 +371,12 @@ function ESX.Game.DeleteObject(object)
 	DeleteObject(object)
 end
 
-function ESX.Game.SpawnVehicle(vehicle, coords, heading, cb, networked)
-	local model = type(vehicle) == "number" and vehicle or joaat(vehicle)
+function ESX.Game.SpawnVehicle(vehicleModel, coords, heading, cb, networked)
+	local model = type(vehicleModel) == "number" and vehicleModel or joaat(vehicleModel)
 	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
 	networked = networked == nil and true or networked
 
 	local playerCoords = GetEntityCoords(ESX.PlayerData.ped)
-
 	if not vector or not playerCoords then
 		return
 	end
@@ -453,25 +394,25 @@ function ESX.Game.SpawnVehicle(vehicle, coords, heading, cb, networked)
 	CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 
-		local vehicleEntity = CreateVehicle(model, vector.x, vector.y, vector.z, heading, networked, true)
+		local vehicle = CreateVehicle(model, vector.xyz, heading, networked, true)
 
 		if networked then
-			local id = NetworkGetNetworkIdFromEntity(vehicleEntity)
+			local id = NetworkGetNetworkIdFromEntity(vehicle)
 			SetNetworkIdCanMigrate(id, true)
-			SetEntityAsMissionEntity(vehicleEntity, true, true)
+			SetEntityAsMissionEntity(vehicle, true, true)
 		end
-		SetVehicleHasBeenOwnedByPlayer(vehicleEntity, true)
-		SetVehicleNeedsToBeHotwired(vehicleEntity, false)
+		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
+		SetVehicleNeedsToBeHotwired(vehicle, false)
 		SetModelAsNoLongerNeeded(model)
-		SetVehRadioStation(vehicleEntity, "OFF")
+		SetVehRadioStation(vehicle, "OFF")
 
-		RequestCollisionAtCoord(vector.x, vector.y, vector.z)
-		while not HasCollisionLoadedAroundEntity(vehicleEntity) do
+		RequestCollisionAtCoord(vector.xyz)
+		while not HasCollisionLoadedAroundEntity(vehicle) do
 			Wait(0)
 		end
 
 		if cb then
-			cb(vehicleEntity)
+			cb(vehicle)
 		end
 	end)
 end
@@ -492,20 +433,19 @@ function ESX.Game.GetObjects() -- Leave the function for compatibility
 end
 
 function ESX.Game.GetPeds(onlyOtherPeds)
-	local myPed, pool = ESX.PlayerData.ped, GetGamePool("CPed")
-	if not onlyOtherPeds then
-		return pool
-	end
+	local pool = GetGamePool("CPed")
 
-	local peds = {}
-
-	for i = 1, #pool do
-		if pool[i] ~= myPed then
-			peds[#peds + 1] = pool[i]
+	if onlyOtherPeds then
+		local myPed = ESX.PlayerData.ped
+		for i = 1, #pool do
+			if pool[i] == myPed then
+				table.remove(pool, i)
+				break
+			end
 		end
 	end
 
-	return peds
+	return pool
 end
 
 function ESX.Game.GetVehicles() -- Leave the function for compatibility
@@ -514,15 +454,17 @@ end
 
 function ESX.Game.GetPlayers(onlyOtherPlayers, returnKeyValue, returnPeds)
 	local players, myPlayer = {}, PlayerId()
+	local active = GetActivePlayers()
 
-	for _, player in ipairs(GetActivePlayers()) do
-		local ped = GetPlayerPed(player)
+	for i = 1, #active do
+		local currentPlayer = active[i]
+		local ped = GetPlayerPed(currentPlayer)
 
-		if DoesEntityExist(ped) and ((onlyOtherPlayers and player ~= myPlayer) or not onlyOtherPlayers) then
+		if DoesEntityExist(ped) and ((onlyOtherPlayers and currentPlayer ~= myPlayer) or not onlyOtherPlayers) then
 			if returnKeyValue then
-				players[player] = ped
+				players[currentPlayer] = ped
 			else
-				players[#players + 1] = returnPeds and ped or player
+				players[#players + 1] = returnPeds and ped or currentPlayer
 			end
 		end
 	end
@@ -626,425 +568,436 @@ function ESX.Game.GetVehicleInDirection()
 end
 
 function ESX.Game.GetVehicleProperties(vehicle)
-	if DoesEntityExist(vehicle) then
-		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
-		local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
-		local hasCustomPrimaryColor = GetIsVehiclePrimaryColourCustom(vehicle)
-		local customPrimaryColor = nil
-		if hasCustomPrimaryColor then
-			local r, g, b = GetVehicleCustomPrimaryColour(vehicle)
-			customPrimaryColor = { r, g, b }
-		end
-
-		local customXenonColorR, customXenonColorG, customXenonColorB = GetVehicleXenonLightsCustomColor(vehicle)
-		local customXenonColor = nil
-		if customXenonColorR and customXenonColorG and customXenonColorB then
-			customXenonColor = { customXenonColorR, customXenonColorG, customXenonColorB }
-		end
-
-		local hasCustomSecondaryColor = GetIsVehicleSecondaryColourCustom(vehicle)
-		local customSecondaryColor = nil
-		if hasCustomSecondaryColor then
-			local r, g, b = GetVehicleCustomSecondaryColour(vehicle)
-			customSecondaryColor = { r, g, b }
-		end
-		local extras = {}
-
-		for extraId = 0, 12 do
-			if DoesExtraExist(vehicle, extraId) then
-				local state = IsVehicleExtraTurnedOn(vehicle, extraId)
-				extras[tostring(extraId)] = state
-			end
-		end
-
-		local doorsBroken, windowsBroken, tyreBurst = {}, {}, {}
-		local numWheels = tostring(GetVehicleNumberOfWheels(vehicle))
-
-		local TyresIndex = { -- Wheel index list according to the number of vehicle wheels.
-			["2"] = { 0, 4 }, -- Bike and cycle.
-			["3"] = { 0, 1, 4, 5 }, -- Vehicle with 3 wheels (get for wheels because some 3 wheels vehicles have 2 wheels on front and one rear or the reverse).
-			["4"] = { 0, 1, 4, 5 }, -- Vehicle with 4 wheels.
-			["6"] = { 0, 1, 2, 3, 4, 5 }, -- Vehicle with 6 wheels.
-		}
-
-		if TyresIndex[numWheels] then
-			for _, idx in pairs(TyresIndex[numWheels]) do
-				if IsVehicleTyreBurst(vehicle, idx, false) then
-					tyreBurst[tostring(idx)] = true
-				else
-					tyreBurst[tostring(idx)] = false
-				end
-			end
-		end
-
-		for windowId = 0, 7 do -- 13
-			if not IsVehicleWindowIntact(vehicle, windowId) then
-				windowsBroken[tostring(windowId)] = true
-			else
-				windowsBroken[tostring(windowId)] = false
-			end
-		end
-
-		local numDoors = GetNumberOfVehicleDoors(vehicle)
-		if numDoors and numDoors > 0 then
-			for doorsId = 0, numDoors do
-				if IsVehicleDoorDamaged(vehicle, doorsId) then
-					doorsBroken[tostring(doorsId)] = true
-				else
-					doorsBroken[tostring(doorsId)] = false
-				end
-			end
-		end
-
-		return {
-			model = GetEntityModel(vehicle),
-			doorsBroken = doorsBroken,
-			windowsBroken = windowsBroken,
-			tyreBurst = tyreBurst,
-			plate = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle)),
-			plateIndex = GetVehicleNumberPlateTextIndex(vehicle),
-
-			bodyHealth = ESX.Math.Round(GetVehicleBodyHealth(vehicle), 1),
-			engineHealth = ESX.Math.Round(GetVehicleEngineHealth(vehicle), 1),
-			tankHealth = ESX.Math.Round(GetVehiclePetrolTankHealth(vehicle), 1),
-
-			fuelLevel = ESX.Math.Round(GetVehicleFuelLevel(vehicle), 1),
-			dirtLevel = ESX.Math.Round(GetVehicleDirtLevel(vehicle), 1),
-			color1 = colorPrimary,
-			color2 = colorSecondary,
-			customPrimaryColor = customPrimaryColor,
-			customSecondaryColor = customSecondaryColor,
-
-			pearlescentColor = pearlescentColor,
-			wheelColor = wheelColor,
-
-			wheels = GetVehicleWheelType(vehicle),
-			windowTint = GetVehicleWindowTint(vehicle),
-			xenonColor = GetVehicleXenonLightsColor(vehicle),
-			customXenonColor = customXenonColor,
-
-			neonEnabled = {
-				IsVehicleNeonLightEnabled(vehicle, 0),
-				IsVehicleNeonLightEnabled(vehicle, 1),
-				IsVehicleNeonLightEnabled(vehicle, 2),
-				IsVehicleNeonLightEnabled(vehicle, 3),
-			},
-
-			neonColor = table.pack(GetVehicleNeonLightsColour(vehicle)),
-			extras = extras,
-			tyreSmokeColor = table.pack(GetVehicleTyreSmokeColor(vehicle)),
-
-			modSpoilers = GetVehicleMod(vehicle, 0),
-			modFrontBumper = GetVehicleMod(vehicle, 1),
-			modRearBumper = GetVehicleMod(vehicle, 2),
-			modSideSkirt = GetVehicleMod(vehicle, 3),
-			modExhaust = GetVehicleMod(vehicle, 4),
-			modFrame = GetVehicleMod(vehicle, 5),
-			modGrille = GetVehicleMod(vehicle, 6),
-			modHood = GetVehicleMod(vehicle, 7),
-			modFender = GetVehicleMod(vehicle, 8),
-			modRightFender = GetVehicleMod(vehicle, 9),
-			modRoof = GetVehicleMod(vehicle, 10),
-
-			modEngine = GetVehicleMod(vehicle, 11),
-			modBrakes = GetVehicleMod(vehicle, 12),
-			modTransmission = GetVehicleMod(vehicle, 13),
-			modHorns = GetVehicleMod(vehicle, 14),
-			modSuspension = GetVehicleMod(vehicle, 15),
-			modArmor = GetVehicleMod(vehicle, 16),
-
-			modTurbo = IsToggleModOn(vehicle, 18),
-			modSmokeEnabled = IsToggleModOn(vehicle, 20),
-			modXenon = IsToggleModOn(vehicle, 22),
-
-			modFrontWheels = GetVehicleMod(vehicle, 23),
-			modBackWheels = GetVehicleMod(vehicle, 24),
-
-			modPlateHolder = GetVehicleMod(vehicle, 25),
-			modVanityPlate = GetVehicleMod(vehicle, 26),
-			modTrimA = GetVehicleMod(vehicle, 27),
-			modOrnaments = GetVehicleMod(vehicle, 28),
-			modDashboard = GetVehicleMod(vehicle, 29),
-			modDial = GetVehicleMod(vehicle, 30),
-			modDoorSpeaker = GetVehicleMod(vehicle, 31),
-			modSeats = GetVehicleMod(vehicle, 32),
-			modSteeringWheel = GetVehicleMod(vehicle, 33),
-			modShifterLeavers = GetVehicleMod(vehicle, 34),
-			modAPlate = GetVehicleMod(vehicle, 35),
-			modSpeakers = GetVehicleMod(vehicle, 36),
-			modTrunk = GetVehicleMod(vehicle, 37),
-			modHydrolic = GetVehicleMod(vehicle, 38),
-			modEngineBlock = GetVehicleMod(vehicle, 39),
-			modAirFilter = GetVehicleMod(vehicle, 40),
-			modStruts = GetVehicleMod(vehicle, 41),
-			modArchCover = GetVehicleMod(vehicle, 42),
-			modAerials = GetVehicleMod(vehicle, 43),
-			modTrimB = GetVehicleMod(vehicle, 44),
-			modTank = GetVehicleMod(vehicle, 45),
-			modDoorR = GetVehicleMod(vehicle, 47),
-			modLivery = GetVehicleMod(vehicle, 48) == -1 and GetVehicleLivery(vehicle) or GetVehicleMod(vehicle, 48),
-			modLightbar = GetVehicleMod(vehicle, 49),
-		}
-	else
+	if not DoesEntityExist(vehicle) then
 		return
 	end
+
+	local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
+	local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
+	local hasCustomPrimaryColor = GetIsVehiclePrimaryColourCustom(vehicle)
+	local dashboardColor = GetVehicleDashboardColor(vehicle)
+	local interiorColor = GetVehicleInteriorColour(vehicle)
+	local customPrimaryColor = nil
+	if hasCustomPrimaryColor then
+		customPrimaryColor = { GetVehicleCustomPrimaryColour(vehicle) }
+	end
+
+	local hasCustomXenonColor, customXenonColorR, customXenonColorG, customXenonColorB =
+		GetVehicleXenonLightsCustomColor(vehicle)
+	local customXenonColor = nil
+	if hasCustomXenonColor then
+		customXenonColor = { customXenonColorR, customXenonColorG, customXenonColorB }
+	end
+
+	local hasCustomSecondaryColor = GetIsVehicleSecondaryColourCustom(vehicle)
+	local customSecondaryColor = nil
+	if hasCustomSecondaryColor then
+		customSecondaryColor = { GetVehicleCustomSecondaryColour(vehicle) }
+	end
+
+	local extras = {}
+	for extraId = 0, 20 do
+		if DoesExtraExist(vehicle, extraId) then
+			extras[tostring(extraId)] = IsVehicleExtraTurnedOn(vehicle, extraId)
+		end
+	end
+
+	local doorsBroken, windowsBroken, tyreBurst = {}, {}, {}
+	local numWheels = tostring(GetVehicleNumberOfWheels(vehicle))
+
+	local TyresIndex = { -- Wheel index list according to the number of vehicle wheels.
+		["2"] = { 0, 4 }, -- Bike and cycle.
+		["3"] = { 0, 1, 4, 5 }, -- Vehicle with 3 wheels (get for wheels because some 3 wheels vehicles have 2 wheels on front and one rear or the reverse).
+		["4"] = { 0, 1, 4, 5 }, -- Vehicle with 4 wheels.
+		["6"] = { 0, 1, 2, 3, 4, 5 }, -- Vehicle with 6 wheels.
+	}
+
+	if TyresIndex[numWheels] then
+		for _, idx in pairs(TyresIndex[numWheels]) do
+			tyreBurst[tostring(idx)] = IsVehicleTyreBurst(vehicle, idx, false)
+		end
+	end
+
+	for windowId = 0, 7 do -- 13
+		RollUpWindow(vehicle, windowId) --fix when you put the car away with the window down
+		windowsBroken[tostring(windowId)] = not IsVehicleWindowIntact(vehicle, windowId)
+	end
+
+	local numDoors = GetNumberOfVehicleDoors(vehicle)
+	if numDoors and numDoors > 0 then
+		for doorsId = 0, numDoors do
+			doorsBroken[tostring(doorsId)] = IsVehicleDoorDamaged(vehicle, doorsId)
+		end
+	end
+
+	return {
+		model = GetEntityModel(vehicle),
+		doorsBroken = doorsBroken,
+		windowsBroken = windowsBroken,
+		tyreBurst = tyreBurst,
+		tyresCanBurst = GetVehicleTyresCanBurst(vehicle),
+		plate = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle)),
+		plateIndex = GetVehicleNumberPlateTextIndex(vehicle),
+
+		bodyHealth = ESX.Math.Round(GetVehicleBodyHealth(vehicle), 1),
+		engineHealth = ESX.Math.Round(GetVehicleEngineHealth(vehicle), 1),
+		tankHealth = ESX.Math.Round(GetVehiclePetrolTankHealth(vehicle), 1),
+
+		fuelLevel = ESX.Math.Round(GetVehicleFuelLevel(vehicle), 1),
+		dirtLevel = ESX.Math.Round(GetVehicleDirtLevel(vehicle), 1),
+		color1 = colorPrimary,
+		color2 = colorSecondary,
+		customPrimaryColor = customPrimaryColor,
+		customSecondaryColor = customSecondaryColor,
+
+		pearlescentColor = pearlescentColor,
+		wheelColor = wheelColor,
+
+		dashboardColor = dashboardColor,
+		interiorColor = interiorColor,
+
+		wheels = GetVehicleWheelType(vehicle),
+		windowTint = GetVehicleWindowTint(vehicle),
+		xenonColor = GetVehicleXenonLightsColor(vehicle),
+		customXenonColor = customXenonColor,
+
+		neonEnabled = {
+			IsVehicleNeonLightEnabled(vehicle, 0),
+			IsVehicleNeonLightEnabled(vehicle, 1),
+			IsVehicleNeonLightEnabled(vehicle, 2),
+			IsVehicleNeonLightEnabled(vehicle, 3),
+		},
+
+		neonColor = table.pack(GetVehicleNeonLightsColour(vehicle)),
+		extras = extras,
+		tyreSmokeColor = table.pack(GetVehicleTyreSmokeColor(vehicle)),
+
+		modSpoilers = GetVehicleMod(vehicle, 0),
+		modFrontBumper = GetVehicleMod(vehicle, 1),
+		modRearBumper = GetVehicleMod(vehicle, 2),
+		modSideSkirt = GetVehicleMod(vehicle, 3),
+		modExhaust = GetVehicleMod(vehicle, 4),
+		modFrame = GetVehicleMod(vehicle, 5),
+		modGrille = GetVehicleMod(vehicle, 6),
+		modHood = GetVehicleMod(vehicle, 7),
+		modFender = GetVehicleMod(vehicle, 8),
+		modRightFender = GetVehicleMod(vehicle, 9),
+		modRoof = GetVehicleMod(vehicle, 10),
+		modRoofLivery = GetVehicleRoofLivery(vehicle),
+
+		modEngine = GetVehicleMod(vehicle, 11),
+		modBrakes = GetVehicleMod(vehicle, 12),
+		modTransmission = GetVehicleMod(vehicle, 13),
+		modHorns = GetVehicleMod(vehicle, 14),
+		modSuspension = GetVehicleMod(vehicle, 15),
+		modArmor = GetVehicleMod(vehicle, 16),
+
+		modTurbo = IsToggleModOn(vehicle, 18),
+		modSmokeEnabled = IsToggleModOn(vehicle, 20),
+		modXenon = IsToggleModOn(vehicle, 22),
+
+		modFrontWheels = GetVehicleMod(vehicle, 23),
+		modCustomFrontWheels = GetVehicleModVariation(vehicle, 23),
+		modBackWheels = GetVehicleMod(vehicle, 24),
+		modCustomBackWheels = GetVehicleModVariation(vehicle, 24),
+
+		modPlateHolder = GetVehicleMod(vehicle, 25),
+		modVanityPlate = GetVehicleMod(vehicle, 26),
+		modTrimA = GetVehicleMod(vehicle, 27),
+		modOrnaments = GetVehicleMod(vehicle, 28),
+		modDashboard = GetVehicleMod(vehicle, 29),
+		modDial = GetVehicleMod(vehicle, 30),
+		modDoorSpeaker = GetVehicleMod(vehicle, 31),
+		modSeats = GetVehicleMod(vehicle, 32),
+		modSteeringWheel = GetVehicleMod(vehicle, 33),
+		modShifterLeavers = GetVehicleMod(vehicle, 34),
+		modAPlate = GetVehicleMod(vehicle, 35),
+		modSpeakers = GetVehicleMod(vehicle, 36),
+		modTrunk = GetVehicleMod(vehicle, 37),
+		modHydrolic = GetVehicleMod(vehicle, 38),
+		modEngineBlock = GetVehicleMod(vehicle, 39),
+		modAirFilter = GetVehicleMod(vehicle, 40),
+		modStruts = GetVehicleMod(vehicle, 41),
+		modArchCover = GetVehicleMod(vehicle, 42),
+		modAerials = GetVehicleMod(vehicle, 43),
+		modTrimB = GetVehicleMod(vehicle, 44),
+		modTank = GetVehicleMod(vehicle, 45),
+		modWindows = GetVehicleMod(vehicle, 46),
+		modLivery = GetVehicleMod(vehicle, 48) == -1 and GetVehicleLivery(vehicle) or GetVehicleMod(vehicle, 48),
+		modLightbar = GetVehicleMod(vehicle, 49),
+	}
 end
 
 function ESX.Game.SetVehicleProperties(vehicle, props)
-	if DoesEntityExist(vehicle) then
-		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
-		local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
-		SetVehicleModKit(vehicle, 0)
+	if not DoesEntityExist(vehicle) then
+		return
+	end
+	local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
+	local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
+	SetVehicleModKit(vehicle, 0)
 
-		if props.plate then
-			SetVehicleNumberPlateText(vehicle, props.plate)
-		end
-		if props.plateIndex then
-			SetVehicleNumberPlateTextIndex(vehicle, props.plateIndex)
-		end
-		if props.bodyHealth then
-			SetVehicleBodyHealth(vehicle, props.bodyHealth + 0.0)
-		end
-		if props.engineHealth then
-			SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0)
-		end
-		if props.tankHealth then
-			SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0)
-		end
-		if props.fuelLevel then
-			SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
-		end
-		if props.dirtLevel then
-			SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
-		end
-		if props.customPrimaryColor then
-			SetVehicleCustomPrimaryColour(
-				vehicle,
-				props.customPrimaryColor[1],
-				props.customPrimaryColor[2],
-				props.customPrimaryColor[3]
-			)
-		end
-		if props.customSecondaryColor then
-			SetVehicleCustomSecondaryColour(
-				vehicle,
-				props.customSecondaryColor[1],
-				props.customSecondaryColor[2],
-				props.customSecondaryColor[3]
-			)
-		end
-		if props.color1 then
-			SetVehicleColours(vehicle, props.color1, colorSecondary)
-		end
-		if props.color2 then
-			SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
-		end
-		if props.pearlescentColor then
-			SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor)
-		end
-		if props.wheelColor then
-			SetVehicleExtraColours(vehicle, props.pearlescentColor or pearlescentColor, props.wheelColor)
-		end
-		if props.wheels then
-			SetVehicleWheelType(vehicle, props.wheels)
-		end
-		if props.windowTint then
-			SetVehicleWindowTint(vehicle, props.windowTint)
-		end
+	if props.tyresCanBurst ~= nil then
+		SetVehicleTyresCanBurst(vehicle, props.tyresCanBurst)
+	end
 
-		if props.neonEnabled then
-			SetVehicleNeonLightEnabled(vehicle, 0, props.neonEnabled[1])
-			SetVehicleNeonLightEnabled(vehicle, 1, props.neonEnabled[2])
-			SetVehicleNeonLightEnabled(vehicle, 2, props.neonEnabled[3])
-			SetVehicleNeonLightEnabled(vehicle, 3, props.neonEnabled[4])
-		end
+	if props.plate ~= nil then
+		SetVehicleNumberPlateText(vehicle, props.plate)
+	end
+	if props.plateIndex ~= nil then
+		SetVehicleNumberPlateTextIndex(vehicle, props.plateIndex)
+	end
+	if props.bodyHealth ~= nil then
+		SetVehicleBodyHealth(vehicle, props.bodyHealth + 0.0)
+	end
+	if props.engineHealth ~= nil then
+		SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0)
+	end
+	if props.tankHealth ~= nil then
+		SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0)
+	end
+	if props.fuelLevel ~= nil then
+		SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
+	end
+	if props.dirtLevel ~= nil then
+		SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
+	end
+	if props.customPrimaryColor ~= nil then
+		SetVehicleCustomPrimaryColour(
+			vehicle,
+			props.customPrimaryColor[1],
+			props.customPrimaryColor[2],
+			props.customPrimaryColor[3]
+		)
+	end
+	if props.customSecondaryColor ~= nil then
+		SetVehicleCustomSecondaryColour(
+			vehicle,
+			props.customSecondaryColor[1],
+			props.customSecondaryColor[2],
+			props.customSecondaryColor[3]
+		)
+	end
+	if props.color1 ~= nil then
+		SetVehicleColours(vehicle, props.color1, colorSecondary)
+	end
+	if props.color2 ~= nil then
+		SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
+	end
+	if props.pearlescentColor ~= nil then
+		SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor)
+	end
 
-		if props.extras then
-			for extraId, enabled in pairs(props.extras) do
-				if enabled then
-					SetVehicleExtra(vehicle, tonumber(extraId), 0)
-				else
-					SetVehicleExtra(vehicle, tonumber(extraId), 1)
-				end
+	if props.interiorColor ~= nil then
+		SetVehicleInteriorColor(vehicle, props.interiorColor)
+	end
+
+	if props.dashboardColor ~= nil then
+		SetVehicleDashboardColor(vehicle, props.dashboardColor)
+	end
+
+	if props.wheelColor ~= nil then
+		SetVehicleExtraColours(vehicle, props.pearlescentColor or pearlescentColor, props.wheelColor)
+	end
+	if props.wheels ~= nil then
+		SetVehicleWheelType(vehicle, props.wheels)
+	end
+	if props.windowTint ~= nil then
+		SetVehicleWindowTint(vehicle, props.windowTint)
+	end
+
+	if props.neonEnabled ~= nil then
+		SetVehicleNeonLightEnabled(vehicle, 0, props.neonEnabled[1])
+		SetVehicleNeonLightEnabled(vehicle, 1, props.neonEnabled[2])
+		SetVehicleNeonLightEnabled(vehicle, 2, props.neonEnabled[3])
+		SetVehicleNeonLightEnabled(vehicle, 3, props.neonEnabled[4])
+	end
+
+	if props.extras ~= nil then
+		for extraId, enabled in pairs(props.extras) do
+			SetVehicleExtra(vehicle, tonumber(extraId), enabled and 0 or 1)
+		end
+	end
+
+	if props.neonColor ~= nil then
+		SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3])
+	end
+	if props.xenonColor ~= nil then
+		SetVehicleXenonLightsColor(vehicle, props.xenonColor)
+	end
+	if props.customXenonColor ~= nil then
+		SetVehicleXenonLightsCustomColor(
+			vehicle,
+			props.customXenonColor[1],
+			props.customXenonColor[2],
+			props.customXenonColor[3]
+		)
+	end
+	if props.modSmokeEnabled ~= nil then
+		ToggleVehicleMod(vehicle, 20, true)
+	end
+	if props.tyreSmokeColor ~= nil then
+		SetVehicleTyreSmokeColor(vehicle, props.tyreSmokeColor[1], props.tyreSmokeColor[2], props.tyreSmokeColor[3])
+	end
+	if props.modSpoilers ~= nil then
+		SetVehicleMod(vehicle, 0, props.modSpoilers, false)
+	end
+	if props.modFrontBumper ~= nil then
+		SetVehicleMod(vehicle, 1, props.modFrontBumper, false)
+	end
+	if props.modRearBumper ~= nil then
+		SetVehicleMod(vehicle, 2, props.modRearBumper, false)
+	end
+	if props.modSideSkirt ~= nil then
+		SetVehicleMod(vehicle, 3, props.modSideSkirt, false)
+	end
+	if props.modExhaust ~= nil then
+		SetVehicleMod(vehicle, 4, props.modExhaust, false)
+	end
+	if props.modFrame ~= nil then
+		SetVehicleMod(vehicle, 5, props.modFrame, false)
+	end
+	if props.modGrille ~= nil then
+		SetVehicleMod(vehicle, 6, props.modGrille, false)
+	end
+	if props.modHood ~= nil then
+		SetVehicleMod(vehicle, 7, props.modHood, false)
+	end
+	if props.modFender ~= nil then
+		SetVehicleMod(vehicle, 8, props.modFender, false)
+	end
+	if props.modRightFender ~= nil then
+		SetVehicleMod(vehicle, 9, props.modRightFender, false)
+	end
+	if props.modRoof ~= nil then
+		SetVehicleMod(vehicle, 10, props.modRoof, false)
+	end
+
+	if props.modRoofLivery ~= nil then
+		SetVehicleRoofLivery(vehicle, props.modRoofLivery)
+	end
+
+	if props.modEngine ~= nil then
+		SetVehicleMod(vehicle, 11, props.modEngine, false)
+	end
+	if props.modBrakes ~= nil then
+		SetVehicleMod(vehicle, 12, props.modBrakes, false)
+	end
+	if props.modTransmission ~= nil then
+		SetVehicleMod(vehicle, 13, props.modTransmission, false)
+	end
+	if props.modHorns ~= nil then
+		SetVehicleMod(vehicle, 14, props.modHorns, false)
+	end
+	if props.modSuspension ~= nil then
+		SetVehicleMod(vehicle, 15, props.modSuspension, false)
+	end
+	if props.modArmor ~= nil then
+		SetVehicleMod(vehicle, 16, props.modArmor, false)
+	end
+	if props.modTurbo ~= nil then
+		ToggleVehicleMod(vehicle, 18, props.modTurbo)
+	end
+	if props.modXenon ~= nil then
+		ToggleVehicleMod(vehicle, 22, props.modXenon)
+	end
+	if props.modFrontWheels ~= nil then
+		SetVehicleMod(vehicle, 23, props.modFrontWheels, props.modCustomFrontWheels)
+	end
+	if props.modBackWheels ~= nil then
+		SetVehicleMod(vehicle, 24, props.modBackWheels, props.modCustomBackWheels)
+	end
+	if props.modPlateHolder ~= nil then
+		SetVehicleMod(vehicle, 25, props.modPlateHolder, false)
+	end
+	if props.modVanityPlate ~= nil then
+		SetVehicleMod(vehicle, 26, props.modVanityPlate, false)
+	end
+	if props.modTrimA ~= nil then
+		SetVehicleMod(vehicle, 27, props.modTrimA, false)
+	end
+	if props.modOrnaments ~= nil then
+		SetVehicleMod(vehicle, 28, props.modOrnaments, false)
+	end
+	if props.modDashboard ~= nil then
+		SetVehicleMod(vehicle, 29, props.modDashboard, false)
+	end
+	if props.modDial ~= nil then
+		SetVehicleMod(vehicle, 30, props.modDial, false)
+	end
+	if props.modDoorSpeaker ~= nil then
+		SetVehicleMod(vehicle, 31, props.modDoorSpeaker, false)
+	end
+	if props.modSeats ~= nil then
+		SetVehicleMod(vehicle, 32, props.modSeats, false)
+	end
+	if props.modSteeringWheel ~= nil then
+		SetVehicleMod(vehicle, 33, props.modSteeringWheel, false)
+	end
+	if props.modShifterLeavers ~= nil then
+		SetVehicleMod(vehicle, 34, props.modShifterLeavers, false)
+	end
+	if props.modAPlate ~= nil then
+		SetVehicleMod(vehicle, 35, props.modAPlate, false)
+	end
+	if props.modSpeakers ~= nil then
+		SetVehicleMod(vehicle, 36, props.modSpeakers, false)
+	end
+	if props.modTrunk ~= nil then
+		SetVehicleMod(vehicle, 37, props.modTrunk, false)
+	end
+	if props.modHydrolic ~= nil then
+		SetVehicleMod(vehicle, 38, props.modHydrolic, false)
+	end
+	if props.modEngineBlock ~= nil then
+		SetVehicleMod(vehicle, 39, props.modEngineBlock, false)
+	end
+	if props.modAirFilter ~= nil then
+		SetVehicleMod(vehicle, 40, props.modAirFilter, false)
+	end
+	if props.modStruts ~= nil then
+		SetVehicleMod(vehicle, 41, props.modStruts, false)
+	end
+	if props.modArchCover ~= nil then
+		SetVehicleMod(vehicle, 42, props.modArchCover, false)
+	end
+	if props.modAerials ~= nil then
+		SetVehicleMod(vehicle, 43, props.modAerials, false)
+	end
+	if props.modTrimB ~= nil then
+		SetVehicleMod(vehicle, 44, props.modTrimB, false)
+	end
+	if props.modTank ~= nil then
+		SetVehicleMod(vehicle, 45, props.modTank, false)
+	end
+	if props.modWindows ~= nil then
+		SetVehicleMod(vehicle, 46, props.modWindows, false)
+	end
+
+	if props.modLivery ~= nil then
+		SetVehicleMod(vehicle, 48, props.modLivery, false)
+		SetVehicleLivery(vehicle, props.modLivery)
+	end
+
+	if props.windowsBroken ~= nil then
+		for k, v in pairs(props.windowsBroken) do
+			if v then
+				RemoveVehicleWindow(vehicle, tonumber(k))
 			end
 		end
+	end
 
-		if props.neonColor then
-			SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3])
-		end
-		if props.xenonColor then
-			SetVehicleXenonLightsColor(vehicle, props.xenonColor)
-		end
-		if props.customXenonColor then
-			SetVehicleXenonLightsCustomColor(
-				vehicle,
-				props.customXenonColor[1],
-				props.customXenonColor[2],
-				props.customXenonColor[3]
-			)
-		end
-		if props.modSmokeEnabled then
-			ToggleVehicleMod(vehicle, 20, true)
-		end
-		if props.tyreSmokeColor then
-			SetVehicleTyreSmokeColor(vehicle, props.tyreSmokeColor[1], props.tyreSmokeColor[2], props.tyreSmokeColor[3])
-		end
-		if props.modSpoilers then
-			SetVehicleMod(vehicle, 0, props.modSpoilers, false)
-		end
-		if props.modFrontBumper then
-			SetVehicleMod(vehicle, 1, props.modFrontBumper, false)
-		end
-		if props.modRearBumper then
-			SetVehicleMod(vehicle, 2, props.modRearBumper, false)
-		end
-		if props.modSideSkirt then
-			SetVehicleMod(vehicle, 3, props.modSideSkirt, false)
-		end
-		if props.modExhaust then
-			SetVehicleMod(vehicle, 4, props.modExhaust, false)
-		end
-		if props.modFrame then
-			SetVehicleMod(vehicle, 5, props.modFrame, false)
-		end
-		if props.modGrille then
-			SetVehicleMod(vehicle, 6, props.modGrille, false)
-		end
-		if props.modHood then
-			SetVehicleMod(vehicle, 7, props.modHood, false)
-		end
-		if props.modFender then
-			SetVehicleMod(vehicle, 8, props.modFender, false)
-		end
-		if props.modRightFender then
-			SetVehicleMod(vehicle, 9, props.modRightFender, false)
-		end
-		if props.modRoof then
-			SetVehicleMod(vehicle, 10, props.modRoof, false)
-		end
-		if props.modEngine then
-			SetVehicleMod(vehicle, 11, props.modEngine, false)
-		end
-		if props.modBrakes then
-			SetVehicleMod(vehicle, 12, props.modBrakes, false)
-		end
-		if props.modTransmission then
-			SetVehicleMod(vehicle, 13, props.modTransmission, false)
-		end
-		if props.modHorns then
-			SetVehicleMod(vehicle, 14, props.modHorns, false)
-		end
-		if props.modSuspension then
-			SetVehicleMod(vehicle, 15, props.modSuspension, false)
-		end
-		if props.modArmor then
-			SetVehicleMod(vehicle, 16, props.modArmor, false)
-		end
-		if props.modTurbo then
-			ToggleVehicleMod(vehicle, 18, props.modTurbo)
-		end
-		if props.modXenon then
-			ToggleVehicleMod(vehicle, 22, props.modXenon)
-		end
-		if props.modFrontWheels then
-			SetVehicleMod(vehicle, 23, props.modFrontWheels, false)
-		end
-		if props.modBackWheels then
-			SetVehicleMod(vehicle, 24, props.modBackWheels, false)
-		end
-		if props.modPlateHolder then
-			SetVehicleMod(vehicle, 25, props.modPlateHolder, false)
-		end
-		if props.modVanityPlate then
-			SetVehicleMod(vehicle, 26, props.modVanityPlate, false)
-		end
-		if props.modTrimA then
-			SetVehicleMod(vehicle, 27, props.modTrimA, false)
-		end
-		if props.modOrnaments then
-			SetVehicleMod(vehicle, 28, props.modOrnaments, false)
-		end
-		if props.modDashboard then
-			SetVehicleMod(vehicle, 29, props.modDashboard, false)
-		end
-		if props.modDial then
-			SetVehicleMod(vehicle, 30, props.modDial, false)
-		end
-		if props.modDoorSpeaker then
-			SetVehicleMod(vehicle, 31, props.modDoorSpeaker, false)
-		end
-		if props.modSeats then
-			SetVehicleMod(vehicle, 32, props.modSeats, false)
-		end
-		if props.modSteeringWheel then
-			SetVehicleMod(vehicle, 33, props.modSteeringWheel, false)
-		end
-		if props.modShifterLeavers then
-			SetVehicleMod(vehicle, 34, props.modShifterLeavers, false)
-		end
-		if props.modAPlate then
-			SetVehicleMod(vehicle, 35, props.modAPlate, false)
-		end
-		if props.modSpeakers then
-			SetVehicleMod(vehicle, 36, props.modSpeakers, false)
-		end
-		if props.modTrunk then
-			SetVehicleMod(vehicle, 37, props.modTrunk, false)
-		end
-		if props.modHydrolic then
-			SetVehicleMod(vehicle, 38, props.modHydrolic, false)
-		end
-		if props.modEngineBlock then
-			SetVehicleMod(vehicle, 39, props.modEngineBlock, false)
-		end
-		if props.modAirFilter then
-			SetVehicleMod(vehicle, 40, props.modAirFilter, false)
-		end
-		if props.modStruts then
-			SetVehicleMod(vehicle, 41, props.modStruts, false)
-		end
-		if props.modArchCover then
-			SetVehicleMod(vehicle, 42, props.modArchCover, false)
-		end
-		if props.modAerials then
-			SetVehicleMod(vehicle, 43, props.modAerials, false)
-		end
-		if props.modTrimB then
-			SetVehicleMod(vehicle, 44, props.modTrimB, false)
-		end
-		if props.modTank then
-			SetVehicleMod(vehicle, 45, props.modTank, false)
-		end
-		if props.modWindows then
-			SetVehicleMod(vehicle, 46, props.modWindows, false)
-		end
-
-		if props.modLivery then
-			SetVehicleMod(vehicle, 48, props.modLivery, false)
-			SetVehicleLivery(vehicle, props.modLivery)
-		end
-
-		if props.windowsBroken then
-			for k, v in pairs(props.windowsBroken) do
-				if v then
-					SmashVehicleWindow(vehicle, tonumber(k))
-				end
+	if props.doorsBroken ~= nil then
+		for k, v in pairs(props.doorsBroken) do
+			if v then
+				SetVehicleDoorBroken(vehicle, tonumber(k), true)
 			end
 		end
+	end
 
-		if props.doorsBroken then
-			for k, v in pairs(props.doorsBroken) do
-				if v then
-					SetVehicleDoorBroken(vehicle, tonumber(k), true)
-				end
-			end
-		end
-
-		if props.tyreBurst then
-			for k, v in pairs(props.tyreBurst) do
-				if v then
-					SetVehicleTyreBurst(vehicle, tonumber(k), true, 1000.0)
-				end
+	if props.tyreBurst ~= nil then
+		for k, v in pairs(props.tyreBurst) do
+			if v then
+				SetVehicleTyreBurst(vehicle, tonumber(k), true, 1000.0)
 			end
 		end
 	end
@@ -1056,18 +1009,14 @@ function ESX.Game.Utils.DrawText3D(coords, text, size, font)
 	local camCoords = GetFinalRenderedCamCoord()
 	local distance = #(vector - camCoords)
 
-	if not size then
-		size = 1
-	end
-	if not font then
-		font = 0
-	end
+	size = size or 1
+	font = font or 0
 
 	local scale = (size / distance) * 2
 	local fov = (1 / GetGameplayCamFov()) * 100
 	scale = scale * fov
 
-	SetTextScale(0.0 * scale, 0.55 * scale)
+	SetTextScale(0.0, 0.55 * scale)
 	SetTextFont(font)
 	SetTextProportional(1)
 	SetTextColour(255, 255, 255, 215)
@@ -1079,16 +1028,32 @@ function ESX.Game.Utils.DrawText3D(coords, text, size, font)
 	ClearDrawOrigin()
 end
 
+---@param account string Account name (money/bank/black_money)
+---@return table|nil
+function ESX.GetAccount(account)
+	for i = 1, #ESX.PlayerData.accounts, 1 do
+		if ESX.PlayerData.accounts[i].name == account then
+			return ESX.PlayerData.accounts[i]
+		end
+	end
+	return nil
+end
+
 function ESX.ShowInventory()
+	if not Config.EnableDefaultInventory then
+		return
+	end
+
 	local playerPed = ESX.PlayerData.ped
 	local elements = {
-		{ unselectable = true, icon = "fas fa-box", title = "Player Inventory" },
+		{ unselectable = true, icon = "fas fa-box" },
 	}
 	local currentWeight = 0
 
 	for i = 1, #ESX.PlayerData.accounts do
 		if ESX.PlayerData.accounts[i].money > 0 then
-			local formattedMoney = _U("locale_currency", ESX.Math.GroupDigits(ESX.PlayerData.accounts[i].money))
+			local formattedMoney =
+				TranslateCap("locale_currency", ESX.Math.GroupDigits(ESX.PlayerData.accounts[i].money))
 			local canDrop = ESX.PlayerData.accounts[i].name ~= "bank"
 
 			elements[#elements + 1] = {
@@ -1107,7 +1072,8 @@ function ESX.ShowInventory()
 		end
 	end
 
-	for _, v in ipairs(ESX.PlayerData.inventory) do
+	for i = 1, #ESX.PlayerData.inventory do
+		local v = ESX.PlayerData.inventory[i]
 		if v.count > 0 then
 			currentWeight = currentWeight + (v.weight * v.count)
 
@@ -1124,16 +1090,18 @@ function ESX.ShowInventory()
 		end
 	end
 
-	for _, v in ipairs(Config.Weapons) do
+	elements[1].title = TranslateCap("inventory", currentWeight, Config.MaxWeight)
+
+	for i = 1, #Config.Weapons do
+		local v = Config.Weapons[i]
 		local weaponHash = joaat(v.name)
 
 		if HasPedGotWeapon(playerPed, weaponHash, false) then
 			local ammo = GetAmmoInPedWeapon(playerPed, weaponHash)
-			local label = v.ammo and ("%s - %s %s"):format(v.label, ammo, v.ammo.label) or v.label
 
 			elements[#elements + 1] = {
 				icon = "fas fa-gun",
-				title = label,
+				title = v.ammo and ("%s - %s %s"):format(v.label, ammo, v.ammo.label) or v.label,
 				count = 1,
 				type = "item_weapon",
 				value = v.name,
@@ -1146,12 +1114,6 @@ function ESX.ShowInventory()
 		end
 	end
 
-	elements[#elements + 1] = {
-		unselectable = true,
-		icon = "fas fa-weight",
-		title = "Current Weight: " .. currentWeight,
-	}
-
 	ESX.CloseContext()
 
 	ESX.OpenContext("right", elements, function(_, element)
@@ -1162,7 +1124,7 @@ function ESX.ShowInventory()
 		if element.usable then
 			elements2[#elements2 + 1] = {
 				icon = "fas fa-utensils",
-				title = _U("use"),
+				title = TranslateCap("use"),
 				action = "use",
 				type = element.type,
 				value = element.value,
@@ -1173,7 +1135,7 @@ function ESX.ShowInventory()
 			if player ~= -1 and distance <= 3.0 then
 				elements2[#elements2 + 1] = {
 					icon = "fas fa-hands",
-					title = _U("give"),
+					title = TranslateCap("give"),
 					action = "give",
 					type = element.type,
 					value = element.value,
@@ -1182,7 +1144,7 @@ function ESX.ShowInventory()
 
 			elements2[#elements2 + 1] = {
 				icon = "fas fa-trash",
-				title = _U("remove"),
+				title = TranslateCap("remove"),
 				action = "remove",
 				type = element.type,
 				value = element.value,
@@ -1198,7 +1160,7 @@ function ESX.ShowInventory()
 		then
 			elements2[#elements2 + 1] = {
 				icon = "fas fa-gun",
-				title = _U("giveammo"),
+				title = TranslateCap("giveammo"),
 				action = "give_ammo",
 				type = element.type,
 				value = element.value,
@@ -1207,12 +1169,12 @@ function ESX.ShowInventory()
 
 		elements2[#elements2 + 1] = {
 			icon = "fas fa-arrow-left",
-			title = _U("return"),
+			title = TranslateCap("return"),
 			action = "return",
 		}
 
 		ESX.OpenContext("right", elements2, function(_, element2)
-			local item, type = element2.value, element2.type
+			local item, itemType = element2.value, element2.type
 
 			if element2.action == "give" then
 				local playersNearby = ESX.Game.GetPlayersInArea(GetEntityCoords(playerPed), 3.0)
@@ -1246,18 +1208,24 @@ function ESX.ShowInventory()
 								local selectedPlayerPed = GetPlayerPed(selectedPlayer)
 
 								if IsPedOnFoot(selectedPlayerPed) and not IsPedFalling(selectedPlayerPed) then
-									if type == "item_weapon" then
-										TriggerServerEvent("esx:giveInventoryItem", selectedPlayerId, type, item, nil)
+									if itemType == "item_weapon" then
+										TriggerServerEvent(
+											"esx:giveInventoryItem",
+											selectedPlayerId,
+											itemType,
+											item,
+											nil
+										)
 										ESX.CloseContext()
 									else
 										local elementsG = {
 											{ unselectable = true, icon = "fas fa-trash", title = element.title },
 											{
-												icon = "fas fa-hashtag",
-												title = "Amount",
+												icon = "fas fa-tally",
+												title = "Amount.",
 												input = true,
 												inputType = "number",
-												inputPlaceholder = "Amount to give...",
+												inputPlaceholder = "Amount to give..",
 												inputMin = 1,
 												inputMax = 1000,
 											},
@@ -1271,21 +1239,21 @@ function ESX.ShowInventory()
 												TriggerServerEvent(
 													"esx:giveInventoryItem",
 													selectedPlayerId,
-													type,
+													itemType,
 													item,
 													quantity
 												)
 												ESX.CloseContext()
 											else
-												ESX.ShowNotification(_U("amount_invalid"))
+												ESX.ShowNotification(TranslateCap("amount_invalid"))
 											end
 										end)
 									end
 								else
-									ESX.ShowNotification(_U("in_vehicle"))
+									ESX.ShowNotification(TranslateCap("in_vehicle"))
 								end
 							else
-								ESX.ShowNotification(_U("players_nearby"))
+								ESX.ShowNotification(TranslateCap("players_nearby"))
 								ESX.CloseContext()
 							end
 						end)
@@ -1296,21 +1264,21 @@ function ESX.ShowInventory()
 					local dict, anim = "weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor"
 					ESX.Streaming.RequestAnimDict(dict)
 
-					if type == "item_weapon" then
+					if itemType == "item_weapon" then
 						ESX.CloseContext()
 						TaskPlayAnim(playerPed, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
 						RemoveAnimDict(dict)
 						Wait(1000)
-						TriggerServerEvent("esx:removeInventoryItem", type, item)
+						TriggerServerEvent("esx:removeInventoryItem", itemType, item)
 					else
 						local elementsR = {
 							{ unselectable = true, icon = "fas fa-trash", title = element.title },
 							{
-								icon = "fas fa-hashtag",
-								title = "Amount",
+								icon = "fas fa-tally",
+								title = "Amount.",
 								input = true,
 								inputType = "number",
-								inputPlaceholder = "Amount to remove...",
+								inputPlaceholder = "Amount to remove..",
 								inputMin = 1,
 								inputMax = 1000,
 							},
@@ -1325,9 +1293,9 @@ function ESX.ShowInventory()
 								TaskPlayAnim(playerPed, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
 								RemoveAnimDict(dict)
 								Wait(1000)
-								TriggerServerEvent("esx:removeInventoryItem", type, item, quantity)
+								TriggerServerEvent("esx:removeInventoryItem", itemType, item, quantity)
 							else
-								ESX.ShowNotification(_U("amount_invalid"))
+								ESX.ShowNotification(TranslateCap("amount_invalid"))
 							end
 						end)
 					end
@@ -1349,11 +1317,11 @@ function ESX.ShowInventory()
 							local elementsGA = {
 								{ unselectable = true, icon = "fas fa-trash", title = element.title },
 								{
-									icon = "fas fa-hashtag",
-									title = "Amount",
+									icon = "fas fa-tally",
+									title = "Amount.",
 									input = true,
 									inputType = "number",
-									inputPlaceholder = "Amount to give...",
+									inputPlaceholder = "Amount to give..",
 									inputMin = 1,
 									inputMax = 1000,
 								},
@@ -1374,35 +1342,29 @@ function ESX.ShowInventory()
 										)
 										ESX.CloseContext()
 									else
-										ESX.ShowNotification(_U("noammo"))
+										ESX.ShowNotification(TranslateCap("noammo"))
 									end
 								else
-									ESX.ShowNotification(_U("amount_invalid"))
+									ESX.ShowNotification(TranslateCap("amount_invalid"))
 								end
 							end)
 						else
-							ESX.ShowNotification(_U("noammo"))
+							ESX.ShowNotification(TranslateCap("noammo"))
 						end
 					else
-						ESX.ShowNotification(_U("players_nearby"))
+						ESX.ShowNotification(TranslateCap("players_nearby"))
 					end
 				else
-					ESX.ShowNotification(_U("in_vehicle"))
+					ESX.ShowNotification(TranslateCap("in_vehicle"))
 				end
 			end
 		end)
 	end)
 end
 
-RegisterNetEvent("esx:serverCallback")
-AddEventHandler("esx:serverCallback", function(requestId, ...)
-	Core.ServerCallbacks[requestId](...)
-	Core.ServerCallbacks[requestId] = nil
-end)
-
 RegisterNetEvent("esx:showNotification")
-AddEventHandler("esx:showNotification", function(msg, type, length)
-	ESX.ShowNotification(msg, type, length)
+AddEventHandler("esx:showNotification", function(msg, notifyType, length)
+	ESX.ShowNotification(msg, notifyType, length)
 end)
 
 RegisterNetEvent("esx:showAdvancedNotification")
@@ -1421,28 +1383,74 @@ end)
 AddEventHandler("onResourceStop", function(resourceName)
 	for i = 1, #ESX.UI.Menu.Opened, 1 do
 		if ESX.UI.Menu.Opened[i] then
-			if ESX.UI.Menu.Opened[i].namespace == resourceName then
+			if
+				ESX.UI.Menu.Opened[i].resourceName == resourceName
+				or ESX.UI.Menu.Opened[i].namespace == resourceName
+			then
 				ESX.UI.Menu.Opened[i].close()
 				ESX.UI.Menu.Opened[i] = nil
 			end
 		end
 	end
 end)
+-- Credits to txAdmin for the list.
+local mismatchedTypes = {
+	[`airtug`] = "automobile", -- trailer
+	[`avisa`] = "submarine", -- boat
+	[`blimp`] = "heli", -- plane
+	[`blimp2`] = "heli", -- plane
+	[`blimp3`] = "heli", -- plane
+	[`caddy`] = "automobile", -- trailer
+	[`caddy2`] = "automobile", -- trailer
+	[`caddy3`] = "automobile", -- trailer
+	[`chimera`] = "automobile", -- bike
+	[`docktug`] = "automobile", -- trailer
+	[`forklift`] = "automobile", -- trailer
+	[`kosatka`] = "submarine", -- boat
+	[`mower`] = "automobile", -- trailer
+	[`policeb`] = "bike", -- automobile
+	[`ripley`] = "automobile", -- trailer
+	[`rrocket`] = "automobile", -- bike
+	[`sadler`] = "automobile", -- trailer
+	[`sadler2`] = "automobile", -- trailer
+	[`scrap`] = "automobile", -- trailer
+	[`slamtruck`] = "automobile", -- trailer
+	[`Stryder`] = "automobile", -- bike
+	[`submersible`] = "submarine", -- boat
+	[`submersible2`] = "submarine", -- boat
+	[`thruster`] = "heli", -- automobile
+	[`towtruck`] = "automobile", -- trailer
+	[`towtruck2`] = "automobile", -- trailer
+	[`tractor`] = "automobile", -- trailer
+	[`tractor2`] = "automobile", -- trailer
+	[`tractor3`] = "automobile", -- trailer
+	[`trailersmall2`] = "trailer", -- automobile
+	[`utillitruck`] = "automobile", -- trailer
+	[`utillitruck2`] = "automobile", -- trailer
+	[`utillitruck3`] = "automobile", -- trailer
+}
 
--- SetTimeout
-CreateThread(function()
-	while true do
-		local sleep = 100
-		if #Core.TimeoutCallbacks > 0 then
-			local currTime = GetGameTimer()
-			sleep = 0
-			for i = 1, #Core.TimeoutCallbacks, 1 do
-				if currTime >= Core.TimeoutCallbacks[i].time then
-					Core.TimeoutCallbacks[i].cb()
-					Core.TimeoutCallbacks[i] = nil
-				end
-			end
-		end
-		Wait(sleep)
+---@param model number|string
+---@return string
+function ESX.GetVehicleType(model)
+	model = type(model) == "string" and joaat(model) or model
+	if not IsModelInCdimage(model) then
+		return
 	end
-end)
+	if mismatchedTypes[model] then
+		return mismatchedTypes[model]
+	end
+
+	local vehicleType = GetVehicleClassFromName(model)
+	local types = {
+		[8] = "bike",
+		[11] = "trailer",
+		[13] = "bike",
+		[14] = "boat",
+		[15] = "heli",
+		[16] = "plane",
+		[21] = "train",
+	}
+
+	return types[vehicleType] or "automobile"
+end

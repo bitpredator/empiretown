@@ -1,35 +1,37 @@
 ESX = {}
 ESX.Players = {}
 ESX.Jobs = {}
+ESX.JobsPlayerCount = {}
 ESX.Items = {}
 Core = {}
 Core.UsableItemsCallbacks = {}
-Core.ServerCallbacks = {}
-Core.ClientCallbacks = {}
-Core.CurrentRequestId = 0
-Core.TimeoutCount = -1
-Core.CancelledTimeouts = {}
 Core.RegisteredCommands = {}
 Core.Pickups = {}
 Core.PickupId = 0
 Core.PlayerFunctionOverrides = {}
+Core.DatabaseConnected = false
+Core.playersByIdentifier = {}
 
-AddEventHandler("esx:getSharedObject", function(cb)
+Core.vehicleTypesByModel = {}
+
+RegisterNetEvent("esx:onPlayerSpawn", function()
+	ESX.Players[source].spawned = true
+end)
+
+AddEventHandler("esx:getSharedObject", function()
 	local Invoke = GetInvokingResource()
 	print(
-		("[^3WARNING^7] ^5%s^7 used ^5esx:getSharedObject^7, this method is obsolete, refer to ^5https://bitpredator.github.io/bptdevelopment/docs/esx-tutorial/sharedevent^7 for more info!"):format(
+		("[^1ERROR^7] Resource ^5%s^7 Used the ^5getSharedObject^7 Event, this event ^1no longer exists!^7 Visit https://bitpredator.github.io/bptdevelopment/docs/esx-tutorial/sharedevent for how to fix!"):format(
 			Invoke
 		)
 	)
-	cb(ESX)
 end)
 
 exports("getSharedObject", function()
 	return ESX
 end)
 
-if GetResourceState("ox_inventory") ~= "missing" then
-	Config.OxInventory = true
+if Config.OxInventory then
 	Config.PlayerFunctionOverride = "OxInventory"
 	SetConvarReplicated("inventory:framework", "esx")
 	SetConvarReplicated("inventory:weight", Config.MaxWeight * 1000)
@@ -37,14 +39,16 @@ end
 
 local function StartDBSync()
 	CreateThread(function()
+		local interval <const> = 10 * 60 * 1000
 		while true do
-			Wait(10 * 60 * 1000)
+			Wait(interval)
 			Core.SavePlayers()
 		end
 	end)
 end
 
 MySQL.ready(function()
+	Core.DatabaseConnected = true
 	if not Config.OxInventory then
 		local items = MySQL.query.await("SELECT * FROM items")
 		for _, v in ipairs(items) do
@@ -66,44 +70,18 @@ MySQL.ready(function()
 		end
 	end
 
-	local Jobs = {}
-	local jobs = MySQL.query.await("SELECT * FROM jobs")
+	ESX.RefreshJobs()
 
-	for _, v in ipairs(jobs) do
-		Jobs[v.name] = v
-		Jobs[v.name].grades = {}
-	end
+	print(
+		("[^2INFO^7] ESX ^5Legacy %s^0 initialized!"):format(
+			GetResourceMetadata(GetCurrentResourceName(), "version", 0)
+		)
+	)
 
-	local jobGrades = MySQL.query.await("SELECT * FROM job_grades")
-
-	for _, v in ipairs(jobGrades) do
-		if Jobs[v.job_name] then
-			Jobs[v.job_name].grades[tostring(v.grade)] = v
-		else
-			print(("[^3WARNING^7] Ignoring job grades for ^5%s^0 due to missing job"):format(v.job_name))
-		end
-	end
-
-	for _, v in pairs(Jobs) do
-		if ESX.Table.SizeOf(v.grades) == 0 then
-			Jobs[v.name] = nil
-			print(("[^3WARNING^7] Ignoring job ^5%s^0 due to no job grades found"):format(v.name))
-		end
-	end
-
-	if not Jobs then
-		-- Fallback data, if no jobs exist
-		ESX.Jobs["unemployed"] = {
-			label = "Unemployed",
-			grades = { ["0"] = { grade = 0, label = "Unemployed", salary = 200, skin_male = {}, skin_female = {} } },
-		}
-	else
-		ESX.Jobs = Jobs
-	end
-
-	print("[^2INFO^7] BPT ^5FRAMEWORK^0 INITIALIZED")
 	StartDBSync()
-	StartPayCheck()
+	if Config.EnablePaycheck then
+		StartPayCheck()
+	end
 end)
 
 RegisterServerEvent("esx:clientLog")
@@ -111,15 +89,6 @@ AddEventHandler("esx:clientLog", function(msg)
 	if Config.EnableDebug then
 		print(("[^2TRACE^7] %s^7"):format(msg))
 	end
-end)
-
-RegisterServerEvent("esx:triggerServerCallback")
-AddEventHandler("esx:triggerServerCallback", function(name, requestId, Invoke, ...)
-	local source = source
-
-	ESX.TriggerServerCallback(name, requestId, source, Invoke, function(...)
-		TriggerClientEvent("esx:serverCallback", source, requestId, ...)
-	end, ...)
 end)
 
 RegisterNetEvent("esx:ReturnVehicleType", function(Type, Request)

@@ -42,7 +42,7 @@ window.addEventListener("message", function ({ data }) {
             }
         }
 
-        elems.infoMessage.innerHTML = message
+        elems.infoMessage.innerHTML = message;
         elems.notifyInfo.style.display = "block";
 
         const start = new Date();

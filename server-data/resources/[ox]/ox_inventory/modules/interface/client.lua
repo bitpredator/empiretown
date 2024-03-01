@@ -1,13 +1,11 @@
-if not lib then
-	return
-end
+if not lib then return end
 
 -- Module is deprecated and provided for compatibility
 -- All functions are now part of with ox_lib
 
-exports("Keyboard", lib.inputDialog)
+exports('Keyboard', lib.inputDialog)
 
-exports("Progress", function(options, completed)
+exports('Progress', function(options, completed)
 	local success = lib.progressBar(options)
 
 	if completed then
@@ -15,5 +13,5 @@ exports("Progress", function(options, completed)
 	end
 end)
 
-exports("CancelProgress", lib.cancelProgress)
-exports("ProgressActive", lib.progressActive)
+exports('CancelProgress', lib.cancelProgress)
+exports('ProgressActive', lib.progressActive)
