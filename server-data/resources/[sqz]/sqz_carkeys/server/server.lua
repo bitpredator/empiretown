@@ -101,7 +101,7 @@ RegisterNetEvent("carkeys:NewLocks", function(plate)
         FreezeEntityPosition(playersVeh, false)
         MySQL.Async.execute('UPDATE owned_vehicles SET peopleWithKeys = "[]" WHERE plate = "' .. plate .. '"', {}, function(rowsUpdated)
             if rowsUpdated > 0 then
-                xPlayer.showNotification(_("locks_replaced"))
+                xPlayer.showNotification(_U("locks_replaced"))
                 vehiclesCache[plate] = {}
                 vehiclesCache[plate][xPlayer.identifier] = true
             end
