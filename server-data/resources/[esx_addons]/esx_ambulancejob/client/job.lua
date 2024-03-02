@@ -483,7 +483,7 @@ AddEventHandler("esx_ambulancejob:putInVehicle", function()
 	local coords = GetEntityCoords(playerPed)
 
 	if IsAnyVehicleNearPoint(coords, 5.0) then
-		local vehicle = GetClosestVehicle(coords, 5.0, 0, 71)
+		vehicle = ESX.Game.GetClosestVehicle(coords)
 
 		if DoesEntityExist(vehicle) then
 			local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
