@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `banking` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.banking: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.banking: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.billing
 CREATE TABLE IF NOT EXISTS `billing` (
@@ -280,9 +280,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~19 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~31 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(3, 'society_mechanic', NULL, '{}'),
 	(5, 'property', NULL, '{}'),
@@ -302,7 +302,19 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(19, 'user_ears', '', '{}'),
 	(20, 'user_glasses', '', '{}'),
 	(21, 'user_helmet', '', '{}'),
-	(22, 'property', '', '{}');
+	(22, 'property', '', '{}'),
+	(23, 'property', NULL, '{}'),
+	(24, 'property', NULL, '{}'),
+	(25, 'property', NULL, '{}'),
+	(26, 'property', NULL, '{}'),
+	(27, 'property', NULL, '{}'),
+	(28, 'property', NULL, '{}'),
+	(29, 'property', NULL, '{}'),
+	(30, 'property', NULL, '{}'),
+	(31, 'property', NULL, '{}'),
+	(32, 'property', NULL, '{}'),
+	(33, 'property', NULL, '{}'),
+	(34, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -630,7 +642,7 @@ CREATE TABLE IF NOT EXISTS `npwd_match_profiles` (
   UNIQUE KEY `identifier_UNIQUE` (`identifier`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.npwd_match_profiles: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_match_profiles: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.npwd_match_views
 CREATE TABLE IF NOT EXISTS `npwd_match_views` (
@@ -758,7 +770,7 @@ CREATE TABLE IF NOT EXISTS `npwd_twitter_profiles` (
   KEY `identifier` (`identifier`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.npwd_twitter_profiles: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.npwd_twitter_profiles: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.npwd_twitter_reports
 CREATE TABLE IF NOT EXISTS `npwd_twitter_reports` (
@@ -794,6 +806,20 @@ CREATE TABLE IF NOT EXISTS `npwd_twitter_tweets` (
 
 -- Dump dei dati della tabella es_extended.npwd_twitter_tweets: ~0 rows (circa)
 
+-- Dump della struttura di tabella es_extended.outfits
+CREATE TABLE IF NOT EXISTS `outfits` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `identifier` varchar(46) DEFAULT NULL,
+  `name` longtext DEFAULT NULL,
+  `ped` longtext DEFAULT NULL,
+  `components` longtext DEFAULT NULL,
+  `props` longtext DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dump dei dati della tabella es_extended.outfits: ~0 rows (circa)
+
 -- Dump della struttura di tabella es_extended.owned_vehicles
 CREATE TABLE IF NOT EXISTS `owned_vehicles` (
   `owner` varchar(46) DEFAULT NULL,
@@ -804,13 +830,24 @@ CREATE TABLE IF NOT EXISTS `owned_vehicles` (
   `stored` tinyint(4) NOT NULL DEFAULT 0,
   `parking` varchar(60) DEFAULT NULL,
   `pound` varchar(60) DEFAULT NULL,
-  `peopleWithKeys` longtext DEFAULT NULL,
   `glovebox` longtext DEFAULT NULL,
   `trunk` longtext DEFAULT NULL,
+  `peopleWithKeys` longtext DEFAULT NULL,
   PRIMARY KEY (`plate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dump dei dati della tabella es_extended.owned_vehicles: ~0 rows (circa)
+
+-- Dump della struttura di tabella es_extended.ox_inventory
+CREATE TABLE IF NOT EXISTS `ox_inventory` (
+  `owner` varchar(46) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `data` longtext DEFAULT NULL,
+  `lastupdated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  UNIQUE KEY `owner` (`owner`,`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dump dei dati della tabella es_extended.ox_inventory: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.rented_vehicles
 CREATE TABLE IF NOT EXISTS `rented_vehicles` (
@@ -868,7 +905,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.users: ~1 rows (circa)
+-- Dump dei dati della tabella es_extended.users: ~0 rows (circa)
 
 -- Dump della struttura di tabella es_extended.user_licenses
 CREATE TABLE IF NOT EXISTS `user_licenses` (
@@ -1157,7 +1194,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_categories` (
 -- Dump dei dati della tabella es_extended.vehicle_categories: ~11 rows (circa)
 INSERT INTO `vehicle_categories` (`name`, `label`) VALUES
 	('compacts', 'Compacts'),
-	('coupes', 'Coupés'),
+	('coupes', 'CoupÃ©s'),
 	('motorcycles', 'Motos'),
 	('muscle', 'Muscle'),
 	('offroad', 'Off Road'),
