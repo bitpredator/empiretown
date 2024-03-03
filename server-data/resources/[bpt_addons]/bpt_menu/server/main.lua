@@ -5,9 +5,9 @@ do
 	local origEsxRegisterServerCallback = ESX.RegisterServerCallback
 
 	RegisterServerEvent = function(eventName, ...)
-		local endIdx = ("bpt_menu:"):len()
+		local endIdx = ("bpt_personalmenu:"):len()
 
-		if eventName:sub(1, endIdx) == "bpt_menu" then
+		if eventName:sub(1, endIdx) == "bpt_personalmenu" then
 			local oldEventName = ("bpt-PersonalMenu:%s"):format(eventName:sub(endIdx + 1))
 
 			origRegisterServerEvent(oldEventName)
@@ -29,9 +29,9 @@ do
 	end
 
 	ESX.RegisterServerCallback = function(eventName, ...)
-		local endIdx = ("bpt_menu:"):len()
+		local endIdx = ("bpt_personalmenu:"):len()
 
-		if eventName:sub(1, endIdx) == "bpt_menu" then
+		if eventName:sub(1, endIdx) == "bpt_personalmenu" then
 			local oldEventName = ("bpt-PersonalMenu:%s"):format(eventName:sub(endIdx + 1))
 
 			origEsxRegisterServerCallback(oldEventName, function(source)
@@ -88,27 +88,7 @@ function isAuthorized(index, group)
 	return false
 end
 
-ESX.RegisterServerCallback("bpt_menu:Bill_getBills", function(source, cb)
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	MySQL.Async.fetchAll("SELECT * FROM billing WHERE identifier = @identifier", {
-		["@identifier"] = xPlayer.identifier,
-	}, function(result)
-		local bills = {}
-
-		for i = 1, #result do
-			bills[#bills + 1] = {
-				id = result[i].id,
-				label = result[i].label,
-				amount = result[i].amount,
-			}
-		end
-
-		cb(bills)
-	end)
-end)
-
-ESX.RegisterServerCallback("bpt_menu:Admin_getUsergroup", function(source, cb)
+ESX.RegisterServerCallback("bpt_personalmenu:Admin_getUsergroup", function(source, cb)
 	cb(ESX.GetPlayerFromId(source).getGroup() or "user")
 end)
 
@@ -122,56 +102,56 @@ local function makeTargetedEventFunction(fn)
 end
 
 -- Admin Menu --
-RegisterServerEvent("bpt_menu:Admin_BringS")
+RegisterServerEvent("bpt_personalmenu:Admin_BringS")
 AddEventHandler(
-	"bpt_menu:Admin_BringS",
+	"bpt_personalmenu:Admin_BringS",
 	makeTargetedEventFunction(function(playerId, target)
 		local xPlayer = ESX.GetPlayerFromId(source)
 		local plyGroup = xPlayer.getGroup()
 
 		if isAuthorized(getAdminCommand("bring"), plyGroup) or isAuthorized(getAdminCommand("goto"), plyGroup) then
-			TriggerClientEvent("bpt_menu:Admin_BringC", playerId, GetEntityCoords(GetPlayerPed(target)))
+			TriggerClientEvent("bpt_personalmenu:Admin_BringC", playerId, GetEntityCoords(GetPlayerPed(target)))
 		end
 	end)
 )
 
-RegisterServerEvent("bpt_menu:Admin_giveCash")
-AddEventHandler("bpt_menu:Admin_giveCash", function(amount)
+RegisterServerEvent("bpt_personalmenu:Admin_giveCash")
+AddEventHandler("bpt_personalmenu:Admin_giveCash", function(amount)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local plyGroup = xPlayer.getGroup()
 
 	if isAuthorized(getAdminCommand("givemoney"), plyGroup) then
 		xPlayer.addAccountMoney("cash", amount)
-		TriggerClientEvent("esx:showNotification", xPlayer.source, _U("received_money_cash"):format(amount))
+		TriggerClientEvent("esx:showNotification", xPlayer.source, TranslateCap("received_money_cash"):format(amount))
 	end
 end)
 
-RegisterServerEvent("bpt_menu:Admin_giveBank")
-AddEventHandler("bpt_menu:Admin_giveBank", function(amount)
+RegisterServerEvent("bpt_personalmenu:Admin_giveBank")
+AddEventHandler("bpt_personalmenu:Admin_giveBank", function(amount)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local plyGroup = xPlayer.getGroup()
 
 	if isAuthorized(getAdminCommand("givebank"), plyGroup) then
 		xPlayer.addAccountMoney("bank", amount)
-		TriggerClientEvent("esx:showNotification", xPlayer.source, _U("givebank"):format(amount))
+		TriggerClientEvent("esx:showNotification", xPlayer.source, TranslateCap("givebank"):format(amount))
 	end
 end)
 
-RegisterServerEvent("bpt_menu:Admin_giveDirtyMoney")
-AddEventHandler("bpt_menu:Admin_giveDirtyMoney", function(amount)
+RegisterServerEvent("bpt_personalmenu:Admin_giveDirtyMoney")
+AddEventHandler("bpt_personalmenu:Admin_giveDirtyMoney", function(amount)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local plyGroup = xPlayer.getGroup()
 
 	if isAuthorized(getAdminCommand("givedirtymoney"), plyGroup) then
 		xPlayer.addAccountMoney("black_money", amount)
-		TriggerClientEvent("esx:showNotification", xPlayer.source, _U("givedirtymoney"):format(amount))
+		TriggerClientEvent("esx:showNotification", xPlayer.source, TranslateCap("givedirtymoney"):format(amount))
 	end
 end)
 
 -- Grade Menu --
-RegisterServerEvent("bpt_menu:Boss_promoteplayer")
+RegisterServerEvent("bpt_personalmenu:Boss_promoteplayer")
 AddEventHandler(
-	"bpt_menu:Boss_promoteplayer",
+	"bpt_personalmenu:Boss_promoteplayer",
 	makeTargetedEventFunction(function(target)
 		local sourceXPlayer = ESX.GetPlayerFromId(source)
 		local sourceJob = sourceXPlayer.getJob()
@@ -188,24 +168,24 @@ AddEventHandler(
 					TriggerClientEvent(
 						"esx:showNotification",
 						sourceXPlayer.source,
-						_U("promoted"):format(targetXPlayer.name)
+						TranslateCap("promoted"):format(targetXPlayer.name)
 					)
-					TriggerClientEvent("esx:showNotification", target, _U("you_promoted"):format(sourceXPlayer.name))
+					TriggerClientEvent("esx:showNotification", target, TranslateCap("you_promoted"):format(sourceXPlayer.name))
 				else
-					TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_permission"))
+					TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_permission"))
 				end
 			else
-				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("player_not_your_company"))
+				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("player_not_your_company"))
 			end
 		else
-			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_permission"))
+			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_permission"))
 		end
 	end)
 )
 
-RegisterServerEvent("bpt_menu:Boss_dismissplayer")
+RegisterServerEvent("bpt_personalmenu:Boss_dismissplayer")
 AddEventHandler(
-	"bpt_menu:Boss_dismissplayer",
+	"bpt_personalmenu:Boss_dismissplayer",
 	makeTargetedEventFunction(function(target)
 		local sourceXPlayer = ESX.GetPlayerFromId(source)
 		local sourceJob = sourceXPlayer.getJob()
@@ -222,24 +202,24 @@ AddEventHandler(
 					TriggerClientEvent(
 						"esx:showNotification",
 						sourceXPlayer.source,
-						_U("you_been_relegated"):format(targetXPlayer.name)
+						TranslateCap("you_been_relegated"):format(targetXPlayer.name)
 					)
-					TriggerClientEvent("esx:showNotification", target, _U("demoted_from"):format(sourceXPlayer.name))
+					TriggerClientEvent("esx:showNotification", target, TranslateCap("demoted_from"):format(sourceXPlayer.name))
 				else
-					TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_downgrade"))
+					TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_downgrade"))
 				end
 			else
-				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("player_not_your_company"))
+				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("player_not_your_company"))
 			end
 		else
-			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_permission"))
+			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_permission"))
 		end
 	end)
 )
 
-RegisterServerEvent("bpt_menu:Boss_recruitplayer")
+RegisterServerEvent("bpt_personalmenu:Boss_recruitplayer")
 AddEventHandler(
-	"bpt_menu:Boss_recruitplayer",
+	"bpt_personalmenu:Boss_recruitplayer",
 	makeTargetedEventFunction(function(target)
 		local sourceXPlayer = ESX.GetPlayerFromId(source)
 		local sourceJob = sourceXPlayer.getJob()
@@ -248,15 +228,15 @@ AddEventHandler(
 			local targetXPlayer = ESX.GetPlayerFromId(target)
 
 			targetXPlayer.setJob(sourceJob.name, 0)
-			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("you_hired"):format(targetXPlayer.name))
-			TriggerClientEvent("esx:showNotification", target, _U("you_hired_by"):format(sourceXPlayer.name))
+			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("you_hired"):format(targetXPlayer.name))
+			TriggerClientEvent("esx:showNotification", target, TranslateCap("you_hired_by"):format(sourceXPlayer.name))
 		end
 	end)
 )
 
-RegisterServerEvent("bpt_menu:Boss_fireplayer")
+RegisterServerEvent("bpt_personalmenu:Boss_fireplayer")
 AddEventHandler(
-	"bpt_menu:Boss_fireplayer",
+	"bpt_personalmenu:Boss_fireplayer",
 	makeTargetedEventFunction(function(target)
 		local sourceXPlayer = ESX.GetPlayerFromId(source)
 		local sourceJob = sourceXPlayer.getJob()
@@ -270,21 +250,21 @@ AddEventHandler(
 				TriggerClientEvent(
 					"esx:showNotification",
 					sourceXPlayer.source,
-					_U("you_fired"):format(targetXPlayer.name)
+					TranslateCap("you_fired"):format(targetXPlayer.name)
 				)
-				TriggerClientEvent("esx:showNotification", target, _U("you_were_fired"):format(sourceXPlayer.name))
+				TriggerClientEvent("esx:showNotification", target, TranslateCap("you_were_fired"):format(sourceXPlayer.name))
 			else
-				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("player_not_your_company"))
+				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("player_not_your_company"))
 			end
 		else
-			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_permission"))
+			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_permission"))
 		end
 	end)
 )
 
-RegisterServerEvent("bpt_menu:Boss_promoteplayer2")
+RegisterServerEvent("bpt_personalmenu:Boss_promoteplayer2")
 AddEventHandler(
-	"bpt_menu:Boss_promoteplayer2",
+	"bpt_personalmenu:Boss_promoteplayer2",
 	makeTargetedEventFunction(function(target)
 		local sourceXPlayer = ESX.GetPlayerFromId(source)
 		local sourceJob2 = sourceXPlayer.getJob2()
@@ -301,24 +281,24 @@ AddEventHandler(
 					TriggerClientEvent(
 						"esx:showNotification",
 						sourceXPlayer.source,
-						_U("promoted"):format(targetXPlayer.name)
+						TranslateCap("promoted"):format(targetXPlayer.name)
 					)
-					TriggerClientEvent("esx:showNotification", target, _U("you_promoted"):format(sourceXPlayer.name))
+					TriggerClientEvent("esx:showNotification", target, TranslateCap("you_promoted"):format(sourceXPlayer.name))
 				else
-					TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_permission"))
+					TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_permission"))
 				end
 			else
-				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("player_not_your_company"))
+				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("player_not_your_company"))
 			end
 		else
-			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_permission"))
+			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_permission"))
 		end
 	end)
 )
 
-RegisterServerEvent("bpt_menu:Boss_dismissplayer2")
+RegisterServerEvent("bpt_personalmenu:Boss_dismissplayer2")
 AddEventHandler(
-	"bpt_menu:Boss_dismissplayer2",
+	"bpt_personalmenu:Boss_dismissplayer2",
 	makeTargetedEventFunction(function(target)
 		local sourceXPlayer = ESX.GetPlayerFromId(source)
 		local sourceJob2 = sourceXPlayer.getJob2()
@@ -337,22 +317,22 @@ AddEventHandler(
 						sourceXPlayer.source,
 						_("you_been_relegated"):format(targetXPlayer.name)
 					)
-					TriggerClientEvent("esx:showNotification", target, _U("demoted_from"):format(sourceXPlayer.name))
+					TriggerClientEvent("esx:showNotification", target, TranslateCap("demoted_from"):format(sourceXPlayer.name))
 				else
-					TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_downgrade"))
+					TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_downgrade"))
 				end
 			else
-				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("player_not_your_company"))
+				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("player_not_your_company"))
 			end
 		else
-			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_permission"))
+			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_permission"))
 		end
 	end)
 )
 
-RegisterServerEvent("bpt_menu:Boss_recruitplayer2")
+RegisterServerEvent("bpt_personalmenu:Boss_recruitplayer2")
 AddEventHandler(
-	"bpt_menu:Boss_recruitplayer2",
+	"bpt_personalmenu:Boss_recruitplayer2",
 	makeTargetedEventFunction(function(target)
 		local sourceXPlayer = ESX.GetPlayerFromId(source)
 		local sourceJob2 = sourceXPlayer.getJob2()
@@ -361,15 +341,15 @@ AddEventHandler(
 			local targetXPlayer = ESX.GetPlayerFromId(target)
 
 			targetXPlayer.setJob2(sourceJob2.name, 0)
-			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("you_hired"):format(targetXPlayer.name))
-			TriggerClientEvent("esx:showNotification", target, _U("you_hired_by"):format(sourceXPlayer.name))
+			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("you_hired"):format(targetXPlayer.name))
+			TriggerClientEvent("esx:showNotification", target, TranslateCap("you_hired_by"):format(sourceXPlayer.name))
 		end
 	end)
 )
 
-RegisterServerEvent("bpt_menu:Boss_fireplayer2")
+RegisterServerEvent("bpt_personalmenu:Boss_fireplayer2")
 AddEventHandler(
-	"bpt_menu:Boss_fireplayer2",
+	"bpt_personalmenu:Boss_fireplayer2",
 	makeTargetedEventFunction(function(target)
 		local sourceXPlayer = ESX.GetPlayerFromId(source)
 		local sourceJob2 = sourceXPlayer.getJob2()
@@ -383,14 +363,14 @@ AddEventHandler(
 				TriggerClientEvent(
 					"esx:showNotification",
 					sourceXPlayer.source,
-					_U("you_fired"):format(targetXPlayer.name)
+					TranslateCap("you_fired"):format(targetXPlayer.name)
 				)
-				TriggerClientEvent("esx:showNotification", target, _U("you_were_fired"):format(sourceXPlayer.name))
+				TriggerClientEvent("esx:showNotification", target, TranslateCap("you_were_fired"):format(sourceXPlayer.name))
 			else
-				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("player_not_your_company"))
+				TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("player_not_your_company"))
 			end
 		else
-			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, _U("not_permission"))
+			TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_permission"))
 		end
 	end)
 )

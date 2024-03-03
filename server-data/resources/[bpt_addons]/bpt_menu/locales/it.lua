@@ -32,7 +32,6 @@ Locales["it"] = {
 	["admin_nomarker"] = "Nessun indicatore sulla mappa!",
 	["mainmenu_subtitle"] = "MENU INTERAZIONE",
 	["approach"] = "Approccio: ~b~%s",
-	["bills_title"] = "Fatture",
 	["clothes_title"] = "Capi di abbigliamento",
 	["clothes_torso"] = "Torso",
 	["clothes_pants"] = "Pants",

@@ -1,8 +1,6 @@
 local PersonalMenu = {
 	ItemSelected = {},
 	ItemIndex = {},
-	WalletIndex = {},
-	WalletList = {},
 	BillData = {},
 	ClothesButtons = { "torso", "pants", "shoes", "bag", "bproof" },
 	AccessoriesButtons = { "ears", "glasses", "helmet", "mask" },
@@ -16,10 +14,10 @@ local PersonalMenu = {
 	},
 	DoorIndex = 1,
 	DoorList = {
-		_U("vehicle_door_frontleft"),
-		_U("vehicle_door_frontright"),
-		_U("vehicle_door_backleft"),
-		_U("vehicle_door_backright"),
+		TranslateCap("vehicle_door_frontleft"),
+		TranslateCap("vehicle_door_frontright"),
+		TranslateCap("vehicle_door_backleft"),
+		TranslateCap("vehicle_door_backright"),
 	},
 	GPSIndex = 1,
 	GPSList = {},
@@ -78,7 +76,7 @@ end
 
 local mainMenu = RageUI.CreateMenu(
 	Config.MenuTitle,
-	_U("mainmenu_subtitle"),
+	TranslateCap("mainmenu_subtitle"),
 	0,
 	0,
 	"commonmenu",
@@ -104,26 +102,25 @@ local function getPersonalMenuCategory(id)
 	return personalMenuCategoriesById[id]
 end
 
-local billingCategory = addPersonalMenuCategory("billing", _U("bills_title"))
-addPersonalMenuCategory("clothes", _U("clothes_title"))
-addPersonalMenuCategory("accessories", _U("accessories_title"))
-local animationCategory = addPersonalMenuCategory("animation", _U("animation_title"))
+local clothesCategory = addPersonalMenuCategory("clothes", TranslateCap("clothes_title"))
+addPersonalMenuCategory("accessories", TranslateCap("accessories_title"))
+local animationCategory = addPersonalMenuCategory("animation", TranslateCap("animation_title"))
 
-addPersonalMenuCategory("vehicle", _U("vehicle_title"), function()
+addPersonalMenuCategory("vehicle", TranslateCap("vehicle_title"), function()
 	return IsPedSittingInAnyVehicle(plyPed) and GetPedInVehicleSeat(GetVehiclePedIsIn(plyPed, false), -1) == plyPed
 end)
 
-addPersonalMenuCategory("boss", _U("bossmanagement_title"), function()
+addPersonalMenuCategory("boss", TranslateCap("bossmanagement_title"), function()
 	return GetPlayerJob().isBoss
 end)
 
 if Config.DoubleJob then
-	addPersonalMenuCategory("boss2", _U("bossmanagement2_title"), function()
+	addPersonalMenuCategory("boss2", TranslateCap("bossmanagement2_title"), function()
 		return GetPlayerJob2().isBoss
 	end)
 end
 
-addPersonalMenuCategory("admin", _U("admin_title"), function()
+addPersonalMenuCategory("admin", TranslateCap("admin_title"), function()
 	return adminGroups[PlayerVars.group] ~= nil
 end)
 
@@ -144,8 +141,8 @@ AddEventHandler("playerSpawned", function()
 	PlayerVars.isDead = false
 end)
 
--- Admin Menu
-RegisterNetEvent("bpt_menu:Admin_BringC", function(plyCoords)
+-- Admin Menu --
+RegisterNetEvent("bpt_personalmenu:Admin_BringC", function(plyCoords)
 	SetEntityCoords(plyPed, plyCoords)
 end)
 
@@ -294,7 +291,7 @@ function setAccessory(accessoryId)
 	TriggerServerCallback("esx_accessories:get", function(hasAccessory, accessorySkin)
 		if not hasAccessory then
 			local localeKey = ("accessories_no_%s"):format(accessoryId)
-			GameNotification(_U(localeKey))
+			GameNotification(TranslateCap(localeKey))
 			return
 		end
 
@@ -371,7 +368,7 @@ function DrawPersonalMenu()
 		end
 
 		RageUI.List(
-			_U("mainmenu_gps_button"),
+			TranslateCap("mainmenu_gps_button"),
 			PersonalMenu.GPSList,
 			PersonalMenu.GPSIndex,
 			nil,
@@ -392,34 +389,10 @@ function DrawPersonalMenu()
 					DeleteWaypoint()
 				end
 
-				GameNotification(_U("gps", gpsCfg.name))
+				GameNotification(TranslateCap("gps", gpsCfg.name))
 			end
 		)
 	end)
-end
-
-getPersonalMenuCategory("billing").drawer = function()
-	for i = 1, #PersonalMenu.BillData do
-		local billData = PersonalMenu.BillData[i]
-
-		RageUI.Button(
-			billData.label,
-			nil,
-			{ RightLabel = ("$%s"):format(GroupDigits(billData.amount)) },
-			true,
-			function(_, _, Selected)
-				if not Selected then
-					return
-				end
-
-				TriggerServerCallback("esx_billing:payBill", function()
-					TriggerServerCallback("bpt_menu:Bill_getBills", function(bills)
-						PersonalMenu.BillData = bills
-					end)
-				end, billData.id)
-			end
-		)
-	end
 end
 
 getPersonalMenuCategory("clothes").drawer = function()
@@ -427,11 +400,11 @@ getPersonalMenuCategory("clothes").drawer = function()
 		local clotheId = PersonalMenu.ClothesButtons[i]
 
 		RageUI.Button(
-			_U(("clothes_%s"):format(clotheId)),
+			TranslateCap(("clothes_%s"):format(clotheId)),
 			nil,
 			{ RightBadge = RageUI.BadgeStyle.Clothes },
 			true,
-			function(_, _, Selected)
+			function(Hovered, Active, Selected)
 				if not Selected then
 					return
 				end
@@ -446,11 +419,11 @@ getPersonalMenuCategory("accessories").drawer = function()
 		local accessoryId = PersonalMenu.AccessoriesButtons[i]
 
 		RageUI.Button(
-			_U(("accessories_%s"):format(accessoryId)),
+			TranslateCap(("accessories_%s"):format(accessoryId)),
 			nil,
 			{ RightBadge = RageUI.BadgeStyle.Clothes },
 			true,
-			function(_, _, Selected)
+			function(Hovered, Active, Selected)
 				if not Selected then
 					return
 				end
@@ -472,7 +445,7 @@ function DrawAnimationsCategory(animationCfg)
 		for i = 1, #animationCfg.items do
 			local animItemCfg = animationCfg.items[i]
 
-			RageUI.Button(animItemCfg.name, nil, nil, true, function(_, _, Selected)
+			RageUI.Button(animItemCfg.name, nil, nil, true, function(Hovered, Active, Selected)
 				if not Selected then
 					return
 				end
@@ -490,13 +463,13 @@ function DrawAnimationsCategory(animationCfg)
 end
 
 getPersonalMenuCategory("vehicle").drawer = function()
-	RageUI.Button(_U("vehicle_engine_button"), nil, nil, true, function(Hovered, Active, Selected)
+	RageUI.Button(TranslateCap("vehicle_engine_button"), nil, nil, true, function(Hovered, Active, Selected)
 		if not Selected then
 			return
 		end
 
 		if not IsPedSittingInAnyVehicle(plyPed) then
-			GameNotification(_U("no_vehicle"))
+			GameNotification(TranslateCap("no_vehicle"))
 			return
 		end
 
@@ -512,7 +485,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
 	end)
 
 	RageUI.List(
-		_U("vehicle_door_button"),
+		TranslateCap("vehicle_door_button"),
 		PersonalMenu.DoorList,
 		PersonalMenu.DoorIndex,
 		nil,
@@ -526,7 +499,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
 			end
 
 			if not IsPedSittingInAnyVehicle(plyPed) then
-				GameNotification(_U("no_vehicle"))
+				GameNotification(TranslateCap("no_vehicle"))
 				return
 			end
 
@@ -568,13 +541,13 @@ getPersonalMenuCategory("vehicle").drawer = function()
 		end
 	)
 
-	RageUI.Button(_U("vehicle_hood_button"), nil, nil, true, function(Hovered, Active, Selected)
+	RageUI.Button(TranslateCap("vehicle_hood_button"), nil, nil, true, function(Hovered, Active, Selected)
 		if not Selected then
 			return
 		end
 
 		if not IsPedSittingInAnyVehicle(plyPed) then
-			GameNotification(_U("no_vehicle"))
+			GameNotification(TranslateCap("no_vehicle"))
 			return
 		end
 
@@ -589,13 +562,13 @@ getPersonalMenuCategory("vehicle").drawer = function()
 		end
 	end)
 
-	RageUI.Button(_U("vehicle_trunk_button"), nil, nil, true, function(Hovered, Active, Selected)
+	RageUI.Button(TranslateCap("vehicle_trunk_button"), nil, nil, true, function(Hovered, Active, Selected)
 		if not Selected then
 			return
 		end
 
 		if not IsPedSittingInAnyVehicle(plyPed) then
-			GameNotification(_U("no_vehicle"))
+			GameNotification(TranslateCap("no_vehicle"))
 			return
 		end
 
@@ -614,7 +587,7 @@ end
 getPersonalMenuCategory("boss").drawer = function()
 	if societyMoney then
 		RageUI.Button(
-			_U("bossmanagement_chest_button"),
+			TranslateCap("bossmanagement_chest_button"),
 			nil,
 			{ RightLabel = ("$%s"):format(GroupDigits(societyMoney)) },
 			true,
@@ -622,7 +595,7 @@ getPersonalMenuCategory("boss").drawer = function()
 		)
 	end
 
-	RageUI.Button(_U("bossmanagement_hire_button"), nil, nil, true, function(Hovered, Active, Selected)
+	RageUI.Button(TranslateCap("bossmanagement_hire_button"), nil, nil, true, function(Hovered, Active, Selected)
 		if not Selected then
 			return
 		end
@@ -630,20 +603,20 @@ getPersonalMenuCategory("boss").drawer = function()
 		local playerJob = GetPlayerJob()
 
 		if not playerJob.isBoss then
-			GameNotification(_U("missing_rights"))
+			GameNotification(TranslateCap("missing_rights"))
 			return
 		end
 
 		local closestPlayer, closestDistance = GetClosestPlayer()
 		if closestPlayer == -1 or closestDistance > 3.0 then
-			GameNotification(_U("players_nearby"))
+			GameNotification(TranslateCap("players_nearby"))
 			return
 		end
 
-		TriggerServerEvent("bpt_menu:Boss_recruterplayer", GetPlayerServerId(closestPlayer))
+		TriggerServerEvent("bpt_personalmenu:Boss_recruterplayer", GetPlayerServerId(closestPlayer))
 	end)
 
-	RageUI.Button(_U("bossmanagement_fire_button"), nil, nil, true, function(Hovered, Active, Selected)
+	RageUI.Button(TranslateCap("bossmanagement_fire_button"), nil, nil, true, function(Hovered, Active, Selected)
 		if not Selected then
 			return
 		end
@@ -651,20 +624,20 @@ getPersonalMenuCategory("boss").drawer = function()
 		local playerJob = GetPlayerJob()
 
 		if not playerJob.isBoss then
-			GameNotification(_U("missing_rights"))
+			GameNotification(TranslateCap("missing_rights"))
 			return
 		end
 
 		local closestPlayer, closestDistance = GetClosestPlayer()
 		if closestPlayer == -1 or closestDistance > 3.0 then
-			GameNotification(_U("players_nearby"))
+			GameNotification(TranslateCap("players_nearby"))
 			return
 		end
 
-		TriggerServerEvent("bpt_menu:Boss_virerplayer", GetPlayerServerId(closestPlayer))
+		TriggerServerEvent("bpt_personalmenu:Boss_virerplayer", GetPlayerServerId(closestPlayer))
 	end)
 
-	RageUI.Button(_U("bossmanagement_promote_button"), nil, nil, true, function(Hovered, Active, Selected)
+	RageUI.Button(TranslateCap("bossmanagement_promote_button"), nil, nil, true, function(Hovered, Active, Selected)
 		if not Selected then
 			return
 		end
@@ -672,20 +645,20 @@ getPersonalMenuCategory("boss").drawer = function()
 		local playerJob = GetPlayerJob()
 
 		if not playerJob.isBoss then
-			GameNotification(_U("missing_rights"))
+			GameNotification(TranslateCap("missing_rights"))
 			return
 		end
 
 		local closestPlayer, closestDistance = GetClosestPlayer()
 		if closestPlayer == -1 or closestDistance > 3.0 then
-			GameNotification(_U("players_nearby"))
+			GameNotification(TranslateCap("players_nearby"))
 			return
 		end
 
-		TriggerServerEvent("bpt_menu:Boss_promouvoirplayer", GetPlayerServerId(closestPlayer))
+		TriggerServerEvent("bpt_personalmenu:Boss_promouvoirplayer", GetPlayerServerId(closestPlayer))
 	end)
 
-	RageUI.Button(_U("bossmanagement_demote_button"), nil, nil, true, function(Hovered, Active, Selected)
+	RageUI.Button(TranslateCap("bossmanagement_demote_button"), nil, nil, true, function(Hovered, Active, Selected)
 		if not Selected then
 			return
 		end
@@ -693,17 +666,17 @@ getPersonalMenuCategory("boss").drawer = function()
 		local playerJob = GetPlayerJob()
 
 		if not playerJob.isBoss then
-			GameNotification(_U("missing_rights"))
+			GameNotification(TranslateCap("missing_rights"))
 			return
 		end
 
 		local closestPlayer, closestDistance = GetClosestPlayer()
 		if closestPlayer == -1 or closestDistance > 3.0 then
-			GameNotification(_U("players_nearby"))
+			GameNotification(TranslateCap("players_nearby"))
 			return
 		end
 
-		TriggerServerEvent("bpt_menu:Boss_destituerplayer", GetPlayerServerId(closestPlayer))
+		TriggerServerEvent("bpt_personalmenu:Boss_destituerplayer", GetPlayerServerId(closestPlayer))
 	end)
 end
 
@@ -711,7 +684,7 @@ if Config.DoubleJob then
 	getPersonalMenuCategory("boss2").drawer = function()
 		if societyMoney ~= nil then
 			RageUI.Button(
-				_U("bossmanagement2_chest_button"),
+				TranslateCap("bossmanagement2_chest_button"),
 				nil,
 				{ RightLabel = ("$%s"):format(GroupDigits(societyMoney2)) },
 				true,
@@ -719,7 +692,7 @@ if Config.DoubleJob then
 			)
 		end
 
-		RageUI.Button(_U("bossmanagement2_hire_button"), nil, nil, true, function(Hovered, Active, Selected)
+		RageUI.Button(TranslateCap("bossmanagement2_hire_button"), nil, nil, true, function(Hovered, Active, Selected)
 			if not Selected then
 				return
 			end
@@ -727,20 +700,20 @@ if Config.DoubleJob then
 			local playerJob = GetPlayerJob2()
 
 			if not playerJob.isBoss then
-				GameNotification(_U("missing_rights"))
+				GameNotification(TranslateCap("missing_rights"))
 				return
 			end
 
 			local closestPlayer, closestDistance = GetClosestPlayer()
 			if closestPlayer == -1 or closestDistance > 3.0 then
-				GameNotification(_U("players_nearby"))
+				GameNotification(TranslateCap("players_nearby"))
 				return
 			end
 
-			TriggerServerEvent("bpt_menu:Boss_recruterplayer2", GetPlayerServerId(closestPlayer))
+			TriggerServerEvent("bpt_personalmenu:Boss_recruterplayer2", GetPlayerServerId(closestPlayer))
 		end)
 
-		RageUI.Button(_U("bossmanagement2_fire_button"), nil, nil, true, function(Hovered, Active, Selected)
+		RageUI.Button(TranslateCap("bossmanagement2_fire_button"), nil, nil, true, function(Hovered, Active, Selected)
 			if not Selected then
 				return
 			end
@@ -748,20 +721,47 @@ if Config.DoubleJob then
 			local playerJob = GetPlayerJob2()
 
 			if not playerJob.isBoss then
-				GameNotification(_U("missing_rights"))
+				GameNotification(TranslateCap("missing_rights"))
 				return
 			end
 
 			local closestPlayer, closestDistance = GetClosestPlayer()
 			if closestPlayer == -1 or closestDistance > 3.0 then
-				GameNotification(_U("players_nearby"))
+				GameNotification(TranslateCap("players_nearby"))
 				return
 			end
 
-			TriggerServerEvent("bpt_menu:Boss_virerplayer2", GetPlayerServerId(closestPlayer))
+			TriggerServerEvent("bpt_personalmenu:Boss_virerplayer2", GetPlayerServerId(closestPlayer))
 		end)
 
-		RageUI.Button(_U("bossmanagement2_promote_button"), nil, nil, true, function(Hovered, Active, Selected)
+		RageUI.Button(
+			TranslateCap("bossmanagement2_promote_button"),
+			nil,
+			nil,
+			true,
+			function(Hovered, Active, Selected)
+				if not Selected then
+					return
+				end
+
+				local playerJob = GetPlayerJob2()
+
+				if not playerJob.isBoss then
+					GameNotification(TranslateCap("missing_rights"))
+					return
+				end
+
+				local closestPlayer, closestDistance = GetClosestPlayer()
+				if closestPlayer == -1 or closestDistance > 3.0 then
+					GameNotification(TranslateCap("players_nearby"))
+					return
+				end
+
+				TriggerServerEvent("bpt_personalmenu:Boss_promouvoirplayer2", GetPlayerServerId(closestPlayer))
+			end
+		)
+
+		RageUI.Button(TranslateCap("bossmanagement2_demote_button"), nil, nil, true, function(Hovered, Active, Selected)
 			if not Selected then
 				return
 			end
@@ -769,38 +769,17 @@ if Config.DoubleJob then
 			local playerJob = GetPlayerJob2()
 
 			if not playerJob.isBoss then
-				GameNotification(_U("missing_rights"))
+				GameNotification(TranslateCap("missing_rights"))
 				return
 			end
 
 			local closestPlayer, closestDistance = GetClosestPlayer()
 			if closestPlayer == -1 or closestDistance > 3.0 then
-				GameNotification(_U("players_nearby"))
+				GameNotification(TranslateCap("players_nearby"))
 				return
 			end
 
-			TriggerServerEvent("bpt_menu:Boss_promouvoirplayer2", GetPlayerServerId(closestPlayer))
-		end)
-
-		RageUI.Button(_U("bossmanagement2_demote_button"), nil, nil, true, function(Hovered, Active, Selected)
-			if not Selected then
-				return
-			end
-
-			local playerJob = GetPlayerJob2()
-
-			if not playerJob.isBoss then
-				GameNotification(_U("missing_rights"))
-				return
-			end
-
-			local closestPlayer, closestDistance = GetClosestPlayer()
-			if closestPlayer == -1 or closestDistance > 3.0 then
-				GameNotification(_U("players_nearby"))
-				return
-			end
-
-			TriggerServerEvent("bpt_menu:Boss_destituerplayer2", GetPlayerServerId(closestPlayer))
+			TriggerServerEvent("bpt_personalmenu:Boss_destituerplayer2", GetPlayerServerId(closestPlayer))
 		end)
 	end
 end
@@ -826,26 +805,23 @@ RegisterCommand("+openpersonal", function()
 	if PlayerVars.isDead then
 		return
 	end
+	
 	if RageUI.Visible(mainMenu) then
 		return
 	end
 
-	TriggerServerCallback("bpt_menu:Admin_getUsergroup", function(plyGroup)
+	TriggerServerCallback("bpt_personalmenu:Admin_getUsergroup", function(plyGroup)
 		PlayerVars.group = plyGroup
 	end)
 
-	TriggerServerCallback("bpt_menu:Bill_getBills", function(bills)
-		PersonalMenu.BillData = bills
-	end)
-
-	TriggerEvent("bpt_menu:menuOpening")
+	TriggerEvent("bpt_personalmenu:menuOpening")
 	RageUI.Visible(mainMenu, true)
 	DrawPersonalMenu()
 end, false)
 
 RegisterCommand("-openpersonal", function() end, false)
 
-RegisterKeyMapping("+openpersonal", "Open personal menu", "KEYBOARD", Config.Controls.OpenMenu.keyboard)
+RegisterKeyMapping("+openpersonal", "Ouvrir le menu personnel", "KEYBOARD", Config.Controls.OpenMenu.keyboard)
 TriggerEvent("chat:removeSuggestion", "/+openpersonal")
 TriggerEvent("chat:removeSuggestion", "/-openpersonal")
 
@@ -910,7 +886,7 @@ function tpMarker()
 	local waypointHandle = GetFirstBlipInfoId(8)
 
 	if not DoesBlipExist(waypointHandle) then
-		GameNotification(_U("admin_nomarker"))
+		GameNotification(TranslateCap("admin_nomarker"))
 		return
 	end
 
@@ -930,7 +906,7 @@ function tpMarker()
 		end
 
 		SetPedCoordsKeepVehicle(plyPed, waypointCoords.x, waypointCoords.y, zPos)
-		GameNotification(_U("admin_tpmarker"))
+		GameNotification(TranslateCap("admin_tpmarker"))
 	end)
 end
 
@@ -950,7 +926,7 @@ CreateThread(function()
 			and IsUsingKeyboard(2)
 			and not PlayerVars.isDead
 		then
-			TriggerServerCallback("bpt_menu:Admin_getUsergroup", function(plyGroup)
+			TriggerServerCallback("bpt_personalmenu:Admin_getUsergroup", function(plyGroup)
 				if not adminGroups[plyGroup] then
 					return
 				end
