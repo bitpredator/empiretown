@@ -88,16 +88,6 @@ if Config.Framework == "esx" then
 		end
 	end
 
-	RegisterNetEvent("esx:playerLoaded", function(xPlayer)
-		parsePlayerData(xPlayer)
-
-		refreshMoney()
-
-		if Config.DoubleJob then
-			refreshMoney2()
-		end
-	end)
-
 	RegisterNetEvent("esx:setJob", function(job)
 		parsePlayerJob(playerData.job, job)
 		refreshMoney()
@@ -106,10 +96,6 @@ if Config.Framework == "esx" then
 	RegisterNetEvent("esx:setJob2", function(job)
 		parsePlayerJob(playerData.job2, job)
 		refreshMoney2()
-	end)
-
-	AddEventHandler("bpt_menu:menuOpening", function()
-		ESX.GetPlayerData()
 	end)
 
 	RegisterNetEvent("esx_addonaccount:setMoney", function(societyId, money)
@@ -154,5 +140,6 @@ if Config.Framework == "esx" then
 				Wait(100)
 			end
 		end
+
 	end)
 end
