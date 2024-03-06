@@ -14,6 +14,8 @@ server-data/resources/\[gameplay]
 server-data/resources/\[managers]
 server-data/resources/\[system]
 server-data/resources/\[system]/\[builders]
+server-data/resources/\[test]
+server-data/resources/\[gamemodes]
 
 # Resources log
 server-data/resources/\[phone]/npwd/sv_npwd.log
