@@ -1,3 +1,7 @@
+<h1 align='center'>[ESX] Police job</a></h1><p align='center'><b><a href='https://discord.com/invite/ksGfNvDEfq'>Discord</a>
+
+This resource for ESX adds police armories, vehicle garages and ability for cops to search, handcuff people and much more.
+
 ### Requirements
 * Auto mode
   * [esx_billing](https://github.com/esx-framework/esx_billing)
@@ -13,6 +17,9 @@
 
 * ESX License Support
   * [esx_license](https://github.com/esx-framework/esx_license)
+
+* ESX Service Support
+  * [esx_service](https://github.com/esx-framework/esx_service)
 
 * ESX Status Support
   * [esx_status](https://github.com/esx-framework/esx_status)
@@ -46,6 +53,7 @@ start esx_policejob
 -  * If you want player management you have to set `Config.EnablePlayerManagement` to `true` in `config.lua`
    * If you want armory management you have to set `Config.EnableArmoryManagement` to `true` in `config.lua`
    * If you want license management you have to set `Config.EnableLicenses` to `true` in `config.lua`
+   * If you want service management you have to set `Config.MaxInService` to a higher value than `-1` in `config.lua`
 
 # Legal
 ### License
