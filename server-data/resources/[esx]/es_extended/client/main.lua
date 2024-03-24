@@ -72,7 +72,7 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, _, skin)
     local timer = GetGameTimer()
     while not HaveAllStreamingRequestsCompleted(ESX.PlayerData.ped) and (GetGameTimer() - timer) < 2000 do
         Wait(0)
-    end 
+    end
 
     if Config.EnablePVP then
         SetCanAttackFriendly(ESX.PlayerData.ped, true, false)
@@ -280,7 +280,7 @@ AddStateBagChangeHandler("VehicleProperties", nil, function(bagName, _, value)
     local vehicle = NetToVeh(tonumber(netId))
         
     ESX.Game.SetVehicleProperties(vehicle, value)
-end) 
+end)
 
 RegisterNetEvent("esx:setAccountMoney")
 AddEventHandler("esx:setAccountMoney", function(account)
