@@ -28,8 +28,7 @@ ESX.RegisterServerCallback("bpt_ammujob:SpawnVehicle", function(source, cb, mode
 	cb()
 end)
 
-RegisterNetEvent("bpt_ammujob:getStockItem")
-AddEventHandler("bpt_ammujob:getStockItem", function(itemName, count)
+RegisterNetEvent("bpt_ammujob:getStockItem", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == "ammu" then
@@ -61,8 +60,7 @@ ESX.RegisterServerCallback("bpt_ammujob:getStockItems", function(_, cb)
 	end)
 end)
 
-RegisterNetEvent("bpt_ammujob:putStockItems")
-AddEventHandler("bpt_ammujob:putStockItems", function(itemName, count)
+RegisterNetEvent("bpt_ammujob:putStockItems", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
