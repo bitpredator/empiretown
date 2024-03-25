@@ -50685,6 +50685,13 @@ var emitNetTyped = (eventName, data, src) => {
   }
   emitNet(eventName, data);
 };
+var distanceBetweenCoords = (coords1, coords2) => {
+  const [x1, y1] = coords1;
+  const [x2, y2] = coords2;
+  return Math.sqrt(
+    Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)
+  );
+};
 
 // server/calls/calls.database.ts
 var _CallsRepo = class {
@@ -50927,6 +50934,29 @@ var calls_service_default = new CallsService();
 
 // utils/fivem.ts
 var Delay = (ms) => new Promise((res) => setTimeout(res, ms));
+var uuidv4 = () => {
+  let uuid2 = "";
+  for (let ii = 0; ii < 32; ii += 1) {
+    switch (ii) {
+      case 8:
+      case 20:
+        uuid2 += "-";
+        uuid2 += (Math.random() * 16 | 0).toString(16);
+        break;
+      case 12:
+        uuid2 += "-";
+        uuid2 += "4";
+        break;
+      case 16:
+        uuid2 += "-";
+        uuid2 += (Math.random() * 4 | 8).toString(16);
+        break;
+      default:
+        uuid2 += (Math.random() * 16 | 0).toString(16);
+    }
+  }
+  return uuid2;
+};
 
 // server/players/player.database.ts
 var _PlayerRepo = class {
@@ -51352,10 +51382,9 @@ var NDCoreFramework = class {
     on("ND:characterLoaded", async (player) => {
       const playerIdent = player.id;
       const phoneNumber = player?.phonenumber;
-      mainLogger.debug(`ND Core Player Phone number: ${player?.phonenumber ?? "no phone number found"}`);
       const playerSrc = player.source;
       await player_service_default.handleNewPlayerEvent({
-        identifier: playerIdent,
+        identifier: playerIdent.toString(),
         source: playerSrc,
         phoneNumber: phoneNumber ?? null,
         firstname: player.firstname,
@@ -51376,7 +51405,7 @@ var NDCoreFramework = class {
           const phoneNumber = player?.phonenumber;
           await player_service_default.handleNewPlayerEvent({
             source: player.source,
-            identifier: player.id,
+            identifier: player.id.toString(),
             phoneNumber: phoneNumber ?? null,
             firstname: player.firstname,
             lastname: player.lastname
@@ -51742,12 +51771,70 @@ if (!config2.general.useResourceIntegration) {
   });
 }
 
-// server/calls/middleware/onCall.ts
-var exp2 = global.exports;
-var OnCallMap = /* @__PURE__ */ new Map();
-exp2("onCall", (tgtNumber, cb) => {
-  OnCallMap.set(tgtNumber, cb);
-});
+// server/calls/middleware/oncall.service.ts
+var OnCallService = class {
+  constructor() {
+    this.callHandlers = /* @__PURE__ */ new Map();
+    this.resourcesTracked = /* @__PURE__ */ new Set();
+  }
+  addHandler(handler) {
+    this.resourcesTracked.add(handler.hostResource);
+    if (this.callHandlers.has(handler.target)) {
+      const handlerList = this.callHandlers.get(handler.target);
+      handlerList.push(handler);
+      return;
+    }
+    this.callHandlers.set(handler.target, [handler]);
+  }
+  resetResource(resource) {
+    if (!this.resourcesTracked.has(resource))
+      return;
+    this.callHandlers.forEach((value, key, map) => {
+      const newList = value.filter((c2) => c2.hostResource !== resource);
+      map.set(key, newList);
+    });
+  }
+  async handle(reqObj, resp) {
+    callLogger.debug("invoking onCall for number", reqObj.data.receiverNumber);
+    if (!this.callHandlers.has(reqObj.data.receiverNumber)) {
+      return;
+    }
+    const caller = player_service_default.getPlayer(reqObj.source);
+    const incomingCaller = {
+      source: reqObj.source,
+      name: caller.getName(),
+      number: caller.getPhoneNumber()
+    };
+    const handlerList = this.callHandlers.get(reqObj.data.receiverNumber);
+    console.log(handlerList.length);
+    for (const handler of handlerList) {
+      try {
+        const status = await handler.invoke(incomingCaller, reqObj, resp);
+        if (status === 1 /* FORWARD */) {
+          break;
+        }
+      } catch (e2) {
+        const tempSaveCallObj = {
+          identifier: uuidv4(),
+          isTransmitter: true,
+          transmitter: incomingCaller.number,
+          receiver: reqObj.data.receiverNumber,
+          is_accepted: false,
+          isUnavailable: true,
+          start: Math.floor(new Date().getTime() / 1e3).toString()
+        };
+        resp({
+          status: "ok",
+          data: tempSaveCallObj
+        });
+        return setTimeout(() => {
+          emitNet("npwd:callRejected" /* WAS_REJECTED */, reqObj.source, tempSaveCallObj);
+        }, 2e3);
+      }
+    }
+  }
+};
+var oncall_service_default = new OnCallService();
 
 // server/messages/messages.utils.ts
 var messagesLogger = mainLogger.child({ module: "messages" });
@@ -52222,63 +52309,63 @@ var _MessagesService = class {
 var MessagesService = new _MessagesService();
 var messages_service_default = MessagesService;
 
+// server/calls/middleware/index.ts
+var exp2 = global.exports;
+exp2("onCall", (tgtNumber, cb) => {
+  const resourceName = GetInvokingResource();
+  const handler = new CallMiddleware(cb, resourceName, tgtNumber.toString());
+  callLogger.debug(`Resource [${resourceName}] registered an onCall handler for number [${tgtNumber}]`);
+  oncall_service_default.addHandler(handler);
+});
+var CallMiddleware = class {
+  constructor(funcRef, hostResource, target) {
+    this.funcRef = funcRef;
+    this.hostResource = hostResource;
+    this.target = target;
+  }
+  invoke(incomingCaller, reqObj, resp) {
+    return new Promise(
+      (resolve, reject) => this.funcRef({
+        receiverNumber: reqObj.data.receiverNumber,
+        incomingCaller,
+        next: () => {
+          resolve(0 /* NEXT */);
+          return;
+        },
+        exit: () => {
+          reject();
+          return;
+        },
+        reply: (message) => {
+          messages_service_default.handleEmitMessage({
+            senderNumber: reqObj.data.receiverNumber,
+            targetNumber: incomingCaller.number,
+            message
+          });
+        },
+        forward: (receiverNumber, isAnonymous = false) => {
+          calls_service_default.handleInitializeCall(
+            { ...reqObj, data: { receiverNumber, isAnonymous } },
+            resp
+          ).catch((e2) => {
+            resp({ status: "error", errorMsg: "SERVER_ERROR" });
+            callLogger.error(`Error occured handling init call: ${e2.message}`);
+          }).then(() => {
+            resolve(1 /* FORWARD */);
+            return;
+          }).catch(reject);
+        }
+      })
+    );
+  }
+};
+on("onResourceStop", (resource) => {
+  oncall_service_default.resetResource(resource);
+});
+
 // server/calls/calls.controller.ts
 onNetPromise("npwd:beginCall" /* INITIALIZE_CALL */, async (reqObj, resp) => {
-  const funcRef = OnCallMap.get(reqObj.data.receiverNumber);
-  if (funcRef) {
-    const caller = player_service_default.getPlayer(reqObj.source);
-    const incomingCaller = {
-      source: reqObj.source,
-      name: caller.getName(),
-      number: caller.getPhoneNumber()
-    };
-    try {
-      await new Promise((resolve, reject) => {
-        funcRef({
-          receiverNumber: reqObj.data.receiverNumber,
-          incomingCaller,
-          next: () => {
-            resolve();
-          },
-          exit: () => {
-            reject();
-          },
-          reply: (message) => {
-            messages_service_default.handleEmitMessage({
-              senderNumber: reqObj.data.receiverNumber,
-              targetNumber: incomingCaller.number,
-              message
-            });
-          },
-          forward: (receiverNumber, isAnonymous = false) => {
-            calls_service_default.handleInitializeCall({ ...reqObj, data: { receiverNumber, isAnonymous } }, resp).catch((e2) => {
-              resp({ status: "error", errorMsg: "SERVER_ERROR" });
-              callLogger.error(`Error occured handling init call: ${e2.message}`);
-            }).then(() => {
-              return;
-            }).catch(reject);
-          }
-        });
-      });
-    } catch (e2) {
-      const tempSaveCallObj = {
-        identifier: v4(),
-        isTransmitter: true,
-        transmitter: incomingCaller.number,
-        receiver: reqObj.data.receiverNumber,
-        is_accepted: false,
-        isUnavailable: true,
-        start: Math.floor(new Date().getTime() / 1e3).toString()
-      };
-      resp({
-        status: "ok",
-        data: tempSaveCallObj
-      });
-      return setTimeout(() => {
-        emitNet("npwd:callRejected" /* WAS_REJECTED */, reqObj.source, tempSaveCallObj);
-      }, 2e3);
-    }
-  }
+  await oncall_service_default.handle(reqObj, resp);
   calls_service_default.handleInitializeCall(reqObj, resp).catch((e2) => {
     resp({ status: "error", errorMsg: "SERVER_ERROR" });
     callLogger.error(`Error occured handling init call: ${e2.message}`);
@@ -52525,6 +52612,22 @@ var _ContactService = class {
       contactsLogger.error(`Error in handleFetchContact (${identifier}), ${e2.message}`);
     }
   }
+  async handleLocalShare(reqObj, resp) {
+    const source2 = reqObj.source.toString();
+    const sourceCoords = GetEntityCoords(GetPlayerPed(source2));
+    const player = player_service_default.getPlayer(reqObj.source);
+    const name = player.getName();
+    const number = player.getPhoneNumber();
+    getPlayers()?.forEach((src) => {
+      if (src === source2)
+        return;
+      const dist = distanceBetweenCoords(sourceCoords, GetEntityCoords(GetPlayerPed(src)));
+      if (dist <= 3) {
+        emitNet("npwd:contacts:receiveContact", src, { name, number });
+      }
+    });
+    resp({ status: "ok" });
+  }
 };
 var ContactService = new _ContactService();
 var contacts_service_default = ContactService;
@@ -52577,6 +52680,11 @@ onNetPromise("npwd:deleteContact" /* DELETE_CONTACT */, (reqObj, resp) => {
     contactsLogger.error(
       `Error occured in delete contact event (${reqObj.source}), Error:  ${e2.message}`
     );
+    resp({ status: "error", errorMsg: "INTERNAL_ERROR" });
+  });
+});
+onNetPromise("npwd:localShareContact" /* LOCAL_SHARE */, (reqObj, resp) => {
+  contacts_service_default.handleLocalShare(reqObj, resp).catch((e2) => {
     resp({ status: "error", errorMsg: "INTERNAL_ERROR" });
   });
 });
