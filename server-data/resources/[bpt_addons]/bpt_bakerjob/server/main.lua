@@ -28,8 +28,7 @@ ESX.RegisterServerCallback("bpt_bakerjob:SpawnVehicle", function(source, cb, mod
 	cb()
 end)
 
-RegisterNetEvent("bpt_bakerjob:getStockItem")
-AddEventHandler("bpt_bakerjob:getStockItem", function(itemName, count)
+RegisterNetEvent("bpt_bakerjob:getStockItem", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == "baker" then
@@ -61,8 +60,7 @@ ESX.RegisterServerCallback("bpt_bakerjob:getStockItems", function(_, cb)
 	end)
 end)
 
-RegisterNetEvent("bpt_bakerjob:putStockItems")
-AddEventHandler("bpt_bakerjob:putStockItems", function(itemName, count)
+RegisterNetEvent("bpt_bakerjob:putStockItems", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
