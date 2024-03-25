@@ -2,20 +2,17 @@ local HasAlreadyEnteredMarker
 local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local LastZone
 
-RegisterNetEvent("esx:playerLoaded")
-AddEventHandler("esx:playerLoaded", function(xPlayer)
+RegisterNetEvent("esx:playerLoaded", function(xPlayer)
 	ESX.PlayerData = xPlayer
 	ESX.PlayerLoaded = true
 end)
 
-RegisterNetEvent("esx:onPlayerLogout")
-AddEventHandler("esx:onPlayerLogout", function()
+RegisterNetEvent("esx:onPlayerLogout", function()
 	ESX.PlayerLoaded = false
 	ESX.PlayerData = {}
 end)
 
-RegisterNetEvent("esx:setJob")
-AddEventHandler("esx:setJob", function(job)
+RegisterNetEvent("esx:setJob", function(job)
 	ESX.PlayerData.job = job
 end)
 
@@ -255,7 +252,7 @@ function IsInAuthorizedVehicle()
 	return false
 end
 
-AddEventHandler("bpt_fishermanjob:hasEnteredMarker", function(zone)
+RegisterNetEvent("bpt_fishermanjob:hasEnteredMarker", function(zone)
 	if zone == "VehicleSpawner" then
 		CurrentAction = "vehicle_spawner"
 		CurrentActionMsg = _U("spawner_prompt")
@@ -282,7 +279,7 @@ AddEventHandler("bpt_fishermanjob:hasEnteredMarker", function(zone)
 	end
 end)
 
-AddEventHandler("bpt_fishermanjob:hasExitedMarker", function()
+RegisterNetEvent("bpt_fishermanjob:hasExitedMarker", function()
 	ESX.CloseContext()
 	CurrentAction = nil
 end)
