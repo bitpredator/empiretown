@@ -36,8 +36,7 @@ ESX.RegisterServerCallback("bpt_dustmanjob:SpawnVehicle", function(source, cb, m
 	cb()
 end)
 
-RegisterNetEvent("bpt_dustmanjob:getStockItem")
-AddEventHandler("bpt_dustmanjob:getStockItem", function(itemName, count)
+RegisterNetEvent("bpt_dustmanjob:getStockItem", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == "dustman" then
@@ -69,8 +68,7 @@ ESX.RegisterServerCallback("bpt_dustmanjob:getStockItems", function(_, cb)
 	end)
 end)
 
-RegisterNetEvent("bpt_dustmanjob:putStockItems")
-AddEventHandler("bpt_dustmanjob:putStockItems", function(itemName, count)
+RegisterNetEvent("bpt_dustmanjob:putStockItems", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
