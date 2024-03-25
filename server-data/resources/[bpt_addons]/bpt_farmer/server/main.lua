@@ -1,8 +1,7 @@
 ESX = exports["es_extended"]:getSharedObject()
 
 -- collection potato
-RegisterServerEvent("farmer:collectionpotato")
-AddEventHandler("farmer:collectionpotato", function()
+RegisterServerEvent("farmer:collectionpotato", function()
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local potato = xPlayer.getInventoryItem("potato").count
@@ -16,8 +15,7 @@ AddEventHandler("farmer:collectionpotato", function()
 end)
 
 -- collection cotton
-RegisterServerEvent("farmer:collectioncotton")
-AddEventHandler("farmer:collectioncotton", function()
+RegisterServerEvent("farmer:collectioncotton", function()
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local cotton = xPlayer.getInventoryItem("cotton").count
@@ -31,8 +29,7 @@ AddEventHandler("farmer:collectioncotton", function()
 end)
 
 -- collection apple
-RegisterServerEvent("farmer:collectionapple")
-AddEventHandler("farmer:collectionapple", function()
+RegisterServerEvent("farmer:collectionapple", function()
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local apple = xPlayer.getInventoryItem("apple").count
@@ -46,8 +43,7 @@ AddEventHandler("farmer:collectionapple", function()
 end)
 
 -- collection grain
-RegisterServerEvent("farmer:collectiongrain")
-AddEventHandler("farmer:collectiongrain", function()
+RegisterServerEvent("farmer:collectiongrain", function()
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local grain = xPlayer.getInventoryItem("grain").count
