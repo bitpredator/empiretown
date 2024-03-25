@@ -6,7 +6,7 @@ local posi = "bottom"
 
 ESX = exports["es_extended"]:getSharedObject()
 
-AddEventHandler("playerSpawned", function() -- Enable hud only after player spawn
+RegisterNetEvent("playerSpawned", function() -- Enable hud only after player spawn
 	CreateThread(function()
 		while true do
 			Wait(0)
