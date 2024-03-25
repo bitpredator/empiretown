@@ -7,7 +7,7 @@ RegisterServerEvent("bpt_deliveries:removeSafeMoney:server")
 RegisterServerEvent("bpt_deliveries:getPlayerJob:server")
 
 -- Return safe deposit event
-AddEventHandler("bpt_deliveries:returnSafe:server", function(deliveryType, safeReturn)
+RegisterNetEvent("bpt_deliveries:returnSafe:server", function(deliveryType, safeReturn)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if safeReturn then
 		local SafeMoney = 4000
@@ -25,7 +25,7 @@ AddEventHandler("bpt_deliveries:returnSafe:server", function(deliveryType, safeR
 end)
 
 -- Finish delivery mission event
-AddEventHandler("bpt_deliveries:finishDelivery:server", function(deliveryType)
+RegisterNetEvent("bpt_deliveries:finishDelivery:server", function(deliveryType)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local deliveryMoney = 800
 	for k, v in pairs(Config.Rewards) do
@@ -39,7 +39,7 @@ AddEventHandler("bpt_deliveries:finishDelivery:server", function(deliveryType)
 end)
 
 -- Remove safe deposit event (On start mission)
-AddEventHandler("bpt_deliveries:removeSafeMoney:server", function(deliveryType)
+RegisterNetEvent("bpt_deliveries:removeSafeMoney:server", function(deliveryType)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local SafeMoney = 4000
 	for k, v in pairs(Config.Safe) do
@@ -59,7 +59,7 @@ AddEventHandler("bpt_deliveries:removeSafeMoney:server", function(deliveryType)
 end)
 
 -- Get the player job name
-AddEventHandler("bpt_deliveries:getPlayerJob:server", function()
+RegisterNetEvent("bpt_deliveries:getPlayerJob:server", function()
 	local xPlayer = ESX.GetPlayerFromId(source)
 	print("Player request job: " .. source .. ", " .. xPlayer.job.name)
 	TriggerClientEvent("bpt_deliveries:setPlayerJob:client", source, xPlayer.job.name)

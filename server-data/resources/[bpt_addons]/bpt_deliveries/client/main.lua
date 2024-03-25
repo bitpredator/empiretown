@@ -949,16 +949,16 @@ RegisterNetEvent("esx:setJob")
 RegisterNetEvent("bpt_deliveries:setPlayerJob:client")
 RegisterNetEvent("bpt_deliveries:startJob:client")
 
-AddEventHandler("esx:setJob", function(job)
+RegisterNetEvent("esx:setJob", function(job)
 	PlayerJob = job.name
 end)
 
-AddEventHandler("bpt_deliveries:setPlayerJob:client", function(job)
+RegisterNetEvent("bpt_deliveries:setPlayerJob:client", function(job)
 	print("Player job: " .. job)
 	PlayerJob = job
 end)
 
-AddEventHandler("bpt_deliveries:startJob:client", function(deliveryType)
+RegisterNetEvent("bpt_deliveries:startJob:client", function(deliveryType)
 	TriggerEvent("MpGameMessage:send", _U("delivery_start"), _U("delivery_tips"), 3500, "success")
 	LoadWorkPlayerSkin(deliveryType)
 	local ModelHash = GetHashKey("prop_paper_bag_01")
