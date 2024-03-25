@@ -309,7 +309,7 @@ CreateThread(function()
 
 		options = { locale('pick_lock') }
 
-		AddEventHandler('onResourceStop', function(resource)
+		RegisterNetEvent('onResourceStop', function(resource)
 			if resource == cache.resource then
 				if target.qt then
 					return target.exp:RemoveObject(options)
