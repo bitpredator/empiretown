@@ -97,8 +97,7 @@ CreateThread(function()
 	end
 end)
 
-RegisterNetEvent("esx:setJob")
-AddEventHandler("esx:setJob", function(j)
+RegisterNetEvent("esx:setJob", function(j)
 	job = j.name
 	grade = j.grade
 end)
@@ -210,8 +209,7 @@ CreateThread(function()
 	end
 end)
 
-RegisterNetEvent("bpt_crafting:craftStart")
-AddEventHandler("bpt_crafting:craftStart", function(item, _)
+RegisterNetEvent("bpt_crafting:craftStart", function(item)
 	local id = math.random(000, 999)
 	table.insert(craftingQueue, { time = Config.Recipes[item].Time, item = item, count = 1, id = id })
 
@@ -228,8 +226,7 @@ AddEventHandler("bpt_crafting:craftStart", function(item, _)
 	})
 end)
 
-RegisterNetEvent("bpt_crafting:sendMessage")
-AddEventHandler("bpt_crafting:sendMessage", function(msg)
+RegisterNetEvent("bpt_crafting:sendMessage", function(msg)
 	SendTextMessage(msg)
 end)
 

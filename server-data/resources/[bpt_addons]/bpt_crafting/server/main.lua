@@ -24,13 +24,11 @@ function giveCraftingLevel(identifier, level)
 	)
 end
 
-RegisterServerEvent("bpt_crafting:setExperiance")
-AddEventHandler("bpt_crafting:setExperiance", function(identifier, xp)
+RegisterServerEvent("bpt_crafting:setExperiance", function(identifier, xp)
 	setCraftingLevel(identifier, xp)
 end)
 
-RegisterServerEvent("bpt_crafting:giveExperiance")
-AddEventHandler("bpt_crafting:giveExperiance", function(identifier, xp)
+RegisterServerEvent("bpt_crafting:giveExperiance", function(identifier, xp)
 	giveCraftingLevel(identifier, xp)
 end)
 
@@ -95,8 +93,7 @@ function craft(src, item, retrying)
 	end
 end
 
-RegisterServerEvent("bpt_crafting:itemCrafted")
-AddEventHandler("bpt_crafting:itemCrafted", function(item, count)
+RegisterServerEvent("bpt_crafting:itemCrafted", function(item, count)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
 
@@ -134,8 +131,7 @@ AddEventHandler("bpt_crafting:itemCrafted", function(item, count)
 	end
 end)
 
-RegisterServerEvent("bpt_crafting:craft")
-AddEventHandler("bpt_crafting:craft", function(item, retrying)
+RegisterServerEvent("bpt_crafting:craft", function(item, retrying)
 	local src = source
 	craft(src, item, retrying)
 end)
