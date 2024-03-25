@@ -2,20 +2,17 @@ local HasAlreadyEnteredMarker
 local CurrentAction, CurrentActionMsg = nil, ""
 local LastZone
 
-RegisterNetEvent("esx:playerLoaded")
-AddEventHandler("esx:playerLoaded", function(xPlayer)
+RegisterNetEvent("esx:playerLoaded", function(xPlayer)
 	ESX.PlayerData = xPlayer
 	ESX.PlayerLoaded = true
 end)
 
-RegisterNetEvent("esx:onPlayerLogout")
-AddEventHandler("esx:onPlayerLogout", function()
+RegisterNetEvent("esx:onPlayerLogout", function()
 	ESX.PlayerLoaded = false
 	ESX.PlayerData = {}
 end)
 
-RegisterNetEvent("esx:setJob")
-AddEventHandler("esx:setJob", function(job)
+RegisterNetEvent("esx:setJob", function(job)
 	ESX.PlayerData.job = job
 end)
 
@@ -120,7 +117,7 @@ function OpenMobileBallasActionsMenu()
 	end)
 end
 
-AddEventHandler("bpt_ballasjob:hasEnteredMarker", function(zone)
+RegisterNetEvent("bpt_ballasjob:hasEnteredMarker", function(zone)
 	if zone == "BallasActions" then
 		CurrentAction = "ballas_actions_menu"
 		CurrentActionMsg = _U("press_to_open")
@@ -128,7 +125,7 @@ AddEventHandler("bpt_ballasjob:hasEnteredMarker", function(zone)
 	end
 end)
 
-AddEventHandler("bpt_ballasjob:hasExitedMarker", function()
+RegisterNetEvent("bpt_ballasjob:hasExitedMarker", function()
 	ESX.CloseContext()
 	CurrentAction = nil
 end)

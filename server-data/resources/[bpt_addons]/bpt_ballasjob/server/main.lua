@@ -11,8 +11,7 @@ ESX.RegisterServerCallback("bpt_ballasjob:getPlayerInventory", function(source, 
 	})
 end)
 
-RegisterNetEvent("bpt_ballasjob:getStockItem")
-AddEventHandler("bpt_ballasjob:getStockItem", function(itemName, count)
+RegisterNetEvent("bpt_ballasjob:getStockItem", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == "ballas" then
@@ -44,8 +43,7 @@ ESX.RegisterServerCallback("bpt_ballasjob:getStockItems", function(_, cb)
 	end)
 end)
 
-RegisterNetEvent("bpt_ballasjob:putStockItems")
-AddEventHandler("bpt_ballasjob:putStockItems", function(itemName, count)
+RegisterNetEvent("bpt_ballasjob:putStockItems", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
