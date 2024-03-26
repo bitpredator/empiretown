@@ -45,6 +45,7 @@ end
 
 function onPlayerJoined(playerId)
     local identifier = ESX.GetIdentifier(playerId)
+
     if not identifier then
         return DropPlayer(playerId, "there was an error loading your character!\nError code: identifier-missing-ingame\n\nThe cause of this error is not known, your identifier could not be found. Please come back later or report this problem to the server administration team.")
     end
@@ -275,6 +276,7 @@ function loadESXPlayer(identifier, playerId, isNew)
             end
         end
     end
+
     xPlayer.triggerEvent("esx:registerSuggestions", Core.RegisteredCommands)
     print(('[^2INFO^0] Player ^5"%s"^0 has connected to the server. ID: ^5%s^7'):format(xPlayer.getName(), playerId))
 end
@@ -353,6 +355,7 @@ if not Config.OxInventory then
         local sourceXPlayer = ESX.GetPlayerFromId(playerId)
         local targetXPlayer = ESX.GetPlayerFromId(target)
         local distance = #(GetEntityCoords(GetPlayerPed(playerId)) - GetEntityCoords(GetPlayerPed(target)))
+
         if not sourceXPlayer or not targetXPlayer or distance > Config.DistanceGive then
             return print(("[^3WARNING^7] Player Detected Cheating: ^5%s^7"):format(GetPlayerName(playerId)))
         end
@@ -611,6 +614,7 @@ ESX.RegisterServerCallback("esx:spawnVehicle", function(source, cb, vehData)
                 timeout += 1
             end
         end
+
         cb(id)
     end)
 end)
