@@ -20,8 +20,7 @@ CreateThread(function()
 	RunThread()
 end)
 
-RegisterNetEvent("bpt_streetfight:playerJoined")
-AddEventHandler("bpt_streetfight:playerJoined", function(side, id)
+RegisterNetEvent("bpt_streetfight:playerJoined", function(side, id)
 	if side == 1 then
 		blueJoined = true
 	else
@@ -36,8 +35,7 @@ AddEventHandler("bpt_streetfight:playerJoined", function(side, id)
 	fightStatus = STATUS_JOINED
 end)
 
-RegisterNetEvent("bpt_streetfight:startFight")
-AddEventHandler("bpt_streetfight:startFight", function(fightData)
+RegisterNetEvent("bpt_streetfight:startFight", function(fightData)
 	for _, value in ipairs(fightData) do
 		if value.id ~= GetPlayerServerId(PlayerId()) then
 			rival = value.id
@@ -51,8 +49,7 @@ AddEventHandler("bpt_streetfight:startFight", function(fightData)
 	countdown()
 end)
 
-RegisterNetEvent("bpt_streetfight:playerLeaveFight")
-AddEventHandler("bpt_streetfight:playerLeaveFight", function(id)
+RegisterNetEvent("bpt_streetfight:playerLeaveFight", function(id)
 	if id == GetPlayerServerId(PlayerId()) then
 		ESX.ShowNotification(_U("you_toofar"))
 		SetPedMaxHealth(PlayerPedId(), 200)
@@ -68,8 +65,7 @@ AddEventHandler("bpt_streetfight:playerLeaveFight", function(id)
 	reset()
 end)
 
-RegisterNetEvent("bpt_streetfight:fightFinished")
-AddEventHandler("bpt_streetfight:fightFinished", function(looser)
+RegisterNetEvent("bpt_streetfight:fightFinished", function(looser)
 	if participating == true then
 		if looser ~= GetPlayerServerId(PlayerId()) and looser ~= -2 then
 			TriggerServerEvent("bpt_streetfight:pay", betAmount)
@@ -97,8 +93,7 @@ AddEventHandler("bpt_streetfight:fightFinished", function(looser)
 	reset()
 end)
 
-RegisterNetEvent("bpt_streetfight:raiseActualBet")
-AddEventHandler("bpt_streetfight:raiseActualBet", function()
+RegisterNetEvent("bpt_streetfight:raiseActualBet", function()
 	betAmount = betAmount * 2
 	if betAmount == 0 then
 		betAmount = 2000
@@ -107,8 +102,7 @@ AddEventHandler("bpt_streetfight:raiseActualBet", function()
 	end
 end)
 
-RegisterNetEvent("bpt_streetfight:winnerText")
-AddEventHandler("bpt_streetfight:winnerText", function(id)
+RegisterNetEvent("bpt_streetfight:winnerText", function(id)
 	showWinner = true
 	winner = id
 	Wait(5000)

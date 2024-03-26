@@ -4,8 +4,7 @@ local fight = {}
 
 ESX = exports["es_extended"]:getSharedObject()
 
-RegisterServerEvent("bpt_streetfight:join")
-AddEventHandler("bpt_streetfight:join", function(betAmount, side)
+RegisterServerEvent("bpt_streetfight:join", function(betAmount, side)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 
@@ -55,16 +54,14 @@ function countdown(copyFight)
 	end
 end
 
-RegisterServerEvent("bpt_streetfight:finishFight")
-AddEventHandler("bpt_streetfight:finishFight", function(looser)
+RegisterServerEvent("bpt_streetfight:finishFight", function(looser)
 	TriggerClientEvent("bpt_streetfight:fightFinished", -1, looser)
 	fight = {}
 	bluePlayerReady = false
 	redPlayerReady = false
 end)
 
-RegisterServerEvent("bpt_streetfight:leaveFight")
-AddEventHandler("bpt_streetfight:leaveFight", function(id)
+RegisterServerEvent("bpt_streetfight:leaveFight", function(id)
 	if bluePlayerReady or redPlayerReady then
 		bluePlayerReady = false
 		redPlayerReady = false
@@ -73,19 +70,16 @@ AddEventHandler("bpt_streetfight:leaveFight", function(id)
 	end
 end)
 
-RegisterServerEvent("bpt_streetfight:pay")
-AddEventHandler("bpt_streetfight:pay", function(amount)
+RegisterServerEvent("bpt_streetfight:pay", function(amount)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	xPlayer.addAccountMoney("money", amount * 2)
 end)
 
-RegisterServerEvent("bpt_streetfight:raiseBet")
-AddEventHandler("bpt_streetfight:raiseBet", function()
+RegisterServerEvent("bpt_streetfight:raiseBet", function()
 	TriggerClientEvent("bpt_streetfight:raiseActualBet", -1)
 end)
 
-RegisterServerEvent("bpt_streetfight:showWinner")
-AddEventHandler("bpt_streetfight:showWinner", function(id)
+RegisterServerEvent("bpt_streetfight:showWinner", function(id)
 	TriggerClientEvent("bpt_streetfight:winnerText", -1, id)
 end)
