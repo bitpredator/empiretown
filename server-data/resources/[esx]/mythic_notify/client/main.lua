@@ -1,15 +1,12 @@
-RegisterNetEvent("mythic_notify:client:SendAlert")
-AddEventHandler("mythic_notify:client:SendAlert", function(data)
+RegisterNetEvent("mythic_notify:client:SendAlert", function(data)
 	SendAlert(data.type, data.text, data.length, data.style)
 end)
 
-RegisterNetEvent("mythic_notify:client:SendUniqueAlert")
-AddEventHandler("mythic_notify:client:SendUniqueAlert", function(data)
+RegisterNetEvent("mythic_notify:client:SendUniqueAlert", function(data)
 	SendUniqueAlert(data.id, data.type, data.text, data.length, data.style)
 end)
 
-RegisterNetEvent("mythic_notify:client:PersistentAlert")
-AddEventHandler("mythic_notify:client:PersistentAlert", function(data)
+RegisterNetEvent("mythic_notify:client:PersistentAlert", function(data)
 	PersistentAlert(data.action, data.id, data.type, data.text, data.style)
 end)
 
