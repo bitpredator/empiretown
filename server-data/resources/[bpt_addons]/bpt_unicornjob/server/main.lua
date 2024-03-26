@@ -36,8 +36,7 @@ ESX.RegisterServerCallback("bpt_unicornjob:SpawnVehicle", function(source, cb, m
 	cb()
 end)
 
-RegisterNetEvent("bpt_unicornjob:getStockItem")
-AddEventHandler("bpt_unicornjob:getStockItem", function(itemName, count)
+RegisterNetEvent("bpt_unicornjob:getStockItem", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == "unicorn" then
@@ -69,8 +68,7 @@ ESX.RegisterServerCallback("bpt_unicornjob:getStockItems", function(_, cb)
 	end)
 end)
 
-RegisterNetEvent("bpt_unicornjob:putStockItems")
-AddEventHandler("bpt_unicornjob:putStockItems", function(itemName, count)
+RegisterNetEvent("bpt_unicornjob:putStockItems", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
