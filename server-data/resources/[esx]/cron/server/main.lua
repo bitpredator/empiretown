@@ -45,6 +45,6 @@ LastTime = GetUnixTimestamp()
 
 Tick()
 
-AddEventHandler("cron:runAt", function(h, m, cb)
+RegisterNetEvent("cron:runAt", function(h, m, cb)
 	RunAt(h, m, cb)
 end)
