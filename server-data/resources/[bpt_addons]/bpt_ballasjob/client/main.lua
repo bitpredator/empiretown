@@ -41,15 +41,15 @@ end
 
 function OpenballasActionsMenu()
 	local elements = {
-		{ unselectable = true, icon = "fas fa-ballas", title = _U("ballas") },
-		{ icon = "fas fa-box", title = _U("deposit_stock"), value = "put_stock" },
-		{ icon = "fas fa-box", title = _U("take_stock"), value = "get_stock" },
+		{ unselectable = true, icon = "fas fa-ballas", title = TranslateCap("ballas") },
+		{ icon = "fas fa-box", title = TranslateCap("deposit_stock"), value = "put_stock" },
+		{ icon = "fas fa-box", title = TranslateCap("take_stock"), value = "get_stock" },
 	}
 
 	if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == "boss" then
 		elements[#elements + 1] = {
 			icon = "fas fa-wallet",
-			title = _U("boss_actions"),
+			title = TranslateCap("boss_actions"),
 			value = "boss_actions",
 		}
 	end
@@ -69,15 +69,15 @@ function OpenballasActionsMenu()
 		end
 	end, function()
 		CurrentAction = "ballas_actions_menu"
-		CurrentActionMsg = _U("press_to_open")
+		CurrentActionMsg = TranslateCap("press_to_open")
 		CurrentActionData = {}
 	end)
 end
 
 function OpenMobileBallasActionsMenu()
 	local elements = {
-		{ unselectable = true, icon = "fas fa-ballas", title = _U("ballas") },
-		{ icon = "fas fa-scroll", title = _U("billing"), value = "billing" },
+		{ unselectable = true, icon = "fas fa-ballas", title = TranslateCap("ballas") },
+		{ icon = "fas fa-scroll", title = TranslateCap("billing"), value = "billing" },
 	}
 
 	ESX.OpenContext("right", elements, function(_, element)
@@ -85,25 +85,25 @@ function OpenMobileBallasActionsMenu()
 			local elements2 = {
 				{ unselectable = true, icon = "fas fa-ballas", title = element.title },
 				{
-					title = _U("amount"),
+					title = TranslateCap("amount"),
 					input = true,
 					inputType = "number",
 					inputMin = 1,
 					inputMax = 250000,
-					inputPlaceholder = _U("bill_amount"),
+					inputPlaceholder = TranslateCap("bill_amount"),
 				},
-				{ icon = "fas fa-check-double", title = _U("confirm"), value = "confirm" },
+				{ icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
 			}
 
 			ESX.OpenContext("right", elements2, function(menu2)
 				local amount = tonumber(menu2.eles[2].inputValue)
 				if amount == nil then
-					ESX.ShowNotification(_U("amount_invalid"))
+					ESX.ShowNotification(TranslateCap("amount_invalid"))
 				else
 					ESX.CloseContext()
 					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 					if closestPlayer == -1 or closestDistance > 3.0 then
-						ESX.ShowNotification(_U("no_players_near"))
+						ESX.ShowNotification(TranslateCap("no_players_near"))
 					else
 						TriggerServerEvent(
 							"esx_billing:sendBill",
@@ -112,7 +112,7 @@ function OpenMobileBallasActionsMenu()
 							"Ballas",
 							amount
 						)
-						ESX.ShowNotification(_U("billing_sent"))
+						ESX.ShowNotification(TranslateCap("billing_sent"))
 					end
 				end
 			end)
@@ -123,7 +123,7 @@ end
 AddEventHandler("bpt_ballasjob:hasEnteredMarker", function(zone)
 	if zone == "BallasActions" then
 		CurrentAction = "ballas_actions_menu"
-		CurrentActionMsg = _U("press_to_open")
+		CurrentActionMsg = TranslateCap("press_to_open")
 		CurrentActionData = {}
 	end
 end)
@@ -148,7 +148,7 @@ CreateThread(function()
 	SetBlipAsShortRange(blip, true)
 
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentSubstringPlayerName(_U("blip_ballas"))
+	AddTextComponentSubstringPlayerName(TranslateCap("blip_ballas"))
 	EndTextCommandSetBlipName(blip)
 end)
 
