@@ -28,8 +28,7 @@ ESX.RegisterServerCallback("bpt_importjob:SpawnVehicle", function(source, cb, mo
 	cb()
 end)
 
-RegisterNetEvent("bpt_importjob:getStockItem")
-AddEventHandler("bpt_importjob:getStockItem", function(itemName, count)
+RegisterNetEvent("bpt_importjob:getStockItem", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == "import" then
@@ -61,8 +60,7 @@ ESX.RegisterServerCallback("bpt_importjob:getStockItems", function(_, cb)
 	end)
 end)
 
-RegisterNetEvent("bpt_importjob:putStockItems")
-AddEventHandler("bpt_importjob:putStockItems", function(itemName, count)
+RegisterNetEvent("bpt_importjob:putStockItems", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
