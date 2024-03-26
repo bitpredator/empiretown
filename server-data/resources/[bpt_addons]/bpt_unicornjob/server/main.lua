@@ -1,10 +1,4 @@
-TriggerEvent(
-	"esx_society:registerSociety",
-	"unicorn",
-	"Unicorn",
-	"society_unicorn",
-	"society_unicorn",
-	"society_unicorn",
+TriggerEvent("esx_society:registerSociety", "unicorn", "Unicorn", "society_unicorn", "society_unicorn", "society_unicorn",
 	{
 		type = "public",
 	}
@@ -50,12 +44,12 @@ AddEventHandler("bpt_unicornjob:getStockItem", function(itemName, count)
 				if xPlayer.canCarryItem(itemName, count) then
 					inventory.removeItem(itemName, count)
 					xPlayer.addInventoryItem(itemName, count)
-					xPlayer.showNotification(_U("have_withdrawn", count, item.label))
+					xPlayer.showNotification(TranslateCap("have_withdrawn", count, item.label))
 				else
-					xPlayer.showNotification(_U("player_cannot_hold"))
+					xPlayer.showNotification(TranslateCap("player_cannot_hold"))
 				end
 			else
-				xPlayer.showNotification(_U("quantity_invalid"))
+				xPlayer.showNotification(TranslateCap("quantity_invalid"))
 			end
 		end)
 	else
@@ -81,9 +75,9 @@ AddEventHandler("bpt_unicornjob:putStockItems", function(itemName, count)
 			if sourceItem.count >= count and count > 0 then
 				xPlayer.removeInventoryItem(itemName, count)
 				inventory.addItem(itemName, count)
-				xPlayer.showNotification(_U("have_deposited", count, item.label))
+				xPlayer.showNotification(TranslateCap("have_deposited", count, item.label))
 			else
-				xPlayer.showNotification(_U("quantity_invalid"))
+				xPlayer.showNotification(TranslateCap("quantity_invalid"))
 			end
 		end)
 	else
