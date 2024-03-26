@@ -16,7 +16,7 @@ CreateThread(function()
 				true
 			) <= 3.0
 		then
-			ESX.ShowHelpNotification(_U("press_to_enter"))
+			ESX.ShowHelpNotification(TranslateCap("press_to_enter"))
 			if IsControlPressed(0, 51) then
 				DoScreenFadeOut(1000)
 				Wait(1500)
@@ -38,7 +38,7 @@ CreateThread(function()
 				true
 			) <= 3.0
 		then
-			ESX.ShowHelpNotification(_U("press_to_exit"))
+			ESX.ShowHelpNotification(TranslateCap("press_to_exit"))
 			if IsControlPressed(0, 51) then
 				DoScreenFadeOut(1000)
 				Wait(1500)
@@ -59,7 +59,7 @@ CreateThread(function()
 			GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, 132.608, -1293.978, 28.269, true)
 			<= 3.0
 		then
-			ESX.ShowHelpNotification(_U("press_to_enter"))
+			ESX.ShowHelpNotification(TranslateCap("press_to_enter"))
 			if IsControlPressed(0, 51) then
 				DoScreenFadeOut(1000)
 				Wait(1500)
@@ -80,7 +80,7 @@ CreateThread(function()
 				true
 			) <= 3.0
 		then
-			ESX.ShowHelpNotification(_U("press_to_exit"))
+			ESX.ShowHelpNotification(TranslateCap("press_to_exit"))
 			if IsControlPressed(0, 51) then
 				DoScreenFadeOut(1000)
 				Wait(1500)
