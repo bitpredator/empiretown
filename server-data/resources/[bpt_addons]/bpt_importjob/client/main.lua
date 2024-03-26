@@ -41,9 +41,9 @@ end
 
 function OpenCloakroom()
 	local elements = {
-		{ unselectable = true, icon = "fas fa-shirt", title = _U("cloakroom_menu") },
-		{ icon = "fas fa-shirt", title = _U("wear_citizen"), value = "wear_citizen" },
-		{ icon = "fas fa-shirt", title = _U("wear_work"), value = "wear_work" },
+		{ unselectable = true, icon = "fas fa-shirt", title = TranslateCap("cloakroom_menu") },
+		{ icon = "fas fa-shirt", title = TranslateCap("wear_citizen"), value = "wear_citizen" },
+		{ icon = "fas fa-shirt", title = TranslateCap("wear_work"), value = "wear_work" },
 	}
 
 	ESX.OpenContext("right", elements, function(_, element)
@@ -63,20 +63,20 @@ function OpenCloakroom()
 		ESX.CloseContext()
 	end, function()
 		CurrentAction = "cloakroom"
-		CurrentActionMsg = _U("cloakroom_prompt")
+		CurrentActionMsg = TranslateCap("cloakroom_prompt")
 		CurrentActionData = {}
 	end)
 end
 
 function OpenVehicleSpawnerMenu()
 	local elements = {
-		{ unselectable = true, icon = "fas fa-car", title = _U("spawn_veh") },
+		{ unselectable = true, icon = "fas fa-car", title = TranslateCap("spawn_veh") },
 	}
 
 	if Config.EnableSocietyOwnedVehicles then
 		ESX.TriggerServerCallback("esx_society:getVehiclesInGarage", function(vehicles)
 			if #vehicles == 0 then
-				ESX.ShowNotification(_U("empty_garage"))
+				ESX.ShowNotification(TranslateCap("empty_garage"))
 				return
 			end
 
@@ -90,7 +90,7 @@ function OpenVehicleSpawnerMenu()
 
 			ESX.OpenContext("right", elements, function(_, element)
 				if not ESX.Game.IsSpawnPointClear(Config.Zones.VehicleSpawnPoint.Pos, 5.0) then
-					ESX.ShowNotification(_U("spawnpoint_blocked"))
+					ESX.ShowNotification(TranslateCap("spawnpoint_blocked"))
 					return
 				end
 
@@ -106,13 +106,13 @@ function OpenVehicleSpawnerMenu()
 				TriggerServerEvent("esx_society:removeVehicleFromGarage", "import", vehicleProps)
 			end, function()
 				CurrentAction = "vehicle_spawner"
-				CurrentActionMsg = _U("spawner_prompt")
+				CurrentActionMsg = TranslateCap("spawner_prompt")
 				CurrentActionData = {}
 			end)
 		end, "import")
 	else -- not society vehicles
 		if #Config.AuthorizedVehicles == 0 then
-			ESX.ShowNotification(_U("empty_garage"))
+			ESX.ShowNotification(TranslateCap("empty_garage"))
 			return
 		end
 
@@ -126,7 +126,7 @@ function OpenVehicleSpawnerMenu()
 
 		ESX.OpenContext("right", elements, function(_, element)
 			if not ESX.Game.IsSpawnPointClear(Config.Zones.VehicleSpawnPoint.Pos, 5.0) then
-				ESX.ShowNotification(_U("spawnpoint_blocked"))
+				ESX.ShowNotification(TranslateCap("spawnpoint_blocked"))
 				return
 			end
 
@@ -136,12 +136,12 @@ function OpenVehicleSpawnerMenu()
 			end
 
 			ESX.TriggerServerCallback("bpt_importjob:SpawnVehicle", function()
-				ESX.ShowNotification(_U("vehicle_spawned"), "success")
+				ESX.ShowNotification(TranslateCap("vehicle_spawned"), "success")
 			end, element.value, { plate = "IMPO JOB" })
 			ESX.CloseContext()
 		end, function()
 			CurrentAction = "vehicle_spawner"
-			CurrentActionMsg = _U("spawner_prompt")
+			CurrentActionMsg = TranslateCap("spawner_prompt")
 			CurrentActionData = {}
 		end)
 	end
@@ -160,22 +160,22 @@ function DeleteJobVehicle()
 				TriggerServerEvent("esx_service:disableService", "import")
 			end
 		else
-			ESX.ShowNotification(_U("only_import"))
+			ESX.ShowNotification(TranslateCap("only_import"))
 		end
 	end
 end
 
 function OpenImportActionsMenu()
 	local elements = {
-		{ unselectable = true, icon = "fas fa-import", title = _U("import") },
-		{ icon = "fas fa-box", title = _U("deposit_stock"), value = "put_stock" },
-		{ icon = "fas fa-box", title = _U("take_stock"), value = "get_stock" },
+		{ unselectable = true, icon = "fas fa-import", title = TranslateCap("import") },
+		{ icon = "fas fa-box", title = TranslateCap("deposit_stock"), value = "put_stock" },
+		{ icon = "fas fa-box", title = TranslateCap("take_stock"), value = "get_stock" },
 	}
 
 	if Config.EnablePlayerManagement and ESX.PlayerData.job ~= nil and ESX.PlayerData.job.grade_name == "boss" then
 		elements[#elements + 1] = {
 			icon = "fas fa-wallet",
-			title = _U("boss_actions"),
+			title = TranslateCap("boss_actions"),
 			value = "boss_actions",
 		}
 	end
@@ -195,15 +195,15 @@ function OpenImportActionsMenu()
 		end
 	end, function()
 		CurrentAction = "import_actions_menu"
-		CurrentActionMsg = _U("press_to_open")
+		CurrentActionMsg = TranslateCap("press_to_open")
 		CurrentActionData = {}
 	end)
 end
 
 function OpenMobileImportActionsMenu()
 	local elements = {
-		{ unselectable = true, icon = "fas fa-import", title = _U("import") },
-		{ icon = "fas fa-scroll", title = _U("billing"), value = "billing" },
+		{ unselectable = true, icon = "fas fa-import", title = TranslateCap("import") },
+		{ icon = "fas fa-scroll", title = TranslateCap("billing"), value = "billing" },
 	}
 
 	ESX.OpenContext("right", elements, function(_, element)
@@ -211,25 +211,25 @@ function OpenMobileImportActionsMenu()
 			local elements2 = {
 				{ unselectable = true, icon = "fas fa-import", title = element.title },
 				{
-					title = _U("amount"),
+					title = TranslateCap("amount"),
 					input = true,
 					inputType = "number",
 					inputMin = 1,
 					inputMax = 250000,
-					inputPlaceholder = _U("bill_amount"),
+					inputPlaceholder = TranslateCap("bill_amount"),
 				},
-				{ icon = "fas fa-check-double", title = _U("confirm"), value = "confirm" },
+				{ icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
 			}
 
 			ESX.OpenContext("right", elements2, function(menu2)
 				local amount = tonumber(menu2.eles[2].inputValue)
 				if amount == nil then
-					ESX.ShowNotification(_U("amount_invalid"))
+					ESX.ShowNotification(TranslateCap("amount_invalid"))
 				else
 					ESX.CloseContext()
 					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 					if closestPlayer == -1 or closestDistance > 3.0 then
-						ESX.ShowNotification(_U("no_players_near"))
+						ESX.ShowNotification(TranslateCap("no_players_near"))
 					else
 						TriggerServerEvent(
 							"esx_billing:sendBill",
@@ -238,7 +238,7 @@ function OpenMobileImportActionsMenu()
 							"Import",
 							amount
 						)
-						ESX.ShowNotification(_U("billing_sent"))
+						ESX.ShowNotification(TranslateCap("billing_sent"))
 					end
 				end
 			end)
@@ -262,7 +262,7 @@ end
 AddEventHandler("bpt_importjob:hasEnteredMarker", function(zone)
 	if zone == "VehicleSpawner" then
 		CurrentAction = "vehicle_spawner"
-		CurrentActionMsg = _U("spawner_prompt")
+		CurrentActionMsg = TranslateCap("spawner_prompt")
 		CurrentActionData = {}
 	elseif zone == "VehicleDeleter" then
 		local playerPed = PlayerPedId()
@@ -270,18 +270,18 @@ AddEventHandler("bpt_importjob:hasEnteredMarker", function(zone)
 
 		if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
 			CurrentAction = "delete_vehicle"
-			CurrentActionMsg = _U("store_veh")
+			CurrentActionMsg = TranslateCap("store_veh")
 			CurrentActionData = {
 				vehicle = vehicle,
 			}
 		end
 	elseif zone == "ImportActions" then
 		CurrentAction = "import_actions_menu"
-		CurrentActionMsg = _U("press_to_open")
+		CurrentActionMsg = TranslateCap("press_to_open")
 		CurrentActionData = {}
 	elseif zone == "Cloakroom" then
 		CurrentAction = "cloakroom"
-		CurrentActionMsg = _U("cloakroom_prompt")
+		CurrentActionMsg = TranslateCap("cloakroom_prompt")
 		CurrentActionData = {}
 	end
 end)
@@ -306,7 +306,7 @@ CreateThread(function()
 	SetBlipAsShortRange(blip, true)
 
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentSubstringPlayerName(_U("blip_import"))
+	AddTextComponentSubstringPlayerName(TranslateCap("blip_import"))
 	EndTextCommandSetBlipName(blip)
 end)
 
