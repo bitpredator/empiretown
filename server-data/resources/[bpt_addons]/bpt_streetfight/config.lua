@@ -13,7 +13,7 @@ Config.Locale = "en"
 
 Config.BLIP = {
 	coords = { x = -517.61, y = -1712.04, z = 20.45 },
-	text = _U("street_fighting"),
+	text = TranslateCap("street_fighting"),
 	sprite = 491,
 	color = 1,
 	scale = 1.0,

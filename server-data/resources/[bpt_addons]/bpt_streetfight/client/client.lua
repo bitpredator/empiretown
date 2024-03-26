@@ -54,13 +54,13 @@ end)
 RegisterNetEvent("bpt_streetfight:playerLeaveFight")
 AddEventHandler("bpt_streetfight:playerLeaveFight", function(id)
 	if id == GetPlayerServerId(PlayerId()) then
-		ESX.ShowNotification(_U("you_toofar"))
+		ESX.ShowNotification(TranslateCap("you_toofar"))
 		SetPedMaxHealth(PlayerPedId(), 200)
 		SetEntityHealth(PlayerPedId(), 200)
 		removeGloves()
 	elseif participating == true then
 		TriggerServerEvent("bpt_streetfight:pay", betAmount)
-		ESX.ShowNotification(_U("you_win") .. (betAmount * 2) .. "$")
+		ESX.ShowNotification(TranslateCap("you_win") .. (betAmount * 2) .. "$")
 		SetPedMaxHealth(PlayerPedId(), 200)
 		SetEntityHealth(PlayerPedId(), 200)
 		removeGloves()
@@ -73,7 +73,7 @@ AddEventHandler("bpt_streetfight:fightFinished", function(looser)
 	if participating == true then
 		if looser ~= GetPlayerServerId(PlayerId()) and looser ~= -2 then
 			TriggerServerEvent("bpt_streetfight:pay", betAmount)
-			ESX.ShowNotification(_U("you_win") .. (betAmount * 2) .. "$")
+			ESX.ShowNotification(TranslateCap("you_win") .. (betAmount * 2) .. "$")
 			SetPedMaxHealth(PlayerPedId(), 200)
 			SetEntityHealth(PlayerPedId(), 200)
 
@@ -81,13 +81,13 @@ AddEventHandler("bpt_streetfight:fightFinished", function(looser)
 		end
 
 		if looser == GetPlayerServerId(PlayerId()) and looser ~= -2 then
-			ESX.ShowNotification(_U("you_lost") .. betAmount .. "$")
+			ESX.ShowNotification(TranslateCap("you_lost") .. betAmount .. "$")
 			SetPedMaxHealth(PlayerPedId(), 200)
 			SetEntityHealth(PlayerPedId(), 200)
 		end
 
 		if looser == -2 then
-			ESX.ShowNotification(_U("time_out"))
+			ESX.ShowNotification(TranslateCap("time_out"))
 			SetPedMaxHealth(PlayerPedId(), 200)
 			SetEntityHealth(PlayerPedId(), 200)
 		end
@@ -247,7 +247,7 @@ function spawnMarker(coords)
 				0.4
 			)
 			if blueZone < Config.DISTANCE_INTERACTION then
-				ESX.ShowHelpNotification(_U("press_to_join_blue"))
+				ESX.ShowHelpNotification(TranslateCap("press_to_join_blue"))
 				if IsControlJustReleased(0, Config.E_KEY) and participating == false then
 					TriggerServerEvent("bpt_streetfight:join", betAmount, 0)
 				end
@@ -257,7 +257,7 @@ function spawnMarker(coords)
 		if redJoined == false then
 			DrawText3D(Config.REDZONE.x, Config.REDZONE.y, Config.REDZONE.z + 1.5, "unisciti alla lotta [~r~E~w~]", 0.4)
 			if redZone < Config.DISTANCE_INTERACTION then
-				ESX.ShowHelpNotification(_U("press_to_join_red"))
+				ESX.ShowHelpNotification(TranslateCap("press_to_join_red"))
 				if IsControlJustReleased(0, Config.E_KEY) and participating == false then
 					TriggerServerEvent("bpt_streetfight:join", betAmount, 1)
 				end
@@ -331,7 +331,7 @@ CreateThread(function()
 				get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z, coords.x, coords.y, coords.z)
 				< Config.TP_DISTANCE
 			then
-				ESX.ShowNotification(_U("step_away"))
+				ESX.ShowNotification(TranslateCap("step_away"))
 				for _ = 1, 1000 do
 					SetPedCoordsKeepVehicle(GetPlayerPed(-1), -521.58, -1723.58, 19.16)
 					local foundGround = GetGroundZFor_3dCoord(-521.58, -1723.58, 19.16)
