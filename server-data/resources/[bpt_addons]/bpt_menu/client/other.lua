@@ -20,7 +20,7 @@ function ResetOtherAnimsVals()
 end
 
 if Config.Framework == "esx" then
-	AddEventHandler("esx:onPlayerDeath", ResetOtherAnimsVals)
+	RegisterNetEvent("esx:onPlayerDeath", ResetOtherAnimsVals)
 end
 
 RegisterCommand("+handsup", function()

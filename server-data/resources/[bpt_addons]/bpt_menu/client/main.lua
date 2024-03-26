@@ -130,14 +130,14 @@ for i = 1, #Config.Animations do
 end
 
 if Config.Framework == "esx" then
-	AddEventHandler("esx:onPlayerDeath", function()
+	RegisterNetEvent("esx:onPlayerDeath", function()
 		PlayerVars.isDead = true
 		RageUI.CloseAll()
 		ESX.UI.Menu.CloseAll()
 	end)
 end
 
-AddEventHandler("playerSpawned", function()
+RegisterNetEvent("playerSpawned", function()
 	PlayerVars.isDead = false
 end)
 
