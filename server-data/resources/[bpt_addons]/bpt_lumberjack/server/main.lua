@@ -6,7 +6,7 @@ AddEventHandler("bpt_woodcutter:pickedUpWood", function()
 	local xItem = xPlayer.getInventoryItem("wood")
 
 	if xItem.weight ~= -1 and (xItem.count + 1) > xItem.weight then
-		TriggerClientEvent("esx:showNotification", _U("wood_inventoryfull"))
+		TriggerClientEvent("esx:showNotification", TranslateCap("wood_inventoryfull"))
 	else
 		xPlayer.addInventoryItem(xItem.name, 3)
 	end

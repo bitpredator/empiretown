@@ -120,7 +120,7 @@ CreateThread(function()
 
 		if treewood and IsPedOnFoot(player) then
 			if not Collection then
-				ESX.ShowHelpNotification(_U("wood_pickupprompt"))
+				ESX.ShowHelpNotification(TranslateCap("wood_pickupprompt"))
 			end
 
 			if IsControlJustReleased(0, Keys["E"]) and not Collection then
@@ -139,10 +139,10 @@ CreateThread(function()
 						Wait(200)
 						DeleteObject(treewood)
 						RemoveWeaponFromPed(player, GetHashKey("WEAPON_HATCHET"), true, true)
-						SetCurrentPedWeapon(player, GetHashKey("WEAPON_UNARMED"), false)
+						SetCurrentPedWeapon(player, GetHashKey("WEAPONTranslateCapNARMED"), false)
 						TriggerServerEvent("bpt_woodcutter:pickedUpWood")
 					else
-						ESX.ShowNotification(_U("wood_inventoryfull"))
+						ESX.ShowNotification(TranslateCap("wood_inventoryfull"))
 					end
 					Collection = false
 				end, "wood")
