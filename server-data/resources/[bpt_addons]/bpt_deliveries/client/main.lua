@@ -88,7 +88,7 @@ function HandleLogic()
 
 		if CurrentStatus == Status.PLAYER_STARTED_DELIVERY then
 			if not IsPlayerInsideDeliveryVehicle() then
-				CurrentSubtitle = _U("get_back_in_vehicle")
+				CurrentSubtitle = TranslateCap("get_back_in_vehicle")
 			else
 				CurrentSubtitle = nil
 			end
@@ -105,14 +105,14 @@ function HandleLogic()
 				) < 1.5
 			then
 				CurrentStatus = Status.PLAYER_REACHED_VEHICLE_POINT
-				CurrentSubtitle = _U("remove_goods_subtext")
+				CurrentSubtitle = TranslateCap("remove_goods_subtext")
 				PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", false, 0, true)
 			end
 		end
 
 		if CurrentStatus == Status.PLAYER_REMOVED_GOODS_FROM_VEHICLE then
 			if CurrentType == "van" or CurrentType == "truck" then
-				CurrentSubtitle = _U("deliver_inside_shop")
+				CurrentSubtitle = TranslateCap("deliver_inside_shop")
 				if CurrentType == "van" and not IsEntityPlayingAnim(playerPed, "anim@heists@box_carry@", "walk", 3) then
 					ForceCarryAnimation()
 				end
@@ -133,7 +133,7 @@ function HandleLogic()
 				PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", false, 0, true)
 				FinishedJobs = FinishedJobs + 1
 
-				ESX.ShowNotification(_U("finish_job") .. FinishedJobs .. "/" .. #DeliveryRoutes)
+				ESX.ShowNotification(TranslateCap("finish_job") .. FinishedJobs .. "/" .. #DeliveryRoutes)
 
 				if FinishedJobs >= #DeliveryRoutes then
 					RemovePlayerProps()
@@ -142,14 +142,14 @@ function HandleLogic()
 					DeliveryLocation.Item2 = { x = 0, y = 0, z = 0 }
 					CurrentBlip =
 						CreateBlipAt(DeliveryLocation.Item1.x, DeliveryLocation.Item1.y, DeliveryLocation.Item1.z)
-					CurrentSubtitle = _U("get_back_to_deliveryhub")
+					CurrentSubtitle = TranslateCap("get_back_to_deliveryhub")
 					CurrentStatus = Status.PLAYER_RETURNING_TO_BASE
 					return
 				else
 					RemovePlayerProps()
 					GetNextDeliveryPoint(false)
 					CurrentStatus = Status.PLAYER_STARTED_DELIVERY
-					CurrentSubtitle = _U("drive_next_point")
+					CurrentSubtitle = TranslateCap("drive_next_point")
 					PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", false, 0, true)
 				end
 			end
@@ -192,7 +192,7 @@ function HandleMarkers()
 			true
 		)
 		if GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, deleter.x, deleter.y, deleter.z) < 1.5 then
-			DisplayHelpText(_U("end_delivery"))
+			DisplayHelpText(TranslateCap("end_delivery"))
 			if IsControlJustReleased(0, 51) then
 				EndDelivery()
 				return
@@ -307,7 +307,7 @@ function HandleMarkers()
 					GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, TrunkPos.x, TrunkPos.y, TrunkHeight, true)
 					< 1.0
 				then
-					DisplayHelpText(_U("remove_goods"))
+					DisplayHelpText(TranslateCap("remove_goods"))
 					if IsControlJustReleased(0, 51) then
 						PlayTrunkAnimation()
 						GetPlayerPropsForDelivery(CurrentType)
@@ -390,18 +390,18 @@ function HandleMarkers()
 					true
 				) < 1.5
 			then
-				DisplayHelpText(_U("start_delivery") .. tostring(Config.Safe.scooter))
+				DisplayHelpText(TranslateCap("start_delivery") .. tostring(Config.Safe.scooter))
 				SelectType = "scooter"
 			elseif
 				GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, VanPos.x, VanPos.y, VanPos.z, true) < 1.5
 			then
-				DisplayHelpText(_U("start_delivery") .. tostring(Config.Safe.van))
+				DisplayHelpText(TranslateCap("start_delivery") .. tostring(Config.Safe.van))
 				SelectType = "van"
 			elseif
 				GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, TruckPos.x, TruckPos.y, TruckPos.z, true)
 				< 1.5
 			then
-				DisplayHelpText(_U("start_delivery") .. tostring(Config.Safe.truck))
+				DisplayHelpText(TranslateCap("start_delivery") .. tostring(Config.Safe.truck))
 				SelectType = "truck"
 			else
 				SelectType = false
@@ -458,7 +458,7 @@ function CreateBlipAt(x, y, z)
 	SetBlipColour(tmpBlip, 66)
 	SetBlipAsShortRange(tmpBlip, true)
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentString(_U("dst_blip"))
+	AddTextComponentString(TranslateCap("dst_blip"))
 	SetBlipAsMissionCreatorBlip(tmpBlip, true)
 	SetBlipRoute(tmpBlip, true)
 
@@ -812,10 +812,10 @@ end
 function EndDelivery()
 	local PlayerPed = PlayerPedId()
 	if not IsPedSittingInAnyVehicle(PlayerPed) or GetVehiclePedIsIn(PlayerPed) ~= CurrentVehicle then
-		TriggerEvent("MpGameMessage:send", _U("delivery_end"), _U("delivery_failed"), 3500, "error")
+		TriggerEvent("MpGameMessage:send", TranslateCap("delivery_end"), TranslateCap("delivery_failed"), 3500, "error")
 		FinishDelivery(CurrentType, false)
 	else
-		TriggerEvent("MpGameMessage:send", _U("delivery_end"), _U("delivery_finish"), 3500, "success")
+		TriggerEvent("MpGameMessage:send", TranslateCap("delivery_end"), TranslateCap("delivery_finish"), 3500, "success")
 		ReturnVehicle(CurrentType)
 	end
 end
@@ -824,7 +824,7 @@ end
 function ReturnVehicle(deliveryType)
 	SetVehicleAsNoLongerNeeded(CurrentVehicle)
 	DeleteEntity(CurrentVehicle)
-	ESX.ShowNotification(_U("delivery_vehicle_returned"))
+	ESX.ShowNotification(TranslateCap("delivery_vehicle_returned"))
 	FinishDelivery(deliveryType, true)
 end
 
@@ -909,7 +909,7 @@ CreateThread(function()
 	SetBlipColour(blip, 5)
 	SetBlipAsShortRange(blip, true)
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentString(_U("blip_name"))
+	AddTextComponentString(TranslateCap("blip_name"))
 	EndTextCommandSetBlipName(blip)
 end)
 
@@ -959,7 +959,7 @@ AddEventHandler("bpt_deliveries:setPlayerJob:client", function(job)
 end)
 
 AddEventHandler("bpt_deliveries:startJob:client", function(deliveryType)
-	TriggerEvent("MpGameMessage:send", _U("delivery_start"), _U("delivery_tips"), 3500, "success")
+	TriggerEvent("MpGameMessage:send", TranslateCap("delivery_start"), TranslateCap("delivery_tips"), 3500, "success")
 	LoadWorkPlayerSkin(deliveryType)
 	local ModelHash = GetHashKey("prop_paper_bag_01")
 	WaitModelLoad(ModelHash)
