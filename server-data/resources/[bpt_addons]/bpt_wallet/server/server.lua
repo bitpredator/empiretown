@@ -24,8 +24,7 @@ local function GenerateSerial(text)
 	)
 end
 
-RegisterServerEvent("bpt_wallet:openWallet")
-AddEventHandler("bpt_wallet:openWallet", function(identifier)
+RegisterServerEvent("bpt_wallet:openWallet", function(identifier)
 	if not registeredStashes[identifier] then
 		ox_inventory:RegisterStash(
 			"wal_" .. identifier,

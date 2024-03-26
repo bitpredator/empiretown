@@ -10,7 +10,7 @@ local function RemoveWal()
     WalEquipped = nil
 end
 
-AddEventHandler('ox_inventory:updateInventory', function(changes)
+RegisterNetEvent('ox_inventory:updateInventory', function(changes)
     if justConnect then
         Wait(4500)
         justConnect = nil
