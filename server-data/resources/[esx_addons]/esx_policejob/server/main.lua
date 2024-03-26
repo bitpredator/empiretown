@@ -7,8 +7,7 @@ end
 TriggerEvent('esx_phone:registerNumber', 'police', TranslateCap('alert_police'), true, true)
 TriggerEvent('esx_society:registerSociety', 'police', TranslateCap('society_police'), 'society_police', 'society_police', 'society_police', {type = 'public'})
 
-RegisterNetEvent('esx_policejob:confiscatePlayerItem')
-AddEventHandler('esx_policejob:confiscatePlayerItem', function(target, itemType, itemName, amount)
+RegisterNetEvent('esx_policejob:confiscatePlayerItem', function(target, itemType, itemName, amount)
 	local source = source
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
@@ -68,8 +67,7 @@ AddEventHandler('esx_policejob:confiscatePlayerItem', function(target, itemType,
 	end
 end)
 
-RegisterNetEvent('esx_policejob:handcuff')
-AddEventHandler('esx_policejob:handcuff', function(target)
+RegisterNetEvent('esx_policejob:handcuff', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == 'police' then
@@ -79,8 +77,7 @@ AddEventHandler('esx_policejob:handcuff', function(target)
 	end
 end)
 
-RegisterNetEvent('esx_policejob:drag')
-AddEventHandler('esx_policejob:drag', function(target)
+RegisterNetEvent('esx_policejob:drag', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == 'police' then
@@ -90,8 +87,7 @@ AddEventHandler('esx_policejob:drag', function(target)
 	end
 end)
 
-RegisterNetEvent('esx_policejob:putInVehicle')
-AddEventHandler('esx_policejob:putInVehicle', function(target)
+RegisterNetEvent('esx_policejob:putInVehicle', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == 'police' then
@@ -101,8 +97,7 @@ AddEventHandler('esx_policejob:putInVehicle', function(target)
 	end
 end)
 
-RegisterNetEvent('esx_policejob:OutVehicle')
-AddEventHandler('esx_policejob:OutVehicle', function(target)
+RegisterNetEvent('esx_policejob:OutVehicle', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == 'police' then
@@ -112,8 +107,7 @@ AddEventHandler('esx_policejob:OutVehicle', function(target)
 	end
 end)
 
-RegisterNetEvent('esx_policejob:getStockItem')
-AddEventHandler('esx_policejob:getStockItem', function(itemName, count)
+RegisterNetEvent('esx_policejob:getStockItem', function(itemName, count)
 	local source = source
 	local xPlayer = ESX.GetPlayerFromId(source)
 
@@ -137,8 +131,7 @@ AddEventHandler('esx_policejob:getStockItem', function(itemName, count)
 	end)
 end)
 
-RegisterNetEvent('esx_policejob:putStockItems')
-AddEventHandler('esx_policejob:putStockItems', function(itemName, count)
+RegisterNetEvent('esx_policejob:putStockItems', function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
@@ -426,7 +419,7 @@ ESX.RegisterServerCallback('esx_policejob:getPlayerInventory', function(source, 
 	cb({items = items})
 end)
 
-AddEventHandler('playerDropped', function()
+RegisterNetEvent('playerDropped', function()
 	local playerId = source
 	if playerId then
 		local xPlayer = ESX.GetPlayerFromId(playerId)
@@ -438,8 +431,7 @@ AddEventHandler('playerDropped', function()
 	end
 end)
 
-RegisterNetEvent('esx_policejob:spawned')
-AddEventHandler('esx_policejob:spawned', function()
+RegisterNetEvent('esx_policejob:spawned', function()
 	local playerId = source
 	local xPlayer = ESX.GetPlayerFromId(playerId)
 
@@ -449,14 +441,13 @@ AddEventHandler('esx_policejob:spawned', function()
 	end
 end)
 
-RegisterNetEvent('esx_policejob:forceBlip')
-AddEventHandler('esx_policejob:forceBlip', function()
+RegisterNetEvent('esx_policejob:forceBlip', function()
 	for _, xPlayer in pairs(ESX.GetExtendedPlayers('job', 'police')) do
 		TriggerClientEvent('esx_policejob:updateBlip', xPlayer.source)
 	end
 end)
 
-AddEventHandler('onResourceStart', function(resource)
+RegisterNetEvent('onResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
 		Wait(5000)
 		for _, xPlayer in pairs(ESX.GetExtendedPlayers('job', 'police')) do
@@ -465,7 +456,7 @@ AddEventHandler('onResourceStart', function(resource)
 	end
 end)
 
-AddEventHandler('onResourceStop', function(resource)
+RegisterNetEvent('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
 		TriggerEvent('esx_phone:removeNumber', 'police')
 	end

@@ -954,8 +954,7 @@ function OnPlayerData(k, v)
 	end
 end
 
-RegisterNetEvent('esx_phone:loaded')
-AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
+RegisterNetEvent('esx_phone:loaded', function(phoneNumber, contacts)
 	local specialContact = {
 		name       = TranslateCap('phone_police'),
 		number     = 'police',
@@ -966,7 +965,7 @@ AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
 end)
 
 -- don't show dispatches if the player isn't in service
-AddEventHandler('esx_phone:cancelMessage', function(dispatchNumber)
+RegisterNetEvent('esx_phone:cancelMessage', function(dispatchNumber)
 	if ESX.PlayerData.job and ESX.PlayerData.job.name == 'police' and ESX.PlayerData.job.name == dispatchNumber then
 		-- if esx_service is enabled
 		if Config.EnableESXService and not playerInService then
@@ -975,7 +974,7 @@ AddEventHandler('esx_phone:cancelMessage', function(dispatchNumber)
 	end
 end)
 
-AddEventHandler('esx_policejob:hasEnteredMarker', function(station, part, partNum)
+RegisterNetEvent('esx_policejob:hasEnteredMarker', function(station, part, partNum)
 	if part == 'Cloakroom' then
 		CurrentAction     = 'menu_cloakroom'
 		CurrentActionMsg  = TranslateCap('open_cloackroom')
@@ -999,7 +998,7 @@ AddEventHandler('esx_policejob:hasEnteredMarker', function(station, part, partNu
 	end
 end)
 
-AddEventHandler('esx_policejob:hasExitedMarker', function(station, part, partNum)
+RegisterNetEvent('esx_policejob:hasExitedMarker', function(station, part, partNum)
 	if not isInShopMenu then
 		ESX.CloseContext()
 	end
@@ -1007,7 +1006,7 @@ AddEventHandler('esx_policejob:hasExitedMarker', function(station, part, partNum
 	CurrentAction = nil
 end)
 
-AddEventHandler('esx_policejob:hasEnteredEntityZone', function(entity)
+RegisterNetEvent('esx_policejob:hasEnteredEntityZone', function(entity)
 	local playerPed = PlayerPedId()
 
 	if ESX.PlayerData.job and ESX.PlayerData.job.name == 'police' and IsPedOnFoot(playerPed) then
@@ -1030,14 +1029,13 @@ AddEventHandler('esx_policejob:hasEnteredEntityZone', function(entity)
 	end
 end)
 
-AddEventHandler('esx_policejob:hasExitedEntityZone', function(entity)
+RegisterNetEvent('esx_policejob:hasExitedEntityZone', function(entity)
 	if CurrentAction == 'remove_entity' then
 		CurrentAction = nil
 	end
 end)
 
-RegisterNetEvent('esx_policejob:handcuff')
-AddEventHandler('esx_policejob:handcuff', function()
+RegisterNetEvent('esx_policejob:handcuff', function()
 	isHandcuffed = not isHandcuffed
 	local playerPed = PlayerPedId()
 
@@ -1078,8 +1076,7 @@ AddEventHandler('esx_policejob:handcuff', function()
 	end
 end)
 
-RegisterNetEvent('esx_policejob:unrestrain')
-AddEventHandler('esx_policejob:unrestrain', function()
+RegisterNetEvent('esx_policejob:unrestrain', function()
 	if isHandcuffed then
 		local playerPed = PlayerPedId()
 		isHandcuffed = false
@@ -1098,8 +1095,7 @@ AddEventHandler('esx_policejob:unrestrain', function()
 	end
 end)
 
-RegisterNetEvent('esx_policejob:drag')
-AddEventHandler('esx_policejob:drag', function(copId)
+RegisterNetEvent('esx_policejob:drag', function(copId)
 	if isHandcuffed then
 		dragStatus.isDragged = not dragStatus.isDragged
 		dragStatus.CopId = copId
@@ -1136,8 +1132,7 @@ CreateThread(function()
 	end
 end)
 
-RegisterNetEvent('esx_policejob:putInVehicle')
-AddEventHandler('esx_policejob:putInVehicle', function()
+RegisterNetEvent('esx_policejob:putInVehicle', function()
 	if isHandcuffed then
 		local playerPed = PlayerPedId()
 		local vehicle, distance = ESX.Game.GetClosestVehicle()
@@ -1160,8 +1155,7 @@ AddEventHandler('esx_policejob:putInVehicle', function()
 	end
 end)
 
-RegisterNetEvent('esx_policejob:OutVehicle')
-AddEventHandler('esx_policejob:OutVehicle', function()
+RegisterNetEvent('esx_policejob:OutVehicle', function()
 	local GetVehiclePedIsIn = GetVehiclePedIsIn
 	local IsPedSittingInAnyVehicle = IsPedSittingInAnyVehicle
 	local TaskLeaveVehicle = TaskLeaveVehicle
@@ -1504,8 +1498,7 @@ function createBlip(id)
 	end
 end
 
-RegisterNetEvent('esx_policejob:updateBlip')
-AddEventHandler('esx_policejob:updateBlip', function()
+RegisterNetEvent('esx_policejob:updateBlip', function()
 
 	-- Refresh all blips
 	for k, existingBlip in pairs(blipsCops) do
@@ -1540,7 +1533,7 @@ AddEventHandler('esx_policejob:updateBlip', function()
 
 end)
 
-AddEventHandler('esx:onPlayerSpawn', function(spawn)
+RegisterNetEvent('esx:onPlayerSpawn', function(spawn)
 	isDead = false
 	TriggerEvent('esx_policejob:unrestrain')
 
@@ -1550,11 +1543,11 @@ AddEventHandler('esx:onPlayerSpawn', function(spawn)
 	hasAlreadyJoined = true
 end)
 
-AddEventHandler('esx:onPlayerDeath', function(data)
+RegisterNetEvent('esx:onPlayerDeath', function(data)
 	isDead = true
 end)
 
-AddEventHandler('onResourceStop', function(resource)
+RegisterNetEvent('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
 		TriggerEvent('esx_policejob:unrestrain')
 		TriggerEvent('esx_phone:removeSpecialContact', 'police')
