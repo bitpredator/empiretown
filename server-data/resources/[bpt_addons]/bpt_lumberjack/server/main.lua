@@ -1,7 +1,6 @@
 ESX = exports["es_extended"]:getSharedObject()
 
-RegisterServerEvent("bpt_woodcutter:pickedUpWood")
-AddEventHandler("bpt_woodcutter:pickedUpWood", function()
+RegisterServerEvent("bpt_woodcutter:pickedUpWood", function()
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem("wood")
 
