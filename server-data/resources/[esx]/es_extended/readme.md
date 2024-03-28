@@ -15,8 +15,6 @@ es_extended is an RPG framework for FiveM, equipped with many extra resources to
 - [ox_inventory](https://github.com/overextended/ox_inventory)
 - [spawnmanager]
 
-
-
 # Installation
 - Import `es_extended.sql` in your database
 - Configure your `server.cfg`
@@ -29,8 +27,6 @@ add_ace resource.es_extended command.add_principal allow
 add_ace resource.es_extended command.remove_principal allow
 add_ace resource.es_extended command.stop allow
 ```
-
-
 
 # Legal
 es_extended - ESX framework for FiveM

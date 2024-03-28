@@ -108,7 +108,7 @@ CreateThread(function()
 		Wait(0)
 		local coords = GetEntityCoords(PlayerPedId())
 		if GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 10.0 then
-			DrawText3D(2233.21, 5081.3, 48.08, _U("press_collect"), 0.4)
+			DrawText3D(2233.21, 5081.3, 48.08, TranslateCap("press_collect"), 0.4)
 			if ESX.GetPlayerData().job.name then
 				if GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 5.0 then
 					if IsControlJustReleased(0, Keys["E"]) then
@@ -128,7 +128,7 @@ CreateThread(function()
 		Wait(0)
 		local coords = GetEntityCoords(PlayerPedId())
 		if GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 10.0 then
-			DrawText3D(1582.035156, 2167.279053, 79.307007, _U("press_collect"), 0.4)
+			DrawText3D(1582.035156, 2167.279053, 79.307007, TranslateCap("press_collect"), 0.4)
 			if ESX.GetPlayerData().job.name then
 				if GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 5.0 then
 					if IsControlJustReleased(0, Keys["E"]) then
@@ -148,7 +148,7 @@ CreateThread(function()
 		Wait(0)
 		local coords = GetEntityCoords(PlayerPedId())
 		if GetDistanceBetweenCoords(coords, 2343.850586, 4756.087891, 34.806641, true) < 10.0 then
-			DrawText3D(2343.850586, 4756.087891, 34.806641, _U("press_collect"), 0.4)
+			DrawText3D(2343.850586, 4756.087891, 34.806641, TranslateCap("press_collect"), 0.4)
 			if ESX.GetPlayerData().job.name then
 				if GetDistanceBetweenCoords(coords, 2343.850586, 4756.087891, 34.806641, true) < 5.0 then
 					if IsControlJustReleased(0, Keys["E"]) then
@@ -168,7 +168,7 @@ CreateThread(function()
 		Wait(0)
 		local coords = GetEntityCoords(PlayerPedId())
 		if GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 10.0 then
-			DrawText3D(2607.942871, 4399.490234, 40.973633, _U("press_collect"), 0.4)
+			DrawText3D(2607.942871, 4399.490234, 40.973633, TranslateCap("press_collect"), 0.4)
 			if ESX.GetPlayerData().job.name then
 				if GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 5.0 then
 					if IsControlJustReleased(0, Keys["E"]) then
@@ -206,7 +206,7 @@ end)
 --potato
 function collectionpotato()
 	TriggerServerEvent("farmer:collectionpotato")
-	exports["esx_notify"]:Notify("info", 3000, _U("collection_progress"))
+	exports["esx_notify"]:Notify("info", 3000, TranslateCap("collection_progress"))
 	incollect = true
 	Wait(6000)
 	incollect = false
@@ -215,7 +215,7 @@ end
 -- cotton
 function collectioncotton()
 	TriggerServerEvent("farmer:collectioncotton")
-	exports["esx_notify"]:Notify("info", 3000, _U("collection_progress"))
+	exports["esx_notify"]:Notify("info", 3000, TranslateCap("collection_progress"))
 	incollect = true
 	Wait(6000)
 	incollect = false
@@ -224,7 +224,7 @@ end
 -- apple
 function collectionapple()
 	TriggerServerEvent("farmer:collectionapple")
-	exports["esx_notify"]:Notify("info", 3000, _U("collection_progress"))
+	exports["esx_notify"]:Notify("info", 3000, TranslateCap("collection_progress"))
 	incollect = true
 	Wait(6000)
 	incollect = false
@@ -233,7 +233,7 @@ end
 -- grain
 function collectiongrain()
 	TriggerServerEvent("farmer:collectiongrain")
-	exports["esx_notify"]:Notify("info", 3000, _U("collection_progress"))
+	exports["esx_notify"]:Notify("info", 3000, TranslateCap("collection_progress"))
 	incollect = true
 	Wait(6000)
 	incollect = false

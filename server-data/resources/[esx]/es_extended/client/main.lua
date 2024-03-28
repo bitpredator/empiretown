@@ -379,6 +379,7 @@ if not Config.OxInventory then
             local component = ESX.GetWeaponComponent(name, v)
             GiveWeaponComponentToWeaponObject(pickupObject, component.hash)
         end
+
         setObjectProperties(pickupObject)
     end)
 

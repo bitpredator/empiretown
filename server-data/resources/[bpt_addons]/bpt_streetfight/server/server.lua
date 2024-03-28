@@ -24,7 +24,7 @@ AddEventHandler("bpt_streetfight:join", function(betAmount, side)
 	local balance = xPlayer.getAccount("money").money
 	if (balance > betAmount) or betAmount == 0 then
 		xPlayer.removeAccountMoney("money", betAmount)
-		TriggerClientEvent("esx:showNotification", source, _U("successfully_signed"))
+		TriggerClientEvent("esx:showNotification", source, TranslateCap("successfully_signed"))
 		if side == 0 then
 			TriggerClientEvent("bpt_streetfight:playerJoined", -1, 1, source)
 		else
@@ -35,7 +35,7 @@ AddEventHandler("bpt_streetfight:join", function(betAmount, side)
 			TriggerClientEvent("bpt_streetfight:startFight", -1, fight)
 		end
 	else
-		TriggerClientEvent("esx:showNotification", source, _U("not_money"))
+		TriggerClientEvent("esx:showNotification", source, TranslateCap("not_money"))
 	end
 end)
 
