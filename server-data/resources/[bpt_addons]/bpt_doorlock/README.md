@@ -13,7 +13,6 @@ You are not authorized to sell this software (this is free project).
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
-
 Port management resource, currently only compatible with es_extended & qb-core.
 [latest release](https://github.com/bitpredator/bpt_doorlock/releases/latest/download/bpt_doorlock.zip)
 
