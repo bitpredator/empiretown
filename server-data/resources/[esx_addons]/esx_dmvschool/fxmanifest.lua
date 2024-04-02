@@ -2,9 +2,10 @@ fx_version 'adamant'
 
 game 'gta5'
 
-description 'ESX DMV School'
+description "A DMV School for players to get their drivers license"
 
-version '1.0.0'
+version '1.0'
+legacyversion '1.9.1'
 
 lua54 'yes'
 
