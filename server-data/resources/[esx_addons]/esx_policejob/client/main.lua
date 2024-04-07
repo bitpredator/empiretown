@@ -55,7 +55,7 @@ function OpenCloakroomMenu()
 			}
 		end
 
-		for k, v in ipairs(Config.CustomPeds[grade]) do
+		for _, v in ipairs(Config.CustomPeds[grade]) do
 			elements[#elements + 1] = {
 				icon = "fas fa-shirt",
 				title = v.label,
@@ -693,7 +693,7 @@ function OpenUnpaidBillsMenu(player)
 	}
 
 	ESX.TriggerServerCallback("esx_billing:getTargetBills", function(bills)
-		for k, bill in ipairs(bills) do
+		for _, bill in ipairs(bills) do
 			elements[#elements + 1] = {
 				unselectable = true,
 				icon = "fas fa-scroll",
@@ -788,8 +788,8 @@ function OpenBuyWeaponsMenu()
 	}
 	local playerPed = PlayerPedId()
 
-	for k, v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
-		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
+	for _, v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
+		local _, weapon = ESX.GetWeapon(v.weapon)
 		local components, label = {}
 		local hasWeapon = HasPedGotWeapon(playerPed, joaat(v.weapon), false)
 
@@ -1092,8 +1092,7 @@ AddEventHandler("esx_policejob:hasEnteredEntityZone", function(entity)
 	end
 
 	if GetEntityModel(entity) == `p_ld_stinger_s` then
-		local playerPed = PlayerPedId()
-		local coords = GetEntityCoords(playerPed)
+		local _ = GetEntityCoords(playerPed)
 
 		if IsPedInAnyVehicle(playerPed, false) then
 			local vehicle = GetVehiclePedIsIn(playerPed)
@@ -1327,7 +1326,7 @@ end)
 
 -- Create blips
 CreateThread(function()
-	for k, v in pairs(Config.PoliceStations) do
+	for _, v in pairs(Config.PoliceStations) do
 		local blip = AddBlipForCoord(v.Blip.Coords)
 
 		SetBlipSprite(blip, v.Blip.Sprite)
@@ -1625,9 +1624,6 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) " .. TranslateCap("interac
 		return
 	end
 
-	if not ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == "police") then
-		return
-	end
 	if CurrentAction == "menu_cloakroom" then
 		OpenCloakroomMenu()
 	elseif CurrentAction == "menu_armory" then
@@ -1677,6 +1673,10 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) " .. TranslateCap("interac
 		end, { wash = false }) -- disable washing money
 	elseif CurrentAction == "remove_entity" then
 		DeleteEntity(CurrentActionData.entity)
+	end
+
+	if not ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == "police") then
+		return
 	end
 
 	CurrentAction = nil
@@ -1735,7 +1735,7 @@ end
 RegisterNetEvent("esx_policejob:updateBlip")
 AddEventHandler("esx_policejob:updateBlip", function()
 	-- Refresh all blips
-	for k, existingBlip in pairs(blipsCops) do
+	for _, existingBlip in pairs(blipsCops) do
 		RemoveBlip(existingBlip)
 	end
 
