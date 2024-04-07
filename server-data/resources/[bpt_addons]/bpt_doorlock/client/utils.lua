@@ -1,3 +1,4 @@
+local doors, source, NuiHasLoaded = {}, {}, {}
 local Entity = Entity
 
 local function getDoorFromEntity(data)
