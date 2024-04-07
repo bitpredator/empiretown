@@ -4,7 +4,7 @@ game("gta5")
 name("LItemBasic")
 description("fivem resource")
 author("LQuatre")
-version("1.0.0")
+version("1.0.1")
 lua54("yes")
 
 shared_scripts({
