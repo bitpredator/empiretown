@@ -1,3 +1,5 @@
+local closestDistance, closestPlayer = {}, {}
+
 ESX = exports["es_extended"]:getSharedObject()
 
 RegisterNetEvent("IDCARD:USE")
@@ -50,7 +52,7 @@ AddEventHandler("JOBCARD:USE", function(user)
     local name2 = userData.lastname
 
     if closestDistance ~= -1 and closestDistance <= 2.0 then
-        ESX.ShowNotification(_U("you_have_licensed"):format(GetPlayerName(closestPlayer)))
+        ESX.ShowNotification(TranslateCap("you_have_licensed"):format(GetPlayerName(closestPlayer)))
         for job, info in pairs(_LConfig.jobs) do
             if ESX.PlayerData.job.name == job then
                 local msg = info.message
