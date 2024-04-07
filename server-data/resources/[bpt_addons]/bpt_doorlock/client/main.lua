@@ -117,7 +117,7 @@ lib.callback('bpt_doorlock:getDoors', false, function(data)
 	end
 end)
 
-RegisterNetEvent('bpt_doorlock:setState', function(id, state, source, data)
+RegisterNetEvent('bpt_doorlock:setState', function(id, state, _, data)
 	if not doors then return end
 
 	if data then
