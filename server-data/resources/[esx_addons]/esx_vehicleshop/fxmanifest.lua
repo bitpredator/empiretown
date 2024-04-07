@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 description 'ESX Vehicle Shop'
-version '1.0.0'
+version '1.0.1'
 
 shared_script '@es_extended/imports.lua'
 
