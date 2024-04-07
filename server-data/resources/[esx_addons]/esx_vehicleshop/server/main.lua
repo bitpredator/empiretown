@@ -62,7 +62,7 @@ local function getRentedVehicles()
 end
 
 CreateThread(function()
-	TriggerEvent('esx_society:registerSociety', 'cardealer', _U('car_dealer'), 'society_cardealer', 'society_cardealer', 'society_cardealer', {type = 'private'})
+	TriggerEvent('esx_society:registerSociety', 'cardealer', TranslateCap('car_dealer'), 'society_cardealer', 'society_cardealer', 'society_cardealer', {type = 'private'})
 
 	getCategories()
 	getVehicles()
@@ -109,8 +109,8 @@ AddEventHandler('esx_vehicleshop:setVehicleOwnedPlayerId', function(playerId, ve
 	end
 
 	MySQL.insert('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (?, ?, ?)', {xTarget.identifier, vehicleProps.plate, json.encode(vehicleProps)}, function()
-		xPlayer.showNotification(_U('vehicle_set_owned', vehicleProps.plate, xTarget.getName()))
-		xTarget.showNotification(_U('vehicle_belongs', vehicleProps.plate))
+		xPlayer.showNotification(TranslateCap('vehicle_set_owned', vehicleProps.plate, xTarget.getName()))
+		xTarget.showNotification(TranslateCap('vehicle_belongs', vehicleProps.plate))
 	end)
 
 	local sqlIns = MySQL.insert.await('INSERT INTO vehicle_sold (client, model, plate, soldby, date) VALUES (?, ?, ?, ?, ?)', {xTarget.getName(), label, vehicleProps.plate, xPlayer.getName(), os.date('%Y-%m-%d %H:%M')})
@@ -147,7 +147,7 @@ AddEventHandler('esx_vehicleshop:rentVehicle', function(vehicle, plate, rentPric
 
 	MySQL.insert('INSERT INTO rented_vehicles (vehicle, plate, player_name, base_price, rent_price, owner) VALUES (?, ?, ?, ?, ?, ?)', {vehicle, plate, xTarget.getName(), price, rentPrice, xTarget.identifier},
 	function()
-		xPlayer.showNotification(_U('vehicle_set_rented', plate, xTarget.getName()))
+		xPlayer.showNotification(TranslateCap('vehicle_set_rented', plate, xTarget.getName()))
 	end)
 end)
 
@@ -162,13 +162,13 @@ AddEventHandler('esx_vehicleshop:getStockItem', function(itemName, count)
 		if count > 0 and item.count >= count then
 
 			if not xPlayer.canCarryItem(itemName, count) then
-				return xPlayer.showNotification(_U('player_cannot_hold'))
+				return xPlayer.showNotification(TranslateCap('player_cannot_hold'))
 			end
 			inventory.removeItem(itemName, count)
 			xPlayer.addInventoryItem(itemName, count)
-			xPlayer.showNotification(_U('have_withdrawn', count, item.label))
+			xPlayer.showNotification(TranslateCap('have_withdrawn', count, item.label))
 		else
-			xPlayer.showNotification(_U('not_enough_in_society'))
+			xPlayer.showNotification(TranslateCap('not_enough_in_society'))
 		end
 	end)
 end)
@@ -182,13 +182,13 @@ AddEventHandler('esx_vehicleshop:putStockItems', function(itemName, count)
 		local item = inventory.getItem(itemName)
 
 		if item.count < 0 then
-			xPlayer.showNotification(_U('invalid_amount'))
+			xPlayer.showNotification(TranslateCap('invalid_amount'))
 			return
 		end
 
 		xPlayer.removeInventoryItem(itemName, count)
 		inventory.addItem(itemName, count)
-		xPlayer.showNotification(_U('have_deposited', count, item.label))
+		xPlayer.showNotification(TranslateCap('have_deposited', count, item.label))
 	end)
 end)
 
@@ -210,7 +210,7 @@ ESX.RegisterServerCallback('esx_vehicleshop:buyVehicle', function(source, cb, mo
 
 	MySQL.insert('INSERT INTO owned_vehicles (owner, plate, vehicle) VALUES (?, ?, ?)', {xPlayer.identifier, plate, json.encode({model = joaat(model), plate = plate})
 	}, function(rowsChanged)
-		xPlayer.showNotification(_U('vehicle_belongs', plate))
+		xPlayer.showNotification(TranslateCap('vehicle_belongs', plate))
 		ESX.OneSync.SpawnVehicle(joaat(model), Config.Zones.ShopOutside.Pos, Config.Zones.ShopOutside.Heading,{plate = plate}, function(vehicle)
 			Wait(100)
 			local vehicle = NetworkGetEntityFromNetworkId(vehicle)
@@ -281,7 +281,7 @@ AddEventHandler('esx_vehicleshop:returnProvider', function(vehicleModel)
 		local vehicleLabel = getVehicleFromModel(vehicleModel).label
 
 		account.addMoney(vehPrice)
-		xPlayer.showNotification(_U('vehicle_sold_for', vehicleLabel, ESX.Math.GroupDigits(vehPrice)))
+		xPlayer.showNotification(TranslateCap('vehicle_sold_for', vehicleLabel, ESX.Math.GroupDigits(vehPrice)))
 	end)
 end)
 
@@ -434,9 +434,9 @@ local function payRent()
 						if xPlayer.getAccount('bank').money >= rental.rent_price then
 							total = total + rental.rent_price
 							xPlayer.removeAccountMoney('bank', rental.rent_price, "Vehicle Rental")
-							xPlayer.showNotification(_U('paid_rental', ESX.Math.GroupDigits(rental.rent_price), rental.plate))
+							xPlayer.showNotification(TranslateCap('paid_rental', ESX.Math.GroupDigits(rental.rent_price), rental.plate))
 						else
-							xPlayer.showNotification(_U('paid_rental_evicted', ESX.Math.GroupDigits(rental.rent_price), rental.plate))
+							xPlayer.showNotification(TranslateCap('paid_rental_evicted', ESX.Math.GroupDigits(rental.rent_price), rental.plate))
 							unrentals[#unrentals + 1] = {rental.owner, rental.plate}
 						end
 					end
