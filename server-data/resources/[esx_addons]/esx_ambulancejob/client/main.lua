@@ -60,7 +60,7 @@ CreateThread(function()
 		SetBlipAsShortRange(blip, true)
 
 		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentSubstringPlayerName(_U("blip_hospital"))
+		AddTextComponentSubstringPlayerName(TranslateCap("blip_hospital"))
 		EndTextCommandSetBlipName(blip)
 	end
 end)
@@ -161,7 +161,7 @@ AddEventHandler("esx_ambulancejob:useItem", function(itemName)
 			end
 
 			TriggerEvent("esx_ambulancejob:heal", "big", true)
-			ESX.ShowNotification(_U("used_medikit"))
+			ESX.ShowNotification(TranslateCap("used_medikit"))
 		end)
 	elseif itemName == "bandage" then
 		local lib, anim = "anim@heists@narcotics@funding@gang_idle", "gang_chatting_idle01" -- TODO better animations
@@ -177,7 +177,7 @@ AddEventHandler("esx_ambulancejob:useItem", function(itemName)
 			end
 
 			TriggerEvent("esx_ambulancejob:heal", "small", true)
-			ESX.ShowNotification(_U("used_bandage"))
+			ESX.ShowNotification(TranslateCap("used_bandage"))
 		end)
 	end
 end)
@@ -197,7 +197,7 @@ function StartDistressSignal()
 			SetTextDropShadow()
 			SetTextOutline()
 			BeginTextCommandDisplayText("STRING")
-			AddTextComponentSubstringPlayerName(_U("distress_send"))
+			AddTextComponentSubstringPlayerName(TranslateCap("distress_send"))
 			EndTextCommandDisplayText(0.175, 0.805)
 
 			if IsControlJustReleased(0, 47) then
@@ -212,7 +212,7 @@ function SendDistressSignal()
 	local playerPed = PlayerPedId()
 	local coords = GetEntityCoords(playerPed)
 
-	ESX.ShowNotification(_U("distress_sent"))
+	ESX.ShowNotification(TranslateCap("distress_sent"))
 	TriggerServerEvent("esx_ambulancejob:onPlayerDistress")
 end
 
@@ -278,7 +278,7 @@ function StartDeathTimer()
 		-- early respawn timer
 		while earlySpawnTimer > 0 and isDead do
 			Wait(0)
-			text = _U("respawn_available_in", secondsToClock(earlySpawnTimer))
+			text = TranslateCap("respawn_available_in", secondsToClock(earlySpawnTimer))
 
 			DrawGenericTextThisFrame()
 
@@ -290,17 +290,17 @@ function StartDeathTimer()
 		-- bleedout timer
 		while bleedoutTimer > 0 and isDead do
 			Wait(0)
-			text = _U("respawn_bleedout_in", secondsToClock(bleedoutTimer))
+			text = TranslateCap("respawn_bleedout_in", secondsToClock(bleedoutTimer))
 
 			if not Config.EarlyRespawnFine then
-				text = text .. _U("respawn_bleedout_prompt")
+				text = text .. TranslateCap("respawn_bleedout_prompt")
 
 				if IsControlPressed(0, 38) and timeHeld > 60 then
 					RemoveItemsAfterRPDeath()
 					break
 				end
 			elseif Config.EarlyRespawnFine and canPayFine then
-				text = text .. _U("respawn_bleedout_fine", ESX.Math.GroupDigits(Config.EarlyRespawnFineAmount))
+				text = text .. TranslateCap("respawn_bleedout_fine", ESX.Math.GroupDigits(Config.EarlyRespawnFineAmount))
 
 				if IsControlPressed(0, 38) and timeHeld > 60 then
 					TriggerServerEvent("esx_ambulancejob:payFine")
