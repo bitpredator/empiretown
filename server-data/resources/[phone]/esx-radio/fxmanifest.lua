@@ -2,7 +2,7 @@ fx_version("cerulean")
 game("gta5")
 
 description("Cool Radio for ESX, Coverted By Mycroft & Benzo")
-version("1.0.0")
+version("1.0.1")
 lua54("yes")
 
 shared_scripts({
