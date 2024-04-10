@@ -23,10 +23,6 @@ Locales["es"] = {
 	["gave_ammo"] = "Distes x %s munición a %s",
 	["no_ammo"] = "No tienes munición",
 	["not_enough_ammo"] = "No tienes suficiente munición",
-	["accessories_no_ears"] = "No tienes un accesorio de oreja",
-	["accessories_no_glasses"] = "No tienes gafas",
-	["accessories_no_helmet"] = "No tienes casco / gorra / gorro",
-	["accessories_no_mask"] = "No tienes una máscara",
 	["admin_noclipon"] = "NoClip ~g~ habilitado",
 	["admin_noclipoff"] = "NoClip ~r~ deshabilitado",
 	["admin_godmodeon"] = "Invencible ~g~ habilitado",
@@ -49,21 +45,6 @@ Locales["es"] = {
 	["voice_whisper"] = "Susurrar",
 	["voice_normal"] = "Normal",
 	["voice_cry"] = "Gritar",
-
-	-- Clothes Menu
-	["clothes_title"] = "Ropa",
-	["clothes_torso"] = "Torso",
-	["clothes_pants"] = "Pantalones",
-	["clothes_shoes"] = "Zapatos",
-	["clothes_bag"] = "Bolso/a",
-	["clothes_bproof"] = "Chaleco Anti-Balas",
-
-	-- Accessories Menu
-	["accessories_title"] = "Accesorios",
-	["accessories_ears"] = "Accesorios de oreja",
-	["accessories_glasses"] = "Gafas",
-	["accessories_helmet"] = "Gorra / Casco",
-	["accessories_mask"] = "Máscara",
 
 	-- Animation Menu
 	["animation_title"] = "Animaciones",

@@ -23,10 +23,6 @@ Locales["de"] = {
 	["gave_ammo"] = "Du hast x %s Munition an %s gegeben",
 	["no_ammo"] = "Du hast keine Munition",
 	["not_enough_ammo"] = "Du hast nicht so viel Munition",
-	["accessories_no_ears"] = "Du hast kein Ohr Zubehör",
-	["accessories_no_glasses"] = "Du hast keine Brille",
-	["accessories_no_helmet"] = "Du hast keinen Helm/Hut",
-	["accessories_no_mask"] = "Du hast keine Maske",
 	["admin_noclipon"] = "NoClip ~g~ aktiviert",
 	["admin_noclipoff"] = "NoClip ~r~ deaktiviert",
 	["admin_godmodeon"] = "Invincible ~g~ aktiviert",
@@ -49,21 +45,6 @@ Locales["de"] = {
 	["voice_whisper"] = " Flüstern",
 	["voice_normal"] = "Normal",
 	["voice_cry"] = "Schreien",
-
-	-- Clothes Menu
-	["clothes_title"] = "Kleidungsmenü",
-	["clothes_torso"] = "Oberteil",
-	["clothes_pants"] = "Hose",
-	["clothes_shoes"] = "Schuhe",
-	["clothes_bag"] = "Rucksack",
-	["clothes_bproof"] = "Schusssichere Weste",
-
-	-- Accessories Menu
-	["accessories_title"] = "Zubehör",
-	["accessories_ears"] = "Ohren Zubehör",
-	["accessories_glasses"] = "Brille",
-	["accessories_helmet"] = "Hut / Helm",
-	["accessories_mask"] = "Maske",
 
 	-- Animation Menu
 	["animation_title"] = "Animationen",

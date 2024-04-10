@@ -23,10 +23,6 @@ Locales["fr"] = {
 	["gave_ammo"] = "Vous avez donné x%s munitions à %s",
 	["no_ammo"] = "Vous ne possédez pas de munitions",
 	["not_enough_ammo"] = "Vous ne possédez pas autant de munitions",
-	["accessories_no_ears"] = "Vous ne possédez pas d'accessoire d'oreilles",
-	["accessories_no_glasses"] = "Vous ne possédez pas de lunettes",
-	["accessories_no_helmet"] = "Vous ne possédez pas de casque / chapeau",
-	["accessories_no_mask"] = "Vous ne possédez pas de masque",
 	["admin_noclipon"] = "NoClip ~g~activé",
 	["admin_noclipoff"] = "NoClip ~r~désactivé",
 	["admin_godmodeon"] = "Mode invincible ~g~activé",
@@ -50,24 +46,8 @@ Locales["fr"] = {
 	["voice_normal"] = "Normal",
 	["voice_cry"] = "Crier",
 
-	-- Clothes Menu
-	["clothes_title"] = "Vêtements",
-	["clothes_torso"] = "Haut",
-	["clothes_pants"] = "Bas",
-	["clothes_shoes"] = "Chaussures",
-	["clothes_bag"] = "Sac",
-	["clothes_bproof"] = "Gilet par Balle",
-
-	-- Accessories Menu
-	["accessories_title"] = "Accessoires",
-	["accessories_ears"] = "Accessoire d'Oreilles",
-	["accessories_glasses"] = "Lunettes",
-	["accessories_helmet"] = "Chapeau/Casque",
-	["accessories_mask"] = "Masque",
-
 	-- Animation Menu
 	["animation_title"] = "Animations",
-
 	["animation_party_title"] = "Festives",
 	["animation_party_smoke"] = "Fumer une cigarette",
 	["animation_party_playsong"] = "Jouer de la musique",
