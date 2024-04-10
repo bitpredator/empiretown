@@ -23,10 +23,6 @@ Locales["br"] = {
 	["gave_ammo"] = "Você deu x%s munições para %s",
 	["no_ammo"] = "Você não tem munição",
 	["not_enough_ammo"] = "Você não tem tantas munições",
-	["accessories_no_ears"] = "Vous ne possédez pas d'Accessoire d'Oreilles",
-	["accessories_no_glasses"] = "Você não tem um óculos",
-	["accessories_no_helmet"] = "Você não tem um capacete / chapéu",
-	["accessories_no_mask"] = "Você não tem uma máscara",
 	["admin_noclipon"] = "NoClip ~g~ativado",
 	["admin_noclipoff"] = "NoClip ~r~desativado",
 	["admin_godmodeon"] = "Godmod ~g~ativado",
@@ -49,21 +45,6 @@ Locales["br"] = {
 	["voice_whisper"] = "Sussurar",
 	["voice_normal"] = "Normal",
 	["voice_cry"] = "Gritar",
-
-	-- Clothes Menu
-	["clothes_title"] = "Vestuário",
-	["clothes_torso"] = "Peito",
-	["clothes_pants"] = "Pernas",
-	["clothes_shoes"] = "Sapatos",
-	["clothes_bag"] = "Sac",
-	["clothes_bproof"] = "Colete",
-
-	-- Accessories Menu
-	["accessories_title"] = "Acessórios",
-	["accessories_ears"] = "Accessórios para as Orelhas",
-	["accessories_glasses"] = "Óculos",
-	["accessories_helmet"] = "Chapeú / Capacete",
-	["accessories_mask"] = "Mascará",
 
 	-- Animation Menu
 	["animation_title"] = "Animações",

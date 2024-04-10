@@ -8,7 +8,6 @@ RageUI.BadgeStyle = {
 	Ammo = 7,
 	Armour = 8,
 	Barber = 9,
-	Clothes = 10,
 	Franklin = 11,
 	Bike = 12,
 	Car = 13,

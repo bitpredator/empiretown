@@ -2,8 +2,6 @@ local PersonalMenu = {
 	ItemSelected = {},
 	ItemIndex = {},
 	BillData = {},
-	ClothesButtons = { "torso", "pants", "shoes", "bag", "bproof" },
-	AccessoriesButtons = { "ears", "glasses", "helmet", "mask" },
 	DoorState = {
 		FrontLeft = false,
 		FrontRight = false,
@@ -102,8 +100,6 @@ local function getPersonalMenuCategory(id)
 	return personalMenuCategoriesById[id]
 end
 
-local clothesCategory = addPersonalMenuCategory("clothes", TranslateCap("clothes_title"))
-addPersonalMenuCategory("accessories", TranslateCap("accessories_title"))
 local animationCategory = addPersonalMenuCategory("animation", TranslateCap("animation_title"))
 
 addPersonalMenuCategory("vehicle", TranslateCap("vehicle_title"), function()
@@ -221,123 +217,6 @@ function startAnimAction(animDict, animName)
 	RemoveAnimDict(animDict)
 end
 
-function setClothes(clotheId)
-	TriggerServerCallback("esx_skin:getPlayerSkin", function(skin)
-		TriggerEvent("skinchanger:getSkin", function(currentSkin)
-			local clothes = nil
-
-			if clotheId == "torso" then
-				startAnimAction("clothingtie", "try_tie_neutral_a")
-				Wait(1000)
-				PlayerVars.handsup, PlayerVars.pointing = false, false
-				ClearPedTasks(plyPed)
-
-				if skin.torso_1 ~= currentSkin.torso_1 then
-					clothes = {
-						["torso_1"] = skin.torso_1,
-						["torso_2"] = skin.torso_2,
-						["tshirt_1"] = skin.tshirt_1,
-						["tshirt_2"] = skin.tshirt_2,
-						["arms"] = skin.arms,
-					}
-				else
-					clothes = { ["torso_1"] = 15, ["torso_2"] = 0, ["tshirt_1"] = 15, ["tshirt_2"] = 0, ["arms"] = 15 }
-				end
-			elseif clotheId == "pants" then
-				if skin.pants_1 ~= currentSkin.pants_1 then
-					clothes = { ["pants_1"] = skin.pants_1, ["pants_2"] = skin.pants_2 }
-				else
-					if skin.sex == 0 then
-						clothes = { ["pants_1"] = 61, ["pants_2"] = 1 }
-					else
-						clothes = { ["pants_1"] = 15, ["pants_2"] = 0 }
-					end
-				end
-			elseif clotheId == "shoes" then
-				if skin.shoes_1 ~= currentSkin.shoes_1 then
-					clothes = { ["shoes_1"] = skin.shoes_1, ["shoes_2"] = skin.shoes_2 }
-				else
-					if skin.sex == 0 then
-						clothes = { ["shoes_1"] = 34, ["shoes_2"] = 0 }
-					else
-						clothes = { ["shoes_1"] = 35, ["shoes_2"] = 0 }
-					end
-				end
-			elseif clotheId == "bag" then
-				if skin.bags_1 ~= currentSkin.bags_1 then
-					clothes = { ["bags_1"] = skin.bags_1, ["bags_2"] = skin.bags_2 }
-				else
-					clothes = { ["bags_1"] = 0, ["bags_2"] = 0 }
-				end
-			elseif clotheId == "bproof" then
-				startAnimAction("clothingtie", "try_tie_neutral_a")
-				Wait(1000)
-				PlayerVars.handsup, PlayerVars.pointing = false, false
-				ClearPedTasks(plyPed)
-
-				if skin.bproof_1 ~= currentSkin.bproof_1 then
-					clothes = { ["bproof_1"] = skin.bproof_1, ["bproof_2"] = skin.bproof_2 }
-				else
-					clothes = { ["bproof_1"] = 0, ["bproof_2"] = 0 }
-				end
-			end
-
-			TriggerEvent("skinchanger:loadClothes", currentSkin, clothes)
-		end)
-	end)
-end
-
-function setAccessory(accessoryId)
-	TriggerServerCallback("esx_accessories:get", function(hasAccessory, accessorySkin)
-		if not hasAccessory then
-			local localeKey = ("accessories_no_%s"):format(accessoryId)
-			GameNotification(TranslateCap(localeKey))
-			return
-		end
-
-		TriggerEvent("skinchanger:getSkin", function(currentSkin)
-			local propIdx = -1
-			local propTex = 0
-
-			if accessoryId == "ears" then
-				startAnimAction("mini@ears_defenders", "takeoff_earsdefenders_idle")
-				Wait(250)
-				PlayerVars.handsup, PlayerVars.pointing = false, false
-				ClearPedTasks(plyPed)
-			elseif accessoryId == "glasses" then
-				startAnimAction("clothingspecs", "try_glasses_positive_a")
-				Wait(1000)
-				PlayerVars.handsup, PlayerVars.pointing = false, false
-				ClearPedTasks(plyPed)
-			elseif accessoryId == "helmet" then
-				startAnimAction("missfbi4", "takeoff_mask")
-				Wait(1000)
-				PlayerVars.handsup, PlayerVars.pointing = false, false
-				ClearPedTasks(plyPed)
-			elseif accessoryId == "mask" then
-				propIdx = 0
-				startAnimAction("missfbi4", "takeoff_mask")
-				Wait(850)
-				PlayerVars.handsup, PlayerVars.pointing = false, false
-				ClearPedTasks(plyPed)
-			end
-
-			local accessoryIdxKey = ("%s_1"):format(accessoryId)
-			local accessoryTexKey = ("%s_2"):format(accessoryId)
-
-			if currentSkin[accessoryIdxKey] == 0 then
-				propIdx = accessorySkin[accessoryIdxKey]
-				propTex = accessorySkin[accessoryTexKey]
-			end
-
-			TriggerEvent("skinchanger:loadClothes", currentSkin, {
-				[accessoryIdxKey] = propIdx,
-				[accessoryTexKey] = propTex,
-			})
-		end)
-	end, firstToUpper(accessoryId))
-end
-
 function CheckQuantity(number)
 	number = tonumber(number)
 	if type(number) ~= "number" then
@@ -393,44 +272,6 @@ function DrawPersonalMenu()
 			end
 		)
 	end)
-end
-
-getPersonalMenuCategory("clothes").drawer = function()
-	for i = 1, #PersonalMenu.ClothesButtons do
-		local clotheId = PersonalMenu.ClothesButtons[i]
-
-		RageUI.Button(
-			TranslateCap(("clothes_%s"):format(clotheId)),
-			nil,
-			{ RightBadge = RageUI.BadgeStyle.Clothes },
-			true,
-			function(Hovered, Active, Selected)
-				if not Selected then
-					return
-				end
-				setClothes(clotheId)
-			end
-		)
-	end
-end
-
-getPersonalMenuCategory("accessories").drawer = function()
-	for i = 1, #PersonalMenu.AccessoriesButtons do
-		local accessoryId = PersonalMenu.AccessoriesButtons[i]
-
-		RageUI.Button(
-			TranslateCap(("accessories_%s"):format(accessoryId)),
-			nil,
-			{ RightBadge = RageUI.BadgeStyle.Clothes },
-			true,
-			function(Hovered, Active, Selected)
-				if not Selected then
-					return
-				end
-				setAccessory(accessoryId)
-			end
-		)
-	end
 end
 
 getPersonalMenuCategory("animation").drawer = function()
