@@ -47,8 +47,6 @@ function StopNPCJob(cancel)
 
 	if cancel then
 		ESX.ShowNotification(TranslateCap('mission_canceled'), "error")
-	else
-		--TriggerServerEvent('esx_mechanicjob:onNPCJobCompleted')
 	end
 end
 
@@ -65,7 +63,7 @@ function OpenMechanicActionsMenu()
 	if Config.EnablePlayerManagement and ESX.PlayerData.job and ESX.PlayerData.job.grade_name == 'boss' then
 		elements[#elements+1] = {
 			icon = 'fas fa-boss',
-			title = TranslateCap('boss_actions'), 
+			title = TranslateCap('boss_actions'),
 			value = 'boss_actions'
 		}
 	end
@@ -109,7 +107,7 @@ function OpenMechanicActionsMenu()
 				if Config.EnablePlayerManagement and ESX.PlayerData.job and (ESX.PlayerData.job.grade_name == 'boss' or ESX.PlayerData.job.grade_name == 'chief' or ESX.PlayerData.job.grade_name == 'experimente') then
 					elements2[#elements2+1] = {
 						icon = 'fas fa-truck',
-						title = 'Slamvan', 
+						title = 'Slamvan',
 						value = 'slamvan3'
 					}
 				end
