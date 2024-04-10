@@ -1,8 +1,8 @@
 local variations = {
-	jackets = {male = {}, female = {}},
-	hair = {male = {}, female = {}},
-	bags = {male = {}, female = {}},
-	visor = {male = {}, female = {}},
+	jackets = { male = {}, female = {} },
+	hair = { male = {}, female = {} },
+	bags = { male = {}, female = {} },
+	visor = { male = {}, female = {} },
 	gloves = {
 		male = {
 			[16] = 4,
@@ -396,8 +396,8 @@ local variations = {
 			[237] = 229,
 			[238] = 229,
 			[239] = 229,
-		}
-	}
+		},
+	},
 }
 
 local function addNewVariation(which, gender, one, two, single)
@@ -653,44 +653,44 @@ local drawables = {
 	["Top"] = {
 		Drawable = 11,
 		Table = variations.jackets,
-		Emote = {Dict = "missmic4", Anim = "michael_tux_fidget", Move = 51, Dur = 1500}
+		Emote = { Dict = "missmic4", Anim = "michael_tux_fidget", Move = 51, Dur = 1500 },
 	},
 	["gloves"] = {
 		Drawable = 3,
 		Table = variations.gloves,
 		Remember = true,
-		Emote = {Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200}
+		Emote = { Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200 },
 	},
 	["Shoes"] = {
 		Drawable = 6,
-		Table = {Standalone = true, male = 34, female = 35},
-		Emote = {Dict = "random@domestic", Anim = "pickup_low", Move = 0, Dur = 1200}
+		Table = { Standalone = true, male = 34, female = 35 },
+		Emote = { Dict = "random@domestic", Anim = "pickup_low", Move = 0, Dur = 1200 },
 	},
 	["Neck"] = {
 		Drawable = 7,
-		Table = {Standalone = true, male = 0, female = 0 },
-		Emote = {Dict = "clothingtie", Anim = "try_tie_positive_a", Move = 51, Dur = 2100}
+		Table = { Standalone = true, male = 0, female = 0 },
+		Emote = { Dict = "clothingtie", Anim = "try_tie_positive_a", Move = 51, Dur = 2100 },
 	},
 	["Vest"] = {
 		Drawable = 9,
-		Table = {Standalone = true, male = 0, female = 0 },
-		Emote = {Dict = "clothingtie", Anim = "try_tie_negative_a", Move = 51, Dur = 1200}
+		Table = { Standalone = true, male = 0, female = 0 },
+		Emote = { Dict = "clothingtie", Anim = "try_tie_negative_a", Move = 51, Dur = 1200 },
 	},
 	["Bag"] = {
 		Drawable = 5,
 		Table = variations.bags,
-		Emote = {Dict = "anim@heists@ornate_bank@grab_cash", Anim = "intro", Move = 51, Dur = 1600}
+		Emote = { Dict = "anim@heists@ornate_bank@grab_cash", Anim = "intro", Move = 51, Dur = 1600 },
 	},
 	["Mask"] = {
 		Drawable = 1,
-		Table = {Standalone = true, male = 0, female = 0 },
-		Emote = {Dict = "mp_masks@standard_car@ds@", Anim = "put_on_mask", Move = 51, Dur = 800}
+		Table = { Standalone = true, male = 0, female = 0 },
+		Emote = { Dict = "mp_masks@standard_car@ds@", Anim = "put_on_mask", Move = 51, Dur = 800 },
 	},
 	["hair"] = {
 		Drawable = 2,
 		Table = variations.hair,
 		Remember = true,
-		Emote = {Dict = "clothingtie", Anim = "check_out_a", Move = 51, Dur = 2000}
+		Emote = { Dict = "clothingtie", Anim = "check_out_a", Move = 51, Dur = 2000 },
 	},
 }
 
@@ -698,24 +698,26 @@ local Extras = {
 	["Shirt"] = {
 		Drawable = 11,
 		Table = {
-			Standalone = true, male = 252, female = 74,
+			Standalone = true,
+			male = 252,
+			female = 74,
 			Extra = {
-				{Drawable = 8, Id = 15, Tex = 0, Name = "Extra Undershirt"},
-				{Drawable = 3, Id = 15, Tex = 0, Name = "Extra Gloves"},
-				{Drawable = 10, Id = 0, Tex = 0, Name = "Extra Decals"},
-				}
+				{ Drawable = 8, Id = 15, Tex = 0, Name = "Extra Undershirt" },
+				{ Drawable = 3, Id = 15, Tex = 0, Name = "Extra Gloves" },
+				{ Drawable = 10, Id = 0, Tex = 0, Name = "Extra Decals" },
 			},
-		Emote = {Dict = "clothingtie", Anim = "try_tie_negative_a", Move = 51, Dur = 1200}
+		},
+		Emote = { Dict = "clothingtie", Anim = "try_tie_negative_a", Move = 51, Dur = 1200 },
 	},
 	["Pants"] = {
 		Drawable = 4,
-		Table = {Standalone = true, male = 61, female = 14},
-		Emote = {Dict = "re@construction", Anim = "out_of_breath", Move = 51, Dur = 1300}
+		Table = { Standalone = true, male = 61, female = 14 },
+		Emote = { Dict = "re@construction", Anim = "out_of_breath", Move = 51, Dur = 1300 },
 	},
 	["Bagoff"] = {
 		Drawable = 5,
-		Table = {Standalone = true, male = 0, female = 0},
-		Emote = {Dict = "clothingtie", Anim = "try_tie_negative_a", Move = 51, Dur = 1200}
+		Table = { Standalone = true, male = 0, female = 0 },
+		Emote = { Dict = "clothingtie", Anim = "try_tie_negative_a", Move = 51, Dur = 1200 },
 	},
 }
 
@@ -724,44 +726,44 @@ local Props = {
 		Prop = 0,
 		Variants = variations.visor,
 		Emote = {
-			On = {Dict = "mp_masks@standard_car@ds@", Anim = "put_on_mask", Move = 51, Dur = 600},
-			Off = {Dict = "missheist_agency2ahelmet", Anim = "take_off_helmet_stand", Move = 51, Dur = 1200}
-		}
+			On = { Dict = "mp_masks@standard_car@ds@", Anim = "put_on_mask", Move = 51, Dur = 600 },
+			Off = { Dict = "missheist_agency2ahelmet", Anim = "take_off_helmet_stand", Move = 51, Dur = 1200 },
+		},
 	},
 	["Hat"] = {
 		Prop = 0,
 		Emote = {
-			On = {Dict = "mp_masks@standard_car@ds@", Anim = "put_on_mask", Move = 51, Dur = 600},
-			Off = {Dict = "missheist_agency2ahelmet", Anim = "take_off_helmet_stand", Move = 51, Dur = 1200}
-		}
+			On = { Dict = "mp_masks@standard_car@ds@", Anim = "put_on_mask", Move = 51, Dur = 600 },
+			Off = { Dict = "missheist_agency2ahelmet", Anim = "take_off_helmet_stand", Move = 51, Dur = 1200 },
+		},
 	},
 	["Glasses"] = {
 		Prop = 1,
 		Emote = {
-			On = {Dict = "clothingspecs", Anim = "take_off", Move = 51, Dur = 1400},
-			Off = {Dict = "clothingspecs", Anim = "take_off", Move = 51, Dur = 1400}
-		}
+			On = { Dict = "clothingspecs", Anim = "take_off", Move = 51, Dur = 1400 },
+			Off = { Dict = "clothingspecs", Anim = "take_off", Move = 51, Dur = 1400 },
+		},
 	},
 	["Ear"] = {
 		Prop = 2,
 		Emote = {
-			On = {Dict = "mp_cp_stolen_tut", Anim = "b_think", Move = 51, Dur = 900},
-			Off = {Dict = "mp_cp_stolen_tut", Anim = "b_think", Move = 51, Dur = 900}
-		}
+			On = { Dict = "mp_cp_stolen_tut", Anim = "b_think", Move = 51, Dur = 900 },
+			Off = { Dict = "mp_cp_stolen_tut", Anim = "b_think", Move = 51, Dur = 900 },
+		},
 	},
 	["Watch"] = {
 		Prop = 6,
 		Emote = {
-			On = {Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200},
-			Off = {Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200}
-		}
+			On = { Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200 },
+			Off = { Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200 },
+		},
 	},
 	["Bracelet"] = {
 		Prop = 7,
 		Emote = {
-			On = {Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200},
-			Off = {Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200}
-		}
+			On = { Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200 },
+			Off = { Dict = "nmt_3_rcm-10", Anim = "cs_nigel_dual-10", Move = 51, Dur = 1200 },
+		},
 	},
 }
 
@@ -770,10 +772,18 @@ Cooldown = false
 
 local function PlayToggleEmote(e, cb)
 	local Ped = PlayerPedId()
-	while not HasAnimDictLoaded(e.Dict) do RequestAnimDict(e.Dict) Wait(100) end
-	if IsPedInAnyVehicle(Ped) then e.Move = 51 end
+	while not HasAnimDictLoaded(e.Dict) do
+		RequestAnimDict(e.Dict)
+		Wait(100)
+	end
+	if IsPedInAnyVehicle(Ped) then
+		e.Move = 51
+	end
 	TaskPlayAnim(Ped, e.Dict, e.Anim, 3.0, 3.0, e.Dur, e.Move, 0, false, false, false)
-	local Pause = e.Dur-500 if Pause < 500 then Pause = 500 end
+	local Pause = e.Dur - 500
+	if Pause < 500 then
+		Pause = 500
+	end
 	IncurCooldown(Pause)
 	Wait(Pause) -- Lets wait for the emote to play for a bit then do the callback.
 	cb()
@@ -785,17 +795,23 @@ function ResetClothing(anim)
 	end
 	local Ped = PlayerPedId()
 	local e = drawables.Top.Emote
-	if anim then TaskPlayAnim(Ped, e.Dict, e.Anim, 3.0, 3.0, 3000, e.Move, 0, false, false, false) end
+	if anim then
+		TaskPlayAnim(Ped, e.Dict, e.Anim, 3.0, 3.0, 3000, e.Move, 0, false, false, false)
+	end
 	for _, v in pairs(LastEquipped) do
 		if v then
-			if v.Drawable then SetPedComponentVariation(Ped, v.Id, v.Drawable, v.Texture, 0)
-			elseif v.Prop then ClearPedProp(Ped, v.Id) SetPedPropIndex(Ped, v.Id, v.Prop, v.Texture, true) end
+			if v.Drawable then
+				SetPedComponentVariation(Ped, v.Id, v.Drawable, v.Texture, 0)
+			elseif v.Prop then
+				ClearPedProp(Ped, v.Id)
+				SetPedPropIndex(Ped, v.Id, v.Prop, v.Texture, true)
+			end
 		end
 	end
 	LastEquipped = {}
 end
 
-RegisterNetEvent('esx-radialmenu:ResetClothing', ResetClothing)
+RegisterNetEvent("esx-radialmenu:ResetClothing", ResetClothing)
 
 function ToggleClothing(whic, extra)
 	local which = whic
@@ -804,11 +820,16 @@ function ToggleClothing(whic, extra)
 	end
 	Wait(50)
 
-    if which == "Shirt" or which == "Pants" or which == "Bagoff" then
-        extra = true
-    end
-	if Cooldown then return end
-	local Toggle = drawables[which] if extra then Toggle = Extras[which] end
+	if which == "Shirt" or which == "Pants" or which == "Bagoff" then
+		extra = true
+	end
+	if Cooldown then
+		return
+	end
+	local Toggle = drawables[which]
+	if extra then
+		Toggle = Extras[which]
+	end
 	local Ped = PlayerPedId()
 	local Cur = { -- Lets check what we are currently wearing.
 		Drawable = GetPedDrawableVariation(Ped, Toggle.Drawable),
@@ -818,27 +839,42 @@ function ToggleClothing(whic, extra)
 	}
 	local Gender = IsMpPed(Ped)
 	if which ~= "Mask" then
-		if not Gender then Notify( _U("wrong_ped")) return false end -- We cancel the command here if the person is not using a multiplayer model.
+		if not Gender then
+			Notify(_U("wrong_ped"))
+			return false
+		end -- We cancel the command here if the person is not using a multiplayer model.
 	end
 	local Table = Toggle.Table[Gender]
 	if not Toggle.Table.Standalone then -- "Standalone" is for things that dont require a variant, like the shoes just need to be switched to a specific drawable. Looking back at this i should have planned ahead, but it all works so, meh!
-		for k,v in pairs(Table) do
+		for k, v in pairs(Table) do
 			if not Toggle.Remember then
 				if k == Cur.Drawable then
-					PlayToggleEmote(Toggle.Emote, function() SetPedComponentVariation(Ped, Toggle.Drawable, v, Cur.Texture, 0) end) return true
+					PlayToggleEmote(Toggle.Emote, function()
+						SetPedComponentVariation(Ped, Toggle.Drawable, v, Cur.Texture, 0)
+					end)
+					return true
 				end
 			else
 				if not LastEquipped[which] then
 					if k == Cur.Drawable then
-						PlayToggleEmote(Toggle.Emote, function() LastEquipped[which] = Cur SetPedComponentVariation(Ped, Toggle.Drawable, v, Cur.Texture, 0) end) return true
+						PlayToggleEmote(Toggle.Emote, function()
+							LastEquipped[which] = Cur
+							SetPedComponentVariation(Ped, Toggle.Drawable, v, Cur.Texture, 0)
+						end)
+						return true
 					end
 				else
 					local Last = LastEquipped[which]
-					PlayToggleEmote(Toggle.Emote, function() SetPedComponentVariation(Ped, Toggle.Drawable, Last.Drawable, Last.Texture, 0) LastEquipped[which] = false end) return true
+					PlayToggleEmote(Toggle.Emote, function()
+						SetPedComponentVariation(Ped, Toggle.Drawable, Last.Drawable, Last.Texture, 0)
+						LastEquipped[which] = false
+					end)
+					return true
 				end
 			end
 		end
-		Notify( _U("no_variants")) return
+		Notify(_U("no_variants"))
+		return
 	else
 		if not LastEquipped[which] then
 			if Cur.Drawable ~= Table then
@@ -848,7 +884,11 @@ function ToggleClothing(whic, extra)
 					if Toggle.Table.Extra then
 						local extraToggled = Toggle.Table.Extra
 						for _, v in pairs(extraToggled) do
-							local ExtraCur = {Drawable = GetPedDrawableVariation(Ped, v.Drawable),  Texture = GetPedTextureVariation(Ped, v.Drawable), Id = v.Drawable}
+							local ExtraCur = {
+								Drawable = GetPedDrawableVariation(Ped, v.Drawable),
+								Texture = GetPedTextureVariation(Ped, v.Drawable),
+								Id = v.Drawable,
+							}
 							SetPedComponentVariation(Ped, v.Drawable, v.Id, v.Tex, 0)
 							LastEquipped[v.Name] = ExtraCur
 						end
@@ -875,10 +915,11 @@ function ToggleClothing(whic, extra)
 			return true
 		end
 	end
-	Notify( _U("already_wearing")) return false
+	Notify(_U("already_wearing"))
+	return false
 end
 
-RegisterNetEvent('esx-radialmenu:ToggleClothing', ToggleClothing)
+RegisterNetEvent("esx-radialmenu:ToggleClothing", ToggleClothing)
 
 function ToggleProps(whic)
 	local which = whic
@@ -887,7 +928,9 @@ function ToggleProps(whic)
 	end
 	Wait(50)
 
-	if Cooldown then return end
+	if Cooldown then
+		return
+	end
 	local Prop = Props[which]
 	local Ped = PlayerPedId()
 	local Cur = { -- Lets get out currently equipped prop.
@@ -898,52 +941,73 @@ function ToggleProps(whic)
 	}
 	if not Prop.Variants then
 		if Cur.Prop ~= -1 then -- If we currently are wearing this prop, remove it and save the one we were wearing into the LastEquipped table.
-			PlayToggleEmote(Prop.Emote.Off, function() LastEquipped[which] = Cur ClearPedProp(Ped, Prop.Prop) end) return true
+			PlayToggleEmote(Prop.Emote.Off, function()
+				LastEquipped[which] = Cur
+				ClearPedProp(Ped, Prop.Prop)
+			end)
+			return true
 		else
 			local Last = LastEquipped[which] -- Detect that we have already taken our prop off, lets put it back on.
 			if Last then
-				PlayToggleEmote(Prop.Emote.On, function() SetPedPropIndex(Ped, Prop.Prop, Last.Prop, Last.Texture, true) end) LastEquipped[which] = false return true
+				PlayToggleEmote(Prop.Emote.On, function()
+					SetPedPropIndex(Ped, Prop.Prop, Last.Prop, Last.Texture, true)
+				end)
+				LastEquipped[which] = false
+				return true
 			end
 		end
-		Notify( _U("nothing_to_remove")) return false
+		Notify(_U("nothing_to_remove"))
+		return false
 	else
 		local Gender = IsMpPed(Ped)
-		if not Gender then Notify( _U("wrong_ped")) return false end -- We dont really allow for variants on ped models, Its possible, but im pretty sure 95% of ped models dont really have variants.
+		if not Gender then
+			Notify(_U("wrong_ped"))
+			return false
+		end -- We dont really allow for variants on ped models, Its possible, but im pretty sure 95% of ped models dont really have variants.
 		variations = Prop.Variants[Gender]
-		for k,v in pairs(variations) do
+		for k, v in pairs(variations) do
 			if Cur.Prop == k then
-				PlayToggleEmote(Prop.Emote.On, function() SetPedPropIndex(Ped, Prop.Prop, v, Cur.Texture, true) end) return true
+				PlayToggleEmote(Prop.Emote.On, function()
+					SetPedPropIndex(Ped, Prop.Prop, v, Cur.Texture, true)
+				end)
+				return true
 			end
 		end
-		Notify( _U("no_variants")) return false
+		Notify(_U("no_variants"))
+		return false
 	end
 end
 
-RegisterNetEvent('esx-radialmenu:ToggleProps', ToggleProps)
+RegisterNetEvent("esx-radialmenu:ToggleProps", ToggleProps)
 
-for k,v in pairs(Config.Commands) do
+for k, v in pairs(Config.Commands) do
 	RegisterCommand(k, v.Func)
 	--log("Created /"..k.." ("..v.Desc..")") -- Useful for  _U checking.
-	TriggerEvent("chat:addSuggestion", "/"..k, v.Desc)
+	TriggerEvent("chat:addSuggestion", "/" .. k, v.Desc)
 end
 
 if Config.ExtrasEnabled then
-	for k,v in pairs(Config.ExtraCommands) do
+	for k, v in pairs(Config.ExtraCommands) do
 		RegisterCommand(k, v.Func)
 		--log("Created /"..k.." ("..v.Desc..")") -- Useful for  _U checking.
-		TriggerEvent("chat:addSuggestion", "/"..k, v.Desc)
+		TriggerEvent("chat:addSuggestion", "/" .. k, v.Desc)
 	end
 end
 
-AddEventHandler('onResourceStop', function(resource) -- Mostly for development, restart the resource and it will put all the clothes back on.
-	if resource == GetCurrentResourceName() then
-		ResetClothing()
+AddEventHandler(
+	"onResourceStop",
+	function(resource) -- Mostly for development, restart the resource and it will put all the clothes back on.
+		if resource == GetCurrentResourceName() then
+			ResetClothing()
+		end
 	end
-end)
+)
 
 function IncurCooldown(ms)
 	CreateThread(function()
-		Cooldown = true Wait(ms) Cooldown = false
+		Cooldown = true
+		Wait(ms)
+		Cooldown = false
 	end)
 end
 
@@ -952,22 +1016,33 @@ function Notify(message, color) -- However you want your notifications to be sho
 end
 
 function IsMpPed(ped)
-	local male = `mp_m_freemode_01` local female = `mp_f_freemode_01`
+	local male = `mp_m_freemode_01`
+	local female = `mp_f_freemode_01`
 	local CurrentModel = GetEntityModel(ped)
-	if CurrentModel == male then return "male" elseif CurrentModel == female then return "female" else return false end
+	if CurrentModel == male then
+		return "male"
+	elseif CurrentModel == female then
+		return "female"
+	else
+		return false
+	end
 end
 
-RegisterNetEvent('dpc:EquipLast', function()
+RegisterNetEvent("dpc:EquipLast", function()
 	local Ped = PlayerPedId()
 	for _, v in pairs(LastEquipped) do
 		if v then
-			if v.Drawable then SetPedComponentVariation(Ped, v.ID, v.Drawable, v.Texture, 0)
-			elseif v.Prop then ClearPedProp(Ped, v.ID) SetPedPropIndex(Ped, v.ID, v.Prop, v.Texture, true) end
+			if v.Drawable then
+				SetPedComponentVariation(Ped, v.ID, v.Drawable, v.Texture, 0)
+			elseif v.Prop then
+				ClearPedProp(Ped, v.ID)
+				SetPedPropIndex(Ped, v.ID, v.Prop, v.Texture, true)
+			end
 		end
 	end
 	LastEquipped = {}
 end)
 
-RegisterNetEvent('dpc:ResetClothing', function()
+RegisterNetEvent("dpc:ResetClothing", function()
 	LastEquipped = {}
 end)
