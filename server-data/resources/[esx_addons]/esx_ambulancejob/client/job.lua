@@ -1,18 +1,18 @@
 local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local HasAlreadyEnteredMarker, LastHospital, LastPart, LastPartNum
-local isBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
+local isBusy, deadPlayers, deadPlayerBlips, isOnDuty, vehicle = false, {}, {}, false, {}
 isInShopMenu = false
 
 function OpenAmbulanceActionsMenu()
 	local elements = {
 		{ unselectable = true, icon = "fas fa-shirt", title = "Ambulance Actions" },
-		{ icon = "fas fa-shirt", title = _U("cloakroom"), value = "cloakroom" },
+		{ icon = "fas fa-shirt", title = TranslateCap("cloakroom"), value = "cloakroom" },
 	}
 
 	if Config.EnablePlayerManagement and ESX.PlayerData.job.grade_name == "boss" then
 		elements[#elements + 1] = {
 			icon = "fas fa-ambulance",
-			title = _U("boss_actions"),
+			title = TranslateCap("boss_actions"),
 			value = "boss_actions",
 		}
 	end
@@ -30,20 +30,20 @@ end
 
 function OpenMobileAmbulanceActionsMenu()
 	local elements = {
-		{ unselectable = true, icon = "fas fa-ambulance", title = _U("ambulance") },
-		{ icon = "fas fa-ambulance", title = _U("ems_menu"), value = "citizen_interaction" },
+		{ unselectable = true, icon = "fas fa-ambulance", title = TranslateCap("ambulance") },
+		{ icon = "fas fa-ambulance", title = TranslateCap("ems_menu"), value = "citizen_interaction" },
 	}
 
 	ESX.OpenContext("right", elements, function(_, element)
 		if element.value == "citizen_interaction" then
 			local elements2 = {
 				{ unselectable = true, icon = "fas fa-ambulance", title = element.title },
-				{ icon = "fas fa-syringe", title = _U("ems_menu_revive"), value = "revive" },
-				{ icon = "fas fa-bandage", title = _U("ems_menu_small"), value = "small" },
-				{ icon = "fas fa-bandage", title = _U("ems_menu_big"), value = "big" },
-				{ icon = "fas fa-car", title = _U("ems_menu_putincar"), value = "put_in_vehicle" },
-				{ icon = "fas fa-syringe", title = _U("ems_menu_search"), value = "search" },
-				{ icon = "fas fa-syringe", title = _U("billing"), value = "billing" },
+				{ icon = "fas fa-syringe", title = TranslateCap("ems_menu_revive"), value = "revive" },
+				{ icon = "fas fa-bandage", title = TranslateCap("ems_menu_small"), value = "small" },
+				{ icon = "fas fa-bandage", title = TranslateCap("ems_menu_big"), value = "big" },
+				{ icon = "fas fa-car", title = TranslateCap("ems_menu_putincar"), value = "put_in_vehicle" },
+				{ icon = "fas fa-syringe", title = TranslateCap("ems_menu_search"), value = "search" },
+				{ icon = "fas fa-syringe", title = TranslateCap("billing"), value = "billing" },
 			}
 
 			ESX.OpenContext("right", elements2, function(_, element2)
@@ -56,7 +56,7 @@ function OpenMobileAmbulanceActionsMenu()
 				if element2.value == "search" then
 					TriggerServerEvent("esx_ambulancejob:svsearch")
 				elseif closestPlayer == -1 or closestDistance > 1.0 then
-					ESX.ShowNotification(_U("no_players"))
+					ESX.ShowNotification(TranslateCap("no_players"))
 				else
 					if element2.value == "revive" then
 						revivePlayer(closestPlayer)
@@ -70,7 +70,7 @@ function OpenMobileAmbulanceActionsMenu()
 									local playerPed = PlayerPedId()
 
 									isBusy = true
-									ESX.ShowNotification(_U("heal_inprogress"))
+									ESX.ShowNotification(TranslateCap("heal_inprogress"))
 									TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true)
 									Wait(10000)
 									ClearPedTasks(playerPed)
@@ -81,13 +81,13 @@ function OpenMobileAmbulanceActionsMenu()
 										GetPlayerServerId(closestPlayer),
 										"small"
 									)
-									ESX.ShowNotification(_U("heal_complete", GetPlayerName(closestPlayer)))
+									ESX.ShowNotification(TranslateCap("heal_complete", GetPlayerName(closestPlayer)))
 									isBusy = false
 								else
-									ESX.ShowNotification(_U("player_not_conscious"))
+									ESX.ShowNotification(TranslateCap("player_not_conscious"))
 								end
 							else
-								ESX.ShowNotification(_U("not_enough_bandage"))
+								ESX.ShowNotification(TranslateCap("not_enough_bandage"))
 							end
 						end, "bandage")
 					elseif element2.value == "big" then
@@ -100,20 +100,20 @@ function OpenMobileAmbulanceActionsMenu()
 									local playerPed = PlayerPedId()
 
 									isBusy = true
-									ESX.ShowNotification(_U("heal_inprogress"))
+									ESX.ShowNotification(TranslateCap("heal_inprogress"))
 									TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true)
 									Wait(10000)
 									ClearPedTasks(playerPed)
 
 									TriggerServerEvent("esx_ambulancejob:removeItem", "medikit")
 									TriggerServerEvent("esx_ambulancejob:heal", GetPlayerServerId(closestPlayer), "big")
-									ESX.ShowNotification(_U("heal_complete", GetPlayerName(closestPlayer)))
+									ESX.ShowNotification(TranslateCap("heal_complete", GetPlayerName(closestPlayer)))
 									isBusy = false
 								else
-									ESX.ShowNotification(_U("player_not_conscious"))
+									ESX.ShowNotification(TranslateCap("player_not_conscious"))
 								end
 							else
-								ESX.ShowNotification(_U("not_enough_medikit"))
+								ESX.ShowNotification(TranslateCap("not_enough_medikit"))
 							end
 						end, "medikit")
 					elseif element2.value == "put_in_vehicle" then
@@ -130,16 +130,16 @@ local billing
 
 if billing == "billing" then
 	ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "billing", {
-		title = _U("invoice_amount"),
+		title = TranslateCap("invoice_amount"),
 	}, function(data, menu)
 		local amount = tonumber(data.value)
 		if amount == nil then
-			ESX.ShowNotification(_U("amount_invalid"))
+			ESX.ShowNotification(TranslateCap("amount_invalid"))
 		else
 			menu.close()
 			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 			if closestPlayer == -1 or closestDistance > 3.0 then
-				ESX.ShowNotification(_U("no_players_near"))
+				ESX.ShowNotification(TranslateCap("no_players_near"))
 			else
 				TriggerServerEvent(
 					"esx_billing:sendBill",
@@ -148,7 +148,7 @@ if billing == "billing" then
 					"Ambulance",
 					amount
 				)
-				ESX.ShowNotification(_U("billing_sent"))
+				ESX.ShowNotification(TranslateCap("billing_sent"))
 			end
 		end
 	end, function(_, menu)
@@ -167,7 +167,7 @@ function revivePlayer(closestPlayer)
 			if IsPedDeadOrDying(closestPlayerPed, 1) then
 				local playerPed = PlayerPedId()
 				local lib, anim = "mini@cpr@char_a@cpr_str", "cpr_pumpchest"
-				ESX.ShowNotification(_U("revive_inprogress"))
+				ESX.ShowNotification(TranslateCap("revive_inprogress"))
 
 				for _ = 1, 15 do
 					Wait(900)
@@ -180,10 +180,10 @@ function revivePlayer(closestPlayer)
 				TriggerServerEvent("esx_ambulancejob:removeItem", "medikit")
 				TriggerServerEvent("esx_ambulancejob:revive", GetPlayerServerId(closestPlayer))
 			else
-				ESX.ShowNotification(_U("player_not_unconscious"))
+				ESX.ShowNotification(TranslateCap("player_notTranslateCapnconscious"))
 			end
 		else
-			ESX.ShowNotification(_U("not_enough_medikit"))
+			ESX.ShowNotification(TranslateCap("not_enough_medikit"))
 		end
 		isBusy = false
 	end, "medikit")
@@ -422,15 +422,15 @@ end)
 AddEventHandler("esx_ambulancejob:hasEnteredMarker", function(hospital, part, partNum)
 	if part == "AmbulanceActions" then
 		CurrentAction = part
-		CurrentActionMsg = _U("actions_prompt")
+		CurrentActionMsg = TranslateCap("actions_prompt")
 		CurrentActionData = {}
 	elseif part == "Vehicles" then
 		CurrentAction = part
-		CurrentActionMsg = _U("garage_prompt")
+		CurrentActionMsg = TranslateCap("garage_prompt")
 		CurrentActionData = { hospital = hospital, partNum = partNum }
 	elseif part == "Helicopters" then
 		CurrentAction = part
-		CurrentActionMsg = _U("helicopter_prompt")
+		CurrentActionMsg = TranslateCap("helicopter_prompt")
 		CurrentActionData = { hospital = hospital, partNum = partNum }
 	end
 end)
@@ -504,9 +504,9 @@ end)
 
 function OpenCloakroomMenu()
 	local elements = {
-		{ unselectable = true, icon = "fas fa-shirt", title = _U("cloakroom") },
-		{ icon = "fas fa-shirt", title = _U("ems_clothes_civil"), value = "citizen_wear" },
-		{ icon = "fas fa-shirt", title = _U("ems_clothes_ems"), value = "ambulance_wear" },
+		{ unselectable = true, icon = "fas fa-shirt", title = TranslateCap("cloakroom") },
+		{ icon = "fas fa-shirt", title = TranslateCap("ems_clothes_civil"), value = "citizen_wear" },
+		{ icon = "fas fa-shirt", title = TranslateCap("ems_clothes_ems"), value = "ambulance_wear" },
 	}
 
 	ESX.OpenContext("right", elements, function(_, element)
@@ -549,7 +549,7 @@ AddEventHandler("esx_ambulancejob:heal", function(healType, quiet)
 	end
 
 	if not quiet then
-		ESX.ShowNotification(_U("healed"))
+		ESX.ShowNotification(TranslateCap("healed"))
 	end
 end)
 
@@ -587,7 +587,7 @@ AddEventHandler("esx_ambulancejob:setDeadPlayers", function(_deadPlayers)
 				SetBlipCategory(blip, 7)
 
 				BeginTextCommandSetBlipName("STRING")
-				AddTextComponentSubstringPlayerName(_U("blip_dead"))
+				AddTextComponentSubstringPlayerName(TranslateCap("blip_dead"))
 				EndTextCommandSetBlipName(blip)
 
 				deadPlayerBlips[playerId] = blip

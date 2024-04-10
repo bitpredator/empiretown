@@ -22,18 +22,18 @@ AddEventHandler("esx_ambulancejob:revive", function(playerId)
 		if xTarget then
 			if deadPlayers[playerId] then
 				if Config.ReviveReward > 0 then
-					xPlayer.showNotification(_U("revive_complete_award", xTarget.name, Config.ReviveReward))
+					xPlayer.showNotification(TranslateCap("revive_complete_award", xTarget.name, Config.ReviveReward))
 					xPlayer.addMoney(Config.ReviveReward, "Revive Reward")
 					xTarget.triggerEvent("esx_ambulancejob:revive")
 				else
-					xPlayer.showNotification(_U("revive_complete", xTarget.name))
+					xPlayer.showNotification(TranslateCap("revive_complete", xTarget.name))
 					xTarget.triggerEvent("esx_ambulancejob:revive")
 				end
 			else
-				xPlayer.showNotification(_U("player_not_unconscious"))
+				xPlayer.showNotification(TranslateCap("player_notTranslateCapnconscious"))
 			end
 		else
-			xPlayer.showNotification(_U("revive_fail_offline"))
+			xPlayer.showNotification(TranslateCap("revive_fail_offline"))
 		end
 	end
 end)
@@ -148,7 +148,7 @@ if Config.EarlyRespawnFine then
 		local xPlayer = ESX.GetPlayerFromId(source)
 		local fineAmount = Config.EarlyRespawnFineAmount
 
-		xPlayer.showNotification(_U("respawn_bleedout_fine_msg", ESX.Math.GroupDigits(fineAmount)))
+		xPlayer.showNotification(TranslateCap("respawn_bleedout_fine_msg", ESX.Math.GroupDigits(fineAmount)))
 		xPlayer.removeAccountMoney("bank", fineAmount, "Respawn Fine")
 	end)
 end
@@ -250,9 +250,9 @@ AddEventHandler("esx_ambulancejob:removeItem", function(item)
 	xPlayer.removeInventoryItem(item, 1)
 
 	if item == "bandage" then
-		xPlayer.showNotification(_U("used_bandage"))
+		xPlayer.showNotification(TranslateCap("used_bandage"))
 	elseif item == "medikit" then
-		xPlayer.showNotification(_U("used_medikit"))
+		xPlayer.showNotification(TranslateCap("used_medikit"))
 	end
 end)
 
@@ -271,7 +271,7 @@ AddEventHandler("esx_ambulancejob:giveItem", function(itemName, amount)
 	if xPlayer.canCarryItem(itemName, amount) then
 		xPlayer.addInventoryItem(itemName, amount)
 	else
-		xPlayer.showNotification(_U("max_item"))
+		xPlayer.showNotification(TranslateCap("max_item"))
 	end
 end)
 
@@ -283,7 +283,7 @@ ESX.RegisterCommand(
 	end,
 	true,
 	{
-		help = _U("revive_help"),
+		help = TranslateCap("revive_help"),
 		validate = true,
 		arguments = {
 			{ name = "playerId", help = "The player id", type = "player" },

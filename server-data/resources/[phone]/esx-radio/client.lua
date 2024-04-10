@@ -1,4 +1,4 @@
-local radioMenu, onRadio = false, false
+local radioMenu, onRadio, radioProp = false, false, {}
 local RadioChannel = 0
 local RadioVolume = 50
 

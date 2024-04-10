@@ -6,7 +6,7 @@ function OpenBoatShop(shop)
 
 	local playerPed = PlayerPedId()
 	local elements = {
-		{ unselectable = true, icon = "fas fa-ship", title = _U("boat_shop") },
+		{ unselectable = true, icon = "fas fa-ship", title = TranslateCap("boat_shop") },
 	}
 
 	for _, v in ipairs(Config.Vehicles) do
@@ -55,7 +55,7 @@ function OpenBoatShop(shop)
 							ESX.TriggerServerCallback("esx_boat:buyBoat", function(bought)
 								if bought then
 									ESX.ShowNotification(
-										_U("boat_shop_bought", element.name, ESX.Math.GroupDigits(element.price))
+										TranslateCap("boat_shop_bought", element.name, ESX.Math.GroupDigits(element.price))
 									)
 
 									DeleteSpawnedVehicles()
@@ -63,13 +63,13 @@ function OpenBoatShop(shop)
 									ESX.CloseContext()
 
 									CurrentAction = "boat_shop"
-									CurrentActionMsg = _U("boat_shop_open")
+									CurrentActionMsg = TranslateCap("boat_shop_open")
 
 									FreezeEntityPosition(playerPed, false)
 									SetEntityVisible(playerPed, true)
 									SetEntityCoords(playerPed, shop.Outside.x, shop.Outside.y, shop.Outside.z)
 								else
-									ESX.ShowNotification(_U("boat_shop_nomoney"))
+									ESX.ShowNotification(TranslateCap("boat_shop_nomoney"))
 								end
 							end, props)
 						elseif element3.value == "stop" then
@@ -83,23 +83,23 @@ function OpenBoatShop(shop)
 		end, function()
 			isInShopMenu = false
 			CurrentAction = "boat_shop"
-			CurrentActionMsg = _U("boat_shop_open")
+			CurrentActionMsg = TranslateCap("boat_shop_open")
 		end)
 	end, function()
 		isInShopMenu = false
 		CurrentAction = "boat_shop"
-		CurrentActionMsg = _U("boat_shop_open")
+		CurrentActionMsg = TranslateCap("boat_shop_open")
 	end)
 end
 
 function OpenBoatGarage(garage)
 	ESX.TriggerServerCallback("esx_boat:getGarage", function(ownedBoats)
 		if #ownedBoats == 0 then
-			ESX.ShowNotification(_U("garage_noboats"))
+			ESX.ShowNotification(TranslateCap("garage_noboats"))
 		else
 			-- get all available boats
 			local elements = {
-				{ unselectable = true, icon = "fas fa-ship", title = _U("garage") },
+				{ unselectable = true, icon = "fas fa-ship", title = TranslateCap("garage") },
 			}
 			for i = 1, #ownedBoats, 1 do
 				ownedBoats[i] = json.decode(ownedBoats[i])
@@ -117,7 +117,7 @@ function OpenBoatGarage(garage)
 
 				if ESX.Game.IsSpawnPointClear(garage.SpawnPoint, 4.0) then
 					TriggerServerEvent("esx_boat:takeOutVehicle", vehicleProps.plate)
-					ESX.ShowNotification(_U("garage_taken"))
+					ESX.ShowNotification(TranslateCap("garage_taken"))
 
 					ESX.Game.SpawnVehicle(vehicleProps.model, garage.SpawnPoint, garage.SpawnPoint.w, function(vehicle)
 						TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
@@ -126,11 +126,11 @@ function OpenBoatGarage(garage)
 
 					ESX.CloseContext()
 				else
-					ESX.ShowNotification(_U("garage_blocked"))
+					ESX.ShowNotification(TranslateCap("garage_blocked"))
 				end
 			end, function()
 				CurrentAction = "garage_out"
-				CurrentActionMsg = _U("garage_open")
+				CurrentActionMsg = TranslateCap("garage_open")
 			end)
 		end
 	end)
@@ -138,15 +138,15 @@ end
 
 function OpenLicenceMenu(shop)
 	local elements = {
-		{ unselectable = true, icon = "fas fa-ship", title = _U("license_menu") },
+		{ unselectable = true, icon = "fas fa-ship", title = TranslateCap("license_menu") },
 		{ icon = "fas fa-ship", title = "Purchase Boat License" },
 	}
 
 	ESX.OpenContext("right", elements, function(_, element)
 		local elements2 = {
 			{ unselectable = true, icon = "fas fa-ship", title = element.title },
-			{ icon = "fas fa-check-double", title = _U("license_buy_yes", Config.LicensePrice), val = "yes" },
-			{ icon = "fas fa-window-close", title = _U("license_buy_no"), val = "no" },
+			{ icon = "fas fa-check-double", title = TranslateCap("license_buy_yes", Config.LicensePrice), val = "yes" },
+			{ icon = "fas fa-window-close", title = TranslateCap("license_buy_no"), val = "no" },
 		}
 
 		ESX.OpenContext("right", elements2, function(_, element2)
@@ -158,21 +158,21 @@ function OpenLicenceMenu(shop)
 
 			ESX.TriggerServerCallback("esx_boat:buyBoatLicense", function(boughtLicense)
 				if boughtLicense then
-					ESX.ShowNotification(_U("license_bought", ESX.Math.GroupDigits(Config.LicensePrice)))
+					ESX.ShowNotification(TranslateCap("license_bought", ESX.Math.GroupDigits(Config.LicensePrice)))
 					ESX.CloseContext()
 
 					OpenBoatShop(shop) -- parse current shop
 				else
-					ESX.ShowNotification(_U("license_nomoney"))
+					ESX.ShowNotification(TranslateCap("license_nomoney"))
 				end
 			end)
 		end, function()
 			CurrentAction = "boat_shop"
-			CurrentActionMsg = _U("boat_shop_open")
+			CurrentActionMsg = TranslateCap("boat_shop_open")
 		end)
 	end, function()
 		CurrentAction = "boat_shop"
-		CurrentActionMsg = _U("boat_shop_open")
+		CurrentActionMsg = TranslateCap("boat_shop_open")
 	end)
 end
 
@@ -182,14 +182,14 @@ function StoreBoatInGarage(vehicle, teleportCoords)
 	ESX.TriggerServerCallback("esx_boat:storeVehicle", function(rowsChanged)
 		if rowsChanged > 0 then
 			ESX.Game.DeleteVehicle(vehicle)
-			ESX.ShowNotification(_U("garage_stored"))
+			ESX.ShowNotification(TranslateCap("garage_stored"))
 			local playerPed = PlayerPedId()
 
 			ESX.Game.Teleport(playerPed, teleportCoords, function()
 				SetEntityHeading(playerPed, teleportCoords.w)
 			end)
 		else
-			ESX.ShowNotification(_U("garage_notowner"))
+			ESX.ShowNotification(TranslateCap("garage_notowner"))
 		end
 	end, vehicleProps.plate)
 end
@@ -234,7 +234,7 @@ function reset(shop)
 	local playerPed = PlayerPedId()
 	isInShopMenu = false
 	CurrentAction = "boat_shop"
-	CurrentActionMsg = _U("boat_shop_open")
+	CurrentActionMsg = TranslateCap("boat_shop_open")
 	DeleteSpawnedVehicles()
 	FreezeEntityPosition(playerPed, false)
 	SetEntityVisible(playerPed, true)

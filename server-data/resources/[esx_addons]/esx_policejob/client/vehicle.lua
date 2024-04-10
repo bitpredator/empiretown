@@ -1,16 +1,15 @@
-
 local spawnedVehicles = {}
 
 function OpenVehicleSpawnerMenu(type, station, part, partNum)
 	local playerCoords = GetEntityCoords(PlayerPedId())
 	local elements = {
-		{unselectable = true, icon = "fas fa-car", title = TranslateCap('garage_title')},
-		{icon = "fas fa-car", title = TranslateCap('garage_storeditem'), action = 'garage'},
-		{icon = "fas fa-car", title = TranslateCap('garage_storeitem'), action = 'store_garage'},
-		{icon = "fas fa-car", title = TranslateCap('garage_buyitem'), action = 'buy_vehicle'}
+		{ unselectable = true, icon = "fas fa-car", title = TranslateCap("garage_title") },
+		{ icon = "fas fa-car", title = TranslateCap("garage_storeditem"), action = "garage" },
+		{ icon = "fas fa-car", title = TranslateCap("garage_storeitem"), action = "store_garage" },
+		{ icon = "fas fa-car", title = TranslateCap("garage_buyitem"), action = "buy_vehicle" },
 	}
 
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(menu, element)
 		if element.action == "buy_vehicle" then
 			local shopElements = {}
 			local shopCoords = Config.PoliceStations[station][part][partNum].InsideShop
@@ -18,18 +17,21 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 
 			if authorizedVehicles then
 				if #authorizedVehicles > 0 then
-					for k,vehicle in ipairs(authorizedVehicles) do
+					for _, vehicle in ipairs(authorizedVehicles) do
 						if IsModelInCdimage(vehicle.model) then
 							local vehicleLabel = GetLabelText(GetDisplayNameFromVehicleModel(vehicle.model))
 
-							shopElements[#shopElements+1] = {
-								icon = 'fas fa-car',
-								title = ('%s - <span style="color:green;">%s</span>'):format(vehicleLabel, TranslateCap('shop_item', ESX.Math.GroupDigits(vehicle.price))),
-								name  = vehicleLabel,
+							shopElements[#shopElements + 1] = {
+								icon = "fas fa-car",
+								title = ('%s - <span style="color:green;">%s</span>'):format(
+									vehicleLabel,
+									TranslateCap("shop_item", ESX.Math.GroupDigits(vehicle.price))
+								),
+								name = vehicleLabel,
 								model = vehicle.model,
 								price = vehicle.price,
 								props = vehicle.props,
-								type  = type
+								type = type,
 							}
 						end
 					end
@@ -37,42 +39,49 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 					if #shopElements > 0 then
 						OpenShopMenu(shopElements, playerCoords, shopCoords)
 					else
-						ESX.ShowNotification(TranslateCap('garage_notauthorized'))
+						ESX.ShowNotification(TranslateCap("garage_notauthorized"))
 					end
 				else
-					ESX.ShowNotification(TranslateCap('garage_notauthorized'))
+					ESX.ShowNotification(TranslateCap("garage_notauthorized"))
 				end
 			else
-				ESX.ShowNotification(TranslateCap('garage_notauthorized'))
+				ESX.ShowNotification(TranslateCap("garage_notauthorized"))
 			end
 		elseif element.action == "garage" then
 			local garage = {
-				{unselectable = true, icon = "fas fa-car", title = "Garage"}
+				{ unselectable = true, icon = "fas fa-car", title = "Garage" },
 			}
 
-			ESX.TriggerServerCallback('esx_vehicleshop:retrieveJobVehicles', function(jobVehicles)
+			ESX.TriggerServerCallback("esx_vehicleshop:retrieveJobVehicles", function(jobVehicles)
 				if #jobVehicles > 0 then
 					local allVehicleProps = {}
 
-					for k,v in ipairs(jobVehicles) do
+					for _, v in ipairs(jobVehicles) do
 						local props = json.decode(v.vehicle)
 
 						if IsModelInCdimage(props.model) then
 							local vehicleName = GetLabelText(GetDisplayNameFromVehicleModel(props.model))
-							local label = ('%s - <span style="color:darkgoldenrod;">%s</span>: '):format(vehicleName, props.plate)
+							local label = ('%s - <span style="color:darkgoldenrod;">%s</span>: '):format(
+								vehicleName,
+								props.plate
+							)
 
 							if v.stored == 1 or v.stored == true then
-								label = label .. ('<span style="color:green;">%s</span>'):format(TranslateCap('garage_stored'))
+								label = label
+									.. ('<span style="color:green;">%s</span>'):format(TranslateCap("garage_stored"))
 							elseif v.stored == 0 or v.stored == false then
-								label = label .. ('<span style="color:darkred;">%s</span>'):format(TranslateCap('garage_notstored'))
+								label = label
+									.. ('<span style="color:darkred;">%s</span>'):format(
+										TranslateCap("garage_notstored")
+									)
 							end
 
-							garage[#garage+1] = {
-								icon = 'fas fa-car',
+							garage[#garage + 1] = {
+								icon = "fas fa-car",
 								title = label,
 								stored = v.stored,
 								model = props.model,
-								plate = props.plate
+								plate = props.plate,
 							}
 
 							allVehicleProps[props.plate] = props
@@ -80,30 +89,39 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 					end
 
 					if #garage > 0 then
-						ESX.OpenContext("right", garage, function(menuG,elementG)
+						ESX.OpenContext("right", garage, function(menuG, elementG)
 							if elementG.stored == 1 or elementG.stored == true then
 								local foundSpawn, spawnPoint = GetAvailableVehicleSpawnPoint(station, part, partNum)
 
 								if foundSpawn then
 									ESX.CloseContext()
 
-									ESX.Game.SpawnVehicle(elementG.model, spawnPoint.coords, spawnPoint.heading, function(vehicle)
-										local vehicleProps = allVehicleProps[elementG.plate]
-										ESX.Game.SetVehicleProperties(vehicle, vehicleProps)
+									ESX.Game.SpawnVehicle(
+										elementG.model,
+										spawnPoint.coords,
+										spawnPoint.heading,
+										function(vehicle)
+											local vehicleProps = allVehicleProps[elementG.plate]
+											ESX.Game.SetVehicleProperties(vehicle, vehicleProps)
 
-										TriggerServerEvent('esx_vehicleshop:setJobVehicleState', elementG.plate, false)
-										ESX.ShowNotification(TranslateCap('garage_released'))
-									end)
+											TriggerServerEvent(
+												"esx_vehicleshop:setJobVehicleState",
+												elementG.plate,
+												false
+											)
+											ESX.ShowNotification(TranslateCap("garage_released"))
+										end
+									)
 								end
 							else
-								ESX.ShowNotification(TranslateCap('garage_notavailable'))
+								ESX.ShowNotification(TranslateCap("garage_notavailable"))
 							end
 						end)
 					else
-						ESX.ShowNotification(TranslateCap('garage_empty'))
+						ESX.ShowNotification(TranslateCap("garage_empty"))
 					end
 				else
-					ESX.ShowNotification(TranslateCap('garage_empty'))
+					ESX.ShowNotification(TranslateCap("garage_empty"))
 				end
 			end, type)
 		elseif element.action == "store_garage" then
@@ -118,7 +136,7 @@ function StoreNearbyVehicle(playerCoords)
 	if next(vehicles) then
 		for i = 1, #vehicles do
 			local vehicle = vehicles[i]
-			
+
 			-- Make sure the vehicle we're saving is empty, or else it won't be deleted
 			if GetVehicleNumberOfPassengers(vehicle) == 0 and IsVehicleSeatFree(vehicle, -1) then
 				local plate = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle))
@@ -127,11 +145,11 @@ function StoreNearbyVehicle(playerCoords)
 			end
 		end
 	else
-		ESX.ShowNotification(TranslateCap('garage_store_nearby'))
+		ESX.ShowNotification(TranslateCap("garage_store_nearby"))
 		return
 	end
 
-	ESX.TriggerServerCallback('esx_policejob:storeNearbyVehicle', function(plate)
+	ESX.TriggerServerCallback("esx_policejob:storeNearbyVehicle", function(plate)
 		if plate then
 			local vehicleId = index[plate]
 			local attempts = 0
@@ -139,8 +157,8 @@ function StoreNearbyVehicle(playerCoords)
 			local isBusy = true
 
 			CreateThread(function()
-				BeginTextCommandBusyspinnerOn('STRING')
-				AddTextComponentSubstringPlayerName(TranslateCap('garage_storing'))
+				BeginTextCommandBusyspinnerOn("STRING")
+				AddTextComponentSubstringPlayerName(TranslateCap("garage_storing"))
 				EndTextCommandBusyspinnerOn(4)
 
 				while isBusy do
@@ -173,9 +191,9 @@ function StoreNearbyVehicle(playerCoords)
 			end
 
 			isBusy = false
-			ESX.ShowNotification(TranslateCap('garage_has_stored'))
+			ESX.ShowNotification(TranslateCap("garage_has_stored"))
 		else
-			ESX.ShowNotification(TranslateCap('garage_has_notstored'))
+			ESX.ShowNotification(TranslateCap("garage_has_notstored"))
 		end
 	end, plates)
 end
@@ -184,7 +202,7 @@ function GetAvailableVehicleSpawnPoint(station, part, partNum)
 	local spawnPoints = Config.PoliceStations[station][part][partNum].SpawnPoints
 	local found, foundSpawnPoint = false, nil
 
-	for i=1, #spawnPoints, 1 do
+	for i = 1, #spawnPoints, 1 do
 		if ESX.Game.IsSpawnPointClear(spawnPoints[i].coords, spawnPoints[i].radius) then
 			found, foundSpawnPoint = true, spawnPoints[i]
 			break
@@ -194,7 +212,7 @@ function GetAvailableVehicleSpawnPoint(station, part, partNum)
 	if found then
 		return true, foundSpawnPoint
 	else
-		ESX.ShowNotification(TranslateCap('vehicle_blocked'))
+		ESX.ShowNotification(TranslateCap("vehicle_blocked"))
 		return false
 	end
 end
@@ -202,13 +220,13 @@ end
 function OpenShopMenu(elements, restoreCoords, shopCoords)
 	local playerPed = PlayerPedId()
 	isInShopMenu = true
-	ESX.OpenContext("right", elements, function(menu,element)
+	ESX.OpenContext("right", elements, function(menu, element)
 		local elements2 = {
-			{unselectable = true, icon = "fas fa-car", title = element.title},
-			{icon = "fas fa-eye", title = TranslateCap('view'), value = "view"}
+			{ unselectable = true, icon = "fas fa-car", title = element.title },
+			{ icon = "fas fa-eye", title = TranslateCap("view"), value = "view" },
 		}
 
-		ESX.OpenContext("right", elements2, function(menu2,element2)
+		ESX.OpenContext("right", elements2, function(menu2, element2)
 			if element2.value == "view" then
 				DeleteSpawnedVehicles()
 				WaitForVehicleToLoad(element.model)
@@ -225,13 +243,13 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 				end)
 
 				local elements3 = {
-					{unselectable = true, icon = "fas fa-car", title = element.title},
-					{icon = "fas fa-check-double", title = TranslateCap('buy_car'), value = "buy"},
-					{icon = "fas fa-eye", title = TranslateCap('stop_view'), value = "stop"}
+					{ unselectable = true, icon = "fas fa-car", title = element.title },
+					{ icon = "fas fa-check-double", title = TranslateCap("buy_car"), value = "buy" },
+					{ icon = "fas fa-eye", title = TranslateCap("stop_view"), value = "stop" },
 				}
 
-				ESX.OpenContext("right", elements3, function(menu3,element3)
-					if element3.value == 'stop' then
+				ESX.OpenContext("right", elements3, function(menu3, element3)
+					if element3.value == "stop" then
 						isInShopMenu = false
 						ESX.CloseContext()
 
@@ -241,14 +259,20 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 
 						ESX.Game.Teleport(playerPed, restoreCoords)
 					elseif element3.value == "buy" then
-						local newPlate = exports['esx_vehicleshop']:GeneratePlate()
-						local vehicle  = GetVehiclePedIsIn(playerPed, false)
-						local props    = ESX.Game.GetVehicleProperties(vehicle)
-						props.plate    = newPlate
+						local newPlate = exports["esx_vehicleshop"]:GeneratePlate()
+						local vehicle = GetVehiclePedIsIn(playerPed, false)
+						local props = ESX.Game.GetVehicleProperties(vehicle)
+						props.plate = newPlate
 
-						ESX.TriggerServerCallback('esx_policejob:buyJobVehicle', function (bought)
+						ESX.TriggerServerCallback("esx_policejob:buyJobVehicle", function(bought)
 							if bought then
-								ESX.ShowNotification(TranslateCap('vehicleshop_bought', element.name, ESX.Math.GroupDigits(element.price)))
+								ESX.ShowNotification(
+									TranslateCap(
+										"vehicleshop_bought",
+										element.name,
+										ESX.Math.GroupDigits(element.price)
+									)
+								)
 
 								isInShopMenu = false
 								ESX.CloseContext()
@@ -258,7 +282,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 
 								ESX.Game.Teleport(playerPed, restoreCoords)
 							else
-								ESX.ShowNotification(TranslateCap('vehicleshop_money'))
+								ESX.ShowNotification(TranslateCap("vehicleshop_money"))
 								ESX.CloseContext()
 							end
 						end, props, element.type)
@@ -278,13 +302,12 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 	end)
 end
 
-
 CreateThread(function()
 	while true do
 		Wait(0)
 
 		if isInShopMenu then
-			DisableControlAction(0, 75, true)  -- Disable exit vehicle
+			DisableControlAction(0, 75, true) -- Disable exit vehicle
 			DisableControlAction(27, 75, true) -- Disable exit vehicle
 		else
 			Wait(500)
@@ -301,13 +324,13 @@ function DeleteSpawnedVehicles()
 end
 
 function WaitForVehicleToLoad(modelHash)
-	modelHash = (type(modelHash) == 'number' and modelHash or joaat(modelHash))
+	modelHash = (type(modelHash) == "number" and modelHash or joaat(modelHash))
 
 	if not HasModelLoaded(modelHash) then
 		RequestModel(modelHash)
 
-		BeginTextCommandBusyspinnerOn('STRING')
-		AddTextComponentSubstringPlayerName(TranslateCap('vehicleshop_awaiting_model'))
+		BeginTextCommandBusyspinnerOn("STRING")
+		AddTextComponentSubstringPlayerName(TranslateCap("vehicleshop_awaiting_model"))
 		EndTextCommandBusyspinnerOn(4)
 
 		while not HasModelLoaded(modelHash) do
