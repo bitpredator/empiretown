@@ -244,7 +244,7 @@ RegisterNUICallback("craft", function(data)
 end)
 
 function SendTextMessage(msg)
-	exports["mythic_notify"]:SendAlert("inform", msg)
+	exports["mythic_notify"]:DoHudText("inform", msg)
 end
 
 function DrawText3D(x, y, z, text)
