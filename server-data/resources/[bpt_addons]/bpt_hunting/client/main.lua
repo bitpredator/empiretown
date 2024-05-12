@@ -1,7 +1,6 @@
 ESX = exports["es_extended"]:getSharedObject()
 
-local oPlayer = false
-local playerpos = false
+local oPlayer, playerpos = false, false
 
 CreateThread(function()
     while true do
@@ -97,7 +96,7 @@ CreateThread(function()
     end
 end)
 
-local oldped
+local oldped = {}
 function CanSlaughterPed(ped)
     if
         not IsPedAPlayer(ped)
