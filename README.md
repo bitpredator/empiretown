@@ -12,9 +12,9 @@ This program is a project for the fivem community, you have legal permission to 
 
 ATTENTION: You are not authorized to change the name of the resources present within it.
 
-Database Installation: https://bitpredator.github.io/bptdevelopment/docs/database
+Database Installation: https://bitpredator.github.io/bptdevelopment/docs/empiretown/database
 
-Server installation procedure: https://bitpredator.github.io/bptdevelopment/docs/install-server
+Server installation procedure: https://bitpredator.github.io/bptdevelopment/docs/empiretown/install-server
 
 You are not authorized to sell this software (this is a free project).
 
