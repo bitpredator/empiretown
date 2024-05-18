@@ -1,8 +1,8 @@
 local open = false
 
 -- Open ID card
-RegisterNetEvent("jsfour-idcard:open")
-AddEventHandler("jsfour-idcard:open", function(data, type)
+RegisterNetEvent("bpt_idcard:open")
+AddEventHandler("bpt_idcard:open", function(data, type)
     open = true
     SendNUIMessage({
         action = "open",

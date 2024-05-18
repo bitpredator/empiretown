@@ -10,14 +10,14 @@ server_script({
     "locales/*.lua",
     "@oxmysql/lib/MySQL.lua",
     "config.lua",
-    "server.lua",
+    "server/*.lua",
 })
 
 client_script({
     "@es_extended/locale.lua",
     "locales/*.lua",
     "config.lua",
-    "client.lua",
+    "client/*.lua",
 })
 
 files({
