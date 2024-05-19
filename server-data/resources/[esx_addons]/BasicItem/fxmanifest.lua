@@ -29,4 +29,4 @@ server_scripts({
     "config.lua",
 })
 
-dependency("jsfour-idcard")
+dependency("bpt_idcard")
