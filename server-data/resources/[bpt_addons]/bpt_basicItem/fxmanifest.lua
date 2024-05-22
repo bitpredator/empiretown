@@ -13,7 +13,6 @@ shared_scripts({
 client_scripts({
     "@es_extended/locale.lua",
     "client/*.lua",
-    "locales/*.lua",
     "config.lua",
 })
 
@@ -21,7 +20,6 @@ server_scripts({
     "@es_extended/locale.lua",
     "@mysql-async/lib/MySQL.lua",
     "server/*.lua",
-    "locales/*.lua",
     "config.lua",
 })
 
