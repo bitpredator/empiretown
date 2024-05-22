@@ -184,7 +184,7 @@ function OpenVehicleSpawnerMenu()
 end
 
 function DeleteJobVehicle()
-    local playerPed = PlayerPedId()
+    local _ = PlayerPedId()
 
     if Config.EnableSocietyOwnedVehicles then
         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
@@ -227,7 +227,7 @@ function OpenTaxiActionsMenu()
         elseif element.value == 'get_stock' then
             OpenGetStocksMenu()
         elseif element.value == 'boss_actions' then
-            TriggerEvent('esx_society:openBossMenu', 'taxi', function(data, menu)
+            TriggerEvent('esx_society:openBossMenu', 'taxi', function()
                 menu.close()
             end)
         end
