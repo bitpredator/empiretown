@@ -8,7 +8,7 @@ Locales['it'] = {
   ['level'] = 'livello %s',
   ['neon'] = 'neon',
   ['blip_name'] = 'los Santos Customs',
--- Paint Colors
+  -- Paint Colors
   -- Black
   ['black'] = 'nero',
   ['graphite'] = 'grafite',
@@ -187,13 +187,13 @@ Locales['it'] = {
   ['puregold'] = 'oro puro',
   ['brushedgold'] = 'oro spazzolato',
   ['lightgold'] = 'oro chiaro',
--- License Plates
+  -- License Plates
   ['blue_on_white_1'] = 'blu su bianco 1',
   ['yellow_on_black'] = 'giallo su nero',
   ['yellow_blue'] = 'giallo su blu',
   ['blue_on_white_2'] = 'blu su bianco 2',
   ['blue_on_white_3'] = 'blu su bianco 3',
--- Upgrades
+  -- Upgrades
   ['upgrades'] = 'aggiornamenti',
   ['engine'] = 'motore',
   ['brakes'] = 'freni',
@@ -202,7 +202,7 @@ Locales['it'] = {
   ['armor'] = 'armatura',
   ['turbo'] = 'turbo',
   ['no_turbo'] = 'no turbo',
--- Cosmetics
+  -- Cosmetics
   ['cosmetics'] = 'cosmetici',
   -- Body Parts
   ['bodyparts'] = 'parti del corpo',
@@ -242,7 +242,6 @@ Locales['it'] = {
   ['tuning'] = 'tuning',
   ['motorcycle'] = 'moto',
   ['highend'] = 'fascia alta',
-
   ['modplateholder'] = 'targa - posteriore',
   ['modvanityplate'] = 'targa - anteriore',
   ['interior'] = 'interni',
@@ -267,7 +266,7 @@ Locales['it'] = {
   ['windows'] = 'finestrini',
   ['stickers'] = 'Livrea',
 
--- Xenon Colors
+  -- Xenon Colors
   ['mintgreen'] = 'Verde Menta',
   ['goldenshower'] = 'Pioggia Dorata',
   ['ponypink'] = 'Rosa Pony',
