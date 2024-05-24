@@ -22,7 +22,7 @@ AddEventHandler('esx:playerDropped', function(src)
     src = tostring(src)
     local playersCount = #GetPlayers()
     if Customs[src] then
-        for k, v in pairs(Customs[src]) do
+        for _, v in pairs(Customs[src]) do
             local entity = NetworkGetEntityFromNetworkId(v.netId)
             if DoesEntityExist(entity) then
                 if playersCount > 0 then
@@ -104,7 +104,7 @@ RegisterNetEvent('bpt_lscustom:refreshOwnedVehicle', function(vehicleProps, netI
                     end
                 else
                     print(('[^3WARNING^7] Player ^5%s^7 Attempted To upgrade with mismatching vehicle model'):format(
-                    xPlayer.source))
+                        xPlayer.source))
                 end
             end
         end)
