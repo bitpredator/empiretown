@@ -267,7 +267,7 @@ function GetAction(data)
 
                 if v.modType == 14 then -- HORNS
                     for j = 0, 51, 1 do
-                        local _label = nil
+                        local _label = {}
                         if j == currentMods.modHorns then
                             _label = GetHornName(j) ..
                                 ' - <span style="color:cornflowerblue;">' .. TranslateCap('installed') ..
