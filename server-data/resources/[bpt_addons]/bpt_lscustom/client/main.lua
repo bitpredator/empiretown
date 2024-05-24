@@ -289,7 +289,7 @@ function GetAction(data)
                     end
 
                     for j = 0, maxJ, 1 do
-                        local _label = ''
+                        local _label
                         if j == currentMods.plateIndex then
                             _label = GetPlatesName(j) .. ' - <span style="color:cornflowerblue;">' ..
                                 TranslateCap('installed') .. '</span>'
@@ -304,7 +304,7 @@ function GetAction(data)
                         }
                     end
                 elseif v.modType == 22 then -- NEON
-                    local _label = ''
+                    local _label
                     if currentMods.modXenon then
                         _label = TranslateCap('neon') ..
                             ' - <span style="color:cornflowerblue;">' .. TranslateCap('installed') .. '</span>'
@@ -342,7 +342,7 @@ function GetAction(data)
                     'wheelColor' then -- RESPRAYS
                     local colors = GetColors(data.color)
                     for j = 1, #colors, 1 do
-                        local _label = ''
+                        local _label
                         local price = math.floor(vehiclePrice * v.price / 100)
                         _label = colors[j].label .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         elements[#elements + 1] = {
@@ -353,7 +353,7 @@ function GetAction(data)
                     end
                 elseif v.modType == 'windowTint' then -- WINDOWS TINT
                     for j = 1, 5, 1 do
-                        local _label = ''
+                        local _label
                         if j == currentMods.windowTint then
                             _label = GetWindowName(j) ..
                                 ' - <span style="color:cornflowerblue;">' .. TranslateCap('installed') ..
@@ -378,7 +378,7 @@ function GetAction(data)
                     for j = 0, modCount, 1 do
                         local modName = GetModTextLabel(vehicle, v.modType, j)
                         if modName then
-                            local _label = ''
+                            local _label
                             if j == currentMods.modFrontWheels then
                                 _label = GetLabelText(modName) .. ' - <span style="color:cornflowerblue;">' ..
                                     TranslateCap('installed') .. '</span>'
@@ -406,7 +406,7 @@ function GetAction(data)
                     for j = 0, modCount, 1 do
                         local modName = GetModTextLabel(vehicle, v.modType, j)
                         if modName then
-                            local _label = ''
+                            local _label
                             if j == currentMods.modBackWheels then
                                 _label = GetLabelText(modName) .. ' - <span style="color:cornflowerblue;">' ..
                                     TranslateCap('installed') .. '</span>'
@@ -428,7 +428,7 @@ function GetAction(data)
                     SetVehicleModKit(vehicle, 0)
                     local modCount = GetNumVehicleMods(vehicle, v.modType) -- UPGRADES
                     for j = 0, modCount, 1 do
-                        local _label = ''
+                        local _label
                         if j == currentMods[k] then
                             _label =
                                 TranslateCap('level', j + 1) ..
@@ -449,7 +449,7 @@ function GetAction(data)
                         end
                     end
                 elseif v.modType == 17 then -- TURBO
-                    local _label = ''
+                    local _label
                     if currentMods[k] then
                         _label = 'Turbo - <span style="color:cornflowerblue;">' .. TranslateCap('installed') .. '</span>'
                     else
@@ -467,7 +467,7 @@ function GetAction(data)
                     for j = 0, modCount, 1 do
                         local modName = GetModTextLabel(vehicle, v.modType, j)
                         if modName then
-                            local _label = ''
+                            local _label
                             if j == currentMods[k] then
                                 _label = GetLabelText(modName) .. ' - <span style="color:cornflowerblue;">' ..
                                     TranslateCap('installed') .. '</span>'
