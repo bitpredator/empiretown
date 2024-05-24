@@ -126,7 +126,6 @@ function OpenLSMenu(elems, menuName, menuTitle, parent)
 
         if parent == nil then
             lsMenuIsShowed = false
-            local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
             FreezeEntityPosition(vehicle, false)
             TriggerServerEvent('bpt_lscustom:stopModing', myCar.plate)
             myCar = {}
@@ -268,13 +267,13 @@ function GetAction(data)
 
                 if v.modType == 14 then -- HORNS
                     for j = 0, 51, 1 do
-                        local _label = ''
+                        local _label = nil
                         if j == currentMods.modHorns then
                             _label = GetHornName(j) ..
                                 ' - <span style="color:cornflowerblue;">' .. TranslateCap('installed') ..
                                 '</span>'
                         else
-                            price = math.floor(vehiclePrice * v.price / 100)
+                            local price = math.floor(vehiclePrice * v.price / 100)
                             _label = GetHornName(j) .. ' - <span style="color:green;">$' .. price .. ' </span>'
                         end
                         elements[#elements + 1] = {
