@@ -613,7 +613,6 @@ CreateThread(function()
                 end
             end
         end
-        local Sleep = Sleep
         Wait(Sleep)
     end
 end)
