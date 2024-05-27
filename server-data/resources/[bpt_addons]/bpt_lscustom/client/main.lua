@@ -613,5 +613,6 @@ CreateThread(function()
                 end
             end
         end
+        Wait(Sleep)
     end
 end)
