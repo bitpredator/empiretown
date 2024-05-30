@@ -11,10 +11,10 @@ return {
 			scale = 0.8,
 		},
 		inventory = {
-			{ name = "pickaxe", price = 30 },
-			{ name = "almonds", price = 10 },
+			{ name = "pickaxe",    price = 30 },
+			{ name = "almonds",    price = 10 },
 			{ name = "fishingrod", price = 100 },
-			{ name = "fishbait", price = 80 },
+			{ name = "fishbait",   price = 80 },
 		},
 		locations = {
 			vec3(1017.389038, -2405.736328, 30.122314),
@@ -33,8 +33,8 @@ return {
 			scale = 0.8,
 		},
 		inventory = {
-			{ name = "water", price = 30 },
-			{ name = "ice", price = 5 },
+			{ name = "water",   price = 30 },
+			{ name = "ice",     price = 5 },
 			{ name = "fry_oil", price = 60 },
 		},
 		locations = {
@@ -47,7 +47,7 @@ return {
 		name = "Vending Machine",
 		inventory = {
 			{ name = "water", price = 10 },
-			{ name = "cola", price = 10 },
+			{ name = "cola",  price = 10 },
 		},
 		model = {
 			`prop_vend_soda_02`,
@@ -83,7 +83,7 @@ return {
 		},
 		inventory = {
 			{ name = "backpack", price = 800 },
-			{ name = "wallet", price = 300 },
+			{ name = "wallet",   price = 300 },
 		},
 		locations = {
 			vec3(-1131.481323, -1635.652710, 4.359009),
@@ -98,8 +98,9 @@ return {
 			scale = 0.8,
 		},
 		inventory = {
-			{ name = "jobcard", price = 3000 },
-			{ name = "idcard", price = 3000 },
+			{ name = "idcard",      price = 3000 },
+			{ name = "dmvcard",     price = 5000 },
+			{ name = "licensecard", price = 5000 }
 		},
 		locations = {
 			vec3(-554.887939, -187.252747, 38.277710),

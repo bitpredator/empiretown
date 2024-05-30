@@ -16,10 +16,10 @@ AddEventHandler("playerSpawned", function() -- Enable hud only after player spaw
 				health = math.ceil(GetEntityHealth(GetPlayerPed(-1)) - 100)
 			end
 			armor = math.ceil(GetPedArmour(GetPlayerPed(-1)))
-			TriggerEvent("esx_status:getStatus", "hunger", function(status)
+			TriggerEvent("bpt_status:getStatus", "hunger", function(status)
 				food = status.getPercent()
 			end)
-			TriggerEvent("esx_status:getStatus", "thirst", function(status)
+			TriggerEvent("bpt_status:getStatus", "thirst", function(status)
 				thirst = status.getPercent()
 			end)
 			SendNUIMessage({
