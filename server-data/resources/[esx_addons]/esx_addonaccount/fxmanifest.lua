@@ -5,7 +5,7 @@ game("gta5")
 author("bitpredaator")
 description("ESX Addon Account")
 
-version("1.0.0")
+version("1.0.1")
 
 server_scripts({
     "@es_extended/imports.lua",

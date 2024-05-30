@@ -2,15 +2,15 @@ local IsDead = false
 local IsAnimated = false
 
 AddEventHandler('esx_basicneeds:resetStatus', function()
-	TriggerEvent('esx_status:set', 'hunger', 500000)
-	TriggerEvent('esx_status:set', 'thirst', 500000)
+	TriggerEvent('bpt_status:set', 'hunger', 500000)
+	TriggerEvent('bpt_status:set', 'thirst', 500000)
 end)
 
 RegisterNetEvent('esx_basicneeds:healPlayer')
 AddEventHandler('esx_basicneeds:healPlayer', function()
 	-- restore hunger & thirst
-	TriggerEvent('esx_status:set', 'hunger', 1000000)
-	TriggerEvent('esx_status:set', 'thirst', 1000000)
+	TriggerEvent('bpt_status:set', 'hunger', 1000000)
+	TriggerEvent('bpt_status:set', 'thirst', 1000000)
 
 	-- restore hp
 	local playerPed = PlayerPedId()
@@ -29,21 +29,21 @@ AddEventHandler('esx:onPlayerSpawn', function()
 	IsDead = false
 end)
 
-AddEventHandler('esx_status:loaded', function()
-	TriggerEvent('esx_status:registerStatus', 'hunger', 1000000, '#CFAD0F', function()
+AddEventHandler('bpt_status:loaded', function()
+	TriggerEvent('bpt_status:registerStatus', 'hunger', 1000000, '#CFAD0F', function()
 		return Config.Visible
 	end, function(status)
 		status.remove(100)
 	end)
 
-	TriggerEvent('esx_status:registerStatus', 'thirst', 1000000, '#0C98F1', function()
+	TriggerEvent('bpt_status:registerStatus', 'thirst', 1000000, '#0C98F1', function()
 		return Config.Visible
 	end, function(status)
 		status.remove(75)
 	end)
 end)
 
-AddEventHandler('esx_status:onTick', function(data)
+AddEventHandler('bpt_status:onTick', function(data)
 	local playerPed  = PlayerPedId()
 	local prevHealth = GetEntityHealth(playerPed)
 	local health     = prevHealth

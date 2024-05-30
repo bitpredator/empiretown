@@ -204,7 +204,7 @@ ESX.RegisterServerCallback("esx_policejob:getOtherPlayerData", function(source, 
 			end
 		end
 
-		TriggerEvent("esx_status:getStatus", target, "drunk", function(status)
+		TriggerEvent("bpt_status:getStatus", target, "drunk", function(status)
 			if status then
 				data.drunk = ESX.Math.Round(status.percent)
 			end

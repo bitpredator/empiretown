@@ -1,5 +1,5 @@
 ## Requirements
-- esx_status
+- bpt_status
 
 ## Installation
 
@@ -19,7 +19,7 @@ start esx_basicneeds
 ### License
 esx_basicneeds - thirst and hunger system
 
-Copyright (C) 2022-2023 bitpredator
+Copyright (C) 2022-2024 bitpredator
 
 ATTENTION: You are not authorized to change the name of the resource and the resources within it.
 
