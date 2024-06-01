@@ -245,7 +245,7 @@ RegisterServerEvent("esx_mechanicjob:getStockItem")
 AddEventHandler("esx_mechanicjob:getStockItem", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	TriggerEvent("esx_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
+	TriggerEvent("bpt_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
 		local item = inventory.getItem(itemName)
 
 		-- is there enough in the society?
@@ -265,7 +265,7 @@ AddEventHandler("esx_mechanicjob:getStockItem", function(itemName, count)
 end)
 
 ESX.RegisterServerCallback("esx_mechanicjob:getStockItems", function(source, cb)
-	TriggerEvent("esx_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
+	TriggerEvent("bpt_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
 		cb(inventory.items)
 	end)
 end)
@@ -274,7 +274,7 @@ RegisterServerEvent("esx_mechanicjob:putStockItems")
 AddEventHandler("esx_mechanicjob:putStockItems", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	TriggerEvent("esx_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
+	TriggerEvent("bpt_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
 		local item = inventory.getItem(itemName)
 		local playerItemCount = xPlayer.getInventoryItem(itemName).count
 

@@ -8,7 +8,6 @@ This resource for ESX adds police armories, vehicle garages and ability for cops
   * [esx_vehicleshop](https://github.com/esx-framework/esx_vehicleshop)
 
 * Player management (boss actions and armory with buyable weapons)
-  * [esx_addoninventory](https://github.com/esx-framework/esx_addoninventory)
   * [esx_datastore](https://github.com/esx-framework/esx_datastore)
   * [esx_society](https://github.com/esx-framework/esx_society)
 
