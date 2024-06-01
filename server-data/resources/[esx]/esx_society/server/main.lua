@@ -68,7 +68,7 @@ AddEventHandler("esx_society:checkSocietyBalance", function(society)
         return
     end
 
-    TriggerEvent("esx_addonaccount:getSharedAccount", society.account, function(account)
+    TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
         TriggerClientEvent("esx:showNotification", xPlayer.source, _U("check_balance", ESX.Math.GroupDigits(account.money)))
     end)
 end)
@@ -84,7 +84,7 @@ AddEventHandler("esx_society:withdrawMoney", function(societyName, amount)
     local xPlayer = ESX.GetPlayerFromId(source)
     amount = ESX.Math.Round(tonumber(amount))
     if xPlayer.job.name == society.name then
-        TriggerEvent("esx_addonaccount:getSharedAccount", society.account, function(account)
+        TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
             if amount > 0 and account.money >= amount then
                 account.removeMoney(amount)
                 xPlayer.addMoney(amount, "Society Withdraw")
@@ -111,7 +111,7 @@ AddEventHandler("esx_society:depositMoney", function(societyName, amount)
 
     if xPlayer.job.name == society.name then
         if amount > 0 and xPlayer.getMoney() >= amount then
-            TriggerEvent("esx_addonaccount:getSharedAccount", society.account, function(account)
+            TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
                 xPlayer.removeMoney(amount, "Society Deposit")
                 xPlayer.showNotification(_U("have_deposited", ESX.Math.GroupDigits(amount)))
                 account.addMoney(amount)
@@ -192,7 +192,7 @@ ESX.RegisterServerCallback("esx_society:getSocietyMoney", function(source, cb, s
         return
     end
     if society then
-        TriggerEvent("esx_addonaccount:getSharedAccount", society.account, function(account)
+        TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
             cb(account.money)
         end)
     else
@@ -426,7 +426,7 @@ function WashMoneyCRON()
             local xPlayer = ESX.GetPlayerFromIdentifier(result[i].identifier)
 
             -- add society money
-            TriggerEvent("esx_addonaccount:getSharedAccount", society.account, function(account)
+            TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
                 account.addMoney(result[i].amount)
             end)
 

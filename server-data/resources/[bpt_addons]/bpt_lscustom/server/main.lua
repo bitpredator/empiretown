@@ -46,7 +46,7 @@ RegisterNetEvent('bpt_lscustom:buyMod', function(price)
     if Config.IsMechanicJobOnly then
         local societyAccount
 
-        TriggerEvent('esx_addonaccount:getSharedAccount', 'society_mechanic', function(account)
+        TriggerEvent('bpt_addonaccount:getSharedAccount', 'society_mechanic', function(account)
             societyAccount = account
         end)
 
