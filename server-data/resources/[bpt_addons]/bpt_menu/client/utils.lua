@@ -98,7 +98,7 @@ if Config.Framework == "esx" then
 		refreshMoney2()
 	end)
 
-	RegisterNetEvent("esx_addonaccount:setMoney", function(societyId, money)
+	RegisterNetEvent("bpt_addonaccount:setMoney", function(societyId, money)
 		local playerJob = GetPlayerJob()
 		if playerJob.isBoss and ("society_%s"):format(playerJob.id) == societyId then
 			societyMoney = money
@@ -140,6 +140,5 @@ if Config.Framework == "esx" then
 				Wait(100)
 			end
 		end
-
 	end)
 end

@@ -23,8 +23,8 @@ function RefreshBussHUD()
 	end
 end
 
-RegisterNetEvent("esx_addonaccount:setMoney")
-AddEventHandler("esx_addonaccount:setMoney", function(society, money)
+RegisterNetEvent("bpt_addonaccount:setMoney")
+AddEventHandler("bpt_addonaccount:setMoney", function(society, money)
 	if
 		ESX.PlayerData.job
 		and ESX.PlayerData.job.grade_name == "boss"

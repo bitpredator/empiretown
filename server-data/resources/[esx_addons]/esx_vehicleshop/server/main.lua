@@ -271,7 +271,7 @@ ESX.RegisterServerCallback("esx_vehicleshop:buyCarDealerVehicle", function(sourc
 		return cb(false)
 	end
 
-	TriggerEvent("esx_addonaccount:getSharedAccount", "society_cardealer", function(account)
+	TriggerEvent("bpt_addonaccount:getSharedAccount", "society_cardealer", function(account)
 		if account.money < modelPrice then
 			return cb(false)
 		end
@@ -322,7 +322,7 @@ AddEventHandler("esx_vehicleshop:returnProvider", function(vehicleModel)
 		return
 	end
 
-	TriggerEvent("esx_addonaccount:getSharedAccount", "society_cardealer", function(account)
+	TriggerEvent("bpt_addonaccount:getSharedAccount", "society_cardealer", function(account)
 		local vehPrice = ESX.Math.Round(price * 0.75)
 		local vehicleLabel = getVehicleFromModel(vehicleModel).label
 
@@ -551,7 +551,7 @@ local function payRent()
 			end
 
 			if total > 0 then
-				TriggerEvent("esx_addonaccount:getSharedAccount", "society_cardealer", function(account)
+				TriggerEvent("bpt_addonaccount:getSharedAccount", "society_cardealer", function(account)
 					account.addMoney(total)
 				end)
 			end

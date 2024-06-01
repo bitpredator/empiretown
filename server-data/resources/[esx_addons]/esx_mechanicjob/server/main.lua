@@ -204,7 +204,7 @@ AddEventHandler("esx_mechanicjob:onNPCJobMissionCompleted", function()
 		total = total * 2
 	end
 
-	TriggerEvent("esx_addonaccount:getSharedAccount", "society_mechanic", function(account)
+	TriggerEvent("bpt_addonaccount:getSharedAccount", "society_mechanic", function(account)
 		account.addMoney(total)
 	end)
 

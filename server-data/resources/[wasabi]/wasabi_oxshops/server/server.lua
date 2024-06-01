@@ -2,17 +2,18 @@ ESX = exports['es_extended']:getSharedObject()
 local swapHooks, createHooks = {}, {}
 
 CreateThread(function()
-    for k,_ in pairs(Config.Shops) do
-        TriggerEvent('esx_society:registerSociety', k, k, 'society_'..k, 'society_'..k, 'society_'..k, {type = 'public'})
-    end
+	for k, _ in pairs(Config.Shops) do
+		TriggerEvent('esx_society:registerSociety', k, k, 'society_' .. k, 'society_' .. k, 'society_' .. k,
+			{ type = 'public' })
+	end
 end)
 
 CreateThread(function()
 	while GetResourceState('ox_inventory') ~= 'started' do Wait(1000) end
-	for k,v in pairs(Config.Shops) do
+	for k, v in pairs(Config.Shops) do
 		local stash = {
 			id = k,
-			label = v.label..' '..Strings.inventory,
+			label = v.label .. ' ' .. Strings.inventory,
 			slots = 50,
 			weight = 100000,
 		}
@@ -20,17 +21,17 @@ CreateThread(function()
 		local items = exports.ox_inventory:GetInventoryItems(k, false)
 		local stashItems = {}
 		if items and items ~= {} then
-			for _,v in pairs(items) do
+			for _, v in pairs(items) do
 				if v and v.name then
 					stashItems[#stashItems + 1] = { name = v.name, metadata = v.metadata, count = v.count, price = (v.metadata.shopData.price or 0) }
 				end
 			end
-			local x,y,z = table.unpack(v.locations.shop.coords)
+			local x, y, z = table.unpack(v.locations.shop.coords)
 			exports.ox_inventory:RegisterShop(k, {
 				name = v.label,
 				inventory = stashItems,
 				locations = {
-					vec3(x,y,z),
+					vec3(x, y, z),
 				}
 			})
 		end
@@ -47,7 +48,7 @@ CreateThread(function()
 				local price = metadata.shopData.price
 				local _ = payload.count
 				exports.ox_inventory:RemoveItem(metadata.shopData.shop, payload.item.name, payload.count)
-				TriggerEvent('esx_addonaccount:getSharedAccount', 'society_'..metadata.shopData.shop, function(account)
+				TriggerEvent('bpt_addonaccount:getSharedAccount', 'society_' .. metadata.shopData.shop, function(account)
 					account.addMoney(price)
 				end)
 			end
@@ -59,11 +60,12 @@ RegisterServerEvent('wasabi_oxshops:refreshShop', function(shop)
 	Wait(250)
 	local items = exports.ox_inventory:GetInventoryItems(shop, false)
 	local stashItems = {}
-	for _,v in pairs(items) do
+	for _, v in pairs(items) do
 		if v and v.name then
 			local metadata = v.metadata
 			if metadata?.shopData then
-				stashItems[#stashItems + 1] = { name = v.name, metadata = metadata, count = v.count, price = metadata.shopData.price }
+				stashItems[#stashItems + 1] = { name = v.name, metadata = metadata, count = v.count, price = metadata
+				.shopData.price }
 			end
 		end
 	end
@@ -90,10 +92,10 @@ end)
 
 AddEventHandler('onResourceStop', function(resourceName)
 	if (GetCurrentResourceName() ~= resourceName) then return end
-	for i=1, #swapHooks do
+	for i = 1, #swapHooks do
 		exports.ox_inventory:removeHooks(swapHooks[i])
 	end
-	for i=1, #createHooks do
+	for i = 1, #createHooks do
 		exports.ox_inventory:removeHooks(createHooks[i])
 	end
 end)

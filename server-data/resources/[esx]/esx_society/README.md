@@ -2,10 +2,6 @@
 
 Society management for ESX. Adds employee management (hire, fire, promote / demote, change salary), society bank accounts and money washing. It's crucial that this script gets started before all resources that utilize societies do, or else many things will go wrong.
 
-## Requirements
-- [cron](https://github.com/esx-framework/esx-legacy/tree/main/%5Besx%5D/cron)
-- [esx_addonaccount](https://github.com/esx-framework/esx-legacy/tree/main/%5Besx_addons%5D/esx_addonaccount)
-
 ## Download & Installation
 
 ### Using [fvm](https://github.com/qlaffont/fvm-installer)
