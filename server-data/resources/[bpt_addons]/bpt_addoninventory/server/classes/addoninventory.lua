@@ -68,7 +68,7 @@ function CreateAddonInventory(name, owner, items)
     function self.saveItem(name, count)
         if self.owner == nil then
             MySQL.update(
-            'UPDATE addon_inventory_items SET count = @count WHERE inventory_name = @inventory_name AND name = @item_name',
+                'UPDATE addon_inventory_items SET count = @count WHERE inventory_name = @inventory_name AND name = @item_name',
                 {
                     ['@inventory_name'] = self.name,
                     ['@item_name']      = name,
@@ -76,7 +76,7 @@ function CreateAddonInventory(name, owner, items)
                 })
         else
             MySQL.update(
-            'UPDATE addon_inventory_items SET count = @count WHERE inventory_name = @inventory_name AND name = @item_name AND owner = @owner',
+                'UPDATE addon_inventory_items SET count = @count WHERE inventory_name = @inventory_name AND name = @item_name AND owner = @owner',
                 {
                     ['@inventory_name'] = self.name,
                     ['@item_name']      = name,
