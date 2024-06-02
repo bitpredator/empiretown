@@ -1,11 +1,9 @@
-local self = {}
-
-self.name  = name
-self.owner = owner
-self.items = items
+local self, name, owner, items = {}, {}, {}, {}
+self.name                      = name
+self.owner                     = owner
+self.items                     = items
 
 function CreateAddonInventory()
-
     function self.addItem(name, count)
         local item = self.getItem(name)
         item.count = item.count + count
