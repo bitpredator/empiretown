@@ -1,9 +1,10 @@
-function CreateAddonInventory(name, owner, items)
-    local self = {}
+local self = {}
 
-    self.name  = name
-    self.owner = owner
-    self.items = items
+self.name  = name
+self.owner = owner
+self.items = items
+
+function CreateAddonInventory()
 
     function self.addItem(name, count)
         local item = self.getItem(name)
