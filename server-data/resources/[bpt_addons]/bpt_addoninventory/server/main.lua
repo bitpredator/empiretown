@@ -29,7 +29,7 @@ MySQL.ready(function()
 
     for i = 1, #result, 1 do
         local name    = result[i].name
-        local label   = result[i].label
+        local _       = result[i].label
         local shared  = result[i].shared
 
         local result2 = MySQL.query.await('SELECT * FROM addon_inventory_items WHERE inventory_name = @inventory_name', {
