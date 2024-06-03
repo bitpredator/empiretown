@@ -41,7 +41,7 @@ AddEventHandler("bpt_fishermanjob:getStockItem", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == "fisherman" then
-		TriggerEvent("esx_addoninventory:getSharedInventory", "society_fisherman", function(inventory)
+		TriggerEvent("bpt_addoninventory:getSharedInventory", "society_fisherman", function(inventory)
 			local item = inventory.getItem(itemName)
 
 			-- is there enough in the society?
@@ -64,7 +64,7 @@ AddEventHandler("bpt_fishermanjob:getStockItem", function(itemName, count)
 end)
 
 ESX.RegisterServerCallback("bpt_fishermanjob:getStockItems", function(_, cb)
-	TriggerEvent("esx_addoninventory:getSharedInventory", "society_fisherman", function(inventory)
+	TriggerEvent("bpt_addoninventory:getSharedInventory", "society_fisherman", function(inventory)
 		cb(inventory.items)
 	end)
 end)
@@ -75,7 +75,7 @@ AddEventHandler("bpt_fishermanjob:putStockItems", function(itemName, count)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
 	if xPlayer.job.name == "fisherman" then
-		TriggerEvent("esx_addoninventory:getSharedInventory", "society_fisherman", function(inventory)
+		TriggerEvent("bpt_addoninventory:getSharedInventory", "society_fisherman", function(inventory)
 			local item = inventory.getItem(itemName)
 
 			if sourceItem.count >= count and count > 0 then

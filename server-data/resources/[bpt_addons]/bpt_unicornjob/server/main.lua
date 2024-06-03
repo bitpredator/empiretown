@@ -35,7 +35,7 @@ AddEventHandler("bpt_unicornjob:getStockItem", function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == "unicorn" then
-		TriggerEvent("esx_addoninventory:getSharedInventory", "society_unicorn", function(inventory)
+		TriggerEvent("bpt_addoninventory:getSharedInventory", "society_unicorn", function(inventory)
 			local item = inventory.getItem(itemName)
 
 			-- is there enough in the society?
@@ -58,7 +58,7 @@ AddEventHandler("bpt_unicornjob:getStockItem", function(itemName, count)
 end)
 
 ESX.RegisterServerCallback("bpt_unicornjob:getStockItems", function(_, cb)
-	TriggerEvent("esx_addoninventory:getSharedInventory", "society_unicorn", function(inventory)
+	TriggerEvent("bpt_addoninventory:getSharedInventory", "society_unicorn", function(inventory)
 		cb(inventory.items)
 	end)
 end)
@@ -69,7 +69,7 @@ AddEventHandler("bpt_unicornjob:putStockItems", function(itemName, count)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 
 	if xPlayer.job.name == "unicorn" then
-		TriggerEvent("esx_addoninventory:getSharedInventory", "society_unicorn", function(inventory)
+		TriggerEvent("bpt_addoninventory:getSharedInventory", "society_unicorn", function(inventory)
 			local item = inventory.getItem(itemName)
 
 			if sourceItem.count >= count and count > 0 then
