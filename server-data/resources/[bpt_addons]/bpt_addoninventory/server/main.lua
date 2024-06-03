@@ -40,7 +40,6 @@ MySQL.ready(function()
             table.insert(InventoriesIndex, name)
 
             Inventories[name] = {}
-            local items       = {}
 
             for j = 1, #result2, 1 do
                 local itemName  = result2[j].name
