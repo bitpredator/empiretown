@@ -63,7 +63,6 @@ MySQL.ready(function()
                 table.insert(Inventories[name], addonInventory)
             end
         else
-            local items = {}
 
             for j = 1, #result2, 1 do
                 table.insert(items, {
