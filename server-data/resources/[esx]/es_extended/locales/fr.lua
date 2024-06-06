@@ -105,9 +105,12 @@ Locales["fr"] = {
     ["command_setjob_invalid"] = "Le métier, le grade, ou les deux sont invalides",
     ["command_setgroup"] = "Définir le groupe de permissions d'un joueur",
     ["command_setgroup_group"] = "Nom du groupe à définir",
-    ["commanderror_argumentmismatch"] = "Le nombre d'arguments est invalide (Argument·s donné·s: %s, Argument·s demandé·s: %s)",
-    ["commanderror_argumentmismatch_number"] = "Type de données de l'argument #%s invalide (Type donné: texte, Type demandé: nombre)",
-    ["commanderror_argumentmismatch_string"] = "Type de données de l'argument #%s invalide (Type donné: nombre, Type demandé: texte)",
+    ["commanderror_argumentmismatch"] =
+    "Le nombre d'arguments est invalide (Argument·s donné·s: %s, Argument·s demandé·s: %s)",
+    ["commanderror_argumentmismatch_number"] =
+    "Type de données de l'argument #%s invalide (Type donné: texte, Type demandé: nombre)",
+    ["commanderror_argumentmismatch_string"] =
+    "Type de données de l'argument #%s invalide (Type donné: nombre, Type demandé: texte)",
     ["commanderror_invaliditem"] = "Le nom de l'objet est invalide",
     ["commanderror_invalidweapon"] = "Le nom de l'arme est invalide",
     ["commanderror_console"] = "Cette commande ne peut pas être éxécutée depuis la console",

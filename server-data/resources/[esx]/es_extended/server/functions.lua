@@ -239,7 +239,8 @@ function Core.SavePlayers(cb)
                 return cb()
             end
 
-            print(("[^2INFO^7] Saved ^5%s^7 %s over ^5%s^7 ms"):format(#parameters, #parameters > 1 and "players" or "player", ESX.Math.Round((os.time() - startTime) / 1000000, 2)))
+            print(("[^2INFO^7] Saved ^5%s^7 %s over ^5%s^7 ms"):format(#parameters,
+                #parameters > 1 and "players" or "player", ESX.Math.Round((os.time() - startTime) / 1000000, 2)))
         end
     )
 end
@@ -351,7 +352,8 @@ function ESX.DiscordLog(name, title, color, message)
             ["color"] = Config.DiscordLogs.Colors[color] or Config.DiscordLogs.Colors.default,
             ["footer"] = {
                 ["text"] = "| ESX Logs | " .. os.date(),
-                ["icon_url"] = "https://cdn.discordapp.com/attachments/944789399852417096/1020099828266586193/blanc-800x800.png",
+                ["icon_url"] =
+                "https://cdn.discordapp.com/attachments/944789399852417096/1020099828266586193/blanc-800x800.png",
             },
             ["description"] = message,
             ["author"] = {
@@ -382,7 +384,8 @@ function ESX.DiscordLogFields(name, title, color, fields)
             ["color"] = Config.DiscordLogs.Colors[color] or Config.DiscordLogs.Colors.default,
             ["footer"] = {
                 ["text"] = "| ESX Logs | " .. os.date(),
-                ["icon_url"] = "https://cdn.discordapp.com/attachments/944789399852417096/1020099828266586193/blanc-800x800.png",
+                ["icon_url"] =
+                "https://cdn.discordapp.com/attachments/944789399852417096/1020099828266586193/blanc-800x800.png",
             },
             ["fields"] = fields,
             ["description"] = "",
@@ -427,12 +430,16 @@ function ESX.CreateJob(name, label, grades)
     local job = { name = name, label = label, grades = {} }
 
     for _, v in pairs(grades) do
-        job.grades[tostring(v.grade)] = { job_name = name, grade = v.grade, name = v.name, label = v.label, salary = v.salary, skin_male = v.skin_male or "{}", skin_female = v.skin_female or "{}" }
-        parameters[#parameters + 1] = { name, v.grade, v.name, v.label, v.salary, v.skin_male or "{}", v.skin_female or "{}" }
+        job.grades[tostring(v.grade)] = { job_name = name, grade = v.grade, name = v.name, label = v.label, salary = v
+        .salary, skin_male = v.skin_male or "{}", skin_female = v.skin_female or "{}" }
+        parameters[#parameters + 1] = { name, v.grade, v.name, v.label, v.salary, v.skin_male or "{}", v.skin_female or
+        "{}" }
     end
 
     MySQL.insert("INSERT IGNORE INTO jobs (name, label) VALUES (?, ?)", { name, label })
-    MySQL.prepare("INSERT INTO job_grades (job_name, grade, name, label, salary, skin_male, skin_female) VALUES (?, ?, ?, ?, ?, ?, ?)", parameters)
+    MySQL.prepare(
+    "INSERT INTO job_grades (job_name, grade, name, label, salary, skin_male, skin_female) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        parameters)
 
     ESX.Jobs[name] = job
 end
@@ -483,7 +490,9 @@ function ESX.UseItem(source, item, ...)
             local success, result = pcall(itemCallback, source, item, ...)
 
             if not success then
-                return result and print(result) or print(('[^3WARNING^7] An error occured when using item ^5"%s"^7! This was not caused by ESX.'):format(item))
+                return result and print(result) or
+                print(('[^3WARNING^7] An error occured when using item ^5"%s"^7! This was not caused by ESX.'):format(
+                item))
             end
         end
     else

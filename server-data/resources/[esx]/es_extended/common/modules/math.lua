@@ -13,7 +13,8 @@ end
 function ESX.Math.GroupDigits(value)
     local left, num, right = string.match(value, "^([^%d]*%d)(%d*)(.-)$")
 
-    return left .. (num:reverse():gsub("(%d%d%d)", "%1" .. TranslateCap("locale_digit_grouping_symbol")):reverse()) .. right
+    return left ..
+    (num:reverse():gsub("(%d%d%d)", "%1" .. TranslateCap("locale_digit_grouping_symbol")):reverse()) .. right
 end
 
 function ESX.Math.Trim(value)
