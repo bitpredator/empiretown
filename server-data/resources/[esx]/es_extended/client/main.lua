@@ -309,7 +309,8 @@ if not Config.OxInventory then
     RegisterNetEvent("esx:removeInventoryItem", function(item, count, showNotification)
         for i = 1, #ESX.PlayerData.inventory do
             if ESX.PlayerData.inventory[i].name == item then
-                ESX.UI.ShowInventoryItemNotification(false, ESX.PlayerData.inventory[i].label, ESX.PlayerData.inventory[i].count - count)
+                ESX.UI.ShowInventoryItemNotification(false, ESX.PlayerData.inventory[i].label,
+                    ESX.PlayerData.inventory[i].count - count)
                 ESX.PlayerData.inventory[i].count = count
                 break
             end
@@ -325,11 +326,13 @@ if not Config.OxInventory then
     end)
 
     RegisterNetEvent("esx:addWeaponComponent", function()
-        print("[^1ERROR^7] event ^5'esx:addWeaponComponent'^7 Has Been Removed. Please use ^5xPlayer.addWeaponComponent^7 Instead!")
+        print(
+        "[^1ERROR^7] event ^5'esx:addWeaponComponent'^7 Has Been Removed. Please use ^5xPlayer.addWeaponComponent^7 Instead!")
     end)
 
     RegisterNetEvent("esx:setWeaponAmmo", function()
-        print("[^1ERROR^7] event ^5'esx:setWeaponAmmo'^7 Has Been Removed. Please use ^5xPlayer.addWeaponAmmo^7 Instead!")
+        print(
+        "[^1ERROR^7] event ^5'esx:setWeaponAmmo'^7 Has Been Removed. Please use ^5xPlayer.addWeaponAmmo^7 Instead!")
     end)
 
     RegisterNetEvent("esx:setWeaponTint", function(weapon, weaponTintIndex)
@@ -385,7 +388,9 @@ if not Config.OxInventory then
 
     RegisterNetEvent("esx:createMissingPickups", function(missingPickups)
         for pickupId, pickup in pairs(missingPickups) do
-            TriggerEvent("esx:createPickup", pickupId, pickup.label, vector3(pickup.coords.x, pickup.coords.y, pickup.coords.z - 1.0), pickup.type, pickup.name, pickup.components, pickup.tintIndex)
+            TriggerEvent("esx:createPickup", pickupId, pickup.label,
+                vector3(pickup.coords.x, pickup.coords.y, pickup.coords.z - 1.0), pickup.type, pickup.name,
+                pickup.components, pickup.tintIndex)
         end
     end)
 end
@@ -393,7 +398,8 @@ end
 RegisterNetEvent("esx:registerSuggestions", function(registeredCommands)
     for name, command in pairs(registeredCommands) do
         if command.suggestion then
-            TriggerEvent("chat:addSuggestion", ("/%s"):format(name), command.suggestion.help, command.suggestion.arguments)
+            TriggerEvent("chat:addSuggestion", ("/%s"):format(name), command.suggestion.help,
+                command.suggestion.arguments)
         end
     end
 end)
@@ -470,7 +476,8 @@ if not Config.OxInventory then
                             if IsPedOnFoot(ESX.PlayerData.ped) and (closestDistance == -1 or closestDistance > 3) and not pickup.inRange then
                                 pickup.inRange = true
 
-                                local dict, anim = "weapons@first_person@aim_rng@generic@projectile@sticky_bomb@", "plant_floor"
+                                local dict, anim = "weapons@first_person@aim_rng@generic@projectile@sticky_bomb@",
+                                    "plant_floor"
                                 ESX.Streaming.RequestAnimDict(dict)
                                 TaskPlayAnim(ESX.PlayerData.ped, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
                                 RemoveAnimDict(dict)
@@ -637,7 +644,8 @@ RegisterNetEvent("esx:noclip", function()
             CreateThread(noclipThread)
         end
 
-        ESX.ShowNotification(TranslateCap("noclip_message", noclip and Translate("enabled") or Translate("disabled")), true, false, 140)
+        ESX.ShowNotification(TranslateCap("noclip_message", noclip and Translate("enabled") or Translate("disabled")),
+            true, false, 140)
     end)
 end)
 
