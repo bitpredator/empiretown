@@ -1,7 +1,7 @@
-local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
+local CurrentAction, CurrentActionMsg, CurrentActionData, billing = nil, "", {}, {}
 local HasAlreadyEnteredMarker, LastHospital, LastPart, LastPartNum
 local isBusy, deadPlayers, deadPlayerBlips, isOnDuty, vehicle = false, {}, {}, false, {}
-isInShopMenu = false
+local isInShopMenu = false
 
 function OpenAmbulanceActionsMenu()
 	local elements = {
@@ -122,7 +122,6 @@ function OpenMobileAmbulanceActionsMenu()
 end
 
 -- billing
-local billing
 
 if billing == "billing" then
 	ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "billing", {
@@ -137,13 +136,8 @@ if billing == "billing" then
 			if closestPlayer == -1 or closestDistance > 3.0 then
 				ESX.ShowNotification(TranslateCap("no_players_near"))
 			else
-				TriggerServerEvent(
-					"esx_billing:sendBill",
-					GetPlayerServerId(closestPlayer),
-					"society_ambulance",
-					"Ambulance",
-					amount
-				)
+				TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ambulance",
+					"Ambulance", amount)
 				ESX.ShowNotification(TranslateCap("billing_sent"))
 			end
 		end
