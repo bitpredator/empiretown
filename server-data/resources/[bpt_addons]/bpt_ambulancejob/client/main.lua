@@ -210,7 +210,7 @@ end
 
 function SendDistressSignal()
 	local playerPed = PlayerPedId()
-	local coords = GetEntityCoords(playerPed)
+	local _ = GetEntityCoords(playerPed)
 
 	ESX.ShowNotification(TranslateCap("distress_sent"))
 	TriggerServerEvent("bpt_ambulancejob:onPlayerDistress")
@@ -227,7 +227,7 @@ function DrawGenericTextThisFrame()
 end
 
 function secondsToClock(seconds)
-	local seconds, hours, mins, secs = tonumber(seconds), 0, 0, 0
+	local _ = tonumber(seconds)
 
 	if seconds <= 0 then
 		return 0, 0
