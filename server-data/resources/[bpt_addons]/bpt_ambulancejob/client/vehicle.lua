@@ -3,10 +3,10 @@ local spawnedVehicles = {}
 function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
 	local playerCoords = GetEntityCoords(PlayerPedId())
 	local elements = {
-		{ unselectable = true, icon = "fas fa-car", title = TranslateCap("garage_title") },
+		{ unselectable = true, icon = "fas fa-car",                       title = TranslateCap("garage_title") },
 		{ icon = "fas fa-car", title = TranslateCap("garage_storeditem"), action = "garage" },
-		{ icon = "fas fa-car", title = TranslateCap("garage_storeitem"), action = "store_garage" },
-		{ icon = "fas fa-car", title = TranslateCap("garage_buyitem"), action = "buy_vehicle" },
+		{ icon = "fas fa-car", title = TranslateCap("garage_storeitem"),  action = "store_garage" },
+		{ icon = "fas fa-car", title = TranslateCap("garage_buyitem"),    action = "buy_vehicle" },
 	}
 	ESX.OpenContext("right", elements, function(_, element)
 		if element.action == "buy_vehicle" then
@@ -62,7 +62,8 @@ function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
 							)
 
 							if v.stored then
-								label = label .. ('<span style="color:green;">%s</span>'):format(TranslateCap("garage_stored"))
+								label = label ..
+								('<span style="color:green;">%s</span>'):format(TranslateCap("garage_stored"))
 							else
 								label = label
 									.. ('<span style="color:darkred;">%s</span>'):format(TranslateCap("garage_notstored"))
@@ -144,7 +145,8 @@ function StoreNearbyVehicle(playerCoords)
 			local vehicleId = vehiclePlates[foundNum]
 			local attempts = 0
 			ESX.Game.DeleteVehicle(vehicleId.vehicle)
-			isBusy = true
+			local isBusy = true
+			local drawLoadingText = {}
 
 			CreateThread(function()
 				while isBusy do
@@ -207,7 +209,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 	ESX.OpenContext("right", elements, function(_, element)
 		local elements2 = {
 			{ unselectable = true, icon = "fas fa-car", title = element.title },
-			{ icon = "fas fa-eye", title = "View", value = "view" },
+			{ icon = "fas fa-eye", title = "View",      value = "view" },
 		}
 
 		ESX.OpenContext("right", elements2, function(_, element2)
@@ -227,9 +229,9 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 				end)
 
 				local elements3 = {
-					{ unselectable = true, icon = "fas fa-car", title = element.title },
-					{ icon = "fas fa-check-double", title = "Buy", value = "buy" },
-					{ icon = "fas fa-eye", title = "Stop Viewing", value = "stop" },
+					{ unselectable = true,          icon = "fas fa-car",    title = element.title },
+					{ icon = "fas fa-check-double", title = "Buy",          value = "buy" },
+					{ icon = "fas fa-eye",          title = "Stop Viewing", value = "stop" },
 				}
 
 				ESX.OpenContext("right", elements3, function(_, element3)
