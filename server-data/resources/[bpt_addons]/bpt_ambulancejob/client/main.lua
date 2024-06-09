@@ -39,7 +39,7 @@ AddEventHandler("esx:onPlayerSpawn", function()
 				Wait(5000)
 			end
 
-			ESX.TriggerServerCallback("esx_ambulancejob:getDeathStatus", function(shouldDie)
+			ESX.TriggerServerCallback("bpt_ambulancejob:getDeathStatus", function(shouldDie)
 				if shouldDie then
 					Wait(10000)
 					SetEntityHealth(PlayerPedId(), 0)
@@ -113,8 +113,8 @@ CreateThread(function()
 	end
 end)
 
-RegisterNetEvent("esx_ambulancejob:clsearch")
-AddEventHandler("esx_ambulancejob:clsearch", function(medicId)
+RegisterNetEvent("bpt_ambulancejob:clsearch")
+AddEventHandler("bpt_ambulancejob:clsearch", function(medicId)
 	local playerPed = PlayerPedId()
 
 	if isDead then
@@ -135,7 +135,7 @@ end)
 function OnPlayerDeath()
 	isDead = true
 	ESX.CloseContext()
-	TriggerServerEvent("esx_ambulancejob:setDeathStatus", true)
+	TriggerServerEvent("bpt_ambulancejob:setDeathStatus", true)
 
 	StartDeathTimer()
 	StartDistressSignal()
@@ -143,8 +143,8 @@ function OnPlayerDeath()
 	StartScreenEffect("DeathFailOut", 0, false)
 end
 
-RegisterNetEvent("esx_ambulancejob:useItem")
-AddEventHandler("esx_ambulancejob:useItem", function(itemName)
+RegisterNetEvent("bpt_ambulancejob:useItem")
+AddEventHandler("bpt_ambulancejob:useItem", function(itemName)
 	ESX.CloseContext()
 
 	if itemName == "medikit" then
@@ -160,7 +160,7 @@ AddEventHandler("esx_ambulancejob:useItem", function(itemName)
 				DisableAllControlActions(0)
 			end
 
-			TriggerEvent("esx_ambulancejob:heal", "big", true)
+			TriggerEvent("bpt_ambulancejob:heal", "big", true)
 			ESX.ShowNotification(TranslateCap("used_medikit"))
 		end)
 	elseif itemName == "bandage" then
@@ -176,7 +176,7 @@ AddEventHandler("esx_ambulancejob:useItem", function(itemName)
 				DisableAllControlActions(0)
 			end
 
-			TriggerEvent("esx_ambulancejob:heal", "small", true)
+			TriggerEvent("bpt_ambulancejob:heal", "small", true)
 			ESX.ShowNotification(TranslateCap("used_bandage"))
 		end)
 	end
@@ -210,10 +210,10 @@ end
 
 function SendDistressSignal()
 	local playerPed = PlayerPedId()
-	local coords = GetEntityCoords(playerPed)
+	local _ = GetEntityCoords(playerPed)
 
 	ESX.ShowNotification(TranslateCap("distress_sent"))
-	TriggerServerEvent("esx_ambulancejob:onPlayerDistress")
+	TriggerServerEvent("bpt_ambulancejob:onPlayerDistress")
 end
 
 function DrawGenericTextThisFrame()
@@ -227,7 +227,7 @@ function DrawGenericTextThisFrame()
 end
 
 function secondsToClock(seconds)
-	local seconds, hours, mins, secs = tonumber(seconds), 0, 0, 0
+	local _ = tonumber(seconds)
 
 	if seconds <= 0 then
 		return 0, 0
@@ -244,7 +244,7 @@ function StartDeathTimer()
 	local canPayFine = false
 
 	if Config.EarlyRespawnFine then
-		ESX.TriggerServerCallback("esx_ambulancejob:checkBalance", function(canPay)
+		ESX.TriggerServerCallback("bpt_ambulancejob:checkBalance", function(canPay)
 			canPayFine = canPay
 		end)
 	end
@@ -303,7 +303,7 @@ function StartDeathTimer()
 				text = text .. TranslateCap("respawn_bleedout_fine", ESX.Math.GroupDigits(Config.EarlyRespawnFineAmount))
 
 				if IsControlPressed(0, 38) and timeHeld > 60 then
-					TriggerServerEvent("esx_ambulancejob:payFine")
+					TriggerServerEvent("bpt_ambulancejob:payFine")
 					RemoveItemsAfterRPDeath()
 					break
 				end
@@ -329,7 +329,7 @@ function StartDeathTimer()
 end
 
 function RemoveItemsAfterRPDeath()
-	TriggerServerEvent("esx_ambulancejob:setDeathStatus", false)
+	TriggerServerEvent("bpt_ambulancejob:setDeathStatus", false)
 
 	CreateThread(function()
 		DoScreenFadeOut(800)
@@ -338,7 +338,7 @@ function RemoveItemsAfterRPDeath()
 			Wait(10)
 		end
 
-		ESX.TriggerServerCallback("esx_ambulancejob:removeItemsAfterRPDeath", function()
+		ESX.TriggerServerCallback("bpt_ambulancejob:removeItemsAfterRPDeath", function()
 			local formattedCoords = {
 				x = Config.RespawnPoint.coords.x,
 				y = Config.RespawnPoint.coords.y,
@@ -369,11 +369,11 @@ AddEventHandler("esx:onPlayerDeath", function()
 	OnPlayerDeath()
 end)
 
-RegisterNetEvent("esx_ambulancejob:revive")
-AddEventHandler("esx_ambulancejob:revive", function()
+RegisterNetEvent("bpt_ambulancejob:revive")
+AddEventHandler("bpt_ambulancejob:revive", function()
 	local playerPed = PlayerPedId()
 	local coords = GetEntityCoords(playerPed)
-	TriggerServerEvent("esx_ambulancejob:setDeathStatus", false)
+	TriggerServerEvent("bpt_ambulancejob:setDeathStatus", false)
 
 	DoScreenFadeOut(800)
 

@@ -930,7 +930,7 @@ Config.AdminCommands = {
 				return
 			end
 
-			TriggerServerEvent("esx_ambulancejob:revive", targetServerId)
+			TriggerServerEvent("bpt_ambulancejob:revive", targetServerId)
 			RageUI.CloseAll()
 		end,
 	},
