@@ -2,7 +2,7 @@ fx_version("adamant")
 
 game("gta5")
 
-description("ESX Ambulance Job")
+description("BPT Ambulance Job")
 
 version("1.0.1")
 
