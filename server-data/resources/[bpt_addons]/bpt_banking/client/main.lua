@@ -1,5 +1,5 @@
 local BANK = {
-    Data = {}
+    Data = {},
 }
 
 local activeBlips, bankPoints, atmPoints, markerPoints = {}, {}, {}, {}
@@ -22,8 +22,7 @@ function BANK:Thread()
 
             if (IsPedOnFoot(data.ped) and not ESX.PlayerData.dead) and not inMenu then
                 for i = 1, #Config.AtmModels do
-                    local atm = GetClosestObjectOfType(data.coord.x, data.coord.y, data.coord.z, 0.7, Config.AtmModels
-                    [i], false, false, false)
+                    local atm = GetClosestObjectOfType(data.coord.x, data.coord.y, data.coord.z, 0.7, Config.AtmModels[i], false, false, false)
                     if atm ~= 0 then
                         atmPoints[#atmPoints + 1] = GetEntityCoords(atm)
                     end
@@ -56,15 +55,16 @@ function BANK:Thread()
         end
     end)
 
-    if not Config.ShowMarker then return end
+    if not Config.ShowMarker then
+        return
+    end
 
     CreateThread(function()
         local wait = 1000
         while playerLoaded do
             if next(markerPoints) then
                 for i = 1, #markerPoints do
-                    DrawMarker(20, markerPoints[i].x, markerPoints[i].y, markerPoints[i].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                        0.3, 0.2, 0.2, 187, 255, 0, 255, false, true, 2, false, nil, nil, false)
+                    DrawMarker(20, markerPoints[i].x, markerPoints[i].y, markerPoints[i].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.2, 187, 255, 0, 255, false, true, 2, false, nil, nil, false)
                 end
                 wait = 0
             end
@@ -79,7 +79,7 @@ function BANK:TextUi(state, atm)
     if not state then
         return ESX.HideUI()
     end
-    ESX.TextUI(TranslateCap('press_e_banking'))
+    ESX.TextUI(TranslateCap("press_e_banking"))
     CreateThread(function()
         while uiActive do
             if IsControlJustReleased(0, 38) then
@@ -95,7 +95,7 @@ end
 function BANK:CreateBlips()
     local tmpActiveBlips = {}
     for i = 1, #Config.Banks do
-        if type(Config.Banks[i].Blip) == 'table' and Config.Banks[i].Blip.Enabled then
+        if type(Config.Banks[i].Blip) == "table" and Config.Banks[i].Blip.Enabled then
             local position = Config.Banks[i].Position
             local bInfo = Config.Banks[i].Blip
             local blip = AddBlipForCoord(position.x, position.y, position.z)
@@ -103,7 +103,7 @@ function BANK:CreateBlips()
             SetBlipScale(blip, bInfo.Scale)
             SetBlipColour(blip, bInfo.Color)
             SetBlipAsShortRange(blip, true)
-            BeginTextCommandSetBlipName('STRING')
+            BeginTextCommandSetBlipName("STRING")
             AddTextComponentSubstringPlayerName(bInfo.Label)
             EndTextCommandSetBlipName(blip)
             tmpActiveBlips[#tmpActiveBlips + 1] = blip
@@ -131,11 +131,11 @@ function BANK:HandleUi(state, atm)
     ClearPedTasks(PlayerPedId())
     if not state then
         SendNUIMessage({
-            showMenu = false
+            showMenu = false,
         })
         return
     end
-    ESX.TriggerServerCallback('bpt_banking:getPlayerData', function(data)
+    ESX.TriggerServerCallback("bpt_banking:getPlayerData", function(data)
         SendNUIMessage({
             showMenu = true,
             openATM = atm,
@@ -143,20 +143,20 @@ function BANK:HandleUi(state, atm)
                 your_money_panel = {
                     accountsData = { {
                         name = "cash",
-                        amount = data.money
+                        amount = data.money,
                     }, {
                         name = "bank",
-                        amount = data.bankMoney
-                    } }
+                        amount = data.bankMoney,
+                    } },
                 },
                 bankCardData = {
-                    bankName = TranslateCap('bank_name'),
+                    bankName = TranslateCap("bank_name"),
                     cardNumber = "2232 2222 2222 2222",
                     createdDate = "08/08",
-                    name = data.playerName
+                    name = data.playerName,
                 },
-                transactionsData = data.transactionHistory
-            }
+                transactionsData = data.transactionHistory,
+            },
         })
     end)
 end
@@ -179,84 +179,92 @@ function BANK:LoadNpc(index, netID)
 end
 
 -- Events
-RegisterNetEvent('bpt_banking:closebanking', function()
+RegisterNetEvent("bpt_banking:closebanking", function()
     BANK:HandleUi(false)
 end)
 
-RegisterNetEvent('bpt_banking:pedHandler', function(netIdTable)
+RegisterNetEvent("bpt_banking:pedHandler", function(netIdTable)
     for i = 1, #netIdTable do
         BANK:LoadNpc(i, netIdTable[i])
     end
 end)
 
-RegisterNetEvent('bpt_banking:updateMoneyInUI', function(doingType, bankMoney, money)
+RegisterNetEvent("bpt_banking:updateMoneyInUI", function(doingType, bankMoney, money)
     SendNUIMessage({
         updateData = true,
         data = {
             type = doingType,
             bankMoney = bankMoney,
-            money = money
-        }
+            money = money,
+        },
     })
 end)
 
 -- Handlers
 -- Resource starting
-AddEventHandler('onResourceStart', function(resource)
-    if resource ~= GetCurrentResourceName() then return end
+AddEventHandler("onResourceStart", function(resource)
+    if resource ~= GetCurrentResourceName() then
+        return
+    end
     BANK:Thread()
 end)
 
 -- Enable the script on player loaded
-RegisterNetEvent('esx:playerLoaded', function()
+RegisterNetEvent("esx:playerLoaded", function()
     BANK:Thread()
 end)
 
 -- Disable the script on player logout
-RegisterNetEvent('esx:onPlayerLogout', function()
+RegisterNetEvent("esx:onPlayerLogout", function()
     playerLoaded = false
 end)
 
 -- Resource stopping
-AddEventHandler('onResourceStop', function(resource)
-    if resource ~= GetCurrentResourceName() then return end
+AddEventHandler("onResourceStop", function(resource)
+    if resource ~= GetCurrentResourceName() then
+        return
+    end
     BANK:RemoveBlips()
-    if uiActive then BANK:TextUi(false) end
+    if uiActive then
+        BANK:TextUi(false)
+    end
 end)
 
-RegisterNetEvent('esx:onPlayerDeath', function() BANK:TextUi(false) end)
+RegisterNetEvent("esx:onPlayerDeath", function()
+    BANK:TextUi(false)
+end)
 
 -- Nui Callbacks
-RegisterNUICallback('close', function(data, cb)
+RegisterNUICallback("close", function(data, cb)
     BANK:HandleUi(false)
-    cb('ok')
+    cb("ok")
 end)
 
-RegisterNUICallback('clickButton', function(data, cb)
+RegisterNUICallback("clickButton", function(data, cb)
     if not data or not inMenu then
-        return cb('ok')
+        return cb("ok")
     end
 
     TriggerServerEvent("bpt_banking:doingType", data)
-    cb('ok')
+    cb("ok")
 end)
 
-RegisterNUICallback('checkPincode', function(data, cb)
+RegisterNUICallback("checkPincode", function(data, cb)
     if not data or not inMenu then
-        return cb('ok')
+        return cb("ok")
     end
 
     ESX.TriggerServerCallback("bpt_banking:checkPincode", function(pincode)
         if pincode then
             cb({
-                success = true
+                success = true,
             })
-            ESX.ShowNotification(TranslateCap('pincode_found'), "success")
+            ESX.ShowNotification(TranslateCap("pincode_found"), "success")
         else
             cb({
-                error = true
+                error = true,
             })
-            ESX.ShowNotification(TranslateCap('pincode_not_found'), "error")
+            ESX.ShowNotification(TranslateCap("pincode_not_found"), "error")
         end
     end, data)
 end)
