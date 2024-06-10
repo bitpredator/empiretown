@@ -7,7 +7,7 @@ function ShowBillsMenu()
                 { unselectable = true, icon = "fas fa-scroll", title = TranslateCap("invoices") },
             }
 
-            for k, v in ipairs(bills) do
+            for _, v in ipairs(bills) do
                 elements[#elements + 1] = {
                     icon = "fas fa-scroll",
                     title = ('%s - <span style="color:red;">%s</span>'):format(v.label, TranslateCap("invoices_item", ESX.Math.GroupDigits(v.amount))),
