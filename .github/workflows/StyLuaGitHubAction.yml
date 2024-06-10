@@ -23,4 +23,7 @@ jobs:
           node-version: "16"
       - name: Install stylua and format files
         uses: JohnnyMorganz/stylua-action@v3
-        version: v0.18.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: v0.18.0
+                    args: -- .
