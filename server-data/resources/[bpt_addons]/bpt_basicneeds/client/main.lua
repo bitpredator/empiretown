@@ -36,7 +36,7 @@ AddEventHandler("bpt_status:loaded", function(status)
         status.remove(100)
     end)
 
-    TriggerEvent("bpt_status:registerStatus", "thirst", 1000000, "#0C98F1", function(status)
+    TriggerEvent("bpt_status:registerStatus", "thirst", 1000000, "#0C98F1", function()
         return Config.Visible
     end, function()
         status.remove(75)
