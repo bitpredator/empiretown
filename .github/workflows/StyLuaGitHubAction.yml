@@ -6,10 +6,12 @@ on:
   pull_request:
     types: [ labeled ]
 
-- uses: actions/checkout@v3
-- uses: JohnnyMorganz/stylua-action@v3
-  with:
-    token: ${{ secrets.GITHUB_TOKEN }}
-    version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
-    # CLI arguments
-    args: --check .
+  stylua-check:
+    name: Stylua Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.label.name == 'format_all') }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: JohnnyMorganz/stylua-action@v3
