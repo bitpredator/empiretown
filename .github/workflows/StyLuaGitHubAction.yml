@@ -13,6 +13,8 @@ jobs:
     permissions:
       contents: write
     if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.label.name == 'format_all') }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -26,4 +28,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: v0.18.0
-                    args: -- .
+          args: -- .
