@@ -30,15 +30,15 @@ AddEventHandler("esx:onPlayerSpawn", function(spawn)
 end)
 
 AddEventHandler("bpt_status:loaded", function(status)
-    TriggerEvent("bpt_status:registerStatus", "hunger", 1000000, "#CFAD0F", function(status)
+    TriggerEvent("bpt_status:registerStatus", "hunger", 1000000, "#CFAD0F", function()
         return Config.Visible
-    end, function(status)
+    end, function()
         status.remove(100)
     end)
 
     TriggerEvent("bpt_status:registerStatus", "thirst", 1000000, "#0C98F1", function(status)
         return Config.Visible
-    end, function(status)
+    end, function()
         status.remove(75)
     end)
 end)
@@ -48,7 +48,7 @@ AddEventHandler("bpt_status:onTick", function(data)
     local prevHealth = GetEntityHealth(playerPed)
     local health = prevHealth
 
-    for k, v in pairs(data) do
+    for _, v in pairs(data) do
         if v.name == "hunger" and v.percent == 0 then
             if prevHealth <= 150 then
                 health = health - 5
@@ -74,9 +74,9 @@ AddEventHandler("bpt_basicneeds:isEating", function(cb)
 end)
 
 RegisterNetEvent("bpt_basicneeds:onUse")
-AddEventHandler("bpt_basicneeds:onUse", function(type, prop_name, anim)
+AddEventHandler("bpt_basicneeds:onUse", function(type, prop_name)
     if not IsAnimated then
-        local anim = anim
+        local anim = {}
         IsAnimated = true
         if type == "food" then
             prop_name = prop_name or "prop_cs_burger_01"
