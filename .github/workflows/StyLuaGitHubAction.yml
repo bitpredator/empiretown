@@ -1,31 +1,23 @@
-name: formatter-all
-
+# Check Lua Formatting
+name: Check Lua Formatting
 on:
-  push:
-    branches: [ main, dev ]
-  pull_request:
-    types: [ labeled ]
+    push:
+      branches: [ main, dev ]
+    pull_request:
+      types: [ labeled ]
 
 jobs:
-  formatter:
-    name: formatter
+  stylua-check:
+    name: Stylua Check
     runs-on: ubuntu-latest
     permissions:
       contents: write
     if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.label.name == 'format_all') }}
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-      - name: Install stylua and format files
-        uses: JohnnyMorganz/stylua-action@v3
+      - uses: actions/checkout@v4
+      - uses: JohnnyMorganz/stylua-action@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: v0.18.0
-          args: -- .
+          # CLI arguments
+          args: --check .
