@@ -155,7 +155,7 @@ AddEventHandler("esx_society:putVehicleInGarage", function(societyName, vehicle)
         print(("[^3WARNING^7] Player ^5%s^7 attempted to put vehicle in non-existing society garage - ^5%s^7!"):format(source, societyName))
         return
     end
-    TriggerEvent("esx_datastore:getSharedDataStore", society.datastore, function(store)
+    TriggerEvent("bpt_datastore:getSharedDataStore", society.datastore, function(store)
         local garage = store.get("garage") or {}
         table.insert(garage, vehicle)
         store.set("garage", garage)
@@ -171,7 +171,7 @@ AddEventHandler("esx_society:removeVehicleFromGarage", function(societyName, veh
         print(("[^3WARNING^7] Player ^5%s^7 attempted to remove vehicle from non-existing society garage - ^5%s^7!"):format(source, societyName))
         return
     end
-    TriggerEvent("esx_datastore:getSharedDataStore", society.datastore, function(store)
+    TriggerEvent("bpt_datastore:getSharedDataStore", society.datastore, function(store)
         local garage = store.get("garage") or {}
 
         for i = 1, #garage, 1 do
@@ -398,7 +398,7 @@ ESX.RegisterServerCallback("esx_society:getVehiclesInGarage", function(_, cb, so
         print(("[^3WARNING^7] Attempting To get a non-existing society - %s!"):format(societyName))
         return
     end
-    TriggerEvent("esx_datastore:getSharedDataStore", society.datastore, function(store)
+    TriggerEvent("bpt_datastore:getSharedDataStore", society.datastore, function(store)
         local garage = store.get("garage") or {}
         cb(garage)
     end)

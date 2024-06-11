@@ -263,7 +263,7 @@ ESX.RegisterServerCallback("esx_policejob:getVehicleInfos", function(source, cb,
 end)
 
 ESX.RegisterServerCallback("esx_policejob:getArmoryWeapons", function(source, cb)
-	TriggerEvent("esx_datastore:getSharedDataStore", "society_police", function(store)
+	TriggerEvent("bpt_datastore:getSharedDataStore", "society_police", function(store)
 		local weapons = store.get("weapons")
 
 		if weapons == nil then
@@ -281,7 +281,7 @@ ESX.RegisterServerCallback("esx_policejob:addArmoryWeapon", function(source, cb,
 		xPlayer.removeWeapon(weaponName)
 	end
 
-	TriggerEvent("esx_datastore:getSharedDataStore", "society_police", function(store)
+	TriggerEvent("bpt_datastore:getSharedDataStore", "society_police", function(store)
 		local weapons = store.get("weapons") or {}
 		local foundWeapon = false
 
@@ -309,7 +309,7 @@ ESX.RegisterServerCallback("esx_policejob:removeArmoryWeapon", function(source, 
 	local xPlayer = ESX.GetPlayerFromId(source)
 	xPlayer.addWeapon(weaponName, 500)
 
-	TriggerEvent("esx_datastore:getSharedDataStore", "society_police", function(store)
+	TriggerEvent("bpt_datastore:getSharedDataStore", "society_police", function(store)
 		local weapons = store.get("weapons") or {}
 
 		local foundWeapon = false
