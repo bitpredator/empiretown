@@ -1,19 +1,19 @@
-fx_version 'adamant'
+fx_version("adamant")
 
-game 'gta5'
+game("gta5")
 
-author 'bitpredator'
-description 'Allowlist system that allows you to only allow specific people to access your server'
+author("bitpredator")
+description("Allowlist system that allows you to only allow specific people to access your server")
 
-version '1.0.1'
+version("1.0.1")
 
-lua54 'yes'
-server_only 'yes'
+lua54("yes")
+server_only("yes")
 
-server_scripts {
-    '@es_extended/imports.lua',
-    '@es_extended/locale.lua',
-    'config.lua',
-    'locales/*.lua',
-    'server/main.lua'
-}
+server_scripts({
+    "@es_extended/imports.lua",
+    "@es_extended/locale.lua",
+    "config.lua",
+    "locales/*.lua",
+    "server/main.lua",
+})
