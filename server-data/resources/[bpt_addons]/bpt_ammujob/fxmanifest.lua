@@ -9,17 +9,17 @@ version("1.0.1")
 shared_script("@es_extended/imports.lua")
 
 client_scripts({
-	"@es_extended/locale.lua",
-	"locales/*.lua",
-	"config.lua",
-	"client/*.lua",
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
+    "client/*.lua",
 })
 
 server_scripts({
-	"@es_extended/locale.lua",
-	"locales/*.lua",
-	"config.lua",
-	"server/*.lua",
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
+    "server/*.lua",
 })
 
 dependency("es_extended")
