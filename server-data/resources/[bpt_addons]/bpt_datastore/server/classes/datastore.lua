@@ -4,7 +4,7 @@ function stringsplit(inputstr, sep)
 	end
 
 	local t = {}
-	i = 1
+	local i = 1
 	for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
 		t[i] = str
 		i = i + 1
