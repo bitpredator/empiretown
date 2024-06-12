@@ -31,7 +31,7 @@ function CreateDataStore(name, owner, data)
 		local path = stringsplit(key, ".")
 		local obj = self.data
 
-		for i = 1, #path, 1 do
+		for _ = 1, #path, 1 do
 			obj = obj[path[i]]
 		end
 
@@ -46,7 +46,7 @@ function CreateDataStore(name, owner, data)
 		local path = stringsplit(key, ".")
 		local obj = self.data
 
-		for i = 1, #path, 1 do
+		for _ = 1, #path, 1 do
 			obj = obj[path[i]]
 		end
 
