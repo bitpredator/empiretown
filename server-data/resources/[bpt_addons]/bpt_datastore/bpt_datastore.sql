@@ -17,4 +17,3 @@ CREATE TABLE `datastore_data` (
 	UNIQUE INDEX `index_datastore_data_name_owner` (`name`, `owner`),
 	INDEX `index_datastore_data_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
