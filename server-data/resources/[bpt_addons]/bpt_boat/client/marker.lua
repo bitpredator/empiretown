@@ -127,7 +127,6 @@ CreateThread(function()
             end
         end
 
-        local LastZoneNum
         if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastZone ~= currentZone or LastZoneNum ~= currentZoneNum)) then
             if (LastZone ~= nil and LastZoneNum ~= nil) and (LastZone ~= currentZone or LastZoneNum ~= currentZoneNum) then
                 TriggerEvent("bpt_boat:hasExitedMarker", LastZone)
