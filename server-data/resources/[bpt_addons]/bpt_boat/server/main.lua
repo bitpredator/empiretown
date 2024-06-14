@@ -99,7 +99,7 @@ ESX.RegisterServerCallback("bpt_boat:buyBoatLicense", function(source, cb)
 end)
 
 function getPriceFromModel(model)
-    for k, v in ipairs(Config.Vehicles) do
+    for _, v in ipairs(Config.Vehicles) do
         if joaat(v.model) == model then
             return v.price
         end
