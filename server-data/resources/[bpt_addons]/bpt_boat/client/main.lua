@@ -9,7 +9,7 @@ function OpenBoatShop(shop)
         { unselectable = true, icon = "fas fa-ship", title = TranslateCap("boat_shop") },
     }
 
-    for k, v in ipairs(Config.Vehicles) do
+    for _, v in ipairs(Config.Vehicles) do
         elements[#elements + 1] = {
             icon = "fas fa-ship",
             title = ('%s - <span style="color:green;">$%s</span>'):format(v.label, ESX.Math.GroupDigits(v.price)),
@@ -48,7 +48,7 @@ function OpenBoatShop(shop)
                     ESX.OpenContext("right", elements3, function(menu3, element3)
                         if element3.value == "buy" then
                             local plate = exports["esx_vehicleshop"]:GeneratePlate()
-                            local vehicle = GetVehiclePedIsIn(playerPed, false)
+                            local _ = GetVehiclePedIsIn(playerPed, false)
                             local props = ESX.Game.GetVehicleProperties(vehicle)
                             props.plate = plate
 
@@ -78,7 +78,7 @@ function OpenBoatShop(shop)
                     end)
                 end)
             end
-        end, function(menu)
+        end, function()
             isInShopMenu = false
             CurrentAction = "boat_shop"
             CurrentActionMsg = TranslateCap("boat_shop_open")
@@ -164,7 +164,7 @@ function OpenLicenceMenu(shop)
                     ESX.ShowNotification(TranslateCap("license_nomoney"))
                 end
             end)
-        end, function(menu)
+        end, function()
             CurrentAction = "boat_shop"
             CurrentActionMsg = TranslateCap("boat_shop_open")
         end)
