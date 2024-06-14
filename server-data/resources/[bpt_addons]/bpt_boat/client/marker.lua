@@ -50,7 +50,7 @@ AddEventHandler("bpt_boat:hasEnteredMarker", function(zone, zoneNum)
         CurrentActionData = { zoneNum = zoneNum }
     elseif zone == "garage_in" then
         local playerPed = PlayerPedId()
-        local coords = GetEntityCoords(playerPed)
+        local _ = GetEntityCoords(playerPed)
 
         if IsPedInAnyVehicle(playerPed, false) then
             local vehicle = GetVehiclePedIsIn(playerPed, false)
