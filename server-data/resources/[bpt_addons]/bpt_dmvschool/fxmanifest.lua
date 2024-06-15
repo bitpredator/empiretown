@@ -2,14 +2,15 @@ fx_version("adamant")
 
 game("gta5")
 
-description("Allows players to buy a boat")
-lua54("yes")
+description("A DMV School for players to get their drivers license")
+
 version("1.0.0")
+
+lua54("yes")
 
 shared_script("@es_extended/imports.lua")
 
 server_scripts({
-    "@oxmysql/lib/MySQL.lua",
     "@es_extended/locale.lua",
     "locales/*.lua",
     "config.lua",
@@ -21,10 +22,20 @@ client_scripts({
     "locales/*.lua",
     "config.lua",
     "client/main.lua",
-    "client/marker.lua",
+})
+
+ui_page("html/ui.html")
+
+files({
+    "html/ui.html",
+    "html/dmv.png",
+    "html/styles.css",
+    "html/questions.js",
+    "html/scripts.js",
+    "html/debounce.min.js",
 })
 
 dependencies({
     "es_extended",
-    "esx_vehicleshop",
+    "esx_license",
 })
