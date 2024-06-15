@@ -69,7 +69,7 @@ function getMaximumGrade(jobName)
 end
 
 function getAdminCommand(name)
-	for i = 1, #Config.Admin do
+	for _ = 1, #Config.Admin do
 		if Config.Admin[i].name == name then
 			return i
 		end
@@ -165,11 +165,7 @@ AddEventHandler(
 
 				if newGrade ~= getMaximumGrade(targetJob.name) then
 					targetXPlayer.setJob(targetJob.name, newGrade)
-					TriggerClientEvent(
-						"esx:showNotification",
-						sourceXPlayer.source,
-						TranslateCap("promoted"):format(targetXPlayer.name)
-					)
+					TriggerClientEvent("esx:showNotification", sourceXPlayer.source,TranslateCap("promoted"):format(targetXPlayer.name))
 					TriggerClientEvent("esx:showNotification", target, TranslateCap("you_promoted"):format(sourceXPlayer.name))
 				else
 					TriggerClientEvent("esx:showNotification", sourceXPlayer.source, TranslateCap("not_permission"))
