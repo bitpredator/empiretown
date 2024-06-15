@@ -1,6 +1,5 @@
 local CurrentAction = nil
 local CurrentActionMsg = nil
-local CurrentActionData = nil
 local Licenses = {}
 local CurrentTest = nil
 local CurrentTestType = nil
@@ -153,7 +152,6 @@ function OpenDMVSchoolMenu()
     end, function(menu)
         CurrentAction = "dmvschool_menu"
         CurrentActionMsg = TranslateCap("press_open_menu")
-        CurrentActionData = {}
     end)
 end
 
@@ -179,7 +177,6 @@ AddEventHandler("bpt_dmvschool:hasEnteredMarker", function(zone)
     if zone == "DMVSchool" then
         CurrentAction = "dmvschool_menu"
         CurrentActionMsg = TranslateCap("press_open_menu")
-        CurrentActionData = {}
     end
 end)
 
@@ -215,7 +212,7 @@ CreateThread(function()
         local playerPed = PlayerPedId()
         local coords = GetEntityCoords(playerPed)
 
-        for k, v in pairs(Config.Zones) do
+        for _, v in pairs(Config.Zones) do
             local Pos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
             if v.Type ~= -1 and #(coords - Pos) < Config.DrawDistance then
                 sleep = 0
