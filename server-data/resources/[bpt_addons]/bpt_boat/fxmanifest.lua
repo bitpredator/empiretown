@@ -4,7 +4,7 @@ game("gta5")
 
 description("Allows players to buy a boat")
 lua54("yes")
-version("1.0")
+version("1.0.0")
 
 shared_script("@es_extended/imports.lua")
 
