@@ -121,7 +121,7 @@ function loadESXPlayer(identifier, playerId, isNew)
     local result = MySQL.prepare.await(loadPlayer, { identifier })
 
     -- Accounts
-    local accounts = result.accounts
+    local accounts = result ~= nil and result.accounts
     accounts = (accounts and accounts ~= "") and json.decode(accounts) or {}
 
     for account, data in pairs(Config.Accounts) do
