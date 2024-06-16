@@ -1,30 +1,30 @@
-Config                            = {}
+Config = {}
 
-Config.DrawDistance               = 10.0 -- How close do you need to be for the markers to be drawn (in GTA units).
+Config.DrawDistance = 10.0 -- How close do you need to be for the markers to be drawn (in GTA units).
 
-Config.NPCJobEarnings             = { min = 300, max = 600 }
-Config.MinimumDistance            = 3000 -- Minimum NPC job destination distance from the pickup in GTA units, a higher number prevents nearby destionations.
+Config.NPCJobEarnings = { min = 300, max = 600 }
+Config.MinimumDistance = 3000 -- Minimum NPC job destination distance from the pickup in GTA units, a higher number prevents nearby destionations.
 
-Config.MaxInService               = -1   -- How much people can be in service at once?
-Config.EnablePlayerManagement     = true -- Enable society managing.
+Config.MaxInService = -1 -- How much people can be in service at once?
+Config.EnablePlayerManagement = true -- Enable society managing.
 Config.EnableSocietyOwnedVehicles = false
 
-Config.Locale                     = GetConvar('esx:locale', 'en')
+Config.Locale = GetConvar("esx:locale", "en")
 
-Config.OxInventory                = ESX.GetConfig().OxInventory
+Config.OxInventory = ESX.GetConfig().OxInventory
 
-Config.AuthorizedVehicles         = {
-    { model = 'taxi', title = 'Taxi', icon = 'fas fa-car' }
+Config.AuthorizedVehicles = {
+    { model = "taxi", title = "Taxi", icon = "fas fa-car" },
 }
 
-Config.Zones                      = {
+Config.Zones = {
 
     VehicleSpawner = {
         Pos = { x = 915.039, y = -162.187, z = 74.5 },
         Size = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 204, g = 204, b = 0 },
         Type = 36,
-        Rotate = true
+        Rotate = true,
     },
 
     VehicleSpawnPoint = {
@@ -32,7 +32,7 @@ Config.Zones                      = {
         Size = { x = 1.5, y = 1.5, z = 1.0 },
         Type = -1,
         Rotate = false,
-        Heading = 225.0
+        Heading = 225.0,
     },
 
     VehicleDeleter = {
@@ -40,7 +40,7 @@ Config.Zones                      = {
         Size = { x = 3.0, y = 3.0, z = 0.25 },
         Color = { r = 255, g = 0, b = 0 },
         Type = 1,
-        Rotate = false
+        Rotate = false,
     },
 
     TaxiActions = {
@@ -48,7 +48,7 @@ Config.Zones                      = {
         Size = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 204, g = 204, b = 0 },
         Type = 20,
-        Rotate = true
+        Rotate = true,
     },
 
     Cloakroom = {
@@ -56,11 +56,11 @@ Config.Zones                      = {
         Size = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 204, g = 204, b = 0 },
         Type = 21,
-        Rotate = true
-    }
+        Rotate = true,
+    },
 }
 
-Config.JobLocations               = {
+Config.JobLocations = {
     vector3(293.5, -590.2, 42.7),
     vector3(253.4, -375.9, 44.1),
     vector3(120.8, -300.4, 45.1),
@@ -152,5 +152,5 @@ Config.JobLocations               = {
     vector3(-1297.5, -654.9, 26.1),
     vector3(-1645.5, 144.6, 61.7),
     vector3(-1160.6, 744.4, 154.6),
-    vector3(-798.1, 831.7, 204.4)
+    vector3(-798.1, 831.7, 204.4),
 }
