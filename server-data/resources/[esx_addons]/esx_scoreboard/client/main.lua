@@ -128,7 +128,7 @@ function UpdatePlayerTable(connectedPlayers)
     local formattedPlayerList, num = {}, 1
     local players = 0
 
-    for k, v in pairs(connectedPlayers) do
+    for _, v in pairs(connectedPlayers) do
         if num == 1 then
             table.insert(formattedPlayerList, ("<tr><td>%s</td><td>%s</td><td>%s</td>"):format(v.name, v.id, v.ping))
             num = 2
@@ -170,6 +170,7 @@ Citizen.CreateThread(function()
 end)
 
 -- Close scoreboard when game is paused
+local IsPaused
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(300)
