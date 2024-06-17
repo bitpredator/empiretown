@@ -17,7 +17,7 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 
 			if authorizedVehicles then
 				if #authorizedVehicles > 0 then
-					for _, vehicle in ipairs(authorizedVehicles) do
+					for k, vehicle in ipairs(authorizedVehicles) do
 						if IsModelInCdimage(vehicle.model) then
 							local vehicleLabel = GetLabelText(GetDisplayNameFromVehicleModel(vehicle.model))
 
@@ -56,7 +56,7 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 				if #jobVehicles > 0 then
 					local allVehicleProps = {}
 
-					for _, v in ipairs(jobVehicles) do
+					for k, v in ipairs(jobVehicles) do
 						local props = json.decode(v.vehicle)
 
 						if IsModelInCdimage(props.model) then
@@ -149,7 +149,7 @@ function StoreNearbyVehicle(playerCoords)
 		return
 	end
 
-	ESX.TriggerServerCallback("esx_policejob:storeNearbyVehicle", function(plate)
+	ESX.TriggerServerCallback("bpt_policejob:storeNearbyVehicle", function(plate)
 		if plate then
 			local vehicleId = index[plate]
 			local attempts = 0
@@ -264,11 +264,10 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 						local props = ESX.Game.GetVehicleProperties(vehicle)
 						props.plate = newPlate
 
-						ESX.TriggerServerCallback("esx_policejob:buyJobVehicle", function(bought)
+						ESX.TriggerServerCallback("bpt_policejob:buyJobVehicle", function(bought)
 							if bought then
 								ESX.ShowNotification(
-									TranslateCap(
-										"vehicleshop_bought",
+									TranslateCap("vehicleshop_bought",
 										element.name,
 										ESX.Math.GroupDigits(element.price)
 									)
