@@ -16,7 +16,7 @@ function setUniform(uniform, playerPed)
 	TriggerEvent("skinchanger:getSkin", function(skin)
 		local uniformObject
 
-		sex = (skin.sex == 0) and "male" or "female"
+		local sex = (skin.sex == 0) and "male" or "female"
 
 		uniformObject = Config.Uniforms[uniform][sex]
 
@@ -45,7 +45,7 @@ function OpenCloakroomMenu()
 	}
 
 	if Config.EnableCustomPeds then
-		for k, v in ipairs(Config.CustomPeds.shared) do
+		for _, v in ipairs(Config.CustomPeds.shared) do
 			elements[#elements + 1] = {
 				icon = "fas fa-shirt",
 				title = v.label,
@@ -55,7 +55,7 @@ function OpenCloakroomMenu()
 			}
 		end
 
-		for k, v in ipairs(Config.CustomPeds[grade]) do
+		for _, v in ipairs(Config.CustomPeds[grade]) do
 			elements[#elements + 1] = {
 				icon = "fas fa-shirt",
 				title = v.label,
@@ -72,11 +72,11 @@ function OpenCloakroomMenu()
 
 		if data.current.value == "citizen_wear" then
 			if Config.EnableCustomPeds then
-				ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function(skin, jobSkin)
+				ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function(skin)
 					local isMale = skin.sex == 0
 
 					TriggerEvent("skinchanger:loadDefaultModel", isMale, function()
-						ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function(skin)
+						ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function()
 							TriggerEvent("skinchanger:loadSkin", skin)
 							TriggerEvent("esx:restoreLoadout")
 						end)
@@ -296,7 +296,7 @@ function OpenPoliceActionsMenu()
 				else
 					ESX.ShowNotification(TranslateCap("no_players_nearby"))
 				end
-			end, function(menu)
+			end, function()
 				OpenPoliceActionsMenu()
 			end)
 		elseif data.current.value == "vehicle_interaction" then
@@ -324,7 +324,7 @@ function OpenPoliceActionsMenu()
 				local data2 = { current = element3 }
 				local coords = GetEntityCoords(playerPed)
 				vehicle = ESX.Game.GetVehicleInDirection()
-				action = data2.current.value
+				local action = data2.current.value
 
 				if action == "search_database" then
 					LookupVehicle(element3)
@@ -375,7 +375,7 @@ function OpenPoliceActionsMenu()
 				else
 					ESX.ShowNotification(TranslateCap("no_vehicles_nearby"))
 				end
-			end, function(menu)
+			end, function()
 				OpenPoliceActionsMenu()
 			end)
 		elseif data.current.value == "object_spawner" then
@@ -399,7 +399,7 @@ function OpenPoliceActionsMenu()
 					SetEntityHeading(obj, GetEntityHeading(playerPed))
 					PlaceObjectOnGroundProperly(obj)
 				end)
-			end, function(menu)
+			end, function()
 				OpenPoliceActionsMenu()
 			end)
 		end
@@ -492,7 +492,7 @@ function OpenBodySearchMenu(player)
 			end
 		end
 
-		ESX.OpenContext("right", elements, function(menu, element)
+		ESX.OpenContext("right", elements, function(_, element)
 			local data = { current = element }
 			if data.current.value then
 				TriggerServerEvent("bpt_policejob:confiscatePlayerItem",
@@ -517,7 +517,7 @@ function OpenFineMenu(player)
 			{ icon = "fas fa-scroll", title = TranslateCap("major_offense"), value = 3 },
 		}
 
-		ESX.OpenContext("right", elements, function(menu, element)
+		ESX.OpenContext("right", elements, function(_, element)
 			local data = { current = element }
 			OpenFineCategoryMenu(player, data.current.value)
 		end)
@@ -859,8 +859,7 @@ function OpenBuyWeaponsMenu()
 				if bought then
 					if data.current.price > 0 then
 						ESX.ShowNotification(
-							TranslateCap(
-								"armory_bought",
+							TranslateCap("armory_bought",
 								data.current.weaponLabel,
 								ESX.Math.GroupDigits(data.current.price)
 							)
