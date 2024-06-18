@@ -263,7 +263,7 @@ AddEventHandler("esx_vehicleshop:returnProvider", function(vehicleModel)
 					if rowsChanged == 1 then
 						TriggerEvent("bpt_addonaccount:getSharedAccount", "society_cardealer", function(account)
 							local price = ESX.Math.Round(result.price * 0.75)
-							local vehicleLabel = getVehicleFromModel(vehicleModel).label
+							local vehicleLabel = getVehicleFromModel(vehicleModel).name
 
 							account.addMoney(price)
 							xPlayer.showNotification(
