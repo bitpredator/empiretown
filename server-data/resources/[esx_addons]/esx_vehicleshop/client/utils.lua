@@ -2,72 +2,50 @@ local NumberCharset = {}
 local Charset = {}
 
 for i = 48, 57 do
-    table.insert(NumberCharset, string.char(i))
+	table.insert(NumberCharset, string.char(i))
 end
 
 for i = 65, 90 do
-    table.insert(Charset, string.char(i))
+	table.insert(Charset, string.char(i))
 end
 for i = 97, 122 do
-    table.insert(Charset, string.char(i))
+	table.insert(Charset, string.char(i))
 end
 
 function GeneratePlate()
-    local generatedPlate
-    local doBreak = false
+	math.randomseed(GetGameTimer())
 
-    while true do
-        Wait(0)
-        math.randomseed(GetGameTimer())
-        if Config.PlateUseSpace then
-            generatedPlate = string.upper(GetRandomLetter(Config.PlateLetters) .. " " .. GetRandomNumber(Config.PlateNumbers))
-        else
-            generatedPlate = string.upper(GetRandomLetter(Config.PlateLetters) .. GetRandomNumber(Config.PlateNumbers))
-        end
+	local generatedPlate = string.upper(
+		GetRandomLetter(Config.PlateLetters)
+			.. (Config.PlateUseSpace and " " or "")
+			.. GetRandomNumber(Config.PlateNumbers)
+	)
 
-        ESX.TriggerServerCallback("esx_vehicleshop:isPlateTaken", function(isPlateTaken)
-            if not isPlateTaken then
-                doBreak = true
-            end
-        end, generatedPlate)
+	local isTaken = IsPlateTaken(generatedPlate)
+	if isTaken then
+		return GeneratePlate()
+	end
 
-        if doBreak then
-            break
-        end
-    end
-
-    return generatedPlate
+	return generatedPlate
 end
 
 -- mixing async with sync tasks
 function IsPlateTaken(plate)
-    local callback = "waiting"
+	local p = promise.new()
 
-    ESX.TriggerServerCallback("esx_vehicleshop:isPlateTaken", function(isPlateTaken)
-        callback = isPlateTaken
-    end, plate)
+	ESX.TriggerServerCallback("esx_vehicleshop:isPlateTaken", function(isPlateTaken)
+		p:resolve(isPlateTaken)
+	end, plate)
 
-    while type(callback) == "string" do
-        Wait(0)
-    end
-
-    return callback
+	return Citizen.Await(p)
 end
 
 function GetRandomNumber(length)
-    Wait(0)
-    if length > 0 then
-        return GetRandomNumber(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
-    else
-        return ""
-    end
+	Wait(0)
+	return length > 0 and GetRandomNumber(length - 1) .. NumberCharset[math.random(1, #NumberCharset)] or ""
 end
 
 function GetRandomLetter(length)
-    Wait(0)
-    if length > 0 then
-        return GetRandomLetter(length - 1) .. Charset[math.random(1, #Charset)]
-    else
-        return ""
-    end
+	Wait(0)
+	return length > 0 and GetRandomLetter(length - 1) .. Charset[math.random(1, #Charset)] or ""
 end

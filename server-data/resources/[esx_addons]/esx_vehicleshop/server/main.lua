@@ -1,14 +1,11 @@
 local categories, vehicles = {}, {}
 
 TriggerEvent("esx_phone:registerNumber", "cardealer", TranslateCap("dealer_customers"), false, false)
-TriggerEvent(
-	"esx_society:registerSociety",
-	"cardealer",
-	TranslateCap("car_dealer"),
-	"society_cardealer",
-	"society_cardealer",
-	"society_cardealer",
-	{ type = "private" }
+TriggerEvent("esx_society:registerSociety", "cardealer", TranslateCap("car_dealer"), "society_cardealer",
+	"society_cardealer", "society_cardealer",
+	{
+		type = "private" 
+	}
 )
 
 CreateThread(function()
@@ -38,25 +35,6 @@ function SQLVehiclesAndCategories()
 	vehicles = MySQL.query.await(
 		"SELECT vehicles.*, vehicle_categories.label AS categoryLabel FROM vehicles JOIN vehicle_categories ON vehicles.category = vehicle_categories.name"
 	)
-
-	GetVehiclesAndCategories(categories, vehicles)
-end
-
-function GetVehiclesAndCategories(categories, vehicles)
-	for i = 1, #vehicles do
-		local vehicle = vehicles[i]
-		for j = 1, #categories do
-			local category = categories[j]
-			if category.name == vehicle.category then
-				vehicle.categoryLabel = category.label
-				break
-			end
-		end
-	end
-
-	-- send information after db has loaded, making sure everyone gets vehicle information
-	TriggerClientEvent("esx_vehicleshop:sendCategories", -1, categories)
-	TriggerClientEvent("esx_vehicleshop:sendVehicles", -1, vehicles)
 end
 
 function getVehicleFromModel(model)
