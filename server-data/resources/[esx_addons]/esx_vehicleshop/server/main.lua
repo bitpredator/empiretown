@@ -4,7 +4,7 @@ TriggerEvent("esx_phone:registerNumber", "cardealer", TranslateCap("dealer_custo
 TriggerEvent("esx_society:registerSociety", "cardealer", TranslateCap("car_dealer"), "society_cardealer",
 	"society_cardealer", "society_cardealer",
 	{
-		type = "private" 
+		type = "private"
 	}
 )
 
@@ -279,7 +279,7 @@ ESX.RegisterServerCallback("esx_vehicleshop:getRentedVehicles", function(source,
 	end)
 end)
 
-ESX.RegisterServerCallback("esx_vehicleshop:giveBackVehicle", function(source, cb, plate)
+ESX.RegisterServerCallback("esx_vehicleshop:giveBackVehicle", function(_, cb, plate)
 	MySQL.single("SELECT base_price, vehicle FROM rented_vehicles WHERE plate = ?", { plate }, function(result)
 		if result then
 			local vehicle = result.vehicle
@@ -372,7 +372,7 @@ ESX.RegisterServerCallback("esx_vehicleshop:getPlayerInventory", function(source
 	cb({ items = items })
 end)
 
-ESX.RegisterServerCallback("esx_vehicleshop:isPlateTaken", function(source, cb, plate)
+ESX.RegisterServerCallback("esx_vehicleshop:isPlateTaken", function(_, cb, plate)
 	MySQL.scalar("SELECT plate FROM owned_vehicles WHERE plate = ?", { plate }, function(result)
 		cb(result ~= nil)
 	end)
