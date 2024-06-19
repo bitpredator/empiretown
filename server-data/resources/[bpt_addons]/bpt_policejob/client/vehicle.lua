@@ -104,8 +104,7 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 											local vehicleProps = allVehicleProps[elementG.plate]
 											ESX.Game.SetVehicleProperties(vehicle, vehicleProps)
 
-											TriggerServerEvent(
-												"esx_vehicleshop:setJobVehicleState",
+											TriggerServerEvent("esx_vehicleshop:setJobVehicleState",
 												elementG.plate,
 												false
 											)

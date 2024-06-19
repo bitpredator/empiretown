@@ -25955,9 +25955,9 @@ var init_update = __esm({
       if (GetConvarInt("mysql_versioncheck", 1) === 0)
         return;
       const resourceName2 = GetCurrentResourceName();
-      const currentVersion = (_a4 = GetResourceMetadata(resourceName2, "version", 0)) == null ? void 0 : _a4.match(/(\d)\.(\d)\.(\d)/);
+      const currentVersion = (_a4 = GetResourceMetadata(resourceName2, "version", 0)) == null ? void 0 : _a4.match(/(\d+)\.(\d+)\.(\d+)/);
       if (!currentVersion)
-        return console.log(`^1Unable to determine current resource version for '${resourceName2}'^0`);
+        return;
       setTimeout(async () => {
         const response = await fetch(`https://api.github.com/repos/overextended/oxmysql/releases/latest`);
         if (response.status !== 200)
@@ -25965,7 +25965,7 @@ var init_update = __esm({
         const release = await response.json();
         if (release.prerelease)
           return;
-        const latestVersion = release.tag_name.match(/(\d)\.(\d)\.(\d)/);
+        const latestVersion = release.tag_name.match(/(\d+)\.(\d+)\.(\d+)/);
         if (!latestVersion || latestVersion[0] === currentVersion[0])
           return;
         for (let i2 = 1; i2 < currentVersion.length; i2++) {
@@ -26185,9 +26185,11 @@ async function createConnectionPool() {
     isServerConnected = true;
   } catch (err) {
     isServerConnected = false;
+    const message = err.message.includes("auth_gssapi_client") ? `Server requests authentication using unknown plugin auth_gssapi_client.
+See https://github.com/overextended/oxmysql/issues/213.` : err.message;
     console.log(
       `^3Unable to establish a connection to the database (${err.code})!
-^1Error ${err.errno}: ${err.message}^0`
+^1Error${err.errno ? ` ${err.errno}` : ""}: ${message}^0`
     );
   }
 }
@@ -26393,11 +26395,13 @@ onNet(
   (data) => {
     if (typeof data.resource !== "string" || !IsPlayerAceAllowed(source, "command.mysql"))
       return;
-    const resourceLog = logStorage[data.resource];
+    if (data.search)
+      data.search = data.search.toLowerCase();
+    const resourceLog = data.search ? logStorage[data.resource].filter((q) => q.query.toLowerCase().includes(data.search)) : logStorage[data.resource];
     const sort = data.sortBy && data.sortBy.length > 0 ? data.sortBy[0] : false;
     const startRow = data.pageIndex * 10;
     const endRow = startRow + 10;
-    const queries = sort ? sortQueries(logStorage[data.resource], sort).slice(startRow, endRow) : logStorage[data.resource].slice(startRow, endRow);
+    const queries = sort ? sortQueries(resourceLog, sort).slice(startRow, endRow) : resourceLog.slice(startRow, endRow);
     const pageCount = Math.ceil(resourceLog.length / 10);
     if (!queries)
       return;
@@ -26422,12 +26426,25 @@ onNet(
 
 // src/database/rawQuery.ts
 var import_perf_hooks = require("perf_hooks");
+
+// src/utils/validateResultSet.ts
+var oversizedResultSet = GetConvarInt("mysql_resultset_warning", 1e3);
+function validateResultSet_default(invokingResource, query, rows) {
+  const length = Array.isArray(rows) ? rows.length : 0;
+  if (length < oversizedResultSet)
+    return;
+  console.warn(`${invokingResource} executed a query with an oversized result set (${length} results)!
+${query}`);
+}
+__name(validateResultSet_default, "default");
+
+// src/database/rawQuery.ts
 var rawQuery = /* @__PURE__ */ __name(async (type, invokingResource, query, parameters, cb, isPromise, connectionId) => {
   cb = setCallback(parameters, cb);
   try {
     [query, parameters] = parseArguments(query, parameters);
   } catch (err) {
-    return logError(invokingResource, cb, err, isPromise, query, parameters);
+    return logError(invokingResource, cb, isPromise, err, query, parameters);
   }
   const connection = await getPoolConnection(connectionId);
   if (!connection)
@@ -26443,6 +26460,7 @@ var rawQuery = /* @__PURE__ */ __name(async (type, invokingResource, query, para
     } else if (startTime) {
       logQuery(invokingResource, query, import_perf_hooks.performance.now() - startTime, parameters);
     }
+    validateResultSet_default(invokingResource, query, result);
     if (!cb)
       return parseResponse(type, result);
     try {
@@ -26455,8 +26473,6 @@ var rawQuery = /* @__PURE__ */ __name(async (type, invokingResource, query, para
       }
     }
   } catch (err) {
-    if (!cb)
-      throw new Error(err.message || err);
     logError(invokingResource, cb, isPromise, err, query, parameters, true);
   } finally {
     connection.release();
@@ -26553,6 +26569,7 @@ var rawExecute = /* @__PURE__ */ __name(async (invokingResource, query, paramete
       } else if (startTime) {
         logQuery(invokingResource, query, import_perf_hooks2.performance.now() - startTime, values);
       }
+      validateResultSet_default(invokingResource, query, result);
     }
     if (!cb)
       return response.length === 1 ? response[0] : response;
@@ -26577,8 +26594,6 @@ var rawExecute = /* @__PURE__ */ __name(async (invokingResource, query, paramete
       }
     }
   } catch (err) {
-    if (!cb)
-      throw new Error(err.message || err);
     logError(invokingResource, cb, isPromise, err, query, parameters);
   } finally {
     connection.release();
@@ -26709,22 +26724,33 @@ var mysql_async_default = {
 };
 
 // src/database/startTransaction.ts
+async function runQuery(conn, sql, values) {
+  [sql, values] = parseArguments(sql, values);
+  try {
+    if (!conn)
+      throw new Error(`Connection used by transaction timed out after 30 seconds.`);
+    const [rows] = await conn.query(sql, values);
+    return rows;
+  } catch (err) {
+    throw new Error(`Query: ${sql}
+${JSON.stringify(values)}
+${err.message}`);
+  }
+}
+__name(runQuery, "runQuery");
 var startTransaction = /* @__PURE__ */ __name(async (invokingResource, queries, cb, isPromise) => {
-  const conn = await getPoolConnection();
+  let conn = await getPoolConnection();
+  let response = false;
   if (!conn)
     return;
-  let response = false;
+  setTimeout(() => response = null, 3e4);
   try {
-    const connectionId = conn.connection.connectionId;
     await conn.beginTransaction();
-    const commit = await queries({
-      query: (sql, values) => {
-        return rawQuery(null, invokingResource, sql, values, void 0, isPromise, connectionId);
-      },
-      execute: (sql, values) => {
-        return rawExecute(invokingResource, sql, values, void 0, isPromise, connectionId);
-      }
-    });
+    const commit = await queries(
+      (sql, values) => runQuery(response === null ? null : conn, sql, values)
+    );
+    if (response === null)
+      throw new Error(`Transaction has timed out after 30 seconds.`);
     response = commit === false ? false : true;
     response ? conn.commit() : conn.rollback();
   } catch (err) {
@@ -26732,6 +26758,7 @@ var startTransaction = /* @__PURE__ */ __name(async (invokingResource, queries, 
     logError(invokingResource, cb, isPromise, err);
   } finally {
     conn.release();
+    conn = null;
   }
   return cb ? cb(response) : response;
 }, "startTransaction");
