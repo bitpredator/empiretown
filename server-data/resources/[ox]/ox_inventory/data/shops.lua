@@ -1,27 +1,5 @@
 return {
 
-	Import = {
-		name = "Negozio import",
-		groups = {
-			["import"] = 0,
-		},
-		blip = {
-			id = 403,
-			colour = 69,
-			scale = 0.8,
-		},
-		inventory = {
-			{ name = "pickaxe",    price = 30 },
-			{ name = "almonds",    price = 10 },
-			{ name = "fishingrod", price = 100 },
-			{ name = "fishbait",   price = 80 },
-		},
-		locations = {
-			vec3(1017.389038, -2405.736328, 30.122314),
-		},
-		targets = {},
-	},
-
 	Unicorn = {
 		name = "Negozio unicorn",
 		groups = {
@@ -33,8 +11,8 @@ return {
 			scale = 0.8,
 		},
 		inventory = {
-			{ name = "water",   price = 30 },
-			{ name = "ice",     price = 5 },
+			{ name = "water", price = 30 },
+			{ name = "ice", price = 5 },
 			{ name = "fry_oil", price = 60 },
 		},
 		locations = {
@@ -47,7 +25,7 @@ return {
 		name = "Vending Machine",
 		inventory = {
 			{ name = "water", price = 10 },
-			{ name = "cola",  price = 10 },
+			{ name = "cola", price = 10 },
 		},
 		model = {
 			`prop_vend_soda_02`,
@@ -83,7 +61,7 @@ return {
 		},
 		inventory = {
 			{ name = "backpack", price = 800 },
-			{ name = "wallet",   price = 300 },
+			{ name = "wallet", price = 300 },
 		},
 		locations = {
 			vec3(-1131.481323, -1635.652710, 4.359009),
@@ -98,9 +76,9 @@ return {
 			scale = 0.8,
 		},
 		inventory = {
-			{ name = "idcard",      price = 3000 },
-			{ name = "dmvcard",     price = 5000 },
-			{ name = "licensecard", price = 5000 }
+			{ name = "idcard", price = 3000 },
+			{ name = "dmvcard", price = 5000 },
+			{ name = "licensecard", price = 5000 },
 		},
 		locations = {
 			vec3(-554.887939, -187.252747, 38.277710),
@@ -118,6 +96,55 @@ return {
 		},
 		locations = {
 			vec3(81.692307, -1966.021973, 18.041016),
+		},
+	},
+
+	Grocerystore = {
+		name = "Grocerystore",
+		blip = {
+			id = 59,
+			colour = 69,
+			scale = 0.8,
+		},
+		inventory = {
+			{ name = "water", price = 100 },
+			{ name = "cola", price = 80 },
+			{ name = "burger", price = 70 },
+		},
+		locations = {
+			vec3(25.846155, -1346.782471, 29.482056),
+		},
+	},
+
+	Fishingshop = {
+		name = "Fishing shop",
+		blip = {
+			id = 68,
+			colour = 69,
+			scale = 0.8,
+		},
+		inventory = {
+			{ name = "fishingrod", price = 100 },
+			{ name = "fishbait", price = 80 },
+		},
+		locations = {
+			vec3(-327.639557, -2793.745117, 5.201416),
+		},
+	},
+
+	Mineshop = {
+		name = "Mine shop",
+		blip = {
+			id = 68,
+			colour = 69,
+			scale = 0.8,
+		},
+		inventory = {
+			{ name = "pickaxe", price = 30 },
+			{ name = "almonds", price = 10 },
+		},
+		locations = {
+			vec3(2571.151611, 2720.690186, 42.911377),
 		},
 	},
 }
