@@ -82,7 +82,7 @@ Config = {}
 Config.Framework = "esx" -- change it to 'qb' if you're using qbcore
 
 -- LANGUAGE --
-Config.Locale = "en"
+Config.Locale = "it"
 
 -- GENERAL --
 Config.MenuTitle = "EmpireTown" -- change it to you're server name

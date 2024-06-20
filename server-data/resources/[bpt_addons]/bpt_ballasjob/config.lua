@@ -1,7 +1,7 @@
 Config = {}
 Config.DrawDistance = 10.0 -- How close do you need to be for the markers to be drawn (in GTA units).
 Config.EnablePlayerManagement = true -- Enable society managing.
-Config.Locale = "en"
+Config.Locale = "it"
 Config.OxInventory = ESX.GetConfig().OxInventory
 
 Config.Zones = {

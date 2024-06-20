@@ -1,5 +1,5 @@
 Config = {}
-Config.Locale = GetConvar("esx:locale", "en")
+Config.Locale = GetConvar("esx:locale", "it")
 
 Config.OxInventory = GetResourceState("ox_inventory") ~= 'missing'
 

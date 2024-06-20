@@ -1,7 +1,7 @@
 Config = {}
 
 -- Locales
-Config.Locale = "en"
+Config.Locale = "it"
 
 -- Delivery Base Location
 Config.Base = {

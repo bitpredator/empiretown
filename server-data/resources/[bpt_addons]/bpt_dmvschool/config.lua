@@ -3,7 +3,7 @@ Config.DrawDistance = 10.0
 Config.MaxErrors = 5
 Config.SpeedMultiplier = 3.6
 Config.SpeedingErrorDelay = 5000 --Min: 5000ms
-Config.Locale = GetConvar("esx:locale", "en")
+Config.Locale = GetConvar("esx:locale", "it")
 
 Config.Prices = {
     dmv = 500,

@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Locale = GetConvar("esx:locale", "en")
+Config.Locale = GetConvar("esx:locale", "it")
 
 Config.LicenseEnable = true -- enable boat license? Requires esx_license
 Config.LicensePrice = 50000
