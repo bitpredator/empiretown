@@ -2,7 +2,7 @@ Config = {}
 Config.InsurancePrice = 1000
 Config.DownPayment = 3500
 Config.ExtraChargePerMinute = 500
-Config.Locale = "en"
+Config.Locale = "it"
 
 Config.Points = {
 	{

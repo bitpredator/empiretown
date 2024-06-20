@@ -9,7 +9,7 @@ Config.TP_DISTANCE = 6 -- Minimum distance between fight and spectators
 Config.LEAVE_FIGHT_DISTANCE = 15 -- Distance to quit fight
 Config.DISTANCE_INTERACTION = 2.0 -- Interaction for fighter events
 Config.E_KEY = 38 -- Action key 'E' default
-Config.Locale = "en"
+Config.Locale = "it"
 
 Config.BLIP = {
 	coords = { x = -517.61, y = -1712.04, z = 20.45 },

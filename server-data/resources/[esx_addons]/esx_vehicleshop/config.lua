@@ -4,7 +4,7 @@ Config.MarkerColor = { r = 120, g = 120, b = 240 }
 Config.EnablePlayerManagement = true -- enables the actual car dealer job. You'll need bpt_addonaccount, bpt_billing and esx_society
 Config.ResellPercentage = 50
 
-Config.Locale = GetConvar("esx:locale", "en")
+Config.Locale = GetConvar("esx:locale", "it")
 
 Config.LicenseEnable = false -- require people to own drivers license when buying vehicles? Only applies if EnablePlayerManagement is disabled. Requires esx_license
 

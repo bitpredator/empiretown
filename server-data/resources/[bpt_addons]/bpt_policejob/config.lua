@@ -22,7 +22,7 @@ Config.MaxInService = -1 -- How many people can be in service at once? Set as -1
 
 Config.EnableFinePresets = false -- Set to false to use a custom input fields for fines
 
-Config.Locale = GetConvar("esx:locale", "en")
+Config.Locale = GetConvar("esx:locale", "it")
 
 Config.OxInventory = ESX.GetConfig().OxInventory
 
