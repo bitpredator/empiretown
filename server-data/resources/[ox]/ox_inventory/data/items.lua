@@ -18,7 +18,7 @@ return {
 		label = "Burger",
 		weight = 220,
 		client = {
-			status = { hunger = 2000 },
+			status = { hunger = 25000 },
 			anim = "eating",
 			prop = "burger",
 			usetime = 2500,
