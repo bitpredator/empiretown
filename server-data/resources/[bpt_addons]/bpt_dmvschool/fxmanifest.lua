@@ -4,7 +4,7 @@ game("gta5")
 
 description("A DMV School for players to get their drivers license")
 
-version("1.0.0")
+version("1.0.1")
 
 lua54("yes")
 
@@ -24,13 +24,13 @@ client_scripts({
     "client/main.lua",
 })
 
-ui_page("html/ui.html")
+ui_page("html/ui_it.html")
 
 files({
-    "html/ui.html",
+    "html/ui_it.html",
     "html/dmv.png",
     "html/styles.css",
-    "html/questions.js",
+    "html/questions_it.js",
     "html/scripts.js",
     "html/debounce.min.js",
 })

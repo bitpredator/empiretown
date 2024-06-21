@@ -385,7 +385,7 @@ function OpenResellerMenu()
 							ESX.ShowNotification(TranslateCap("no_players"))
 						else
 							TriggerServerEvent(
-								"esx_billing:sendBill",
+								"bpt_billing:sendBill",
 								GetPlayerServerId(closestPlayer),
 								"society_cardealer",
 								TranslateCap("car_dealer"),
