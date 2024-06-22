@@ -19,7 +19,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('WEAPON_APPISTOL', 'WEAPON APPISTOL'),
 	('iron', 'iron'),
 	('hammer', 'hammer'),
-	('legnatagliata', 'asse di legno'),
+	('wood', 'Legna'),
 	('fixkit', 'fixkit'),
 	('almondmilk', 'almondmilk'),
 	('ice', 'ice'),

@@ -1,20 +1,75 @@
-ESX = exports["es_extended"]:getSharedObject()
 local fishing = false
 
-RegisterNetEvent("wasabi_fishing:startFishing")
-AddEventHandler("wasabi_fishing:startFishing", function()
+if Config.sellShop.enabled then
+	CreateThread(function()
+		local ped, textUI
+		CreateBlip(Config.sellShop.coords, 356, 1, Strings.sell_shop_blip, 0.80)
+		local point = lib.points.new({
+			coords = Config.sellShop.coords,
+			distance = 30,
+		})
+
+		function point:nearby()
+			if self.currentDistance < self.distance then
+				if not ped then
+					lib.requestAnimDict("mini@strip_club@idles@bouncer@base", 100)
+					lib.requestModel(Config.sellShop.ped, 100)
+					ped = CreatePed(
+						28,
+						Config.sellShop.ped,
+						Config.sellShop.coords.x,
+						Config.sellShop.coords.y,
+						Config.sellShop.coords.z,
+						Config.sellShop.heading,
+						false,
+						false
+					)
+					FreezeEntityPosition(ped, true)
+					SetEntityInvincible(ped, true)
+					SetBlockingOfNonTemporaryEvents(ped, true)
+					TaskPlayAnim(ped, "mini@strip_club@idles@bouncer@base", "base", 8.0, 0.0, -1, 1, 0, 0, 0, 0)
+				end
+				if self.currentDistance <= 1.8 then
+					if not textUI then
+						lib.showTextUI(Strings.sell_fish)
+						textUI = true
+					end
+					if IsControlJustReleased(0, 38) then
+						FishingSellItems()
+					end
+				elseif self.currentDistance >= 1.9 and textUI then
+					lib.hideTextUI()
+					textUI = nil
+				end
+			end
+		end
+
+		function point:onExit()
+			if ped then
+				local model = GetEntityModel(ped)
+				SetModelAsNoLongerNeeded(model)
+				DeletePed(ped)
+				SetPedAsNoLongerNeeded(ped)
+				RemoveAnimDict("mini@strip_club@idles@bouncer@base")
+				ped = nil
+			end
+		end
+	end)
+end
+
+RegisterNetEvent("wasabi_fishing:startFishing", function()
 	if IsPedInAnyVehicle(cache.ped) or IsPedSwimming(cache.ped) then
 		TriggerEvent("wasabi_fishing:notify", Strings.cannot_perform, Strings.cannot_perform_desc, "error")
 		return
 	end
 	local hasItem = lib.callback.await("wasabi_fishing:checkItem", 100, Config.bait.itemName)
 	if hasItem then
-		local water, waterLoc = waterCheck()
+		local water, waterLoc = WaterCheck()
 		if water then
 			if not fishing then
 				fishing = true
 				local model = `prop_fishing_rod_01`
-				lib.requestModel(model, timeout)
+				lib.requestModel(model, 100)
 				local pole = CreateObject(model, GetEntityCoords(cache.ped), true, false, false)
 				AttachEntityToEntity(
 					pole,
@@ -55,7 +110,7 @@ AddEventHandler("wasabi_fishing:startFishing", function()
 					Wait()
 					local unarmed = `WEAPON_UNARMED`
 					SetCurrentPedWeapon(ped, unarmed)
-					showHelp(Strings.intro_instruction)
+					ShowHelp(Strings.intro_instruction)
 					DisableControlAction(0, 24, true)
 					if IsDisabledControlJustReleased(0, 24) then
 						TaskPlayAnim(cache.ped, "mini@tennis", "forehand_ts_md_far", 1.0, -1.0, 1.0, 48, 0, 0, 0, 0)
@@ -66,7 +121,7 @@ AddEventHandler("wasabi_fishing:startFishing", function()
 						local fishData = lib.callback.await("wasabi_fishing:getFishData", 100)
 						if lib.skillCheck(fishData.difficulty) then
 							ClearPedTasks(cache.ped)
-							tryFish(fishData)
+							TryFish(fishData)
 							TaskPlayAnim(
 								cache.ped,
 								"amb@world_human_stand_fishing@idle_a",
@@ -121,8 +176,7 @@ AddEventHandler("wasabi_fishing:startFishing", function()
 	end
 end)
 
-RegisterNetEvent("wasabi_fishing:interupt")
-AddEventHandler("wasabi_fishing:interupt", function()
+RegisterNetEvent("wasabi_fishing:interupt", function()
 	fishing = false
 	ClearPedTasks(cache.ped)
 end)

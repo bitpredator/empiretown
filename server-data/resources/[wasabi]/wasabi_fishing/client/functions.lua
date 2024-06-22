@@ -1,10 +1,10 @@
-showHelp = function(msg)
+ShowHelp = function(msg)
 	BeginTextCommandDisplayHelp("STRING")
 	AddTextComponentSubstringPlayerName(msg)
 	EndTextCommandDisplayHelp(0, false, true, -1)
 end
 
-waterCheck = function()
+WaterCheck = function()
 	local headPos = GetPedBoneCoords(cache.ped, 31086, 0.0, 0.0, 0.0)
 	local offsetPos = GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 50.0, -25.0)
 	local water, waterPos =
@@ -12,7 +12,7 @@ waterCheck = function()
 	return water, waterPos
 end
 
-createBlip = function(coords, sprite, colour, text, scale)
+CreateBlip = function(coords, sprite, colour, text, scale)
 	local blip = AddBlipForCoord(coords)
 	SetBlipSprite(blip, sprite)
 	SetBlipColour(blip, colour)
@@ -24,10 +24,10 @@ createBlip = function(coords, sprite, colour, text, scale)
 	return blip
 end
 
-tryFish = function(data)
+TryFish = function(data)
 	TriggerServerEvent("wasabi_fishing:tryFish", data)
 end
 
-FishingSellItems = function(distance)
-	TriggerServerEvent("wasabi_fishing:sellFish", distance)
+FishingSellItems = function()
+	TriggerServerEvent("wasabi_fishing:sellFish")
 end
