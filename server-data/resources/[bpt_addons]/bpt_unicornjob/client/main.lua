@@ -296,7 +296,7 @@ CreateThread(function()
     SetBlipAsShortRange(blip, true)
 
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName(TranslateCap("blipTranslateCapnicorn"))
+    AddTextComponentSubstringPlayerName(TranslateCap("blip_unicorn"))
     EndTextCommandSetBlipName(blip)
 end)
 
