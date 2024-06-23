@@ -1,5 +1,5 @@
 Config = {}
 
-Config.Locale = "it"
+Config.Locale = GetConvar("esx:locale", "it")
 Config.OnlyFirstname = false
-Config.EnableESXIdentity = true -- RP names
+Config.EnableESXIdentity = false -- RP names
