@@ -417,10 +417,7 @@ end)
 ESX.RegisterServerCallback("bpt_policejob:storeNearbyVehicle", function(source, cb, plates)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	local plate = MySQL.scalar.await(
-		"SELECT plate FROM owned_vehicles WHERE owner = ? AND plate IN (?) AND job = ?",
-		{ xPlayer.identifier, plates, xPlayer.job.name }
-	)
+	local plate = MySQL.scalar.await('SELECT plate FROM owned_vehicles WHERE owner = ? AND plate IN (?) AND job = ?', {xPlayer.identifier, plates, xPlayer.job.name})
 
 	if plate then
 		MySQL.update(
