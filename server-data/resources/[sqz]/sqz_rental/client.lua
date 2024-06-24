@@ -1,5 +1,6 @@
 local rentalTimer = 0
 local lastLocalVehicle
+local insurance
 
 CreateThread(function()
     AddTextEntry("carRental", "Vehicle Rental")
@@ -42,12 +43,12 @@ WarMenu.CreateMenu("carRental", "Vehicle Rental")
 
 function OpenCarRental(index)
     WarMenu.OpenMenu("carRental")
-    local price = 0
+    local price
     local vehicleIndex = 1
     local rentalTimeIndex = 1
     local vehiclesToRent = {}
 
-    for k, v in pairs(Config.Points[index].Vehicles) do
+    for _, v in pairs(Config.Points[index].Vehicles) do
         table.insert(vehiclesToRent, v.model)
     end
 
@@ -135,7 +136,7 @@ function SpawnLocalVehicle(model, coords)
 end
 
 CreateThread(function()
-    for k, v in pairs(Config.Points) do
+    for _, v in pairs(Config.Points) do
         local blip = AddBlipForCoord(v.Pos)
 
         SetBlipSprite(blip, 147)
@@ -154,7 +155,7 @@ end)
 local returnBlips = {}
 
 function createReturnBlips()
-    for k, v in pairs(Config.ReturnPoints) do
+    for _, v in pairs(Config.ReturnPoints) do
         local blip = AddBlipForCoord(v)
 
         SetBlipSprite(blip, 527)
@@ -238,7 +239,7 @@ CreateThread(function()
         if rentalTimer > 0 then
             local letSleep = true
             local pedCoords = GetEntityCoords(PlayerPedId())
-            for k, v in pairs(Config.ReturnPoints) do
+            for _, v in pairs(Config.ReturnPoints) do
                 local dist = #(v - pedCoords)
                 if dist < 2.5 and IsPedInAnyVehicle(PlayerPedId()) then
                     letSleep = false

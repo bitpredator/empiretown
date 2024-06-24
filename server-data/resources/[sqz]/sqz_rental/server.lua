@@ -24,6 +24,7 @@ end)
 
 RegisterNetEvent("sqz_carrental:VehicleSpawned")
 AddEventHandler("sqz_carrental:VehicleSpawned", function(plate, insurance, time, netId)
+    local _ = GetVehicleNumberPlateText(NetworkGetEntityFromNetworkId(netId))
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
     if not rentedVehicles[plate] then
@@ -34,7 +35,6 @@ AddEventHandler("sqz_carrental:VehicleSpawned", function(plate, insurance, time,
             downPayment = Config.DownPayment,
         }
         SetTimeout(time * 60 * 1000 + 5000, function()
-            local plate = GetVehicleNumberPlateText(NetworkGetEntityFromNetworkId(netId))
             if rentedVehicles[plate] then
                 if GetPlayerPing(rentedVehicles[plate].owner) > 5 then
                     CreateThread(function()
