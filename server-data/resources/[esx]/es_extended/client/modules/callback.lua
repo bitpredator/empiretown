@@ -9,15 +9,14 @@ local clientCallbacks = {}
 ESX.TriggerServerCallback = function(eventName, callback, ...)
     serverRequests[RequestId] = callback
 
-    TriggerServerEvent('esx:triggerServerCallback', eventName, RequestId, GetInvokingResource() or 'unknown', ...)
+    TriggerServerEvent("esx:triggerServerCallback", eventName, RequestId, GetInvokingResource() or "unknown", ...)
 
     RequestId = RequestId + 1
 end
 
 RegisterNetEvent("esx:serverCallback", function(requestId, invoker, ...)
     if not serverRequests[requestId] then
-        return print(("[^1ERROR^7] Server Callback with requestId ^5%s^7 Was Called by ^5%s^7 but does not exist.")
-        :format(requestId, invoker))
+        return print(("[^1ERROR^7] Server Callback with requestId ^5%s^7 Was Called by ^5%s^7 but does not exist."):format(requestId, invoker))
     end
 
     serverRequests[requestId](...)
@@ -32,8 +31,7 @@ end
 
 RegisterNetEvent("esx:triggerClientCallback", function(eventName, requestId, invoker, ...)
     if not clientCallbacks[eventName] then
-        return print(("[^1ERROR^7] Client Callback not registered, name: ^5%s^7, invoker resource: ^5%s^7"):format(
-        eventName, invoker))
+        return print(("[^1ERROR^7] Client Callback not registered, name: ^5%s^7, invoker resource: ^5%s^7"):format(eventName, invoker))
     end
 
     clientCallbacks[eventName](function(...)

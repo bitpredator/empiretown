@@ -1,0 +1,15 @@
+Locales["it"] = {
+    ["you_paid"] = "Hai pagato",
+    ["you_cant_rent"] = "Non puoi permetterti il noleggio di questo veicolo",
+    ["you_cannot_return_vehicle"] = "Non puoi restituire questo veicolo perché non sei il mutuatario",
+    ["vehicle_not_rented"] = "Non puoi restituire questo veicolo perché non è stato noleggiato",
+    ["reduced_deposit"] = "L'acconto che dovresti ricevere è stato ridotto di",
+    ["damaged_vehicle"] = "$ perché hai restituito il veicolo danneggiato",
+    ["payment_amount"] = "L'acconto dell'importo",
+    ["been_returned"] = "$ ti è stato restituito",
+    ["vehicle_seized"] = "Il veicolo è stato sequestrato",
+    ["deposit_not_refunded"] = "Il deposito non verrà rimborsato perché non hai restituito il veicolo",
+    ["bank_account"] = "$ dal tuo conto bancario",
+    ["deposit_from_bank_account"] = "$ come acconto dal tuo conto bancario",
+    ["down_payment"] = "$ come acconto",
+}

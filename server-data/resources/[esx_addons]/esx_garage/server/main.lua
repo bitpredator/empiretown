@@ -12,7 +12,7 @@ AddEventHandler("esx_garage:updateOwnedVehicle", function(stored, parking, Impou
     })
 
     if stored then
-        xPlayer.showNotification(_U("veh_stored"))
+        xPlayer.showNotification(TranslateCap("veh_stored"))
     else
         ESX.OneSync.SpawnVehicle(data.vehicleProps.model, spawn, data.spawnPoint.heading, data.vehicleProps, function(vehicle)
             local vehicle = NetworkGetEntityFromNetworkId(vehicle)
@@ -35,7 +35,7 @@ AddEventHandler("esx_garage:setImpound", function(Impound, vehicleProps)
         ["@Impound"] = Impound,
     })
 
-    xPlayer.showNotification(_U("veh_impounded"))
+    xPlayer.showNotification(TranslateCap("veh_impounded"))
 end)
 
 ESX.RegisterServerCallback("esx_garage:getVehiclesInParking", function(source, cb, parking)
@@ -125,8 +125,8 @@ AddEventHandler("esx_garage:payPound", function(amount)
 
     if xPlayer.getMoney() >= amount then
         xPlayer.removeMoney(amount, "Impound Fee")
-        xPlayer.showNotification(_U("pay_Impound_bill", amount))
+        xPlayer.showNotification(TranslateCap("pay_Impound_bill", amount))
     else
-        xPlayer.showNotification(_U("missing_money"))
+        xPlayer.showNotification(TranslateCap("missing_money"))
     end
 end)
