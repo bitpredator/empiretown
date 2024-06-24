@@ -1,6 +1,5 @@
 local rentalTimer = 0
 local lastLocalVehicle
-local insurance
 
 CreateThread(function()
     AddTextEntry("carRental", "Vehicle Rental")
@@ -43,7 +42,7 @@ WarMenu.CreateMenu("carRental", "Vehicle Rental")
 
 function OpenCarRental(index)
     WarMenu.OpenMenu("carRental")
-    local price
+    local price = {}
     local vehicleIndex = 1
     local rentalTimeIndex = 1
     local vehiclesToRent = {}
