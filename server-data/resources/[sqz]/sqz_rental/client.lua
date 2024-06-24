@@ -42,7 +42,8 @@ WarMenu.CreateMenu("carRental", "Vehicle Rental")
 
 function OpenCarRental(index)
     WarMenu.OpenMenu("carRental")
-    local price = {}
+    local insurance
+    local price = nil
     local vehicleIndex = 1
     local rentalTimeIndex = 1
     local vehiclesToRent = {}
