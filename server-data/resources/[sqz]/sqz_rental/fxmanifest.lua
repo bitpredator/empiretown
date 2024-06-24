@@ -8,16 +8,16 @@ version("1.0.1")
 shared_script("@es_extended/imports.lua")
 
 client_scripts({
-	"warmenu.lua",
-	"config.lua",
-	"client.lua",
-	"@es_extended/locale.lua",
-	"locales/*.lua",
+    "warmenu.lua",
+    "config.lua",
+    "client.lua",
+    "@es_extended/locale.lua",
+    "locales/*.lua",
 })
 
 server_scripts({
-	"config.lua",
-	"server.lua",
-	"@es_extended/locale.lua",
-	"locales/*.lua",
+    "config.lua",
+    "server.lua",
+    "@es_extended/locale.lua",
+    "locales/*.lua",
 })
