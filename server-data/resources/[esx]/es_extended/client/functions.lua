@@ -130,23 +130,19 @@ end
 local contextAvailable = GetResourceState("esx_context") ~= "missing"
 
 function ESX.OpenContext(...)
-    return contextAvailable and exports["esx_context"]:Open(...) or
-    not contextAvailable and print("[^1ERROR^7] Tried to ^5open^7 context menu, but ^5esx_context^7 is missing!")
+    return contextAvailable and exports["esx_context"]:Open(...) or not contextAvailable and print("[^1ERROR^7] Tried to ^5open^7 context menu, but ^5esx_context^7 is missing!")
 end
 
 function ESX.PreviewContext(...)
-    return contextAvailable and exports["esx_context"]:Preview(...) or
-    not contextAvailable and print("[^1ERROR^7] Tried to ^5preview^7 context menu, but ^5esx_context^7 is missing!")
+    return contextAvailable and exports["esx_context"]:Preview(...) or not contextAvailable and print("[^1ERROR^7] Tried to ^5preview^7 context menu, but ^5esx_context^7 is missing!")
 end
 
 function ESX.CloseContext(...)
-    return contextAvailable and exports["esx_context"]:Close(...) or
-    not contextAvailable and print("[^1ERROR^7] Tried to ^5close^7 context menu, but ^5esx_context^7 is missing!")
+    return contextAvailable and exports["esx_context"]:Close(...) or not contextAvailable and print("[^1ERROR^7] Tried to ^5close^7 context menu, but ^5esx_context^7 is missing!")
 end
 
 function ESX.RefreshContext(...)
-    return contextAvailable and exports["esx_context"]:Refresh(...) or
-    not contextAvailable and print("[^1ERROR^7] Tried to ^5Refresh^7 context menu, but ^5esx_context^7 is missing!")
+    return contextAvailable and exports["esx_context"]:Refresh(...) or not contextAvailable and print("[^1ERROR^7] Tried to ^5Refresh^7 context menu, but ^5esx_context^7 is missing!")
 end
 
 ESX.RegisterInput = function(command_name, label, input_group, key, on_press, on_release)
@@ -307,8 +303,7 @@ function ESX.Game.GetPedMugshot(ped, transparent)
 end
 
 function ESX.Game.Teleport(entity, coords, cb)
-    local vector = type(coords) == "vector4" and coords or type(coords) == "vector3" and vector4(coords, 0.0) or
-    vec(coords.x, coords.y, coords.z, coords.heading or 0.0)
+    local vector = type(coords) == "vector4" and coords or type(coords) == "vector3" and vector4(coords, 0.0) or vec(coords.x, coords.y, coords.z, coords.heading or 0.0)
 
     if DoesEntityExist(entity) then
         RequestCollisionAtCoord(vector.xyz)
@@ -367,8 +362,7 @@ function ESX.Game.SpawnVehicle(vehicleModel, coords, heading, cb, networked)
     local dist = #(playerCoords - vector)
     if dist > 424 then -- Onesync infinity Range (https://docs.fivem.net/docs/scripting-reference/onesync/)
         local executingResource = GetInvokingResource() or "Unknown"
-        return print(("[^1ERROR^7] Resource ^5%s^7 Tried to spawn vehicle on the client but the position is too far away (Out of onesync range).")
-        :format(executingResource))
+        return print(("[^1ERROR^7] Resource ^5%s^7 Tried to spawn vehicle on the client but the position is too far away (Out of onesync range)."):format(executingResource))
     end
 
     CreateThread(function()
@@ -514,9 +508,9 @@ function ESX.Game.GetClosestEntity(entities, isPlayerEntities, coords, modelFilt
     if modelFilter then
         filteredEntities = {}
 
-        for _, entity in pairs(entities) do
-            if modelFilter[GetEntityModel(entity)] then
-                filteredEntities[#filteredEntities + 1] = entity
+        for currentEntityIndex = 1, #entities do
+            if modelFilter[GetEntityModel(entities[currentEntityIndex])] then
+                filteredEntities[#filteredEntities + 1] = entities[currentEntityIndex]
             end
         end
     end
@@ -562,8 +556,7 @@ function ESX.Game.GetVehicleProperties(vehicle)
         customPrimaryColor = { GetVehicleCustomPrimaryColour(vehicle) }
     end
 
-    local hasCustomXenonColor, customXenonColorR, customXenonColorG, customXenonColorB = GetVehicleXenonLightsCustomColor(
-    vehicle)
+    local hasCustomXenonColor, customXenonColorR, customXenonColorG, customXenonColorB = GetVehicleXenonLightsCustomColor(vehicle)
     local customXenonColor = nil
     if hasCustomXenonColor then
         customXenonColor = { customXenonColorR, customXenonColorG, customXenonColorB }
@@ -583,22 +576,14 @@ function ESX.Game.GetVehicleProperties(vehicle)
     end
 
     local doorsBroken, windowsBroken, tyreBurst = {}, {}, {}
-    local numWheels = tostring(GetVehicleNumberOfWheels(vehicle))
 
-    local TyresIndex = {              -- Wheel index list according to the number of vehicle wheels.
-        ["2"] = { 0, 4 },             -- Bike and cycle.
-        ["3"] = { 0, 1, 4, 5 },       -- Vehicle with 3 wheels (get for wheels because some 3 wheels vehicles have 2 wheels on front and one rear or the reverse).
-        ["4"] = { 0, 1, 4, 5 },       -- Vehicle with 4 wheels.
-        ["6"] = { 0, 1, 2, 3, 4, 5 }, -- Vehicle with 6 wheels.
-    }
+    local wheel_count = GetVehicleNumberOfWheels(vehicle)
 
-    if TyresIndex[numWheels] then
-        for _, idx in pairs(TyresIndex[numWheels]) do
-            tyreBurst[tostring(idx)] = IsVehicleTyreBurst(vehicle, idx, false)
-        end
+    for wheel_index = 0, wheel_count - 1 do
+        tyreBurst[tostring(wheel_index)] = IsVehicleTyreBurst(vehicle, wheel_index, false)
     end
 
-    for windowId = 0, 7 do              -- 13
+    for windowId = 0, 7 do -- 13
         RollUpWindow(vehicle, windowId) --fix when you put the car away with the window down
         windowsBroken[tostring(windowId)] = not IsVehicleWindowIntact(vehicle, windowId)
     end
@@ -737,12 +722,10 @@ function ESX.Game.SetVehicleProperties(vehicle, props)
         SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
     end
     if props.customPrimaryColor ~= nil then
-        SetVehicleCustomPrimaryColour(vehicle, props.customPrimaryColor[1], props.customPrimaryColor[2],
-            props.customPrimaryColor[3])
+        SetVehicleCustomPrimaryColour(vehicle, props.customPrimaryColor[1], props.customPrimaryColor[2], props.customPrimaryColor[3])
     end
     if props.customSecondaryColor ~= nil then
-        SetVehicleCustomSecondaryColour(vehicle, props.customSecondaryColor[1], props.customSecondaryColor[2],
-            props.customSecondaryColor[3])
+        SetVehicleCustomSecondaryColour(vehicle, props.customSecondaryColor[1], props.customSecondaryColor[2], props.customSecondaryColor[3])
     end
     if props.color1 ~= nil then
         SetVehicleColours(vehicle, props.color1, colorSecondary)
@@ -792,8 +775,7 @@ function ESX.Game.SetVehicleProperties(vehicle, props)
         SetVehicleXenonLightsColor(vehicle, props.xenonColor)
     end
     if props.customXenonColor ~= nil then
-        SetVehicleXenonLightsCustomColor(vehicle, props.customXenonColor[1], props.customXenonColor[2],
-            props.customXenonColor[3])
+        SetVehicleXenonLightsCustomColor(vehicle, props.customXenonColor[1], props.customXenonColor[2], props.customXenonColor[3])
     end
     if props.modSmokeEnabled ~= nil then
         ToggleVehicleMod(vehicle, 20, true)
@@ -1020,8 +1002,7 @@ function ESX.ShowInventory()
 
             elements[#elements + 1] = {
                 icon = "fas fa-money-bill-wave",
-                title = ('%s: <span style="color:green;">%s</span>'):format(ESX.PlayerData.accounts[i].label,
-                    formattedMoney),
+                title = ('%s: <span style="color:green;">%s</span>'):format(ESX.PlayerData.accounts[i].label, formattedMoney),
                 count = ESX.PlayerData.accounts[i].money,
                 type = "item_account",
                 value = ESX.PlayerData.accounts[i].name,
@@ -1139,8 +1120,8 @@ function ESX.ShowInventory()
                         { unselectable = true, icon = "fas fa-users", title = "Nearby Players" },
                     }
 
-                    for _, playerNearby in ipairs(playersNearby) do
-                        players[GetPlayerServerId(playerNearby)] = true
+                    for currentNearbyPlayerIndex = 1, #playersNearby do
+                        players[GetPlayerServerId(playersNearby[currentNearbyPlayerIndex])] = true
                     end
 
                     ESX.TriggerServerCallback("esx:getPlayerNames", function(returnedPlayers)
@@ -1153,8 +1134,7 @@ function ESX.ShowInventory()
                         end
 
                         ESX.OpenContext("right", elements3, function(_, element3)
-                            local selectedPlayer, selectedPlayerId = GetPlayerFromServerId(element3.playerId),
-                                element3.playerId
+                            local selectedPlayer, selectedPlayerId = GetPlayerFromServerId(element3.playerId), element3.playerId
                             playersNearby = ESX.Game.GetPlayersInArea(GetEntityCoords(playerPed), 3.0)
                             playersNearby = ESX.Table.Set(playersNearby)
 
@@ -1167,17 +1147,16 @@ function ESX.ShowInventory()
                                         ESX.CloseContext()
                                     else
                                         local elementsG = {
-                                            { unselectable = true,          icon = "fas fa-trash", title = element.title },
-                                            { icon = "fas fa-tally",        title = "Amount.",     input = true,         inputType = "number", inputPlaceholder = "Amount to give..", inputMin = 1, inputMax = 1000 },
-                                            { icon = "fas fa-check-double", title = "Confirm",     val = "confirm" },
+                                            { unselectable = true, icon = "fas fa-trash", title = element.title },
+                                            { icon = "fas fa-tally", title = "Amount.", input = true, inputType = "number", inputPlaceholder = "Amount to give..", inputMin = 1, inputMax = 1000 },
+                                            { icon = "fas fa-check-double", title = "Confirm", val = "confirm" },
                                         }
 
                                         ESX.OpenContext("right", elementsG, function(menuG, _)
                                             local quantity = tonumber(menuG.eles[2].inputValue)
 
                                             if quantity and quantity > 0 and element.count >= quantity then
-                                                TriggerServerEvent("esx:giveInventoryItem", selectedPlayerId, itemType,
-                                                    item, quantity)
+                                                TriggerServerEvent("esx:giveInventoryItem", selectedPlayerId, itemType, item, quantity)
                                                 ESX.CloseContext()
                                             else
                                                 ESX.ShowNotification(TranslateCap("amount_invalid"))
@@ -1207,9 +1186,9 @@ function ESX.ShowInventory()
                         TriggerServerEvent("esx:removeInventoryItem", itemType, item)
                     else
                         local elementsR = {
-                            { unselectable = true,          icon = "fas fa-trash", title = element.title },
-                            { icon = "fas fa-tally",        title = "Amount.",     input = true,         inputType = "number", inputPlaceholder = "Amount to remove..", inputMin = 1, inputMax = 1000 },
-                            { icon = "fas fa-check-double", title = "Confirm",     val = "confirm" },
+                            { unselectable = true, icon = "fas fa-trash", title = element.title },
+                            { icon = "fas fa-tally", title = "Amount.", input = true, inputType = "number", inputPlaceholder = "Amount to remove..", inputMin = 1, inputMax = 1000 },
+                            { icon = "fas fa-check-double", title = "Confirm", val = "confirm" },
                         }
 
                         ESX.OpenContext("right", elementsR, function(menuR, _)
@@ -1242,9 +1221,9 @@ function ESX.ShowInventory()
                     if closestPlayer ~= -1 and closestDistance < 3.0 then
                         if pedAmmo > 0 then
                             local elementsGA = {
-                                { unselectable = true,          icon = "fas fa-trash", title = element.title },
-                                { icon = "fas fa-tally",        title = "Amount.",     input = true,         inputType = "number", inputPlaceholder = "Amount to give..", inputMin = 1, inputMax = 1000 },
-                                { icon = "fas fa-check-double", title = "Confirm",     val = "confirm" },
+                                { unselectable = true, icon = "fas fa-trash", title = element.title },
+                                { icon = "fas fa-tally", title = "Amount.", input = true, inputType = "number", inputPlaceholder = "Amount to give..", inputMin = 1, inputMax = 1000 },
+                                { icon = "fas fa-check-double", title = "Confirm", val = "confirm" },
                             }
 
                             ESX.OpenContext("right", elementsGA, function(menuGA, _)
@@ -1252,8 +1231,7 @@ function ESX.ShowInventory()
 
                                 if quantity and quantity > 0 then
                                     if pedAmmo >= quantity then
-                                        TriggerServerEvent("esx:giveInventoryItem", GetPlayerServerId(closestPlayer),
-                                            "item_ammo", item, quantity)
+                                        TriggerServerEvent("esx:giveInventoryItem", GetPlayerServerId(closestPlayer), "item_ammo", item, quantity)
                                         ESX.CloseContext()
                                     else
                                         ESX.ShowNotification(TranslateCap("noammo"))
@@ -1282,10 +1260,9 @@ AddEventHandler("esx:showNotification", function(msg, notifyType, length)
 end)
 
 RegisterNetEvent("esx:showAdvancedNotification")
-AddEventHandler("esx:showAdvancedNotification",
-    function(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
-        ESX.ShowAdvancedNotification(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
-    end)
+AddEventHandler("esx:showAdvancedNotification", function(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
+    ESX.ShowAdvancedNotification(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
+end)
 
 RegisterNetEvent("esx:showHelpNotification")
 AddEventHandler("esx:showHelpNotification", function(msg, thisFrame, beep, duration)
@@ -1304,37 +1281,37 @@ AddEventHandler("onResourceStop", function(resourceName)
 end)
 -- Credits to txAdmin for the list.
 local mismatchedTypes = {
-    [`airtug`] = "automobile",       -- trailer
-    [`avisa`] = "submarine",         -- boat
-    [`blimp`] = "heli",              -- plane
-    [`blimp2`] = "heli",             -- plane
-    [`blimp3`] = "heli",             -- plane
-    [`caddy`] = "automobile",        -- trailer
-    [`caddy2`] = "automobile",       -- trailer
-    [`caddy3`] = "automobile",       -- trailer
-    [`chimera`] = "automobile",      -- bike
-    [`docktug`] = "automobile",      -- trailer
-    [`forklift`] = "automobile",     -- trailer
-    [`kosatka`] = "submarine",       -- boat
-    [`mower`] = "automobile",        -- trailer
-    [`policeb`] = "bike",            -- automobile
-    [`ripley`] = "automobile",       -- trailer
-    [`rrocket`] = "automobile",      -- bike
-    [`sadler`] = "automobile",       -- trailer
-    [`sadler2`] = "automobile",      -- trailer
-    [`scrap`] = "automobile",        -- trailer
-    [`slamtruck`] = "automobile",    -- trailer
-    [`Stryder`] = "automobile",      -- bike
-    [`submersible`] = "submarine",   -- boat
-    [`submersible2`] = "submarine",  -- boat
-    [`thruster`] = "heli",           -- automobile
-    [`towtruck`] = "automobile",     -- trailer
-    [`towtruck2`] = "automobile",    -- trailer
-    [`tractor`] = "automobile",      -- trailer
-    [`tractor2`] = "automobile",     -- trailer
-    [`tractor3`] = "automobile",     -- trailer
-    [`trailersmall2`] = "trailer",   -- automobile
-    [`utillitruck`] = "automobile",  -- trailer
+    [`airtug`] = "automobile", -- trailer
+    [`avisa`] = "submarine", -- boat
+    [`blimp`] = "heli", -- plane
+    [`blimp2`] = "heli", -- plane
+    [`blimp3`] = "heli", -- plane
+    [`caddy`] = "automobile", -- trailer
+    [`caddy2`] = "automobile", -- trailer
+    [`caddy3`] = "automobile", -- trailer
+    [`chimera`] = "automobile", -- bike
+    [`docktug`] = "automobile", -- trailer
+    [`forklift`] = "automobile", -- trailer
+    [`kosatka`] = "submarine", -- boat
+    [`mower`] = "automobile", -- trailer
+    [`policeb`] = "bike", -- automobile
+    [`ripley`] = "automobile", -- trailer
+    [`rrocket`] = "automobile", -- bike
+    [`sadler`] = "automobile", -- trailer
+    [`sadler2`] = "automobile", -- trailer
+    [`scrap`] = "automobile", -- trailer
+    [`slamtruck`] = "automobile", -- trailer
+    [`Stryder`] = "automobile", -- bike
+    [`submersible`] = "submarine", -- boat
+    [`submersible2`] = "submarine", -- boat
+    [`thruster`] = "heli", -- automobile
+    [`towtruck`] = "automobile", -- trailer
+    [`towtruck2`] = "automobile", -- trailer
+    [`tractor`] = "automobile", -- trailer
+    [`tractor2`] = "automobile", -- trailer
+    [`tractor3`] = "automobile", -- trailer
+    [`trailersmall2`] = "trailer", -- automobile
+    [`utillitruck`] = "automobile", -- trailer
     [`utillitruck2`] = "automobile", -- trailer
     [`utillitruck3`] = "automobile", -- trailer
 }
