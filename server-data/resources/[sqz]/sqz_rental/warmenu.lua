@@ -221,9 +221,9 @@ local function drawButton(text, subText)
         return
     end
 
-    local backgroundColor = nil
-    local textColor = nil
-    local subTextColor = nil
+    local backgroundColor
+    local textColor
+    local subTextColor
     local shadow = false
 
     if currentMenu.currentOption == optionCount then
@@ -346,7 +346,7 @@ function WarMenu.ToolTip(text, width, flipHorizontal)
 
     width = width or toolTipWidth
 
-    local x = nil
+    local x
     if not flipHorizontal then
         x = getStyleProperty("x") + getStyleProperty("width") + width / 2 + buttonTextXOffset
     else
@@ -471,7 +471,7 @@ function WarMenu.CheckBox(text, checked, callback)
         return
     end
 
-    local name = nil
+    local name
     if currentMenu.currentOption == optionCount + 1 then
         name = checked and "shop_box_tickb" or "shop_box_blankb"
     else
