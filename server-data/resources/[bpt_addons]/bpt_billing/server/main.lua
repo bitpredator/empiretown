@@ -1,31 +1,69 @@
-RegisterNetEvent("bpt_billing:sendBill", function(playerId, sharedAccountName, label, amount)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local xTarget = ESX.GetPlayerFromId(playerId)
+function BillPlayerByIdentifier(targetIdentifier, senderIdentifier, sharedAccountName, label, amount)
+    local xTarget = ESX.GetPlayerFromIdentifier(targetIdentifier)
     amount = ESX.Math.Round(amount)
 
-    if amount > 0 and xTarget then
+    if amount > 0 then
         if string.match(sharedAccountName, "society_") then
-            local jobName = string.gsub(sharedAccountName, "society_", "")
-            if xPlayer.job.name ~= jobName then
-                print(("[^2ERROR^7] Player ^5%s^7 Attempted to Send bill from a society (^5%s^7), but does not have the correct Job - Possibly Cheats"):format(xPlayer.source, sharedAccountName))
-                return
-            end
             TriggerEvent("bpt_addonaccount:getSharedAccount", sharedAccountName, function(account)
                 if account then
-                    MySQL.insert("INSERT INTO billing (identifier, sender, target_type, target, label, amount) VALUES (?, ?, ?, ?, ?, ?)", { xTarget.identifier, xPlayer.identifier, "society", sharedAccountName, label, amount }, function(rowsChanged)
+                    MySQL.insert("INSERT INTO billing (identifier, sender, target_type, target, label, amount) VALUES (?, ?, ?, ?, ?, ?)", { targetIdentifier, senderIdentifier, "society", sharedAccountName, label, amount }, function(rowsChanged)
+                        if not xTarget then
+                            return
+                        end
+
                         xTarget.showNotification(TranslateCap("received_invoice"))
                     end)
                 else
-                    print(("[^2ERROR^7] Player ^5%s^7 Attempted to Send bill from invalid society - ^5%s^7"):format(xPlayer.source, sharedAccountName))
+                    print(("[^2ERROR^7] Player ^5%s^7 Attempted to Send bill from invalid society - ^5%s^7"):format(senderIdentifier, sharedAccountName))
                 end
             end)
         else
-            MySQL.insert("INSERT INTO billing (identifier, sender, target_type, target, label, amount) VALUES (?, ?, ?, ?, ?, ?)", { xTarget.identifier, xPlayer.identifier, "player", xPlayer.identifier, label, amount }, function(rowsChanged)
+            MySQL.insert("INSERT INTO billing (identifier, sender, target_type, target, label, amount) VALUES (?, ?, ?, ?, ?, ?)", { targetIdentifier, senderIdentifier, "player", senderIdentifier, label, amount }, function(rowsChanged)
+                if not xTarget then
+                    return
+                end
+
                 xTarget.showNotification(TranslateCap("received_invoice"))
             end)
         end
     end
+end
+
+function BillPlayer(targetId, senderIdentifier, sharedAccountName, label, amount)
+    local xTarget = ESX.GetPlayerFromId(targetId)
+
+    if not xTarget then
+        return
+    end
+
+    BillPlayerByIdentifier(xTarget.identifier, senderIdentifier, sharedAccountName, label, amount)
+end
+
+RegisterNetEvent("bpt_billing:sendBill", function(targetId, sharedAccountName, label, amount)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local jobName = string.gsub(sharedAccountName, "society_", "")
+
+    if xPlayer.job.name ~= jobName then
+        print(("[^2ERROR^7] Player ^5%s^7 Attempted to Send bill from a society (^5%s^7), but does not have the correct Job - Possibly Cheats"):format(xPlayer.source, sharedAccountName))
+        return
+    end
+
+    BillPlayer(targetId, xPlayer.identifier, sharedAccountName, label, amount)
 end)
+exports("BillPlayer", BillPlayer)
+
+RegisterNetEvent("bpt_billing:sendBillToIdentifier", function(targetIdentifier, sharedAccountName, label, amount)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local jobName = string.gsub(sharedAccountName, "society_", "")
+
+    if xPlayer.job.name ~= jobName then
+        print(("[^2ERROR^7] Player ^5%s^7 Attempted to Send bill from a society (^5%s^7), but does not have the correct Job - Possibly Cheats"):format(xPlayer.source, sharedAccountName))
+        return
+    end
+
+    BillPlayerByIdentifier(targetIdentifier, xPlayer.identifier, sharedAccountName, label, amount)
+end)
+exports("BillPlayerByIdentifier", BillPlayerByIdentifier)
 
 ESX.RegisterServerCallback("bpt_billing:getBills", function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
@@ -62,33 +100,35 @@ ESX.RegisterServerCallback("bpt_billing:payBill", function(source, cb, billId)
                             if rowsChanged == 1 then
                                 xPlayer.removeMoney(amount, "Bill Paid")
                                 xTarget.addMoney(amount, "Paid bill")
-
+                                TriggerEvent("bpt_billing:paidBill", source, billId)
                                 xPlayer.showNotification(TranslateCap("paid_invoice", ESX.Math.GroupDigits(amount)))
                                 xTarget.showNotification(TranslateCap("received_payment", ESX.Math.GroupDigits(amount)))
+                                cb(true)
+                            else
+                                cb(false)
                             end
-
-                            cb()
                         end)
                     elseif xPlayer.getAccount("bank").money >= amount then
                         MySQL.update("DELETE FROM billing WHERE id = ?", { billId }, function(rowsChanged)
                             if rowsChanged == 1 then
                                 xPlayer.removeAccountMoney("bank", amount, "Bill Paid")
                                 xTarget.addAccountMoney("bank", amount, "Paid bill")
-
+                                TriggerEvent("bpt_billing:paidBill", source, billId)
                                 xPlayer.showNotification(TranslateCap("paid_invoice", ESX.Math.GroupDigits(amount)))
                                 xTarget.showNotification(TranslateCap("received_payment", ESX.Math.GroupDigits(amount)))
+                                cb(true)
+                            else
+                                cb(false)
                             end
-
-                            cb()
                         end)
                     else
                         xTarget.showNotification(TranslateCap("target_no_money"))
                         xPlayer.showNotification(TranslateCap("no_money"))
-                        cb()
+                        cb(false)
                     end
                 else
                     xPlayer.showNotification(TranslateCap("player_not_online"))
-                    cb()
+                    cb(false)
                 end
             else
                 TriggerEvent("bpt_addonaccount:getSharedAccount", result.target, function(account)
@@ -97,14 +137,15 @@ ESX.RegisterServerCallback("bpt_billing:payBill", function(source, cb, billId)
                             if rowsChanged == 1 then
                                 xPlayer.removeMoney(amount, "Bill Paid")
                                 account.addMoney(amount)
-
+                                TriggerEvent("bpt_billing:paidBill", source, billId)
                                 xPlayer.showNotification(TranslateCap("paid_invoice", ESX.Math.GroupDigits(amount)))
                                 if xTarget then
                                     xTarget.showNotification(TranslateCap("received_payment", ESX.Math.GroupDigits(amount)))
                                 end
+                                cb(true)
+                            else
+                                cb(false)
                             end
-
-                            cb()
                         end)
                     elseif xPlayer.getAccount("bank").money >= amount then
                         MySQL.update("DELETE FROM billing WHERE id = ?", { billId }, function(rowsChanged)
@@ -112,13 +153,14 @@ ESX.RegisterServerCallback("bpt_billing:payBill", function(source, cb, billId)
                                 xPlayer.removeAccountMoney("bank", amount, "Bill Paid")
                                 account.addMoney(amount)
                                 xPlayer.showNotification(TranslateCap("paid_invoice", ESX.Math.GroupDigits(amount)))
-
+                                TriggerEvent("bpt_billing:paidBill", source, billId)
                                 if xTarget then
                                     xTarget.showNotification(TranslateCap("received_payment", ESX.Math.GroupDigits(amount)))
                                 end
+                                cb(true)
+                            else
+                                cb(false)
                             end
-
-                            cb()
                         end)
                     else
                         if xTarget then
@@ -126,7 +168,7 @@ ESX.RegisterServerCallback("bpt_billing:payBill", function(source, cb, billId)
                         end
 
                         xPlayer.showNotification(TranslateCap("no_money"))
-                        cb()
+                        cb(false)
                     end
                 end)
             end
