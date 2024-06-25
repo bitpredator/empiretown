@@ -245,7 +245,7 @@ function OpenShopMenu()
         end, function(_, menu2)
             menu2.close()
         end)
-    end, function(data, menu)
+    end, function(_, menu)
         menu.close()
         DeleteDisplayVehicleInsideShop()
         local playerPed = PlayerPedId()
@@ -259,7 +259,7 @@ function OpenShopMenu()
         SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos)
 
         IsInShopMenu = false
-    end, function(data, menu)
+    end, function(data)
         local vehicleData = vehiclesByCategory[data.current.name][data.current.value + 1]
         local playerPed = PlayerPedId()
 
@@ -438,7 +438,7 @@ function OpenPopVehicleMenu()
     ESX.TriggerServerCallback("esx_vehicleshop:getCommercialVehicles", function(vehicles)
         local elements = {}
 
-        for k, v in ipairs(vehicles) do
+        for _, v in ipairs(vehicles) do
             local vehicleLabel = getVehicleFromModel(v.vehicle).name
 
             table.insert(elements, {
@@ -475,7 +475,7 @@ function OpenRentedVehiclesMenu()
     ESX.TriggerServerCallback("esx_vehicleshop:getRentedVehicles", function(vehicles)
         local elements = {}
 
-        for k, v in ipairs(vehicles) do
+        for _, v in ipairs(vehicles) do
             local vehicleLabel = getVehicleFromModel(v.name).label
 
             table.insert(elements, {
@@ -511,9 +511,9 @@ function OpenBossActionsMenu()
             { label = TranslateCap("boss_actions"), value = "boss_actions" },
             { label = TranslateCap("boss_sold"), value = "sold_vehicles" },
         },
-    }, function(data, menu)
+    }, function(data)
         if data.current.value == "boss_actions" then
-            TriggerEvent("esx_society:openBossMenu", "cardealer", function(data2, menu2)
+            TriggerEvent("esx_society:openBossMenu", "cardealer", function(_, menu2)
                 menu2.close()
             end)
         elseif data.current.value == "sold_vehicles" then
@@ -589,10 +589,10 @@ function OpenGetStocksMenu()
                     menu.close()
                     OpenGetStocksMenu()
                 end
-            end, function(data2, menu2)
+            end, function(_, menu2)
                 menu2.close()
             end)
-        end, function(data, menu)
+        end, function(_, menu)
             menu.close()
         end)
     end)
@@ -634,10 +634,10 @@ function OpenPutStocksMenu()
                     menu.close()
                     OpenPutStocksMenu()
                 end
-            end, function(data2, menu2)
+            end, function(_, menu2)
                 menu2.close()
             end)
-        end, function(data, menu)
+        end, function(_, menu)
             menu.close()
         end)
     end)
