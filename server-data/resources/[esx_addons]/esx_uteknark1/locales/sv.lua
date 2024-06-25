@@ -10,18 +10,14 @@ Locales["sv"] = {
     planting_no_seed = "Du har inga frön",
     planting_failed = "~r~Jävlar! Något skit hände under planteringen!",
     planting_too_fast = "Chilla, brorsan! Vänta lite!",
-
     status_active = "Steg ~1~/~1~~n~~INPUT_PICKUP~ ~a~~n~~INPUT_COVER~ Förstör",
     status_passive = "Steg ~1~/~1~~n~~a~~n~~INPUT_COVER~ Förstör",
-
     growth_seedling = "Nyligen planterat.~n~Behöver vårtd snart!",
     growth_tend = "Vårda växten",
     growth_growing = "Växer och mår bra.",
     growth_yield = "Skörda",
-
     command_invalid = "Ogiltigt direktiv: %s",
     command_empty = "Versjon %s",
-
     interact_text = "Växtinteraktion",
     interact_tended = "Växt vårdad",
     interact_destroyed = "Växt förstörd",
