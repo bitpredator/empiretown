@@ -53,7 +53,7 @@ $(function () {
 				break;
 			default:
 				console.log('esx_scoreboard: unknown action!');
-			break;
+				break;
 		}
 	}, false);
 });
