@@ -41,12 +41,6 @@ AddEventHandler("esx:setJob", function(job)
     PlayerData.job = job
 end)
 
-local function notification(msg)
-    SetNotificationTextEntry("STRING")
-    AddTextComponentString(msg)
-    DrawNotification(false, false)
-end
-
 local function isPedDrivingAVehicle()
     local ped = GetPlayerPed(-1)
     vehicle = GetVehiclePedIsIn(ped, false)
