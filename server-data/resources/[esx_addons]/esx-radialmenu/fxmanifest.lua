@@ -7,23 +7,23 @@ version("1.0.1")
 ui_page("html/index.html")
 
 shared_scripts({
-	"@es_extended/imports.lua",
-	"config.lua",
+    "@es_extended/imports.lua",
+    "config.lua",
 })
 
 client_scripts({
-	"locales/*.lua",
-	"client/*.lua",
+    "locales/*.lua",
+    "client/*.lua",
 })
 
 server_scripts({
-	"locales/*.lua",
-	"server/*.lua",
+    "locales/*.lua",
+    "server/*.lua",
 })
 
 files({
-	"html/index.html",
-	"html/css/main.css",
-	"html/js/main.js",
-	"html/js/RadialMenu.js",
+    "html/index.html",
+    "html/css/main.css",
+    "html/js/main.js",
+    "html/js/RadialMenu.js",
 })
