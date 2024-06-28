@@ -1,5 +1,5 @@
-Config              = {}
+Config = {}
 
-Config.allowedJobs  = {
-	['police'] = true
+Config.allowedJobs = {
+    ["police"] = true,
 }
