@@ -16,9 +16,9 @@
 
 ```lua
         elements = {
-            {label = _U('citizen_interaction'),	value = 'citizen_interaction'},
-            {label = _U('vehicle_interaction'),	value = 'vehicle_interaction'},
-            {label = _U('object_spawner'),		value = 'object_spawner'},
+            {label = TranslateCap('citizen_interaction'),	value = 'citizen_interaction'},
+            {label = TranslateCap('vehicle_interaction'),	value = 'vehicle_interaction'},
+            {label = TranslateCap('object_spawner'),		value = 'object_spawner'},
             {label = "Jail Menu",               value = 'jail_menu'} -- You add this line
         }
     }, function(data, menu)

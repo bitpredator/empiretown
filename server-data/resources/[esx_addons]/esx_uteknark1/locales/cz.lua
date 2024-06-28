@@ -10,18 +10,14 @@ Locales["cz"] = {
     planting_no_seed = "Nemate zadne sazenice",
     planting_failed = "~r~Nejaky problem nastal pri sazeni",
     planting_too_fast = "Zasazuje prilis rychle za sebou",
-
     status_active = "Faze ~1~/~1~~n~~INPUT_PICKUP~ ~a~~n~~INPUT_COVER~ Znicení",
     status_passive = "Faze ~1~/~1~~n~~a~~n~~INPUT_COVER~ Znicit",
-
     growth_seedling = "Momentalne zasazena~n~Bude potrebovat sklidit brzo.",
     growth_tend = "Zahnojit rostlinu",
     growth_growing = "Rostlina si vede, a roste v poradku.",
     growth_yield = "Sklidit",
-
     command_invalid = "Invakudbá: %s",
     command_empty = "Verze %s",
-
     interact_text = "Interakce",
     interact_tended = "Rostlina zahnojena",
     interact_destroyed = "Rostlina znicena",

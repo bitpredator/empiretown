@@ -16,9 +16,15 @@ function ShowBillsMenu()
             end
 
             ESX.OpenContext("right", elements, function(menu, element)
-                ESX.TriggerServerCallback("bpt_billing:payBill", function()
+                local billId = element.billId
+
+                ESX.TriggerServerCallback("bpt_billing:payBill", function(resp)
+                    if resp == true then
+                        TriggerEvent("bpt_billing:paidBill", billId)
+                    end
+
                     ShowBillsMenu()
-                end, element.billId)
+                end, billId)
             end)
         else
             ESX.ShowNotification(TranslateCap("no_invoices"))

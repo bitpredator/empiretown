@@ -4,6 +4,7 @@ html {
 	font-family: 'Segoe UI';
 	overflow: hidden;
 }
+
 #wrap {
 	width: 65vw;
 	min-height: 130px;
@@ -17,6 +18,7 @@ html {
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
+
 .sadra {
 	font-size: 16px;
 	font-weight: bold;
@@ -28,12 +30,14 @@ html {
 	position: relative;
 	padding-right: 9px;
 }
+
 p {
 	float: left;
 	margin-left: 15px;
 	padding-left: 10px;
 	font-size: 1.05vw;
 }
+
 .header {
 	font-family: 'Segoe UI';
 	height: px;
@@ -44,6 +48,7 @@ p {
 	border-top-right-radius: 2px 2px;
 	size: 100%;
 }
+
 .jobs {
 	font-family: 'Segoe UI';
 	padding-top: 3px;
@@ -56,48 +61,59 @@ p {
 	width: 100%;
 	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3), 0px 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
+
 .jobs p {
 	font-family: 'Segoe UI';
 }
+
 table {
 	text-align: left;
 	color: white;
 }
+
 th,
 td {
 	padding-left: 25px;
 }
+
 th {
 	padding-top: 10px;
 	height: 40px;
 }
+
 tr {
 	font-size: 0.9vw;
 	font-family: 'Segoe UI';
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
+
 tr.heading {
 	size: 100%;
 	font-size: 1vw;
 	color: rgba(255, 255, 255, 0.9);
 }
+
 .serverinfo {
 	font-size: 0.8vw;
 	text-align: center;
 	position: sticky;
 }
+
 p span {
 	color: #fff;
 }
+
 .heading th {
 	text-transform: uppercase;
 }
+
 circle {
 	stroke: url("#gradient");
 	stroke-width: 3;
 	transform-origin: 50% 50%;
 	opacity: 1
 }
+
 .fox-box {
 	height: auto;
 	max-height: 540px;
@@ -105,20 +121,25 @@ circle {
 	overflow-x: hidden;
 	cursor: default;
 }
+
 .scrollbar {
 	overflow-y: scroll;
 }
+
 .force-overflow {
 	min-height: 450px;
 }
+
 #style-1::-webkit-scrollbar {
 	width: 6px;
 	background-color: rgba(6, 2, 22, 0);
 }
+
 #style-1::-webkit-scrollbar-thumb {
 	background-color: #ff145a;
 	border-radius: 1px;
 }
+
 .fxli-form {
 	position: fixed;
 	top: 93%;
@@ -137,46 +158,57 @@ circle {
 	-webkit-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
+
 .gradient {
-	background: linear-gradient(263deg, #f012f8, #fd176f, #ff6600, #ffd001, #531fff ,#f012f8, #fd176f);
+	background: linear-gradient(263deg, #f012f8, #fd176f, #ff6600, #ffd001, #531fff, #f012f8, #fd176f);
 	background-size: 800% 800%;
 	-webkit-animation: AnimationName 30s ease infinite;
 	-moz-animation: AnimationName 30s ease infinite;
 	animation: AnimationName 30s ease infinite;
 }
+
 @-webkit-keyframes AnimationName {
 	0% {
 		background-position: 0% 50%
 	}
+
 	50% {
 		background-position: 100% 50%
 	}
+
 	100% {
 		background-position: 0% 50%
 	}
 }
+
 @-moz-keyframes AnimationName {
 	0% {
 		background-position: 0% 50%
 	}
+
 	50% {
 		background-position: 100% 50%
 	}
+
 	100% {
 		background-position: 0% 50%
 	}
 }
+
 @keyframes AnimationName {
 	0% {
 		background-position: 0% 50%
 	}
+
 	50% {
 		background-position: 100% 50%
 	}
+
 	100% {
 		background-position: 0% 50%
 	}
 }
+
 .fox1 {
 	position: absolute;
 	top: 10px;
@@ -192,18 +224,21 @@ circle {
 	appearance: none;
 	outline: none;
 }
+
 .fox2 {
 	position: absolute;
 	text-align: right;
 	top: 10px;
 	right: 15px;
 }
+
 .fox2 div {
 	position: relative;
 	display: inline-block;
 	margin: 0 1px;
 	cursor: pointer;
 }
+
 .fox2 div input {
 	position: absolute;
 	top: 0;
@@ -211,6 +246,7 @@ circle {
 	opacity: 0.01;
 	cursor: pointer;
 }
+
 /*.fox2 div span {
 	position: absolute;
 	display: block;
