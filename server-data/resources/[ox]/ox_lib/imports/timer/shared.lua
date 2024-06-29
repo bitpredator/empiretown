@@ -15,7 +15,7 @@
 ---@field pause fun(self: self) pauses the timer until play method is called
 ---@field play fun(self: self) resumes the timer if paused
 ---@field getTimeLeft fun(self: self, format?: 'ms' | 's' | 'm' | 'h'): number | table returns the time left on the timer with the specified format rounded to 2 decimal places (miliseconds, seconds, minutes, hours). returns a table of all if not specified.
-local timer = lib.class('OxTimer')
+local timer = lib.class("OxTimer")
 
 ---@private
 ---@param time number
@@ -37,12 +37,14 @@ function timer:constructor(time, onEnd, async)
 end
 
 function timer:start(async)
-    if self.private.startTime > 0 then return end
+    if self.private.startTime > 0 then
+        return
+    end
 
     self.private.startTime = GetGameTimer()
 
     local function tick()
-        while self:getTimeLeft('ms') > 0 do
+        while self:getTimeLeft("ms") > 0 do
             while self:isPaused() do
                 Wait(0)
             end
@@ -61,7 +63,9 @@ function timer:start(async)
 end
 
 function timer:onEnd()
-    if self:getTimeLeft('ms') > 0 then return end
+    if self:getTimeLeft("ms") > 0 then
+        return
+    end
 
     if self.private.triggerOnEnd and self.private.onEnd then
         self.private:onEnd()
@@ -69,7 +73,9 @@ function timer:onEnd()
 end
 
 function timer:forceEnd(triggerOnEnd)
-    if self:getTimeLeft('ms') <= 0 then return end
+    if self:getTimeLeft("ms") <= 0 then
+        return
+    end
     self.private.triggerOnEnd = triggerOnEnd
     self.private.paused = false
     self.private.currentTimeLeft = 0
@@ -77,13 +83,17 @@ function timer:forceEnd(triggerOnEnd)
 end
 
 function timer:pause()
-    if self.private.paused then return end
-    self.private.currentTimeLeft = self:getTimeLeft('ms') --[[@as number]]
+    if self.private.paused then
+        return
+    end
+    self.private.currentTimeLeft = self:getTimeLeft("ms") --[[@as number]]
     self.private.paused = true
 end
 
 function timer:play()
-    if not self.private.paused then return end
+    if not self.private.paused then
+        return
+    end
     self.private.startTime = GetGameTimer()
     self.private.paused = false
 end
@@ -104,28 +114,28 @@ function timer:getTimeLeft(format)
     local ms = self.private.currentTimeLeft - (GetGameTimer() - self.private.startTime)
 
     local roundedfloat = function(value)
-        return tonumber(string.format('%.2f', value))
+        return tonumber(string.format("%.2f", value))
     end
 
-    if format == 'ms' then
+    if format == "ms" then
         return roundedfloat(ms)
     end
 
     local s = ms / 1000
 
-    if format == 's' then
+    if format == "s" then
         return roundedfloat(s)
     end
 
     local m = s / 60
 
-    if format == 'm' then
+    if format == "m" then
         return roundedfloat(m)
     end
 
     local h = m / 60
 
-    if format == 'h' then
+    if format == "h" then
         return roundedfloat(h)
     end
 
@@ -133,7 +143,7 @@ function timer:getTimeLeft(format)
         ms = roundedfloat(ms),
         s = roundedfloat(s),
         m = roundedfloat(m),
-        h = roundedfloat(h)
+        h = roundedfloat(h),
     }
 end
 

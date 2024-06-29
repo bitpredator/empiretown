@@ -1,8 +1,8 @@
 ---@diagnostic disable: invisible
 local getinfo = debug.getinfo
 
-if not getinfo(1, 'S').source:match('^@@ox_lib') then
-    lib.print.warn('ox_lib\'s class module is experimental and may break without warning.')
+if not getinfo(1, "S").source:match("^@@ox_lib") then
+    lib.print.warn("ox_lib's class module is experimental and may break without warning.")
 end
 
 ---Ensure the given argument or property has a valid type, otherwise throwing an error.
@@ -13,13 +13,11 @@ local function assertType(id, var, expected)
     local received = type(var)
 
     if received ~= expected then
-        error(("expected %s %s to have type '%s' (received %s)")
-            :format(type(id) == 'string' and 'field' or 'argument', id, expected, received), 3)
+        error(("expected %s %s to have type '%s' (received %s)"):format(type(id) == "string" and "field" or "argument", id, expected, received), 3)
     end
 
-    if expected == 'table' and table.type(var) ~= 'hash' then
-        error(("expected argument %s to have table.type 'hash' (received %s)")
-            :format(id, table.type(var)), 3)
+    if expected == "table" and table.type(var) ~= "hash" then
+        error(("expected argument %s to have table.type 'hash' (received %s)"):format(id, table.type(var)), 3)
     end
 
     return true
@@ -50,7 +48,9 @@ local function getConstructor(class)
     return constructor
 end
 
-local function void() return '' end
+local function void()
+    return ""
+end
 
 ---Creates a new instance of the given class.
 ---@protected
@@ -61,47 +61,51 @@ function mixins.new(class, ...)
     local constructor = getConstructor(class)
 
     local obj = setmetatable({
-        private = {}
+        private = {},
     }, class)
 
     if constructor then
         local parent = class
 
-        rawset(obj, 'super', function(self, ...)
+        rawset(obj, "super", function(self, ...)
             parent = getmetatable(parent)
             constructor = getConstructor(parent)
 
-            if constructor then return constructor(self, ...) end
+            if constructor then
+                return constructor(self, ...)
+            end
         end)
 
         constructor(obj, ...)
     end
 
-    rawset(obj, 'super', nil)
+    rawset(obj, "super", nil)
 
     if next(obj.private) then
         local private = table.clone(obj.private)
 
         table.wipe(obj.private)
         setmetatable(obj.private, {
-            __metatable = 'private',
+            __metatable = "private",
             __tostring = void,
             __index = function(self, index)
-                local di = getinfo(2, 'n')
+                local di = getinfo(2, "n")
 
-                if di.namewhat ~= 'method' and di.namewhat ~= '' then return end
+                if di.namewhat ~= "method" and di.namewhat ~= "" then
+                    return
+                end
 
                 return private[index]
             end,
             __newindex = function(self, index, value)
-                local di = getinfo(2, 'n')
+                local di = getinfo(2, "n")
 
-                if di.namewhat ~= 'method' and di.namewhat ~= '' then
+                if di.namewhat ~= "method" and di.namewhat ~= "" then
                     error(("cannot set value of private field '%s'"):format(index), 2)
                 end
 
                 private[index] = value
-            end
+            end,
         })
     else
         obj.private = nil
@@ -122,7 +126,9 @@ function mixins:instanceOf(class)
     local mt = getmetatable(self)
 
     while mt do
-        if mt == class then return true end
+        if mt == class then
+            return true
+        end
 
         mt = getmetatable(mt)
     end
@@ -135,7 +141,7 @@ end
 ---@param name string
 ---@param super? S
 function lib.class(name, super)
-    assertType(1, name, 'string')
+    assertType(1, name, "string")
 
     local class = table.clone(mixins)
 
@@ -143,7 +149,7 @@ function lib.class(name, super)
     class.__index = class
 
     if super then
-        assertType('super', super, 'table')
+        assertType("super", super, "table")
         setmetatable(class, super)
     end
 

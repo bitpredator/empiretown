@@ -1,4 +1,4 @@
-local glm = require 'glm'
+local glm = require("glm")
 
 ---@type table<number, CZone>
 local Zones = {}
@@ -21,8 +21,8 @@ end
 local function convertToVector(coords)
     local _type = type(coords)
 
-    if _type ~= 'vector3' then
-        if _type == 'table' or _type == 'vector4' then
+    if _type ~= "vector3" then
+        if _type == "table" or _type == "vector4" then
             return vec3(coords[1] or coords.x, coords[2] or coords.y, coords[3] or coords.z)
         end
 
@@ -47,7 +47,7 @@ lib.zones = {
 
         data.polygon = glm.polygon.new(points)
         data.coords = data.polygon:centroid()
-        data.type = 'poly'
+        data.type = "poly"
         data.remove = removeZone
         data.contains = contains
         data.debug = nil
@@ -73,7 +73,7 @@ lib.zones = {
             vec3(-data.size.x, -data.size.y, 0),
             vec3(data.size.x, -data.size.y, 0),
         }) + data.coords)
-        data.type = 'box'
+        data.type = "box"
         data.remove = removeZone
         data.contains = contains
         data.debug = nil
@@ -91,7 +91,7 @@ lib.zones = {
         data.id = #Zones + 1
         data.coords = convertToVector(data.coords)
         data.radius = (data.radius or 2) + 0.0
-        data.type = 'sphere'
+        data.type = "sphere"
         data.remove = removeZone
         data.contains = insideSphere
         data.debug = nil
@@ -104,7 +104,9 @@ lib.zones = {
         return data
     end,
 
-    getAllZones = function() return Zones end,
+    getAllZones = function()
+        return Zones
+    end,
 }
 
 return lib.zones
