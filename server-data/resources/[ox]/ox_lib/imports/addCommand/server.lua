@@ -15,11 +15,11 @@ local shouldSendCommands = false
 
 SetTimeout(1000, function()
     shouldSendCommands = true
-    TriggerClientEvent('chat:addSuggestions', -1, registeredCommands)
+    TriggerClientEvent("chat:addSuggestions", -1, registeredCommands)
 end)
 
-AddEventHandler('playerJoining', function(source)
-    TriggerClientEvent('chat:addSuggestions', source, registeredCommands)
+AddEventHandler("playerJoining", function(source)
+    TriggerClientEvent("chat:addSuggestions", source, registeredCommands)
 end)
 
 ---@param source number
@@ -28,20 +28,24 @@ end)
 ---@param params OxCommandParams[]?
 ---@return table?
 local function parseArguments(source, args, raw, params)
-    if not params then return args end
+    if not params then
+        return args
+    end
 
     for i = 1, #params do
         local arg, param = args[i], params[i]
         local value
 
-        if param.type == 'number' then
+        if param.type == "number" then
             value = tonumber(arg)
-        elseif param.type == 'string' then
+        elseif param.type == "string" then
             value = not tonumber(arg) and arg
-        elseif param.type == 'playerId' then
-            value = arg == 'me' and source or tonumber(arg)
+        elseif param.type == "playerId" then
+            value = arg == "me" and source or tonumber(arg)
 
-            if not value or not DoesPlayerExist(value--[[@as string]]) then
+            if
+                not value or not DoesPlayerExist(value--[[@as string]])
+            then
                 value = false
             end
         else
@@ -49,7 +53,7 @@ local function parseArguments(source, args, raw, params)
         end
 
         if not value and (not param.optional or param.optional and arg) then
-            return Citizen.Trace(("^1command '%s' received an invalid %s for argument %s (%s), received '%s'^0\n"):format(string.strsplit(' ', raw) or raw, param.type, i, param.name, arg))
+            return Citizen.Trace(("^1command '%s' received an invalid %s for argument %s (%s), received '%s'^0\n"):format(string.strsplit(" ", raw) or raw, param.type, i, param.name, arg))
         end
 
         arg = value
@@ -70,9 +74,9 @@ function lib.addCommand(commandName, properties, cb, ...)
     local restricted, params
 
     if properties then
-        if ... or table.type(properties) ~= 'hash' then
-            local _commandName = type(properties) == 'table' and properties[1] or properties
-            local info = debug.getinfo(2, 'Sl')
+        if ... or table.type(properties) ~= "hash" then
+            local _commandName = type(properties) == "table" and properties[1] or properties
+            local info = debug.getinfo(2, "Sl")
 
             warn(("command '%s' is using deprecated syntax for lib.addCommand\nupdate the command or use lib.__addCommand to ignore this warning\n> source ^0(^5%s^0:%d)"):format(_commandName, info.short_src, info.currentline))
             ---@diagnostic disable-next-line: deprecated
@@ -88,24 +92,26 @@ function lib.addCommand(commandName, properties, cb, ...)
             local param = params[i]
 
             if param.type then
-                param.help = param.help and ('%s (type: %s)'):format(param.help, param.type) or ('(type: %s)'):format(param.type)
+                param.help = param.help and ("%s (type: %s)"):format(param.help, param.type) or ("(type: %s)"):format(param.type)
             end
         end
     end
 
-    local commands = type(commandName) ~= 'table' and { commandName } or commandName
+    local commands = type(commandName) ~= "table" and { commandName } or commandName
     local numCommands = #commands
     local totalCommands = #registeredCommands
 
     local function commandHandler(source, args, raw)
         args = parseArguments(source, args, raw, params)
 
-        if not args then return end
+        if not args then
+            return
+        end
 
         local success, resp = pcall(cb, source, args, raw)
 
         if not success then
-            Citizen.Trace(("^1command '%s' failed to execute!\n%s"):format(string.strsplit(' ', raw) or raw, resp))
+            Citizen.Trace(("^1command '%s' failed to execute!\n%s"):format(string.strsplit(" ", raw) or raw, resp))
         end
     end
 
@@ -116,12 +122,12 @@ function lib.addCommand(commandName, properties, cb, ...)
         RegisterCommand(commandName, commandHandler, restricted and true)
 
         if restricted then
-            local ace = ('command.%s'):format(commandName)
+            local ace = ("command.%s"):format(commandName)
             local restrictedType = type(restricted)
 
-            if restrictedType == 'string' and not IsPrincipalAceAllowed(restricted, ace) then
+            if restrictedType == "string" and not IsPrincipalAceAllowed(restricted, ace) then
                 lib.addAce(restricted, ace)
-            elseif restrictedType == 'table' then
+            elseif restrictedType == "table" then
                 for j = 1, #restricted do
                     if not IsPrincipalAceAllowed(restricted[j], ace) then
                         lib.addAce(restricted[j], ace)
@@ -131,7 +137,7 @@ function lib.addCommand(commandName, properties, cb, ...)
         end
 
         if properties then
-            properties.name = ('/%s'):format(commandName)
+            properties.name = ("/%s"):format(commandName)
             properties.restricted = nil
             registeredCommands[totalCommands] = properties
 
@@ -139,7 +145,9 @@ function lib.addCommand(commandName, properties, cb, ...)
                 properties = table.clone(properties)
             end
 
-            if shouldSendCommands then TriggerClientEvent('chat:addSuggestions', -1, properties) end
+            if shouldSendCommands then
+                TriggerClientEvent("chat:addSuggestions", -1, properties)
+            end
         end
     end
 end

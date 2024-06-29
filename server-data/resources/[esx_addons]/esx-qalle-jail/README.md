@@ -38,11 +38,6 @@
 * `/jail ID jailTime(minutes) "description"` command (only players who have the job "police")
 * `/unjail ID` to unjail a player (only players who have the job "police")
 * `/jailmenu` quick command if you dont want the menu. (only players who have the job "police")
-
-[REQUIREMENTS]
-  
-* ESX Support
-  * esx_policejob => https://github.com/ESX-Org/esx_policejob
   
 [INSTALLATION]
 

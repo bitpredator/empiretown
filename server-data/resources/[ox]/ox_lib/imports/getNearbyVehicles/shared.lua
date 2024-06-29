@@ -3,29 +3,29 @@
 ---@param includePlayerVehicle? boolean Whether or not to include the player's current vehicle.
 ---@return { vehicle: number, coords: vector3 }[]
 function lib.getNearbyVehicles(coords, maxDistance, includePlayerVehicle)
-	local vehicles = GetGamePool('CVehicle')
-	local nearby = {}
-	local count = 0
-	maxDistance = maxDistance or 2.0
+    local vehicles = GetGamePool("CVehicle")
+    local nearby = {}
+    local count = 0
+    maxDistance = maxDistance or 2.0
 
-	for i = 1, #vehicles do
-		local vehicle = vehicles[i]
+    for i = 1, #vehicles do
+        local vehicle = vehicles[i]
 
-		if lib.context == 'server' or not cache.vehicle or vehicle ~= cache.vehicle or includePlayerVehicle then
-			local vehicleCoords = GetEntityCoords(vehicle)
-			local distance = #(coords - vehicleCoords)
+        if lib.context == "server" or not cache.vehicle or vehicle ~= cache.vehicle or includePlayerVehicle then
+            local vehicleCoords = GetEntityCoords(vehicle)
+            local distance = #(coords - vehicleCoords)
 
-			if distance < maxDistance then
-				count += 1
-				nearby[count] = {
-					vehicle = vehicle,
-					coords = vehicleCoords
-				}
-			end
-		end
-	end
+            if distance < maxDistance then
+                count += 1
+                nearby[count] = {
+                    vehicle = vehicle,
+                    coords = vehicleCoords,
+                }
+            end
+        end
+    end
 
-	return nearby
+    return nearby
 end
 
 return lib.getNearbyVehicles

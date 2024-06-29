@@ -47,6 +47,8 @@ function StopNPCJob(cancel)
 
     if cancel then
         ESX.ShowNotification(TranslateCap("mission_canceled"), "error")
+    else
+        --TriggerServerEvent('esx_mechanicjob:onNPCJobCompleted')
     end
 end
 

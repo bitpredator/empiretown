@@ -1,5 +1,5 @@
 ---@class Array : OxClass
-local Array = lib.class('Array')
+local Array = lib.class("Array")
 
 ---@alias ArrayLike<T> Array | { [number]: T }
 
@@ -14,7 +14,9 @@ end
 
 ---@private
 function Array:__newindex(index, value)
-    if type(index) ~= 'number' then error(("Cannot insert non-number index '%s' into an array."):format(index)) end
+    if type(index) ~= "number" then
+        error(("Cannot insert non-number index '%s' into an array."):format(index))
+    end
 
     rawset(self, index, value)
 end
@@ -125,7 +127,7 @@ end
 ---Concatenates all array elements into a string, seperated by commas or the specified seperator.
 ---@param seperator? string
 function Array:join(seperator)
-    return table.concat(self, seperator or ',')
+    return table.concat(self, seperator or ",")
 end
 
 ---Removes the last element from an array and returns the removed element.
@@ -173,11 +175,13 @@ end
 ---@param tbl ArrayLike
 ---@return boolean
 function Array.isArray(tbl)
-    if not type(tbl) == 'table' then return false end
+    if not type(tbl) == "table" then
+        return false
+    end
 
     local tableType = table.type(tbl)
 
-    if tableType == 'array' or tableType == 'empty' or Array.instanceOf(tbl, Array) then
+    if tableType == "array" or tableType == "empty" or Array.instanceOf(tbl, Array) then
         return true
     end
 

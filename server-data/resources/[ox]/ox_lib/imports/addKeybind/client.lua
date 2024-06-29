@@ -1,4 +1,6 @@
-if cache.game == 'redm' then return end
+if cache.game == "redm" then
+    return
+end
 
 ---@class KeybindProps
 ---@field name string
@@ -24,12 +26,12 @@ local GetControlInstructionalButton = GetControlInstructionalButton
 
 local keybind_mt = {
     disabled = false,
-    defaultKey = '',
-    defaultMapper = 'keyboard',
+    defaultKey = "",
+    defaultMapper = "keyboard",
 }
 
 function keybind_mt:__index(index)
-    return index == 'currentKey' and self:getCurrentKey() or keybind_mt[index]
+    return index == "currentKey" and self:getCurrentKey() or keybind_mt[index]
 end
 
 function keybind_mt:getCurrentKey()
@@ -44,28 +46,32 @@ end
 ---@return CKeybind
 function lib.addKeybind(data)
     ---@cast data CKeybind
-    data.hash = joaat('+' .. data.name) | 0x80000000
+    data.hash = joaat("+" .. data.name) | 0x80000000
     keybinds[data.name] = setmetatable(data, keybind_mt)
 
-    RegisterCommand('+' .. data.name, function()
-        if not data.onPressed or data.disabled or IsPauseMenuActive() then return end
+    RegisterCommand("+" .. data.name, function()
+        if not data.onPressed or data.disabled or IsPauseMenuActive() then
+            return
+        end
         data:onPressed()
     end)
 
-    RegisterCommand('-' .. data.name, function()
-        if not data.onReleased or data.disabled or IsPauseMenuActive() then return end
+    RegisterCommand("-" .. data.name, function()
+        if not data.onReleased or data.disabled or IsPauseMenuActive() then
+            return
+        end
         data:onReleased()
     end)
 
-    RegisterKeyMapping('+' .. data.name, data.description, data.defaultMapper, data.defaultKey)
+    RegisterKeyMapping("+" .. data.name, data.description, data.defaultMapper, data.defaultKey)
 
     if data.secondaryKey then
-        RegisterKeyMapping('~!+' .. data.name, data.description, data.secondaryMapper or data.defaultMapper, data.secondaryKey)
+        RegisterKeyMapping("~!+" .. data.name, data.description, data.secondaryMapper or data.defaultMapper, data.secondaryKey)
     end
 
     SetTimeout(500, function()
-        TriggerEvent('chat:removeSuggestion', ('/+%s'):format(data.name))
-        TriggerEvent('chat:removeSuggestion', ('/-%s'):format(data.name))
+        TriggerEvent("chat:removeSuggestion", ("/+%s"):format(data.name))
+        TriggerEvent("chat:removeSuggestion", ("/-%s"):format(data.name))
     end)
 
     return data
