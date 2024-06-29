@@ -11,7 +11,7 @@ Config.MaxInService = -1
 Config.EnablePlayerManagement = true -- Enable society managing.
 Config.EnableSocietyOwnedVehicles = false
 
-Config.NPCSpawnDistance = 500.0
+Config.NPCSpawnDistance = 100.0
 Config.NPCNextToDistance = 25.0
 Config.NPCJobEarnings = { min = 15, max = 40 }
 
