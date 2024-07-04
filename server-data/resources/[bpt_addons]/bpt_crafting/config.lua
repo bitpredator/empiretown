@@ -265,6 +265,24 @@ Config = {
 			},
 		},
 
+		["ammo-9"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 30,
+			Ingredients = {
+				["copper"] = 1,
+				["iron"] = 1,
+				["gunpowder"] = 1,
+				["gold"] = 1,
+			},
+		},
+
 		["bread"] = {
 			Level = 0,
 			Category = "baker",
@@ -350,10 +368,10 @@ Config = {
 			radius = 1.0,
 		},
 		{
-			coords = vector3(809.090088, -2172.923096, 29.616821),
+			coords = vector3(808.984619, -2159.630859, 29.616821),
 			jobs = { "ammu" },
 			blip = false,
-			recipes = { "WEAPON_APPISTOL", "ammo-sniper" },
+			recipes = { "WEAPON_APPISTOL", "ammo-sniper", "ammo-9" },
 			radius = 1.0,
 		},
 		{
