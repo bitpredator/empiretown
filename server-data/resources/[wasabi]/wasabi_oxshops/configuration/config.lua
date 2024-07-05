@@ -37,12 +37,12 @@ Config.Shops = {
 		locations = {
 			stash = {
 				string = "[E] - Access Inventory",
-				coords = vec3(809.116516, -2169.626465, 29.616821),
+				coords = vec3(819.665955, -2155.542969, 29.616821),
 				range = 3.0,
 			},
 			shop = {
 				string = "[E] - Access Shop",
-				coords = vec3(308.782410, -592.061523, 43.282104),
+				coords = vec3(812.663757, -2152.364746, 29.616821),
 				range = 4.0,
 			},
 		},
