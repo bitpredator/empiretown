@@ -26,7 +26,7 @@ RegisterNetEvent("carkeys:RequestVehicleLock", function(netId, lockstatus)
     local plate = GetVehicleNumberPlateText(vehicle)
     local xPlayer = ESX.GetPlayerFromId(source)
     if not plate then
-        xPlayer.showNotification(_U("spz_not_found"))
+        xPlayer.showNotification(TranslateCap("spz_not_found"))
         return
     end
     if not vehiclesCache[plate] then
@@ -47,7 +47,7 @@ RegisterNetEvent("carkeys:RequestVehicleLock", function(netId, lockstatus)
         SetVehicleDoorsLocked(vehicle, lockstatus == 2 and 1 or 2)
         TriggerClientEvent("carlock:CarLockedEffect", xPlayer.source, netId, lockstatus ~= 2)
     else
-        xPlayer.showNotification(_U("no_keys"))
+        xPlayer.showNotification(TranslateCap("no_keys"))
     end
 end)
 
@@ -65,8 +65,8 @@ RegisterNetEvent("carkeys:GiveKeyToPerson", function(plate, target)
             ["@plate"] = plate,
         }, function(rowsUpdated)
             if rowsUpdated > 0 then
-                xTarget.showNotification(_U("received_keys", plate))
-                xPlayer.showNotification(_U("gave_keys", plate))
+                xTarget.showNotification(TranslateCap("received_keys", plate))
+                xPlayer.showNotification(TranslateCap("gave_keys", plate))
             end
         end)
 
@@ -74,7 +74,7 @@ RegisterNetEvent("carkeys:GiveKeyToPerson", function(plate, target)
             vehiclesCache[plate][xTarget.identifier] = true
         end
     else
-        xPlayer.showNotification(_U("not_yours_vehicle"))
+        xPlayer.showNotification(TranslateCap("not_yours_vehicle"))
     end
 end)
 
@@ -87,12 +87,12 @@ RegisterNetEvent("carkeys:NewLocks", function(plate)
         elseif xPlayer.getAccount("bank").money >= Config.Price then
             xPlayer.removeAccountMoney("bank", Config.Price)
         else
-            xPlayer.showNotification(_U("not_enough_money"))
+            xPlayer.showNotification(TranslateCap("not_enough_money"))
             return
         end
-        xPlayer.showNotification(_U("paid_for_locks", Config.Price))
-        xPlayer.showNotification(_U("wait_new_locks"))
-        TriggerClientEvent("progressBars:StartUI", xPlayer.source, 30000, _U("installing_new_locks"))
+        xPlayer.showNotification(TranslateCap("paid_for_locks", Config.Price))
+        xPlayer.showNotification(TranslateCap("wait_new_locks"))
+        TriggerClientEvent("progressBars:StartUI", xPlayer.source, 30000, TranslateCap("installing_new_locks"))
         FreezeEntityPosition(GetPlayerPed(xPlayer.source), true)
         local playersVeh = GetVehiclePedIsIn(GetPlayerPed(xPlayer.source))
         FreezeEntityPosition(playersVeh, true)
@@ -101,12 +101,12 @@ RegisterNetEvent("carkeys:NewLocks", function(plate)
         FreezeEntityPosition(playersVeh, false)
         MySQL.Async.execute('UPDATE owned_vehicles SET peopleWithKeys = "[]" WHERE plate = "' .. plate .. '"', {}, function(rowsUpdated)
             if rowsUpdated > 0 then
-                xPlayer.showNotification(_U("locks_replaced"))
+                xPlayer.showNotification(TranslateCap("locks_replaced"))
                 vehiclesCache[plate] = {}
                 vehiclesCache[plate][xPlayer.identifier] = true
             end
         end)
     else
-        xPlayer.showNotification(_U("not_yours_vehicle"))
+        xPlayer.showNotification(TranslateCap("not_yours_vehicle"))
     end
 end)

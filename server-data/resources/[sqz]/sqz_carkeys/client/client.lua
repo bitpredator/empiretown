@@ -8,10 +8,10 @@ RegisterCommand("lockvehicle", function()
         Wait(100)
         TriggerServerEvent("carkeys:RequestVehicleLock", VehToNet(vehicle), GetVehicleDoorLockStatus(vehicle))
     else
-        ESX.ShowNotification(_U("no_vehicle_found"))
+        ESX.ShowNotification(TranslateCap("no_vehicle_found"))
     end
 end)
-RegisterKeyMapping("lockvehicle", _U("lock_vehicle"), "keyboard", "f10")
+RegisterKeyMapping("lockvehicle", TranslateCap("lock_vehicle"), "keyboard", "f10")
 
 RegisterNetEvent("carlock:CarLockedEffect", function(netId, lockStatus)
     local vehicle = NetToVeh(netId)
@@ -39,9 +39,9 @@ RegisterNetEvent("carlock:CarLockedEffect", function(netId, lockStatus)
         PlayVehicleDoorCloseSound(vehicle, 1)
         SetVehicleDoorsLockedForAllPlayers(vehicle, lockStatus)
         if lockStatus then
-            ESX.ShowNotification(_U("vehicle_locked"))
+            ESX.ShowNotification(TranslateCap("vehicle_locked"))
         else
-            ESX.ShowNotification(_U("vehicle_unlocked"))
+            ESX.ShowNotification(TranslateCap("vehicleTranslateCapnlocked"))
         end
 
         SetVehicleLights(vehicle, 2)
@@ -89,7 +89,7 @@ CreateThread(function()
         local dist = #(GetEntityCoords(playerPed) - centralPos)
 
         if dist < 15.0 then
-            Draw3DText(centralPos.x, centralPos.y, centralPos.z, _U("change_locks_for", Config.Price))
+            Draw3DText(centralPos.x, centralPos.y, centralPos.z, TranslateCap("change_locks_for", Config.Price))
             if dist < 2 then
                 if IsControlJustPressed(0, 38) then
                     local veh = GetVehiclePedIsIn(playerPed)
@@ -97,7 +97,7 @@ CreateThread(function()
                         TriggerServerEvent("carkeys:NewLocks", GetVehicleNumberPlateText(veh))
                         Wait(5000)
                     else
-                        ESX.ShowNotification(_U("must_in_vehicle"))
+                        ESX.ShowNotification(TranslateCap("must_in_vehicle"))
                     end
                 end
             end
@@ -117,6 +117,6 @@ CreateThread(function()
     SetBlipAsShortRange(blip, true)
 
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString(AddTextComponentString(_U("locksmith")))
+    AddTextComponentString(AddTextComponentString(TranslateCap("locksmith")))
     EndTextCommandSetBlipName(blip)
 end)
