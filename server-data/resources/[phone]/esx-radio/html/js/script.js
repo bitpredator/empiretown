@@ -1,5 +1,5 @@
-$(function() {
-    window.addEventListener('message', function(event) {
+$(function () {
+    window.addEventListener('message', function (event) {
         if (event.data.type == "open") {
             ESXRadio.SlideUp()
         }
@@ -23,7 +23,7 @@ $(function() {
 
 ESXRadio = {}
 
-$(document).on('click', '#submit', function(e){
+$(document).on('click', '#submit', function (e) {
     e.preventDefault();
 
     $.post('https://esx-radio/joinRadio', JSON.stringify({
@@ -31,13 +31,13 @@ $(document).on('click', '#submit', function(e){
     }));
 });
 
-$(document).on('click', '#disconnect', function(e){
+$(document).on('click', '#disconnect', function (e) {
     e.preventDefault();
 
     $.post('https://esx-radio/leaveRadio');
 });
 
-$(document).on('click', '#volumeUp', function(e){
+$(document).on('click', '#volumeUp', function (e) {
     e.preventDefault();
 
     $.post('https://esx-radio/volumeUp', JSON.stringify({
@@ -45,7 +45,7 @@ $(document).on('click', '#volumeUp', function(e){
     }));
 });
 
-$(document).on('click', '#volumeDown', function(e){
+$(document).on('click', '#volumeDown', function (e) {
     e.preventDefault();
 
     $.post('https://esx-radio/volumeDown', JSON.stringify({
@@ -53,7 +53,7 @@ $(document).on('click', '#volumeDown', function(e){
     }));
 });
 
-$(document).on('click', '#decreaseradiochannel', function(e){
+$(document).on('click', '#decreaseradiochannel', function (e) {
     e.preventDefault();
 
     $.post('https://esx-radio/decreaseradiochannel', JSON.stringify({
@@ -61,7 +61,7 @@ $(document).on('click', '#decreaseradiochannel', function(e){
     }));
 });
 
-$(document).on('click', '#increaseradiochannel', function(e){
+$(document).on('click', '#increaseradiochannel', function (e) {
     e.preventDefault();
 
     $.post('https://esx-radio/increaseradiochannel', JSON.stringify({
@@ -69,7 +69,7 @@ $(document).on('click', '#increaseradiochannel', function(e){
     }));
 });
 
-$(document).on('click', '#poweredOff', function(e){
+$(document).on('click', '#poweredOff', function (e) {
     e.preventDefault();
 
     $.post('https://esx-radio/poweredOff', JSON.stringify({
@@ -77,13 +77,13 @@ $(document).on('click', '#poweredOff', function(e){
     }));
 });
 
-ESXRadio.SlideUp = function() {
+ESXRadio.SlideUp = function () {
     $(".container").css("display", "block");
-    $(".radio-container").animate({bottom: "6vh",}, 250);
+    $(".radio-container").animate({ bottom: "6vh", }, 250);
 }
 
-ESXRadio.SlideDown = function() {
-    $(".radio-container").animate({bottom: "-110vh",}, 400, function(){
+ESXRadio.SlideDown = function () {
+    $(".radio-container").animate({ bottom: "-110vh", }, 400, function () {
         $(".container").css("display", "none");
     });
 }
