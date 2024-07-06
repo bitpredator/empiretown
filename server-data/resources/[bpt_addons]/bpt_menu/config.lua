@@ -117,7 +117,7 @@ Config.GPS = {
 -- ANIMATIONS --
 Config.Animations = {
 	{
-		name = "party",
+		{ name = "party" },
 		name = TranslateCap("animation_party_title"),
 		items = {
 			{ name = TranslateCap("animation_party_smoke"), type = "scenario", scenarioName = "WORLD_HUMAN_SMOKING" },
