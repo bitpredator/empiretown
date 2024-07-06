@@ -117,7 +117,7 @@ Config.GPS = {
 -- ANIMATIONS --
 Config.Animations = {
 	{
-		name = "party",
+		{ name = "party" },
 		name = TranslateCap("animation_party_title"),
 		items = {
 			{ name = TranslateCap("animation_party_smoke"), type = "scenario", scenarioName = "WORLD_HUMAN_SMOKING" },
@@ -171,7 +171,7 @@ Config.Animations = {
 		},
 	},
 	{
-		name = "salute",
+		{ name = "salute" },
 		name = TranslateCap("animation_salute_title"),
 		items = {
 			{
@@ -207,7 +207,7 @@ Config.Animations = {
 		},
 	},
 	{
-		name = "work",
+		{ name = "work" },
 		name = TranslateCap("animation_work_title"),
 		items = {
 			{
@@ -299,7 +299,7 @@ Config.Animations = {
 		},
 	},
 	{
-		name = "mood",
+		{ name = "mood" },
 		name = TranslateCap("animation_mood_title"),
 		items = {
 			{
@@ -418,7 +418,7 @@ Config.Animations = {
 		},
 	},
 	{
-		name = "sports",
+		{ name = "sports" },
 		name = TranslateCap("animation_sports_title"),
 		items = {
 			{
@@ -454,7 +454,7 @@ Config.Animations = {
 		},
 	},
 	{
-		name = "other",
+		{ name = "other" },
 		name = TranslateCap("animation_other_title"),
 		items = {
 			{
@@ -504,7 +504,7 @@ Config.Animations = {
 		},
 	},
 	{
-		name = "pegi",
+		{ name = "pegi" },
 		name = TranslateCap("animation_pegi_title"),
 		items = {
 			{
@@ -575,7 +575,7 @@ Config.Animations = {
 		},
 	},
 	{
-		name = "attitudes",
+		{ name = "attitudes" },
 		name = TranslateCap("animation_attitudes_title"),
 		items = {
 			{ name = "Normal", type = "attitude" },

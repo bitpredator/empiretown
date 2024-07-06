@@ -22,8 +22,8 @@ end)
 
 ESX.RegisterCommand({ "getintrunk" }, "user", function(xPlayer)
     TriggerClientEvent("esx-trunk:client:GetIn", xPlayer.source)
-end, false, { help = _U("getintrunk_command_desc") })
+end, false, { help = TranslateCap("getintrunk_command_desc") })
 
 ESX.RegisterCommand({ "putintrunk" }, "user", function(xPlayer, args)
     TriggerClientEvent("esx-trunk:server:KidnapTrunk", xPlayer.source)
-end, false, { help = _U("putintrunk_command_desc") })
+end, false, { help = TranslateCap("putintrunk_command_desc") })

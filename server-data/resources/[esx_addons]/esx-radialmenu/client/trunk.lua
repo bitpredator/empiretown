@@ -1,6 +1,4 @@
-local inTrunk = false
-local isKidnapped = false
-local isKidnapping = false
+local inTrunk, isKidnapped, isKidnapping = false, false, false
 local cam = nil
 local disabledTrunk = {
     [`penetrator`] = "penetrator",
@@ -85,7 +83,7 @@ RegisterNetEvent("esx-trunk:client:KidnapTrunk", function()
                 TriggerServerEvent("esx-trunk:server:KidnapTrunk", GetPlayerServerId(closestPlayer), closestVehicle)
             end
         else
-            ESX.ShowNotification(_U("not_kidnapped"), "error")
+            ESX.ShowNotification(TranslateCap("not_kidnapped"), "error")
         end
     end
 end)
@@ -117,11 +115,11 @@ RegisterNetEvent("esx-trunk:client:KidnapGetIn", function(veh)
                                 inTrunk = true
                                 Wait(500)
                                 SetVehicleDoorShut(closestVehicle, 5, false)
-                                ESX.ShowNotification(_U("entered_trunk"), "success", 4000)
+                                ESX.ShowNotification(TranslateCap("entered_trunk"), "success", 4000)
                                 TrunkCam(true)
                                 isKidnapped = true
                             else
-                                ESX.ShowNotification(_U("trunk_closed"), "error", 2500)
+                                ESX.ShowNotification(TranslateCap("trunk_closed"), "error", 2500)
                             end
                         else
                             local vehicle = GetEntityAttachedTo(ped)
@@ -136,21 +134,21 @@ RegisterNetEvent("esx-trunk:client:KidnapGetIn", function(veh)
                                 SetEntityCollision(PlayerPedId(), true, true)
                                 TrunkCam(false)
                             else
-                                ESX.ShowNotification(_U("trunk_closed"), "error", 2500)
+                                ESX.ShowNotification(TranslateCap("trunk_closed"), "error", 2500)
                             end
                         end
                     else
-                        ESX.ShowNotification(_U("someone_in_trunk"), "error", 2500)
+                        ESX.ShowNotification(TranslateCap("someone_in_trunk"), "error", 2500)
                     end
                 else
-                    ESX.ShowNotification(_U("already_in_trunk"), "error", 2500)
+                    ESX.ShowNotification(TranslateCap("already_in_trunk"), "error", 2500)
                 end
             else
-                ESX.ShowNotification(_U("cant_enter_trunk"), "error", 2500)
+                ESX.ShowNotification(TranslateCap("cant_enter_trunk"), "error", 2500)
             end
         end, plate)
     else
-        ESX.ShowNotification(_U("cant_enter_trunk"), "error", 2500)
+        ESX.ShowNotification(TranslateCap("cant_enter_trunk"), "error", 2500)
     end
 end)
 
@@ -181,26 +179,26 @@ RegisterNetEvent("esx-trunk:client:GetIn", function()
                                 inTrunk = true
                                 Wait(500)
                                 SetVehicleDoorShut(closestVehicle, 5, false)
-                                ESX.ShowNotification(_U("entered_trunk"), "success", 4000)
+                                ESX.ShowNotification(TranslateCap("entered_trunk"), "success", 4000)
                                 TrunkCam(true)
                             else
-                                ESX.ShowNotification(_U("trunk_closed"), "error", 2500)
+                                ESX.ShowNotification(TranslateCap("trunk_closed"), "error", 2500)
                             end
                         else
-                            ESX.ShowNotification(_U("someone_in_trunk"), "error", 2500)
+                            ESX.ShowNotification(TranslateCap("someone_in_trunk"), "error", 2500)
                         end
                     else
-                        ESX.ShowNotification(_U("already_in_trunk"), "error", 2500)
+                        ESX.ShowNotification(TranslateCap("already_in_trunk"), "error", 2500)
                     end
                 else
-                    ESX.ShowNotification(_U("cant_enter_trunk"), "error", 2500)
+                    ESX.ShowNotification(TranslateCap("cant_enter_trunk"), "error", 2500)
                 end
             end, plate)
         else
-            ESX.ShowNotification(_U("cant_enter_trunk"), "error", 2500)
+            ESX.ShowNotification(TranslateCap("cant_enter_trunk"), "error", 2500)
         end
     else
-        ESX.ShowNotification(_U("no_vehicle_found"), "error", 2500)
+        ESX.ShowNotification(TranslateCap("no_vehicle_found"), "error", 2500)
     end
 end)
 
@@ -231,7 +229,7 @@ CreateThread(function()
                 local plate = GetVehicleNumberPlateText(vehicle)
                 if DoesEntityExist(vehicle) then
                     sleep = 0
-                    DrawText3Ds(drawPos.x, drawPos.y, drawPos.z + 0.75, _U("get_out_trunk_button"))
+                    DrawText3Ds(drawPos.x, drawPos.y, drawPos.z + 0.75, TranslateCap("get_out_trunk_button"))
                     if IsControlJustPressed(0, 38) then
                         if GetVehicleDoorAngleRatio(vehicle, 5) > 0 then
                             local vehCoords = GetOffsetFromEntityInWorldCoords(vehicle, 0, -5.0, 0)
@@ -243,12 +241,12 @@ CreateThread(function()
                             SetEntityCollision(ped, true, true)
                             TrunkCam(false)
                         else
-                            ESX.ShowNotification(_U("trunk_closed"), 2500, "error")
+                            ESX.ShowNotification(TranslateCap("trunk_closed"), 2500, "error")
                         end
                         Wait(100)
                     end
                     if GetVehicleDoorAngleRatio(vehicle, 5) > 0 then
-                        DrawText3Ds(drawPos.x, drawPos.y, drawPos.z + 0.5, _U("close_trunk_button"))
+                        DrawText3Ds(drawPos.x, drawPos.y, drawPos.z + 0.5, TranslateCap("close_trunk_button"))
                         if IsControlJustPressed(0, 47) then
                             if not IsVehicleSeatFree(vehicle, -1) then
                                 TriggerServerEvent("esx-radialmenu:trunk:server:Door", false, plate, 5)
@@ -258,7 +256,7 @@ CreateThread(function()
                             Wait(100)
                         end
                     else
-                        DrawText3Ds(drawPos.x, drawPos.y, drawPos.z + 0.5, _U("open_trunk_button"))
+                        DrawText3Ds(drawPos.x, drawPos.y, drawPos.z + 0.5, TranslateCap("open_trunk_button"))
                         if IsControlJustPressed(0, 47) then
                             if not IsVehicleSeatFree(vehicle, -1) then
                                 TriggerServerEvent("esx-radialmenu:trunk:server:Door", true, plate, 5)

@@ -242,7 +242,7 @@ Config = {
 			Time = 180,
 			Ingredients = {
 				["copper"] = 1,
-				["iron"] = 1,
+				["iron"] = 3,
 				["wood"] = 1,
 			},
 		},
@@ -279,6 +279,38 @@ Config = {
 				["copper"] = 1,
 				["iron"] = 1,
 				["gunpowder"] = 1,
+				["gold"] = 1,
+			},
+		},
+
+		["WEAPON_KNIFE"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 30,
+			Ingredients = {
+				["iron"] = 2,
+				["wood"] = 1,
+			},
+		},
+
+		["WEAPON_KNUCKLE"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 30,
+			Ingredients = {
+				["iron"] = 2,
 				["gold"] = 1,
 			},
 		},
@@ -371,7 +403,7 @@ Config = {
 			coords = vector3(808.984619, -2159.630859, 29.616821),
 			jobs = { "ammu" },
 			blip = false,
-			recipes = { "WEAPON_APPISTOL", "ammo-sniper", "ammo-9" },
+			recipes = { "WEAPON_APPISTOL", "ammo-sniper", "ammo-9", "WEAPON_KNIFE", "WEAPON_KNUCKLE" },
 			radius = 1.0,
 		},
 		{

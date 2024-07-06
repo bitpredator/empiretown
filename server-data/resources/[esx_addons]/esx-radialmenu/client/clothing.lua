@@ -840,7 +840,7 @@ function ToggleClothing(whic, extra)
     local Gender = IsMpPed(Ped)
     if which ~= "Mask" then
         if not Gender then
-            Notify(_U("wrong_ped"))
+            Notify(TranslateCap("wrong_ped"))
             return false
         end -- We cancel the command here if the person is not using a multiplayer model.
     end
@@ -873,7 +873,7 @@ function ToggleClothing(whic, extra)
                 end
             end
         end
-        Notify(_U("no_variants"))
+        Notify(TranslateCap("no_variants"))
         return
     else
         if not LastEquipped[which] then
@@ -915,7 +915,7 @@ function ToggleClothing(whic, extra)
             return true
         end
     end
-    Notify(_U("already_wearing"))
+    Notify(TranslateCap("already_wearing"))
     return false
 end
 
@@ -956,12 +956,12 @@ function ToggleProps(whic)
                 return true
             end
         end
-        Notify(_U("nothing_to_remove"))
+        Notify(TranslateCap("nothing_to_remove"))
         return false
     else
         local Gender = IsMpPed(Ped)
         if not Gender then
-            Notify(_U("wrong_ped"))
+            Notify(TranslateCap("wrong_ped"))
             return false
         end -- We dont really allow for variants on ped models, Its possible, but im pretty sure 95% of ped models dont really have variants.
         variations = Prop.Variants[Gender]
@@ -973,7 +973,7 @@ function ToggleProps(whic)
                 return true
             end
         end
-        Notify(_U("no_variants"))
+        Notify(TranslateCap("no_variants"))
         return false
     end
 end
@@ -982,14 +982,14 @@ RegisterNetEvent("esx-radialmenu:ToggleProps", ToggleProps)
 
 for k, v in pairs(Config.Commands) do
     RegisterCommand(k, v.Func)
-    --log("Created /"..k.." ("..v.Desc..")") -- Useful for  _U checking.
+    --log("Created /"..k.." ("..v.Desc..")") -- Useful for  TranslateCap checking.
     TriggerEvent("chat:addSuggestion", "/" .. k, v.Desc)
 end
 
 if Config.ExtrasEnabled then
     for k, v in pairs(Config.ExtraCommands) do
         RegisterCommand(k, v.Func)
-        --log("Created /"..k.." ("..v.Desc..")") -- Useful for  _U checking.
+        --log("Created /"..k.." ("..v.Desc..")") -- Useful for  TranslateCap checking.
         TriggerEvent("chat:addSuggestion", "/" .. k, v.Desc)
     end
 end
