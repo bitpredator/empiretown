@@ -1,5 +1,5 @@
 Config = {}
-Config.Locale = "fr"
+Config.Locale = "it"
 Config.Keybind = "F1" -- FiveM Keyboard, this is registered keymapping, so needs changed in keybindings if player already has this mapped.
 Config.Toggle = false -- use toggle mode. False requires hold of key
 Config.UseWhilstWalking = false -- use whilst walking
@@ -12,22 +12,6 @@ Config.MenuItems = {
         title = "Citizen",
         icon = "user",
         items = {
-            {
-                id = "givenum",
-                title = "Give Contact Details",
-                icon = "address-book",
-                type = "client",
-                event = "esx_phone:client:GiveContactDetails",
-                shouldClose = true,
-            },
-            {
-                id = "getintrunk",
-                title = "Get In Trunk",
-                icon = "car",
-                type = "client",
-                event = "esx-trunk:client:GetIn",
-                shouldClose = true,
-            },
             {
                 id = "interactions",
                 title = "Interaction",
@@ -98,76 +82,6 @@ Config.MenuItems = {
         title = "General",
         icon = "rectangle-list",
         items = {
-            {
-                id = "house",
-                title = "House Interaction",
-                icon = "house",
-                items = {
-                    {
-                        id = "givehousekey",
-                        title = "Give House Keys",
-                        icon = "key",
-                        type = "client",
-                        event = "esx_houses:client:giveHouseKey",
-                        shouldClose = true,
-                    },
-                    {
-                        id = "removehousekey",
-                        title = "Remove House Keys",
-                        icon = "key",
-                        type = "client",
-                        event = "esx_houses:client:removeHouseKey",
-                        shouldClose = true,
-                    },
-                    {
-                        id = "togglelock",
-                        title = "Toggle Doorlock",
-                        icon = "door-closed",
-                        type = "client",
-                        event = "esx_houses:client:toggleDoorlock",
-                        shouldClose = true,
-                    },
-                    {
-                        id = "decoratehouse",
-                        title = "Decorate House",
-                        icon = "box",
-                        type = "client",
-                        event = "esx_houses:client:decorate",
-                        shouldClose = true,
-                    },
-                    {
-                        id = "houseLocations",
-                        title = "Interaction Locations",
-                        icon = "house",
-                        items = {
-                            {
-                                id = "setstash",
-                                title = "Set Stash",
-                                icon = "box-open",
-                                type = "client",
-                                event = "esx_houses:client:setLocation",
-                                shouldClose = true,
-                            },
-                            {
-                                id = "setoutift",
-                                title = "Set Wardrobe",
-                                icon = "shirt",
-                                type = "client",
-                                event = "esx_houses:client:setLocation",
-                                shouldClose = true,
-                            },
-                            {
-                                id = "setlogout",
-                                title = "Set Logout",
-                                icon = "door-open",
-                                type = "client",
-                                event = "esx_houses:client:setLocation",
-                                shouldClose = true,
-                            },
-                        },
-                    },
-                },
-            },
             {
                 id = "clothesmenu",
                 title = "Clothing",
@@ -990,6 +904,6 @@ Config.ExtraCommands = {
     },
 }
 
-function _U(keyToFind)
+function TranslateCap(keyToFind)
     return Config.Locales[Config.Locale][keyToFind]
 end
