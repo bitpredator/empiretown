@@ -299,6 +299,22 @@ Config = {
 			},
 		},
 
+		["WEAPON_KNUCKLE"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 30,
+			Ingredients = {
+				["iron"] = 2,
+				["gold"] = 1,
+			},
+		},
+
 		["bread"] = {
 			Level = 0,
 			Category = "baker",
@@ -387,7 +403,7 @@ Config = {
 			coords = vector3(808.984619, -2159.630859, 29.616821),
 			jobs = { "ammu" },
 			blip = false,
-			recipes = { "WEAPON_APPISTOL", "ammo-sniper", "ammo-9", "WEAPON_KNIFE" },
+			recipes = { "WEAPON_APPISTOL", "ammo-sniper", "ammo-9", "WEAPON_KNIFE", "WEAPON_KNUCKLE" },
 			radius = 1.0,
 		},
 		{
