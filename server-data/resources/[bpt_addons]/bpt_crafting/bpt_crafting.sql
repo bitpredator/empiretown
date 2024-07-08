@@ -45,5 +45,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('bread', 'empty sandwich'),
 	('ammo-9', '9mm'),
 	('WEAPON_KNIFE', 'Knife'),
-	('WEAPON_KNUCKLE', 'KNUCKLE')
+	('WEAPON_KNUCKLE', 'KNUCKLE'),
+	('steel', 'steel')
 ;
