@@ -244,6 +244,7 @@ Config = {
 				["copper"] = 1,
 				["iron"] = 3,
 				["wood"] = 1,
+				["steel"] = 5,
 			},
 		},
 
