@@ -94,6 +94,7 @@ local function getPersonalMenuCategory(id)
 end
 
 local animationCategory = addPersonalMenuCategory("animation", TranslateCap("animation_title"))
+local plyPed
 
 addPersonalMenuCategory("vehicle", TranslateCap("vehicle_title"), function()
 	return IsPedSittingInAnyVehicle(plyPed) and GetPedInVehicleSeat(GetVehiclePedIsIn(plyPed, false), -1) == plyPed
