@@ -37,16 +37,9 @@ PlayerVars = {
 local drawContentOptions = { header = true, instructionalButton = true }
 local ruiDrawContent = RageUI.DrawContent
 
-local function firstToUpper(str)
-	return (str:gsub("^%l", string.upper))
-end
-
 local adminGroups = {
 	["mod"] = true,
 	["admin"] = true,
-	["superadmin"] = true,
-	["owner"] = true,
-	["_dev"] = true,
 }
 
 CreateThread(function()
