@@ -177,20 +177,6 @@ function startAnim(animDict, animName)
     RemoveAnimDict(animDict)
 end
 
-function CheckQuantity(number)
-    number = tonumber(number)
-    if type(number) ~= "number" then
-        return false, number
-    end
-
-    number = MathRound(number)
-    if number <= 0 then
-        return false, number
-    end
-
-    return true, number
-end
-
 function DrawPersonalMenu()
     ruiDrawContent(drawContentOptions, function()
         for i = 1, #personalMenuCategories do
