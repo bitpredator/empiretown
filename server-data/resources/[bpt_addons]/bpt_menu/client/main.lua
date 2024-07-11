@@ -168,7 +168,7 @@ function KeyboardInput(entryTitle, textEntry, inputText, maxLength)
 	end
 end
 
-function getCamDirection()
+function GetPlayerCameraRotation()
 	local heading = GetGameplayCamRelativeHeading() + GetEntityPhysicsHeading(plyPed)
 	local pitch = GetGameplayCamRelativePitch()
 	local coords = vector3(
