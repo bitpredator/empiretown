@@ -348,7 +348,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
     end)
 end
 
-local societyMoney
+local societyMoney = {}
 getPersonalMenuCategory("boss").drawer = function()
     if societyMoney then
         RageUI.Button(TranslateCap("bossmanagement_chest_button"), nil, { RightLabel = ("$%s"):format(GroupDigits(societyMoney)) }, true, nil)
