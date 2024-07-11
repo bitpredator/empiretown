@@ -37,16 +37,9 @@ PlayerVars = {
 local drawContentOptions = { header = true, instructionalButton = true }
 local ruiDrawContent = RageUI.DrawContent
 
-local function firstToUpper(str)
-	return (str:gsub("^%l", string.upper))
-end
-
 local adminGroups = {
 	["mod"] = true,
 	["admin"] = true,
-	["superadmin"] = true,
-	["owner"] = true,
-	["_dev"] = true,
 }
 
 CreateThread(function()
@@ -101,6 +94,7 @@ local function getPersonalMenuCategory(id)
 end
 
 local animationCategory = addPersonalMenuCategory("animation", TranslateCap("animation_title"))
+local plyPed
 
 addPersonalMenuCategory("vehicle", TranslateCap("vehicle_title"), function()
 	return IsPedSittingInAnyVehicle(plyPed) and GetPedInVehicleSeat(GetVehiclePedIsIn(plyPed, false), -1) == plyPed
