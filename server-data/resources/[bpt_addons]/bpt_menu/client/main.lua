@@ -173,13 +173,7 @@ end
 
 function startAnim(animDict, animName)
     LoadAnimDict(animDict)
-    TaskPlayAnim(plyPed, animDict, animName, 8.0, 8.0, -1, 48, 0, false, false, false)
-    RemoveAnimDict(animDict)
-end
-
-function startAnimAction(animDict, animName)
-    LoadAnimDict(animDict)
-    TaskPlayAnim(plyPed, animDict, animName, 8.0, 1.0, -1, 48, 0, false, false, false)
+    TaskPlayAnim(plyPed, animDict, animName, 8.0, 1.0, -1, 49, 0, false, false, false)
     RemoveAnimDict(animDict)
 end
 
