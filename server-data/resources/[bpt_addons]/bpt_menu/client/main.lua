@@ -439,6 +439,7 @@ getPersonalMenuCategory("boss").drawer = function()
     end)
 end
 
+local societyMoney2 = {}
 if Config.DoubleJob then
     getPersonalMenuCategory("boss2").drawer = function()
         if societyMoney ~= nil then
