@@ -686,6 +686,7 @@ Config.AdminCommands = {
         groups = { "admin" },
         command = function()
             PlayerVars.godmode = not PlayerVars.godmode
+            local plyPed = PlayerPedId()
 
             if PlayerVars.godmode then
                 SetEntityInvincible(plyPed, true)
@@ -702,6 +703,7 @@ Config.AdminCommands = {
         groups = { "admin" },
         command = function()
             PlayerVars.ghostmode = not PlayerVars.ghostmode
+            local plyPed = PlayerPedId()
 
             if PlayerVars.ghostmode then
                 SetEntityVisible(plyPed, false, false)
@@ -726,6 +728,7 @@ Config.AdminCommands = {
             if type(modelName) ~= "string" then
                 return
             end
+            local plyPed = PlayerPedId()
 
             ESX.Game.SpawnVehicle(modelName, GetEntityCoords(plyPed), GetEntityHeading(plyPed), function(vehicle)
                 TaskWarpPedIntoVehicle(plyPed, vehicle, -1)
@@ -739,6 +742,7 @@ Config.AdminCommands = {
         name = TranslateCap("admin_repairveh_button"),
         groups = { "admin" },
         command = function()
+            local plyPed = PlayerPedId()
             local plyVeh = GetVehiclePedIsIn(plyPed, false)
             SetVehicleFixed(plyVeh)
             SetVehicleDirtLevel(plyVeh, 0.0)
@@ -749,6 +753,7 @@ Config.AdminCommands = {
         name = TranslateCap("admin_flipveh_button"),
         groups = { "admin" },
         command = function()
+            local plyPed = PlayerPedId()
             local plyCoords = GetEntityCoords(plyPed)
             local closestVeh = GetClosestVehicle(plyCoords, 10.0, 0, 70)
 
