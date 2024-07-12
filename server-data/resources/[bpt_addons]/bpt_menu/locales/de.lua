@@ -164,8 +164,6 @@ Locales["de"] = {
 
 	-- Admin Menu
 	["admin_title"] = "Administration",
-	["admin_goto_button"] = "TP zu Spieler",
-	["admin_bring_button"] = "TP Spieler zu mir",
 	["admin_tpxyz_button"] = "TP zu Koordinaten",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "GodMode",

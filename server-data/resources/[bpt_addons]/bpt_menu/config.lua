@@ -610,44 +610,6 @@ Config.Animations = {
 -- ADMIN --
 Config.AdminCommands = {
     {
-        id = "goto",
-        name = TranslateCap("admin_goto_button"),
-        groups = { "admin", "mod" },
-        command = function()
-            local targetServerId = KeyboardInput("PM_BOX_ID", TranslateCap("dialogbox_playerid"), "", 8)
-            if not targetServerId then
-                return
-            end
-
-            targetServerId = tonumber(targetServerId)
-            if type(targetServerId) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_BringS", GetPlayerServerId(PlayerId()), targetServerId)
-            RageUI.CloseAll()
-        end,
-    },
-    {
-        id = "bring",
-        name = TranslateCap("admin_bring_button"),
-        groups = { "admin", "mod" },
-        command = function()
-            local targetServerId = KeyboardInput("PM_BOX_ID", TranslateCap("dialogbox_playerid"), "", 8)
-            if not targetServerId then
-                return
-            end
-
-            targetServerId = tonumber(targetServerId)
-            if type(targetServerId) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_BringS", targetServerId, GetPlayerServerId(PlayerId()))
-            RageUI.CloseAll()
-        end,
-    },
-    {
         id = "tpxyz",
         name = TranslateCap("admin_tpxyz_button"),
         groups = { "admin" },

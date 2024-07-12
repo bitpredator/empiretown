@@ -164,8 +164,6 @@ Locales["br"] = {
 
 	-- Admin Menu
 	["admin_title"] = "Administração",
-	["admin_goto_button"] = "Teleportar no jogador",
-	["admin_bring_button"] = "Teleportar jogador pra você",
 	["admin_tpxyz_button"] = "Teleportar para as coordenadas",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "Godmod",

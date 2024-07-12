@@ -163,8 +163,6 @@ Locales["en"] = {
 
 	-- Admin Menu
 	["admin_title"] = "Administration",
-	["admin_goto_button"] = "TP on Player",
-	["admin_bring_button"] = "TP Player on me",
 	["admin_tpxyz_button"] = "TP on Coordinates",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "Invincible Mode",
