@@ -163,7 +163,6 @@ Locales["es"] = {
 
 	-- Admin Menu
 	["admin_title"] = "Administración",
-	["admin_tpxyz_button"] = "TP a coordenadas",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "Modo invencible",
 	["admin_ghostmode_button"] = "Modo invisible",

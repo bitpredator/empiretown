@@ -164,7 +164,6 @@ Locales["br"] = {
 
 	-- Admin Menu
 	["admin_title"] = "Administração",
-	["admin_tpxyz_button"] = "Teleportar para as coordenadas",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "Godmod",
 	["admin_ghostmode_button"] = "Ghostmod",

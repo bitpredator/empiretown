@@ -138,7 +138,6 @@ Locales["it"] = {
 	["mainmenu_gps_button"] = "GPS",
 	["gps"] = "GPS: ~b~%s",
 	["admin_title"] = "Amministrazione",
-	["admin_tpxyz_button"] = "TP su Coordinate",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "Modalità invincibile",
 	["admin_ghostmode_button"] = "Modalità fantasma",

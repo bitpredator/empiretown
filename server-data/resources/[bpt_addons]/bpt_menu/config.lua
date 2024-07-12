@@ -76,7 +76,6 @@ local Keys = {
     ["N9"] = 118,
 }
 
-local plyPed = nil
 Config = {}
 
 -- FRAMEWORK --
@@ -609,24 +608,6 @@ Config.Animations = {
 
 -- ADMIN --
 Config.AdminCommands = {
-    {
-        id = "tpxyz",
-        name = TranslateCap("admin_tpxyz_button"),
-        groups = { "admin" },
-        command = function()
-            local pos = KeyboardInput("PM_BOX_XYZ", TranslateCap("dialogbox_xyz"), "", 50)
-
-            if pos ~= nil and pos ~= "" then
-                local _, _, x, y, z = string.find(pos, "([%d%.]+) ([%d%.]+) ([%d%.]+)")
-
-                if x ~= nil and y ~= nil and z ~= nil then
-                    SetEntityCoords(plyPed, x + 0.0, y + 0.0, z + 0.0)
-                end
-            end
-
-            RageUI.CloseAll()
-        end,
-    },
     {
         id = "noclip",
         name = TranslateCap("admin_noclip_button"),

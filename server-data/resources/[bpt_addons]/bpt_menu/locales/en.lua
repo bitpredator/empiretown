@@ -163,7 +163,6 @@ Locales["en"] = {
 
 	-- Admin Menu
 	["admin_title"] = "Administration",
-	["admin_tpxyz_button"] = "TP on Coordinates",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "Invincible Mode",
 	["admin_ghostmode_button"] = "Ghost Mode",

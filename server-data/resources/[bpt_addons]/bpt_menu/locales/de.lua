@@ -164,7 +164,6 @@ Locales["de"] = {
 
 	-- Admin Menu
 	["admin_title"] = "Administration",
-	["admin_tpxyz_button"] = "TP zu Koordinaten",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "GodMode",
 	["admin_ghostmode_button"] = "Unsichtbarer Modus",
