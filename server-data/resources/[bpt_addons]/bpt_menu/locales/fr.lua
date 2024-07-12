@@ -170,15 +170,10 @@ Locales["fr"] = {
 	["admin_spawnveh_button"] = "Faire apparaître un Véhicule",
 	["admin_repairveh_button"] = "Réparer Véhicule",
 	["admin_flipveh_button"] = "Retourner le véhicule",
-	["admin_givemoney_button"] = "S'octroyer de l'argent",
-	["admin_givebank_button"] = "S'octroyer de l'argent (banque)",
-	["admin_givedirtymoney_button"] = "S'octroyer de l'argent sale",
 	["admin_showxyz_button"] = "Afficher/Cacher Coordonnées",
 	["admin_showname_button"] = "Afficher/Cacher Noms des Joueurs",
 	["admin_tpmarker_button"] = "TP sur le Marqueur",
 	["admin_revive_button"] = "Réanimer un Joueur",
-	["admin_changeskin_button"] = "Changer l'Apparence",
-	["admin_saveskin_button"] = "Sauvegarder l'Apparence",
 
 	-- GPS
 	["none"] = "Aucun",

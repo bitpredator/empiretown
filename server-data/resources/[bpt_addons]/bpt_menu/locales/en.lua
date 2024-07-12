@@ -170,15 +170,10 @@ Locales["en"] = {
 	["admin_spawnveh_button"] = "Spawn a Vehicle",
 	["admin_repairveh_button"] = "Repair Vehicle",
 	["admin_flipveh_button"] = "Return the vehicle",
-	["admin_givemoney_button"] = "Grant money ",
-	["admin_givebank_button"] = "Grant money (bank) ",
-	["admin_givedirtymoney_button"] = "Sending dirty money",
 	["admin_showxyz_button"] = "Show / Hide Coordinates",
 	["admin_showname_button"] = "Show / Hide Player Names",
 	["admin_tpmarker_button"] = "TP on the Marker",
 	["admin_revive_button"] = "Revive a Player",
-	["admin_changeskin_button"] = "Change Appearance",
-	["admin_saveskin_button"] = "Save Appearance",
 
 	-- GPS
 	["none"] = "No Location",

@@ -171,15 +171,10 @@ Locales["br"] = {
 	["admin_spawnveh_button"] = "Spawnar Veículo",
 	["admin_repairveh_button"] = "Reparar veículo",
 	["admin_flipveh_button"] = "Puxar veículo",
-	["admin_givemoney_button"] = "Conceder dinheiro",
-	["admin_givebank_button"] = "Conceder dinheiro(Banco)",
-	["admin_givedirtymoney_button"] = "Conceda dinheiro sujo",
 	["admin_showxyz_button"] = "Mostrar / Ocultar coordenadas",
 	["admin_showname_button"] = "Mostrar / Ocultar nomes dos jogadores",
 	["admin_tpmarker_button"] = "Teleporte para a localização marcada",
 	["admin_revive_button"] = "Reviver jogador",
-	["admin_changeskin_button"] = "Mudar aparência",
-	["admin_saveskin_button"] = "Salvar aparência",
 
 	-- GPS
 	["none"] = "No Location", -- No translated

@@ -171,15 +171,10 @@ Locales["de"] = {
 	["admin_spawnveh_button"] = "Fahrzeug spawnen",
 	["admin_repairveh_button"] = "Fahrzeug reparieren",
 	["admin_flipveh_button"] = "Rückgabe des Fahrzeugs",
-	["admin_givemoney_button"] = "Geld geben ",
-	["admin_givebank_button"] = "Geld geben (bank) ",
-	["admin_givedirtymoney_button"] = "Schwarzgeld senden",
 	["admin_showxyz_button"] = "Koordinaten ein-/ausblenden",
 	["admin_showname_button"] = "Spielernamen ein-/ausblenden",
 	["admin_tpmarker_button"] = "Zur Markierung teleportieren",
 	["admin_revive_button"] = "Spieler wiederbeleben",
-	["admin_changeskin_button"] = "Aussehen ändern",
-	["admin_saveskin_button"] = "Aussehen speichern",
 
 	-- GPS
 	["none"] = "No Location", -- No translated

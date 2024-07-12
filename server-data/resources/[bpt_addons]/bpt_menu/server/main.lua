@@ -85,40 +85,6 @@ local function makeTargetedEventFunction(fn)
     end
 end
 
--- Admin Menu --
-RegisterServerEvent("bpt_personalmenu:Admin_giveCash")
-AddEventHandler("bpt_personalmenu:Admin_giveCash", function(amount)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local plyGroup = xPlayer.getGroup()
-
-    if isAuthorized(getAdminCommand("givemoney"), plyGroup) then
-        xPlayer.addAccountMoney("cash", amount)
-        TriggerClientEvent("esx:showNotification", xPlayer.source, TranslateCap("received_money_cash"):format(amount))
-    end
-end)
-
-RegisterServerEvent("bpt_personalmenu:Admin_giveBank")
-AddEventHandler("bpt_personalmenu:Admin_giveBank", function(amount)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local plyGroup = xPlayer.getGroup()
-
-    if isAuthorized(getAdminCommand("givebank"), plyGroup) then
-        xPlayer.addAccountMoney("bank", amount)
-        TriggerClientEvent("esx:showNotification", xPlayer.source, TranslateCap("givebank"):format(amount))
-    end
-end)
-
-RegisterServerEvent("bpt_personalmenu:Admin_giveDirtyMoney")
-AddEventHandler("bpt_personalmenu:Admin_giveDirtyMoney", function(amount)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local plyGroup = xPlayer.getGroup()
-
-    if isAuthorized(getAdminCommand("givedirtymoney"), plyGroup) then
-        xPlayer.addAccountMoney("black_money", amount)
-        TriggerClientEvent("esx:showNotification", xPlayer.source, TranslateCap("givedirtymoney"):format(amount))
-    end
-end)
-
 -- Grade Menu --
 RegisterServerEvent("bpt_personalmenu:Boss_promoteplayer")
 AddEventHandler(

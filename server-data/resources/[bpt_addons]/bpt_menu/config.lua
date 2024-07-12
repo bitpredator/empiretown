@@ -776,66 +776,9 @@ Config.AdminCommands = {
         end,
     },
     {
-        id = "givemoney",
-        name = TranslateCap("admin_givemoney_button"),
-        groups = { "admin" },
-        command = function()
-            local amount = KeyboardInput("PM_BOX_AMOUNT", TranslateCap("dialogbox_amount"), "", 8)
-            if not amount then
-                return
-            end
-
-            amount = tonumber(amount)
-            if type(amount) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_giveCash", amount)
-            RageUI.CloseAll()
-        end,
-    },
-    {
-        id = "givebank",
-        name = TranslateCap("admin_givebank_button"),
-        groups = { "admin" },
-        command = function()
-            local amount = KeyboardInput("PM_BOX_AMOUNT", TranslateCap("dialogbox_amount"), "", 8)
-            if not amount then
-                return
-            end
-
-            amount = tonumber(amount)
-            if type(amount) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_giveBank", amount)
-            RageUI.CloseAll()
-        end,
-    },
-    {
-        id = "givedirtymoney",
-        name = TranslateCap("admin_givedirtymoney_button"),
-        groups = { "admin" },
-        command = function()
-            local amount = KeyboardInput("PM_BOX_AMOUNT", TranslateCap("dialogbox_amount"), "", 8)
-            if not amount then
-                return
-            end
-
-            amount = tonumber(amount)
-            if type(amount) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_giveDirtyMoney", amount)
-            RageUI.CloseAll()
-        end,
-    },
-    {
         id = "showxyz",
         name = TranslateCap("admin_showxyz_button"),
-        groups = { "admin", "mod" },
+        groups = { "admin" },
         command = function()
             PlayerVars.showCoords = not PlayerVars.showCoords
         end,
@@ -886,24 +829,6 @@ Config.AdminCommands = {
 
             TriggerServerEvent("bpt_ambulancejob:revive", targetServerId)
             RageUI.CloseAll()
-        end,
-    },
-    {
-        id = "changeskin",
-        name = TranslateCap("admin_changeskin_button"),
-        groups = { "admin" },
-        command = function()
-            RageUI.CloseAll()
-            Wait(100)
-            TriggerEvent("esx_skin:openSaveableMenu")
-        end,
-    },
-    {
-        id = "saveskin",
-        name = TranslateCap("admin_saveskin_button"),
-        groups = { "admin" },
-        command = function()
-            TriggerEvent("esx_skin:requestSaveSkin")
         end,
     },
 }
