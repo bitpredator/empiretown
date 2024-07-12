@@ -673,7 +673,7 @@ Config.AdminCommands = {
             PlayerVars.noclip = not PlayerVars.noclip
 
             if PlayerVars.noclip then
-                Citizen.CreateThreadNow(function()
+                Citizen.CreateThread(function()
                     while PlayerVars.noclip do
                         local plyPed = PlayerPedId()
 
