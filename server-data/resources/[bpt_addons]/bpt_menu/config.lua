@@ -75,7 +75,7 @@ local Keys = {
     ["N8"] = 61,
     ["N9"] = 118,
 }
-
+local plyPed
 Config = {}
 
 -- FRAMEWORK --
