@@ -153,14 +153,6 @@ Locales["fr"] = {
 	["bossmanagement_promote_button"] = "Promouvoir",
 	["bossmanagement_demote_button"] = "Destituer",
 
-	-- Boss Management 2 Menu
-	["bossmanagement2_title"] = "Gestion Organisation",
-	["bossmanagement2_chest_button"] = "Coffre Organisation:",
-	["bossmanagement2_hire_button"] = "Recruter",
-	["bossmanagement2_fire_button"] = "Virer",
-	["bossmanagement2_promote_button"] = "Promouvoir",
-	["bossmanagement2_demote_button"] = "Destituer",
-
 	-- Admin Menu
 	["admin_title"] = "Administration",
 	["admin_noclip_button"] = "NoClip",

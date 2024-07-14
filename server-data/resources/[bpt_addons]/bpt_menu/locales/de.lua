@@ -154,14 +154,6 @@ Locales["de"] = {
 	["bossmanagement_promote_button"] = "Befördern",
 	["bossmanagement_demote_button"] = "Degradieren",
 
-	-- Boss Management 2 Menu
-	["bossmanagement2_title"] = "Organisation Management",
-	["bossmanagement2_chest_button"] = "Organisation Truhe:",
-	["bossmanagement2_hire_button"] = "Einstellen",
-	["bossmanagement2_fire_button"] = "Entlassen",
-	["bossmanagement2_promote_button"] = "Befördern",
-	["bossmanagement2_demote_button"] = "Degradieren",
-
 	-- Admin Menu
 	["admin_title"] = "Administration",
 	["admin_noclip_button"] = "NoClip",

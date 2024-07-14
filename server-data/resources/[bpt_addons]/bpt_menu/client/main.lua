@@ -93,12 +93,6 @@ addPersonalMenuCategory("boss", TranslateCap("bossmanagement_title"), function()
     return GetPlayerJob().isBoss
 end)
 
-if Config.DoubleJob then
-    addPersonalMenuCategory("boss2", TranslateCap("bossmanagement2_title"), function()
-        return GetPlayerJob2().isBoss
-    end)
-end
-
 addPersonalMenuCategory("admin", TranslateCap("admin_title"), function()
     return adminGroups[PlayerVars.group] ~= nil
 end)
@@ -437,99 +431,6 @@ getPersonalMenuCategory("boss").drawer = function()
 
         TriggerServerEvent("bpt_personalmenu:Boss_destituerplayer", GetPlayerServerId(closestPlayer))
     end)
-end
-
-local societyMoney2 = {}
-if Config.DoubleJob then
-    getPersonalMenuCategory("boss2").drawer = function()
-        if societyMoney ~= nil then
-            RageUI.Button(TranslateCap("bossmanagement2_chest_button"), nil, { RightLabel = ("$%s"):format(GroupDigits(societyMoney2)) }, true, nil)
-        end
-
-        RageUI.Button(TranslateCap("bossmanagement2_hire_button"), nil, nil, true, function(Hovered, Active, Selected)
-            if not Selected then
-                return
-            end
-
-            local playerJob = GetPlayerJob2()
-
-            if not playerJob.isBoss then
-                GameNotification(TranslateCap("missing_rights"))
-                return
-            end
-
-            local closestPlayer, closestDistance = GetClosestPlayer()
-            if closestPlayer == -1 or closestDistance > 3.0 then
-                GameNotification(TranslateCap("players_nearby"))
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Boss_recruterplayer2", GetPlayerServerId(closestPlayer))
-        end)
-
-        RageUI.Button(TranslateCap("bossmanagement2_fire_button"), nil, nil, true, function(Hovered, Active, Selected)
-            if not Selected then
-                return
-            end
-
-            local playerJob = GetPlayerJob2()
-
-            if not playerJob.isBoss then
-                GameNotification(TranslateCap("missing_rights"))
-                return
-            end
-
-            local closestPlayer, closestDistance = GetClosestPlayer()
-            if closestPlayer == -1 or closestDistance > 3.0 then
-                GameNotification(TranslateCap("players_nearby"))
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Boss_virerplayer2", GetPlayerServerId(closestPlayer))
-        end)
-
-        RageUI.Button(TranslateCap("bossmanagement2_promote_button"), nil, nil, true, function(Hovered, Active, Selected)
-            if not Selected then
-                return
-            end
-
-            local playerJob = GetPlayerJob2()
-
-            if not playerJob.isBoss then
-                GameNotification(TranslateCap("missing_rights"))
-                return
-            end
-
-            local closestPlayer, closestDistance = GetClosestPlayer()
-            if closestPlayer == -1 or closestDistance > 3.0 then
-                GameNotification(TranslateCap("players_nearby"))
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Boss_promouvoirplayer2", GetPlayerServerId(closestPlayer))
-        end)
-
-        RageUI.Button(TranslateCap("bossmanagement2_demote_button"), nil, nil, true, function(Hovered, Active, Selected)
-            if not Selected then
-                return
-            end
-
-            local playerJob = GetPlayerJob2()
-
-            if not playerJob.isBoss then
-                GameNotification(TranslateCap("missing_rights"))
-                return
-            end
-
-            local closestPlayer, closestDistance = GetClosestPlayer()
-            if closestPlayer == -1 or closestDistance > 3.0 then
-                GameNotification(TranslateCap("players_nearby"))
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Boss_destituerplayer2", GetPlayerServerId(closestPlayer))
-        end)
-    end
 end
 
 getPersonalMenuCategory("admin").drawer = function()

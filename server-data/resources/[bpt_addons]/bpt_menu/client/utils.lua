@@ -33,11 +33,7 @@ if Config.Framework == "esx" then
         job = {},
     }
 
-    local societyMoney, societyMoney2 = nil, nil
-
-    if Config.DoubleJob then
-        playerData.job2 = {}
-    end
+    local societyMoney = nil
 
     local function parsePlayerJob(job, xPlayerJob)
         job.id = xPlayerJob.name
@@ -58,16 +54,6 @@ if Config.Framework == "esx" then
         return societyMoney
     end
 
-    if Config.DoubleJob then
-        function GetPlayerJob2()
-            return playerData.job2
-        end
-
-        function GetSocietyMoney2()
-            return societyMoney2
-        end
-    end
-
     local function refreshMoney()
         local playerJob = GetPlayerJob()
 
@@ -78,37 +64,15 @@ if Config.Framework == "esx" then
         end
     end
 
-    local function refreshMoney2()
-        local playerJob2 = GetPlayerJob2()
-
-        if playerJob2.isBoss then
-            ESX.TriggerServerCallback("esx_society:getSocietyMoney", function(money)
-                societyMoney2 = money
-            end, playerJob2.id)
-        end
-    end
-
     RegisterNetEvent("esx:setJob", function(job)
         parsePlayerJob(playerData.job, job)
         refreshMoney()
-    end)
-
-    RegisterNetEvent("esx:setJob2", function(job)
-        parsePlayerJob(playerData.job2, job)
-        refreshMoney2()
     end)
 
     RegisterNetEvent("bpt_addonaccount:setMoney", function(societyId, money)
         local playerJob = GetPlayerJob()
         if playerJob.isBoss and ("society_%s"):format(playerJob.id) == societyId then
             societyMoney = money
-        end
-
-        if Config.DoubleJob then
-            local playerJob = GetPlayerJob2()
-            if playerJob2.isBoss and ("society_%s"):format(playerJob2.id) == societyId then
-                societyMoney2 = money
-            end
         end
     end)
 
@@ -133,12 +97,6 @@ if Config.Framework == "esx" then
 
         while not ESX.GetPlayerData().job do
             Wait(100)
-        end
-
-        if Config.DoubleJob then
-            while not ESX.GetPlayerData().job2 do
-                Wait(100)
-            end
         end
     end)
 end

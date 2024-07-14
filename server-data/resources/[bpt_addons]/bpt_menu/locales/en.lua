@@ -153,14 +153,6 @@ Locales["en"] = {
 	["bossmanagement_promote_button"] = "Promote",
 	["bossmanagement_demote_button"] = "Demote",
 
-	-- Boss Management 2 Menu
-	["bossmanagement2_title"] = "Organization Management",
-	["bossmanagement2_chest_button"] = "Organization Chest:",
-	["bossmanagement2_hire_button"] = "Recruit",
-	["bossmanagement2_fire_button"] = "Fire",
-	["bossmanagement2_promote_button"] = "Promote",
-	["bossmanagement2_demote_button"] = "Demote",
-
 	-- Admin Menu
 	["admin_title"] = "Administration",
 	["admin_noclip_button"] = "NoClip",
