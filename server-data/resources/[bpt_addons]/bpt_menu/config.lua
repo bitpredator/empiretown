@@ -86,7 +86,6 @@ Config.Locale = "it"
 
 -- GENERAL --
 Config.MenuTitle = "EmpireTown" -- change it to you're server name
-Config.DoubleJob = false -- enable if you're using esx double job
 Config.NoclipSpeed = 1.0 -- change it to change the speed in noclip
 Config.JSFourIDCard = true -- enable if you're using jsfour-idcard
 
@@ -609,62 +608,6 @@ Config.Animations = {
 -- ADMIN --
 Config.AdminCommands = {
     {
-        id = "goto",
-        name = TranslateCap("admin_goto_button"),
-        groups = { "admin", "mod" },
-        command = function()
-            local targetServerId = KeyboardInput("PM_BOX_ID", TranslateCap("dialogbox_playerid"), "", 8)
-            if not targetServerId then
-                return
-            end
-
-            targetServerId = tonumber(targetServerId)
-            if type(targetServerId) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_BringS", GetPlayerServerId(PlayerId()), targetServerId)
-            RageUI.CloseAll()
-        end,
-    },
-    {
-        id = "bring",
-        name = TranslateCap("admin_bring_button"),
-        groups = { "admin", "mod" },
-        command = function()
-            local targetServerId = KeyboardInput("PM_BOX_ID", TranslateCap("dialogbox_playerid"), "", 8)
-            if not targetServerId then
-                return
-            end
-
-            targetServerId = tonumber(targetServerId)
-            if type(targetServerId) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_BringS", targetServerId, GetPlayerServerId(PlayerId()))
-            RageUI.CloseAll()
-        end,
-    },
-    {
-        id = "tpxyz",
-        name = TranslateCap("admin_tpxyz_button"),
-        groups = { "admin" },
-        command = function()
-            local pos = KeyboardInput("PM_BOX_XYZ", TranslateCap("dialogbox_xyz"), "", 50)
-
-            if pos ~= nil and pos ~= "" then
-                local _, _, x, y, z = string.find(pos, "([%d%.]+) ([%d%.]+) ([%d%.]+)")
-
-                if x ~= nil and y ~= nil and z ~= nil then
-                    SetEntityCoords(plyPed, x + 0.0, y + 0.0, z + 0.0)
-                end
-            end
-
-            RageUI.CloseAll()
-        end,
-    },
-    {
         id = "noclip",
         name = TranslateCap("admin_noclip_button"),
         groups = { "admin", "mod" },
@@ -672,7 +615,7 @@ Config.AdminCommands = {
             PlayerVars.noclip = not PlayerVars.noclip
 
             if PlayerVars.noclip then
-                Citizen.CreateThreadNow(function()
+                Citizen.CreateThread(function()
                     while PlayerVars.noclip do
                         local plyPed = PlayerPedId()
 
@@ -742,6 +685,7 @@ Config.AdminCommands = {
         groups = { "admin" },
         command = function()
             PlayerVars.godmode = not PlayerVars.godmode
+            local plyPed = PlayerPedId()
 
             if PlayerVars.godmode then
                 SetEntityInvincible(plyPed, true)
@@ -758,6 +702,7 @@ Config.AdminCommands = {
         groups = { "admin" },
         command = function()
             PlayerVars.ghostmode = not PlayerVars.ghostmode
+            local plyPed = PlayerPedId()
 
             if PlayerVars.ghostmode then
                 SetEntityVisible(plyPed, false, false)
@@ -782,6 +727,7 @@ Config.AdminCommands = {
             if type(modelName) ~= "string" then
                 return
             end
+            local plyPed = PlayerPedId()
 
             ESX.Game.SpawnVehicle(modelName, GetEntityCoords(plyPed), GetEntityHeading(plyPed), function(vehicle)
                 TaskWarpPedIntoVehicle(plyPed, vehicle, -1)
@@ -795,6 +741,7 @@ Config.AdminCommands = {
         name = TranslateCap("admin_repairveh_button"),
         groups = { "admin" },
         command = function()
+            local plyPed = PlayerPedId()
             local plyVeh = GetVehiclePedIsIn(plyPed, false)
             SetVehicleFixed(plyVeh)
             SetVehicleDirtLevel(plyVeh, 0.0)
@@ -805,6 +752,7 @@ Config.AdminCommands = {
         name = TranslateCap("admin_flipveh_button"),
         groups = { "admin" },
         command = function()
+            local plyPed = PlayerPedId()
             local plyCoords = GetEntityCoords(plyPed)
             local closestVeh = GetClosestVehicle(plyCoords, 10.0, 0, 70)
 
@@ -813,66 +761,9 @@ Config.AdminCommands = {
         end,
     },
     {
-        id = "givemoney",
-        name = TranslateCap("admin_givemoney_button"),
-        groups = { "admin" },
-        command = function()
-            local amount = KeyboardInput("PM_BOX_AMOUNT", TranslateCap("dialogbox_amount"), "", 8)
-            if not amount then
-                return
-            end
-
-            amount = tonumber(amount)
-            if type(amount) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_giveCash", amount)
-            RageUI.CloseAll()
-        end,
-    },
-    {
-        id = "givebank",
-        name = TranslateCap("admin_givebank_button"),
-        groups = { "admin" },
-        command = function()
-            local amount = KeyboardInput("PM_BOX_AMOUNT", TranslateCap("dialogbox_amount"), "", 8)
-            if not amount then
-                return
-            end
-
-            amount = tonumber(amount)
-            if type(amount) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_giveBank", amount)
-            RageUI.CloseAll()
-        end,
-    },
-    {
-        id = "givedirtymoney",
-        name = TranslateCap("admin_givedirtymoney_button"),
-        groups = { "admin" },
-        command = function()
-            local amount = KeyboardInput("PM_BOX_AMOUNT", TranslateCap("dialogbox_amount"), "", 8)
-            if not amount then
-                return
-            end
-
-            amount = tonumber(amount)
-            if type(amount) ~= "number" then
-                return
-            end
-
-            TriggerServerEvent("bpt_personalmenu:Admin_giveDirtyMoney", amount)
-            RageUI.CloseAll()
-        end,
-    },
-    {
         id = "showxyz",
         name = TranslateCap("admin_showxyz_button"),
-        groups = { "admin", "mod" },
+        groups = { "admin" },
         command = function()
             PlayerVars.showCoords = not PlayerVars.showCoords
         end,
@@ -923,24 +814,6 @@ Config.AdminCommands = {
 
             TriggerServerEvent("bpt_ambulancejob:revive", targetServerId)
             RageUI.CloseAll()
-        end,
-    },
-    {
-        id = "changeskin",
-        name = TranslateCap("admin_changeskin_button"),
-        groups = { "admin" },
-        command = function()
-            RageUI.CloseAll()
-            Wait(100)
-            TriggerEvent("esx_skin:openSaveableMenu")
-        end,
-    },
-    {
-        id = "saveskin",
-        name = TranslateCap("admin_saveskin_button"),
-        groups = { "admin" },
-        command = function()
-            TriggerEvent("esx_skin:requestSaveSkin")
         end,
     },
 }

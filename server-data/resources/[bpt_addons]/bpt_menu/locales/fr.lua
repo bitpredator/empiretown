@@ -153,34 +153,18 @@ Locales["fr"] = {
 	["bossmanagement_promote_button"] = "Promouvoir",
 	["bossmanagement_demote_button"] = "Destituer",
 
-	-- Boss Management 2 Menu
-	["bossmanagement2_title"] = "Gestion Organisation",
-	["bossmanagement2_chest_button"] = "Coffre Organisation:",
-	["bossmanagement2_hire_button"] = "Recruter",
-	["bossmanagement2_fire_button"] = "Virer",
-	["bossmanagement2_promote_button"] = "Promouvoir",
-	["bossmanagement2_demote_button"] = "Destituer",
-
 	-- Admin Menu
 	["admin_title"] = "Administration",
-	["admin_goto_button"] = "TP sur Joueur",
-	["admin_bring_button"] = "TP Joueur sur moi",
-	["admin_tpxyz_button"] = "TP sur Coordonées",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "Mode Invincible",
 	["admin_ghostmode_button"] = "Mode Fantôme",
 	["admin_spawnveh_button"] = "Faire apparaître un Véhicule",
 	["admin_repairveh_button"] = "Réparer Véhicule",
 	["admin_flipveh_button"] = "Retourner le véhicule",
-	["admin_givemoney_button"] = "S'octroyer de l'argent",
-	["admin_givebank_button"] = "S'octroyer de l'argent (banque)",
-	["admin_givedirtymoney_button"] = "S'octroyer de l'argent sale",
 	["admin_showxyz_button"] = "Afficher/Cacher Coordonnées",
 	["admin_showname_button"] = "Afficher/Cacher Noms des Joueurs",
 	["admin_tpmarker_button"] = "TP sur le Marqueur",
 	["admin_revive_button"] = "Réanimer un Joueur",
-	["admin_changeskin_button"] = "Changer l'Apparence",
-	["admin_saveskin_button"] = "Sauvegarder l'Apparence",
 
 	-- GPS
 	["none"] = "Aucun",
