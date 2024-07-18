@@ -8,12 +8,12 @@ return {
 	-- Enable support for ox_target
 	ox_target = false,
 
-	/*
+	--[[
 	* Show or hide gas stations blips
 	* 0 - Hide all
 	* 1 - Show nearest (5000ms interval check)
 	* 2 - Show all
-	*/
+	]]--
 	showBlips = 2,
 
 	-- Total duration (ex. 10% missing fuel): 10 / 0.25 * 250 = 10 seconds
