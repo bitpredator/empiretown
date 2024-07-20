@@ -195,19 +195,6 @@ Config.ClothingShops = {
 			scale = 0.7,
 			string = "Clothing Shop",
 		},
-		coords = vec3(461.4, -998.0, 30.2), -- MRPD Cloakroom
-		distance = 7,
-		price = false,
-	},
-
-	{
-		blip = {
-			enabled = false,
-			sprite = 73,
-			color = 47,
-			scale = 0.7,
-			string = "Clothing Shop",
-		},
 		coords = vec3(-1622.6, -1034.0, 13.1), -- Beach
 		distance = 7,
 		price = 250,
