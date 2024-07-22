@@ -376,6 +376,21 @@ Config = {
 				["salmon"] = 1,
 			},
 		},
+
+		["recycled_plastic"] = {
+			Level = 0,
+			Category = "dustman",
+			isGun = false,
+			Jobs = { "dustman" },
+			JobGrades = {},
+			Amount = 2,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 60,
+			Ingredients = {
+				["plastic_bag"] = 1,
+			},
+		},
 	},
 
 	Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
@@ -418,7 +433,7 @@ Config = {
 			coords = vector3(-416.993408, -1683.468140, 19.018311),
 			jobs = { "dustman" },
 			blip = false,
-			recipes = { "ironsheet", "recycled_paper", "paper" },
+			recipes = { "ironsheet", "recycled_paper", "paper", "recycled_plastic" },
 			radius = 1.0,
 		},
 		{
