@@ -717,4 +717,11 @@ return {
 		stack = true,
 		close = true,
 	},
+
+	["plastic_waste"] = {
+		label = "Plastica usata",
+		weight = 1,
+		stack = true,
+		close = true,
+	},
 }
