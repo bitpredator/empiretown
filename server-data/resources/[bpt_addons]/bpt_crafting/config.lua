@@ -316,6 +316,21 @@ Config = {
 			},
 		},
 
+		["WEAPON_NIGHTSTICK"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 60,
+			Ingredients = {
+				["recycled_plastic"] = 10,
+			},
+		},
+
 		["bread"] = {
 			Level = 0,
 			Category = "baker",
@@ -376,6 +391,21 @@ Config = {
 				["salmon"] = 1,
 			},
 		},
+
+		["recycled_plastic"] = {
+			Level = 0,
+			Category = "dustman",
+			isGun = false,
+			Jobs = { "dustman" },
+			JobGrades = {},
+			Amount = 2,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 30,
+			Ingredients = {
+				["plastic_bag"] = 1,
+			},
+		},
 	},
 
 	Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
@@ -404,7 +434,14 @@ Config = {
 			coords = vector3(808.984619, -2159.630859, 29.616821),
 			jobs = { "ammu" },
 			blip = false,
-			recipes = { "WEAPON_APPISTOL", "ammo-sniper", "ammo-9", "WEAPON_KNIFE", "WEAPON_KNUCKLE" },
+			recipes = {
+				"WEAPON_APPISTOL",
+				"ammo-sniper",
+				"ammo-9",
+				"WEAPON_KNIFE",
+				"WEAPON_KNUCKLE",
+				"WEAPON_NIGHTSTICK",
+			},
 			radius = 1.0,
 		},
 		{
@@ -418,7 +455,7 @@ Config = {
 			coords = vector3(-416.993408, -1683.468140, 19.018311),
 			jobs = { "dustman" },
 			blip = false,
-			recipes = { "ironsheet", "recycled_paper", "paper" },
+			recipes = { "ironsheet", "recycled_paper", "paper", "recycled_plastic" },
 			radius = 1.0,
 		},
 		{

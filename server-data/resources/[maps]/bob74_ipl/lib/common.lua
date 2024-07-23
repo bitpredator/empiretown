@@ -15,17 +15,17 @@ Global = {
         isInsideHouseHi7 = false,
         isInsideHouseHi8 = false,
         isInsideHouseLow1 = false,
-        isInsideHouseMid1 = false
+        isInsideHouseMid1 = false,
     },
     Biker = {
         isInsideClubhouse1 = false,
-        isInsideClubhouse2 = false
+        isInsideClubhouse2 = false,
     },
     FinanceOffices = {
         isInsideOffice1 = false,
         isInsideOffice2 = false,
         isInsideOffice3 = false,
-        isInsideOffice4 = false
+        isInsideOffice4 = false,
     },
     HighLife = {
         isInsideApartment1 = false,
@@ -33,31 +33,31 @@ Global = {
         isInsideApartment3 = false,
         isInsideApartment4 = false,
         isInsideApartment5 = false,
-        isInsideApartment6 = false
+        isInsideApartment6 = false,
     },
 
     -- Set all interiors variables to false
     -- The loop inside 'interiorIdObserver' will set them to true
     ResetInteriorVariables = function()
-        for _, parentKey in pairs{"Biker", "FinanceOffices", "HighLife"} do
+        for _, parentKey in pairs({ "Biker", "FinanceOffices", "HighLife" }) do
             local t = Global[parentKey]
 
             for key in pairs(t) do
                 t[key] = false
             end
         end
-    end
+    end,
 }
 
-exports('GVariables', function()
+exports("GVariables", function()
     return Global
 end)
 
-exports('EnableIpl', function(ipl, activate)
+exports("EnableIpl", function(ipl, activate)
     return EnableIpl(ipl, activate)
 end)
 
-exports('GetPedheadshotTexture', function(ped)
+exports("GetPedheadshotTexture", function(ped)
     return GetPedheadshotTexture(ped)
 end)
 
@@ -253,7 +253,7 @@ function GetPedheadshotTexture(ped)
         local IsTextureDictLoaded = LoadStreamedTextureDict(textureDict)
 
         if not IsTextureDictLoaded then
-            Citizen.Trace("ERROR: GetPedheadshotTexture - Textures dictionnary \"" .. tostring(textureDict) .. "\" cannot be loaded.")
+            Citizen.Trace('ERROR: GetPedheadshotTexture - Textures dictionnary "' .. tostring(textureDict) .. '" cannot be loaded.')
         end
     else
         Citizen.Trace("ERROR: GetPedheadshotTexture - PedHeadShot not ready.")

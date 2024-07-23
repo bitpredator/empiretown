@@ -17,7 +17,7 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 
             if authorizedVehicles then
                 if #authorizedVehicles > 0 then
-                    for k, vehicle in ipairs(authorizedVehicles) do
+                    for _, vehicle in ipairs(authorizedVehicles) do
                         if IsModelInCdimage(vehicle.model) then
                             local vehicleLabel = GetLabelText(GetDisplayNameFromVehicleModel(vehicle.model))
 
@@ -53,7 +53,7 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
                 if #jobVehicles > 0 then
                     local allVehicleProps = {}
 
-                    for k, v in ipairs(jobVehicles) do
+                    for _, v in ipairs(jobVehicles) do
                         local props = json.decode(v.vehicle)
 
                         if IsModelInCdimage(props.model) then
