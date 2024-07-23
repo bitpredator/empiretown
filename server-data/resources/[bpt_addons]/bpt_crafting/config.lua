@@ -316,6 +316,21 @@ Config = {
 			},
 		},
 
+		["WEAPON_NIGHTSTICK"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 60,
+			Ingredients = {
+				["recycled_plastic"] = 10,
+			},
+		},
+
 		["bread"] = {
 			Level = 0,
 			Category = "baker",
@@ -386,7 +401,7 @@ Config = {
 			Amount = 2,
 			SuccessRate = 100,
 			requireBlueprint = false,
-			Time = 60,
+			Time = 30,
 			Ingredients = {
 				["plastic_bag"] = 1,
 			},
@@ -419,7 +434,14 @@ Config = {
 			coords = vector3(808.984619, -2159.630859, 29.616821),
 			jobs = { "ammu" },
 			blip = false,
-			recipes = { "WEAPON_APPISTOL", "ammo-sniper", "ammo-9", "WEAPON_KNIFE", "WEAPON_KNUCKLE" },
+			recipes = {
+				"WEAPON_APPISTOL",
+				"ammo-sniper",
+				"ammo-9",
+				"WEAPON_KNIFE",
+				"WEAPON_KNUCKLE",
+				"WEAPON_NIGHTSTICK",
+			},
 			radius = 1.0,
 		},
 		{
