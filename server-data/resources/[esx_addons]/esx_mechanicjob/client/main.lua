@@ -68,7 +68,7 @@ function OpenMechanicActionsMenu()
         }
     end
 
-    ESX.OpenContext("right", elements, function(menu, element)
+    ESX.OpenContext("right", elements, function(_, element)
         if element.value == "vehicle_list" then
             if Config.EnableSocietyOwnedVehicles then
                 local elements2 = {
@@ -84,7 +84,7 @@ function OpenMechanicActionsMenu()
                         }
                     end
 
-                    ESX.OpenContext("right", elements2, function(menu2, element2)
+                    ESX.OpenContext("right", elements2, function(_, element2)
                         ESX.CloseContext()
                         local vehicleProps = element2.value
 
@@ -145,7 +145,7 @@ function OpenMechanicActionsMenu()
             end)
         elseif element.value == "cloakroom2" then
             ESX.CloseContext()
-            ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function(skin, jobSkin)
+            ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function(skin)
                 TriggerEvent("skinchanger:loadSkin", skin)
             end)
         elseif Config.OxInventory and (element.value == "put_stock" or element.value == "get_stock") then
@@ -156,7 +156,7 @@ function OpenMechanicActionsMenu()
         elseif element.value == "get_stock" then
             OpenGetStocksMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("esx_society:openBossMenu", "mechanic", function(data, menu)
+            TriggerEvent("esx_society:openBossMenu", "mechanic", function()
                 ESX.CloseContext()
             end)
         end
@@ -209,7 +209,7 @@ function OpenMobileMechanicActionsMenu()
         elseif element.value == "hijack_vehicle" then
             local playerPed = PlayerPedId()
             local vehicle = ESX.Game.GetVehicleInDirection()
-            local coords = GetEntityCoords(playerPed)
+            local _ = GetEntityCoords(playerPed)
 
             if IsPedSittingInAnyVehicle(playerPed) then
                 ESX.ShowNotification(TranslateCap("inside_vehicle"))
@@ -235,7 +235,7 @@ function OpenMobileMechanicActionsMenu()
         elseif element.value == "fix_vehicle" then
             local playerPed = PlayerPedId()
             local vehicle = ESX.Game.GetVehicleInDirection()
-            local coords = GetEntityCoords(playerPed)
+            local _ = GetEntityCoords(playerPed)
 
             if IsPedSittingInAnyVehicle(playerPed) then
                 ESX.ShowNotification(TranslateCap("inside_vehicle"))
@@ -263,7 +263,7 @@ function OpenMobileMechanicActionsMenu()
         elseif element.value == "clean_vehicle" then
             local playerPed = PlayerPedId()
             local vehicle = ESX.Game.GetVehicleInDirection()
-            local coords = GetEntityCoords(playerPed)
+            local _ = GetEntityCoords(playerPed)
 
             if IsPedSittingInAnyVehicle(playerPed) then
                 ESX.ShowNotification(TranslateCap("inside_vehicle"))
@@ -385,7 +385,7 @@ function OpenMobileMechanicActionsMenu()
                 { icon = "fas fa-object", title = TranslateCap("toolbox"), value = "prop_toolchest_01" },
             }
 
-            ESX.OpenContext("right", elements2, function(menuObj, elementObj)
+            ESX.OpenContext("right", elements2, function(_, elementObj)
                 local model = elementObj.value
                 local coords = GetEntityCoords(playerPed)
                 local forward = GetEntityForwardVector(playerPed)
@@ -429,7 +429,7 @@ function OpenGetStocksMenu()
                 { icon = "fas fa-check-double", title = "Confirm", value = "confirm" },
             }
 
-            ESX.OpenContext("right", elements2, function(menu2, element2)
+            ESX.OpenContext("right", elements2, function(menu2)
                 local count = tonumber(menu2.eles[2].inputValue)
 
                 if count == nil then
