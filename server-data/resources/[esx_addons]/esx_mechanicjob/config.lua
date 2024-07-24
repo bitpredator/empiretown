@@ -43,13 +43,6 @@ Config.Zones = {
         Type = 21,
     },
 
-    Craft = {
-        Pos = vector3(-323.140, -129.882, 38.999),
-        Size = { x = 1.0, y = 1.0, z = 1.0 },
-        Color = { r = 50, g = 200, b = 50 },
-        Type = 21,
-    },
-
     VehicleSpawnPoint = {
         Pos = vector3(-366.354, -110.766, 37.696),
         Size = { x = 1.5, y = 1.5, z = 1.0 },

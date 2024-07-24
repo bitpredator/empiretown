@@ -47,8 +47,6 @@ function StopNPCJob(cancel)
 
     if cancel then
         ESX.ShowNotification(TranslateCap("mission_canceled"), "error")
-    else
-        --TriggerServerEvent('esx_mechanicjob:onNPCJobCompleted')
     end
 end
 
@@ -114,7 +112,7 @@ function OpenMechanicActionsMenu()
                     }
                 end
 
-                ESX.OpenContext("right", elements2, function(menu2, element2)
+                ESX.OpenContext("right", elements2, function(_, element2)
                     if Config.MaxInService == -1 then
                         ESX.CloseContext()
                         ESX.Game.SpawnVehicle(element2.value, Config.Zones.VehicleSpawnPoint.Pos, 90.0, function(vehicle)
@@ -162,65 +160,11 @@ function OpenMechanicActionsMenu()
                 ESX.CloseContext()
             end)
         end
-    end, function(menu)
+    end, function()
         CurrentAction = "mechanic_actions_menu"
         CurrentActionMsg = TranslateCap("open_actions")
         CurrentActionData = {}
     end)
-end
-
-function OpenMechanicHarvestMenu()
-    if Config.EnablePlayerManagement and ESX.PlayerData.job and ESX.PlayerData.job.grade_name ~= "recrue" then
-        local elements = {
-            { unselectable = true, icon = "fas fa-gear", title = "Mechanic Harvest Menu" },
-            { icon = "fas fa-gear", title = TranslateCap("gas_can"), value = "gaz_bottle" },
-            { icon = "fas fa-gear", title = TranslateCap("repair_tools"), value = "fix_tool" },
-            { icon = "fas fa-gear", title = TranslateCap("body_work_tools"), value = "caro_tool" },
-        }
-
-        ESX.OpenContext("right", elements, function(menu, element)
-            if element.value == "gaz_bottle" then
-                TriggerServerEvent("esx_mechanicjob:startHarvest")
-            elseif element.value == "fix_tool" then
-                TriggerServerEvent("esx_mechanicjob:startHarvest2")
-            elseif element.value == "caro_tool" then
-                TriggerServerEvent("esx_mechanicjob:startHarvest3")
-            end
-        end, function(menu)
-            CurrentAction = "mechanic_harvest_menu"
-            CurrentActionMsg = TranslateCap("harvest_menu")
-            CurrentActionData = {}
-        end)
-    else
-        ESX.ShowNotification(TranslateCap("not_experienced_enough"))
-    end
-end
-
-function OpenMechanicCraftMenu()
-    if Config.EnablePlayerManagement and ESX.PlayerData.job and ESX.PlayerData.job.grade_name ~= "recrue" then
-        local elements = {
-            { unselectable = true, icon = "fas fa-gear", title = "Mechanic Craft Menu" },
-            { icon = "fas fa-gear", title = TranslateCap("blowtorch"), value = "blow_pipe" },
-            { icon = "fas fa-gear", title = TranslateCap("repair_kit"), value = "fix_kit" },
-            { icon = "fas fa-gear", title = TranslateCap("body_kit"), value = "caro_kit" },
-        }
-
-        ESX.OpenContext("right", elements, function(menu, element)
-            if element.value == "blow_pipe" then
-                TriggerServerEvent("esx_mechanicjob:startCraft")
-            elseif element.value == "fix_kit" then
-                TriggerServerEvent("esx_mechanicjob:startCraft2")
-            elseif element.value == "caro_kit" then
-                TriggerServerEvent("esx_mechanicjob:startCraft3")
-            end
-        end, function(menu)
-            CurrentAction = "mechanic_craft_menu"
-            CurrentActionMsg = TranslateCap("craft_menu")
-            CurrentActionData = {}
-        end)
-    else
-        ESX.ShowNotification(TranslateCap("not_experienced_enough"))
-    end
 end
 
 function OpenMobileMechanicActionsMenu()
@@ -235,7 +179,7 @@ function OpenMobileMechanicActionsMenu()
         { icon = "fas fa-gear", title = TranslateCap("place_objects"), value = "object_spawner" },
     }
 
-    ESX.OpenContext("right", elements, function(menu, element)
+    ESX.OpenContext("right", elements, function(_, element)
         if isBusy then
             return
         end
@@ -247,7 +191,7 @@ function OpenMobileMechanicActionsMenu()
                 { icon = "fas fa-check-double", title = "Confirm", value = "confirm" },
             }
 
-            ESX.OpenContext("right", elements2, function(menu2, element2)
+            ESX.OpenContext("right", elements2, function(menu2)
                 local amount = tonumber(menu2.eles[2].inputValue)
 
                 if amount == nil or amount < 0 then
@@ -521,7 +465,7 @@ function OpenPutStocksMenu()
             end
         end
 
-        ESX.OpenContext("right", elements, function(menu, element)
+        ESX.OpenContext("right", elements, function(_, element)
             local itemName = element.value
 
             local elements2 = {
@@ -530,7 +474,7 @@ function OpenPutStocksMenu()
                 { icon = "fas fa-check-double", title = "Confirm", value = "confirm" },
             }
 
-            ESX.OpenContext("right", elements2, function(menu2, element2)
+            ESX.OpenContext("right", elements2, function(menu2)
                 local count = tonumber(menu2.eles[2].inputValue)
 
                 if count == nil then
@@ -662,14 +606,6 @@ AddEventHandler("esx_mechanicjob:hasEnteredMarker", function(zone)
         CurrentAction = "mechanic_actions_menu"
         CurrentActionMsg = TranslateCap("open_actions")
         CurrentActionData = {}
-    elseif zone == "Garage" then
-        CurrentAction = "mechanic_harvest_menu"
-        CurrentActionMsg = TranslateCap("harvest_menu")
-        CurrentActionData = {}
-    elseif zone == "Craft" then
-        CurrentAction = "mechanic_craft_menu"
-        CurrentActionMsg = TranslateCap("craft_menu")
-        CurrentActionData = {}
     elseif zone == "VehicleDeleter" then
         local playerPed = PlayerPedId()
 
@@ -682,24 +618,6 @@ AddEventHandler("esx_mechanicjob:hasEnteredMarker", function(zone)
         end
     end
     ESX.TextUI(CurrentActionMsg)
-end)
-
-AddEventHandler("esx_mechanicjob:hasExitedMarker", function(zone)
-    if zone == "VehicleDelivery" then
-        NPCTargetDeleterZone = false
-    elseif zone == "Craft" then
-        TriggerServerEvent("esx_mechanicjob:stopCraft")
-        TriggerServerEvent("esx_mechanicjob:stopCraft2")
-        TriggerServerEvent("esx_mechanicjob:stopCraft3")
-    elseif zone == "Garage" then
-        TriggerServerEvent("esx_mechanicjob:stopHarvest")
-        TriggerServerEvent("esx_mechanicjob:stopHarvest2")
-        TriggerServerEvent("esx_mechanicjob:stopHarvest3")
-    end
-
-    CurrentAction = nil
-    ESX.CloseContext()
-    ESX.HideUI()
 end)
 
 AddEventHandler("esx_mechanicjob:hasEnteredEntityZone", function(entity)
@@ -888,10 +806,6 @@ CreateThread(function()
             if IsControlJustReleased(0, 38) and ESX.PlayerData.job and ESX.PlayerData.job.name == "mechanic" then
                 if CurrentAction == "mechanic_actions_menu" then
                     OpenMechanicActionsMenu()
-                elseif CurrentAction == "mechanic_harvest_menu" then
-                    OpenMechanicHarvestMenu()
-                elseif CurrentAction == "mechanic_craft_menu" then
-                    OpenMechanicCraftMenu()
                 elseif CurrentAction == "delete_vehicle" then
                     if Config.EnableSocietyOwnedVehicles then
                         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
@@ -943,9 +857,10 @@ end, false)
 RegisterKeyMapping("mechanicMenu", "Open Mechanic Menu", "keyboard", Config.Controls.mechanicMenu)
 RegisterKeyMapping("mechanicjob", "Togggle NPC Job", "keyboard", Config.Controls.toggleNPCJob)
 
-AddEventHandler("esx:onPlayerDeath", function(data)
+AddEventHandler("esx:onPlayerDeath", function()
     isDead = true
 end)
-AddEventHandler("esx:onPlayerSpawn", function(spawn)
+
+AddEventHandler("esx:onPlayerSpawn", function()
     isDead = false
 end)
