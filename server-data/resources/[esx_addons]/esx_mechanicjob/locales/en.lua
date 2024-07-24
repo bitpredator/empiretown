@@ -10,6 +10,7 @@ Locales["en"] = {
     ["boss_actions"] = "boss Actions",
     ["service_vehicle"] = "service Vehicle",
     ["flat_bed"] = "flatbed",
+    ["tow"] = "tow",
     ["tow_truck"] = "tow Truck",
     ["service_full"] = "service full: ",
     ["open_actions"] = "Press [E] to access the menu.",

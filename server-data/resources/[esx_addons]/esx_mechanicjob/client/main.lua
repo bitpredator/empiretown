@@ -2,7 +2,7 @@ local HasAlreadyEnteredMarker, LastZone = false, nil
 local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local CurrentlyTowedVehicle, Blips, NPCOnJob, NPCTargetTowable, NPCTargetTowableZone = nil, {}, false, nil, nil
 local NPCHasSpawnedTowable, NPCLastCancel, NPCHasBeenNextToTowable, NPCTargetDeleterZone = false, GetGameTimer() - 5 * 60000, false, false
-local isDead, isBusy = false, false
+local isBusy = false
 
 function SelectRandomTowable()
     local index = GetRandomIntInRange(1, #Config.Towables)
@@ -175,7 +175,7 @@ function OpenMobileMechanicActionsMenu()
         { icon = "fas fa-gear", title = TranslateCap("repair"), value = "fix_vehicle" },
         { icon = "fas fa-gear", title = TranslateCap("clean"), value = "clean_vehicle" },
         { icon = "fas fa-gear", title = TranslateCap("imp_veh"), value = "del_vehicle" },
-        { icon = "fas fa-gear", title = TranslateCap("flat_bed"), value = "dep_vehicle" },
+        { icon = "fas fa-gear", title = TranslateCap("tow"), value = "dep_vehicle" },
         { icon = "fas fa-gear", title = TranslateCap("place_objects"), value = "object_spawner" },
     }
 
@@ -857,10 +857,6 @@ end, false)
 RegisterKeyMapping("mechanicMenu", "Open Mechanic Menu", "keyboard", Config.Controls.mechanicMenu)
 RegisterKeyMapping("mechanicjob", "Togggle NPC Job", "keyboard", Config.Controls.toggleNPCJob)
 
-AddEventHandler("esx:onPlayerDeath", function()
-    isDead = true
-end)
+AddEventHandler("esx:onPlayerDeath", function() end)
 
-AddEventHandler("esx:onPlayerSpawn", function()
-    isDead = false
-end)
+AddEventHandler("esx:onPlayerSpawn", function() end)
