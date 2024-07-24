@@ -2,7 +2,6 @@ if Config.MaxInService ~= -1 then
     TriggerEvent("esx_service:activateService", "mechanic", Config.MaxInService)
 end
 
-TriggerEvent("esx_phone:registerNumber", "mechanic", TranslateCap("mechanic_customer"), true, true)
 TriggerEvent("esx_society:registerSociety", "mechanic", "mechanic", "society_mechanic", "society_mechanic", "society_mechanic", { type = "private" })
 
 RegisterServerEvent("esx_mechanicjob:onNPCJobMissionCompleted")

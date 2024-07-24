@@ -62,7 +62,6 @@ Locales["it"] = {
     ["please_tow"] = "perfavore traina il veicolo",
     ["wait_five"] = "devi attendere 5 minuti",
     ["must_in_flatbed"] = "devi essere in un flatbed per avviare la missione",
-    ["mechanic_customer"] = "cliente meccanico",
     ["you_do_not_room"] = "non hai più spazio",
     ["recovery_gas_can"] = "recupero  bomboletta di gas...",
     ["recovery_repair_tools"] = "recupero degli strumenti di riparazione...",
