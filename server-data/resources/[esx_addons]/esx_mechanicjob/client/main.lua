@@ -532,33 +532,6 @@ AddEventHandler("esx_mechanicjob:onHijack", function()
     end
 end)
 
-RegisterNetEvent("esx_mechanicjob:onCarokit")
-AddEventHandler("esx_mechanicjob:onCarokit", function()
-    local playerPed = PlayerPedId()
-    local coords = GetEntityCoords(playerPed)
-
-    if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 5.0) then
-        local vehicle
-
-        if IsPedInAnyVehicle(playerPed, false) then
-            vehicle = GetVehiclePedIsIn(playerPed, false)
-        else
-            vehicle = ESX.Game.GetClosestVehicle(coords)
-        end
-
-        if DoesEntityExist(vehicle) then
-            TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_HAMMERING", 0, true)
-            CreateThread(function()
-                Wait(10000)
-                SetVehicleFixed(vehicle)
-                SetVehicleDeformationFixed(vehicle)
-                ClearPedTasksImmediately(playerPed)
-                ESX.ShowNotification(TranslateCap("body_repaired"))
-            end)
-        end
-    end
-end)
-
 RegisterNetEvent("esx_mechanicjob:onFixkit")
 AddEventHandler("esx_mechanicjob:onFixkit", function()
     local playerPed = PlayerPedId()

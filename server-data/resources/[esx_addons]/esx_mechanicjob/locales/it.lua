@@ -18,7 +18,6 @@ Locales["it"] = {
     ["gas_can"] = "bombola del gas",
     ["repair_tools"] = "riparazione strumenti",
     ["body_work_tools"] = "strumenti carrozzeria",
-    ["blowtorch"] = "fiamma ossidrica",
     ["repair_kit"] = "kit di riparazione",
     ["body_kit"] = "body Kit",
     ["billing"] = "fattura",
