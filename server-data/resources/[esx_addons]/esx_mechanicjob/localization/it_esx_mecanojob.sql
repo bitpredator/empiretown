@@ -23,11 +23,8 @@ INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_
 ;
 
 INSERT INTO `items` (name, label, weight) VALUES
-	('gazbottle', 'Bottiglia di gas', 2),
 	('fixtool', 'Strumenti di riparazione', 2),
 	('carotool', 'Strumenti', 2),
-	('blowpipe', 'Fiamma ossidrica', 2),
-	('fixkit', 'Kit di riparazione', 3),
-	('carokit', 'Kit per carrozzeria', 3)
+	('fixkit', 'Kit di riparazione', 3)
 ;
 
