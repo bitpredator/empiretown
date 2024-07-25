@@ -620,24 +620,6 @@ AddEventHandler("esx_mechanicjob:hasEnteredMarker", function(zone)
     ESX.TextUI(CurrentActionMsg)
 end)
 
-AddEventHandler("esx_mechanicjob:hasEnteredEntityZone", function(entity)
-    local playerPed = PlayerPedId()
-
-    if ESX.PlayerData.job and ESX.PlayerData.job.name == "mechanic" and not IsPedInAnyVehicle(playerPed, false) then
-        CurrentAction = "remove_entity"
-        CurrentActionMsg = TranslateCap("press_remove_obj")
-        CurrentActionData = { entity = entity }
-        ESX.TextUI(CurrentActionMsg)
-    end
-end)
-
-AddEventHandler("esx_mechanicjob:hasExitedEntityZone", function(entity)
-    if CurrentAction == "remove_entity" then
-        CurrentAction = nil
-    end
-    ESX.HideUI()
-end)
-
 -- Pop NPC mission vehicle when inside area
 CreateThread(function()
     while true do
@@ -739,49 +721,6 @@ CreateThread(function()
             end
         end
         Wait(Sleep)
-    end
-end)
-
-CreateThread(function()
-    local trackedEntities = {
-        "prop_roadcone02a",
-        "prop_toolchest_01",
-    }
-
-    while true do
-        Wait(500)
-
-        local playerPed = PlayerPedId()
-        local coords = GetEntityCoords(playerPed)
-
-        local closestDistance = -1
-        local closestEntity = nil
-
-        for i = 1, #trackedEntities, 1 do
-            local object = GetClosestObjectOfType(coords, 3.0, joaat(trackedEntities[i]), false, false, false)
-
-            if DoesEntityExist(object) then
-                local objCoords = GetEntityCoords(object)
-                local distance = #(coords - objCoords)
-
-                if closestDistance == -1 or closestDistance > distance then
-                    closestDistance = distance
-                    closestEntity = object
-                end
-            end
-        end
-
-        if closestDistance ~= -1 and closestDistance <= 3.0 then
-            if LastEntity ~= closestEntity then
-                TriggerEvent("esx_mechanicjob:hasEnteredEntityZone", closestEntity)
-                LastEntity = closestEntity
-            end
-        else
-            if LastEntity then
-                TriggerEvent("esx_mechanicjob:hasExitedEntityZone", LastEntity)
-                LastEntity = nil
-            end
-        end
     end
 end)
 

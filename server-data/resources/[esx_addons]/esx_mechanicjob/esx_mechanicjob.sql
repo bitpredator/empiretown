@@ -23,7 +23,6 @@ INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_
 ;
 
 INSERT INTO `items` (name, label, weight) VALUES
-	('gazbottle', 'bouteille de gaz', 2),
 	('fixtool', 'outils réparation', 2),
 	('carotool', 'outils carosserie', 2),
 	('blowpipe', 'Chalumeaux', 2),

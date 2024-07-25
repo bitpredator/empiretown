@@ -74,7 +74,7 @@ AddEventHandler("esx_mechanicjob:getStockItem", function(itemName, count)
     end)
 end)
 
-ESX.RegisterServerCallback("esx_mechanicjob:getStockItems", function(source, cb)
+ESX.RegisterServerCallback("esx_mechanicjob:getStockItems", function(_, cb)
     TriggerEvent("bpt_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
         cb(inventory.items)
     end)
