@@ -532,8 +532,8 @@ AddEventHandler("esx_mechanicjob:onHijack", function()
     end
 end)
 
-RegisterNetEvent("esx_mechanicjob:onFixkit")
-AddEventHandler("esx_mechanicjob:onFixkit", function()
+RegisterNetEvent("esx_mechanicjob:onfixkit")
+AddEventHandler("esx_mechanicjob:onfixkit", function()
     local playerPed = PlayerPedId()
     local coords = GetEntityCoords(playerPed)
 

@@ -338,8 +338,7 @@ return {
 
 	["fixkit"] = {
 		label = "kit di riparazione",
-		weight = 100,
-		consume = 1,
+		weight = 3,
 		stack = true,
 		close = true,
 	},

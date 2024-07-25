@@ -21,13 +21,13 @@ AddEventHandler("esx_mechanicjob:onNPCJobMissionCompleted", function()
     TriggerClientEvent("esx:showNotification", source, TranslateCap("your_comp_earned") .. total)
 end)
 
-ESX.RegisterUsableItem("fixkit", function()
-    local source = source
+ESX.RegisterUsableItem("fixkit", function(source)
+    local _ = source
     local xPlayer = ESX.GetPlayerFromId(source)
 
     xPlayer.removeInventoryItem("fixkit", 1)
 
-    TriggerClientEvent("esx_mechanicjob:onFixkit", source)
+    TriggerClientEvent("esx_mechanicjob:onfixkit", source)
     TriggerClientEvent("esx:showNotification", source, TranslateCap("you_used_repair_kit"))
 end)
 
