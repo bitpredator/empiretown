@@ -5,22 +5,22 @@ function CreateAddonAccount(name, owner, money)
     self.owner = owner
     self.money = money
 
-    function self.addMoney(m)
-        self.money = self.money + m
+    function self.addMoney(amount)
+        self.money = self.money + amount
         self.save()
-        TriggerEvent("bpt_addonaccount:addMoney", self.name, m)
+        TriggerEvent("bpt_addonaccount:addMoney", self.name, amount)
     end
 
-    function self.removeMoney(m)
-        self.money = self.money - m
+    function self.removeMoney(amount)
+        self.money = self.money - amount
         self.save()
-        TriggerEvent("bpt_addonaccount:removeMoney", self.name, m)
+        TriggerEvent("bpt_addonaccount:removeMoney", self.name, amount)
     end
 
-    function self.setMoney(m)
-        self.money = m
+    function self.setMoney(amount)
+        self.money = amount
         self.save()
-        TriggerEvent("bpt_addonaccount:setMoney", self.name, m)
+        TriggerEvent("bpt_addonaccount:setMoney", self.name, amount)
     end
 
     function self.save()
