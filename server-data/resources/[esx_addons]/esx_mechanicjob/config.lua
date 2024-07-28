@@ -36,13 +36,6 @@ Config.Zones = {
         Type = 21,
     },
 
-    Garage = {
-        Pos = vector3(-97.5, 6496.1, 31.4),
-        Size = { x = 1.0, y = 1.0, z = 1.0 },
-        Color = { r = 50, g = 200, b = 50 },
-        Type = 21,
-    },
-
     VehicleSpawnPoint = {
         Pos = vector3(-366.354, -110.766, 37.696),
         Size = { x = 1.5, y = 1.5, z = 1.0 },

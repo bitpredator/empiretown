@@ -176,7 +176,6 @@ function OpenMobileMechanicActionsMenu()
         { icon = "fas fa-gear", title = TranslateCap("clean"), value = "clean_vehicle" },
         { icon = "fas fa-gear", title = TranslateCap("imp_veh"), value = "del_vehicle" },
         { icon = "fas fa-gear", title = TranslateCap("tow"), value = "dep_vehicle" },
-        { icon = "fas fa-gear", title = TranslateCap("place_objects"), value = "object_spawner" },
     }
 
     ESX.OpenContext("right", elements, function(_, element)
@@ -371,37 +370,11 @@ function OpenMobileMechanicActionsMenu()
             else
                 ESX.ShowNotification(TranslateCap("imp_flatbed"))
             end
-        elseif element.value == "object_spawner" then
-            local playerPed = PlayerPedId()
 
             if IsPedSittingInAnyVehicle(playerPed) then
                 ESX.ShowNotification(TranslateCap("inside_vehicle"))
                 return
             end
-
-            local elements2 = {
-                { unselectable = true, icon = "fas fa-object", title = TranslateCap("objects") },
-                { icon = "fas fa-object", title = TranslateCap("roadcone"), value = "prop_roadcone02a" },
-                { icon = "fas fa-object", title = TranslateCap("toolbox"), value = "prop_toolchest_01" },
-            }
-
-            ESX.OpenContext("right", elements2, function(_, elementObj)
-                local model = elementObj.value
-                local coords = GetEntityCoords(playerPed)
-                local forward = GetEntityForwardVector(playerPed)
-                local x, y, z = table.unpack(coords + forward * 1.0)
-
-                if model == "prop_roadcone02a" then
-                    z = z - 2.0
-                elseif model == "prop_toolchest_01" then
-                    z = z - 2.0
-                end
-
-                ESX.Game.SpawnObject(model, { x = x, y = y, z = z }, function(obj)
-                    SetEntityHeading(obj, GetEntityHeading(playerPed))
-                    PlaceObjectOnGroundProperly(obj)
-                end)
-            end)
         end
     end)
 end
@@ -590,7 +563,27 @@ AddEventHandler("esx_mechanicjob:hasEnteredMarker", function(zone)
             CurrentActionData = { vehicle = vehicle }
         end
     end
-    ESX.TextUI(CurrentActionMsg)
+
+    if zone ~= "VehicleSpawnPoint" then
+        ESX.TextUI(CurrentActionMsg)
+    end
+end)
+
+AddEventHandler("esx_mechanicjob:hasExitedMarker", function(zone)
+    if zone == "VehicleDelivery" then
+        NPCTargetDeleterZone = false
+    end
+    CurrentAction = nil
+    ESX.CloseContext()
+    ESX.HideUI()
+end)
+
+AddEventHandler("esx_mechanicjob:hasExitedEntityZone", function(entity)
+    if CurrentAction == "remove_entity" then
+        CurrentAction = nil
+    end
+    ESX.CloseContext()
+    ESX.HideUI()
 end)
 
 -- Pop NPC mission vehicle when inside area
@@ -758,5 +751,4 @@ RegisterKeyMapping("mechanicMenu", "Open Mechanic Menu", "keyboard", Config.Cont
 RegisterKeyMapping("mechanicjob", "Togggle NPC Job", "keyboard", Config.Controls.toggleNPCJob)
 
 AddEventHandler("esx:onPlayerDeath", function() end)
-
 AddEventHandler("esx:onPlayerSpawn", function() end)
