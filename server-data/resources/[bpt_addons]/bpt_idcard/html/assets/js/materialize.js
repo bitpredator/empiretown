@@ -1,276 +1,312 @@
-/*!
+/* !
  * Materialize v1.0.0-beta (http://materializecss.com)
  * Copyright 2014-2017 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
  */
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+// eslint-disable-next-line max-statements-per-line
+const _get = function get(object, property, receiver) {
+	// eslint-disable-next-line max-statements-per-line
+	if (object === null) object = Function.prototype; const desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) {
+		// eslint-disable-next-line max-statements-per-line
+		const parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; }
+		else { return get(parent, property, receiver); }
+	}
+	else if ('value' in desc) { return desc.value; }
+	// eslint-disable-next-line max-statements-per-line
+	else { const getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); }
+};
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+// eslint-disable-next-line max-statements-per-line
+const _createClass = function() { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { const descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+// eslint-disable-next-line max-statements-per-line
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called'); } return call && (typeof call === 'object' || typeof call === 'function') ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+// eslint-disable-next-line max-statements-per-line
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+// eslint-disable-next-line max-statements-per-line
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-/*! cash-dom 1.3.5, https://github.com/kenwheeler/cash @license MIT */
-(function (factory) {
-    window.cash = factory();
-})(function () {
-    var doc = document,
-        win = window,
-        ArrayProto = Array.prototype,
-        slice = ArrayProto.slice,
-        filter = ArrayProto.filter,
-        push = ArrayProto.push;
+/* ! cash-dom 1.3.5, https://github.com/kenwheeler/cash @license MIT */
+(function(factory) {
+	window.cash = factory();
+})(function() {
+	// eslint-disable-next-line prefer-const
+	const doc = document,
+		// eslint-disable-next-line prefer-const
+		win = window,
+		// eslint-disable-next-line prefer-const
+		ArrayProto = Array.prototype,
+		// eslint-disable-next-line prefer-const
+		slice = ArrayProto.slice,
+		// eslint-disable-next-line prefer-const
+		filter = ArrayProto.filter,
+		push = ArrayProto.push;
 
-    var noop = function () { },
-        isFunction = function (item) {
-            // @see https://crbug.com/568448
-            return typeof item === typeof noop && item.call;
-        },
-        isString = function (item) {
-            return typeof item === typeof "";
-        };
+	// eslint-disable-next-line prefer-const, no-empty-function
+	const noop = function() { },
+		// eslint-disable-next-line prefer-const
+		isFunction = function(item) {
+			// @see https://crbug.com/568448
+			return typeof item === typeof noop && item.call;
+		},
+		isString = function(item) {
+			return typeof item === typeof '';
+		};
 
-    var idMatch = /^#[\w-]*$/,
-        classMatch = /^\.[\w-]*$/,
-        htmlMatch = /<.+>/,
-        singlet = /^\w+$/;
+	// eslint-disable-next-line prefer-const
+	const idMatch = /^#[\w-]*$/,
+		// eslint-disable-next-line prefer-const
+		classMatch = /^\.[\w-]*$/,
+		// eslint-disable-next-line prefer-const
+		htmlMatch = /<.+>/,
+		singlet = /^\w+$/;
 
-    function find(selector, context) {
-        context = context || doc;
-        var elems = classMatch.test(selector) ? context.getElementsByClassName(selector.slice(1)) : singlet.test(selector) ? context.getElementsByTagName(selector) : context.querySelectorAll(selector);
-        return elems;
-    }
+	function find(selector, context) {
+		context = context || doc;
+		const elems = classMatch.test(selector) ? context.getElementsByClassName(selector.slice(1)) : singlet.test(selector) ? context.getElementsByTagName(selector) : context.querySelectorAll(selector);
+		return elems;
+	}
 
-    var frag;
-    function parseHTML(str) {
-        if (!frag) {
-            frag = doc.implementation.createHTMLDocument(null);
-            var base = frag.createElement("base");
-            base.href = doc.location.href;
-            frag.head.appendChild(base);
-        }
+	let frag;
+	function parseHTML(str) {
+		if (!frag) {
+			frag = doc.implementation.createHTMLDocument(null);
+			const base = frag.createElement('base');
+			base.href = doc.location.href;
+			frag.head.appendChild(base);
+		}
 
-        frag.body.innerHTML = str;
+		frag.body.innerHTML = str;
 
-        return frag.body.childNodes;
-    }
+		return frag.body.childNodes;
+	}
 
-    function onReady(fn) {
-        if (doc.readyState !== "loading") {
-            fn();
-        } else {
-            doc.addEventListener("DOMContentLoaded", fn);
-        }
-    }
+	function onReady(fn) {
+		if (doc.readyState !== 'loading') {
+			fn();
+		}
+		else {
+			doc.addEventListener('DOMContentLoaded', fn);
+		}
+	}
 
-    function Init(selector, context) {
-        if (!selector) {
-            return this;
-        }
+	function Init(selector, context) {
+		if (!selector) {
+			return this;
+		}
 
-        // If already a cash collection, don't do any further processing
-        if (selector.cash && selector !== win) {
-            return selector;
-        }
+		// If already a cash collection, don't do any further processing
+		if (selector.cash && selector !== win) {
+			return selector;
+		}
 
-        var elems = selector,
-            i = 0,
-            length;
+		let elems = selector,
+			i = 0,
+			length;
 
-        if (isString(selector)) {
-            elems = idMatch.test(selector) ?
-                // If an ID use the faster getElementById check
-                doc.getElementById(selector.slice(1)) : htmlMatch.test(selector) ?
-                    // If HTML, parse it into real elements
-                    parseHTML(selector) :
-                    // else use `find`
-                    find(selector, context);
+		if (isString(selector)) {
+			elems = idMatch.test(selector) ?
+			// If an ID use the faster getElementById check
+				doc.getElementById(selector.slice(1)) : htmlMatch.test(selector) ?
+				// If HTML, parse it into real elements
+					parseHTML(selector) :
+				// else use `find`
+					find(selector, context);
 
-            // If function, use as shortcut for DOM ready
-        } else if (isFunction(selector)) {
-            onReady(selector); return this;
-        }
+			// If function, use as shortcut for DOM ready
+		}
+		else if (isFunction(selector)) {
+			onReady(selector); return this;
+		}
 
-        if (!elems) {
-            return this;
-        }
+		if (!elems) {
+			return this;
+		}
 
-        // If a single DOM element is passed in or received via ID, return the single element
-        if (elems.nodeType || elems === win) {
-            this[0] = elems;
-            this.length = 1;
-        } else {
-            // Treat like an array and loop through each item.
-            length = this.length = elems.length;
-            for (; i < length; i++) {
-                this[i] = elems[i];
-            }
-        }
+		// If a single DOM element is passed in or received via ID, return the single element
+		if (elems.nodeType || elems === win) {
+			this[0] = elems;
+			this.length = 1;
+		}
+		else {
+			// Treat like an array and loop through each item.
+			length = this.length = elems.length;
+			for (; i < length; i++) {
+				this[i] = elems[i];
+			}
+		}
 
-        return this;
-    }
+		return this;
+	}
 
-    function cash(selector, context) {
-        return new Init(selector, context);
-    }
+	function cash(selector, context) {
+		return new Init(selector, context);
+	}
 
-    var fn = cash.fn = cash.prototype = Init.prototype = { // jshint ignore:line
-        cash: true,
-        length: 0,
-        push: push,
-        splice: ArrayProto.splice,
-        map: ArrayProto.map,
-        init: Init
-    };
+	// eslint-disable-next-line no-inline-comments
+	const fn = cash.fn = cash.prototype = Init.prototype = { // jshint ignore:line
+		cash: true,
+		length: 0,
+		push: push,
+		splice: ArrayProto.splice,
+		map: ArrayProto.map,
+		init: Init,
+	};
 
-    Object.defineProperty(fn, "constructor", { value: cash });
+	Object.defineProperty(fn, 'constructor', { value: cash });
 
-    cash.parseHTML = parseHTML;
-    cash.noop = noop;
-    cash.isFunction = isFunction;
-    cash.isString = isString;
+	cash.parseHTML = parseHTML;
+	cash.noop = noop;
+	cash.isFunction = isFunction;
+	cash.isString = isString;
 
-    cash.extend = fn.extend = function (target) {
-        target = target || {};
+	cash.extend = fn.extend = function(target) {
+		target = target || {};
 
-        var args = slice.call(arguments),
-            length = args.length,
-            i = 1;
+		// eslint-disable-next-line prefer-const
+		let args = slice.call(arguments),
+			// eslint-disable-next-line prefer-const
+			length = args.length,
+			i = 1;
 
-        if (args.length === 1) {
-            target = this;
-            i = 0;
-        }
+		if (args.length === 1) {
+			target = this;
+			i = 0;
+		}
 
-        for (; i < length; i++) {
-            if (!args[i]) {
-                continue;
-            }
-            for (var key in args[i]) {
-                if (args[i].hasOwnProperty(key)) {
-                    target[key] = args[i][key];
-                }
-            }
-        }
+		for (; i < length; i++) {
+			if (!args[i]) {
+				continue;
+			}
+			for (const key in args[i]) {
+				if (Object.prototype.hasOwnProperty.call(args[i], key)) {
+					target[key] = args[i][key];
+				}
+			}
+		}
 
-        return target;
-    };
+		return target;
+	};
 
-    function each(collection, callback) {
-        var l = collection.length,
-            i = 0;
+	function each(collection, callback) {
+		// eslint-disable-next-line prefer-const
+		let l = collection.length,
+			i = 0;
 
-        for (; i < l; i++) {
-            if (callback.call(collection[i], collection[i], i, collection) === false) {
-                break;
-            }
-        }
-    }
+		for (; i < l; i++) {
+			if (callback.call(collection[i], collection[i], i, collection) === false) {
+				break;
+			}
+		}
+	}
 
-    function matches(el, selector) {
-        var m = el && (el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector || el.oMatchesSelector);
-        return !!m && m.call(el, selector);
-    }
+	function matches(el, selector) {
+		const m = el && (el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector || el.oMatchesSelector);
+		return !!m && m.call(el, selector);
+	}
 
-    function getCompareFunction(selector) {
-        return (
-            /* Use browser's `matches` function if string */
-            isString(selector) ? matches :
-                /* Match a cash element */
-                selector.cash ? function (el) {
-                    return selector.is(el);
-                } :
-                    /* Direct comparison */
-                    function (el, selector) {
-                        return el === selector;
-                    }
-        );
-    }
+	function getCompareFunction(selector) {
+		return (
+		/* Use browser's `matches` function if string */
+			isString(selector) ? matches :
+			/* Match a cash element */
+				selector.cash ? function(el) {
+					return selector.is(el);
+				} :
+				/* Direct comparison */
+					// eslint-disable-next-line no-shadow
+					function(el, selector) {
+						return el === selector;
+					}
+		);
+	}
 
-    function unique(collection) {
-        return cash(slice.call(collection).filter(function (item, index, self) {
-            return self.indexOf(item) === index;
-        }));
-    }
+	function unique(collection) {
+		return cash(slice.call(collection).filter(function(item, index, self) {
+			return self.indexOf(item) === index;
+		}));
+	}
 
-    cash.extend({
-        merge: function (first, second) {
-            var len = +second.length,
-                i = first.length,
-                j = 0;
+	cash.extend({
+		merge: function(first, second) {
+			// eslint-disable-next-line prefer-const
+			let len = +second.length,
+				i = first.length,
+				j = 0;
 
-            for (; j < len; i++, j++) {
-                first[i] = second[j];
-            }
+			for (; j < len; i++, j++) {
+				first[i] = second[j];
+			}
 
-            first.length = i;
-            return first;
-        },
+			first.length = i;
+			return first;
+		},
 
-        each: each,
-        matches: matches,
-        unique: unique,
-        isArray: Array.isArray,
-        isNumeric: function (n) {
-            return !isNaN(parseFloat(n)) && isFinite(n);
-        }
+		each: each,
+		matches: matches,
+		unique: unique,
+		isArray: Array.isArray,
+		isNumeric: function(n) {
+			return !isNaN(parseFloat(n)) && isFinite(n);
+		},
 
-    });
+	});
 
-    var uid = cash.uid = "_cash" + Date.now();
+	const uid = cash.uid = '_cash' + Date.now();
 
-    function getDataCache(node) {
-        return node[uid] = node[uid] || {};
-    }
+	function getDataCache(node) {
+		return node[uid] = node[uid] || {};
+	}
 
-    function setData(node, key, value) {
-        return getDataCache(node)[key] = value;
-    }
+	function setData(node, key, value) {
+		return getDataCache(node)[key] = value;
+	}
 
-    function getData(node, key) {
-        var c = getDataCache(node);
-        if (c[key] === undefined) {
-            c[key] = node.dataset ? node.dataset[key] : cash(node).attr("data-" + key);
-        }
-        return c[key];
-    }
+	function getData(node, key) {
+		const c = getDataCache(node);
+		if (c[key] === undefined) {
+			c[key] = node.dataset ? node.dataset[key] : cash(node).attr('data-' + key);
+		}
+		return c[key];
+	}
 
-    function removeData(node, key) {
-        var c = getDataCache(node);
-        if (c) {
-            delete c[key];
-        } else if (node.dataset) {
-            delete node.dataset[key];
-        } else {
-            cash(node).removeAttr("data-" + name);
-        }
-    }
+	function removeData(node, key) {
+		const c = getDataCache(node);
+		if (c) {
+			delete c[key];
+		}
+		else if (node.dataset) {
+			delete node.dataset[key];
+		}
+		else {
+			cash(node).removeAttr('data-' + name);
+		}
+	}
 
-    fn.extend({
-        data: function (name, value) {
-            if (isString(name)) {
-                return value === undefined ? getData(this[0], name) : this.each(function (v) {
-                    return setData(v, name, value);
-                });
-            }
+	fn.extend({
+		data: function(name, value) {
+			if (isString(name)) {
+				return value === undefined ? getData(this[0], name) : this.each(function(v) {
+					return setData(v, name, value);
+				});
+			}
 
-            for (var key in name) {
-                this.data(key, name[key]);
-            }
+			for (const key in name) {
+				this.data(key, name[key]);
+			}
 
-            return this;
-        },
+			return this;
+		},
 
-        removeData: function (key) {
-            return this.each(function (v) {
-                return removeData(v, key);
-            });
-        }
+		removeData: function(key) {
+			return this.each(function(v) {
+				return removeData(v, key);
+			});
+		},
 
-    });
+	});
 
     var notWhiteMatch = /\S+/g;
 
