@@ -5,21 +5,21 @@ name("Mythic Framework Notification System")
 version("1.0.1")
 
 ui_page({
-	"html/ui.html",
+    "html/ui.html",
 })
 
 files({
-	"html/ui.html",
-	"html/js/app.js",
-	"html/css/style.css",
+    "html/ui.html",
+    "html/js/app.js",
+    "html/css/style.css",
 })
 
 client_scripts({
-	"client/main.lua",
+    "client/main.lua",
 })
 
 exports({
-	"SendAlert",
-	"SendUniqueAlert",
-	"PersistentAlert",
+    "SendAlert",
+    "SendUniqueAlert",
+    "PersistentAlert",
 })
