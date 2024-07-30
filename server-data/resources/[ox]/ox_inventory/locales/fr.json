@@ -85,8 +85,5 @@
   "cannot_give": "Impossible de donner %s %s à cet inventaire",
   "evidence_cannot_take": "Votre grade ne vous permet pas de récupérer des preuves",
   "dumpster": "Poubelle",
-  "crafting_item": "Fabrication %s",
-  "crafting_bench": "Table de fabrication",
-  "open_crafting_bench": "Ouvrir la table de fabrication",
   "not_enough_durability": "%s n'a pas assez de durabilité"
 }

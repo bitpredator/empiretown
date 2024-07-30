@@ -86,8 +86,5 @@
   "cannot_give": "Nemoguce dati %s %s osobi",
   "evidence_cannot_take": "Niste autorizovani da uzmete dokaz",
   "dumpster": "Kontejner",
-  "crafting_item": "Kraftovanje %s",
-  "crafting_bench": "Sto za Kraftovanje",
-  "open_crafting_bench": "Otvori sto za kraftovanje",
   "not_enough_durability": "%s nema dovoljno izdrzljivosti"
 }

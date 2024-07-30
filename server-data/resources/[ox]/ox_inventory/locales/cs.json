@@ -85,9 +85,6 @@
   "cannot_give": "Této osobě nemůžete dát %s %s",
   "evidence_cannot_take": "Nejste dostatečně kvalifikovaný pro přístup",
   "dumpster": "Popelnice",
-  "crafting_item": "Vyrábíš %s",
-  "crafting_bench": "Pracovní stůl",
-  "open_crafting_bench": "Otevřít pracovní stůl",
   "not_enough_durability": "%s je příliš poškozený",
   "storage": "Úložný prostor"
 }
