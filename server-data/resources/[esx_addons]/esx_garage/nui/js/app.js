@@ -62,13 +62,13 @@ $(window).ready(function() {
 			//   return text.replace("No vehicle impounded.", data.locales.no_veh_impounded);
 			// });
 
-			$('.vehicle-listing').html(function(i, text) {
+			$('.vehicle-listing').html(function(_i, text) {
 				return text.replace('Model', data.locales.veh_model);
 			});
-			$('.vehicle-listing').html(function(i, text) {
+			$('.vehicle-listing').html(function(_i, text) {
 				return text.replace('Plate', data.locales.veh_plate);
 			});
-			$('.vehicle-listing').html(function(i, text) {
+			$('.vehicle-listing').html(function(_i, text) {
 				return text.replace('Condition', data.locales.veh_condition);
 			});
 		}
