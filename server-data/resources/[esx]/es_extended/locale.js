@@ -1,4 +1,4 @@
-var locale = [];
+const locale = [];
 
 /**
  * Similar to the concept of gettext, this function returns the
@@ -9,9 +9,10 @@ var locale = [];
  * @return {string} Returns the localized string
  *
  */
+// eslint-disable-next-line no-unused-vars
 function _U() {
-	var args = arguments;
-	var string = args[0];
+	const args = arguments;
+	const string = args[0];
 
 	// Was a string specified?
 	if (!string) {
@@ -34,15 +35,16 @@ function _U() {
 	// Do we need to format the string?
 	if (args.length === 1) {
 		return capitalize(locale[string]);
-	} else {
+	}
+	else {
 		return formatString(args);
 	}
 }
 
 function formatString(args) {
-	var string = capitalize(locale[args[0]]);
+	let string = capitalize(locale[args[0]]);
 
-	for (var i = 1; i < args.length; i++) {
+	for (let i = 1; i < args.length; i++) {
 		string = string.replace(/%s/, args[i]);
 	}
 
@@ -54,12 +56,12 @@ function capitalize(string) {
 }
 
 // https://stackoverflow.com/a/35359503
-String.prototype.format = function () {
-	var args = arguments;
-	return this.replace(/{(\d+)}/g, function (match, number) {
+String.prototype.format = function() {
+	const args = arguments;
+	return this.replace(/{(\d+)}/g, function(match, number) {
 		return typeof args[number] != 'undefined'
 			? args[number]
 			: match
-			;
+		;
 	});
 };
