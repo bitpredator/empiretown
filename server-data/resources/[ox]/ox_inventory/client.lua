@@ -109,7 +109,6 @@ local function closeTrunk()
 	end
 end
 
-local CraftingBenches = require 'modules.crafting.client'
 local Vehicles = lib.load('data.vehicles')
 local Inventory = require 'modules.inventory.client'
 
@@ -189,39 +188,6 @@ function client.openInventory(inv, data)
         end
 
         left, right, accessError = lib.callback.await('ox_inventory:openShop', 200, data)
-    elseif inv == 'crafting' then
-        if cache.vehicle then
-            return lib.notify({ id = 'cannot_perform', type = 'error', description = locale('cannot_perform') })
-        end
-
-        left, right, accessError = lib.callback.await('ox_inventory:openCraftingBench', 200, data.id, data.index)
-
-        if left then
-            right = CraftingBenches[data.id]
-
-            if not right?.items then return end
-
-            local coords, distance
-
-            if not right.zones and not right.points then
-                coords = GetEntityCoords(cache.ped)
-                distance = 2
-            else
-                coords = shared.target and right.zones and right.zones[data.index].coords or right.points and right.points[data.index]
-                distance = coords and shared.target and right.zones[data.index].distance or 2
-            end
-
-            right = {
-                type = 'crafting',
-                id = data.id,
-                label = right.label or locale('crafting_bench'),
-                index = data.index,
-                slots = right.slots,
-                items = right.items,
-                coords = coords,
-                distance = distance
-            }
-        end
     elseif invOpen ~= nil then
         if inv == 'policeevidence' then
             if not data then
@@ -769,9 +735,7 @@ local function registerCommands()
 			local closest = lib.points.getClosestPoint()
 
 			if closest and closest.currentDistance < 1.2 and (not closest.instance or closest.instance == currentInstance) then
-				if closest.inv == 'crafting' then
-					return client.openInventory('crafting', { id = closest.id, index = closest.index })
-				elseif closest.inv ~= 'license' and closest.inv ~= 'policeevidence' then
+                if closest.inv ~= 'license' and closest.inv ~= 'policeevidence' then
 					return client.openInventory(closest.inv or 'drop', { id = closest.invId, type = closest.type })
 				end
 			end
@@ -1738,24 +1702,6 @@ RegisterNUICallback('exit', function(_, cb)
 	cb(1)
 end)
 
-lib.callback.register('ox_inventory:startCrafting', function(id, recipe)
-	recipe = CraftingBenches[id].items[recipe]
-
-	return lib.progressCircle({
-		label = locale('crafting_item', recipe.metadata?.label or Items[recipe.name].label),
-		duration = recipe.duration or 3000,
-		canCancel = true,
-		disable = {
-			move = true,
-			combat = true,
-		},
-		anim = {
-			dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@',
-			clip = 'machinic_loop_mechandplayer',
-		}
-	})
-end)
-
 local swapActive = false
 
 ---Synchronise and validate all item movement between the NUI and server.
@@ -1857,25 +1803,6 @@ RegisterNUICallback('buyItem', function(data, cb)
 	end
 
 	cb(response)
-end)
-
-RegisterNUICallback('craftItem', function(data, cb)
-	cb(true)
-
-	local id, index = currentInventory.id, currentInventory.index
-
-	for i = 1, data.count do
-		local success, response = lib.callback.await('ox_inventory:craftItem', 200, id, index, data.fromSlot, data.toSlot)
-
-		if not success then
-			if response then lib.notify({ type = 'error', description = locale(response or 'cannot_perform') }) end
-			break
-		end
-	end
-
-	if not currentInventory or currentInventory.type ~= 'crafting' then
-		client.openInventory('crafting', { id = id, index = index })
-	end
 end)
 
 lib.callback.register('ox_inventory:getVehicleData', function(netid)

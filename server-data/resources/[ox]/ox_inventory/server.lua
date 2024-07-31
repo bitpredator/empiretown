@@ -9,7 +9,6 @@ local db = require 'modules.mysql.server'
 local Items = require 'modules.items.server'
 local Inventory = require 'modules.inventory.server'
 
-require 'modules.crafting.server'
 require 'modules.shops.server'
 require 'modules.pefcl.server'
 require 'modules.bridge.server'

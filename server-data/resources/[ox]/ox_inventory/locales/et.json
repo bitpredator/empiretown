@@ -85,9 +85,6 @@
   "cannot_give": "%s %s ei saa antud isikule anda",
   "evidence_cannot_take": "Pole piisavalt kõrge auaste, et tõendeid võtta",
   "dumpster": "Prügikast",
-  "crafting_item": "Meisterdamine %s",
-  "crafting_bench": "Meisterdamispink",
-  "open_crafting_bench": "Ava meisterdamispink",
   "not_enough_durability": "Esemel %s pole piisavalt vastupidavust",
   "storage": "Hoidla"
 }

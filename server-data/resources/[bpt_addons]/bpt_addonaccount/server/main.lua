@@ -101,7 +101,7 @@ AddEventHandler("esx:playerLoaded", function(_, xPlayer)
 		addonAccounts[#addonAccounts + 1] = account
 	end
 
-	xPlayer.set('addonAccounts', addonAccounts)
+	xPlayer.set("addonAccounts", addonAccounts)
 end)
 
 RegisterNetEvent("bpt_addonaccount:refreshAccounts")
@@ -139,6 +139,6 @@ AddEventHandler("bpt_addonaccount:refreshAccounts", function()
 	end
 end)
 
-exports("getAccount", GetSharedAccount)
+exports("getAccount", GetAccount)
 
 exports("getSharedAccount", GetSharedAccount)

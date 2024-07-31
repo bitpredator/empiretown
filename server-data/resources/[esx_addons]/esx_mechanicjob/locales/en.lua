@@ -22,7 +22,6 @@ Locales["en"] = {
     ["repair"] = "repair",
     ["clean"] = "clean",
     ["imp_veh"] = "impound",
-    ["place_objects"] = "place Objects",
     ["invoice_amount"] = "invoice Amount",
     ["amount_invalid"] = "invalid amount",
     ["no_players_nearby"] = "there is no nearby player",

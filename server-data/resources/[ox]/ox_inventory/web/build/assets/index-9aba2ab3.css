@@ -408,21 +408,6 @@ button:active {
     font-weight: 400
 }
 
-.tooltip-crafting-duration {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center
-}
-
-.tooltip-crafting-duration svg {
-    padding-right: 3px
-}
-
-.tooltip-crafting-duration p {
-    font-size: 14px
-}
-
 .tooltip-ingredients {
     padding-top: 5px
 }

@@ -85,9 +85,6 @@
   "cannot_give": "Não foi possível dar %s %s ao alvo",
   "evidence_cannot_take": "Não estás autorizado(a) a retirar provas",
   "dumpster": "Contentor de Lixo",
-  "crafting_item": "A fabricar %s",
-  "crafting_bench": "Bancada de Fabrico",
-  "open_crafting_bench": "Abrir Bancada de Fabrico",
   "not_enough_durability": "%s não tem durabilidade suficiente",
   "storage": "Armazenamento"
 }

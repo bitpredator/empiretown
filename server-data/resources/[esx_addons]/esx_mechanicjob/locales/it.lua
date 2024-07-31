@@ -22,7 +22,6 @@ Locales["it"] = {
     ["repair"] = "riparazione",
     ["clean"] = "pulito",
     ["imp_veh"] = "sequestrato",
-    ["place_objects"] = "posiziona oggetti",
     ["invoice_amount"] = "importo fattura",
     ["amount_invalid"] = "importo non valido",
     ["no_players_nearby"] = "nessun giocatore nelle vicinanze",
