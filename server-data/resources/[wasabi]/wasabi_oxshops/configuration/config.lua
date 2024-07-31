@@ -47,4 +47,28 @@ Config.Shops = {
             },
         },
     },
+
+    ["mechanic"] = {
+        label = "Mechanic Shop",
+        blip = {
+            enabled = true,
+            coords = vec3(811.147278, -2157.349365, 29.616821),
+            sprite = 61,
+            color = 8,
+            scale = 0.7,
+            string = "mechanic",
+        },
+        locations = {
+            stash = {
+                string = "[E] - Access Inventory",
+                coords = vec3(-319.410980, -131.907684, 38.968506),
+                range = 3.0,
+            },
+            shop = {
+                string = "[E] - Access Shop",
+                coords = vec3(-344.149445, -139.951645, 39.002197),
+                range = 4.0,
+            },
+        },
+    },
 }
