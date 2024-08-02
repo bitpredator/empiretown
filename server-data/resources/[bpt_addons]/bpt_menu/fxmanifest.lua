@@ -7,8 +7,6 @@ author("bitpredator")
 description("Roleplay personal menu supporting ESX")
 version("1.0.1")
 
-dependency("es_extended")
-
 shared_scripts({
     "locale.lua",
     "locales/*.lua",
@@ -28,3 +26,5 @@ client_scripts({
     "dependencies/menu/items/*.lua",
     "client/*.lua",
 })
+
+dependency("es_extended")
