@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'GABZ'
 description 'MRPD'
-version '1.0.0'
+version '1.0.1'
 
 this_is_a_map 'yes'
 
