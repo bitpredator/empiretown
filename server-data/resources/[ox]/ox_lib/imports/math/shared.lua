@@ -31,7 +31,7 @@ function math.toscalars(input, min, max, round)
     local arr = {}
     local i = 0
 
-    for s in string.gmatch(input:gsub("[%w]+%w?%(", ""), "(-?[%w.%w]+)") do
+    for s in string.gmatch(input:gsub('[%w]+%w?%(', ''), '(-?[%w.%w]+)') do
         local n = parseNumber(s, min, max, round and (round == true or i < round))
 
         i += 1
@@ -50,25 +50,28 @@ end
 function math.tovector(input, min, max, round)
     local inputType = type(input)
 
-    if inputType == "string" then
+    if inputType == 'string' then
         ---@diagnostic disable-next-line: param-type-mismatch
         return vector(math.toscalars(input, min, max, round))
     end
 
-    if inputType == "table" then
+    if inputType == 'table' then
         for _, v in pairs(input) do
             parseNumber(v, min, max, round)
         end
 
-        if table.type(input) == "array" then
+        if table.type(input) == 'array' then
             return vector(table.unpack(input))
         end
 
         -- vector doesn't accept literal nils
-        return input.w and vector4(input.x, input.y, input.z, input.w) or input.z and vector3(input.x, input.y, input.z) or input.y and vector2(input.x, input.y) or input.x + 0.0
+        return input.w and vector4(input.x, input.y, input.z, input.w)
+            or input.z and vector3(input.x, input.y, input.z)
+            or input.y and vector2(input.x, input.y)
+            or input.x + 0.0
     end
 
-    error(("cannot convert %s to a vector value"):format(inputType), 2)
+    error(('cannot convert %s to a vector value'):format(inputType), 2)
 end
 
 ---Tries to convert a surface Normal to a Rotation.
@@ -77,13 +80,13 @@ end
 function math.normaltorotation(input)
     local inputType = type(input)
 
-    if inputType == "vector3" then
+    if inputType == 'vector3' then
         local pitch = -math.asin(input.y) * (180.0 / math.pi)
         local yaw = math.atan(input.x, input.z) * (180.0 / math.pi)
         return vec3(pitch, yaw, 0.0)
     end
 
-    error(("cannot convert type %s to a rotation vector"):format(inputType), 2)
+    error(('cannot convert type %s to a rotation vector'):format(inputType), 2)
 end
 
 ---Tries to convert its argument to a vector4.
@@ -91,7 +94,7 @@ end
 ---@return vector4
 function math.torgba(input)
     local res = math.tovector(input, 0, 255, 3)
-    assert(type(res) == "vector4", "cannot convert input to rgba")
+    assert(type(res) == 'vector4', 'cannot convert input to rgba')
     parseNumber(res.a, 0, 1)
     return res
 end
@@ -102,7 +105,7 @@ end
 ---@return integer
 ---@return integer
 function math.hextorgb(input)
-    local r, g, b = string.match(input, "([^#]+.)(..)(..)")
+    local r, g, b = string.match(input, '([^#]+.)(..)(..)')
     return tonumber(r, 16), tonumber(g, 16), tonumber(b, 16)
 end
 
@@ -111,7 +114,7 @@ end
 ---@param upper? boolean
 ---@return string
 function math.tohex(n, upper)
-    local formatString = ("0x%s"):format(upper and "%X" or "%x")
+    local formatString = ('0x%s'):format(upper and '%X' or '%x')
     return formatString:format(n)
 end
 
@@ -120,8 +123,8 @@ end
 ---@param seperator? string
 ---@return string
 function math.groupdigits(number, seperator) -- credit http://richard.warburton.it
-    local left, num, right = string.match(number, "^([^%d]*%d)(%d*)(.-)$")
-    return left .. (num:reverse():gsub("(%d%d%d)", "%1" .. (seperator or ",")):reverse()) .. right
+    local left, num, right = string.match(number, '^([^%d]*%d)(%d*)(.-)$')
+    return left .. (num:reverse():gsub('(%d%d%d)', '%1' .. (seperator or ',')):reverse()) .. right
 end
 
 ---Clamp a number between 2 other numbers
@@ -129,10 +132,8 @@ end
 ---@param lower number
 ---@param upper number
 ---@return number
-function math.clamp(val, lower, upper) -- credit https://love2d.org/forums/viewtopic.php?t=1856
-    if lower > upper then
-        lower, upper = upper, lower
-    end -- swap if boundaries supplied the wrong way
+function math.clamp(val, lower, upper)                    -- credit https://love2d.org/forums/viewtopic.php?t=1856
+    if lower > upper then lower, upper = upper, lower end -- swap if boundaries supplied the wrong way
     return math.max(lower, math.min(upper, val))
 end
 
@@ -168,13 +169,13 @@ function math.lerp(start, finish, duration)
     local typeStart = type(start)
     local typeFinish = type(finish)
 
-    if typeStart ~= "number" and typeStart ~= "vector2" and typeStart ~= "vector3" and typeStart ~= "vector4" and typeStart ~= "table" then
-        error(("expected argument 1 to have type '%s' (received %s)"):format("number | table | vector2 | vector3 | vector4", typeStart))
+    if typeStart ~= 'number' and typeStart ~= 'vector2' and typeStart ~= 'vector3' and typeStart ~= 'vector4' and typeStart ~= 'table' then
+        error(("expected argument 1 to have type '%s' (received %s)"):format('number | table | vector2 | vector3 | vector4', typeStart))
     end
 
     assert(typeFinish == typeStart, ("expected argument 2 to have type '%s' (received %s)"):format(typeStart, typeFinish))
 
-    local interpFn = typeStart == "table" and interpolateTable or math.interp
+    local interpFn = typeStart == 'table' and interpolateTable or math.interp
     local step
 
     return function()
@@ -183,9 +184,7 @@ function math.lerp(start, finish, duration)
             return start, step
         end
 
-        if step == 1 then
-            return
-        end
+        if step == 1 then return end
 
         Wait(0)
         step = math.min((GetGameTimer() - startTime) / duration, 1)
@@ -196,6 +195,27 @@ function math.lerp(start, finish, duration)
 
         return finish, step
     end
+end
+
+---Rounds a number to a whole number or to the specified number of decimal places.
+---@param value number | string
+---@param places? number | string
+---@return number
+function math.round(value, places)
+    if type(value) == 'string' then value = tonumber(value) end
+    if type(value) ~= 'number' then error('Value must be a number') end
+
+    if places then
+        if type(places) == 'string' then places = tonumber(places) end
+        if type(places) ~= 'number' then error('Places must be a number') end
+
+        if places > 0 then
+            local mult = 10 ^ (places or 0)
+            return math.floor(value * mult + 0.5) / mult
+        end
+    end
+
+    return math.floor(value + 0.5)
 end
 
 return lib.math

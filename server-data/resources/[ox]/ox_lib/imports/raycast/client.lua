@@ -2,8 +2,8 @@ lib.raycast = {}
 
 local StartShapeTestLosProbe = StartShapeTestLosProbe
 local GetShapeTestResultIncludingMaterial = GetShapeTestResultIncludingMaterial
-local glm_sincos = require("glm").sincos
-local glm_rad = require("glm").rad
+local glm_sincos = require 'glm'.sincos
+local glm_rad = require 'glm'.rad
 local math_abs = math.abs
 local GetFinalRenderedCamCoord = GetFinalRenderedCamCoord
 local GetFinalRenderedCamRot = GetFinalRenderedCamRot
@@ -37,7 +37,8 @@ local GetFinalRenderedCamRot = GetFinalRenderedCamRot
 ---@return vector3 surfaceNormal
 ---@return number materialHash
 function lib.raycast.fromCoords(coords, destination, flags, ignore)
-    local handle = StartShapeTestLosProbe(coords.x, coords.y, coords.z, destination.x, destination.y, destination.z, flags or 511, cache.ped, ignore or 4)
+    local handle = StartShapeTestLosProbe(coords.x, coords.y, coords.z, destination.x, destination.y,
+        destination.z, flags or 511, cache.ped, ignore or 4)
 
     while true do
         Wait(0)
