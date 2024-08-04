@@ -8,14 +8,10 @@
 function lib.waitFor(cb, errMessage, timeout)
     local value = cb()
 
-    if value ~= nil then
-        return value
-    end
+    if value ~= nil then return value end
 
     if timeout or timeout == nil then
-        if type(timeout) ~= "number" then
-            timeout = 1000
-        end
+        if type(timeout) ~= 'number' then timeout = 1000 end
     end
 
     local start = timeout and GetGameTimer()
@@ -26,7 +22,7 @@ function lib.waitFor(cb, errMessage, timeout)
         local elapsed = timeout and GetGameTimer() - start
 
         if elapsed and elapsed > timeout then
-            return error(("%s (waited %.1fms)"):format(errMessage or "failed to resolve callback", elapsed), 2)
+            return error(('%s (waited %.1fms)'):format(errMessage or 'failed to resolve callback', elapsed), 2)
         end
 
         value = cb()

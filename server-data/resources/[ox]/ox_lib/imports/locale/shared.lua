@@ -6,9 +6,9 @@ local dict = {}
 ---@param prefix? string
 local function flattenDict(source, target, prefix)
     for key, value in pairs(source) do
-        local fullKey = prefix and (prefix .. "." .. key) or key
+        local fullKey = prefix and (prefix .. '.' .. key) or key
 
-        if type(value) == "table" then
+        if type(value) == 'table' then
             flattenDict(value, target, fullKey)
         else
             target[fullKey] = value
@@ -40,7 +40,7 @@ function lib.getLocales()
 end
 
 local function loadLocale(key)
-    local data = LoadResourceFile(cache.resource, ("locales/%s.json"):format(key))
+    local data = LoadResourceFile(cache.resource, ('locales/%s.json'):format(key))
 
     if not data then
         warn(("could not load 'locales/%s.json'"):format(key))
@@ -55,21 +55,21 @@ local table = lib.table
 ---@param key? string
 function lib.locale(key)
     local lang = key or lib.getLocaleKey()
-    local locales = loadLocale("en")
+    local locales = loadLocale('en')
 
-    if lang ~= "en" then
+    if lang ~= 'en' then
         table.merge(locales, loadLocale(lang))
     end
 
     table.wipe(dict)
 
     for k, v in pairs(flattenDict(locales, {})) do
-        if type(v) == "string" then
-            for var in v:gmatch("${[%w%s%p]-}") do
+        if type(v) == 'string' then
+            for var in v:gmatch('${[%w%s%p]-}') do
                 local locale = locales[var:sub(3, -2)]
 
                 if locale then
-                    locale = locale:gsub("%%", "%%%%")
+                    locale = locale:gsub('%%', '%%%%')
                     v = v:gsub(var, locale)
                 end
             end
@@ -103,11 +103,11 @@ end
 ---Backing function for lib.getLocale.
 ---@param key string
 ---@return string?
-exports("getLocale", function(key)
+exports('getLocale', function(key)
     return dict[key]
 end)
 
-AddEventHandler("ox_lib:setLocale", function(key)
+AddEventHandler('ox_lib:setLocale', function(key)
     lib.locale(key)
 end)
 

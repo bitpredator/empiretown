@@ -6,18 +6,16 @@ local currentDate = {}
 
 setmetatable(currentDate, {
     __index = function(self, index)
-        local newDate = os.date("*t") --[[@as Date]]
+        local newDate = os.date('*t') --[[@as Date]]
 
         for k, v in pairs(newDate) do
             self[k] = v
         end
 
-        SetTimeout(1000, function()
-            table.wipe(self)
-        end)
+        SetTimeout(1000, function() table.wipe(self) end)
 
         return self[index]
-    end,
+    end
 })
 
 ---@class OxTaskProperties
@@ -51,7 +49,7 @@ local maxUnits = {
 ---@param year? number
 ---@return number
 local function getMaxDaysInMonth(month, year)
-    return os.date("*t", os.time({ year = year or currentDate.year, month = month + 1, day = -1 })).day --[[@as number]]
+    return os.date('*t', os.time({ year = year or currentDate.year, month = month + 1, day = -1 })).day --[[@as number]]
 end
 
 ---@param value string | number | nil
@@ -61,13 +59,13 @@ local function getTimeUnit(value, unit)
     local currentTime = currentDate[unit]
 
     if not value then
-        return unit == "min" and currentTime + 1 or currentTime
+        return unit == 'min' and currentTime + 1 or currentTime
     end
 
     local unitMax = maxUnits[unit]
 
-    if type(value) == "string" then
-        local stepValue = string.match(value, "*/(%d+)")
+    if type(value) == 'string' then
+        local stepValue = string.match(value, '*/(%d+)')
 
         if stepValue then
             -- */10 * * * * is equal to a list of 0,10,20,30,40,50
@@ -75,21 +73,19 @@ local function getTimeUnit(value, unit)
             -- i.e. for minutes - 2, 3, 4, 5, 6, 10, 12, 15, 20, 30
             for i = currentTime + 1, unitMax do
                 -- if i is divisible by stepValue
-                if i % stepValue == 0 then
-                    return i
-                end
+                if i % stepValue == 0 then return i end
             end
 
             return stepValue + unitMax
         end
 
-        local range = string.match(value, "%d+-%d+")
+        local range = string.match(value, '%d+-%d+')
 
         if range then
-            local min, max = string.strsplit("-", range)
+            local min, max = string.strsplit('-', range)
             min, max = tonumber(min, 10), tonumber(max, 10)
 
-            if unit == "min" then
+            if unit == 'min' then
                 if currentTime >= max then
                     return min + unitMax
                 end
@@ -100,16 +96,14 @@ local function getTimeUnit(value, unit)
             return currentTime < min and min or currentTime
         end
 
-        local list = string.match(value, "%d+,%d+")
+        local list = string.match(value, '%d+,%d+')
 
         if list then
-            for listValue in
-                string.gmatch(value, "%d+") --[[@as number]]
-            do
+            for listValue in string.gmatch(value, '%d+') --[[@as number]] do
                 listValue = tonumber(listValue)
 
                 -- e.g. if current time is less than in the expression 0,10,20,45 * * * *
-                if unit == "min" then
+                if unit == 'min' then
                     if currentTime < listValue then
                         return listValue
                     end
@@ -119,13 +113,13 @@ local function getTimeUnit(value, unit)
             end
 
             -- if iterator failed, return the first value in the list
-            return tonumber(string.match(value, "%d+")) + unitMax
+            return tonumber(string.match(value, '%d+')) + unitMax
         end
 
         return false
     end
 
-    if unit == "min" then
+    if unit == 'min' then
         return value <= currentTime and value + unitMax or value
     end
 
@@ -135,11 +129,9 @@ end
 ---Get a timestamp for the next time to run the task today.
 ---@return number?
 function OxTask:getNextTime()
-    if not self.isActive then
-        return
-    end
+    if not self.isActive then return end
 
-    local day = getTimeUnit(self.day, "day")
+    local day = getTimeUnit(self.day, 'day')
 
     -- If current day is the last day of the month, and the task is scheduled for the last day of the month, then the task should run.
     if day == 0 then
@@ -147,33 +139,23 @@ function OxTask:getNextTime()
         day = getMaxDaysInMonth(currentDate.month)
     end
 
-    if day ~= currentDate.day then
-        return
-    end
+    if day ~= currentDate.day then return end
 
-    local month = getTimeUnit(self.month, "month")
+    local month = getTimeUnit(self.month, 'month')
 
-    if month ~= currentDate.month then
-        return
-    end
+    if month ~= currentDate.month then return end
 
-    local weekday = getTimeUnit(self.weekday, "wday")
+    local weekday = getTimeUnit(self.weekday, 'wday')
 
-    if weekday ~= currentDate.wday then
-        return
-    end
+    if weekday ~= currentDate.wday then return end
 
-    local minute = getTimeUnit(self.minute, "min")
+    local minute = getTimeUnit(self.minute, 'min')
 
-    if not minute then
-        return
-    end
+    if not minute then return end
 
-    local hour = getTimeUnit(self.hour, "hour")
+    local hour = getTimeUnit(self.hour, 'hour')
 
-    if not hour then
-        return
-    end
+    if not hour then return end
 
     if minute >= maxUnits.min then
         if not self.hour then
@@ -203,11 +185,11 @@ end
 ---Get timestamp for next time to run task at any day.
 ---@return number
 function OxTask:getAbsoluteNextTime()
-    local minute = getTimeUnit(self.minute, "min")
-    local hour = getTimeUnit(self.hour, "hour")
-    local day = getTimeUnit(self.day, "day")
-    local month = getTimeUnit(self.month, "month")
-    local year = getTimeUnit(self.year, "year")
+    local minute = getTimeUnit(self.minute, 'min')
+    local hour = getTimeUnit(self.hour, 'hour')
+    local day = getTimeUnit(self.day, 'day')
+    local month = getTimeUnit(self.month, 'month')
+    local year = getTimeUnit(self.year, 'year')
 
     -- To avoid modifying getTimeUnit function, the day is adjusted here if needed.
     if self.day then
@@ -243,7 +225,7 @@ function OxTask:getAbsoluteNextTime()
 end
 
 function OxTask:getTimeAsString(timestamp)
-    return os.date("%A %H:%M, %d %B %Y", timestamp or self:getAbsoluteNextTime())
+    return os.date('%A %H:%M, %d %B %Y', timestamp or self:getAbsoluteNextTime())
 end
 
 ---@type OxTask[]
@@ -253,20 +235,22 @@ function OxTask:scheduleTask()
     local runAt = self:getNextTime()
 
     if not runAt then
-        return self:stop("getNextTime returned no value")
+        return self:stop('getNextTime returned no value')
     end
 
     local currentTime = os.time()
     local sleep = runAt - currentTime
 
     if sleep < 0 then
-        return self:stop(self.debug and ("scheduled time expired %s seconds ago"):format(-sleep))
+        return self:stop(self.debug and ('scheduled time expired %s seconds ago'):format(-sleep))
     end
 
     local timeAsString = self:getTimeAsString(runAt)
 
     if self.debug then
-        print(("(%s) task %s will run in %d seconds (%0.2f minutes / %0.2f hours)"):format(timeAsString, self.id, sleep, sleep / 60, sleep / 60 / 60))
+        print(('(%s) task %s will run in %d seconds (%0.2f minutes / %0.2f hours)'):format(timeAsString, self.id, sleep,
+            sleep / 60,
+            sleep / 60 / 60))
     end
 
     if sleep > 0 then
@@ -278,7 +262,7 @@ function OxTask:scheduleTask()
 
     if self.isActive then
         if self.debug then
-            print(("(%s) running task %s"):format(timeAsString, self.id))
+            print(('(%s) running task %s'):format(timeAsString, self.id))
         end
 
         Citizen.CreateThreadNow(function()
@@ -293,15 +277,12 @@ end
 
 ---Start an inactive task.
 function OxTask:run()
-    if self.isActive then
-        return
-    end
+    if self.isActive then return end
 
     self.isActive = true
 
     CreateThread(function()
-        while self:scheduleTask() do
-        end
+        while self:scheduleTask() do end
     end)
 end
 
@@ -310,92 +291,48 @@ function OxTask:stop(msg)
 
     if self.debug then
         if msg then
-            return print(("stopping task %s (%s)"):format(self.id, msg))
+            return print(('stopping task %s (%s)'):format(self.id, msg))
         end
 
-        print(("stopping task %s"):format(self.id))
+        print(('stopping task %s'):format(self.id))
     end
 end
 
 ---@param value string
 ---@return number | string | nil
 local function parseCron(value, unit)
-    if not value or value == "*" then
-        return
-    end
+    if not value or value == '*' then return end
 
     local num = tonumber(value)
 
-    if num then
-        return num
+    if num then return num end
+
+    if unit == 'wday' then
+        if value == 'sun' then return 1 end
+        if value == 'mon' then return 2 end
+        if value == 'tue' then return 3 end
+        if value == 'wed' then return 4 end
+        if value == 'thu' then return 5 end
+        if value == 'fri' then return 6 end
+        if value == 'sat' then return 7 end
     end
 
-    if unit == "wday" then
-        if value == "sun" then
-            return 1
-        end
-        if value == "mon" then
-            return 2
-        end
-        if value == "tue" then
-            return 3
-        end
-        if value == "wed" then
-            return 4
-        end
-        if value == "thu" then
-            return 5
-        end
-        if value == "fri" then
-            return 6
-        end
-        if value == "sat" then
-            return 7
-        end
+    if unit == 'month' then
+        if value == 'jan' then return 1 end
+        if value == 'feb' then return 2 end
+        if value == 'mar' then return 3 end
+        if value == 'apr' then return 4 end
+        if value == 'may' then return 5 end
+        if value == 'jun' then return 6 end
+        if value == 'jul' then return 7 end
+        if value == 'aug' then return 8 end
+        if value == 'sep' then return 9 end
+        if value == 'oct' then return 10 end
+        if value == 'nov' then return 11 end
+        if value == 'dec' then return 12 end
     end
 
-    if unit == "month" then
-        if value == "jan" then
-            return 1
-        end
-        if value == "feb" then
-            return 2
-        end
-        if value == "mar" then
-            return 3
-        end
-        if value == "apr" then
-            return 4
-        end
-        if value == "may" then
-            return 5
-        end
-        if value == "jun" then
-            return 6
-        end
-        if value == "jul" then
-            return 7
-        end
-        if value == "aug" then
-            return 8
-        end
-        if value == "sep" then
-            return 9
-        end
-        if value == "oct" then
-            return 10
-        end
-        if value == "nov" then
-            return 11
-        end
-        if value == "dec" then
-            return 12
-        end
-    end
-
-    if getTimeUnit(value, unit) then
-        return value
-    end
+    if getTimeUnit(value, unit) then return value end
 
     error(("^1invalid cron expression. '%s' is not supported for %s^0"):format(value, unit), 3)
 end
@@ -407,20 +344,20 @@ end
 ---Supports numbers, any value `*`, lists `1,2,3`, ranges `1-3`, and steps `*/4`.
 ---Day of the week is a range of `1-7` starting from Sunday and allows short-names (i.e. sun, mon, tue).
 function lib.cron.new(expression, job, options)
-    if not job or type(job) ~= "function" then
+    if not job or type(job) ~= 'function' then
         error(("expected job to have type 'function' (received %s)"):format(type(job)))
     end
 
-    local minute, hour, day, month, weekday = string.strsplit(" ", string.lower(expression))
+    local minute, hour, day, month, weekday = string.strsplit(' ', string.lower(expression))
     ---@type OxTask
     local task = setmetatable(options or {}, OxTask)
 
     task.expression = expression
-    task.minute = parseCron(minute, "min")
-    task.hour = parseCron(hour, "hour")
-    task.day = parseCron(day, "day")
-    task.month = parseCron(month, "month")
-    task.weekday = parseCron(weekday, "wday")
+    task.minute = parseCron(minute, 'min')
+    task.hour = parseCron(hour, 'hour')
+    task.day = parseCron(day, 'day')
+    task.month = parseCron(month, 'month')
+    task.weekday = parseCron(weekday, 'wday')
     task.id = #tasks + 1
     task.job = job
     tasks[task.id] = task
@@ -430,7 +367,7 @@ function lib.cron.new(expression, job, options)
 end
 
 -- reschedule any dead tasks on a new day
-lib.cron.new("0 0 * * *", function()
+lib.cron.new('0 0 * * *', function()
     for i = 1, #tasks do
         local task = tasks[i]
 
