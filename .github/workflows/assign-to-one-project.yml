@@ -28,4 +28,4 @@ jobs:
         contains(github.event.pull_request.labels.*.name, 'Empiretown-Roadmap)
       with:
         project: 'https://github.com/users/bitpredator/projects/4'
-        column_name: 'Labeled'
+        column_name: 'New'
