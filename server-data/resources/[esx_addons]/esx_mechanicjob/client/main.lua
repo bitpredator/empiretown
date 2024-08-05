@@ -353,7 +353,7 @@ function OpenMobileMechanicActionsMenu()
                         if NPCTargetDeleterZone then
                             if CurrentlyTowedVehicle == NPCTargetTowable then
                                 ESX.Game.DeleteVehicle(NPCTargetTowable)
-                                TriggerServerEvent("esx_mechanicjob:onNPCJobMissionCompleted")
+                                TriggerServerEvent("bpt_mechanicjob:onNPCJobMissionCompleted")
                                 StopNPCJob()
                                 NPCTargetDeleterZone = false
                             else
@@ -380,7 +380,7 @@ function OpenMobileMechanicActionsMenu()
 end
 
 function OpenGetStocksMenu()
-    ESX.TriggerServerCallback("esx_mechanicjob:getStockItems", function(items)
+    ESX.TriggerServerCallback("bpt_mechanicjob:getStockItems", function(items)
         local elements = {
             { unselectable = true, icon = "fas fa-box", title = TranslateCap("mechanic_stock") },
         }
@@ -409,7 +409,7 @@ function OpenGetStocksMenu()
                     ESX.ShowNotification(TranslateCap("invalid_quantity"))
                 else
                     ESX.CloseContext()
-                    TriggerServerEvent("esx_mechanicjob:getStockItem", itemName, count)
+                    TriggerServerEvent("bpt_mechanicjob:getStockItem", itemName, count)
 
                     Wait(1000)
                     OpenGetStocksMenu()
@@ -420,7 +420,7 @@ function OpenGetStocksMenu()
 end
 
 function OpenPutStocksMenu()
-    ESX.TriggerServerCallback("esx_mechanicjob:getPlayerInventory", function(inventory)
+    ESX.TriggerServerCallback("bpt_mechanicjob:getPlayerInventory", function(inventory)
         local elements = {
             { unselectable = true, icon = "fas fa-box", title = TranslateCap("inventory") },
         }
@@ -454,7 +454,7 @@ function OpenPutStocksMenu()
                     ESX.ShowNotification(TranslateCap("invalid_quantity"))
                 else
                     ESX.CloseContext()
-                    TriggerServerEvent("esx_mechanicjob:putStockItems", itemName, count)
+                    TriggerServerEvent("bpt_mechanicjob:putStockItems", itemName, count)
 
                     Wait(1000)
                     OpenPutStocksMenu()
@@ -464,8 +464,8 @@ function OpenPutStocksMenu()
     end)
 end
 
-RegisterNetEvent("esx_mechanicjob:onHijack")
-AddEventHandler("esx_mechanicjob:onHijack", function()
+RegisterNetEvent("bpt_mechanicjob:onHijack")
+AddEventHandler("bpt_mechanicjob:onHijack", function()
     local playerPed = PlayerPedId()
     local coords = GetEntityCoords(playerPed)
 
@@ -505,8 +505,8 @@ AddEventHandler("esx_mechanicjob:onHijack", function()
     end
 end)
 
-RegisterNetEvent("esx_mechanicjob:onfixkit")
-AddEventHandler("esx_mechanicjob:onfixkit", function()
+RegisterNetEvent("bpt_mechanicjob:onfixkit")
+AddEventHandler("bpt_mechanicjob:onfixkit", function()
     local playerPed = PlayerPedId()
     local coords = GetEntityCoords(playerPed)
 
@@ -544,7 +544,7 @@ AddEventHandler("esx:setJob", function(job)
     ESX.PlayerData.job = job
 end)
 
-AddEventHandler("esx_mechanicjob:hasEnteredMarker", function(zone)
+AddEventHandler("bpt_mechanicjob:hasEnteredMarker", function(zone)
     if zone == "NPCJobTargetTowable" then
     elseif zone == "VehicleDelivery" then
         NPCTargetDeleterZone = true
@@ -569,7 +569,7 @@ AddEventHandler("esx_mechanicjob:hasEnteredMarker", function(zone)
     end
 end)
 
-AddEventHandler("esx_mechanicjob:hasExitedMarker", function(zone)
+AddEventHandler("bpt_mechanicjob:hasExitedMarker", function(zone)
     if zone == "VehicleDelivery" then
         NPCTargetDeleterZone = false
     end
@@ -578,7 +578,7 @@ AddEventHandler("esx_mechanicjob:hasExitedMarker", function(zone)
     ESX.HideUI()
 end)
 
-AddEventHandler("esx_mechanicjob:hasExitedEntityZone", function(entity)
+AddEventHandler("bpt_mechanicjob:hasExitedEntityZone", function(entity)
     if CurrentAction == "remove_entity" then
         CurrentAction = nil
     end
@@ -678,12 +678,12 @@ CreateThread(function()
             if (isInMarker and not HasAlreadyEnteredMarker) or (isInMarker and LastZone ~= currentZone) then
                 HasAlreadyEnteredMarker = true
                 LastZone = currentZone
-                TriggerEvent("esx_mechanicjob:hasEnteredMarker", currentZone)
+                TriggerEvent("bpt_mechanicjob:hasEnteredMarker", currentZone)
             end
 
             if not isInMarker and HasAlreadyEnteredMarker then
                 HasAlreadyEnteredMarker = false
-                TriggerEvent("esx_mechanicjob:hasExitedMarker", LastZone)
+                TriggerEvent("bpt_mechanicjob:hasExitedMarker", LastZone)
             end
         end
         Wait(Sleep)

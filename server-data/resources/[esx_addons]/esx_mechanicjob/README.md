@@ -1,45 +1,5 @@
-<h1 align='center'>[ESX] Mechanicjob</a></h1><p align='center'><b><a href='https://discord.esx-framework.org/'>Discord</a> - <a href='https://documentation.esx-framework.org/legacy/installation'>Documentation</a></b></h5>
-
-### License
-Copyright (C) 2022-2024 bitpredator
-
-## Requirements
-
-* Auto mode
-  * No need to download another resource
-
-* Player management (billing and boss actions)
-  * [esx_society](https://github.com/esx-framework/esx_society)
-
-## Download & Installation
-
-### Using [fvm](https://github.com/qlaffont/fvm-installer)
-```
-fvm install --save --folder=esx esx-framework/esx_mechanicjob
-```
-
-### Using Git
-```
-cd resources
-git clone https://github.com/esx-framework/esx_mechanicjob [esx]/esx_mechanicjob
-```
-
-### Manually
-- Download https://github.com/esx-framework/esx_mechanicjob/archive/master.zip
-- Put it in the `[esx]` directory
-
-## Installation
-- Import `esx_mechanicjob.sql` in your database
-- If you want player management you have to set `Config.EnablePlayerManagement` to `true` in `config.lua`
-- Add this to your `server.cfg`:
-
-```
-start esx_mechanicjob
-```
-
-# Legal
-### License
-esx_mechanicjob - mechanic job for ESX
+<h1 align='center'>bpt_mechanicjob</a></h1>
+<p align='center'><a href='https://discord.gg/ksGfNvDEfq'>Discord</a>
 
 Copyright (C) 2022-2024 bitpredator
 
@@ -47,4 +7,13 @@ This program Is free software: you can redistribute it And/Or modify it under th
 
 This program Is distributed In the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty Of MERCHANTABILITY Or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License For more details.
 
-You should have received a copy Of the GNU General Public License along with this program. If Not, see http://www.gnu.org/licenses/.
+ATTENTION:
+You are not authorized to change the name of the resource and the resources within it.
+
+If you want to contribute you can open a pull request.
+
+You are not authorized to sell this software (this is free project).
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
