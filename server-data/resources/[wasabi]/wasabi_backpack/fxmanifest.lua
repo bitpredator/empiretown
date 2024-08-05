@@ -6,18 +6,18 @@ description("Wasabi Backpack for Ox Inventory")
 version("1.0.3")
 
 client_scripts({
-	"client/**.lua",
+    "client/**.lua",
 })
 
 server_scripts({
-	"server/**.lua",
+    "server/**.lua",
 })
 
 shared_scripts({
-	"@ox_lib/init.lua",
-	"config.lua",
+    "@ox_lib/init.lua",
+    "config.lua",
 })
 
 dependencies({
-	"ox_inventory",
+    "ox_inventory",
 })
