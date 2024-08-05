@@ -67,7 +67,7 @@ AddEventHandler("bpt_holdup:startTimer", function()
 end)
 
 CreateThread(function()
-    for k, v in pairs(Stores) do
+    for _, v in pairs(Stores) do
         local blip = AddBlipForCoord(v.position)
         SetBlipSprite(blip, 156)
         SetBlipScale(blip, 0.8)
