@@ -16,18 +16,18 @@ function DrawTxt(x, y, width, height, scale, text, r, g, b, a, outline)
     EndTextCommandDisplayText(x - width / 2, y - height / 2 + 0.005)
 end
 
-RegisterNetEvent("esx_holdup:currentlyRobbing")
-AddEventHandler("esx_holdup:currentlyRobbing", function(currentStore)
+RegisterNetEvent("bpt_holdup:currentlyRobbing")
+AddEventHandler("bpt_holdup:currentlyRobbing", function(currentStore)
     holdingUp, store = true, currentStore
 end)
 
-RegisterNetEvent("esx_holdup:killBlip")
-AddEventHandler("esx_holdup:killBlip", function()
+RegisterNetEvent("bpt_holdup:killBlip")
+AddEventHandler("bpt_holdup:killBlip", function()
     RemoveBlip(blipRobbery)
 end)
 
-RegisterNetEvent("esx_holdup:setBlip")
-AddEventHandler("esx_holdup:setBlip", function(position)
+RegisterNetEvent("bpt_holdup:setBlip")
+AddEventHandler("bpt_holdup:setBlip", function(position)
     blipRobbery = AddBlipForCoord(position)
     SetBlipSprite(blipRobbery, 161)
     SetBlipScale(blipRobbery, 2.0)
@@ -35,20 +35,20 @@ AddEventHandler("esx_holdup:setBlip", function(position)
     PulseBlip(blipRobbery)
 end)
 
-RegisterNetEvent("esx_holdup:tooFar")
-AddEventHandler("esx_holdup:tooFar", function()
+RegisterNetEvent("bpt_holdup:tooFar")
+AddEventHandler("bpt_holdup:tooFar", function()
     store = ""
-    ESX.ShowNotification(_U("robbery_cancelled"))
+    ESX.ShowNotification(TranslateCap("robbery_cancelled"))
 end)
 
-RegisterNetEvent("esx_holdup:robberyComplete")
-AddEventHandler("esx_holdup:robberyComplete", function(award)
+RegisterNetEvent("bpt_holdup:robberyComplete")
+AddEventHandler("bpt_holdup:robberyComplete", function(award)
     holdingUp, store = false, ""
-    ESX.ShowNotification(_U("robbery_complete", award))
+    ESX.ShowNotification(TranslateCap("robbery_complete", award))
 end)
 
-RegisterNetEvent("esx_holdup:startTimer")
-AddEventHandler("esx_holdup:startTimer", function()
+RegisterNetEvent("bpt_holdup:startTimer")
+AddEventHandler("bpt_holdup:startTimer", function()
     local timer = Stores[store].secondsRemaining
     CreateThread(function()
         while timer > 0 and holdingUp do
@@ -61,7 +61,7 @@ AddEventHandler("esx_holdup:startTimer", function()
     CreateThread(function()
         while holdingUp do
             Wait(0)
-            DrawTxt(0.66, 1.44, 1.0, 1.0, 0.4, _U("robbery_timer", timer), 255, 255, 255, 255)
+            DrawTxt(0.66, 1.44, 1.0, 1.0, 0.4, TranslateCap("robbery_timer", timer), 255, 255, 255, 255)
         end
     end)
 end)
@@ -73,7 +73,7 @@ CreateThread(function()
         SetBlipScale(blip, 0.8)
         SetBlipAsShortRange(blip, true)
         BeginTextCommandSetBlipName("STRING")
-        AddTextComponentSubstringPlayerName(_U("shop_robbery"))
+        AddTextComponentSubstringPlayerName(TranslateCap("shop_robbery"))
         EndTextCommandSetBlipName(blip)
     end
 end)
@@ -89,12 +89,12 @@ CreateThread(function()
                     letSleep = false
                     DrawMarker(Config.Marker.Type, v.position, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.Marker.x, Config.Marker.y, Config.Marker.z, Config.Marker.r, Config.Marker.g, Config.Marker.b, Config.Marker.a, false, false, 2, false, false, false, false)
                     if distance < 2.0 then
-                        ESX.ShowHelpNotification(_U("press_to_rob", v.nameOfStore))
+                        ESX.ShowHelpNotification(TranslateCap("press_to_rob", v.nameOfStore))
                         if IsControlJustReleased(0, 38) then
                             if IsPedArmed(PlayerPedId(), 4) then
-                                TriggerServerEvent("esx_holdup:robberyStarted", k)
+                                TriggerServerEvent("bpt_holdup:robberyStarted", k)
                             else
-                                ESX.ShowNotification(_U("no_threat"))
+                                ESX.ShowNotification(TranslateCap("no_threat"))
                             end
                         end
                     end
@@ -107,7 +107,7 @@ CreateThread(function()
         if holdingUp then
             letSleep = false
             if #(playerPos - Stores[store].position) > Config.MaxDistance then
-                TriggerServerEvent("esx_holdup:tooFar", store)
+                TriggerServerEvent("bpt_holdup:tooFar", store)
                 holdingUp, letSleep = false, true
             end
         end
