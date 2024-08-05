@@ -202,7 +202,7 @@ CreateThread(function()
 					if open or #v.jobs == 0 then
 						openWorkbench(v)
 					else
-						SendTextMessage(TranslateCap("wrong_job"))
+						ESX.ShowNotification(TranslateCap("wrong_job"))
 					end
 				end
 			end
@@ -230,7 +230,7 @@ end)
 
 RegisterNetEvent("bpt_crafting:sendMessage")
 AddEventHandler("bpt_crafting:sendMessage", function(msg)
-	SendTextMessage(msg)
+	ESX.ShowNotification(msg)
 end)
 
 RegisterNUICallback("close", function()
@@ -243,8 +243,8 @@ RegisterNUICallback("craft", function(data)
 	TriggerServerEvent("bpt_crafting:craft", item, false)
 end)
 
-function SendTextMessage(msg)
-	exports["mythic_notify"]:SendAlert("inform", msg)
+function ESX.ShowNotification(msg)
+  exports["mythic_notify"]:SendAlert("inform", msg)
 end
 
 function DrawText3D(x, y, z, text)
