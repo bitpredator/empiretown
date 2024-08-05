@@ -4,8 +4,8 @@ end
 
 TriggerEvent("esx_society:registerSociety", "mechanic", "mechanic", "society_mechanic", "society_mechanic", "society_mechanic", { type = "private" })
 
-RegisterServerEvent("esx_mechanicjob:onNPCJobMissionCompleted")
-AddEventHandler("esx_mechanicjob:onNPCJobMissionCompleted", function()
+RegisterServerEvent("bpt_mechanicjob:onNPCJobMissionCompleted")
+AddEventHandler("bpt_mechanicjob:onNPCJobMissionCompleted", function()
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local total = math.random(Config.NPCJobEarnings.min, Config.NPCJobEarnings.max)
@@ -27,12 +27,12 @@ ESX.RegisterUsableItem("fixkit", function(source)
 
     xPlayer.removeInventoryItem("fixkit", 1)
 
-    TriggerClientEvent("esx_mechanicjob:onfixkit", source)
+    TriggerClientEvent("bpt_mechanicjob:onfixkit", source)
     TriggerClientEvent("esx:showNotification", source, TranslateCap("you_used_repair_kit"))
 end)
 
-RegisterServerEvent("esx_mechanicjob:getStockItem")
-AddEventHandler("esx_mechanicjob:getStockItem", function(itemName, count)
+RegisterServerEvent("bpt_mechanicjob:getStockItem")
+AddEventHandler("bpt_mechanicjob:getStockItem", function(itemName, count)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     TriggerEvent("bpt_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
@@ -54,14 +54,14 @@ AddEventHandler("esx_mechanicjob:getStockItem", function(itemName, count)
     end)
 end)
 
-ESX.RegisterServerCallback("esx_mechanicjob:getStockItems", function(_, cb)
+ESX.RegisterServerCallback("bpt_mechanicjob:getStockItems", function(_, cb)
     TriggerEvent("bpt_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
         cb(inventory.items)
     end)
 end)
 
-RegisterServerEvent("esx_mechanicjob:putStockItems")
-AddEventHandler("esx_mechanicjob:putStockItems", function(itemName, count)
+RegisterServerEvent("bpt_mechanicjob:putStockItems")
+AddEventHandler("bpt_mechanicjob:putStockItems", function(itemName, count)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     TriggerEvent("bpt_addoninventory:getSharedInventory", "society_mechanic", function(inventory)
@@ -79,7 +79,7 @@ AddEventHandler("esx_mechanicjob:putStockItems", function(itemName, count)
     end)
 end)
 
-ESX.RegisterServerCallback("esx_mechanicjob:getPlayerInventory", function(source, cb)
+ESX.RegisterServerCallback("bpt_mechanicjob:getPlayerInventory", function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     local items = xPlayer.inventory
 
