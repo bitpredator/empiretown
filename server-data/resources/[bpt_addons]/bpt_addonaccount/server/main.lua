@@ -58,13 +58,13 @@ function AddSharedAccount(society, amount)
 	if SharedAccounts[society.name] ~= nil then return SharedAccounts[society.name] end
 
 	-- addon account:
-	local account = MySQL.insert.await('INSERT INTO `addon_account` (name, label, shared) VALUES (?, ?, ?)', {
+	local account = MySQL.insert.await("INSERT INTO `addon_account` (name, label, shared) VALUES (?, ?, ?)", {
 		society.name, society.label, 1
 	})
 	if not account then return end
 
 	-- if addon account inserted, insert addon account data:
-	local account_data = MySQL.insert.await('INSERT INTO `addon_account_data` (account_name, money) VALUES (?, ?)', {
+	local account_data = MySQL.insert.await("INSERT INTO `addon_account_data` (account_name, money) VALUES (?, ?)", {
 		society.name, (amount or 0)
 	})
 	if not account_data then return end
@@ -91,7 +91,7 @@ AddEventHandler("esx:playerLoaded", function(_, xPlayer)
 		local account = GetAccount(name, xPlayer.identifier)
 
 		if account == nil then
-			MySQL.insert('INSERT INTO addon_account_data (account_name, money, owner) VALUES (?, ?, ?)',
+			MySQL.insert("INSERT INTO addon_account_data (account_name, money, owner) VALUES (?, ?, ?)",
 				{ name, 0, xPlayer.identifier })
 
 			account = CreateAddonAccount(name, xPlayer.identifier, 0)
@@ -106,13 +106,13 @@ end)
 
 RegisterNetEvent("bpt_addonaccount:refreshAccounts")
 AddEventHandler("bpt_addonaccount:refreshAccounts", function()
-	local addonAccounts = MySQL.query.await('SELECT * FROM addon_account')
+	local addonAccounts = MySQL.query.await("SELECT * FROM addon_account")
 
 	for i = 1, #addonAccounts, 1 do
 		local name             = addonAccounts[i].name
 		local shared           = addonAccounts[i].shared
 
-		local addonAccountData = MySQL.query.await('SELECT * FROM addon_account_data WHERE account_name = ?', { name })
+		local addonAccountData = MySQL.query.await("SELECT * FROM addon_account_data WHERE account_name = ?", { name })
 
 		if shared == 0 then
 			table.insert(AccountsIndex, name)
@@ -126,7 +126,7 @@ AddEventHandler("bpt_addonaccount:refreshAccounts", function()
 			local money = nil
 
 			if #addonAccountData == 0 then
-				MySQL.insert('INSERT INTO addon_account_data (account_name, money, owner) VALUES (?, ?, ?)',
+				MySQL.insert("INSERT INTO addon_account_data (account_name, money, owner) VALUES (?, ?, ?)",
 					{ name, 0, nil })
 				money = 0
 			else

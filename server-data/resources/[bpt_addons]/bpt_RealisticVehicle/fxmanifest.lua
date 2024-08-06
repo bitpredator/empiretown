@@ -1,7 +1,7 @@
 fx_version("adamant")
 game("gta5")
 
-description("esx_realisticvehicle")
+description("bpt_RealisticVehicle")
 lua54("yes")
 version("1.0.1")
 

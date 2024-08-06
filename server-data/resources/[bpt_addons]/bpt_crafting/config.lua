@@ -248,6 +248,23 @@ Config = {
 			},
 		},
 
+		["WEAPON_PISTOL"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 180,
+			Ingredients = {
+				["copper"] = 1,
+				["iron"] = 3,
+				["wood"] = 1,
+				["steel"] = 5,
+			},
+		},
 		["ammo-sniper"] = {
 			Level = 10,
 			Category = "ammu",
@@ -441,6 +458,7 @@ Config = {
 				"WEAPON_KNIFE",
 				"WEAPON_KNUCKLE",
 				"WEAPON_NIGHTSTICK",
+				"WEAPON_PISTOL",
 			},
 			radius = 1.0,
 		},

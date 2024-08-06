@@ -48,6 +48,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('WEAPON_KNUCKLE', 'tira pugni'),
 	('steel', 'acciaio'),
 	('plastic_bag', 'Sacchetto di plastica'),
-	('recycled_plastic', 'Plastica riciclata')
-	('WEAPON_NIGHTSTICK', 'Manganello')
+	('recycled_plastic', 'Plastica riciclata'),
+	('WEAPON_NIGHTSTICK', 'Manganello'),
+	('WEAPON_PISTOL', 'Pistola 9mm')
 ;
