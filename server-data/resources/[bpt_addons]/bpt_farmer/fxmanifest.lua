@@ -7,16 +7,16 @@ version("1.0.1")
 shared_script("@es_extended/imports.lua")
 
 client_script({
-	"@es_extended/locale.lua",
-	"client/*.lua",
-	"locales/*.lua",
-	"config.lua",
+    "@es_extended/locale.lua",
+    "client/*.lua",
+    "locales/*.lua",
+    "config.lua",
 })
 
 server_scripts({
-	"@es_extended/locale.lua",
-	"server/*.lua",
-	"@oxmysql/lib/MySQL.lua",
-	"locales/*.lua",
-	"config.lua",
+    "@es_extended/locale.lua",
+    "server/*.lua",
+    "@oxmysql/lib/MySQL.lua",
+    "locales/*.lua",
+    "config.lua",
 })
