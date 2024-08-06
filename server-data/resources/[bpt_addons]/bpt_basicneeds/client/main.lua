@@ -30,15 +30,15 @@ AddEventHandler("esx:onPlayerSpawn", function(spawn)
 end)
 
 AddEventHandler("bpt_status:loaded", function(status)
-    TriggerEvent("bpt_status:registerStatus", "hunger", 1000000, "#CFAD0F", function(status)
+    TriggerEvent("bpt_status:registerStatus", "hunger", 1000000, "#CFAD0F", function()
         return Config.Visible
-    end, function(status)
+    end, function()
         status.remove(100)
     end)
 
     TriggerEvent("bpt_status:registerStatus", "thirst", 1000000, "#0C98F1", function()
         return Config.Visible
-    end, function(status)
+    end, function()
         status.remove(75)
     end)
 end)
