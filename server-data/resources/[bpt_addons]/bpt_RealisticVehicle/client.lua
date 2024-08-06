@@ -58,9 +58,7 @@ local function isPedDrivingAVehicle()
 end
 
 local function fscale(inputValue, originalMin, originalMax, newBegin, newEnd, curve)
-    local OriginalRange, normalizedCurVal, zeroRefCurVal
-    local NewRange = 0.0
-    local rangedValue = 0.0
+    local OriginalRange, normalizedCurVal, zeroRefCurVal, NewRange, rangedValue
     local invFlag = 0
 
     if curve > 10.0 then
