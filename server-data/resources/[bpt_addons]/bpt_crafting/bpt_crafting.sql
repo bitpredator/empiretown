@@ -49,5 +49,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('steel', 'steel'),
 	('plastic_bag', 'Plastic bag'),
 	('recycled_plastic', 'Recycled plastic'),
-	('WEAPON_NIGHTSTICK', 'NIGHTSTICK')
+	('WEAPON_NIGHTSTICK', 'NIGHTSTICK'),
+	('WEAPON_PISTOL', 'Pistol')
 ;
