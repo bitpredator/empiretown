@@ -2,8 +2,8 @@ fx_version("cerulean")
 game("gta5")
 lua54("yes")
 
-description("Wasabi Backpack for Ox Inventory")
-version("1.0.3")
+description("bpt_backpack for Ox Inventory")
+version("1.0.2")
 
 client_scripts({
     "client/**.lua",

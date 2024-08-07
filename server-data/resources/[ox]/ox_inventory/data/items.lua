@@ -458,7 +458,7 @@ return {
 		stack = false,
 		consume = 0,
 		client = {
-			export = "wasabi_backpack.openBackpack",
+			export = "bpt_backpack.openBackpack",
 		},
 	},
 
