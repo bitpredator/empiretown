@@ -4,15 +4,15 @@ games({ "gta5" })
 ui_page("html/scoreboard.html")
 
 files({
-	"html/*",
+    "html/*",
 })
 
 shared_script("@es_extended/imports.lua")
 
 client_scripts({
-	"client/main.lua",
+    "client/main.lua",
 })
 
 server_scripts({
-	"server/main.lua",
+    "server/main.lua",
 })

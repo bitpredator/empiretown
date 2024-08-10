@@ -99,12 +99,7 @@ end)
 local oldped = {}
 function CanSlaughterPed(ped)
     if
-        not IsPedAPlayer(ped)
-        and not IsPedInAnyVehicle(ped, false)
-        and not IsPedHuman(ped)
-        and IsEntityDead(ped)
-        and ped ~= oldped
-        and GetEntityModel(ped) == GetHashKey("a_c_boar")
+        not IsPedAPlayer(ped) and not IsPedInAnyVehicle(ped, false) and not IsPedHuman(ped) and IsEntityDead(ped) and ped ~= oldped and GetEntityModel(ped) == GetHashKey("a_c_boar")
         or GetEntityModel(ped) == GetHashKey("a_c_coyote")
         or GetEntityModel(ped) == GetHashKey("a_c_deer")
         or GetEntityModel(ped) == GetHashKey("a_c_mtlion")

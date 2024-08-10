@@ -1,14 +1,14 @@
-fx_version 'adamant'
+fx_version("adamant")
 
-game 'gta5'
+game("gta5")
 
-description 'ESX License'
-lua54 'yes'
-version '1.0.0'
+description("ESX License")
+lua54("yes")
+version("1.0.1")
 
-server_scripts {
-	'@es_extended/imports.lua',
-	'@oxmysql/lib/MySQL.lua',
-	'config.lua',
-	'server/main.lua'
-}
+server_scripts({
+    "@es_extended/imports.lua",
+    "@oxmysql/lib/MySQL.lua",
+    "config.lua",
+    "server/main.lua",
+})

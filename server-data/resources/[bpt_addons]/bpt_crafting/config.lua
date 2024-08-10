@@ -89,16 +89,16 @@ Config = {
 
 		["ironsheet"] = {
 			Level = 0,
-			Category = "dustman",
+			Category = "import",
 			isGun = false,
-			Jobs = { "dustman" },
+			Jobs = { "import" },
 			JobGrades = {},
-			Amount = 2,
+			Amount = 5,
 			SuccessRate = 100,
 			requireBlueprint = false,
 			Time = 60,
 			Ingredients = {
-				["trash_can"] = 5,
+				["iron"] = 1,
 				["hammer"] = 1,
 			},
 		},
@@ -201,9 +201,9 @@ Config = {
 
 		["iron"] = {
 			Level = 0,
-			Category = "import",
+			Category = "dustman",
 			isGun = false,
-			Jobs = { "import" },
+			Jobs = { "dustman" },
 			JobGrades = {},
 			Amount = 3,
 			SuccessRate = 100,
@@ -211,7 +211,7 @@ Config = {
 			Time = 10,
 			Ingredients = {
 				["hammer"] = 1,
-				["ironsheet"] = 10,
+				["trash_can"] = 10,
 			},
 		},
 
@@ -242,11 +242,29 @@ Config = {
 			Time = 180,
 			Ingredients = {
 				["copper"] = 1,
-				["iron"] = 1,
+				["iron"] = 3,
 				["wood"] = 1,
+				["steel"] = 5,
 			},
 		},
 
+		["WEAPON_PISTOL"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 180,
+			Ingredients = {
+				["copper"] = 1,
+				["iron"] = 3,
+				["wood"] = 1,
+				["steel"] = 5,
+			},
+		},
 		["ammo-sniper"] = {
 			Level = 10,
 			Category = "ammu",
@@ -262,6 +280,72 @@ Config = {
 				["iron"] = 1,
 				["gunpowder"] = 1,
 				["gold"] = 1,
+			},
+		},
+
+		["ammo-9"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 30,
+			Ingredients = {
+				["copper"] = 1,
+				["iron"] = 1,
+				["gunpowder"] = 1,
+				["gold"] = 1,
+			},
+		},
+
+		["WEAPON_KNIFE"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 30,
+			Ingredients = {
+				["iron"] = 1,
+				["steel"] = 1,
+				["wood"] = 1,
+			},
+		},
+
+		["WEAPON_KNUCKLE"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 30,
+			Ingredients = {
+				["iron"] = 2,
+				["gold"] = 1,
+			},
+		},
+
+		["WEAPON_NIGHTSTICK"] = {
+			Level = 10,
+			Category = "ammu",
+			isGun = false,
+			Jobs = { "ammu" },
+			JobGrades = {},
+			Amount = 1,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 60,
+			Ingredients = {
+				["recycled_plastic"] = 10,
 			},
 		},
 
@@ -325,6 +409,21 @@ Config = {
 				["salmon"] = 1,
 			},
 		},
+
+		["recycled_plastic"] = {
+			Level = 0,
+			Category = "dustman",
+			isGun = false,
+			Jobs = { "dustman" },
+			JobGrades = {},
+			Amount = 2,
+			SuccessRate = 100,
+			requireBlueprint = false,
+			Time = 30,
+			Ingredients = {
+				["plastic_bag"] = 1,
+			},
+		},
 	},
 
 	Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
@@ -332,7 +431,7 @@ Config = {
 			coords = vector3(1020.936279, -2404.628662, 30.122314),
 			jobs = { "import" },
 			blip = false,
-			recipes = { "cottonforbandages", "iron", "hammer" },
+			recipes = { "cottonforbandages", "hammer", "ironsheet" },
 			radius = 1.0,
 		},
 		{
@@ -350,10 +449,18 @@ Config = {
 			radius = 1.0,
 		},
 		{
-			coords = vector3(809.090088, -2172.923096, 29.616821),
+			coords = vector3(808.984619, -2159.630859, 29.616821),
 			jobs = { "ammu" },
 			blip = false,
-			recipes = { "WEAPON_APPISTOL", "ammo-sniper" },
+			recipes = {
+				"WEAPON_APPISTOL",
+				"ammo-sniper",
+				"ammo-9",
+				"WEAPON_KNIFE",
+				"WEAPON_KNUCKLE",
+				"WEAPON_NIGHTSTICK",
+				"WEAPON_PISTOL",
+			},
 			radius = 1.0,
 		},
 		{
@@ -367,7 +474,7 @@ Config = {
 			coords = vector3(-416.993408, -1683.468140, 19.018311),
 			jobs = { "dustman" },
 			blip = false,
-			recipes = { "ironsheet", "recycled_paper", "paper" },
+			recipes = { "recycled_paper", "paper", "recycled_plastic", "iron" },
 			radius = 1.0,
 		},
 		{

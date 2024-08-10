@@ -1,5 +1,6 @@
 # FiveM Artifact
-server
+artifact
+node_modules
 
 # Cache
 server-data/.replxx_history

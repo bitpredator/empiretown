@@ -85,7 +85,6 @@
   "cannot_give": "%s %s nem adható meg a célnak",
   "evidence_cannot_take": "Nem elég magas a rangod a bizonyítékok kezeléséhez",
   "dumpster": "Szemetes",
-  "crafting_item": "%s barkácsolása ",
-  "crafting_bench": "Barkácsasztal",
-  "not_enough_durability": "%s elhasználodott!"
+  "not_enough_durability": "%s elhasználodott!",
+  "storage": "Tároló"
 }

@@ -1,0 +1,23 @@
+name: ESLint
+
+on:
+    push:
+      branches: [ "main", "dev" ]
+    pull_request:
+      branches: [ "main" ]
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      - run: npm ci # or yarn install
+      - uses: sibiraj-s/action-eslint@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # optional
+          eslint-args: '--ignore-pattern=.gitignore --quiet'
+          extensions: 'js,jsx,ts,tsx'
+          annotations: true

@@ -14,6 +14,7 @@ return {
 			{ name = "water", price = 30 },
 			{ name = "ice", price = 5 },
 			{ name = "fry_oil", price = 60 },
+			{ name = "almonds", price = 10 },
 		},
 		locations = {
 			vec3(132.408798, -1286.439575, 29.263062),
@@ -141,7 +142,6 @@ return {
 		},
 		inventory = {
 			{ name = "pickaxe", price = 30 },
-			{ name = "almonds", price = 10 },
 		},
 		locations = {
 			vec3(2571.151611, 2720.690186, 42.911377),

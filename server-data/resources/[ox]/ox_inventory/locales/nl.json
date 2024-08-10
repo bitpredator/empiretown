@@ -82,8 +82,5 @@
   "cannot_give": "Niet in staat om %s %s te geven aan het doel",
   "evidence_cannot_take": "Je rang is niet hoog genoeg om van de bewijskluis te pakken",
   "dumpster": "Afvalcontainer",
-  "crafting_item": "%s aan het maken",
-  "crafting_bench": "Werkbank",
-  "open_crafting_bench": "Open Werkbank",
   "not_enough_durability": "%s heeft niet genoeg levensduur."
 }

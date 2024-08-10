@@ -338,8 +338,7 @@ return {
 
 	["fixkit"] = {
 		label = "kit di riparazione",
-		weight = 100,
-		consume = 1,
+		weight = 3,
 		stack = true,
 		close = true,
 	},
@@ -459,7 +458,7 @@ return {
 		stack = false,
 		consume = 0,
 		client = {
-			export = "wasabi_backpack.openBackpack",
+			export = "bpt_backpack.openBackpack",
 		},
 	},
 
@@ -713,6 +712,20 @@ return {
 
 	["wool"] = {
 		label = "Wool",
+		weight = 1,
+		stack = true,
+		close = true,
+	},
+
+	["plastic_bag"] = {
+		label = "Plastica usata",
+		weight = 1,
+		stack = true,
+		close = true,
+	},
+
+	["recycled_plastic"] = {
+		label = "Plastica riciclata",
 		weight = 1,
 		stack = true,
 		close = true,

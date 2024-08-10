@@ -154,34 +154,18 @@ Locales["br"] = {
 	["bossmanagement_promote_button"] = "Promover",
 	["bossmanagement_demote_button"] = "Remover",
 
-	-- Boss Management 2 Menu
-	["bossmanagement2_title"] = "Gestão Organização",
-	["bossmanagement2_chest_button"] = "Cofre da organização:",
-	["bossmanagement2_hire_button"] = "Recruta",
-	["bossmanagement2_fire_button"] = "Virer",
-	["bossmanagement2_promote_button"] = "Promouvoir",
-	["bossmanagement2_demote_button"] = "Destituer",
-
 	-- Admin Menu
 	["admin_title"] = "Administração",
-	["admin_goto_button"] = "Teleportar no jogador",
-	["admin_bring_button"] = "Teleportar jogador pra você",
-	["admin_tpxyz_button"] = "Teleportar para as coordenadas",
 	["admin_noclip_button"] = "NoClip",
 	["admin_godmode_button"] = "Godmod",
 	["admin_ghostmode_button"] = "Ghostmod",
 	["admin_spawnveh_button"] = "Spawnar Veículo",
 	["admin_repairveh_button"] = "Reparar veículo",
 	["admin_flipveh_button"] = "Puxar veículo",
-	["admin_givemoney_button"] = "Conceder dinheiro",
-	["admin_givebank_button"] = "Conceder dinheiro(Banco)",
-	["admin_givedirtymoney_button"] = "Conceda dinheiro sujo",
 	["admin_showxyz_button"] = "Mostrar / Ocultar coordenadas",
 	["admin_showname_button"] = "Mostrar / Ocultar nomes dos jogadores",
 	["admin_tpmarker_button"] = "Teleporte para a localização marcada",
 	["admin_revive_button"] = "Reviver jogador",
-	["admin_changeskin_button"] = "Mudar aparência",
-	["admin_saveskin_button"] = "Salvar aparência",
 
 	-- GPS
 	["none"] = "No Location", -- No translated

@@ -19,7 +19,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('WEAPON_APPISTOL', 'pistola AP'),
 	('iron', 'Ferro'),
 	('hammer', 'martello'),
-	('legnatagliata', 'asse di legno'),
+	('wood', 'legna'),
 	('fixkit', 'kit di riparazione'),
 	('almondmilk', 'latte di mandorla'),
 	('ice', 'ghiaccio'),
@@ -42,5 +42,13 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('ammo-sniper', '7.62 NATO'),
 	('grain', 'grano'),
 	('flour', 'farina'),
-	('bread', 'panino vuoto')
+	('bread', 'panino vuoto'),
+	('ammo-9', '9mm'),
+	('WEAPON_KNIFE', 'coltello'),
+	('WEAPON_KNUCKLE', 'tira pugni'),
+	('steel', 'acciaio'),
+	('plastic_bag', 'Sacchetto di plastica'),
+	('recycled_plastic', 'Plastica riciclata'),
+	('WEAPON_NIGHTSTICK', 'Manganello'),
+	('WEAPON_PISTOL', 'Pistola 9mm')
 ;
