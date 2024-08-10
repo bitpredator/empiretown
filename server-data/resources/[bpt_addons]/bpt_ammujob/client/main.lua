@@ -231,7 +231,7 @@ function OpenMobileAmmuActionsMenu()
                     if closestPlayer == -1 or closestDistance > 3.0 then
                         ESX.ShowNotification(TranslateCap("no_players_near"))
                     else
-                        TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ammu", "Ammu", amount)
+                        TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ammu", TranslateCap("Ammu"), amount)
                         ESX.ShowNotification(TranslateCap("billing_sent"))
                     end
                 end

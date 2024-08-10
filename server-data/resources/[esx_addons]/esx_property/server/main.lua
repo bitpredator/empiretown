@@ -205,7 +205,7 @@ ESX.RegisterServerCallback("esx_property:attemptSellToPlayer", function(source, 
     if PM.Enabled then
       local PlayerPrice = Price * PM.SalePercentage
       local SocietyPrice = Price - PlayerPrice
-      TriggerEvent('esx_addonaccount:getSharedAccount', PM.society, function(account)
+      TriggerEvent('bpt_addonaccount:getSharedAccount', PM.society, function(account)
         account.addMoney(SocietyPrice)
       end)
       xPlayer.addAccountMoney("bank", PlayerPrice, "Sold Property")
