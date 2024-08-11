@@ -26,7 +26,7 @@ AddEventHandler("onResourceStart", function(resourceName)
     end
 end)
 
-AddEventHandler("esx_society:registerSociety", function(name, label, account, datastore, inventory, data)
+AddEventHandler("bpt_society:registerSociety", function(name, label, account, datastore, inventory, data)
     local found = false
 
     local society = {
@@ -50,21 +50,21 @@ AddEventHandler("esx_society:registerSociety", function(name, label, account, da
     end
 end)
 
-AddEventHandler("esx_society:getSocieties", function(cb)
+AddEventHandler("bpt_society:getSocieties", function(cb)
     cb(RegisteredSocieties)
 end)
 
-AddEventHandler("esx_society:getSociety", function(name, cb)
+AddEventHandler("bpt_society:getSociety", function(name, cb)
     cb(GetSociety(name))
 end)
 
-RegisterServerEvent("esx_society:checkSocietyBalance")
-AddEventHandler("esx_society:checkSocietyBalance", function(society)
+RegisterServerEvent("bpt_society:checkSocietyBalance")
+AddEventHandler("bpt_society:checkSocietyBalance", function(society)
     local xPlayer = ESX.GetPlayerFromId(source)
     local society = GetSociety(society)
 
     if xPlayer.job.name ~= society.name then
-        print(("esx_society: %s attempted to call checkSocietyBalance!"):format(xPlayer.identifier))
+        print(("bpt_society: %s attempted to call checkSocietyBalance!"):format(xPlayer.identifier))
         return
     end
 
@@ -73,8 +73,8 @@ AddEventHandler("esx_society:checkSocietyBalance", function(society)
     end)
 end)
 
-RegisterServerEvent("esx_society:withdrawMoney")
-AddEventHandler("esx_society:withdrawMoney", function(societyName, amount)
+RegisterServerEvent("bpt_society:withdrawMoney")
+AddEventHandler("bpt_society:withdrawMoney", function(societyName, amount)
     local source = source
     local society = GetSociety(societyName)
     if not society then
@@ -98,8 +98,8 @@ AddEventHandler("esx_society:withdrawMoney", function(societyName, amount)
     end
 end)
 
-RegisterServerEvent("esx_society:depositMoney")
-AddEventHandler("esx_society:depositMoney", function(societyName, amount)
+RegisterServerEvent("bpt_society:depositMoney")
+AddEventHandler("bpt_society:depositMoney", function(societyName, amount)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local society = GetSociety(societyName)
@@ -124,8 +124,8 @@ AddEventHandler("esx_society:depositMoney", function(societyName, amount)
     end
 end)
 
-RegisterServerEvent("esx_society:washMoney")
-AddEventHandler("esx_society:washMoney", function(society, amount)
+RegisterServerEvent("bpt_society:washMoney")
+AddEventHandler("bpt_society:washMoney", function(society, amount)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local account = xPlayer.getAccount("black_money")
@@ -146,8 +146,8 @@ AddEventHandler("esx_society:washMoney", function(society, amount)
     end
 end)
 
-RegisterServerEvent("esx_society:putVehicleInGarage")
-AddEventHandler("esx_society:putVehicleInGarage", function(societyName, vehicle)
+RegisterServerEvent("bpt_society:putVehicleInGarage")
+AddEventHandler("bpt_society:putVehicleInGarage", function(societyName, vehicle)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local society = GetSociety(societyName)
@@ -162,8 +162,8 @@ AddEventHandler("esx_society:putVehicleInGarage", function(societyName, vehicle)
     end)
 end)
 
-RegisterServerEvent("esx_society:removeVehicleFromGarage")
-AddEventHandler("esx_society:removeVehicleFromGarage", function(societyName, vehicle)
+RegisterServerEvent("bpt_society:removeVehicleFromGarage")
+AddEventHandler("bpt_society:removeVehicleFromGarage", function(societyName, vehicle)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local society = GetSociety(societyName)
@@ -185,7 +185,7 @@ AddEventHandler("esx_society:removeVehicleFromGarage", function(societyName, veh
     end)
 end)
 
-ESX.RegisterServerCallback("esx_society:getSocietyMoney", function(source, cb, societyName)
+ESX.RegisterServerCallback("bpt_society:getSocietyMoney", function(source, cb, societyName)
     local society = GetSociety(societyName)
     if not society then
         print(("[^3WARNING^7] Player ^5%s^7 attempted to get money from non-existing society - ^5%s^7!"):format(source, societyName))
@@ -200,7 +200,7 @@ ESX.RegisterServerCallback("esx_society:getSocietyMoney", function(source, cb, s
     end
 end)
 
-ESX.RegisterServerCallback("esx_society:getEmployees", function(_, cb, society)
+ESX.RegisterServerCallback("bpt_society:getEmployees", function(_, cb, society)
     local employees = {}
 
     local xPlayers = ESX.GetExtendedPlayers("job", society)
@@ -267,7 +267,7 @@ ESX.RegisterServerCallback("esx_society:getEmployees", function(_, cb, society)
     end)
 end)
 
-ESX.RegisterServerCallback("esx_society:getJob", function(_, cb, society)
+ESX.RegisterServerCallback("bpt_society:getJob", function(_, cb, society)
     local job = json.decode(json.encode(Jobs[society]))
     local grades = {}
 
@@ -284,7 +284,7 @@ ESX.RegisterServerCallback("esx_society:getJob", function(_, cb, society)
     cb(job)
 end)
 
-ESX.RegisterServerCallback("esx_society:setJob", function(source, cb, identifier, job, grade, type)
+ESX.RegisterServerCallback("bpt_society:setJob", function(source, cb, identifier, job, grade, type)
     local xPlayer = ESX.GetPlayerFromId(source)
     local isBoss = xPlayer.job.grade_name == "boss"
     local xTarget = ESX.GetPlayerFromIdentifier(identifier)
@@ -316,7 +316,7 @@ ESX.RegisterServerCallback("esx_society:setJob", function(source, cb, identifier
     end
 end)
 
-ESX.RegisterServerCallback("esx_society:setJobSalary", function(source, cb, job, grade, salary)
+ESX.RegisterServerCallback("bpt_society:setJobSalary", function(source, cb, job, grade, salary)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if xPlayer.job.name == job and xPlayer.job.grade_name == "boss" then
@@ -343,7 +343,7 @@ ESX.RegisterServerCallback("esx_society:setJobSalary", function(source, cb, job,
     end
 end)
 
-ESX.RegisterServerCallback("esx_society:setJobLabel", function(source, cb, job, grade, label)
+ESX.RegisterServerCallback("bpt_society:setJobLabel", function(source, cb, job, grade, label)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if xPlayer.job.name == job and xPlayer.job.grade_name == "boss" then
@@ -366,7 +366,7 @@ ESX.RegisterServerCallback("esx_society:setJobLabel", function(source, cb, job, 
 end)
 
 local getOnlinePlayers, onlinePlayers = false, {}
-ESX.RegisterServerCallback("esx_society:getOnlinePlayers", function(_, cb)
+ESX.RegisterServerCallback("bpt_society:getOnlinePlayers", function(_, cb)
     if getOnlinePlayers == false and next(onlinePlayers) == nil then -- Prevent multiple xPlayer loops from running in quick succession
         getOnlinePlayers, onlinePlayers = true, {}
 
@@ -392,7 +392,7 @@ ESX.RegisterServerCallback("esx_society:getOnlinePlayers", function(_, cb)
     cb(onlinePlayers)
 end)
 
-ESX.RegisterServerCallback("esx_society:getVehiclesInGarage", function(_, cb, societyName)
+ESX.RegisterServerCallback("bpt_society:getVehiclesInGarage", function(_, cb, societyName)
     local society = GetSociety(societyName)
     if not society then
         print(("[^3WARNING^7] Attempting To get a non-existing society - %s!"):format(societyName))
@@ -404,7 +404,7 @@ ESX.RegisterServerCallback("esx_society:getVehiclesInGarage", function(_, cb, so
     end)
 end)
 
-ESX.RegisterServerCallback("esx_society:isBoss", function(source, cb, job)
+ESX.RegisterServerCallback("bpt_society:isBoss", function(source, cb, job)
     cb(isPlayerBoss(source, job))
 end)
 
@@ -414,7 +414,7 @@ function isPlayerBoss(playerId, job)
     if xPlayer.job.name == job and xPlayer.job.grade_name == "boss" then
         return true
     else
-        print(("esx_society: %s attempted open a society boss menu!"):format(xPlayer.identifier))
+        print(("bpt_society: %s attempted open a society boss menu!"):format(xPlayer.identifier))
         return false
     end
 end

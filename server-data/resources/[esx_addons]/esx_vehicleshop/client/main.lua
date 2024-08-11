@@ -513,7 +513,7 @@ function OpenBossActionsMenu()
         },
     }, function(data)
         if data.current.value == "boss_actions" then
-            TriggerEvent("esx_society:openBossMenu", "cardealer", function(_, menu2)
+            TriggerEvent("bpt_society:openBossMenu", "cardealer", function(_, menu2)
                 menu2.close()
             end)
         elseif data.current.value == "sold_vehicles" then

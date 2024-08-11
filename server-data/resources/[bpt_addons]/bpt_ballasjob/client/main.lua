@@ -63,7 +63,7 @@ function OpenballasActionsMenu()
         elseif element.value == "get_stock" then
             OpenGetStocksMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("esx_society:openBossMenu", "ballas", function(_, menu)
+            TriggerEvent("bpt_society:openBossMenu", "ballas", function(_, menu)
                 menu.close()
             end)
         end

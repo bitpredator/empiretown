@@ -2,7 +2,7 @@ if Config.MaxInService ~= -1 then
     TriggerEvent("esx_service:activateService", "mechanic", Config.MaxInService)
 end
 
-TriggerEvent("esx_society:registerSociety", "mechanic", "mechanic", "society_mechanic", "society_mechanic", "society_mechanic", { type = "private" })
+TriggerEvent("bpt_society:registerSociety", "mechanic", "mechanic", "society_mechanic", "society_mechanic", "society_mechanic", { type = "private" })
 
 RegisterServerEvent("bpt_mechanicjob:onNPCJobMissionCompleted")
 AddEventHandler("bpt_mechanicjob:onNPCJobMissionCompleted", function()

@@ -13,7 +13,7 @@ Config.Locale = "it"
 Config.EarlyRespawnTimer = 60000 * 1 -- time til respawn is available
 Config.BleedoutTimer = 60000 * 10 -- time til the player bleeds out
 
-Config.EnablePlayerManagement = true -- Enable society managing (If you are using esx_society).
+Config.EnablePlayerManagement = true -- Enable society managing (If you are using bpt_society).
 
 Config.RemoveWeaponsAfterRPDeath = false
 Config.RemoveCashAfterRPDeath = false

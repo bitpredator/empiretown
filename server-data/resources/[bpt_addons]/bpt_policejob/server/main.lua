@@ -5,7 +5,7 @@ if Config.EnableESXService then
 end
 
 TriggerEvent("esx_phone:registerNumber", "police", TranslateCap("alert_police"), true, true)
-TriggerEvent("esx_society:registerSociety", "police", TranslateCap("society_police"), "society_police", "society_police", "society_police", {
+TriggerEvent("bpt_society:registerSociety", "police", TranslateCap("society_police"), "society_police", "society_police", "society_police", {
     type = "public",
 })
 

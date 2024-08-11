@@ -1429,7 +1429,7 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) " .. TranslateCap("interac
         ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
     elseif CurrentAction == "menu_boss_actions" then
         ESX.CloseContext()
-        TriggerEvent("esx_society:openBossMenu", "police", function(data, menu)
+        TriggerEvent("bpt_society:openBossMenu", "police", function(data, menu)
             ESX.CloseContext()
 
             CurrentAction = "menu_boss_actions"
@@ -1508,7 +1508,7 @@ AddEventHandler("bpt_policejob:updateBlip", function()
 
     -- Is the player a cop? In that case show all the blips for other cops
     if ESX.PlayerData.job and ESX.PlayerData.job.name == "police" then
-        ESX.TriggerServerCallback("esx_society:getOnlinePlayers", function(players)
+        ESX.TriggerServerCallback("bpt_society:getOnlinePlayers", function(players)
             for i = 1, #players, 1 do
                 if players[i].job.name == "police" then
                     local id = GetPlayerFromServerId(players[i].source)

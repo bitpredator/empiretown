@@ -24,6 +24,6 @@ server_scripts({
 
 dependencies({
     "es_extended",
-    "esx_society",
+    "bpt_society",
     "bpt_billing",
 })

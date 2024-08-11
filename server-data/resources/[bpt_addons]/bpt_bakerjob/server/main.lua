@@ -1,4 +1,4 @@
-TriggerEvent("esx_society:registerSociety", "baker", "Baker", "society_baker", "society_baker", "society_baker", {
+TriggerEvent("bpt_society:registerSociety", "baker", "Baker", "society_baker", "society_baker", "society_baker", {
 	type = "public",
 })
 

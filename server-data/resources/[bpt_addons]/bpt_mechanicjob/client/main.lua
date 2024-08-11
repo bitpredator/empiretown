@@ -75,7 +75,7 @@ function OpenMechanicActionsMenu()
                     { unselectable = true, icon = "fas fa-car", title = TranslateCap("service_vehicle") },
                 }
 
-                ESX.TriggerServerCallback("esx_society:getVehiclesInGarage", function(vehicles)
+                ESX.TriggerServerCallback("bpt_society:getVehiclesInGarage", function(vehicles)
                     for i = 1, #vehicles, 1 do
                         elements2[#elements2 + 1] = {
                             icon = "fas fa-car",
@@ -94,7 +94,7 @@ function OpenMechanicActionsMenu()
                             TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
                         end)
 
-                        TriggerServerEvent("esx_society:removeVehicleFromGarage", "mechanic", vehicleProps)
+                        TriggerServerEvent("bpt_society:removeVehicleFromGarage", "mechanic", vehicleProps)
                     end)
                 end, "mechanic")
             else
@@ -156,7 +156,7 @@ function OpenMechanicActionsMenu()
         elseif element.value == "get_stock" then
             OpenGetStocksMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("esx_society:openBossMenu", "mechanic", function()
+            TriggerEvent("bpt_society:openBossMenu", "mechanic", function()
                 ESX.CloseContext()
             end)
         end
@@ -702,7 +702,7 @@ CreateThread(function()
                 elseif CurrentAction == "delete_vehicle" then
                     if Config.EnableSocietyOwnedVehicles then
                         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
-                        TriggerServerEvent("esx_society:putVehicleInGarage", "mechanic", vehicleProps)
+                        TriggerServerEvent("bpt_society:putVehicleInGarage", "mechanic", vehicleProps)
                     else
                         local entityModel = GetEntityModel(CurrentActionData.vehicle)
 

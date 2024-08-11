@@ -3,7 +3,7 @@ local swapHooks, createHooks = {}, {}
 
 CreateThread(function()
 	for k, _ in pairs(Config.Shops) do
-		TriggerEvent('esx_society:registerSociety', k, k, 'society_' .. k, 'society_' .. k, 'society_' .. k,
+		TriggerEvent('bpt_society:registerSociety', k, k, 'society_' .. k, 'society_' .. k, 'society_' .. k,
 			{ type = 'public' })
 	end
 end)

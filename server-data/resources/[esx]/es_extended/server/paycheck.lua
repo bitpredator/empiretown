@@ -19,7 +19,7 @@ function StartPayCheck()
                             })
                         end
                     elseif Config.EnableSocietyPayouts then -- possibly a society
-                        TriggerEvent("esx_society:getSociety", xPlayer.job.name, function(society)
+                        TriggerEvent("bpt_society:getSociety", xPlayer.job.name, function(society)
                             if society ~= nil then -- verified society
                                 TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
                                     if account.money >= salary then -- does the society money to pay its employees?
