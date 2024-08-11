@@ -68,7 +68,7 @@ AddEventHandler("bpt_taxijob:getStockItem", function(itemName, count)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if xPlayer.job.name == "taxi" then
-        TriggerEvent("esx_addoninventory:getSharedInventory", "society_taxi", function(inventory)
+        TriggerEvent("bpt_addoninventory:getSharedInventory", "society_taxi", function(inventory)
             local item = inventory.getItem(itemName)
 
             -- is there enough in the society?
@@ -91,7 +91,7 @@ AddEventHandler("bpt_taxijob:getStockItem", function(itemName, count)
 end)
 
 ESX.RegisterServerCallback("bpt_taxijob:getStockItems", function(source, cb)
-    TriggerEvent("esx_addoninventory:getSharedInventory", "society_taxi", function(inventory)
+    TriggerEvent("bpt_addoninventory:getSharedInventory", "society_taxi", function(inventory)
         cb(inventory.items)
     end)
 end)
@@ -102,7 +102,7 @@ AddEventHandler("bpt_taxijob:putStockItems", function(itemName, count)
     local sourceItem = xPlayer.getInventoryItem(itemName)
 
     if xPlayer.job.name == "taxi" then
-        TriggerEvent("esx_addoninventory:getSharedInventory", "society_taxi", function(inventory)
+        TriggerEvent("bpt_addoninventory:getSharedInventory", "society_taxi", function(inventory)
             local item = inventory.getItem(itemName)
 
             if sourceItem.count >= count and count > 0 then
