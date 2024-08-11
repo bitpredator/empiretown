@@ -7,7 +7,7 @@ local function billPlayerByIdentifier(targetIdentifier, senderIdentifier, shared
     end
 
     if string.match(sharedAccountName, "society_") then
-        return TriggerEvent("esx_addonaccount:getSharedAccount", sharedAccountName, function(account)
+        return TriggerEvent("bpt_addonaccount:getSharedAccount", sharedAccountName, function(account)
             if not account then
                 return print(("[^2ERROR^7] Player ^5%s^7 Attempted to Send bill from invalid society - ^5%s^7"):format(senderIdentifier, sharedAccountName))
             end
@@ -53,7 +53,7 @@ RegisterNetEvent("bpt_billing:sendBill", function(targetId, sharedAccountName, l
 end)
 exports("BillPlayer", billPlayer)
 
-RegisterNetEvent("bpt_billing_billing:sendBillToIdentifier", function(targetIdentifier, sharedAccountName, label, amount)
+RegisterNetEvent("bpt_billing:sendBillToIdentifier", function(targetIdentifier, sharedAccountName, label, amount)
     local xPlayer = ESX.GetPlayerFromId(source)
     local jobName = string.gsub(sharedAccountName, "society_", "")
 
@@ -125,7 +125,7 @@ ESX.RegisterServerCallback("bpt_billing:payBill", function(source, cb, billId)
         return cb(true)
     end
 
-    TriggerEvent("esx_addonaccount:getSharedAccount", result.target, function(account)
+    TriggerEvent("bpt_addonaccount:getSharedAccount", result.target, function(account)
         local paymentAccount = "money"
         if xPlayer.getMoney() < amount then
             paymentAccount = "bank"
