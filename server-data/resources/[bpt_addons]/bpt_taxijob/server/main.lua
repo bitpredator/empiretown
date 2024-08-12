@@ -5,7 +5,7 @@ if Config.MaxInService ~= -1 then
 end
 
 TriggerEvent("esx_phone:registerNumber", "taxi", TranslateCap("taxi_client"), true, true)
-TriggerEvent("esx_society:registerSociety", "taxi", "Taxi", "society_taxi", "society_taxi", "society_taxi", {
+TriggerEvent("bpt_society:registerSociety", "taxi", "Taxi", "society_taxi", "society_taxi", "society_taxi", {
     type = "public",
 })
 

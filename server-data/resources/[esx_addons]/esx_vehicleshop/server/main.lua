@@ -1,7 +1,7 @@
 local categories, vehicles = {}, {}
 
 TriggerEvent("esx_phone:registerNumber", "cardealer", TranslateCap("dealer_customers"), false, false)
-TriggerEvent("esx_society:registerSociety", "cardealer", TranslateCap("car_dealer"), "society_cardealer", "society_cardealer", "society_cardealer", {
+TriggerEvent("bpt_society:registerSociety", "cardealer", TranslateCap("car_dealer"), "society_cardealer", "society_cardealer", "society_cardealer", {
     type = "private",
 })
 

@@ -1,4 +1,4 @@
-TriggerEvent("esx_society:registerSociety", "unicorn", "Unicorn", "society_unicorn", "society_unicorn", "society_unicorn",
+TriggerEvent("bpt_society:registerSociety", "unicorn", "Unicorn", "society_unicorn", "society_unicorn", "society_unicorn",
 	{
 		type = "public",
 	}

@@ -2,7 +2,7 @@ local playersHealing, deadPlayers = {}, {}
 
 ESX = exports["es_extended"]:getSharedObject()
 
-TriggerEvent("esx_society:registerSociety", "ambulance", "Ambulance", "society_ambulance", "society_ambulance", "society_ambulance", {
+TriggerEvent("bpt_society:registerSociety", "ambulance", "Ambulance", "society_ambulance", "society_ambulance", "society_ambulance", {
     type = "public",
 })
 

@@ -21,7 +21,7 @@ function OpenAmbulanceActionsMenu()
         if element.value == "cloakroom" then
             OpenCloakroomMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("esx_society:openBossMenu", "ambulance", function(_, menu)
+            TriggerEvent("bpt_society:openBossMenu", "ambulance", function(_, menu)
                 menu.close()
             end, { wash = false })
         end

@@ -2,11 +2,19 @@ fx_version("adamant")
 
 game("gta5")
 
-description("Allows players to RP as a mechanic (repair and modify vehicles)")
+description("ESX Society")
 lua54("yes")
 version("1.0.1")
 
 shared_script("@es_extended/imports.lua")
+
+server_scripts({
+    "@oxmysql/lib/MySQL.lua",
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
+    "server/main.lua",
+})
 
 client_scripts({
     "@es_extended/locale.lua",
@@ -15,15 +23,6 @@ client_scripts({
     "client/main.lua",
 })
 
-server_scripts({
-    "@es_extended/locale.lua",
-    "locales/*.lua",
-    "config.lua",
-    "server/main.lua",
-})
-
 dependencies({
     "es_extended",
-    "bpt_society",
-    "bpt_billing",
 })

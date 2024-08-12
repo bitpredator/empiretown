@@ -17,7 +17,7 @@ function RefreshBussHUD()
     if ESX.PlayerData.job.grade_name == "boss" then
         EnableSocietyMoneyHUDElement()
 
-        ESX.TriggerServerCallback("esx_society:getSocietyMoney", function(money)
+        ESX.TriggerServerCallback("bpt_society:getSocietyMoney", function(money)
             UpdateSocietyMoneyHUDElement(money)
         end, ESX.PlayerData.job.name)
     end
@@ -31,15 +31,15 @@ AddEventHandler("bpt_addonaccount:setMoney", function(society, money)
 end)
 
 function EnableSocietyMoneyHUDElement()
-    TriggerEvent("esx_society:toggleSocietyHud", true)
+    TriggerEvent("bpt_society:toggleSocietyHud", true)
 end
 
 function DisableSocietyMoneyHUDElement()
-    TriggerEvent("esx_society:toggleSocietyHud", false)
+    TriggerEvent("bpt_society:toggleSocietyHud", false)
 end
 
 function UpdateSocietyMoneyHUDElement(money)
-    TriggerEvent("esx_society:setSocietyMoney", money)
+    TriggerEvent("bpt_society:setSocietyMoney", money)
 end
 
 function OpenBossMenu(society, _, options)
@@ -48,7 +48,7 @@ function OpenBossMenu(society, _, options)
         { unselectable = true, icon = "fas fa-user", title = TranslateCap("boss_menu") },
     }
 
-    ESX.TriggerServerCallback("esx_society:isBoss", function(isBoss)
+    ESX.TriggerServerCallback("bpt_society:isBoss", function(isBoss)
         if isBoss then
             local defaultOptions = {
                 checkBal = true,
@@ -90,7 +90,7 @@ function OpenBossMenu(society, _, options)
 
             ESX.OpenContext("right", elements, function(menu, element)
                 if element.value == "check_society_balance" then
-                    TriggerServerEvent("esx_society:checkSocietyBalance", society)
+                    TriggerServerEvent("bpt_society:checkSocietyBalance", society)
                 elseif element.value == "withdraw_society_money" then
                     local elements = {
                         {
@@ -118,7 +118,7 @@ function OpenBossMenu(society, _, options)
                     if amount == nil then
                         ESX.ShowNotification(TranslateCap("invalid_amount"))
                     else
-                        TriggerServerEvent("esx_society:withdrawMoney", society, amount)
+                        TriggerServerEvent("bpt_society:withdrawMoney", society, amount)
                         ESX.CloseContext()
                     end
                 elseif element.value == "deposit_money" then
@@ -148,7 +148,7 @@ function OpenBossMenu(society, _, options)
                     if amount == nil then
                         ESX.ShowNotification(TranslateCap("invalid_amount"))
                     else
-                        TriggerServerEvent("esx_society:depositMoney", society, amount)
+                        TriggerServerEvent("bpt_society:depositMoney", society, amount)
                         ESX.CloseContext()
                     end
                 elseif element.value == "wash_money" then
@@ -178,7 +178,7 @@ function OpenBossMenu(society, _, options)
                     if amount == nil then
                         ESX.ShowNotification(TranslateCap("invalid_amount"))
                     else
-                        TriggerServerEvent("esx_society:washMoney", society, amount)
+                        TriggerServerEvent("bpt_society:washMoney", society, amount)
                         ESX.CloseContext()
                     end
                 elseif element.value == "manage_employees" then
@@ -216,7 +216,7 @@ function OpenManageEmployeesMenu(society, options)
 end
 
 function OpenEmployeeList(society, options)
-    ESX.TriggerServerCallback("esx_society:getEmployees", function(employees)
+    ESX.TriggerServerCallback("bpt_society:getEmployees", function(employees)
         local elements = {
             { unselectable = true, icon = "fas fa-user", title = "Employees" },
         }
@@ -252,7 +252,7 @@ function OpenEmployeeList(society, options)
                     elseif element2.value == "fire" then
                         ESX.ShowNotification(TranslateCap("you_have_fired", employee.name))
 
-                        ESX.TriggerServerCallback("esx_society:setJob", function()
+                        ESX.TriggerServerCallback("bpt_society:setJob", function()
                             OpenEmployeeList(society, options)
                         end, employee.identifier, "unemployed", 0, "fire")
                     elseif element2.value == "return" then
@@ -265,7 +265,7 @@ function OpenEmployeeList(society, options)
 end
 
 function OpenRecruitMenu(society, options)
-    ESX.TriggerServerCallback("esx_society:getOnlinePlayers", function(players)
+    ESX.TriggerServerCallback("bpt_society:getOnlinePlayers", function(players)
         local elements = {
             { unselectable = true, icon = "fas fa-user", title = TranslateCap("recruiting") },
         }
@@ -297,7 +297,7 @@ function OpenRecruitMenu(society, options)
                     if element2.value == "yes" then
                         ESX.ShowNotification(TranslateCap("you_have_hired", element.name))
 
-                        ESX.TriggerServerCallback("esx_society:setJob", function()
+                        ESX.TriggerServerCallback("bpt_society:setJob", function()
                             OpenRecruitMenu(society, options)
                         end, element.identifier, society, 0, "hire")
                     end
@@ -308,7 +308,7 @@ function OpenRecruitMenu(society, options)
 end
 
 function OpenPromoteMenu(society, employee, options)
-    ESX.TriggerServerCallback("esx_society:getJob", function(job)
+    ESX.TriggerServerCallback("bpt_society:getJob", function(job)
         local elements = {
             { unselectable = true, icon = "fas fa-user", title = TranslateCap("promote_employee", employee.name) },
         }
@@ -332,7 +332,7 @@ function OpenPromoteMenu(society, employee, options)
             else
                 ESX.ShowNotification(TranslateCap("you_have_promoted", employee.name, element.title))
 
-                ESX.TriggerServerCallback("esx_society:setJob", function()
+                ESX.TriggerServerCallback("bpt_society:setJob", function()
                     OpenEmployeeList(society, options)
                 end, employee.identifier, society, element.value, "promote")
             end
@@ -343,7 +343,7 @@ function OpenPromoteMenu(society, employee, options)
 end
 
 function OpenManageSalaryMenu(society, options)
-    ESX.TriggerServerCallback("esx_society:getJob", function(job)
+    ESX.TriggerServerCallback("bpt_society:getJob", function(job)
         local elements = {
             { unselectable = true, icon = "fas fa-wallet", title = TranslateCap("salary_management") },
         }
@@ -394,7 +394,7 @@ function OpenManageSalaryMenu(society, options)
                     OpenManageSalaryMenu(society, options)
                 else
                     ESX.CloseContext()
-                    ESX.TriggerServerCallback("esx_society:setJobSalary", function()
+                    ESX.TriggerServerCallback("bpt_society:setJobSalary", function()
                         OpenManageSalaryMenu(society, options)
                     end, society, menu.eles[1].value, amount)
                 end
@@ -406,7 +406,7 @@ function OpenManageSalaryMenu(society, options)
 end
 
 function OpenManageGradesMenu(society, options)
-    ESX.TriggerServerCallback("esx_society:getJob", function(job)
+    ESX.TriggerServerCallback("bpt_society:getJob", function(job)
         local elements = {
             { unselectable = true, icon = "fas fa-wallet", title = TranslateCap("grade_management") },
         }
@@ -444,7 +444,7 @@ function OpenManageGradesMenu(society, options)
                 if menu.eles[2].inputValue then
                     local label = tostring(menu.eles[2].inputValue)
 
-                    ESX.TriggerServerCallback("esx_society:setJobLabel", function()
+                    ESX.TriggerServerCallback("bpt_society:setJobLabel", function()
                         OpenManageGradesMenu(society, options)
                     end, society, menu.eles[1].value, label)
                 else
@@ -458,7 +458,7 @@ function OpenManageGradesMenu(society, options)
     end, society)
 end
 
-AddEventHandler("esx_society:openBossMenu", function(society, close, options)
+AddEventHandler("bpt_society:openBossMenu", function(society, close, options)
     OpenBossMenu(society, close, options)
 end)
 

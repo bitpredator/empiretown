@@ -129,7 +129,7 @@ function OpenVehicleSpawnerMenu()
     }
 
     if Config.EnableSocietyOwnedVehicles then
-        ESX.TriggerServerCallback("esx_society:getVehiclesInGarage", function(vehicles)
+        ESX.TriggerServerCallback("bpt_society:getVehiclesInGarage", function(vehicles)
             for i = 1, #vehicles, 1 do
                 elements[#elements + 1] = {
                     icon = "fas fa-car",
@@ -148,7 +148,7 @@ function OpenVehicleSpawnerMenu()
                 ESX.TriggerServerCallback("bpt_taxijob:SpawnVehicle", function()
                     return
                 end, vehicleProps.model, vehicleProps)
-                TriggerServerEvent("esx_society:removeVehicleFromGarage", "taxi", vehicleProps)
+                TriggerServerEvent("bpt_society:removeVehicleFromGarage", "taxi", vehicleProps)
                 ESX.CloseContext()
             end, function(menu)
                 CurrentAction = "vehicle_spawner"
@@ -187,7 +187,7 @@ function DeleteJobVehicle()
 
     if Config.EnableSocietyOwnedVehicles then
         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
-        TriggerServerEvent("esx_society:putVehicleInGarage", "taxi", vehicleProps)
+        TriggerServerEvent("bpt_society:putVehicleInGarage", "taxi", vehicleProps)
         ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
     else
         if IsInAuthorizedVehicle() then
@@ -226,7 +226,7 @@ function OpenTaxiActionsMenu()
         elseif element.value == "get_stock" then
             OpenGetStocksMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("esx_society:openBossMenu", "taxi", function()
+            TriggerEvent("bpt_society:openBossMenu", "taxi", function()
                 menu.close()
             end)
         end

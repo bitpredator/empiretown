@@ -33,7 +33,7 @@
 ## Dependencies
 
 * es_extended
-* esx_society *for Player Management* *
+* bpt_society *for Player Management* *
 * [OX-inventory](https://github.com/overextended/ox_inventory) *For Property Stashes* *
 * ESX Context
 * ESX Notify

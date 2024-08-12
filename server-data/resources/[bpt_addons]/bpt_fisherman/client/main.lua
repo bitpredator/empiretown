@@ -74,7 +74,7 @@ function OpenVehicleSpawnerMenu()
     }
 
     if Config.EnableSocietyOwnedVehicles then
-        ESX.TriggerServerCallback("esx_society:getVehiclesInGarage", function(vehicles)
+        ESX.TriggerServerCallback("bpt_society:getVehiclesInGarage", function(vehicles)
             if #vehicles == 0 then
                 ESX.ShowNotification(TranslateCap("empty_garage"))
                 return
@@ -103,7 +103,7 @@ function OpenVehicleSpawnerMenu()
                 ESX.TriggerServerCallback("bpt_fishermanjob:SpawnVehicle", function()
                     return
                 end, vehicleProps.model, vehicleProps)
-                TriggerServerEvent("esx_society:removeVehicleFromGarage", "fisherman", vehicleProps)
+                TriggerServerEvent("bpt_society:removeVehicleFromGarage", "fisherman", vehicleProps)
             end, function()
                 CurrentAction = "vehicle_spawner"
                 CurrentActionMsg = TranslateCap("spawner_prompt")
@@ -150,7 +150,7 @@ end
 function DeleteJobVehicle()
     if Config.EnableSocietyOwnedVehicles then
         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
-        TriggerServerEvent("esx_society:putVehicleInGarage", "fisherman", vehicleProps)
+        TriggerServerEvent("bpt_society:putVehicleInGarage", "fisherman", vehicleProps)
         ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
     else
         if IsInAuthorizedVehicle() then
@@ -185,7 +185,7 @@ function OpenFishermanActionsMenu()
         elseif element.value == "get_stock" then
             OpenGetStocksMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("esx_society:openBossMenu", "fisherman", function(_, menu)
+            TriggerEvent("bpt_society:openBossMenu", "fisherman", function(_, menu)
                 menu.close()
             end)
         end

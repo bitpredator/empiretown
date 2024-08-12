@@ -58,7 +58,7 @@ if Config.Framework == "esx" then
         local playerJob = GetPlayerJob()
 
         if playerJob.isBoss then
-            ESX.TriggerServerCallback("esx_society:getSocietyMoney", function(money)
+            ESX.TriggerServerCallback("bpt_society:getSocietyMoney", function(money)
                 societyMoney = money
             end, playerJob.id)
         end

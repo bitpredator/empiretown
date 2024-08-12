@@ -1,4 +1,4 @@
-TriggerEvent("esx_society:registerSociety", "import", "Import", "society_import", "society_import", "society_import", {
+TriggerEvent("bpt_society:registerSociety", "import", "Import", "society_import", "society_import", "society_import", {
 	type = "public",
 })
 
