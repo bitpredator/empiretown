@@ -6,7 +6,7 @@ Config.Locale = "it"
 Config.OxInventory = ESX.GetConfig().OxInventory
 
 Config.AuthorizedVehicles = {
-	{ model = "rumpo", label = "Rumpo" },
+	{ model = "rumpo3", label = "Rumpo" },
 }
 
 Config.Zones = {
