@@ -10,7 +10,7 @@ updates:
 
       # Dependencies npm
   - package-ecosystem: 'npm'
-    directory: '/'
+    directory: '\server-data\resources\[phone]\pma-voice\voice-ui'
     schedule:
       interval: 'daily'
     # Disable version updates for npm dependencies
