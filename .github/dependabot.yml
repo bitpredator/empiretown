@@ -3,18 +3,16 @@ updates:
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
-      interval: 'daily'
+      interval: daily
     open-pull-requests-limit: 99
     labels:
       - 'dependencies'
 
-  # NPM 
+  # Dependencies npm
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'daily'
-      commit-message: "npm dependencies"
-      prefix: "npm"
     # Disable version updates for npm dependencies
     # https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates#overriding-the-default-behavior-with-a-configuration-file
     open-pull-requests-limit: 99
