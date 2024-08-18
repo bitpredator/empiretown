@@ -14,7 +14,6 @@ updates:
     schedule:
       interval: 'daily'
       commit-message:
-      # Prefix all commit messages with "npm: "
       prefix: "npm"
     # Disable version updates for npm dependencies
     # https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates#overriding-the-default-behavior-with-a-configuration-file
