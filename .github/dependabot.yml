@@ -3,16 +3,19 @@ updates:
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
-      interval: daily
+      interval: 'daily'
     open-pull-requests-limit: 99
     labels:
       - 'dependencies'
 
-      # Dependencies npm
+  # NPM 
   - package-ecosystem: 'npm'
-    directory: '\server-data\resources\[phone]\pma-voice\voice-ui'
+    directory: '/'
     schedule:
       interval: 'daily'
+      commit-message:
+      # Prefix all commit messages with "npm: "
+      prefix: "npm"
     # Disable version updates for npm dependencies
     # https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates#overriding-the-default-behavior-with-a-configuration-file
     open-pull-requests-limit: 99
