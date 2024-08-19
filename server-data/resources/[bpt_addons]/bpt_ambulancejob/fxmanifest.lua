@@ -1,28 +1,28 @@
-fx_version("adamant")
+fx_version 'adamant'
+game 'gta5'
+description 'Provides a way for players to RP as paramedics (heal/revive players)'
+version '1.0.1'
+legacyversion '1.9.1'
+lua54 'yes'
 
-game("gta5")
+shared_scripts { 
+	'@es_extended/imports.lua',
+	'@es_extended/locale.lua',
+	'locales/*.lua',
+	'config.lua'
+}
 
-description("BPT Ambulance Job")
+server_scripts {
+	'@oxmysql/lib/MySQL.lua',
+	'server/*.lua'
+}
 
-version("1.0.1")
+client_scripts {
+	'client/*.lua'
+}
 
-shared_script("@es_extended/imports.lua")
-
-server_scripts({
-    "@oxmysql/lib/MySQL.lua",
-    "@es_extended/locale.lua",
-    "locales/*.lua",
-    "config.lua",
-    "server/*.lua",
-})
-
-client_scripts({
-    "@es_extended/locale.lua",
-    "locales/*.lua",
-    "config.lua",
-    "client/*.lua",
-})
-
-dependencies({
-    "es_extended",
-})
+dependencies {
+	'es_extended',
+	'esx_skin',
+	'esx_vehicleshop'
+}

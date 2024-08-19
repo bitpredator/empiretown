@@ -1,11 +1,17 @@
 local CurrentAction, CurrentActionMsg, CurrentActionData, billing = nil, "", {}, {}
 local HasAlreadyEnteredMarker, LastHospital, LastPart, LastPartNum
-local isBusy, deadPlayers, deadPlayerBlips, isOnDuty, vehicle = false, {}, {}, false, {}
-local isInShopMenu = false
+local isBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
+isInShopMenu = false
+
+RegisterNetEvent("esx:playerLoaded")
+AddEventHandler("esx:playerLoaded", function(xPlayer)
+    ESX.PlayerData = xPlayer
+    ESX.PlayerLoaded = true
+end)
 
 function OpenAmbulanceActionsMenu()
     local elements = {
-        { unselectable = true, icon = "fas fa-shirt", title = "Ambulance Actions" },
+        { unselectable = true, icon = "fas fa-shirt", title = TranslateCap("ambulance") },
         { icon = "fas fa-shirt", title = TranslateCap("cloakroom"), value = "cloakroom" },
     }
 
@@ -17,11 +23,11 @@ function OpenAmbulanceActionsMenu()
         }
     end
 
-    ESX.OpenContext("right", elements, function(_, element)
+    ESX.OpenContext("right", elements, function(menu, element)
         if element.value == "cloakroom" then
             OpenCloakroomMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("bpt_society:openBossMenu", "ambulance", function(_, menu)
+            TriggerEvent("bpt_society:openBossMenu", "ambulance", function(data, menu)
                 menu.close()
             end, { wash = false })
         end
@@ -34,7 +40,7 @@ function OpenMobileAmbulanceActionsMenu()
         { icon = "fas fa-ambulance", title = TranslateCap("ems_menu"), value = "citizen_interaction" },
     }
 
-    ESX.OpenContext("right", elements, function(_, element)
+    ESX.OpenContext("right", elements, function(menu, element)
         if element.value == "citizen_interaction" then
             local elements2 = {
                 { unselectable = true, icon = "fas fa-ambulance", title = element.title },
@@ -46,11 +52,10 @@ function OpenMobileAmbulanceActionsMenu()
                 { icon = "fas fa-syringe", title = TranslateCap("billing"), value = "billing" },
             }
 
-            ESX.OpenContext("right", elements2, function(_, element2)
+            ESX.OpenContext("right", elements2, function(menu2, element2)
                 if isBusy then
                     return
                 end
-
                 local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 
                 if element2.value == "search" then
@@ -122,7 +127,6 @@ function OpenMobileAmbulanceActionsMenu()
 end
 
 -- billing
-
 if billing == "billing" then
     ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "billing", {
         title = TranslateCap("invoice_amount"),
@@ -158,18 +162,19 @@ function revivePlayer(closestPlayer)
                 local lib, anim = "mini@cpr@char_a@cpr_str", "cpr_pumpchest"
                 ESX.ShowNotification(TranslateCap("revive_inprogress"))
 
-                for _ = 1, 15 do
+                for i = 1, 15 do
                     Wait(900)
 
                     ESX.Streaming.RequestAnimDict(lib, function()
                         TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0.0, false, false, false)
+                        RemoveAnimDict(lib)
                     end)
                 end
 
                 TriggerServerEvent("bpt_ambulancejob:removeItem", "medikit")
                 TriggerServerEvent("bpt_ambulancejob:revive", GetPlayerServerId(closestPlayer))
             else
-                ESX.ShowNotification(TranslateCap("player_notTranslateCapnconscious"))
+                ESX.ShowNotification(TranslateCap("player_not_unconscious"))
             end
         else
             ESX.ShowNotification(TranslateCap("not_enough_medikit"))
@@ -199,11 +204,11 @@ end
 -- Draw markers & Marker logic
 CreateThread(function()
     while true do
-        Wait(0)
+        local sleep = 1500
 
         if ESX.PlayerData.job and ESX.PlayerData.job.name == "ambulance" then
             local playerCoords = GetEntityCoords(PlayerPedId())
-            local letSleep, isInMarker, hasExited = true, false, false
+            local isInMarker, hasExited = false, false
             local currentHospital, currentPart, currentPartNum
 
             for hospitalNum, hospital in pairs(Config.Hospitals) do
@@ -212,8 +217,8 @@ CreateThread(function()
                     local distance = #(playerCoords - v)
 
                     if distance < Config.DrawDistance then
+                        sleep = 0
                         DrawMarker(Config.Marker.type, v, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.Marker.x, Config.Marker.y, Config.Marker.z, Config.Marker.r, Config.Marker.g, Config.Marker.b, Config.Marker.a, false, false, 2, Config.Marker.rotate, nil, nil, false)
-                        letSleep = false
 
                         if distance < Config.Marker.x then
                             isInMarker, currentHospital, currentPart, currentPartNum = true, hospitalNum, "AmbulanceActions", k
@@ -226,8 +231,8 @@ CreateThread(function()
                     local distance = #(playerCoords - v.Spawner)
 
                     if distance < Config.DrawDistance then
+                        sleep = 0
                         DrawMarker(v.Marker.type, v.Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
-                        letSleep = false
 
                         if distance < v.Marker.x then
                             isInMarker, currentHospital, currentPart, currentPartNum = true, hospitalNum, "Vehicles", k
@@ -240,11 +245,25 @@ CreateThread(function()
                     local distance = #(playerCoords - v.Spawner)
 
                     if distance < Config.DrawDistance then
+                        sleep = 0
                         DrawMarker(v.Marker.type, v.Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
-                        letSleep = false
 
                         if distance < v.Marker.x then
                             isInMarker, currentHospital, currentPart, currentPartNum = true, hospitalNum, "Helicopters", k
+                        end
+                    end
+                end
+
+                -- Fast Travels (Prompt)
+                for k, v in ipairs(hospital.FastTravels) do
+                    local distance = #(playerCoords - v.From)
+
+                    if distance < Config.DrawDistance then
+                        sleep = 0
+                        DrawMarker(v.Marker.type, v.From, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
+
+                        if distance < v.Marker.x then
+                            isInMarker, currentHospital, currentPart, currentPartNum = true, hospitalNum, "FastTravels", k
                         end
                     end
                 end
@@ -266,41 +285,8 @@ CreateThread(function()
                 HasAlreadyEnteredMarker = false
                 TriggerEvent("bpt_ambulancejob:hasExitedMarker", LastHospital, LastPart, LastPartNum)
             end
-
-            if letSleep then
-                Wait(500)
-            end
-        else
-            Wait(500)
         end
-    end
-end)
-
--- Fast travels
-CreateThread(function()
-    while true do
-        Wait(0)
-        local playerCoords, letSleep = GetEntityCoords(PlayerPedId()), true
-
-        for _, hospital in pairs(Config.Hospitals) do
-            -- Fast Travels
-            for _, v in ipairs(hospital.FastTravels) do
-                local distance = #(playerCoords - v.From)
-
-                if distance < Config.DrawDistance then
-                    DrawMarker(v.Marker.type, v.From, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
-                    letSleep = false
-
-                    if distance < v.Marker.x then
-                        FastTravel(v.To.coords, v.To.heading)
-                    end
-                end
-            end
-        end
-
-        if letSleep then
-            Wait(500)
-        end
+        Wait(sleep)
     end
 end)
 
@@ -317,24 +303,32 @@ AddEventHandler("bpt_ambulancejob:hasEnteredMarker", function(hospital, part, pa
         CurrentAction = part
         CurrentActionMsg = TranslateCap("helicopter_prompt")
         CurrentActionData = { hospital = hospital, partNum = partNum }
+    elseif part == "FastTravels" then
+        local travelItem = Config.Hospitals[hospital][part][partNum]
+
+        CurrentAction = part
+        CurrentActionMsg = travelItem.Prompt
+        CurrentActionData = { to = travelItem.To.coords, heading = travelItem.To.heading }
     end
+
+    ESX.TextUI(CurrentActionMsg)
 end)
 
-AddEventHandler("bpt_ambulancejob:hasExitedMarker", function()
+AddEventHandler("bpt_ambulancejob:hasExitedMarker", function(hospital, part, partNum)
     if not isInShopMenu then
         ESX.CloseContext()
     end
-
+    ESX.HideUI()
     CurrentAction = nil
 end)
 
 -- Key Controls
 CreateThread(function()
     while true do
-        Wait(0)
+        local sleep = 1500
 
         if CurrentAction then
-            ESX.ShowHelpNotification(CurrentActionMsg)
+            sleep = 0
 
             if IsControlJustReleased(0, 38) then
                 if CurrentAction == "AmbulanceActions" then
@@ -343,41 +337,60 @@ CreateThread(function()
                     OpenVehicleSpawnerMenu("car", CurrentActionData.hospital, CurrentAction, CurrentActionData.partNum)
                 elseif CurrentAction == "Helicopters" then
                     OpenVehicleSpawnerMenu("helicopter", CurrentActionData.hospital, CurrentAction, CurrentActionData.partNum)
+                elseif CurrentAction == "FastTravels" then
+                    FastTravel(CurrentActionData.to, CurrentActionData.heading)
                 end
 
                 CurrentAction = nil
             end
-        elseif ESX.PlayerData.job and ESX.PlayerData.job.name == "ambulance" and not isDead then
-            if IsControlJustReleased(0, 167) then
-                OpenMobileAmbulanceActionsMenu()
-            end
-        else
-            Wait(500)
         end
+
+        local playerCoords, letSleep = GetEntityCoords(PlayerPedId()), true
+
+        for hospitalNum, hospital in pairs(Config.Hospitals) do
+            -- Fast Travels
+            for k, v in ipairs(hospital.FastTravels) do
+                local distance = #(playerCoords - v.From)
+
+                if distance < Config.DrawDistance then
+                    sleep = 0
+                    DrawMarker(v.Marker.type, v.From, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
+
+                    if distance < v.Marker.x then
+                        FastTravel(v.To.coords, v.To.heading)
+                    end
+                end
+            end
+        end
+        Wait(sleep)
     end
 end)
+
+RegisterCommand("ambulance", function(src)
+    if ESX.PlayerData.job and ESX.PlayerData.job.name == "ambulance" and not ESX.PlayerData.dead then
+        OpenMobileAmbulanceActionsMenu()
+    end
+end)
+
+RegisterKeyMapping("ambulance", "Open Ambulance Actions Menu", "keyboard", "F6")
 
 RegisterNetEvent("bpt_ambulancejob:putInVehicle")
 AddEventHandler("bpt_ambulancejob:putInVehicle", function()
     local playerPed = PlayerPedId()
-    local coords = GetEntityCoords(playerPed)
+    local vehicle, distance = ESX.Game.GetClosestVehicle()
 
-    if IsAnyVehicleNearPoint(coords, 5.0) then
-        vehicle = ESX.Game.GetClosestVehicle(coords)
+    if vehicle and distance < 5 then
+        local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
 
-        if DoesEntityExist(vehicle) then
-            local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
-
-            for i = maxSeats - 1, 0, -1 do
-                if IsVehicleSeatFree(vehicle, i) then
-                    freeSeat = i
-                    break
-                end
+        for i = maxSeats - 1, 0, -1 do
+            if IsVehicleSeatFree(vehicle, i) then
+                freeSeat = i
+                break
             end
+        end
 
-            if freeSeat then
-                TaskWarpPedIntoVehicle(playerPed, vehicle, freeSeat)
-            end
+        if freeSeat then
+            TaskWarpPedIntoVehicle(playerPed, vehicle, freeSeat)
         end
     end
 end)
@@ -389,15 +402,19 @@ function OpenCloakroomMenu()
         { icon = "fas fa-shirt", title = TranslateCap("ems_clothes_ems"), value = "ambulance_wear" },
     }
 
-    ESX.OpenContext("right", elements, function(_, element)
+    ESX.OpenContext("right", elements, function(menu, element)
         if element.value == "citizen_wear" then
-            ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function(skin)
+            ESX.TriggerServerCallback("esx_skin:getPlayerSkin", function(skin, jobSkin)
                 TriggerEvent("skinchanger:loadSkin", skin)
                 isOnDuty = false
 
                 for playerId, v in pairs(deadPlayerBlips) do
                     RemoveBlip(v)
                     deadPlayerBlips[playerId] = nil
+                end
+                deadPlayers = {}
+                if Config.Debug then
+                    print("[^2INFO^7] Off Duty")
                 end
             end)
         elseif element.value == "ambulance_wear" then
@@ -409,9 +426,47 @@ function OpenCloakroomMenu()
                 end
 
                 isOnDuty = true
-                TriggerEvent("bpt_ambulancejob:setDeadPlayers", deadPlayers)
+                ESX.TriggerServerCallback("bpt_ambulancejob:getDeadPlayers", function(_deadPlayers)
+                    TriggerEvent("bpt_ambulancejob:setDeadPlayers", _deadPlayers)
+                end)
+                if Config.Debug then
+                    print("[^2INFO^7] Player Sex |^5" .. tostring(skin.sex) .. "^7")
+                    print("[^2INFO^7] On Duty")
+                end
             end)
         end
+    end)
+end
+
+function OpenPharmacyMenu()
+    local elements = {
+        { unselectable = true, icon = "fas fa-pills", title = TranslateCap("pharmacy_menu_title") },
+    }
+
+    for k, v in pairs(Config.PharmacyItems) do
+        elements[#elements + 1] = {
+            icon = "fas fa-pills",
+            title = v.title,
+            item = v.item,
+        }
+    end
+
+    ESX.OpenContext("right", elements, function(menu, element)
+        local elements2 = {
+            { unselectable = true, icon = "fas fa-pills", title = element.title },
+            { title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = "Amount to buy.." },
+            { icon = "fas fa-check-double", title = "Confirm", val = "confirm" },
+        }
+
+        ESX.OpenContext("right", elements2, function(menu2, element2)
+            local amount = menu2.eles[2].inputValue
+            if Config.Debug then
+                print("[^2INFO^7] Attempting to Give Item - ^5" .. tostring(element.item) .. "^7")
+            end
+            TriggerServerEvent("bpt_ambulancejob:giveItem", element.item, amount)
+        end, function(menu)
+            OpenPharmacyMenu()
+        end)
     end)
 end
 
@@ -428,6 +483,9 @@ AddEventHandler("bpt_ambulancejob:heal", function(healType, quiet)
         SetEntityHealth(playerPed, maxHealth)
     end
 
+    if Config.Debug then
+        print("[^2INFO^7] Healing Player - ^5" .. tostring(healType) .. "^7")
+    end
     if not quiet then
         ESX.ShowNotification(TranslateCap("healed"))
     end
@@ -435,8 +493,11 @@ end)
 
 RegisterNetEvent("esx:setJob")
 AddEventHandler("esx:setJob", function(job)
-    if isOnDuty and job ~= "ambulance" then
+    if isOnDuty and job.name ~= "ambulance" then
         for playerId, v in pairs(deadPlayerBlips) do
+            if Config.Debug then
+                print("[^2INFO^7] Removing dead blip - ^5" .. tostring(playerId) .. "^7")
+            end
             RemoveBlip(v)
             deadPlayerBlips[playerId] = nil
         end
@@ -445,8 +506,30 @@ AddEventHandler("esx:setJob", function(job)
     end
 end)
 
+RegisterNetEvent("bpt_ambulancejob:PlayerDead")
+AddEventHandler("bpt_ambulancejob:PlayerDead", function(Player)
+    if Config.Debug then
+        print("[^2INFO^7] Player Dead | ^5" .. tostring(Player) .. "^7")
+    end
+    deadPlayers[Player] = "dead"
+end)
+
+RegisterNetEvent("bpt_ambulancejob:PlayerNotDead")
+AddEventHandler("bpt_ambulancejob:PlayerNotDead", function(Player)
+    if deadPlayerBlips[Player] then
+        RemoveBlip(deadPlayerBlips[Player])
+        deadPlayerBlips[Player] = nil
+    end
+    if Config.Debug then
+        print("[^2INFO^7] Player Alive | ^5" .. tostring(Player) .. "^7")
+    end
+    deadPlayers[Player] = nil
+end)
+
 RegisterNetEvent("bpt_ambulancejob:setDeadPlayers")
-AddEventHandler("bpt_ambulancejob:setDeadPlayers", function()
+AddEventHandler("bpt_ambulancejob:setDeadPlayers", function(_deadPlayers)
+    deadPlayers = _deadPlayers
+
     if isOnDuty then
         for playerId, v in pairs(deadPlayerBlips) do
             RemoveBlip(v)
@@ -454,7 +537,13 @@ AddEventHandler("bpt_ambulancejob:setDeadPlayers", function()
         end
 
         for playerId, status in pairs(deadPlayers) do
+            if Config.Debug then
+                print("[^2INFO^7] Player Dead | ^5" .. tostring(playerId) .. "^7")
+            end
             if status == "distress" then
+                if Config.Debug then
+                    print("[^2INFO^7] Creating Distress Blip for Player - ^5" .. tostring(playerId) .. "^7")
+                end
                 local player = GetPlayerFromServerId(playerId)
                 local playerPed = GetPlayerPed(player)
                 local blip = AddBlipForEntity(playerPed)
@@ -471,5 +560,30 @@ AddEventHandler("bpt_ambulancejob:setDeadPlayers", function()
                 deadPlayerBlips[playerId] = blip
             end
         end
+    end
+end)
+
+RegisterNetEvent("bpt_ambulancejob:PlayerDistressed")
+AddEventHandler("bpt_ambulancejob:PlayerDistressed", function(playerId, playerCoords)
+    deadPlayers[playerId] = "distress"
+
+    if isOnDuty then
+        if Config.Debug then
+            print("[^2INFO^7] Player Distress Recived - ID:^5" .. tostring(playerId) .. "^7")
+        end
+        ESX.ShowNotification(TranslateCap("unconscious_found"), "error", 10000)
+        deadPlayerBlips[playerId] = nil
+
+        local blip = AddBlipForCoord(playerCoords.x, playerCoords.y, playerCoords.z)
+        SetBlipSprite(blip, Config.DistressBlip.Sprite)
+        SetBlipColour(blip, Config.DistressBlip.Color)
+        SetBlipScale(blip, Config.DistressBlip.Scale)
+        SetBlipFlashes(blip, true)
+
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName(TranslateCap("blip_dead"))
+        EndTextCommandSetBlipName(blip)
+
+        deadPlayerBlips[playerId] = blip
     end
 end)
