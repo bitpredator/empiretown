@@ -1,3 +1,5 @@
+local netId
+
 TriggerEvent("bpt_society:registerSociety", "ammu", "Ammu", "society_ammu", "society_ammu", "society_ammu", {
     type = "public",
 })
@@ -15,7 +17,7 @@ ESX.RegisterServerCallback("bpt_ammujob:SpawnVehicle", function(source, cb, mode
     end
     local SpawnPoint = vector3(Config.Zones.VehicleSpawnPoint.Pos.x, Config.Zones.VehicleSpawnPoint.Pos.y, Config.Zones.VehicleSpawnPoint.Pos.z)
     ESX.OneSync.SpawnVehicle(joaat(model), SpawnPoint, Config.Zones.VehicleSpawnPoint.Heading, props, function()
-        local vehicle = NetworkGetEntityFromNetworkId()
+    local vehicle = NetworkGetEntityFromNetworkId(netId)
         while GetVehicleNumberPlateText(vehicle) ~= props.plate do
             Wait(0)
         end

@@ -140,7 +140,7 @@ function OpenShopMenu()
 
     ESX.UI.Menu.CloseAll()
 
-    local playerPed = GetPlayerPed(-1)
+    local playerPed = PlayerPedId()
 
     FreezeEntityPosition(playerPed, true)
     SetEntityVisible(playerPed, false)
@@ -205,10 +205,10 @@ function OpenShopMenu()
             if data2.current.value == "no" then
                 menu2.close()
             end
-        end, function(data2, menu2)
+        end, function(_, menu2)
             menu2.close()
         end)
-    end, function(data, menu)
+    end, function(_, menu)
         menu.close()
 
         DoScreenFadeOut(1000)
@@ -217,7 +217,7 @@ function OpenShopMenu()
 
         DeleteKatalogVehicles()
 
-        local playerPed = GetPlayerPed(-1)
+        local playerPed = PlayerPedId()
 
         CurrentAction = "shop_menu"
         CurrentActionMsg = "shop menu"
@@ -231,7 +231,7 @@ function OpenShopMenu()
         IsInShopMenu = false
     end, function(data, menu)
         local vehicleData = vehiclesByCategory[data.current.name][data.current.value + 1]
-        local playerPed = GetPlayerPed(-1)
+        local playerPed = PlayerPedId()
 
         DeleteKatalogVehicles()
 
@@ -285,7 +285,7 @@ Citizen.CreateThread(function()
                 end
 
                 if CurrentAction == "go_down_from" then
-                    local playerPed = GetPlayerPed(-1)
+                    local playerPed = PlayerPedId()
                     DoScreenFadeOut(3000)
                     Wait(3000)
                     DoScreenFadeIn(3000)
@@ -293,7 +293,7 @@ Citizen.CreateThread(function()
                 end
 
                 if CurrentAction == "goTranslateCapp_from" then
-                    local playerPed = GetPlayerPed(-1)
+                    local playerPed = PlayerPedId()
                     DoScreenFadeOut(3000)
                     Wait(3000)
                     DoScreenFadeIn(3000)
@@ -312,9 +312,9 @@ Citizen.CreateThread(function()
     while true do
         Wait(0)
 
-        local coords = GetEntityCoords(GetPlayerPed(-1))
+        local coords = GetEntityCoords(PlayerPedId())
 
-        for k, v in pairs(Config.Zones) do
+        for _, v in pairs(Config.Zones) do
             if v.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < Config.DrawDistance then
                 DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, v.Size.x, v.Size.y, v.Size.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
             end
@@ -327,7 +327,7 @@ Citizen.CreateThread(function()
     while true do
         Wait(0)
 
-        local coords = GetEntityCoords(GetPlayerPed(-1))
+        local coords = GetEntityCoords(PlayerPedId())
         local isInMarker = false
         local currentZone = nil
 

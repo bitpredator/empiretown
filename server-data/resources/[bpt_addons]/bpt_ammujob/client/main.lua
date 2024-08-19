@@ -307,7 +307,7 @@ CreateThread(function()
         if ESX.PlayerData.job and ESX.PlayerData.job.name == "ammu" then
             local coords = GetEntityCoords(PlayerPedId())
             local isInMarker, currentZone = false
-            local inVeh = IsPedInAnyVehicle(PlayerPedId())
+            local inVeh = IsPedInAnyVehicle(PlayerPedId(), false)
 
             for k, v in pairs(Config.Zones) do
                 local zonePos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)

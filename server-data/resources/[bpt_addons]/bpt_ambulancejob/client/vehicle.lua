@@ -8,14 +8,15 @@ function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
         { icon = "fas fa-car", title = TranslateCap("garage_storeitem"), action = "store_garage" },
         { icon = "fas fa-car", title = TranslateCap("garage_buyitem"), action = "buy_vehicle" },
     }
-    ESX.OpenContext("right", elements, function(_, element)
+
+    ESX.OpenContext("right", elements, function(menu, element)
         if element.action == "buy_vehicle" then
             local shopElements = {}
             local authorizedVehicles = Config.AuthorizedVehicles[type][ESX.PlayerData.job.grade_name]
             local shopCoords = Config.Hospitals[hospital][part][partNum].InsideShop
 
             if #authorizedVehicles > 0 then
-                for _, vehicle in ipairs(authorizedVehicles) do
+                for k, vehicle in ipairs(authorizedVehicles) do
                     if IsModelInCdimage(vehicle.model) then
                         local vehicleLabel = GetLabelText(GetDisplayNameFromVehicleModel(vehicle.model))
 
@@ -48,18 +49,18 @@ function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
                 if #jobVehicles > 0 then
                     local allVehicleProps = {}
 
-                    for _, v in ipairs(jobVehicles) do
+                    for k, v in ipairs(jobVehicles) do
                         local props = json.decode(v.vehicle)
 
                         if IsModelInCdimage(props.model) then
                             local vehicleName = GetLabelText(GetDisplayNameFromVehicleModel(props.model))
                             local label = ('%s - <span style="color:darkgoldenrod;">%s</span>: '):format(vehicleName, props.plate)
 
-                            if v.stored then
-                                label = label .. ('<span style="color:green;">%s</span>'):format(TranslateCap("garage_stored"))
-                            else
-                                label = label .. ('<span style="color:darkred;">%s</span>'):format(TranslateCap("garage_notstored"))
-                            end
+							if v.stored == 1 or v.stored == true then
+								label = label .. ('<span style="color:green;">%s</span>'):format(TranslateCap('garage_stored'))
+							elseif v.stored == 0 or v.stored == false then
+								label = label .. ('<span style="color:darkred;">%s</span>'):format(TranslateCap('garage_notstored'))
+							end
 
                             garage[#garage + 1] = {
                                 icon = "fas fa-car",
@@ -74,7 +75,7 @@ function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
                     end
 
                     if #garage > 0 then
-                        ESX.OpenContext("right", garage, function(_, elementG)
+                        ESX.OpenContext("right", garage, function(menuG, elementG)
                             if elementG.stored == 1 then
                                 local foundSpawn, spawnPoint = GetAvailableVehicleSpawnPoint(hospital, part, partNum)
 
@@ -84,6 +85,7 @@ function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
                                     ESX.Game.SpawnVehicle(elementG.model, spawnPoint.coords, spawnPoint.heading, function(vehicle)
                                         local vehicleProps = allVehicleProps[elementG.plate]
                                         ESX.Game.SetVehicleProperties(vehicle, vehicleProps)
+
                                         TriggerServerEvent("esx_vehicleshop:setJobVehicleState", elementG.plate, false)
                                         ESX.ShowNotification(TranslateCap("garage_released"))
                                     end)
@@ -106,16 +108,17 @@ function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
 end
 
 function StoreNearbyVehicle(playerCoords)
-    local vehicles, vehiclePlates = ESX.Game.GetVehiclesInArea(playerCoords, 30.0), {}
+    local vehicles, plates, index = ESX.Game.GetVehiclesInArea(playerCoords, 30.0), {}, {}
 
-    if #vehicles > 0 then
-        for _, v in ipairs(vehicles) do
-            -- Make sure the vehicle we're saving is empty, or else it wont be deleted
-            if GetVehicleNumberOfPassengers(v) == 0 and IsVehicleSeatFree(v, -1) then
-                table.insert(vehiclePlates, {
-                    vehicle = v,
-                    plate = ESX.Math.Trim(GetVehicleNumberPlateText(v)),
-                })
+    if next(vehicles) then
+        for i = 1, #vehicles do
+            local vehicle = vehicles[i]
+
+            -- Make sure the vehicle we're saving is empty, or else it won't be deleted
+            if GetVehicleNumberOfPassengers(vehicle) == 0 and IsVehicleSeatFree(vehicle, -1) then
+                local plate = ESX.Math.Trim(GetVehicleNumberPlateText(vehicle))
+                plates[#plates + 1] = plate
+                index[plate] = vehicle
             end
         end
     else
@@ -123,23 +126,27 @@ function StoreNearbyVehicle(playerCoords)
         return
     end
 
-    ESX.TriggerServerCallback("bpt_ambulancejob:storeNearbyVehicle", function(storeSuccess, foundNum)
-        if storeSuccess then
-            local vehicleId = vehiclePlates[foundNum]
+    ESX.TriggerServerCallback("bpt_ambulancejob:storeNearbyVehicle", function(plate)
+        if plate then
+            local vehicleId = index[plate]
             local attempts = 0
-            ESX.Game.DeleteVehicle(vehicleId.vehicle)
-            local isBusy = true
-            local drawLoadingText = {}
+            ESX.Game.DeleteVehicle(vehicleId)
+            isBusy = true
 
             CreateThread(function()
+                BeginTextCommandBusyspinnerOn("STRING")
+                AddTextComponentSubstringPlayerName(TranslateCap("garage_storing"))
+                EndTextCommandBusyspinnerOn(4)
+
                 while isBusy do
-                    Wait(0)
-                    drawLoadingText(TranslateCap("garage_storing"), 255, 255, 255, 255)
+                    Wait(100)
                 end
+
+                BusyspinnerOff()
             end)
 
             -- Workaround for vehicle not deleting when other players are near it.
-            while DoesEntityExist(vehicleId.vehicle) do
+            while DoesEntityExist(vehicleId) do
                 Wait(500)
                 attempts = attempts + 1
 
@@ -150,9 +157,10 @@ function StoreNearbyVehicle(playerCoords)
 
                 vehicles = ESX.Game.GetVehiclesInArea(playerCoords, 30.0)
                 if #vehicles > 0 then
-                    for _, v in ipairs(vehicles) do
-                        if ESX.Math.Trim(GetVehicleNumberPlateText(v)) == vehicleId.plate then
-                            ESX.Game.DeleteVehicle(v)
+                    for i = 1, #vehicles do
+                        local vehicle = vehicles[i]
+                        if ESX.Math.Trim(GetVehicleNumberPlateText(vehicle)) == plate then
+                            ESX.Game.DeleteVehicle(vehicle)
                             break
                         end
                     end
@@ -164,7 +172,7 @@ function StoreNearbyVehicle(playerCoords)
         else
             ESX.ShowNotification(TranslateCap("garage_has_notstored"))
         end
-    end, vehiclePlates)
+    end, plates)
 end
 
 function GetAvailableVehicleSpawnPoint(hospital, part, partNum)
@@ -189,18 +197,18 @@ end
 function OpenShopMenu(elements, restoreCoords, shopCoords)
     local playerPed = PlayerPedId()
     isInShopMenu = true
-    ESX.OpenContext("right", elements, function(_, element)
+    ESX.OpenContext("right", elements, function(menu, element)
         local elements2 = {
             { unselectable = true, icon = "fas fa-car", title = element.title },
             { icon = "fas fa-eye", title = "View", value = "view" },
         }
 
-        ESX.OpenContext("right", elements2, function(_, element2)
+        ESX.OpenContext("right", elements2, function(menu2, element2)
             if element2.value == "view" then
                 DeleteSpawnedVehicles()
                 WaitForVehicleToLoad(element.model)
 
-                ESX.Game.SpawnLocalVehicle(element.model, shopCoords, 0.0, function(vehicle)
+                ESX.Game.SpawnLocalVehicle(element.model, shopCoords.xyz, shopCoords.w, function(vehicle)
                     table.insert(spawnedVehicles, vehicle)
                     TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
                     FreezeEntityPosition(vehicle, true)
@@ -217,7 +225,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
                     { icon = "fas fa-eye", title = "Stop Viewing", value = "stop" },
                 }
 
-                ESX.OpenContext("right", elements3, function(_, element3)
+                ESX.OpenContext("right", elements3, function(menu3, element3)
                     if element3.value == "stop" then
                         isInShopMenu = false
                         ESX.CloseContext()
@@ -250,6 +258,15 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
                             end
                         end, props, element.type)
                     end
+                end, function()
+                    isInShopMenu = false
+                    ESX.CloseContext()
+
+                    DeleteSpawnedVehicles()
+                    FreezeEntityPosition(playerPed, false)
+                    SetEntityVisible(playerPed, true)
+
+                    ESX.Game.Teleport(playerPed, restoreCoords)
                 end)
             end
         end)
@@ -258,14 +275,14 @@ end
 
 CreateThread(function()
     while true do
-        Wait(0)
+        sleep = 1500
 
         if isInShopMenu then
+            sleep = 0
             DisableControlAction(0, 75, true) -- Disable exit vehicle
             DisableControlAction(27, 75, true) -- Disable exit vehicle
-        else
-            Wait(500)
         end
+        Wait(sleep)
     end
 end)
 
@@ -278,7 +295,7 @@ function DeleteSpawnedVehicles()
 end
 
 function WaitForVehicleToLoad(modelHash)
-    modelHash = (type(modelHash) == "number" and modelHash or GetHashKey(modelHash))
+    modelHash = (type(modelHash) == "number" and modelHash or joaat(modelHash))
 
     if not HasModelLoaded(modelHash) then
         RequestModel(modelHash)
