@@ -31,4 +31,5 @@ Locales["it"] = {
     -- billing
     ["bill_amount"] = "importo della fattura",
     ["confirm"] = "Conferma",
+    ["amount"] = "importo",
 }
