@@ -42,7 +42,7 @@ AddEventHandler("esx:setJob", function(job)
 end)
 
 local function isPedDrivingAVehicle()
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     vehicle = GetVehiclePedIsIn(ped, false)
     if IsPedInAnyVehicle(ped, false) then
         -- Check if ped is in driver seat
@@ -221,7 +221,7 @@ end
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(50)
-        local ped = GetPlayerPed(-1)
+        local ped = PlayerPedId()
         if isPedDrivingAVehicle() then
             vehicle = GetVehiclePedIsIn(ped, false)
             vehicleClass = GetVehicleClass(vehicle)
