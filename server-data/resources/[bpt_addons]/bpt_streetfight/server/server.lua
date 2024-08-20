@@ -41,7 +41,7 @@ end)
 
 local count = 240
 local _ = 0
-function countdown(copyFight)
+function Countdown(copyFight)
 	for i = count, 0, -1 do
 		_ = i
 		Wait(1000)

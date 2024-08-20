@@ -96,7 +96,7 @@ CreateThread(function()
 	end
 end)
 
-function treecutter()
+function Treecutter()
 	local cut = PlayerPedId()
 
 	RequestAnimDict("melee@hatchet@streamed_core")
@@ -130,7 +130,7 @@ CreateThread(function()
 					if canPickUp then
 						GiveWeaponToPed(player, "WEAPON_HATCHET", 800, false, false)
 						SetCurrentPedWeapon(player, GetHashKey("WEAPON_HATCHET"), false)
-						treecutter()
+						Treecutter()
 						Wait(3000)
 						Wait(400)
 						ClearPedTasks(player)
