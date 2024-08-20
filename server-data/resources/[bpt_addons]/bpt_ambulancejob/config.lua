@@ -20,10 +20,13 @@ Config.RemoveCashAfterRPDeath = false
 Config.RemoveItemsAfterRPDeath = false
 
 -- Let the player pay for respawning early, only if he can afford it.
-Config.EarlyRespawnFine = false
+Config.EarlyRespawnFine = true
 Config.EarlyRespawnFineAmount = 5000
+Config.OxInventory = ESX.GetConfig().OxInventory
 
-Config.RespawnPoint = { coords = vector3(341.0, -1397.3, 32.5), heading = 48.5 }
+Config.RespawnPoints = {
+    { coords = vector3(341.0, -1397.3, 32.5), heading = 48.5 },
+}
 
 Config.Hospitals = {
 
