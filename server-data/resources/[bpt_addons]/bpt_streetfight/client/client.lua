@@ -30,10 +30,10 @@ AddEventHandler("bpt_streetfight:playerJoined", function(side, id)
 
     if id == GetPlayerServerId(PlayerId()) then
         participating = true
-        putGloves()
+        PutGloves()
     end
     players = players + 1
-    fightStatus = STATUS_JOINED
+    FightStatus = STATUS_JOINED
 end)
 
 RegisterNetEvent("bpt_streetfight:startFight")
@@ -46,7 +46,7 @@ AddEventHandler("bpt_streetfight:startFight", function(fightData)
         end
     end
 
-    fightStatus = STATUS_STARTED
+    FightStatus = STATUS_STARTED
     showCountDown = true
     Countdown()
 end)
@@ -57,15 +57,15 @@ AddEventHandler("bpt_streetfight:playerLeaveFight", function(id)
         ESX.ShowNotification(TranslateCap("you_toofar"))
         SetPedMaxHealth(PlayerPedId(), 200)
         SetEntityHealth(PlayerPedId(), 200)
-        removeGloves()
+        RemoveGloves()
     elseif participating == true then
         TriggerServerEvent("bpt_streetfight:pay", betAmount)
         ESX.ShowNotification(TranslateCap("you_win") .. (betAmount * 2) .. "$")
         SetPedMaxHealth(PlayerPedId(), 200)
         SetEntityHealth(PlayerPedId(), 200)
-        removeGloves()
+        RemoveGloves()
     end
-    reset()
+    Reset()
 end)
 
 RegisterNetEvent("bpt_streetfight:fightFinished")
@@ -92,9 +92,9 @@ AddEventHandler("bpt_streetfight:fightFinished", function(looser)
             SetEntityHealth(PlayerPedId(), 200)
         end
 
-        removeGloves()
+        RemoveGloves()
     end
-    reset()
+    Reset()
 end)
 
 RegisterNetEvent("bpt_streetfight:raiseActualBet")
@@ -131,7 +131,7 @@ function Countdown()
     end
 end
 
-function putGloves()
+function PutGloves()
     local ped = PlayerPedId()
     local hash = GetHashKey("prop_boxing_glove_01")
     while not HasModelLoaded(hash) do
@@ -157,13 +157,13 @@ function putGloves()
     AttachEntityToEntity(gloveB, ped, GetPedBoneIndex(ped, 0xAB22), 0.05, 0.00, -0.04, 00.0, 90.0, 90.0, true, true, false, true, 1, true) -- object is attached to right hand
 end
 
-function removeGloves()
+function RemoveGloves()
     for _, v in pairs(Gloves) do
         DeleteObject(v)
     end
 end
 
-function spawnMarker(coords)
+function SpawnMarker(coords)
     local centerRing = GetDistanceBetweenCoords(coords, vector3(-517.61, -1712.04, 20.46), true)
     if centerRing < Config.DISTANCE and fightStatus ~= STATUS_STARTED then
         DrawMarker(1, Config.BETZONE.x, Config.BETZONE.y, Config.BETZONE.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.0, 204, 204, 0, 100, false, true, 2, false, false, false, false)
@@ -201,7 +201,7 @@ function spawnMarker(coords)
     end
 end
 
-function get3DDistance(x1, y1, z1, x2, y2, z2)
+function Get3DDistance(x1, y1, z1, x2, y2, z2)
     local a = (x1 - x2) * (x1 - x2)
     local b = (y1 - y2) * (y1 - y2)
     local c = (z1 - z2) * (z1 - z2)
@@ -232,7 +232,7 @@ function CreateBlip(coords, text, sprite, color, scale)
     EndTextCommandSetBlipName(blip)
 end
 
-function reset()
+function Reset()
     redJoined = false
     blueJoined = false
     participating = false
@@ -245,7 +245,7 @@ function RunThread()
         while true do
             Wait(0)
             local coords = GetEntityCoords(PlayerPedId())
-            spawnMarker(coords)
+            SpawnMarker(coords)
         end
     end)
 end
@@ -255,7 +255,7 @@ CreateThread(function()
     while true do
         if fightStatus == STATUS_STARTED and participating == false and GetEntityCoords(PlayerPedId()) ~= rival then
             local coords = GetEntityCoords(PlayerPedId())
-            if get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z, coords.x, coords.y, coords.z) < Config.TP_DISTANCE then
+            if Get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z, coords.x, coords.y, coords.z) < Config.TP_DISTANCE then
                 ESX.ShowNotification(TranslateCap("step_away"))
                 for _ = 1, 1000 do
                     SetPedCoordsKeepVehicle(PlayerPedId(), -521.58, -1723.58, 19.16)
@@ -287,14 +287,14 @@ CreateThread(function()
 
         if participating == true then
             local coords = GetEntityCoords(PlayerPedId())
-            if get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z, coords.x, coords.y, coords.z) > Config.LEAVE_FIGHT_DISTANCE then
+            if Get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z, coords.x, coords.y, coords.z) > Config.LEAVE_FIGHT_DISTANCE then
                 TriggerServerEvent("bpt_streetfight:leaveFight", GetPlayerServerId(PlayerId()))
             end
         end
 
         if showWinner == true and winner ~= nil then
             local coords = GetEntityCoords(PlayerPedId())
-            if get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z, coords.x, coords.y, coords.z) < 15 then
+            if Get3DDistance(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z, coords.x, coords.y, coords.z) < 15 then
                 DrawText3D(Config.CENTER.x, Config.CENTER.y, Config.CENTER.z + 2.5, "~r~ID: " .. winner .. " gana!", 2.0)
             end
         end
