@@ -113,7 +113,7 @@ CreateThread(function()
                 if GetDistanceBetweenCoords(coords, 2233.21, 5081.3, 48.08, true) < 5.0 then
                     if IsControlJustReleased(0, Keys["E"]) then
                         if incollect == false then
-                            collectionpotato()
+                            Collectionpotato()
                         end
                     end
                 end
@@ -133,7 +133,7 @@ CreateThread(function()
                 if GetDistanceBetweenCoords(coords, 1582.035156, 2167.279053, 79.307007, true) < 5.0 then
                     if IsControlJustReleased(0, Keys["E"]) then
                         if incollect == false then
-                            collectioncotton()
+                            Collectioncotton()
                         end
                     end
                 end
@@ -153,7 +153,7 @@ CreateThread(function()
                 if GetDistanceBetweenCoords(coords, 2343.850586, 4756.087891, 34.806641, true) < 5.0 then
                     if IsControlJustReleased(0, Keys["E"]) then
                         if incollect == false then
-                            collectionapple()
+                            Collectionapple()
                         end
                     end
                 end
@@ -173,7 +173,7 @@ CreateThread(function()
                 if GetDistanceBetweenCoords(coords, 2607.942871, 4399.490234, 40.973633, true) < 5.0 then
                     if IsControlJustReleased(0, Keys["E"]) then
                         if incollect == false then
-                            collectiongrain()
+                            Collectiongrain()
                         end
                     end
                 end
@@ -204,7 +204,7 @@ CreateThread(function()
 end)
 
 --potato
-function collectionpotato()
+function Collectionpotato()
     TriggerServerEvent("farmer:collectionpotato")
     exports["esx_notify"]:Notify("info", 3000, TranslateCap("collection_progress"))
     incollect = true
@@ -213,7 +213,7 @@ function collectionpotato()
 end
 
 -- cotton
-function collectioncotton()
+function Collectioncotton()
     TriggerServerEvent("farmer:collectioncotton")
     exports["esx_notify"]:Notify("info", 3000, TranslateCap("collection_progress"))
     incollect = true
@@ -222,7 +222,7 @@ function collectioncotton()
 end
 
 -- apple
-function collectionapple()
+function Collectionapple()
     TriggerServerEvent("farmer:collectionapple")
     exports["esx_notify"]:Notify("info", 3000, TranslateCap("collection_progress"))
     incollect = true
@@ -231,7 +231,7 @@ function collectionapple()
 end
 
 -- grain
-function collectiongrain()
+function Collectiongrain()
     TriggerServerEvent("farmer:collectiongrain")
     exports["esx_notify"]:Notify("info", 3000, TranslateCap("collection_progress"))
     incollect = true

@@ -48,7 +48,7 @@ AddEventHandler("bpt_streetfight:startFight", function(fightData)
 
     fightStatus = STATUS_STARTED
     showCountDown = true
-    countdown()
+    Countdown()
 end)
 
 RegisterNetEvent("bpt_streetfight:playerLeaveFight")
@@ -117,7 +117,7 @@ AddEventHandler("bpt_streetfight:winnerText", function(id)
 end)
 
 local actualCount = 0
-function countdown()
+function Countdown()
     for i = 5, 0, -1 do
         actualCount = i
         Wait(1000)

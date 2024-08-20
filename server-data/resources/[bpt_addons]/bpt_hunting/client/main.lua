@@ -20,7 +20,7 @@ CreateThread(function()
             local pos = GetEntityCoords(ped)
             local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerpos.x, playerpos.y, playerpos.z, true)
             if distance < 2 and CanSlaughterPed(ped) then
-                drawText3D(pos.x, pos.y, pos.z + 0.6, "[H] ~b~Skin Animal ~s~")
+                DrawText3D(pos.x, pos.y, pos.z + 0.6, "[H] ~b~Skin Animal ~s~")
                 while IsControlPressed(0, 30) do
                     break
                 end
