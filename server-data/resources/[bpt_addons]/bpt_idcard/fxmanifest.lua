@@ -1,6 +1,6 @@
 fx_version("adamant")
 game("gta5")
-version("1.0.1")
+version("1.0.2")
 ui_page("html/index.html")
 
 shared_script("@es_extended/imports.lua")
