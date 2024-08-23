@@ -9,7 +9,7 @@ function getJobs()
     return availableJobs
 end
 
-ESX.RegisterServerCallback("esx_joblisting:getJobsList", function(source, cb)
+ESX.RegisterServerCallback("bpt_joblisting:getJobsList", function(source, cb)
     local jobs = getJobs()
     cb(jobs)
 end)
@@ -37,8 +37,8 @@ function IsNearCentre(player)
     return Close
 end
 
-RegisterServerEvent("esx_joblisting:setJob")
-AddEventHandler("esx_joblisting:setJob", function(job)
+RegisterServerEvent("bpt_joblisting:setJob")
+AddEventHandler("bpt_joblisting:setJob", function(job)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
     local jobs = getJobs()
@@ -50,6 +50,6 @@ AddEventHandler("esx_joblisting:setJob", function(job)
             print("[^1ERROR^7] Tried Setting User ^5" .. source .. "^7 To Invalid Job - ^5" .. job .. "^7!")
         end
     else
-        print("[^3WARNING^7] User ^5" .. source .. "^7 Attempted to Exploit ^5`esx_joblisting:setJob`^7!")
+        print("[^3WARNING^7] User ^5" .. source .. "^7 Attempted to Exploit ^5`bpt_joblisting:setJob`^7!")
     end
 end)
