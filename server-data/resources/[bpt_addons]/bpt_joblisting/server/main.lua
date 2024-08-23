@@ -23,7 +23,7 @@ end
 function IsNearCentre(player)
     local Ped = GetPlayerPed(player)
     local PedCoords = GetEntityCoords(Ped)
-    local Zones = Config.Zones
+    local _ = Config.Zones
     local Close = false
 
     for i = 1, #Config.Zones, 1 do
@@ -41,7 +41,7 @@ RegisterServerEvent("bpt_joblisting:setJob")
 AddEventHandler("bpt_joblisting:setJob", function(job)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
-    local jobs = getJobs()
+    local _ = getJobs()
 
     if xPlayer and IsNearCentre(source) and IsJobAvailable(job) then
         if ESX.DoesJobExist(job, 0) then
