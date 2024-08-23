@@ -1,4 +1,4 @@
-function getJobs()
+function GetJobs()
     local jobs = ESX.GetJobs()
     local availableJobs = {}
     for k, v in pairs(jobs) do
@@ -10,7 +10,7 @@ function getJobs()
 end
 
 ESX.RegisterServerCallback("bpt_joblisting:getJobsList", function(source, cb)
-    local jobs = getJobs()
+    local jobs = GetJobs()
     cb(jobs)
 end)
 
@@ -41,7 +41,7 @@ RegisterServerEvent("bpt_joblisting:setJob")
 AddEventHandler("bpt_joblisting:setJob", function(job)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
-    local _ = getJobs()
+    local _ = GetJobs()
 
     if xPlayer and IsNearCentre(source) and IsJobAvailable(job) then
         if ESX.DoesJobExist(job, 0) then
