@@ -2,7 +2,7 @@ local menuIsShowed, TextUIdrawing = false, false
 
 function ShowJobListingMenu()
     menuIsShowed = true
-    ESX.TriggerServerCallback("esx_joblisting:getJobsList", function(jobs)
+    ESX.TriggerServerCallback("bpt_joblisting:getJobsList", function(jobs)
         local elements = { { unselectable = "true", title = TranslateCap("job_center"), icon = "fas fa-briefcase" } }
 
         for i = 1, #jobs do
@@ -10,7 +10,7 @@ function ShowJobListingMenu()
         end
 
         ESX.OpenContext("right", elements, function(menu, SelectJob)
-            TriggerServerEvent("esx_joblisting:setJob", SelectJob.name)
+            TriggerServerEvent("bpt_joblisting:setJob", SelectJob.name)
             ESX.CloseContext()
             ESX.ShowNotification(TranslateCap("new_job", SelectJob.title), "success")
             menuIsShowed = false

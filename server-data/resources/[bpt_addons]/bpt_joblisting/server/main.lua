@@ -1,4 +1,4 @@
-function getJobs()
+function GetJobs()
     local jobs = ESX.GetJobs()
     local availableJobs = {}
     for k, v in pairs(jobs) do
@@ -9,8 +9,8 @@ function getJobs()
     return availableJobs
 end
 
-ESX.RegisterServerCallback("esx_joblisting:getJobsList", function(source, cb)
-    local jobs = getJobs()
+ESX.RegisterServerCallback("bpt_joblisting:getJobsList", function(source, cb)
+    local jobs = GetJobs()
     cb(jobs)
 end)
 
@@ -23,7 +23,7 @@ end
 function IsNearCentre(player)
     local Ped = GetPlayerPed(player)
     local PedCoords = GetEntityCoords(Ped)
-    local Zones = Config.Zones
+    local _ = Config.Zones
     local Close = false
 
     for i = 1, #Config.Zones, 1 do
@@ -37,11 +37,11 @@ function IsNearCentre(player)
     return Close
 end
 
-RegisterServerEvent("esx_joblisting:setJob")
-AddEventHandler("esx_joblisting:setJob", function(job)
+RegisterServerEvent("bpt_joblisting:setJob")
+AddEventHandler("bpt_joblisting:setJob", function(job)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
-    local jobs = getJobs()
+    local _ = GetJobs()
 
     if xPlayer and IsNearCentre(source) and IsJobAvailable(job) then
         if ESX.DoesJobExist(job, 0) then
@@ -50,6 +50,6 @@ AddEventHandler("esx_joblisting:setJob", function(job)
             print("[^1ERROR^7] Tried Setting User ^5" .. source .. "^7 To Invalid Job - ^5" .. job .. "^7!")
         end
     else
-        print("[^3WARNING^7] User ^5" .. source .. "^7 Attempted to Exploit ^5`esx_joblisting:setJob`^7!")
+        print("[^3WARNING^7] User ^5" .. source .. "^7 Attempted to Exploit ^5`bpt_joblisting:setJob`^7!")
     end
 end)

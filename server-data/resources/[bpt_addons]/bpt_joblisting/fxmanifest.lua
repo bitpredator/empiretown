@@ -3,8 +3,7 @@ game("gta5")
 
 description("Provides a way for players to select a job")
 lua54("yes")
-version("1.0")
-legacyversion("1.9.1")
+version("1.0.2")
 
 shared_scripts({
     "@es_extended/imports.lua",
