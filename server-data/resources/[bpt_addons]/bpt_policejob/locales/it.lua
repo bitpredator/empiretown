@@ -164,4 +164,5 @@ Locales["it"] = {
 	["quick_actions"] = "Azioni rapide",
 	-- Altro
 	["society_police"] = "Polizia",
+	["weapon"] = "Porto D'armi",
 }
