@@ -4,7 +4,6 @@ if Config.EnableESXService then
     end
 end
 
-TriggerEvent("esx_phone:registerNumber", "police", TranslateCap("alert_police"), true, true)
 TriggerEvent("bpt_society:registerSociety", "police", TranslateCap("society_police"), "society_police", "society_police", "society_police", {
     type = "public",
 })
@@ -239,7 +238,7 @@ ESX.RegisterServerCallback("bpt_policejob:getVehicleInfos", function(source, cb,
 end)
 
 ESX.RegisterServerCallback("bpt_policejob:getArmoryWeapons", function(source, cb)
-    TriggerEvent("esx_datastore:getSharedDataStore", "society_police", function(store)
+    TriggerEvent("bpt_datastore:getSharedDataStore", "society_police", function(store)
         local weapons = store.get("weapons")
 
         if weapons == nil then
@@ -257,7 +256,7 @@ ESX.RegisterServerCallback("bpt_policejob:addArmoryWeapon", function(source, cb,
         xPlayer.removeWeapon(weaponName)
     end
 
-    TriggerEvent("esx_datastore:getSharedDataStore", "society_police", function(store)
+    TriggerEvent("bpt_datastore:getSharedDataStore", "society_police", function(store)
         local weapons = store.get("weapons") or {}
         local foundWeapon = false
 
@@ -285,7 +284,7 @@ ESX.RegisterServerCallback("bpt_policejob:removeArmoryWeapon", function(source, 
     local xPlayer = ESX.GetPlayerFromId(source)
     xPlayer.addWeapon(weaponName, 500)
 
-    TriggerEvent("esx_datastore:getSharedDataStore", "society_police", function(store)
+    TriggerEvent("bpt_datastore:getSharedDataStore", "society_police", function(store)
         local weapons = store.get("weapons") or {}
 
         local foundWeapon = false
@@ -361,7 +360,7 @@ end)
 
 ESX.RegisterServerCallback("bpt_policejob:buyJobVehicle", function(source, cb, vehicleProps, type)
     local xPlayer = ESX.GetPlayerFromId(source)
-    local price = getPriceFromHash(vehicleProps.model, xPlayer.job.grade_name, type)
+    local price = GetPriceFromHash(vehicleProps.model, xPlayer.job.grade_name, type)
 
     -- vehicle model not found
     if price == 0 then
@@ -398,7 +397,7 @@ ESX.RegisterServerCallback("bpt_policejob:storeNearbyVehicle", function(source, 
     end
 end)
 
-function getPriceFromHash(vehicleHash, jobGrade, type)
+function GetPriceFromHash(vehicleHash, jobGrade, type)
     local vehicles = Config.AuthorizedVehicles[type][jobGrade]
 
     for i = 1, #vehicles do
@@ -460,11 +459,5 @@ AddEventHandler("onResourceStart", function(resource)
         for _, xPlayer in pairs(ESX.GetExtendedPlayers("job", "police")) do
             TriggerClientEvent("bpt_policejob:updateBlip", xPlayer.source)
         end
-    end
-end)
-
-AddEventHandler("onResourceStop", function(resource)
-    if resource == GetCurrentResourceName() then
-        TriggerEvent("esx_phone:removeNumber", "police")
     end
 end)

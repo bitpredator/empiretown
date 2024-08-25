@@ -12,5 +12,5 @@ end)
 
 ESX.RegisterUsableItem("licensecard", function(source)
     local _source = source
-    TriggerClientEvent("WCARD:USE", _source)
+    TriggerClientEvent("weapon:USE", _source)
 end)
