@@ -72,7 +72,7 @@ CreateThread(function()
         -- Display Location and time when in any vehicle or on foot (if enabled)
         if pedInVeh or locationAlwaysOn then
             -- Get time and display
-            drawTxt(timeText, 4, locationColorText, 0.4, screenPosX, screenPosY + 0.048)
+            DrawTxt(timeText, 4, locationColorText, 0.4, screenPosX, screenPosY + 0.048)
 
             -- Display remainder of HUD when engine is on and vehicle is not a bicycle
             local vehicleClass = GetVehicleClass(vehicle)
@@ -89,7 +89,7 @@ CreateThread(function()
                     -- Toggle seatbelt status and play sound when enabled
                     seatbeltIsOn = not seatbeltIsOn
                     if seatbeltPlaySound then
-                        PlaySoundFrontend(-1, "Faster_Click", "RESPAWN_ONLINE_SOUNDSET", 1)
+                        PlaySoundFrontend(-1, "Faster_Click", "RESPAWN_ONLINE_SOUNDSET", true)
                     end
                 end
                 if not seatbeltIsOn then
@@ -97,17 +97,17 @@ CreateThread(function()
                     local vehIsMovingFwd = GetEntitySpeedVector(vehicle, true).y > 1.0
                     local vehAcc = (prevSpeed - currSpeed) / GetFrameTime()
                     if vehIsMovingFwd and (prevSpeed > (seatbeltEjectSpeed / 2.237)) and (vehAcc > (seatbeltEjectAccel * 9.81)) then
-                        SetEntityCoords(player, position.x, position.y, position.z - 0.47, true, true, true)
+                        SetEntityCoords(player, position.x, position.y, position.z, false, false, false, true)
                         SetEntityVelocity(player, prevVelocity.x, prevVelocity.y, prevVelocity.z)
                         Wait(1)
-                        SetPedToRagdoll(player, 1000, 1000, 0, 0, 0, 0)
+                        SetPedToRagdoll(player, 1000, 1000, 0, false, false, false)
                     else
                         -- Update previous velocity for ejecting player
                         prevVelocity = GetEntityVelocity(vehicle)
                     end
                 elseif seatbeltDisableExit then
                     -- Disable vehicle exit when seatbelt is on
-                    DisableControlAction(0, 75)
+                    DisableControlAction(0, 75, true)
                 end
 
                 -- When player in driver seat, handle cruise control
@@ -129,29 +129,29 @@ CreateThread(function()
                     -- Get vehicle speed in KPH and draw speedometer
                     local speed = currSpeed * 3.6
                     local speedColor = (speed >= speedLimit) and speedColorOver or speedColorUnder
-                    drawTxt(("%.3d"):format(math.ceil(speed)), 2, speedColor, 0.8, screenPosX + 0.000, screenPosY + 0.000)
-                    drawTxt("KPH", 2, speedColorText, 0.4, screenPosX + 0.030, screenPosY + 0.018)
+                    DrawTxt(("%.3d"):format(math.ceil(speed)), 2, speedColor, 0.8, screenPosX + 0.000, screenPosY + 0.000)
+                    DrawTxt("KPH", 2, speedColorText, 0.4, screenPosX + 0.030, screenPosY + 0.018)
                 else
                     -- Get vehicle speed in MPH and draw speedometer
                     local speed = currSpeed * 2.23694
                     local speedColor = (speed >= speedLimit) and speedColorOver or speedColorUnder
-                    drawTxt(("%.3d"):format(math.ceil(speed)), 2, speedColor, 0.8, screenPosX + 0.000, screenPosY + 0.000)
-                    drawTxt("MPH", 2, speedColorText, 0.4, screenPosX + 0.030, screenPosY + 0.018)
+                    DrawTxt(("%.3d"):format(math.ceil(speed)), 2, speedColor, 0.8, screenPosX + 0.000, screenPosY + 0.000)
+                    DrawTxt("MPH", 2, speedColorText, 0.4, screenPosX + 0.030, screenPosY + 0.018)
                 end
 
                 -- Draw fuel gauge
                 local fuelColor = (currentFuel >= fuelWarnLimit) and fuelColorOver or fuelColorUnder
-                drawTxt(("%.3d"):format(math.ceil(currentFuel)), 2, fuelColor, 0.8, screenPosX + 0.055, screenPosY + 0.000)
-                drawTxt("FUEL", 2, fuelColorText, 0.4, screenPosX + 0.085, screenPosY + 0.018)
+                DrawTxt(("%.3d"):format(math.ceil(currentFuel)), 2, fuelColor, 0.8, screenPosX + 0.055, screenPosY + 0.000)
+                DrawTxt("FUEL", 2, fuelColorText, 0.4, screenPosX + 0.085, screenPosY + 0.018)
 
                 -- Draw cruise control status
                 local cruiseColor = cruiseIsOn and cruiseColorOn or cruiseColorOff
-                drawTxt("CRUISE", 2, cruiseColor, 0.4, screenPosX + 0.020, screenPosY + 0.048)
+                DrawTxt("CRUISE", 2, cruiseColor, 0.4, screenPosX + 0.020, screenPosY + 0.048)
 
                 -- Draw seatbelt status if not a motorcyle
                 if vehicleClass ~= 8 then
                     local seatbeltColor = seatbeltIsOn and seatbeltColorOn or seatbeltColorOff
-                    drawTxt("SEATBELT", 2, seatbeltColor, 0.4, screenPosX + 0.080, screenPosY + 0.048)
+                    DrawTxt("SEATBELT", 2, seatbeltColor, 0.4, screenPosX + 0.080, screenPosY + 0.048)
                 end
             end
         end
@@ -189,12 +189,11 @@ CreateThread(function()
 end)
 
 -- Helper function to draw text to screen
-function drawTxt(content, font, colour, scale, x, y)
+function DrawTxt(content, font, colour, scale, x, y)
     SetTextFont(font)
     SetTextScale(scale, scale)
     SetTextColour(colour[1], colour[2], colour[3], 255)
     SetTextEntry("STRING")
-    SetTextDropShadow(0, 0, 0, 0, 255)
     SetTextDropShadow()
     SetTextEdge(4, 0, 0, 0, 255)
     SetTextOutline()
