@@ -1,25 +1,25 @@
-fx_version 'adamant'
+fx_version("adamant")
 
-game 'gta5'
+game("gta5")
 
-author 'bitpredator'
-description 'Allows Players to use LS Customs to customise their cars'
-lua54 'yes'
-version '1.0.1'
+author("bitpredator")
+description("Allows Players to use LS Customs to customise their cars")
+lua54("yes")
+version("1.0.2")
 
-shared_script '@es_extended/imports.lua'
+shared_script("@es_extended/imports.lua")
 
-server_scripts {
-    '@oxmysql/lib/MySQL.lua',
-    '@es_extended/locale.lua',
-    'locales/*.lua',
-    'config.lua',
-    'server/main.lua'
-}
+server_scripts({
+    "@oxmysql/lib/MySQL.lua",
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
+    "server/main.lua",
+})
 
-client_scripts {
-    '@es_extended/locale.lua',
-    'locales/*.lua',
-    'config.lua',
-    'client/main.lua'
-}
+client_scripts({
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
+    "client/main.lua",
+})
