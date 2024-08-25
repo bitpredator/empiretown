@@ -77,15 +77,11 @@ local Keys = {
     ["N9"] = 118,
 }
 
+ESX = exports["es_extended"]:getSharedObject()
 local idVisable = true
 
-Citizen.CreateThread(function()
-    ESX = exports["es_extended"]:getSharedObject()
-
-    Citizen.Wait(2000)
-    ESX.TriggerServerCallback("esx_scoreboard:getConnectedPlayers", function(connectedPlayers)
-        UpdatePlayerTable(connectedPlayers)
-    end)
+ESX.TriggerServerCallback("esx_scoreboard:getConnectedPlayers", function(connectedPlayers)
+    UpdatePlayerTable(connectedPlayers)
 end)
 
 Citizen.CreateThread(function()
