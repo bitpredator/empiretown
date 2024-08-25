@@ -2,17 +2,11 @@ local connectedPlayers = {}
 
 ESX = exports["es_extended"]:getSharedObject()
 
-ESX.RegisterServerCallback("esx_scoreboard:getConnectedPlayers", function(source, cb)
+ESX.RegisterServerCallback("esx_scoreboard:getConnectedPlayers", function(_, cb)
     cb(connectedPlayers)
 end)
 
-AddEventHandler("esx:setJob", function(playerId, job, lastJob)
-    connectedPlayers[playerId].job = job.name
-
-    TriggerClientEvent("esx_scoreboard:updateConnectedPlayers", -1, connectedPlayers)
-end)
-
-AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
+AddEventHandler("esx:playerLoaded", function(_, xPlayer)
     AddPlayerToScoreboard(xPlayer, true)
 end)
 
@@ -45,7 +39,6 @@ function AddPlayerToScoreboard(xPlayer, update)
     connectedPlayers[playerId].ping = GetPlayerPing(playerId)
     connectedPlayers[playerId].id = playerId
     connectedPlayers[playerId].name = GetPlayerName(playerId)
-    connectedPlayers[playerId].job = xPlayer.job.name
 
     if update then
         TriggerClientEvent("esx_scoreboard:updateConnectedPlayers", -1, connectedPlayers)
@@ -78,20 +71,20 @@ function UpdatePing()
     TriggerClientEvent("esx_scoreboard:updatePing", -1, connectedPlayers)
 end
 
-RegisterCommand("screfresh", function(source, args, user)
+RegisterCommand("screfresh", function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" then
+    if xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "admin" then
         AddPlayersToScoreboard()
     else
         TriggerClientEvent("chatMessage", source, "[CONSOLE]", { 255, 0, 0 }, " ^0Shoma ^1Admin ^0nistid!")
     end
 end, false)
 
-RegisterCommand("sctoggle", function(source, args, user)
+RegisterCommand("sctoggle", function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "superadmin" then
+    if xPlayer.getGroup() == "admin" or xPlayer.getGroup() == "admin" then
         TriggerClientEvent("esx_scoreboard:toggleID", source)
     else
         TriggerClientEvent("chatMessage", source, "[CONSOLE]", { 255, 0, 0 }, " ^0Shoma ^1Admin ^0nistid!")
