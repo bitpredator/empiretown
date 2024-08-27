@@ -63,7 +63,7 @@ function OpenDrugShop()
     }
     menuOpen = true
 
-    for k, v in pairs(ESX.GetPlayerData().inventory) do
+    for _, v in pairs(ESX.GetPlayerData().inventory) do
         local price = Config.DrugDealerItems[v.name]
 
         if price and v.count > 0 then
@@ -92,7 +92,7 @@ function OpenDrugShop()
             end
 
             TriggerServerEvent("bpt_drugs:sellDrug", tostring(element.name), count)
-        end, function(menu)
+        end, function()
             menuOpen = false
         end)
     end, function(menu)
@@ -130,7 +130,7 @@ function CreateBlipCircle(coords, text, radius, color, sprite)
 end
 
 CreateThread(function()
-    for k, zone in pairs(Config.CircleZones) do
+    for _, zone in pairs(Config.CircleZones) do
         CreateBlipCircle(zone.coords, zone.name, zone.radius, zone.color, zone.sprite)
     end
 end)

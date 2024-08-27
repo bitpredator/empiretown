@@ -13,14 +13,6 @@ CreateThread(function()
     end
 end)
 
-function ProcessWeed(xCannabis)
-    ESX.ShowNotification(TranslateCap("weed_processingstarted"))
-    TriggerServerEvent("bpt_drugs:processCannabis")
-    if xCannabis <= 3 then
-        xCannabis = 0
-    end
-end
-
 CreateThread(function()
     while true do
         local Sleep = 1500

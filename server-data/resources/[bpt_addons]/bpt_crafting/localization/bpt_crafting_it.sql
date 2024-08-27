@@ -50,5 +50,9 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('plastic_bag', 'Sacchetto di plastica'),
 	('recycled_plastic', 'Plastica riciclata'),
 	('WEAPON_NIGHTSTICK', 'Manganello'),
-	('WEAPON_PISTOL', 'Pistola 9mm')
+	('WEAPON_PISTOL', 'Pistola 9mm'),
+	('marijuana', 'marijuana'),
+	('cannabis', 'Cannabis'),
+	('diamond_tip', 'Punta di diamante'),
+	('diamond', 'Diamond')
 ;
