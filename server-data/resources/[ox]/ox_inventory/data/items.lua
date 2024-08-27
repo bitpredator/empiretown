@@ -168,6 +168,14 @@ return {
 		consume = 0,
 	},
 
+	["diamond_tip"] = {
+		label = "Punta di diamante",
+		weight = 1,
+		stack = true,
+		close = false,
+		consume = 0,
+	},
+
 	["emerald"] = {
 		label = "Smeraldo",
 		weight = 1,
@@ -555,19 +563,6 @@ return {
 		client = {
 			export = "bpt_wallet.openWallet",
 		},
-	},
-
-	["coke_seed"] = {
-		label = "seme di cocaina",
-		weight = 220,
-		stack = true,
-	},
-
-	["coke"] = {
-		label = "cocaina",
-		weight = 220,
-		stack = true,
-		consume = 1,
 	},
 
 	["salmon_fillet"] = {

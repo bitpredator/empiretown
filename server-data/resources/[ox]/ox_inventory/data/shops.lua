@@ -87,19 +87,6 @@ return {
 		targets = {},
 	},
 
-	ballas = {
-		name = "ballas",
-		groups = {
-			["ballas"] = 0,
-		},
-		inventory = {
-			{ name = "coke_seed", price = 15000 },
-		},
-		locations = {
-			vec3(81.692307, -1966.021973, 18.041016),
-		},
-	},
-
 	Grocerystore = {
 		name = "Grocerystore",
 		blip = {

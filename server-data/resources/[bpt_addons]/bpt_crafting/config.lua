@@ -67,6 +67,22 @@ Config = {
             },
         },
 
+        ["marijuana"] = {
+            Level = 0,
+            Category = "medical",
+            isGun = false,
+            Jobs = { "ambulance" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 20,
+            Ingredients = {
+                ["cannabis"] = 2,
+                ["diamond_tip"] = 1,
+            },
+        },
+
         ["cottonforbandages"] = {
             Level = 0, -- From what level this item will be craftable
             Category = "import", -- The category item will be put in
@@ -95,6 +111,23 @@ Config = {
             Ingredients = {
                 ["iron"] = 1,
                 ["hammer"] = 1,
+            },
+        },
+
+        ["diamond_tip"] = {
+            Level = 0,
+            Category = "import",
+            isGun = false,
+            Jobs = { "import" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 60,
+            Ingredients = {
+                ["diamond"] = 1,
+                ["hammer"] = 1,
+                ["steel"] = 1,
             },
         },
 
@@ -426,14 +459,14 @@ Config = {
             coords = vector3(1020.936279, -2404.628662, 30.122314),
             jobs = { "import" },
             blip = false,
-            recipes = { "cottonforbandages", "hammer", "ironsheet", "recycled_paper", "paper", "recycled_plastic", "iron" },
+            recipes = { "cottonforbandages", "hammer", "ironsheet", "recycled_paper", "paper", "recycled_plastic", "iron", "diamond_tip" },
             radius = 1.0,
         },
         {
             coords = vector3(311.314301, -565.213196, 43.282104),
             jobs = { "ambulance" },
             blip = false,
-            recipes = { "bandage" },
+            recipes = { "bandage", "marijuana" },
             radius = 1.0,
         },
         {
@@ -469,7 +502,7 @@ Config = {
             coords = vector3(83.156044, -1960.259277, 18.041016),
             jobs = { "ballas" },
             blip = false,
-            recipes = { "cigarette_paper" },
+            recipes = { "cigarette_paper", "marijuana" },
             radius = 1.0,
         },
         {

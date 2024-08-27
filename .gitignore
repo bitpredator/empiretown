@@ -9,6 +9,7 @@ server-data/cache/files/BasicItem
 server-data/cache/chat
 server-data/cache/yarn-cache
 server-data/db/default
+server-data/imgui.ini
 
 # Resources
 server-data/resources/\[gameplay]
