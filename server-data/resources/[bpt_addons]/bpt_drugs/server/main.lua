@@ -1,21 +1,10 @@
 local playersProcessingCannabis = {}
-local outofbound = true
-local alive = true
 
 local function ValidatePickupCannabis(src)
     local ECoords = Config.CircleZones.WeedField.coords
     local PCoords = GetEntityCoords(GetPlayerPed(src))
     local Dist = #(PCoords - ECoords)
     if Dist <= 90 then
-        return true
-    end
-end
-
-local function ValidateProcessCannabis(src)
-    local ECoords = Config.CircleZones.WeedProcessing.coords
-    local PCoords = GetEntityCoords(GetPlayerPed(src))
-    local Dist = #(PCoords - ECoords)
-    if Dist <= 5 then
         return true
     end
 end
@@ -83,35 +72,10 @@ ESX.RegisterServerCallback("bpt_drugs:canPickUp", function(source, cb, item)
     cb(xPlayer.canCarryItem(item, 1))
 end)
 
-RegisterServerEvent("bpt_drugs:outofbound")
-AddEventHandler("bpt_drugs:outofbound", function()
-    outofbound = true
-end)
-
 ESX.RegisterServerCallback("bpt_drugs:cannabis_count", function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     local xCannabis = xPlayer.getInventoryItem("cannabis").count
     cb(xCannabis)
-end)
-
-RegisterServerEvent("bpt_drugs:processCannabis")
-AddEventHandler("bpt_drugs:processCannabis", function()
-    if not playersProcessingCannabis[source] then
-        local source = source
-        if ValidateProcessCannabis(source) then
-            local xPlayer = ESX.GetPlayerFromId(source)
-            local xCannabis = xPlayer.getInventoryItem("cannabis")
-            if xCannabis.count >= 3 then
-            else
-                xPlayer.showNotification(TranslateCap("weed_processingenough"))
-                TriggerEvent("bpt_drugs:cancelProcessing")
-            end
-        else
-            FoundExploiter(source, "Event Trigger")
-        end
-    else
-        print(("bpt_drugs: %s attempted to exploit weed processing!"):format(GetPlayerIdentifiers(source)[1]))
-    end
 end)
 
 function CancelProcessing(playerId)

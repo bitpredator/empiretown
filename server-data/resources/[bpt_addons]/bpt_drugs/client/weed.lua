@@ -64,7 +64,7 @@ end)
 
 AddEventHandler("onResourceStop", function(resource)
     if resource == GetCurrentResourceName() then
-        for k, v in pairs(weedPlants) do
+        for _, v in pairs(weedPlants) do
             ESX.Game.DeleteObject(v)
         end
     end
@@ -89,7 +89,7 @@ function ValidateWeedCoord(plantCoord)
     if spawnedWeeds > 0 then
         local validate = true
 
-        for k, v in pairs(weedPlants) do
+        for _, v in pairs(weedPlants) do
             if #(plantCoord - GetEntityCoords(v)) < 5 then
                 validate = false
             end
@@ -134,7 +134,7 @@ end
 function GetCoordZ(x, y)
     local groundCheckHeights = { 48.0, 49.0, 50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0 }
 
-    for i, height in ipairs(groundCheckHeights) do
+    for _, height in ipairs(groundCheckHeights) do
         local foundGround, z = GetGroundZFor_3dCoord(x, y, height)
 
         if foundGround then
