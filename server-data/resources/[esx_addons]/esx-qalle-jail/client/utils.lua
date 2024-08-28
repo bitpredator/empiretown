@@ -41,13 +41,10 @@ end
 
 function Cutscene()
     DoScreenFadeOut(100)
-
     Wait(250)
-
-    local Male = GetHashKey("mp_m_freemode_01")
-
     TriggerEvent("skinchanger:getSkin", function(skin)
-        if GetHashKey(GetEntityModel(PlayerPedId())) == Male then
+        local hash = GetEntityModel(PlayerPedId())
+        if hash == "mp_m_freemode_01" then
             local clothesSkin = {
                 ["tshirt_1"] = 20,
                 ["tshirt_2"] = 15,
@@ -171,6 +168,6 @@ CreateThread(function()
     SetBlipColour(blip, 49)
     SetBlipAsShortRange(blip, true)
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString("Boilingbroke Penitentiary")
+    AddTextComponentString("Penitentiary")
     EndTextCommandSetBlipName(blip)
 end)
