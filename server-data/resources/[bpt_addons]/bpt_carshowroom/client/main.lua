@@ -143,7 +143,7 @@ function OpenShopMenu()
     local playerPed = PlayerPedId()
 
     FreezeEntityPosition(playerPed, true)
-    SetEntityVisible(playerPed, false)
+    SetEntityVisible(PlayerPedId(), true, true)
     SetEntityCoords(playerPed, Config.Zones.ShopInside.Pos.x, Config.Zones.ShopInside.Pos.y, Config.Zones.ShopInside.Pos.z)
 
     local vehiclesByCategory = {}
@@ -226,7 +226,7 @@ function OpenShopMenu()
         FreezeEntityPosition(playerPed, false)
 
         SetEntityCoords(playerPed, Config.Zones.Katalog.Pos.x, Config.Zones.Katalog.Pos.y, Config.Zones.Katalog.Pos.z)
-        SetEntityVisible(playerPed, true)
+        SetEntityVisible(PlayerPedId(), true, true)
 
         IsInShopMenu = false
     end, function(data, menu)

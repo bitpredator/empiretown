@@ -232,7 +232,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 
                         DeleteSpawnedVehicles()
                         FreezeEntityPosition(playerPed, false)
-                        SetEntityVisible(playerPed, true)
+                        SetEntityVisible(PlayerPedId(), true, true)
 
                         ESX.Game.Teleport(playerPed, restoreCoords)
                     elseif element3.value == "buy" then
@@ -249,7 +249,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
                                 ESX.CloseContext()
                                 DeleteSpawnedVehicles()
                                 FreezeEntityPosition(playerPed, false)
-                                SetEntityVisible(playerPed, true)
+                                SetEntityVisible(PlayerPedId(), true, true)
 
                                 ESX.Game.Teleport(playerPed, restoreCoords)
                             else
@@ -264,7 +264,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 
                     DeleteSpawnedVehicles()
                     FreezeEntityPosition(playerPed, false)
-                    SetEntityVisible(playerPed, true)
+                    SetEntityVisible(PlayerPedId(), true, true)
 
                     ESX.Game.Teleport(playerPed, restoreCoords)
                 end)

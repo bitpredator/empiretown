@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 let timeout;
 let opened;
 let recipes;
@@ -102,7 +101,6 @@ function openCategory() {
 
 }
 
-// eslint-disable-next-line no-unused-vars
 function openCrafting(t) {
 
 	$('#main').html('');
@@ -287,7 +285,6 @@ function addToQueue(item, time, id) {
 
 }
 
-// eslint-disable-next-line no-unused-vars
 function craft(t) {
 	const item = t.dataset.item;
 	$.post('https://bpt_crafting/craft', JSON.stringify({
@@ -299,11 +296,9 @@ function setProgress(p) {
 	const prog = (398 / 100) * p;
 	$('#u136').animate({
 		width: prog,
-	// eslint-disable-next-line no-empty-function
 	}, 500, function() {});
 }
 
-// eslint-disable-next-line no-unused-vars
 function inspect(t) {
 	if (opened != t) {
 		opened = t;
