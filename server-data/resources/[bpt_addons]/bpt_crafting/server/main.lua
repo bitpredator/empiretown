@@ -1,5 +1,5 @@
 ESX = exports["es_extended"]:getSharedObject()
-function setCraftingLevel(identifier, level)
+function SetCraftingLevel(identifier, level)
 	MySQL.Async.execute(
 		"UPDATE `users` SET `crafting_level`= @xp WHERE `identifier` = @identifier",
 		{ ["@xp"] = level, ["@identifier"] = identifier },
@@ -7,7 +7,7 @@ function setCraftingLevel(identifier, level)
 	)
 end
 
-function getCraftingLevel(identifier)
+function GetCraftingLevel(identifier)
 	return tonumber(
 		MySQL.Sync.fetchScalar(
 			"SELECT `crafting_level` FROM users WHERE identifier = @identifier ",
@@ -16,7 +16,7 @@ function getCraftingLevel(identifier)
 	)
 end
 
-function giveCraftingLevel(identifier, level)
+function GiveCraftingLevel(identifier, level)
 	MySQL.Async.execute(
 		"UPDATE `users` SET `crafting_level`= `crafting_level` + @xp WHERE `identifier` = @identifier",
 		{ ["@xp"] = level, ["@identifier"] = identifier },
@@ -26,15 +26,15 @@ end
 
 RegisterServerEvent("bpt_crafting:setExperiance")
 AddEventHandler("bpt_crafting:setExperiance", function(identifier, xp)
-	setCraftingLevel(identifier, xp)
+	SetCraftingLevel(identifier, xp)
 end)
 
 RegisterServerEvent("bpt_crafting:giveExperiance")
 AddEventHandler("bpt_crafting:giveExperiance", function(identifier, xp)
-	giveCraftingLevel(identifier, xp)
+	GiveCraftingLevel(identifier, xp)
 end)
 
-function craft(src, item, retrying)
+function Craft(src, item, retrying)
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local cancraft = true
 
@@ -111,7 +111,7 @@ AddEventHandler("bpt_crafting:itemCrafted", function(item, count)
 					xPlayer.addInventoryItem(item, count)
 				end
 				TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("item_crafted"))
-				giveCraftingLevel(xPlayer.identifier, Config.ExperiancePerCraft)
+				GiveCraftingLevel(xPlayer.identifier, Config.ExperiancePerCraft)
 			else
 				TriggerEvent("bpt_crafting:craft", item)
 				TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("inv_limit_exceed"))
@@ -124,7 +124,7 @@ AddEventHandler("bpt_crafting:itemCrafted", function(item, count)
 					xPlayer.addInventoryItem(item, count)
 				end
 				TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("item_crafted"))
-				giveCraftingLevel(xPlayer.identifier, Config.ExperiancePerCraft)
+				GiveCraftingLevel(xPlayer.identifier, Config.ExperiancePerCraft)
 			else
 				TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("inv_limit_exceed"))
 			end
@@ -137,13 +137,13 @@ end)
 RegisterServerEvent("bpt_crafting:craft")
 AddEventHandler("bpt_crafting:craft", function(item, retrying)
 	local src = source
-	craft(src, item, retrying)
+	Craft(src, item, retrying)
 end)
 
 ESX.RegisterServerCallback("bpt_crafting:getXP", function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	cb(getCraftingLevel(xPlayer.identifier))
+	cb(GetCraftingLevel(xPlayer.identifier))
 end)
 
 ESX.RegisterServerCallback("bpt_crafting:getItemNames", function(_, cb)

@@ -103,7 +103,7 @@ AddEventHandler("esx:setJob", function(j)
 	grade = j.grade
 end)
 
-function isNearWorkbench()
+function IsNearWorkbench()
 	local ped = PlayerPedId()
 	local coords = GetEntityCoords(ped)
 	local near = false
@@ -126,7 +126,7 @@ CreateThread(function()
 	while true do
 		Wait(1000)
 		if craftingQueue[1] ~= nil then
-			if not Config.CraftingStopWithDistance or (Config.CraftingStopWithDistance and isNearWorkbench()) then
+			if not Config.CraftingStopWithDistance or (Config.CraftingStopWithDistance and IsNearWorkbench()) then
 				craftingQueue[1].time = craftingQueue[1].time - 1
 
 				SendNUIMessage({
@@ -145,7 +145,7 @@ CreateThread(function()
 	end
 end)
 
-function openWorkbench(val)
+function OpenWorkbench(val)
 	ESX.TriggerServerCallback("bpt_crafting:getXP", function(xp)
 		SetNuiFocus(true, true)
 		TriggerScreenblurFadeIn(1000)
@@ -200,7 +200,7 @@ CreateThread(function()
 					end
 
 					if open or #v.jobs == 0 then
-						openWorkbench(v)
+						OpenWorkbench(v)
 					else
 						ESX.ShowNotification(TranslateCap("wrong_job"))
 					end

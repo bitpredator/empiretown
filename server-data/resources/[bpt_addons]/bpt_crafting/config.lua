@@ -173,7 +173,7 @@ Config = {
             requireBlueprint = false,
             Time = 60,
             Ingredients = {
-                ["iron"] = 4,
+                ["iron"] = 2,
                 ["wood"] = 1,
             },
         },
