@@ -1,6 +1,5 @@
 local categories, vehicles = {}, {}
 
-TriggerEvent("esx_phone:registerNumber", "cardealer", TranslateCap("dealer_customers"), false, false)
 TriggerEvent("bpt_society:registerSociety", "cardealer", TranslateCap("car_dealer"), "society_cardealer", "society_cardealer", "society_cardealer", {
     type = "private",
 })
@@ -32,7 +31,7 @@ function SQLVehiclesAndCategories()
     vehicles = MySQL.query.await("SELECT vehicles.*, vehicle_categories.label AS categoryLabel FROM vehicles JOIN vehicle_categories ON vehicles.category = vehicle_categories.name")
 end
 
-function getVehicleFromModel(model)
+function GetVehicleFromModel(model)
     for i = 1, #vehicles do
         local vehicle = vehicles[i]
         if vehicle.model == model then
@@ -148,7 +147,7 @@ end)
 
 ESX.RegisterServerCallback("esx_vehicleshop:buyVehicle", function(source, cb, model, plate)
     local xPlayer = ESX.GetPlayerFromId(source)
-    local modelPrice = getVehicleFromModel(model).price
+    local modelPrice = GetVehicleFromModel(model).price
 
     if modelPrice and xPlayer.getMoney() >= modelPrice then
         xPlayer.removeMoney(modelPrice, "Vehicle Purchase")
@@ -178,7 +177,7 @@ ESX.RegisterServerCallback("esx_vehicleshop:buyCarDealerVehicle", function(sourc
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if xPlayer.job.name == "cardealer" then
-        local modelPrice = getVehicleFromModel(model).price
+        local modelPrice = GetVehicleFromModel(model).price
 
         if modelPrice then
             TriggerEvent("bpt_addonaccount:getSharedAccount", "society_cardealer", function(account)
@@ -209,7 +208,7 @@ AddEventHandler("esx_vehicleshop:returnProvider", function(vehicleModel)
                     if rowsChanged == 1 then
                         TriggerEvent("bpt_addonaccount:getSharedAccount", "society_cardealer", function(account)
                             local price = ESX.Math.Round(result.price * 0.75)
-                            local vehicleLabel = getVehicleFromModel(vehicleModel).name
+                            local vehicleLabel = GetVehicleFromModel(vehicleModel).name
 
                             account.addMoney(price)
                             xPlayer.showNotification(TranslateCap("vehicle_sold_for", vehicleLabel, ESX.Math.GroupDigits(price)))

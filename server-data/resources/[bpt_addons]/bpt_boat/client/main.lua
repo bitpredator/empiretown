@@ -64,7 +64,7 @@ function OpenBoatShop(shop)
                                     CurrentActionMsg = TranslateCap("boat_shop_open")
 
                                     FreezeEntityPosition(playerPed, false)
-                                    SetEntityVisible(playerPed, true)
+                                    SetEntityVisible(PlayerPedId(), true, true)
                                     SetEntityCoords(playerPed, shop.Outside.x, shop.Outside.y, shop.Outside.z)
                                 else
                                     ESX.ShowNotification(TranslateCap("boat_shop_nomoney"))
@@ -235,7 +235,7 @@ function reset(shop)
     CurrentActionMsg = TranslateCap("boat_shop_open")
     DeleteSpawnedVehicles()
     FreezeEntityPosition(playerPed, false)
-    SetEntityVisible(playerPed, true)
+    SetEntityVisible(PlayerPedId(), true, true)
     SetEntityCoords(playerPed, shop.Outside.x, shop.Outside.y, shop.Outside.z)
     ESX.CloseContext()
 end

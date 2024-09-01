@@ -56,7 +56,7 @@ if ESX.GetConfig().Multichar then
                 for i = 1, #keys do
                     EnableControlAction(0, keys[i], true)
                 end
-                SetEntityVisible(PlayerPedId(), 0, 0)
+                SetEntityVisible(PlayerPedId(), true, true)
                 SetLocalPlayerVisibleLocally(1)
                 SetPlayerInvincible(PlayerId(), 1)
                 ThefeedHideThisFrame()
@@ -72,7 +72,7 @@ if ESX.GetConfig().Multichar then
             end
             local playerId, playerPed = PlayerId(), PlayerPedId()
             MumbleSetVolumeOverride(playerId, -1.0)
-            SetEntityVisible(playerPed, 1, 0)
+            SetEntityVisible(PlayerPedId(), true, true)
             SetPlayerInvincible(playerId, 0)
             FreezeEntityPosition(playerPed, false)
             Wait(10000)
