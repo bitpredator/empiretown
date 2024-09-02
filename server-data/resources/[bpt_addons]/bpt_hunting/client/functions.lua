@@ -6,11 +6,11 @@ DrawText3D = function(x, y, z, text)
 	if onScreen then
 		SetTextScale(scale, scale)
 		SetTextFont(4)
-		SetTextProportional(1)
+		SetTextProportional(true)
 		SetTextColour(255, 255, 255, 215)
 		SetTextOutline()
 		SetTextEntry("STRING")
-		SetTextCentre(1)
+		SetTextCentre(true)
 		AddTextComponentString(text)
 		DrawText(_x, _y)
 		local _ = (string.len(text)) / 650

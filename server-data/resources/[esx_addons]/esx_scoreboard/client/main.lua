@@ -1,4 +1,3 @@
---- CrazyFox Discord Channel: https://discord.gg/4E8sth5
 local Keys = {
     ["ESC"] = 322,
     ["F1"] = 288,

@@ -15,7 +15,6 @@ const lastClick = 0;
 function getRandomQuestion() {
 	let random = Math.floor(Math.random() * nbPossibleQuestions);
 
-	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		if (questionUsed.indexOf(random) === -1) {
 			break;

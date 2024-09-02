@@ -1,11 +1,11 @@
 ESX = exports["es_extended"]:getSharedObject()
 
-local oPlayer, playerpos = false, false
+local oPlayer = false
 
 CreateThread(function()
     while true do
-        oPlayer = PlayerPedId()
-        playerpos = GetEntityCoords(oPlayer)
+        OPlayer = PlayerPedId()
+        Playerpos = GetEntityCoords(oPlayer)
         Wait(500)
     end
 end)
@@ -18,7 +18,7 @@ CreateThread(function()
         repeat
             success, ped = FindNextPed(handle)
             local pos = GetEntityCoords(ped)
-            local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerpos.x, playerpos.y, playerpos.z, true)
+            local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Playerpos.x, Playerpos.y, Playerpos.z, true)
             if distance < 2 and CanSlaughterPed(ped) then
                 DrawText3D(pos.x, pos.y, pos.z + 0.6, "[H] ~b~Skin Animal ~s~")
                 while IsControlPressed(0, 30) do
@@ -27,8 +27,8 @@ CreateThread(function()
                 if IsControlJustPressed(1, 74) then
                     if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey("WEAPON_KNIFE") then
                         local oldped = ped
-                        SetEntityHeading(ped, GetHeadingFromVector_2d(pos.x - playerpos.x - playerpos.y) + 180)
-                        SetEntityHeading(oPlayer, GetHeadingFromVector_2d(pos.x - playerpos.x, pos.y - playerpos.y))
+                        SetEntityHeading(ped, GetHeadingFromVector_2d(pos.x - Playerpos.x - Playerpos.y) + 180)
+                        SetEntityHeading(OPlayer, GetHeadingFromVector_2d(pos.x - Playerpos.x, pos.y - Playerpos.y))
 
                         exports.rprogress:Custom({
                             Async = true,

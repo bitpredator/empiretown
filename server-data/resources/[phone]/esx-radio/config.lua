@@ -10,11 +10,11 @@ Config.KeyMappings = {
     Key = "UP",
 }
 
-Config.ClientNotification = function(msg, type)
+Config.ClientNotification = function(msg)
     ESX.ShowNotification(msg, false, false, 140)
 end
 
-Config.ServerNotification = function(msg, type, player)
+Config.ServerNotification = function(msg, player)
     TriggerClientEvent("esx:showNotification", player, msg)
 end
 
