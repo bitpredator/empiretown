@@ -18,7 +18,7 @@ return {
 		label = "Burger",
 		weight = 220,
 		client = {
-			status = { hunger = 25000 },
+			status = { hunger = 30000 },
 			anim = "eating",
 			prop = "burger",
 			usetime = 2500,
@@ -291,7 +291,7 @@ return {
 
 	["radio"] = {
 		label = "Radio",
-		weight = 1000,
+		weight = 300,
 		stack = false,
 		consume = 0,
 		allowArmed = true,
