@@ -11,17 +11,17 @@ AddEventHandler("vSync:requestSync", function()
     TriggerClientEvent("vSync:updateTime", -1, baseTime, timeOffset, freezeTime)
 end)
 
-function isAllowedToChange(player)
+function IsAllowedToChange(player)
     if Config.AdminById then
-        for k, v in ipairs(Config.Admins) do
-            for k2, v2 in ipairs(GetPlayerIdentifiers(player)) do
+        for _, v in ipairs(Config.Admins) do
+            for _, v2 in ipairs(GetPlayerIdentifiers(player)) do
                 if string.lower(v2) == string.lower(v) then
                     return true
                 end
             end
         end
     else
-        for k, v in ipairs(Config.Ace) do
+        for _, v in ipairs(Config.Ace) do
             if IsPlayerAceAllowed(player, v) then
                 return true
             end
@@ -30,9 +30,9 @@ function isAllowedToChange(player)
     return false
 end
 
-RegisterCommand("freezetime", function(source, args)
+RegisterCommand("freezetime", function(source)
     if source ~= 0 then
-        if isAllowedToChange(source) then
+        if IsAllowedToChange(source) then
             freezeTime = not freezeTime
             if freezeTime then
                 TriggerClientEvent("vSync:notify", source, _U("time_frozenc"))
@@ -54,7 +54,7 @@ end)
 
 RegisterCommand("freezeweather", function(source, args)
     if source ~= 0 then
-        if isAllowedToChange(source) then
+        if IsAllowedToChange(source) then
             Config.DynamicWeather = not Config.DynamicWeather
             if not Config.DynamicWeather then
                 TriggerClientEvent("vSync:notify", source, _U("dynamic_weather_disabled"))
@@ -81,7 +81,7 @@ RegisterCommand("weather", function(source, args)
             print(_U("weather_invalid_syntax"))
             return
         else
-            for i, wtype in ipairs(Config.AvailableWeatherTypes) do
+            for _, wtype in ipairs(Config.AvailableWeatherTypes) do
                 if wtype == string.upper(args[1]) then
                     validWeatherType = true
                 end
@@ -96,12 +96,12 @@ RegisterCommand("weather", function(source, args)
             end
         end
     else
-        if isAllowedToChange(source) then
+        if IsAllowedToChange(source) then
             local validWeatherType = false
             if args[1] == nil then
                 TriggerClientEvent("chatMessage", source, "", { 255, 255, 255 }, _U("weather_invalid_syntaxc"))
             else
-                for i, wtype in ipairs(Config.AvailableWeatherTypes) do
+                for _, wtype in ipairs(Config.AvailableWeatherTypes) do
                     if wtype == string.upper(args[1]) then
                         validWeatherType = true
                     end
@@ -131,7 +131,7 @@ RegisterCommand("blackout", function(source)
             print(_U("blackout_disabled"))
         end
     else
-        if isAllowedToChange(source) then
+        if IsAllowedToChange(source) then
             blackout = not blackout
             if blackout then
                 TriggerClientEvent("vSync:notify", source, _U("blackout_enabledc"))
@@ -148,43 +148,46 @@ RegisterCommand("morning", function(source)
         print(_U("time_console"))
         return
     end
-    if isAllowedToChange(source) then
+    if IsAllowedToChange(source) then
         ShiftToMinute(0)
         ShiftToHour(9)
         TriggerClientEvent("vSync:notify", source, _U("time_morning"))
         TriggerEvent("vSync:requestSync")
     end
 end)
+
 RegisterCommand("noon", function(source)
     if source == 0 then
         print(_U("time_console"))
         return
     end
-    if isAllowedToChange(source) then
+    if IsAllowedToChange(source) then
         ShiftToMinute(0)
         ShiftToHour(12)
         TriggerClientEvent("vSync:notify", source, _U("time_noon"))
         TriggerEvent("vSync:requestSync")
     end
 end)
+
 RegisterCommand("evening", function(source)
     if source == 0 then
         print(_U("time_console"))
         return
     end
-    if isAllowedToChange(source) then
+    if IsAllowedToChange(source) then
         ShiftToMinute(0)
         ShiftToHour(18)
         TriggerClientEvent("vSync:notify", source, _U("time_evening"))
         TriggerEvent("vSync:requestSync")
     end
 end)
+
 RegisterCommand("night", function(source)
     if source == 0 then
         print(_U("time_console"))
         return
     end
-    if isAllowedToChange(source) then
+    if IsAllowedToChange(source) then
         ShiftToMinute(0)
         ShiftToHour(23)
         TriggerClientEvent("vSync:notify", source, _U("time_night"))
@@ -200,7 +203,7 @@ function ShiftToHour(hour)
     timeOffset = timeOffset - ((((baseTime + timeOffset) / 60) % 24) - hour) * 60
 end
 
-RegisterCommand("time", function(source, args, rawCommand)
+RegisterCommand("time", function(source, args)
     if source == 0 then
         if tonumber(args[1]) ~= nil and tonumber(args[2]) ~= nil then
             local argh = tonumber(args[1])

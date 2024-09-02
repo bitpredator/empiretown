@@ -57,14 +57,14 @@ local function toggleRadioAnimation(pState)
     if pState then
         TriggerEvent("attachItemRadio", "radio01")
         TaskPlayAnim(PlayerPedId(), "cellphone@", "cellphone_text_read_base", 2.0, 3.0, -1, 49, 0, 0, 0, 0)
-        radioProp = CreateObject(`prop_cs_hand_radio`, 1.0, 1.0, 1.0, 1, 1, 0)
-        AttachEntityToEntity(radioProp, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.14, 0.01, -0.02, 110.0, 120.0, -15.0, 1, 0, 0, 0, 2, 1)
+        RadioProp = CreateObject(`prop_cs_hand_radio`, 1.0, 1.0, 1.0, 1, 1, 0)
+        AttachEntityToEntity(RadioProp, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.14, 0.01, -0.02, 110.0, 120.0, -15.0, 1, 0, 0, 0, 2, 1)
     else
         StopAnimTask(PlayerPedId(), "cellphone@", "cellphone_text_read_base", 1.0)
         ClearPedTasks(PlayerPedId())
         if radioProp ~= 0 then
-            DeleteObject(radioProp)
-            radioProp = 0
+            DeleteObject(RadioProp)
+            RadioProp = 0
         end
     end
 end

@@ -11,7 +11,7 @@ if Config.Item.Require then
         TriggerClientEvent("esx-radio:use", source)
     end)
 
-    ESX.RegisterServerCallback("esx-radio:server:GetItem", function(source, cb, item)
+    ESX.RegisterServerCallback("esx-radio:server:GetItem", function(source, cb)
         local xPlayer = ESX.GetPlayerFromId(source)
         local RadioItem = xPlayer.getInventoryItem(Config.Item.name).count
         cb(RadioItem >= 1)
