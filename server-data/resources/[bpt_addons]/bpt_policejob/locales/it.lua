@@ -73,7 +73,7 @@ Locales["it"] = {
 
 	["id_card"] = "Carta d'identità",
 	["search"] = "perquisisci",
-	["handcuff"] = "manetta / Sgancia",
+	["handcuff"] = "ammanetta / smanetta",
 	["drag"] = "scorta",
 	["put_in_vehicle"] = "metti in veicolo",
 	["out_the_vehicle"] = "trascina fuori dal veicolo",
@@ -156,9 +156,6 @@ Locales["it"] = {
 	["remove_prop"] = "premi [E] per eliminare l'oggetto",
 	["map_blip"] = "Stazione di Polizia",
 	["unrestrained_timer"] = "senti le manette che si allentano lentamente e svaniscono.",
-	-- Notifiche
-	["alert_police"] = "allerta polizia",
-	["phone_police"] = "polizia",
 	-- Pulsante
 	["interaction"] = "Interagisci",
 	["quick_actions"] = "Azioni rapide",

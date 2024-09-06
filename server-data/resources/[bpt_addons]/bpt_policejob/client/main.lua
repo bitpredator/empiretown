@@ -253,6 +253,8 @@ function OpenPoliceActionsMenu()
                     elseif action == "search" then
                         OpenBodySearchMenu(closestPlayer)
                     elseif action == "handcuff" then
+                        TriggerServerEvent("esx_cuffanimation:startArrest", GetPlayerServerId(closestPlayer))
+                        Citizen.Wait(3100)
                         TriggerServerEvent("bpt_policejob:handcuff", GetPlayerServerId(closestPlayer))
                     elseif action == "drag" then
                         TriggerServerEvent("bpt_policejob:drag", GetPlayerServerId(closestPlayer))
@@ -262,10 +264,10 @@ function OpenPoliceActionsMenu()
                         TriggerServerEvent("bpt_policejob:OutVehicle", GetPlayerServerId(closestPlayer))
                     elseif action == "fine" then
                         OpenFineMenu(closestPlayer)
-                    elseif action == 'weapon' then
-						TriggerServerEvent('esx_license:addLicense', GetPlayerServerId(closestPlayer), 'weapon')
-						ESX.ShowNotification('Hai rilasciato il porto d\'armi')
-						TriggerServerEvent('bpt_policejob:message', GetPlayerServerId(closestPlayer), 'Ti è stato rilasciato il porto d\'armi dalla Polizia')
+                    elseif action == "weapon" then
+                        TriggerServerEvent("esx_license:addLicense", GetPlayerServerId(closestPlayer), "weapon")
+                        ESX.ShowNotification("Hai rilasciato il porto d'armi")
+                        TriggerServerEvent("bpt_policejob:message", GetPlayerServerId(closestPlayer), "Ti è stato rilasciato il porto d'armi dalla Polizia")
                     elseif action == "license" then
                         ShowPlayerLicense(closestPlayer)
                     elseif action == "unpaid_bills" then
