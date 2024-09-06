@@ -218,7 +218,7 @@ Locales["it"] = {
     ["exhaust"] = "scarico",
     ["roof"] = "tetto",
     -- Paint
-    ["respray"] = "verici",
+    ["respray"] = "vernici",
     ["primary"] = "primaria",
     ["secondary"] = "secondaria",
     ["pearlescent"] = "perlescente",
