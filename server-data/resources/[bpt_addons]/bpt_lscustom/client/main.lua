@@ -187,13 +187,13 @@ function GetAction(data)
     local vehicle = GetVehiclePedIsIn(playerPed, false)
     local currentMods = ESX.Game.GetVehicleProperties(vehicle)
     if data.value == "modSpeakers" or data.value == "modTrunk" or data.value == "modHydrolic" or data.value == "modEngineBlock" or data.value == "modAirFilter" or data.value == "modStruts" or data.value == "modTank" then
-        SetVehicleDoorOpen(vehicle, 4, false)
-        SetVehicleDoorOpen(vehicle, 5, false)
+        SetVehicleDoorOpen(vehicle, 4, false, false)
+        SetVehicleDoorOpen(vehicle, 5, false, false)
     elseif data.value == "modDoorSpeaker" then
-        SetVehicleDoorOpen(vehicle, 0, false)
-        SetVehicleDoorOpen(vehicle, 1, false)
-        SetVehicleDoorOpen(vehicle, 2, false)
-        SetVehicleDoorOpen(vehicle, 3, false)
+        SetVehicleDoorOpen(vehicle, 0, false, false)
+        SetVehicleDoorOpen(vehicle, 1, false, false)
+        SetVehicleDoorOpen(vehicle, 2, false, false)
+        SetVehicleDoorOpen(vehicle, 3, false, false)
     else
         SetVehicleDoorsShut(vehicle, false)
     end
