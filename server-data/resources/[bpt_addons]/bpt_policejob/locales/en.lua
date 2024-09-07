@@ -70,7 +70,6 @@ Locales["en"] = {
 	["citizen_interaction"] = "citizen Interaction",
 	["vehicle_interaction"] = "vehicle Interaction",
 	["object_spawner"] = "object Spawner",
-
 	["id_card"] = "ID Card",
 	["search"] = "search",
 	["handcuff"] = "cuff / Uncuff",
@@ -164,4 +163,6 @@ Locales["en"] = {
 	["quick_actions"] = "Quick Actions",
 	-- Other
 	["society_police"] = "Police",
+	["received_firearms_license"] = "You have received your firearms license",
+	["released_gun_licence"] = "you have issued your gun licence",
 }
