@@ -266,8 +266,8 @@ function OpenPoliceActionsMenu()
                         OpenFineMenu(closestPlayer)
                     elseif action == "weapon" then
                         TriggerServerEvent("esx_license:addLicense", GetPlayerServerId(closestPlayer), "weapon")
-                        ESX.ShowNotification("Hai rilasciato il porto d'armi")
-                        TriggerServerEvent("bpt_policejob:message", GetPlayerServerId(closestPlayer), "Ti è stato rilasciato il porto d'armi dalla Polizia")
+                        ESX.ShowNotification(TranslateCap("released_gun_licence"))
+                        TriggerServerEvent("bpt_policejob:message", GetPlayerServerId(closestDistance), TranslateCap("received_firearms_license"))
                     elseif action == "license" then
                         ShowPlayerLicense(closestPlayer)
                     elseif action == "unpaid_bills" then
@@ -1429,7 +1429,7 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) " .. TranslateCap("interac
     CurrentAction = nil
 end)
 
-ESX.RegisterInput("police:quickactions", "(ESX PoliceJob) " .. TranslateCap("quick_actions"), "keyboard", "F6", function()
+ESX.RegisterInput("police:quickactions", "(BPT PoliceJob) " .. TranslateCap("quick_actions"), "keyboard", "F6", function()
     if not ESX.PlayerData.job or (ESX.PlayerData.job.name ~= "police") or isDead then
         return
     end
