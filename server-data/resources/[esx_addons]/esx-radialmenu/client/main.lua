@@ -5,7 +5,6 @@ local DynamicMenuItems, FinalMenuItems = {}, {}
 local controlsToToggle = { 24, 0, 1, 2, 142, 257, 346 } -- if not using toggle
 
 -- Functions
-
 local function deepcopy(orig) -- modified the deep copy function from http://lua-users.org/wiki/CopyTable
     local orig_type = type(orig)
     local copy
@@ -66,7 +65,6 @@ local function SetupJobMenu()
         icon = "briefcase",
         items = {},
     }
-    --if Config.JobInteractions[JobInteractionCheck] and next(Config.JobInteractions[JobInteractionCheck]) and ESX.PlayerData.job.onduty then
     if Config.JobInteractions[JobInteractionCheck] and next(Config.JobInteractions[JobInteractionCheck]) then
         JobMenu.items = Config.JobInteractions[JobInteractionCheck]
     end
@@ -108,7 +106,7 @@ local function SetupVehicleMenu()
             }
         end
 
-        if IsPedInAnyVehicle(ped) then
+        if IsPedInAnyVehicle(PlayerPedId(), false) then
             local seatIndex = #VehicleMenu.items + 1
             VehicleMenu.items[seatIndex] = deepcopy(Config.VehicleSeats)
 
@@ -216,7 +214,7 @@ local function setRadialState(bool, sendMessage, delay)
             controlToggle(false)
         end
         SetNuiFocus(bool, bool)
-        SetNuiFocusKeepInput(bool, true)
+        SetNuiFocusKeepInput(bool)
     else
         if bool then
             TriggerEvent("esx-radialmenu:client:onRadialmenuOpen")
@@ -264,7 +262,7 @@ end)
 -- Sets the playerdata to an empty table when the player has quit or did /logout
 RegisterNetEvent("esx:onPlayerLogout", function()
     ESX.PlayerLoaded = false
-    firstSpawn = true
+    FirstSpawn = true
 end)
 
 RegisterNetEvent("esx-radialmenu:client:noPlayers", function()

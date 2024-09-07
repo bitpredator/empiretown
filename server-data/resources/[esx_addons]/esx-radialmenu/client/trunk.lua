@@ -24,7 +24,7 @@ local disabledTrunk = {
 local function DrawText3Ds(x, y, z, text)
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
-    SetTextProportional(1)
+    SetTextProportional(true)
     SetTextColour(255, 255, 255, 215)
     SetTextEntry("STRING")
     SetTextCentre(true)
@@ -50,7 +50,7 @@ local function TrunkCam(bool)
     local drawPos = GetOffsetFromEntityInWorldCoords(vehicle, 0, -5.5, 0)
     local vehHeading = GetEntityHeading(vehicle)
     if bool then
-        RenderScriptCams(false, false, 0, 1, 0)
+        RenderScriptCams(false, false, 0, true, false)
         DestroyCam(cam, false)
         if not DoesCamExist(cam) then
             cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
@@ -60,7 +60,7 @@ local function TrunkCam(bool)
             RenderScriptCams(true, false, 0, true, true)
         end
     else
-        RenderScriptCams(false, false, 0, 1, 0)
+        RenderScriptCams(false, false, 0, true, false)
         DestroyCam(cam, false)
         cam = nil
     end
@@ -109,8 +109,8 @@ RegisterNetEvent("esx-trunk:client:KidnapGetIn", function(veh)
                                 while not HasAnimDictLoaded("fin_ext_p1-7") do
                                     Wait(0)
                                 end
-                                TaskPlayAnim(ped, "fin_ext_p1-7", "cs_devin_dual-7", 8.0, 8.0, -1, 1, 999.0, 0, 0, 0)
-                                AttachEntityToEntity(ped, closestVehicle, 0, offset.x, offset.y, offset.z, 0, 0, 40.0, 1, 1, 1, 1, 1, 1)
+                                TaskPlayAnim(ped, "fin_ext_p1-7", "cs_devin_dual-7", 8.0, 8.0, -1, 1, 999.0, false, false, false)
+                                AttachEntityToEntity(ped, closestVehicle, 0, offset.x, offset.y, offset.z, 0, 0, 40.0, true, true, true, true, 1, true)
                                 TriggerServerEvent("esx-trunk:server:setTrunkBusy", plate, true)
                                 inTrunk = true
                                 Wait(500)
@@ -173,8 +173,8 @@ RegisterNetEvent("esx-trunk:client:GetIn", function()
                                 while not HasAnimDictLoaded("fin_ext_p1-7") do
                                     Wait(0)
                                 end
-                                TaskPlayAnim(ped, "fin_ext_p1-7", "cs_devin_dual-7", 8.0, 8.0, -1, 1, 999.0, 0, 0, 0)
-                                AttachEntityToEntity(ped, closestVehicle, 0, offset.x, offset.y, offset.z, 0, 0, 40.0, 1, 1, 1, 1, 1, 1)
+                                TaskPlayAnim(ped, "fin_ext_p1-7", "cs_devin_dual-7", 8.0, 8.0, -1, 1, 999.0, false, false, false)
+                                AttachEntityToEntity(ped, closestVehicle, 0, offset.x, offset.y, offset.z, 0, 0, 40.0, true, true, true, true, 1, true)
                                 TriggerServerEvent("esx-trunk:server:setTrunkBusy", plate, true)
                                 inTrunk = true
                                 Wait(500)
