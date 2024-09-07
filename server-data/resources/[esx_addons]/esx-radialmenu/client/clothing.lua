@@ -776,7 +776,7 @@ local function PlayToggleEmote(e, cb)
         RequestAnimDict(e.Dict)
         Wait(100)
     end
-    if IsPedInAnyVehicle(Ped) then
+    if IsPedInAnyVehicle(PlayerPedId(), false) then
         e.Move = 51
     end
     TaskPlayAnim(Ped, e.Dict, e.Anim, 3.0, 3.0, e.Dur, e.Move, 0, false, false, false)
@@ -982,14 +982,12 @@ RegisterNetEvent("esx-radialmenu:ToggleProps", ToggleProps)
 
 for k, v in pairs(Config.Commands) do
     RegisterCommand(k, v.Func)
-    --log("Created /"..k.." ("..v.Desc..")") -- Useful for  TranslateCap checking.
     TriggerEvent("chat:addSuggestion", "/" .. k, v.Desc)
 end
 
 if Config.ExtrasEnabled then
     for k, v in pairs(Config.ExtraCommands) do
         RegisterCommand(k, v.Func)
-        --log("Created /"..k.." ("..v.Desc..")") -- Useful for  TranslateCap checking.
         TriggerEvent("chat:addSuggestion", "/" .. k, v.Desc)
     end
 end

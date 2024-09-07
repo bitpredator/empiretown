@@ -9,11 +9,10 @@ local allowedStretcherVehicles = {
 }
 
 -- Functions
-
 local function DrawText3Ds(x, y, z, text)
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
-    SetTextProportional(1)
+    SetTextProportional(true)
     SetTextColour(255, 255, 255, 215)
     SetTextEntry("STRING")
     SetTextCentre(true)
