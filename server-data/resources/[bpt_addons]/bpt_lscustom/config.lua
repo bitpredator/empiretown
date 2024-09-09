@@ -6,7 +6,7 @@ Config.IsMechanicJobOnly = true
 Config.Zones = {
 
     ls1 = {
-        Pos = vector3(-337.38, -136.92, 38.57),
+        Pos = vector3(-327.560425, -143.934067, 39.002197),
         Name = TranslateCap("blip_name"),
         Hint = TranslateCap("press_custom"),
     },

@@ -250,7 +250,7 @@ function OpenMobileMechanicActionsMenu()
                     SetVehicleFixed(vehicle)
                     SetVehicleDeformationFixed(vehicle)
                     SetVehicleUndriveable(vehicle, false)
-                    SetVehicleEngineOn(vehicle, true, true)
+                    SetVehicleEngineOn(vehicle, true, true, true)
                     ClearPedTasksImmediately(playerPed)
 
                     ESX.ShowNotification(TranslateCap("vehicle_repaired"))
