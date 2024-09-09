@@ -89,7 +89,7 @@ function OpenMobileBallasActionsMenu()
                     input = true,
                     inputType = "number",
                     inputMin = 1,
-                    inputMax = 250000,
+                    inputMax = 10000000,
                     inputPlaceholder = TranslateCap("bill_amount"),
                 },
                 { icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },

@@ -248,7 +248,7 @@ function OpenMobileTaxiActionsMenu()
         if element.value == "billing" then
             local elements2 = {
                 { unselectable = true, icon = "fas fa-taxi", title = element.title },
-                { title = TranslateCap("amount"), input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = TranslateCap("bill_amount") },
+                { title = TranslateCap("amount"), input = true, inputType = "number", inputMin = 1, inputMax = 10000000, inputPlaceholder = TranslateCap("bill_amount") },
                 { icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
             }
 
