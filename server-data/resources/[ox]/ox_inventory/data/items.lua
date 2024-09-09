@@ -502,7 +502,7 @@ return {
 
 	["gunpowder"] = {
 		label = "polvere da sparo",
-		weight = 100,
+		weight = 10,
 		stack = true,
 	},
 
