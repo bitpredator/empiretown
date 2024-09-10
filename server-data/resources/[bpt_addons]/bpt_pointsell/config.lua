@@ -4,6 +4,7 @@ Config.Locale = GetConvar("esx:locale", "it")
 
 Config.DealerItems = {
     emerald = 200,
+    diamond = 820,
 }
 
 Config.GiveBlack = true -- give black money? if disabled it'll give regular cash.
