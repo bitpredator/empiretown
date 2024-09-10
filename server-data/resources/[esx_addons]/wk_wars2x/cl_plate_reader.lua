@@ -207,7 +207,7 @@ function READER:Main()
         -- Loop through front (1) and rear (-1)
         for i = 1, -1, -2 do
             -- Get the world position of the player's vehicle
-            local pos = GetEntityCoords(PLY.veh)
+            local _ = GetEntityCoords(PLY.veh)
 
             -- Get a start position 5m in front/behind the player's vehicle
             local start = GetOffsetFromEntityInWorldCoords(PLY.veh, 0.0, (5.0 * i), 0.0)

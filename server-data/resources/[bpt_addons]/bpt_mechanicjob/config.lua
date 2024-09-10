@@ -30,10 +30,10 @@ Config.Vehicles = {
 Config.Zones = {
 
     MechanicActions = {
-        Pos = vector3(-342.291, -133.370, 39.009),
+        Pos = vector3(-339.560425, -157.463730, 44.579468),
         Size = { x = 1.0, y = 1.0, z = 1.0 },
-        Color = { r = 50, g = 200, b = 50 },
-        Type = 21,
+        Color = { r = 25, g = 100, b = 25 },
+        Type = 20,
     },
 
     VehicleSpawnPoint = {

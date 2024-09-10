@@ -6,10 +6,7 @@ local tostring = tostring
 local math = math
 local pairs = pairs
 
---[[----------------------------------------------------------------------------------
-	UI loading and key binds registering
-----------------------------------------------------------------------------------]]
---
+--[UI loading and key binds registering]
 local function RegisterKeyBinds()
     if UTIL:IsResourceNameValid() then
         UTIL:Log("Registering radar commands and key binds.")
@@ -101,13 +98,10 @@ local function LoadUISettings()
     end
 end
 
---[[----------------------------------------------------------------------------------
-	Radar variables
+--[[Radar variables
+NOTE - This is not a config, do not touch anything unless you know what
+you are actually doing.]]--
 
-	NOTE - This is not a config, do not touch anything unless you know what
-	you are actually doing.
-----------------------------------------------------------------------------------]]
---
 RADAR = {}
 RADAR.vars = {
     -- Whether or not the radar's UI is visible
@@ -677,7 +671,7 @@ function RADAR:UpdateOptionIndexes(loadSaved)
     -- Iterate through each of the internal settings
     for k, v in pairs(self.vars.settings) do
         -- Iterate through all of the menu options
-        for i, t in pairs(self.vars.menuOptions) do
+        for _, t in pairs(self.vars.menuOptions) do
             -- If the current menu option is the same as the current setting
             if t.settingText == k then
                 -- Iterate through the option values of the current menu option
@@ -693,10 +687,7 @@ function RADAR:UpdateOptionIndexes(loadSaved)
     end
 end
 
---[[----------------------------------------------------------------------------------
-	Radar basics functions
-----------------------------------------------------------------------------------]]
---
+-- [Radar basics functions]
 -- Returns the patrol speed value stored
 function RADAR:GetPatrolSpeed()
     return self.vars.patrolSpeed
@@ -1459,7 +1450,7 @@ function RADAR:GetVehiclesForAntenna()
         -- Check that the table for the current antenna is not empty
         if not UTIL:IsTableEmpty(vehs[ant]) then
             -- Get the 'strongest' vehicle for the antenna
-            for k, v in pairs(vehs[ant]) do
+            for _, v in pairs(vehs[ant]) do
                 -- Check if the current vehicle item fits the mode set by the user
                 if self:CheckVehicleDataFitsMode(ant, v.rayType) then
                     -- Set the result for the current antenna
@@ -1478,7 +1469,7 @@ function RADAR:GetVehiclesForAntenna()
                 local temp = results[ant][1]
 
                 -- Iterate through the vehicles for the current antenna
-                for k, v in pairs(vehs[ant]) do
+                for _, v in pairs(vehs[ant]) do
                     -- When we grab a vehicle for the fastest section, as it is like how the real system works, there are a few
                     -- additional checks that have to be made
                     if self:CheckVehicleDataFitsMode(ant, v.rayType) and v.veh ~= temp.veh and v.size < temp.size and v.speed > temp.speed + 1.0 then

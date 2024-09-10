@@ -273,6 +273,7 @@ Config = {
                 ["iron"] = 3,
                 ["wood"] = 1,
                 ["steel"] = 5,
+                ["hammer"] = 1,
             },
         },
 
@@ -291,6 +292,7 @@ Config = {
                 ["iron"] = 3,
                 ["wood"] = 1,
                 ["steel"] = 5,
+                ["hammer"] = 1,
             },
         },
         ["ammo-sniper"] = {
@@ -308,6 +310,7 @@ Config = {
                 ["iron"] = 1,
                 ["gunpowder"] = 1,
                 ["gold"] = 1,
+                ["hammer"] = 1,
             },
         },
 
@@ -326,6 +329,7 @@ Config = {
                 ["iron"] = 1,
                 ["gunpowder"] = 1,
                 ["gold"] = 1,
+                ["hammer"] = 1,
             },
         },
 
@@ -343,6 +347,7 @@ Config = {
                 ["iron"] = 1,
                 ["steel"] = 1,
                 ["wood"] = 1,
+                ["hammer"] = 1,
             },
         },
 
@@ -359,6 +364,7 @@ Config = {
             Ingredients = {
                 ["iron"] = 2,
                 ["gold"] = 1,
+                ["hammer"] = 1,
             },
         },
 
@@ -373,7 +379,9 @@ Config = {
             requireBlueprint = false,
             Time = 60,
             Ingredients = {
-                ["recycled_plastic"] = 10,
+                ["recycled_plastic"] = 5,
+                ["wood"] = 1,
+                ["hammer"] = 1,
             },
         },
 
@@ -459,7 +467,16 @@ Config = {
             coords = vector3(1020.936279, -2404.628662, 30.122314),
             jobs = { "import" },
             blip = false,
-            recipes = { "cottonforbandages", "hammer", "ironsheet", "recycled_paper", "paper", "recycled_plastic", "iron", "diamond_tip" },
+            recipes = {
+                "cottonforbandages",
+                "hammer",
+                "ironsheet",
+                "recycled_paper",
+                "paper",
+                "recycled_plastic",
+                "iron",
+                "diamond_tip",
+            },
             radius = 1.0,
         },
         {
@@ -470,7 +487,7 @@ Config = {
             radius = 1.0,
         },
         {
-            coords = vector3(-323.551636, -129.626373, 39.002197),
+            coords = vector3(-344.492310, -89.063736, 39.002197),
             jobs = { "mechanic" },
             blip = false,
             recipes = { "fixkit" },

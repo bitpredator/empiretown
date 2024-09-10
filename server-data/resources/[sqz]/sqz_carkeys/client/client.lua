@@ -11,6 +11,7 @@ RegisterCommand("lockvehicle", function()
         ESX.ShowNotification(TranslateCap("no_vehicle_found"))
     end
 end)
+
 RegisterKeyMapping("lockvehicle", TranslateCap("lock_vehicle"), "keyboard", "f10")
 
 RegisterNetEvent("carlock:CarLockedEffect", function(netId, lockStatus)
@@ -23,7 +24,7 @@ RegisterNetEvent("carlock:CarLockedEffect", function(netId, lockStatus)
         while not HasModelLoaded(prop) do
             Wait(10)
         end
-        local keyObj = CreateObject(prop, 1.0, 1.0, 1.0, 1, 1, 0)
+        local keyObj = CreateObject(prop, 1.0, 1.0, 1.0, true, true, false)
         AttachEntityToEntity(keyObj, ped, GetPedBoneIndex(ped, 57005), 0.08, 0.039, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
 
         local dict = "anim@mp_player_intmenu@key_fob@"
@@ -41,7 +42,7 @@ RegisterNetEvent("carlock:CarLockedEffect", function(netId, lockStatus)
         if lockStatus then
             ESX.ShowNotification(TranslateCap("vehicle_locked"))
         else
-            ESX.ShowNotification(TranslateCap("vehicleTranslateCapnlocked"))
+            ESX.ShowNotification(TranslateCap("vehicle_unlocked"))
         end
 
         SetVehicleLights(vehicle, 2)
@@ -69,7 +70,7 @@ end)
 function Draw3DText(x, y, z, text)
     SetTextScale(0.22, 0.22)
     SetTextFont(13)
-    SetTextProportional(1)
+    SetTextProportional(true)
     SetTextColour(255, 255, 255, 215)
     SetTextEntry("STRING")
     SetTextCentre(true)
@@ -92,7 +93,7 @@ CreateThread(function()
             Draw3DText(centralPos.x, centralPos.y, centralPos.z, TranslateCap("change_locks_for", Config.Price))
             if dist < 2 then
                 if IsControlJustPressed(0, 38) then
-                    local veh = GetVehiclePedIsIn(playerPed)
+                    local veh = GetVehiclePedIsIn(playerPed, false)
                     if DoesEntityExist(veh) then
                         TriggerServerEvent("carkeys:NewLocks", GetVehicleNumberPlateText(veh))
                         Wait(5000)
@@ -115,8 +116,7 @@ CreateThread(function()
     SetBlipScale(blip, 0.9)
     SetBlipColour(blip, 73)
     SetBlipAsShortRange(blip, true)
-
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString(AddTextComponentString(TranslateCap("locksmith")))
+    AddTextComponentString(TranslateCap("locksmith"))
     EndTextCommandSetBlipName(blip)
 end)

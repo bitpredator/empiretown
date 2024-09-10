@@ -35,7 +35,7 @@ CONFIG.use_sonorancad = false
 -- These keybinds can be changed by each person in their GTA Settings->Keybinds->FiveM
 CONFIG.keyDefaults = {
     -- Remote control key
-    remote_control = "f5",
+    remote_control = "f4",
 
     -- Radar key lock key
     key_lock = "l",

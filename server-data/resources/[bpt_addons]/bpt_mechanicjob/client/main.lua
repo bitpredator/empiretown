@@ -186,7 +186,7 @@ function OpenMobileMechanicActionsMenu()
         if element.value == "billing" then
             local elements2 = {
                 { unselectable = true, icon = "fas fa-scroll", title = element.title },
-                { title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 250000, inputPlaceholder = "Amount to bill.." },
+                { title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 10000000, inputPlaceholder = "Amount to bill.." },
                 { icon = "fas fa-check-double", title = "Confirm", value = "confirm" },
             }
 
@@ -250,7 +250,7 @@ function OpenMobileMechanicActionsMenu()
                     SetVehicleFixed(vehicle)
                     SetVehicleDeformationFixed(vehicle)
                     SetVehicleUndriveable(vehicle, false)
-                    SetVehicleEngineOn(vehicle, true, true)
+                    SetVehicleEngineOn(vehicle, true, true, true)
                     ClearPedTasksImmediately(playerPed)
 
                     ESX.ShowNotification(TranslateCap("vehicle_repaired"))

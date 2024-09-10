@@ -18,7 +18,7 @@ function UTIL:FormatSpeed(speed)
     local pipes = ""
 
     -- Create a string of pipes (¦) for the number of spaces
-    for i = 1, 3 - string.len(text) do
+    for _ = 1, 3 - string.len(text) do
         pipes = pipes .. "¦"
     end
 
@@ -64,7 +64,7 @@ end
 -- Old ray trace function for getting a vehicle in a specific direction from a start point
 function UTIL:GetVehicleInDirection(entFrom, coordFrom, coordTo)
     local rayHandle = StartShapeTestCapsule(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 5.0, 10, entFrom, 7)
-    local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
+    local vehicle = GetShapeTestResult(rayHandle)
     return vehicle
 end
 
@@ -112,10 +112,9 @@ end
 -- Used to draw text to the screen, helpful for debugging issues
 function UTIL:DrawDebugText(x, y, scale, centre, text)
     SetTextFont(4)
-    SetTextProportional(0)
     SetTextScale(scale, scale)
     SetTextColour(255, 255, 255, 255)
-    SetTextDropShadow(0, 0, 0, 0, 255)
+    SetTextDropShadow()
     SetTextEdge(2, 0, 0, 0, 255)
     SetTextCentre(centre)
     SetTextDropShadow()

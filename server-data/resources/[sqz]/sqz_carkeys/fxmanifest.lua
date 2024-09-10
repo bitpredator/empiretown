@@ -3,7 +3,7 @@ fx_version("cerulean")
 
 author("Squizer#3020")
 description("Script that allows you to lock vehicles.")
-version("1.0.1")
+version("1.0.2")
 
 shared_scripts({
     "@es_extended/locale.lua",
