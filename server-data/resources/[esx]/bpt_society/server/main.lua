@@ -405,10 +405,10 @@ ESX.RegisterServerCallback("bpt_society:getVehiclesInGarage", function(_, cb, so
 end)
 
 ESX.RegisterServerCallback("bpt_society:isBoss", function(source, cb, job)
-    cb(isPlayerBoss(source, job))
+    cb(IsPlayerBoss(source, job))
 end)
 
-function isPlayerBoss(playerId, job)
+function IsPlayerBoss(playerId, job)
     local xPlayer = ESX.GetPlayerFromId(playerId)
 
     if xPlayer.job.name == job and xPlayer.job.grade_name == "boss" then

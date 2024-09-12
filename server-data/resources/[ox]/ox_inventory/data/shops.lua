@@ -129,6 +129,8 @@ return {
 		},
 		inventory = {
 			{ name = "pickaxe", price = 30 },
+			{ name = "water", price = 100 },
+			{ name = "burger", price = 70 },
 		},
 		locations = {
 			vec3(2571.151611, 2720.690186, 42.911377),
