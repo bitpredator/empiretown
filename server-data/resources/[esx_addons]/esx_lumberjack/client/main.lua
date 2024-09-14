@@ -1,5 +1,6 @@
 local trees = {}
 local duty = false
+local model
 
 Citizen.CreateThread(function()
     lib.callback("map_lumberjack:getTreesWithData", false, function(data)
@@ -133,14 +134,10 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(sleep)
         local coords = GetEntityCoords(PlayerPedId())
-        local sellPoint = #(coords - Config.SellPoint)
         local dutyPED = #(coords - vector3(Config.Duty.x, Config.Duty.y, Config.Duty.z))
         if dutyPED < 8 then
             sleep = 5
             MessageWithBackground(vector3(Config.Duty.x, Config.Duty.y, Config.Duty.z + 2), "~INPUT_CONTEXT~ Start working as Lumberjack")
-        elseif sellPoint < 15 and duty then
-            sleep = 5
-            MessageWithBackground(Config.SellPoint, "~INPUT_CONTEXT~ Sell all wood")
         else
             sleep = 500
         end
@@ -150,12 +147,6 @@ end)
 RegisterCommand("startLumberjackDuty", function()
     local coords = GetEntityCoords(PlayerPedId())
     local dist = #(coords - vector3(Config.Duty.x, Config.Duty.y, Config.Duty.z))
-    local sellPoint = #(coords - Config.SellPoint)
-
-    if sellPoint < 2.0 and duty then
-        lib.callback("map_lumberjack:sellAllWood")
-    end
-
     if dist > 2 then
         return false
     end
@@ -163,9 +154,9 @@ RegisterCommand("startLumberjackDuty", function()
     lib.callback("map_lumberjack:duty", false, function(boolean)
         duty = boolean
         if boolean then
-            ESX.ShowNotification("You have started your shift")
+            ESX.ShowNotification(TranslateCap("you_started"))
         else
-            ESX.ShowNotification("You have ended your shift")
+            ESX.ShowNotification(TranslateCap("you_ended"))
         end
     end)
 end)
