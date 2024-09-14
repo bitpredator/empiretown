@@ -15,7 +15,7 @@ function Draw3DText(x, y, z, scl_factor, text)
         SetTextDropShadow()
         SetTextOutline()
         SetTextEntry("STRING")
-        SetTextCentre(1)
+        SetTextCentre(true)
         AddTextComponentString(text)
         DrawText(_x, _y)
     end
