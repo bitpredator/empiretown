@@ -23,7 +23,7 @@ function DrawSub(msg, time)
     ClearPrints()
     BeginTextCommandPrint("STRING")
     AddTextComponentSubstringPlayerName(msg)
-    EndTextCommandPrint(time, 1)
+    EndTextCommandPrint(time, true)
 end
 
 function ShowLoadingPromt(msg, time, type)
