@@ -721,7 +721,14 @@ return {
 
 	["recycled_plastic"] = {
 		label = "Plastica riciclata",
-		weight = 1,
+		weight = 10,
+		stack = true,
+		close = true,
+	},
+
+	["marijuana_extract"] = {
+		label = "Estratto di marijuana",
+		weight = 10,
 		stack = true,
 		close = true,
 	},
