@@ -60,31 +60,3 @@ end)
 function SyncTrees()
     TriggerClientEvent("map_lumberjack:syncTrees", -1, trees)
 end
-
-lib.callback.register("map_lumberjack:sellAllWood", function()
-    local source = source
-
-    if not dutyPlayers[source] then
-        return false
-    end
-
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local dist = #(xPlayer.getCoords(true) - Config.SellPoint)
-
-    if dist > 2 then
-        xPlayer.showNotification("You are too far away from the sell point.")
-        return
-    end
-
-    local woodCount = xPlayer.getInventoryItem("wood").count
-    if woodCount <= 0 then
-        xPlayer.showNotification("You do not have any wood to sell.")
-        return
-    end
-
-    local totalPrice = woodCount * Config.WoodPrice
-    xPlayer.addAccountMoney("money", totalPrice)
-    xPlayer.removeInventoryItem("wood", woodCount)
-
-    xPlayer.showNotification("You sold " .. woodCount .. " wood and received $" .. totalPrice)
-end)

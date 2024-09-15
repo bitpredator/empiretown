@@ -4,18 +4,18 @@ game("gta5")
 author("bitpredator")
 description("Allows resources to store account data, such as society funds")
 lua54("yes")
-version("1.0.1")
+version("1.0.2")
 
 server_scripts({
-	"@es_extended/imports.lua",
-	"@oxmysql/lib/MySQL.lua",
-	"server/classes/addonaccount.lua",
-	"server/main.lua",
+    "@es_extended/imports.lua",
+    "@oxmysql/lib/MySQL.lua",
+    "server/classes/addonaccount.lua",
+    "server/main.lua",
 })
 
 server_exports({
-	"GetSharedAccount",
-	"AddSharedAccount",
+    "GetSharedAccount",
+    "AddSharedAccount",
 })
 
 dependency("es_extended")

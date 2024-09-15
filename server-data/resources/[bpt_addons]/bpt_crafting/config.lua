@@ -67,6 +67,23 @@ Config = {
             },
         },
 
+        ["marijuana_extract"] = {
+            Level = 0,
+            Category = "medical",
+            isGun = false,
+            Jobs = { "ambulance" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["marijuana"] = 2,
+                ["diamond_tip"] = 1,
+                ["bandage"] = 1,
+            },
+        },
+
         ["marijuana"] = {
             Level = 0,
             Category = "medical",
@@ -483,7 +500,7 @@ Config = {
             coords = vector3(311.314301, -565.213196, 43.282104),
             jobs = { "ambulance" },
             blip = false,
-            recipes = { "bandage", "marijuana" },
+            recipes = { "bandage", "marijuana", "marijuana_extract" },
             radius = 1.0,
         },
         {

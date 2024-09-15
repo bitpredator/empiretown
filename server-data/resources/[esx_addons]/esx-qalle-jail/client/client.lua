@@ -78,15 +78,10 @@ local Keys = {
 
 PlayerData = {}
 local jailTime = 0
+ESX = exports["es_extended"]:getSharedObject()
 
 CreateThread(function()
-    ESX = exports["es_extended"]:getSharedObject()
-    while ESX.GetPlayerData() == nil do
-        Wait(10)
-    end
-
     PlayerData = ESX.GetPlayerData()
-
     LoadTeleporters()
 end)
 
@@ -265,7 +260,7 @@ end
 
 function DeliverPackage(packageId)
     if DoesEntityExist(packageId) then
-        AttachEntityToEntity(packageId, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, -0.03, 0.0, 5.0, 0.0, 0.0, 1, 1, 0, 1, 0, 1)
+        AttachEntityToEntity(packageId, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), 0.0, -0.03, 0.0, 5.0, 0.0, 0.0, true, true, false, true, 0, true)
 
         ClearPedTasks(PlayerPedId())
     else

@@ -146,7 +146,7 @@ return {
 
 	["cottonforbandages"] = {
 		label = "cotone per bende",
-		weight = 1,
+		weight = 5,
 		stack = true,
 		close = false,
 		consume = 0,
@@ -178,7 +178,7 @@ return {
 
 	["emerald"] = {
 		label = "Smeraldo",
-		weight = 1,
+		weight = 3,
 		stack = true,
 		close = false,
 		consume = 0,
@@ -462,7 +462,7 @@ return {
 
 	["backpack"] = {
 		label = "Backpack",
-		weight = 220,
+		weight = 200,
 		stack = false,
 		consume = 0,
 		client = {
@@ -574,7 +574,7 @@ return {
 
 	["medikit"] = {
 		label = "Medikit",
-		weight = 2,
+		weight = 10,
 		stack = true,
 		close = true,
 	},
@@ -721,7 +721,14 @@ return {
 
 	["recycled_plastic"] = {
 		label = "Plastica riciclata",
-		weight = 1,
+		weight = 10,
+		stack = true,
+		close = true,
+	},
+
+	["marijuana_extract"] = {
+		label = "Estratto di marijuana",
+		weight = 10,
 		stack = true,
 		close = true,
 	},
