@@ -25,19 +25,14 @@ function ESX.SpawnPlayer(skin, coords, cb)
     end)
     Citizen.Await(p)
 
-    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-
     local playerPed = PlayerPedId()
-    local timer = GetGameTimer()
-
     FreezeEntityPosition(playerPed, true)
     SetEntityCoordsNoOffset(playerPed, coords.x, coords.y, coords.z, false, false, false, true)
     SetEntityHeading(playerPed, coords.heading)
-
-    while not HasCollisionLoadedAroundEntity(playerPed) and (GetGameTimer() - timer) < 5000 do
+    while not HasCollisionLoadedAroundEntity(playerPed) do
         Wait(0)
     end
-
+    FreezeEntityPosition(playerPed, false)
     NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, coords.heading, true, true, false)
     TriggerEvent("playerSpawned", coords)
     cb()
@@ -145,7 +140,6 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, _, skin)
         for i = 1, 15 do
             EnableDispatchService(i, false)
         end
-        SetAudioFlag("PoliceScannerDisabled", true)
     end
 
     -- Disable Scenarios
@@ -207,10 +201,6 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, _, skin)
         for _, v in pairs(scenarios) do
             SetScenarioTypeEnabled(v, false)
         end
-    end
-
-    if not Config.Multichar then
-        FreezeEntityPosition(ESX.PlayerData.ped, false)
     end
 
     if IsScreenFadedOut() then
