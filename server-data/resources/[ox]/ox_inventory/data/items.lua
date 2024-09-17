@@ -484,13 +484,13 @@ return {
 
 	["deer_meat"] = {
 		label = "carne di cervo",
-		weight = 500,
+		weight = 100,
 		stack = true,
 	},
 
 	["pelt_coyote"] = {
 		label = "Pelle di coyote",
-		weight = 3000,
+		weight = 1500,
 		stack = true,
 	},
 
@@ -514,14 +514,14 @@ return {
 
 	["bread"] = {
 		label = "panino vuoto",
-		weight = 100,
+		weight = 40,
 		stack = true,
 		consume = 0,
 	},
 
 	["flour"] = {
 		label = "farina",
-		weight = 100,
+		weight = 20,
 		stack = true,
 	},
 
