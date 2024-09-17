@@ -28,7 +28,7 @@ if Config.Multichar then
         if not ESX.Players[src] then
             local identifier = char .. ":" .. ESX.GetIdentifier(src)
             if data then
-                createESXPlayer(identifier, src, data)
+                CreateESXPlayer(identifier, src, data)
             else
                 LoadESXPlayer(identifier, src, false)
             end
@@ -43,12 +43,12 @@ else
         end
 
         if not ESX.Players[_source] then
-            onPlayerJoined(_source)
+            OnPlayerJoined(_source)
         end
     end)
 end
 
-function onPlayerJoined(playerId)
+function OnPlayerJoined(playerId)
     local identifier = ESX.GetIdentifier(playerId)
     if identifier then
         if ESX.GetPlayerFromIdentifier(identifier) then
@@ -63,7 +63,7 @@ function onPlayerJoined(playerId)
             if result then
                 LoadESXPlayer(identifier, playerId, false)
             else
-                createESXPlayer(identifier, playerId)
+                CreateESXPlayer(identifier, playerId)
             end
         end
     else
@@ -71,7 +71,7 @@ function onPlayerJoined(playerId)
     end
 end
 
-function createESXPlayer(identifier, playerId, data)
+function CreateESXPlayer(identifier, playerId, data)
     local accounts = {}
 
     for account, money in pairs(Config.StartingAccountMoney) do
