@@ -40,7 +40,7 @@ return {
 
 	["cola"] = {
 		label = "eCola",
-		weight = 350,
+		weight = 70,
 		client = {
 			status = { thirst = 200000 },
 			anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
@@ -278,7 +278,7 @@ return {
 
 	["water"] = {
 		label = "Water",
-		weight = 500,
+		weight = 150,
 		client = {
 			status = { thirst = 200000 },
 			anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
