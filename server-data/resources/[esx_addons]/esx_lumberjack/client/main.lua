@@ -117,11 +117,7 @@ RegisterCommand("cutatree", function()
         FreezeEntityPosition(PlayerPedId(), true)
         Citizen.Wait(3000)
 
-        lib.callback("map_lumberjack:makeDamage", false, function(data)
-            if data then
-                --print('You made damage')
-            end
-        end, closest)
+        lib.callback("map_lumberjack:makeDamage", false, function(data) end, closest)
 
         FreezeEntityPosition(PlayerPedId(), false)
         DeleteObject(axe)
