@@ -21,7 +21,7 @@ Config = {
             Jobs = { "mechanic" },
         },
         ["ammu"] = {
-            Label = "Armeria",
+            Label = "Armi",
             Image = "ammu",
             Jobs = { "ammu" },
         },
@@ -44,6 +44,11 @@ Config = {
             Label = "fisherman",
             Image = "fisherman",
             Jobs = { "fisherman" },
+        },
+        ["ammunation"] = {
+            Label = "Munizioni",
+            Image = "ammu",
+            Jobs = { "ammu" },
         },
     },
 
@@ -314,7 +319,7 @@ Config = {
         },
         ["ammo-sniper"] = {
             Level = 10,
-            Category = "ammu",
+            Category = "ammunation",
             isGun = false,
             Jobs = { "ammu" },
             JobGrades = {},
@@ -333,7 +338,7 @@ Config = {
 
         ["ammo-9"] = {
             Level = 10,
-            Category = "ammu",
+            Category = "ammunation",
             isGun = false,
             Jobs = { "ammu" },
             JobGrades = {},
