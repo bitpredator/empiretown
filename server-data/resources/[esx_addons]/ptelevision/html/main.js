@@ -115,7 +115,9 @@ function ShowNotification(channel, data) {
 	$('#tv-container div').addClass('notify');
 	const display = $('#tv-container').is(':visible');
 	$('#tv-container').show();
-	$('#tv-container div').html('Channel #' + channel + (data ? (' (' + data.name + ')') : '') + ' is now ' + (data ? 'live!' : 'offline.'));
+	const sanitizedChannel = DOMPurify.sanitize(channel);
+	const sanitizedDataName = data ? DOMPurify.sanitize(data.name) : '';
+	$('#tv-container div').html('Channel #' + sanitizedChannel + (data ? (' (' + sanitizedDataName + ')') : '') + ' is now ' + (data ? 'live!' : 'offline.'));
 
 	setTimeout(function() {
 		$('#tv-container').removeClass('notify');
