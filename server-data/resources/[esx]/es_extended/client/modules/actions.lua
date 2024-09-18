@@ -91,7 +91,7 @@ CreateThread(function()
                 ToggleVehicleStatus(current.vehicle, current.seat)
             end
         elseif isInVehicle then
-            if not IsPedInAnyVehicle(playerPed, false) or IsPlayerDead(PlayerId()) then
+            if (current.vehicle ~= GetVehiclePedIsUsing(playerPed)) or IsPlayerDead(PlayerId()) then
                 -- bye, vehicle
                 TriggerEvent("esx:exitedVehicle", current.vehicle, current.plate, current.seat, current.displayName, current.netId)
                 TriggerServerEvent("esx:exitedVehicle", current.plate, current.seat, current.displayName, current.netId)
