@@ -154,7 +154,7 @@ return {
 
 	["gold"] = {
 		label = "Oro",
-		weight = 1,
+		weight = 2,
 		stack = true,
 		close = false,
 		consume = 0,
@@ -162,7 +162,7 @@ return {
 
 	["diamond"] = {
 		label = "Diamante",
-		weight = 1,
+		weight = 2,
 		stack = true,
 		close = false,
 		consume = 0,
@@ -170,7 +170,7 @@ return {
 
 	["diamond_tip"] = {
 		label = "Punta di diamante",
-		weight = 1,
+		weight = 3,
 		stack = true,
 		close = false,
 		consume = 0,
@@ -186,7 +186,7 @@ return {
 
 	["copper"] = {
 		label = "Rame",
-		weight = 1,
+		weight = 2,
 		stack = true,
 		close = false,
 		consume = 0,
@@ -194,7 +194,7 @@ return {
 
 	["iron"] = {
 		label = "Ferro",
-		weight = 1,
+		weight = 2,
 		stack = true,
 		close = false,
 		consume = 0,
@@ -342,6 +342,7 @@ return {
 	["hammer"] = {
 		label = "martello",
 		consume = 0,
+		weight = 28,
 	},
 
 	["fixkit"] = {
@@ -353,25 +354,25 @@ return {
 
 	["almonds"] = {
 		label = "mandorla",
-		weight = 100,
+		weight = 10,
 		stack = true,
 	},
 
 	["ice"] = {
 		label = "Ghiaccio",
-		weight = 100,
+		weight = 12,
 		stack = true,
 	},
 
 	["cannabis"] = {
 		label = "cannabis",
-		weight = 100,
+		weight = 70,
 		stack = true,
 	},
 
 	["marijuana"] = {
 		label = "marijuana",
-		weight = 100,
+		weight = 75,
 		stack = true,
 	},
 
@@ -478,7 +479,7 @@ return {
 
 	["pelt_mtnlion"] = {
 		label = "Pelle di leone di montagna",
-		weight = 3000,
+		weight = 700,
 		stack = true,
 	},
 
@@ -490,13 +491,13 @@ return {
 
 	["pelt_coyote"] = {
 		label = "Pelle di coyote",
-		weight = 1500,
+		weight = 400,
 		stack = true,
 	},
 
 	["rabbit_meat"] = {
 		label = "carne di coniglio",
-		weight = 1000,
+		weight = 300,
 		stack = true,
 	},
 
@@ -527,7 +528,7 @@ return {
 
 	["fry_oil"] = {
 		label = "olio per friggere",
-		weight = 100,
+		weight = 8,
 		stack = true,
 	},
 
@@ -557,7 +558,7 @@ return {
 
 	["wallet"] = {
 		label = "portafoglio",
-		weight = 220,
+		weight = 45,
 		stack = false,
 		consume = 0,
 		client = {
@@ -574,7 +575,7 @@ return {
 
 	["medikit"] = {
 		label = "Medikit",
-		weight = 10,
+		weight = 120,
 		stack = true,
 		close = true,
 	},
