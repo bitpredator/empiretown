@@ -1,24 +1,24 @@
-RegisterNetEvent("oxmysql:openUi", function(data)
+RegisterNetEvent('oxmysql:openUi', function(data)
     SendNUIMessage({
-        action = "openUI",
-        data = data,
+        action = 'openUI',
+        data = data
     })
     SetNuiFocus(true, true)
 end)
 
-RegisterNUICallback("exit", function(_, cb)
+RegisterNUICallback('exit', function(_, cb)
     cb(true)
     SetNuiFocus(false, false)
 end)
 
-RegisterNUICallback("fetchResource", function(data, cb)
-    TriggerServerEvent("oxmysql:fetchResource", data)
+RegisterNUICallback('fetchResource', function(data, cb)
+    TriggerServerEvent('oxmysql:fetchResource', data)
     cb(true)
 end)
 
-RegisterNetEvent("oxmysql:loadResource", function(data)
+RegisterNetEvent('oxmysql:loadResource', function(data)
     SendNUIMessage({
-        action = "loadResource",
-        data = data,
+        action = 'loadResource',
+        data = data
     })
 end)
