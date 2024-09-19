@@ -714,7 +714,7 @@ return {
 
 	["plastic_bag"] = {
 		label = "Plastica usata",
-		weight = 1,
+		weight = 10,
 		stack = true,
 		close = true,
 	},
