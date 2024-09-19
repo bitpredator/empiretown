@@ -51,25 +51,16 @@ $(window).ready(function() {
 				$('.impounded_content .vehicle-list').empty();
 			}
 
-			// Locales
-
-			// needs a rework
-			// $(".content h2").html(function (i, text) {
-			//   return text.replace("No vehicle in this garage.", data.locales.no_veh_parking);
-			// });
-
-			// $(".impounded_content h2").html(function (i, text) {
-			//   return text.replace("No vehicle impounded.", data.locales.no_veh_impounded);
-			// });
+			const DOMPurify = {};
 
 			$('.vehicle-listing').html(function(_i, text) {
-				return text.replace('Model', data.locales.veh_model);
+				return text.replace('Model', DOMPurify.sanitize(data.locales.veh_model));
 			});
 			$('.vehicle-listing').html(function(_i, text) {
-				return text.replace('Plate', data.locales.veh_plate);
+				return text.replace('Plate', DOMPurify.sanitize(data.locales.veh_plate));
 			});
 			$('.vehicle-listing').html(function(_i, text) {
-				return text.replace('Condition', data.locales.veh_condition);
+				return text.replace('Condition', DOMPurify.sanitize(data.locales.veh_condition));
 			});
 		}
 		else if (data.hideAll) {
