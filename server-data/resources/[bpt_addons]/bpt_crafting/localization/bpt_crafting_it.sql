@@ -55,5 +55,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('cannabis', 'Cannabis'),
 	('diamond_tip', 'Punta di diamante'),
 	('diamond', 'Diamond'),
-	('marijuana_extract', 'Estratto di marijuana')
+	('marijuana_extract', 'Estratto di marijuana'),
+	('medikit', 'Medikit')
 ;

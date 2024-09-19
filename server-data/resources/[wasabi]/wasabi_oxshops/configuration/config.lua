@@ -80,7 +80,7 @@ Config.Shops = {
             sprite = 61,
             color = 8,
             scale = 0.7,
-            string = "mechanic",
+            string = "import",
         },
         locations = {
             stash = {

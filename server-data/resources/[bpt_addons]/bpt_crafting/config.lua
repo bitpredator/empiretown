@@ -25,9 +25,14 @@ Config = {
             Image = "Mechanic",
             Jobs = { "mechanic" },
         },
-        ["medical"] = {
-            Label = "Ospedale",
+        ["med_equip"] = {
+            Label = "Med Equip",
             Image = "bandage",
+            Jobs = { "ambulance" },
+        },
+        ["drugs"] = {
+            Label = "Droghe",
+            Image = "drugs",
             Jobs = { "ambulance" },
         },
         ["ammu"] = {
@@ -69,7 +74,7 @@ Config = {
     Recipes = { -- Enter Item name and then the speed value! The higher the value the more torque
         ["bandage"] = {
             Level = 0,
-            Category = "medical",
+            Category = "med_equip",
             isGun = false,
             Jobs = { "ambulance" },
             JobGrades = {},
@@ -82,9 +87,27 @@ Config = {
             },
         },
 
+        ["medikit"] = {
+            Level = 0,
+            Category = "med_equip",
+            isGun = false,
+            Jobs = { "ambulance" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["recycled_plastic"] = 2,
+                ["marijuana"] = 5,
+                ["bandage"] = 1,
+                ["cottonforbandages"] = 2,
+            },
+        },
+
         ["marijuana_extract"] = {
             Level = 0,
-            Category = "medical",
+            Category = "drugs",
             isGun = false,
             Jobs = { "ambulance" },
             JobGrades = {},
@@ -101,7 +124,7 @@ Config = {
 
         ["marijuana"] = {
             Level = 0,
-            Category = "medical",
+            Category = "drugs",
             isGun = false,
             Jobs = { "ambulance" },
             JobGrades = {},
@@ -515,7 +538,7 @@ Config = {
             coords = vector3(311.314301, -565.213196, 43.282104),
             jobs = { "ambulance" },
             blip = false,
-            recipes = { "bandage", "marijuana", "marijuana_extract" },
+            recipes = { "bandage", "marijuana", "marijuana_extract", "medikit" },
             radius = 1.0,
         },
         {
