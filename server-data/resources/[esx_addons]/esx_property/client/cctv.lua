@@ -99,8 +99,8 @@ function CCTV(PropertyID)
                 RenderScriptCams(true, false, 1, true, false)
                 Wait(1000)
                 DoScreenFadeIn(500)
-                RequestAmbientAudioBank("Phone_Soundset_Franklin", 0, 0)
-                RequestAmbientAudioBank("HintCamSounds", 0, 0)
+                RequestAmbientAudioBank("Phone_Soundset_Franklin", false)
+                RequestAmbientAudioBank("HintCamSounds", false)
                 while IsCamActive(cctvcam) do
                     Wait(5)
                     DisableAllControlActions(0)
@@ -209,7 +209,7 @@ function CCTV(PropertyID)
                         if CamTakePic then
                             ShowButtons = false
                             Wait(1)
-                            PlaySoundFrontend(-1, "Camera_Shoot", "Phone_Soundset_Franklin", 1)
+                            PlaySoundFrontend(-1, "Camera_Shoot", "Phone_Soundset_Franklin", true)
                             ESX.TriggerServerCallback("esx_property:GetWebhook", function(hook)
                                 if hook then
                                     exports["screenshot-basic"]:requestScreenshotUpload(hook, "files[]", function(data)

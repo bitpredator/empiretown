@@ -370,14 +370,20 @@
             });
         }
 
+        const api = {
+            Open,
+            Closed,
+            Close
+        };
+
         window.addEventListener("message", (e) => {
             let data = e.data;
 
-            if (!data.func || !window[data.func]) {
+            if (!data.func || !api.hasOwnProperty(data.func)) {
                 return;
             }
 
-            window[data.func](...data.args);
+            api[data.func](...data.args);
         });
 
         window.addEventListener("keydown", (e) => {

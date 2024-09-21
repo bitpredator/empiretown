@@ -43,7 +43,7 @@ if Config.Furniture.Enabled then
     local inFurniture = false
     local CurrentlyEditing = nil
 
-    function TempFurniturePlacement(PropertyId, PropName, PropIndex, PropCatagory, PropPrice, Existing, Pos, Heading)
+    function TempFurniturePlacement(_, PropName, PropIndex, PropCatagory, _, Existing, Pos, Heading)
         ESX.CloseContext()
         if CurrentlyEditing then
             DeleteEntity(CurrentlyEditing)

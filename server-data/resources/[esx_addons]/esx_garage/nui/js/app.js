@@ -51,17 +51,6 @@ $(window).ready(function() {
 				$('.impounded_content .vehicle-list').empty();
 			}
 
-			// Locales
-
-			// needs a rework
-			// $(".content h2").html(function (i, text) {
-			//   return text.replace("No vehicle in this garage.", data.locales.no_veh_parking);
-			// });
-
-			// $(".impounded_content h2").html(function (i, text) {
-			//   return text.replace("No vehicle impounded.", data.locales.no_veh_impounded);
-			// });
-
 			$('.vehicle-listing').html(function(_i, text) {
 				return text.replace('Model', data.locales.veh_model);
 			});

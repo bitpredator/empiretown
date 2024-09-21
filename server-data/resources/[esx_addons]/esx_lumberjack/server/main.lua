@@ -18,7 +18,7 @@ lib.callback.register("map_lumberjack:duty", function(source)
 end)
 
 Citizen.CreateThread(function()
-    for k, v in pairs(Config.Trees) do
+    for _, v in pairs(Config.Trees) do
         table.insert(trees, {
             coords = v,
             health = 100,

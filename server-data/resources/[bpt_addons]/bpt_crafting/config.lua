@@ -5,14 +5,19 @@ Config = {
     HideWhenCantCraft = false, -- Instead of lowering the opacity it hides the item that is not craftable due to low level or wrong job
 
     Categories = {
-        ["medical"] = {
-            Label = "Ospedale",
-            Image = "bandage",
-            Jobs = { "ambulance" },
+        ["tools"] = {
+            Label = "Utensili",
+            Image = "tools",
+            Jobs = { "import" },
         },
-        ["import"] = {
-            Label = "Import",
-            Image = "Import",
+        ["recycled"] = {
+            Label = "Riciclo",
+            Image = "recycled",
+            Jobs = { "import" },
+        },
+        ["manufacturing"] = {
+            Label = "Fabbricazione",
+            Image = "manufacturing",
             Jobs = { "import" },
         },
         ["mechanic"] = {
@@ -20,8 +25,18 @@ Config = {
             Image = "Mechanic",
             Jobs = { "mechanic" },
         },
+        ["med_equip"] = {
+            Label = "Med Equip",
+            Image = "bandage",
+            Jobs = { "ambulance" },
+        },
+        ["drugs"] = {
+            Label = "Droghe",
+            Image = "drugs",
+            Jobs = { "ambulance" },
+        },
         ["ammu"] = {
-            Label = "Armeria",
+            Label = "Armi",
             Image = "ammu",
             Jobs = { "ammu" },
         },
@@ -45,6 +60,11 @@ Config = {
             Image = "fisherman",
             Jobs = { "fisherman" },
         },
+        ["ammunation"] = {
+            Label = "Munizioni",
+            Image = "ammu",
+            Jobs = { "ammu" },
+        },
     },
 
     PermanentItems = { -- Items that dont get removed when crafting
@@ -54,7 +74,7 @@ Config = {
     Recipes = { -- Enter Item name and then the speed value! The higher the value the more torque
         ["bandage"] = {
             Level = 0,
-            Category = "medical",
+            Category = "med_equip",
             isGun = false,
             Jobs = { "ambulance" },
             JobGrades = {},
@@ -67,9 +87,27 @@ Config = {
             },
         },
 
+        ["medikit"] = {
+            Level = 0,
+            Category = "med_equip",
+            isGun = false,
+            Jobs = { "ambulance" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["recycled_plastic"] = 2,
+                ["marijuana"] = 5,
+                ["bandage"] = 1,
+                ["cottonforbandages"] = 2,
+            },
+        },
+
         ["marijuana_extract"] = {
             Level = 0,
-            Category = "medical",
+            Category = "drugs",
             isGun = false,
             Jobs = { "ambulance" },
             JobGrades = {},
@@ -86,7 +124,7 @@ Config = {
 
         ["marijuana"] = {
             Level = 0,
-            Category = "medical",
+            Category = "drugs",
             isGun = false,
             Jobs = { "ambulance" },
             JobGrades = {},
@@ -101,23 +139,23 @@ Config = {
         },
 
         ["cottonforbandages"] = {
-            Level = 0, -- From what level this item will be craftable
-            Category = "import", -- The category item will be put in
-            isGun = false, -- Specify if this is a gun so it will be added to the loadout
-            Jobs = { "import" }, -- What jobs can craft this item, leaving {} allows any job
-            JobGrades = {}, -- What job grades can craft this item, leaving {} allows any grade
-            Amount = 1, -- The amount that will be crafted
-            SuccessRate = 100, -- 100% you will recieve the item
-            requireBlueprint = false, -- Requires a blueprint whitch you need to add in the database yourself TEMPLATE: itemname_blueprint EXAMPLE: bandage_blueprint
-            Time = 20, -- Time in seconds it takes to craft this item
-            Ingredients = { -- Ingredients needed to craft this item
-                ["cotton"] = 4, -- item name and count, adding items that dont exist in database will crash the script
+            Level = 0,
+            Category = "manufacturing",
+            isGun = false,
+            Jobs = { "import" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 20,
+            Ingredients = {
+                ["cotton"] = 4,
             },
         },
 
         ["ironsheet"] = {
             Level = 0,
-            Category = "import",
+            Category = "manufacturing",
             isGun = false,
             Jobs = { "import" },
             JobGrades = {},
@@ -133,7 +171,7 @@ Config = {
 
         ["diamond_tip"] = {
             Level = 0,
-            Category = "import",
+            Category = "tools",
             isGun = false,
             Jobs = { "import" },
             JobGrades = {},
@@ -150,7 +188,7 @@ Config = {
 
         ["recycled_paper"] = {
             Level = 0,
-            Category = "import",
+            Category = "recycled",
             isGun = false,
             Jobs = { "import" },
             JobGrades = {},
@@ -165,7 +203,7 @@ Config = {
 
         ["paper"] = {
             Level = 0,
-            Category = "import",
+            Category = "manufacturing",
             isGun = false,
             Jobs = { "import" },
             JobGrades = {},
@@ -181,7 +219,7 @@ Config = {
 
         ["hammer"] = {
             Level = 0,
-            Category = "import",
+            Category = "tools",
             isGun = false,
             Jobs = { "import" },
             JobGrades = {},
@@ -246,7 +284,7 @@ Config = {
 
         ["iron"] = {
             Level = 0,
-            Category = "import",
+            Category = "manufacturing",
             isGun = false,
             Jobs = { "import" },
             JobGrades = {},
@@ -314,7 +352,7 @@ Config = {
         },
         ["ammo-sniper"] = {
             Level = 10,
-            Category = "ammu",
+            Category = "ammunation",
             isGun = false,
             Jobs = { "ammu" },
             JobGrades = {},
@@ -333,7 +371,7 @@ Config = {
 
         ["ammo-9"] = {
             Level = 10,
-            Category = "ammu",
+            Category = "ammunation",
             isGun = false,
             Jobs = { "ammu" },
             JobGrades = {},
@@ -465,7 +503,7 @@ Config = {
 
         ["recycled_plastic"] = {
             Level = 0,
-            Category = "import",
+            Category = "recycled",
             isGun = false,
             Jobs = { "import" },
             JobGrades = {},
@@ -500,7 +538,7 @@ Config = {
             coords = vector3(311.314301, -565.213196, 43.282104),
             jobs = { "ambulance" },
             blip = false,
-            recipes = { "bandage", "marijuana", "marijuana_extract" },
+            recipes = { "bandage", "marijuana", "marijuana_extract", "medikit" },
             radius = 1.0,
         },
         {
