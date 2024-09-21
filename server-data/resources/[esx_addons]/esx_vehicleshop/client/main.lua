@@ -476,7 +476,7 @@ function OpenRentedVehiclesMenu()
         local elements = {}
 
         for _, v in ipairs(vehicles) do
-            local vehicleLabel = GetVehicleFromModel(v.name).label
+            local vehicleLabel = GetVehicleFromModel(v.name).name
 
             table.insert(elements, {
                 label = ('%s: %s - <span style="color:orange;">%s</span>'):format(v.playerName, vehicleLabel, v.plate),
