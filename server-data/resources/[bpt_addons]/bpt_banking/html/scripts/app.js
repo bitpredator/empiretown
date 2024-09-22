@@ -1,4 +1,5 @@
 var LOADED = true;
+import DOMPurify from 'dompurify';
 class Components {
     static allComponents = [];
     static generateAllComponents(generatedData, generateType = "bank") {
@@ -440,13 +441,13 @@ class Render {
                 $("#money-cash").html(
                     `${this.language.moneyFormat.replace(
                         "__replaceData__",
-                        newData.money
+                        DOMPurify.sanitize(newData.money)
                     )} `
                 );
                 $("#money-bank").html(
                     `${this.language.moneyFormat.replace(
                         "__replaceData__",
-                        newData.bankMoney
+                        DOMPurify.sanitize(newData.bankMoney)
                     )}`
                 );
                 break;
