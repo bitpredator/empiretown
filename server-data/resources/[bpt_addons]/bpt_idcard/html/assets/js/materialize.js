@@ -1037,7 +1037,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		},
 
 		siblings: function(selector) {
-			// eslint-disable-next-line prefer-const
 			const collection = this.parent().children(selector),
 				el = this[0];
 
@@ -1709,9 +1708,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 	} function Y(a, c) {
 		function d(b) {
 			b = void 0 === b ? 0 : b; return a.el.getPointAtLength(c + b >= 1 ? c + b : 0);
-		// eslint-disable-next-line prefer-const
 		} const b = d(),
-			// eslint-disable-next-line prefer-const
 			f = d(-1),
 			n = d(1); switch (a.property) {
 		case 'x':
@@ -1927,6 +1924,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			g.reset(); g.play();
 		// eslint-disable-next-line max-statements-per-line
 		}; g.finished = m; g.reset(); g.autoplay && g.play(); return g;
+	// eslint-disable-next-line no-var
 	} var ga = { update: void 0, begin: void 0, run: void 0, complete: void 0, loop: 1, direction: 'normal', autoplay: !0, offset: 0 },
 		S = { duration: 1E3, delay: 0, easing: 'easeOutElastic', elasticity: 500, round: 0 },
 		W = 'translateX translateY translateZ rotate rotateX rotateY rotateZ scale scaleX scaleY scaleZ skewX skewY perspective'.split(' '),
@@ -1938,7 +1936,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				return Object.prototype.toString.call(a).indexOf('Object') > -1;
 			},
 			pth: function(a) {
-				return h.obj(a) && a.hasOwnProperty('totalLength');
+				return h.obj(a) && Object.prototype.hasOwnProperty.call(a, 'totalLength');
 			}, svg: function(a) {
 				return a instanceof SVGElement;
 			}, dom: function(a) {
@@ -1963,28 +1961,36 @@ $jscomp.polyfill = function(e, r, p, m) {
 			},
 		},
 		A = function() {
+			// eslint-disable-next-line no-shadow
 			function a(a, d, b) {
 				return (((1 - 3 * b + 3 * d) * a + (3 * b - 6 * d)) * a + 3 * d) * a;
 			} return function(c, d, b, f) {
 				if (c >= 0 && c <= 1 && b >= 0 && b <= 1) {
+					// eslint-disable-next-line no-shadow
 					const e = new Float32Array(11); if (c !== d || b !== f) {
 						for (let k = 0; k < 11; ++k) {
-							e[k] = a(.1 * k, c, b);
+							e[k] = a(0.1 * k, c, b);
 						}
 					} return function(k) {
+						// eslint-disable-next-line max-statements-per-line, no-var, no-shadow
 						if (c === d && b === f) return k; if (k === 0) return 0; if (k === 1) return 1; for (var h = 0, l = 1; l !== 10 && e[l] <= k; ++l) {
-							h += .1;
-						} --l; var l = h + (k - e[l]) / (e[l + 1] - e[l]) * .1,
-							n = 3 * (1 - 3 * b + 3 * c) * l * l + 2 * (3 * b - 6 * c) * l + 3 * c; if (n >= .001) {
+							h += 0.1;
+						// eslint-disable-next-line max-statements-per-line, no-var, no-redeclare
+						} --l; var l = h + (k - e[l]) / (e[l + 1] - e[l]) * 0.1,
+							n = 3 * (1 - 3 * b + 3 * c) * l * l + 2 * (3 * b - 6 * c) * l + 3 * c; if (n >= 0.001) {
 							for (h = 0; h < 4; ++h) {
+								// eslint-disable-next-line max-statements-per-line, no-var, no-shadow
 								n = 3 * (1 - 3 * b + 3 * c) * l * l + 2 * (3 * b - 6 * c) * l + 3 * c; if (n === 0) break; var m = a(l, c, b) - k,
+									// eslint-disable-next-line no-redeclare
 									l = l - m / n;
 							} k = l;
 						}
 						else if (n === 0) {k = l;}
 						else {
+							// eslint-disable-next-line no-var, no-redeclare
 							var l = h,
-								h = h + .1,
+								// eslint-disable-next-line no-redeclare
+								h = h + 0.1,
 								g = 0; do {
 								m = l + (h - l) / 2, n = a(m, c, b) - k, n > 0 ? h = m : l = m;
 							} while (Math.abs(n) > 1e-7 && ++g < 10); k = m;
@@ -1994,20 +2000,29 @@ $jscomp.polyfill = function(e, r, p, m) {
 			};
 		}(),
 		Q = function() {
+			// eslint-disable-next-line no-shadow
 			function a(a, b) {
 				return a === 0 || a === 1 ? a : -Math.pow(2, 10 * (a - 1)) * Math.sin(2 * (a - 1 - b / (2 * Math.PI) * Math.asin(1)) * Math.PI / b);
+			// eslint-disable-next-line prefer-const
 			} let c = 'Quad Cubic Quart Quint Sine Expo Circ Back Elastic'.split(' '),
+				// eslint-disable-next-line prefer-const
 				d = {
-					In: [[.55, .085, .68, .53], [.55, .055, .675, .19], [.895, .03, .685, .22], [.755, .05, .855, .06], [.47, 0, .745, .715], [.95, .05, .795, .035], [.6, .04, .98, .335], [.6, -.28, .735, .045], a], Out: [[.25, .46, .45, .94], [.215, .61, .355, 1], [.165, .84, .44, 1], [.23, 1, .32, 1], [.39, 0.575, 0.565, 1], [0.19, 1, 0.22, 1], [0.075, 0.82, 0.165, 1], [0.175, 0.885, 0.32, 1.275], function(b, c) {
+					// eslint-disable-next-line no-shadow
+					In: [[0.55, 0.085, 0.68, 0.53], [0.55, 0.055, 0.675, 0.19], [0.895, 0.03, 0.685, 0.22], [0.755, 0.05, 0.855, 0.06], [0.47, 0, 0.745, 0.715], [0.95, 0.05, 0.795, 0.035], [0.6, 0.04, 0.98, 0.335], [0.6, -0.28, 0.735, 0.045], a], Out: [[0.25, 0.46, 0.45, 0.94], [0.215, 0.61, 0.355, 1], [0.165, 0.84, 0.44, 1], [0.23, 1, 0.32, 1], [0.39, 0.575, 0.565, 1], [0.19, 1, 0.22, 1], [0.075, 0.82, 0.165, 1], [0.175, 0.885, 0.32, 1.275], function(b, c) {
 						return 1 - a(1 - b, c);
+					// eslint-disable-next-line no-shadow
 					}], InOut: [[0.455, 0.03, 0.515, 0.955], [0.645, 0.045, 0.355, 1], [0.77, 0, 0.175, 1], [0.86, 0, 0.07, 1], [0.445, 0.05, 0.55, 0.95], [1, 0, 0, 1], [0.785, 0.135, 0.15, 0.86], [0.68, -0.55, 0.265, 1.55], function(b, c) {
 						return b < 0.5 ? a(2 * b, c) / 2 : 1 - a(-2 * b + 2, c) / 2;
 					}],
 				},
+				// eslint-disable-next-line prefer-const
 				b = { linear: A(0.25, 0.25, 0.75, 0.75) },
 				f = {},
+				// eslint-disable-next-line no-shadow
 				e; for (e in d) {
+				// eslint-disable-next-line no-shadow
 				f.type = e, d[f.type].forEach(function(a) {
+					// eslint-disable-next-line no-shadow
 					return function(d, f) {
 						b['ease' + a.type + c[f]] = h.fnc(d) ? d : A.apply($jscomp$this, d);
 					};
@@ -2021,7 +2036,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				return a.setAttribute(c, d);
 			}, object: function(a, c, d) {
 				return a[c] = d;
-			}, transform: function(a, c, d, b, f) {
+			}, transform: function(_a, c, d, b, f) {
 				b[f] || (b[f] = []); b[f].push(c + '(' + d + ')');
 			},
 		},
@@ -2030,6 +2045,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		ia = function() {
 			function a() {
 				B = requestAnimationFrame(c);
+			// eslint-disable-next-line no-shadow
 			} function c(c) {
 				const b = v.length; if (b) {
 					for (let d = 0; d < b;) {
@@ -2038,25 +2054,34 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 				else {cancelAnimationFrame(B), B = 0;}
 			} return a;
+		// eslint-disable-next-line max-statements-per-line
 		}(); q.version = '2.2.0'; q.speed = 1; q.running = v; q.remove = function(a) {
-		a = P(a); for (var c = v.length; c--;) {
-			for (var d = v[c], b = d.animations, f = b.length; f--;) {
+		a = P(a); for (let c = v.length; c--;) {
+			for (let d = v[c], b = d.animations, f = b.length; f--;) {
 				u(a, b[f].animatable.target) && (b.splice(f, 1), b.length || d.pause());
 			}
 		}
+	// eslint-disable-next-line max-statements-per-line
 	}; q.getValue = K; q.path = function(a, c) {
-		var d = h.str(a) ? e(a)[0] : a,
+		const d = h.str(a) ? e(a)[0] : a,
+			// eslint-disable-next-line no-shadow
 			b = c || 100; return function(a) {
 			return { el: d, property: a, totalLength: N(d) * (b / 100) };
 		};
 	}; q.setDashoffset = function(a) {
-		var c = N(a); a.setAttribute('stroke-dasharray', c); return c;
+		// eslint-disable-next-line max-statements-per-line
+		const c = N(a); a.setAttribute('stroke-dasharray', c); return c;
+	// eslint-disable-next-line max-statements-per-line
 	}; q.bezier = A; q.easings = Q; q.timeline = function(a) {
-		var c = q(a); c.pause(); c.duration = 0; c.add = function(d) {
+		// eslint-disable-next-line max-statements-per-line
+		const c = q(a); c.pause(); c.duration = 0; c.add = function(d) {
+			// eslint-disable-next-line no-shadow
 			c.children.forEach(function(a) {
 				a.began = !0; a.completed = !0;
 			}); m(d).forEach(function(b) {
-				var d = z(b, D(S, a || {})); d.targets = d.targets || a.targets; b = c.duration; var e = d.offset; d.autoplay = !1; d.direction = c.direction; d.offset = h.und(e) ? b : L(e, b); c.began = !0; c.completed = !0; c.seek(d.offset); d = q(d); d.began = !0; d.completed = !0; d.duration > b && (c.duration = d.duration); c.children.push(d);
+				// eslint-disable-next-line no-shadow, max-statements-per-line
+				let d = z(b, D(S, a || {})); d.targets = d.targets || a.targets; b = c.duration; const e = d.offset; d.autoplay = !1; d.direction = c.direction; d.offset = h.und(e) ? b : L(e, b); c.began = !0; c.completed = !0; c.seek(d.offset); d = q(d); d.began = !0; d.completed = !0; d.duration > b && (c.duration = d.duration); c.children.push(d);
+			// eslint-disable-next-line max-statements-per-line
 			}); c.seek(0); c.reset(); c.autoplay && c.restart(); return c;
 		}; return c;
 	}; q.random = function(a, c) {
@@ -2066,7 +2091,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		accordion: true,
 		onOpenStart: undefined,
 		onOpenEnd: undefined,
@@ -2081,7 +2106,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Collapsible = function(_Component) {
+	const Collapsible = function(_Component) {
 		_inherits(Collapsible, _Component);
 
 		/**
@@ -2090,10 +2115,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Collapsible(el, options) {
 			_classCallCheck(this, Collapsible);
 
-			var _this3 = _possibleConstructorReturn(this, (Collapsible.__proto__ || Object.getPrototypeOf(Collapsible)).call(this, Collapsible, el, options));
+			const _this3 = _possibleConstructorReturn(this, (Collapsible.__proto__ || Object.getPrototypeOf(Collapsible)).call(this, Collapsible, el, options));
 
 			_this3.el.M_Collapsible = _this3;
 
@@ -2117,7 +2143,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			_this3._setupEventHandlers();
 
 			// Open first active
-			var $activeBodies = _this3.$el.children('li.active').children('.collapsible-body');
+			const $activeBodies = _this3.$el.children('li.active').children('.collapsible-body');
 			if (_this3.options.accordion) {
 				// Handle Accordion
 				$activeBodies.first().css('display', 'block');
@@ -2148,7 +2174,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupEventHandlers',
 			value: function _setupEventHandlers() {
-				var _this4 = this;
+				const _this4 = this;
 
 				this._handleCollapsibleClickBound = this._handleCollapsibleClick.bind(this);
 				this._handleCollapsibleKeydownBound = this._handleCollapsibleKeydown.bind(this);
@@ -2176,14 +2202,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleCollapsibleClick',
 			value: function _handleCollapsibleClick(e) {
-				var $header = $(e.target).closest('.collapsible-header');
+				const $header = $(e.target).closest('.collapsible-header');
 				if (e.target && $header.length) {
-					var $collapsible = $header.closest('.collapsible');
+					const $collapsible = $header.closest('.collapsible');
 					if ($collapsible[0] === this.el) {
-						var $collapsibleLi = $header.closest('li');
-						var $collapsibleLis = $collapsible.children('li');
-						var isActive = $collapsibleLi[0].classList.contains('active');
-						var index = $collapsibleLis.index($collapsibleLi);
+						const $collapsibleLi = $header.closest('li');
+						const $collapsibleLis = $collapsible.children('li');
+						const isActive = $collapsibleLi[0].classList.contains('active');
+						const index = $collapsibleLis.index($collapsibleLi);
 
 						if (isActive) {
 							this.close(index);
@@ -2216,11 +2242,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateIn',
 			value: function _animateIn(index) {
-				var _this5 = this;
+				const _this5 = this;
 
-				var $collapsibleLi = this.$el.children('li').eq(index);
+				const $collapsibleLi = this.$el.children('li').eq(index);
 				if ($collapsibleLi.length) {
-					var $body = $collapsibleLi.children('.collapsible-body');
+					const $body = $collapsibleLi.children('.collapsible-body');
 
 					anim.remove($body[0]);
 					$body.css({
@@ -2231,9 +2257,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 						paddingBottom: '',
 					});
 
-					var pTop = $body.css('padding-top');
-					var pBottom = $body.css('padding-bottom');
-					var finalHeight = $body[0].scrollHeight;
+					const pTop = $body.css('padding-top');
+					const pBottom = $body.css('padding-bottom');
+					const finalHeight = $body[0].scrollHeight;
 					$body.css({
 						paddingTop: 0,
 						paddingBottom: 0,
@@ -2246,7 +2272,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 						paddingBottom: pBottom,
 						duration: this.options.inDuration,
 						easing: 'easeInOutCubic',
-						complete: function(anim) {
+						complete: function() {
 							$body.css({
 								overflow: '',
 								paddingTop: '',
@@ -2271,11 +2297,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateOut',
 			value: function _animateOut(index) {
-				var _this6 = this;
+				const _this6 = this;
 
-				var $collapsibleLi = this.$el.children('li').eq(index);
+				const $collapsibleLi = this.$el.children('li').eq(index);
 				if ($collapsibleLi.length) {
-					var $body = $collapsibleLi.children('.collapsible-body');
+					const $body = $collapsibleLi.children('.collapsible-body');
 					anim.remove($body[0]);
 					$body.css('overflow', 'hidden');
 					anim({
@@ -2310,9 +2336,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'open',
 			value: function open(index) {
-				var _this7 = this;
+				const _this7 = this;
 
-				var $collapsibleLi = this.$el.children('li').eq(index);
+				const $collapsibleLi = this.$el.children('li').eq(index);
 				if ($collapsibleLi.length && !$collapsibleLi[0].classList.contains('active')) {
 
 					// onOpenStart callback
@@ -2322,10 +2348,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 					// Handle accordion behavior
 					if (this.options.accordion) {
-						var $collapsibleLis = this.$el.children('li');
-						var $activeLis = this.$el.children('li.active');
+						const $collapsibleLis = this.$el.children('li');
+						const $activeLis = this.$el.children('li.active');
 						$activeLis.each(function(el) {
-							var index = $collapsibleLis.index($(el));
+							// eslint-disable-next-line no-shadow
+							const index = $collapsibleLis.index($(el));
 							_this7.close(index);
 						});
 					}
@@ -2344,7 +2371,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'close',
 			value: function close(index) {
-				var $collapsibleLi = this.$el.children('li').eq(index);
+				const $collapsibleLi = this.$el.children('li').eq(index);
 				if ($collapsibleLi.length && $collapsibleLi[0].classList.contains('active')) {
 
 					// onCloseStart callback
@@ -2370,7 +2397,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Collapsible;
 			},
 		}, {
@@ -2392,7 +2419,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		alignment: 'left',
 		autoFocus: true,
 		constrainWidth: true,
@@ -2412,13 +2439,14 @@ $jscomp.polyfill = function(e, r, p, m) {
      * @class
      */
 
-	var Dropdown = function(_Component2) {
+	const Dropdown = function(_Component2) {
 		_inherits(Dropdown, _Component2);
 
+		// eslint-disable-next-line no-shadow
 		function Dropdown(el, options) {
 			_classCallCheck(this, Dropdown);
 
-			var _this8 = _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this, Dropdown, el, options));
+			const _this8 = _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this, Dropdown, el, options));
 
 			_this8.el.M_Dropdown = _this8;
 			Dropdown._dropdowns.push(_this8);
@@ -2468,7 +2496,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			_this8.filterQuery = [];
 
 			// Move dropdown-content after dropdown-trigger
-			if (!!_this8.options.container) {
+			if (_this8.options.container) {
 				$(_this8.options.container).append(_this8.dropdownEl);
 			}
 			else {
@@ -2576,11 +2604,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleMouseLeave',
 			value: function _handleMouseLeave(e) {
-				var toEl = e.toElement || e.relatedTarget;
-				var leaveToDropdownContent = !!$(toEl).closest('.dropdown-content').length;
-				var leaveToActiveDropdownTrigger = false;
+				const toEl = e.toElement || e.relatedTarget;
+				const leaveToDropdownContent = !!$(toEl).closest('.dropdown-content').length;
+				let leaveToActiveDropdownTrigger = false;
 
-				var $closestTrigger = $(toEl).closest('.dropdown-trigger');
+				const $closestTrigger = $(toEl).closest('.dropdown-trigger');
 				if ($closestTrigger.length && !!$closestTrigger[0].M_Dropdown && $closestTrigger[0].M_Dropdown.isOpen) {
 					leaveToActiveDropdownTrigger = true;
 				}
@@ -2593,9 +2621,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleDocumentClick',
 			value: function _handleDocumentClick(e) {
-				var _this9 = this;
+				const _this9 = this;
 
-				var $target = $(e.target);
+				const $target = $(e.target);
 				if (this.options.closeOnClick && $target.closest('.dropdown-content').length && !this.isTouchMoving) {
 					// isTouchMoving to check if scrolling on mobile.
 					setTimeout(function() {
@@ -2627,7 +2655,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleDocumentTouchmove',
 			value: function _handleDocumentTouchmove(e) {
-				var $target = $(e.target);
+				const $target = $(e.target);
 				if ($target.closest('.dropdown-content').length) {
 					this.isTouchMoving = true;
 				}
@@ -2649,9 +2677,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 				else if ((e.which === M.keys.ARROW_DOWN || e.which === M.keys.ARROW_UP) && this.isOpen) {
 					e.preventDefault();
-					var direction = e.which === M.keys.ARROW_DOWN ? 1 : -1;
-					var newFocusedIndex = this.focusedIndex;
-					var foundNewIndex = false;
+					const direction = e.which === M.keys.ARROW_DOWN ? 1 : -1;
+					let newFocusedIndex = this.focusedIndex;
+					let foundNewIndex = false;
 					do {
 						newFocusedIndex = newFocusedIndex + direction;
 
@@ -2670,11 +2698,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 				else if (e.which === M.keys.ENTER && this.isOpen) {
 					// Search for <a> and <button>
-					var focusedElement = this.dropdownEl.children[this.focusedIndex];
-					var $activatableElement = $(focusedElement).find('a, button').first();
+					const focusedElement = this.dropdownEl.children[this.focusedIndex];
+					const $activatableElement = $(focusedElement).find('a, button').first();
 
 					// Click a or button tag if exists, otherwise click li tag
-					!!$activatableElement.length ? $activatableElement[0].click() : focusedElement.click();
+					$activatableElement.length ? $activatableElement[0].click() : focusedElement.click();
 
 					// Close dropdown on ESC
 				}
@@ -2684,12 +2712,12 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				// CASE WHEN USER TYPE LETTERS
-				var letter = String.fromCharCode(e.which).toLowerCase(),
+				const letter = String.fromCharCode(e.which).toLowerCase(),
 					nonLetters = [9, 13, 27, 38, 40];
 				if (letter && nonLetters.indexOf(e.which) === -1) {
 					this.filterQuery.push(letter);
 
-					var string = this.filterQuery.join(''),
+					const string = this.filterQuery.join(''),
 						newOptionEl = $(this.dropdownEl).find('li').filter(function(el) {
 							return $(el).text().toLowerCase().indexOf(string) === 0;
 						})[0];
@@ -2749,16 +2777,15 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_getDropdownPosition',
 			value: function _getDropdownPosition() {
-				var offsetParentBRect = this.el.offsetParent.getBoundingClientRect();
-				var triggerBRect = this.el.getBoundingClientRect();
-				var dropdownBRect = this.dropdownEl.getBoundingClientRect();
+				const triggerBRect = this.el.getBoundingClientRect();
+				const dropdownBRect = this.dropdownEl.getBoundingClientRect();
 
-				var idealHeight = dropdownBRect.height;
-				var idealWidth = dropdownBRect.width;
-				var idealXPos = triggerBRect.left - dropdownBRect.left;
-				var idealYPos = triggerBRect.top - dropdownBRect.top;
+				let idealHeight = dropdownBRect.height;
+				let idealWidth = dropdownBRect.width;
+				let idealXPos = triggerBRect.left - dropdownBRect.left;
+				let idealYPos = triggerBRect.top - dropdownBRect.top;
 
-				var dropdownBounds = {
+				const dropdownBounds = {
 					left: idealXPos,
 					top: idealYPos,
 					height: idealHeight,
@@ -2766,11 +2793,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 				};
 
 				// Countainer here will be closest ancestor with overflow: hidden
-				var closestOverflowParent = this.dropdownEl.offsetParent;
-				var alignments = M.checkPossibleAlignments(this.el, closestOverflowParent, dropdownBounds, this.options.coverTrigger ? 0 : triggerBRect.height);
+				const closestOverflowParent = this.dropdownEl.offsetParent;
+				const alignments = M.checkPossibleAlignments(this.el, closestOverflowParent, dropdownBounds, this.options.coverTrigger ? 0 : triggerBRect.height);
 
-				var verticalAlignment = 'top';
-				var horizontalAlignment = this.options.alignment;
+				let verticalAlignment = 'top';
+				let horizontalAlignment = this.options.alignment;
 				idealYPos += this.options.coverTrigger ? 0 : triggerBRect.height;
 
 				// Reset isScrollable
@@ -2797,12 +2824,13 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 				// If preferred horizontal alignment is possible
 				if (!alignments[horizontalAlignment]) {
-					var oppositeAlignment = horizontalAlignment === 'left' ? 'right' : 'left';
+					const oppositeAlignment = horizontalAlignment === 'left' ? 'right' : 'left';
 					if (alignments[oppositeAlignment]) {
 						horizontalAlignment = oppositeAlignment;
 					}
 					else {
 						// Determine which side has most space and cutoff at correct height
+						// eslint-disable-next-line no-lonely-if
 						if (alignments.spaceOnLeft > alignments.spaceOnRight) {
 							horizontalAlignment = 'right';
 							idealWidth += alignments.spaceOnLeft;
@@ -2838,7 +2866,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateIn',
 			value: function _animateIn() {
-				var _this10 = this;
+				const _this10 = this;
 
 				anim.remove(this.dropdownEl);
 				anim({
@@ -2847,10 +2875,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 						value: [0, 1],
 						easing: 'easeOutQuad',
 					},
-					scaleX: [.3, 1],
-					scaleY: [.3, 1],
+					scaleX: [0.3, 1],
+					scaleY: [0.3, 1],
 					duration: this.options.inDuration,
 					easing: 'easeOutQuint',
+					// eslint-disable-next-line no-shadow
 					complete: function(anim) {
 						if (_this10.options.autoFocus) {
 							_this10.dropdownEl.focus();
@@ -2858,7 +2887,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 						// onOpenEnd callback
 						if (typeof _this10.options.onOpenEnd === 'function') {
-							var elem = anim.animatables[0].target;
+							const elem = anim.animatables[0].target;
 							_this10.options.onOpenEnd.call(elem, _this10.el);
 						}
 					},
@@ -2872,7 +2901,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateOut',
 			value: function _animateOut() {
-				var _this11 = this;
+				const _this11 = this;
 
 				anim.remove(this.dropdownEl);
 				anim({
@@ -2881,16 +2910,18 @@ $jscomp.polyfill = function(e, r, p, m) {
 						value: 0,
 						easing: 'easeOutQuint',
 					},
-					scaleX: .3,
-					scaleY: .3,
+					scaleX: 0.3,
+					scaleY: 0.3,
 					duration: this.options.outDuration,
 					easing: 'easeOutQuint',
+					// eslint-disable-next-line no-shadow
 					complete: function(anim) {
 						_this11._resetDropdownStyles();
 
 						// onCloseEnd callback
 						if (typeof _this11.options.onCloseEnd === 'function') {
-							var elem = anim.animatables[0].target;
+							// eslint-disable-next-line no-unused-vars
+							const elem = anim.animatables[0].target;
 							_this11.options.onCloseEnd.call(_this11, _this11.el);
 						}
 					},
@@ -2905,10 +2936,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_placeDropdown',
 			value: function _placeDropdown() {
 				// Set width before calculating positionInfo
-				var idealWidth = this.options.constrainWidth ? this.el.getBoundingClientRect().width : this.dropdownEl.getBoundingClientRect().width;
+				const idealWidth = this.options.constrainWidth ? this.el.getBoundingClientRect().width : this.dropdownEl.getBoundingClientRect().width;
 				this.dropdownEl.style.width = idealWidth + 'px';
 
-				var positionInfo = this._getDropdownPosition();
+				const positionInfo = this._getDropdownPosition();
 				this.dropdownEl.style.left = positionInfo.x + 'px';
 				this.dropdownEl.style.top = positionInfo.y + 'px';
 				this.dropdownEl.style.height = positionInfo.height + 'px';
@@ -2999,7 +3030,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Dropdown;
 			},
 		}, {
@@ -3029,7 +3060,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		opacity: 0.5,
 		inDuration: 250,
 		outDuration: 250,
@@ -3048,7 +3079,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Modal = function(_Component3) {
+	const Modal = function(_Component3) {
 		_inherits(Modal, _Component3);
 
 		/**
@@ -3057,10 +3088,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Modal(el, options) {
 			_classCallCheck(this, Modal);
 
-			var _this12 = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, Modal, el, options));
+			const _this12 = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, Modal, el, options));
 
 			_this12.el.M_Modal = _this12;
 
@@ -3150,10 +3182,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleTriggerClick',
 			value: function _handleTriggerClick(e) {
-				var $trigger = $(e.target).closest('.modal-trigger');
+				const $trigger = $(e.target).closest('.modal-trigger');
 				if ($trigger.length) {
-					var modalId = M.getIdFromTrigger($trigger[0]);
-					var modalInstance = document.getElementById(modalId).M_Modal;
+					const modalId = M.getIdFromTrigger($trigger[0]);
+					const modalInstance = document.getElementById(modalId).M_Modal;
 					if (modalInstance) {
 						modalInstance.open($trigger);
 					}
@@ -3181,7 +3213,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleModalCloseClick',
 			value: function _handleModalCloseClick(e) {
-				var $closeTrigger = $(e.target).closest('.modal-close');
+				const $closeTrigger = $(e.target).closest('.modal-close');
 				if ($closeTrigger.length) {
 					this.close();
 				}
@@ -3221,7 +3253,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateIn',
 			value: function _animateIn() {
-				var _this13 = this;
+				const _this13 = this;
 
 				// Set initial styles
 				$.extend(this.el.style, {
@@ -3242,7 +3274,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				});
 
 				// Define modal animation options
-				var enterAnimOptions = {
+				const enterAnimOptions = {
 					targets: this.el,
 					duration: this.options.inDuration,
 					easing: 'easeOutCubic',
@@ -3268,8 +3300,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 					$.extend(enterAnimOptions, {
 						top: [this.options.startingTop, this.options.endingTop],
 						opacity: 1,
-						scaleX: [.8, 1],
-						scaleY: [.8, 1],
+						scaleX: [0.8, 1],
+						scaleY: [0.8, 1],
 					});
 					anim(enterAnimOptions);
 				}
@@ -3282,7 +3314,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateOut',
 			value: function _animateOut() {
-				var _this14 = this;
+				const _this14 = this;
 
 				// Animate overlay
 				anim({
@@ -3293,7 +3325,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				});
 
 				// Define modal animation options
-				var exitAnimOptions = {
+				const exitAnimOptions = {
 					targets: this.el,
 					duration: this.options.outDuration,
 					easing: 'easeOutCubic',
@@ -3350,7 +3382,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this.el.style.zIndex = 1000 + Modal._modalsOpen * 2 + 1;
 
 				// Set opening trigger, undefined indicates modal was opened by javascript
-				this._openingTrigger = !!$trigger ? $trigger[0] : undefined;
+				this._openingTrigger = $trigger ? $trigger[0] : undefined;
 
 				// onOpenStart callback
 				if (typeof this.options.onOpenStart === 'function') {
@@ -3430,7 +3462,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Modal;
 			},
 		}, {
@@ -3466,7 +3498,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		inDuration: 275,
 		outDuration: 200,
 		onOpenStart: null,
@@ -3480,7 +3512,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Materialbox = function(_Component4) {
+	const Materialbox = function(_Component4) {
 		_inherits(Materialbox, _Component4);
 
 		/**
@@ -3489,10 +3521,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Materialbox(el, options) {
 			_classCallCheck(this, Materialbox);
 
-			var _this15 = _possibleConstructorReturn(this, (Materialbox.__proto__ || Object.getPrototypeOf(Materialbox)).call(this, Materialbox, el, options));
+			const _this15 = _possibleConstructorReturn(this, (Materialbox.__proto__ || Object.getPrototypeOf(Materialbox)).call(this, Materialbox, el, options));
 
 			_this15.el.M_Materialbox = _this15;
 
@@ -3564,7 +3597,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		}, {
 			key: '_handleMaterialboxClick',
-			value: function _handleMaterialboxClick(e) {
+			value: function _handleMaterialboxClick() {
 				// If already modal, return to original
 				if (this.doneAnimating === false || this.overlayActive && this.doneAnimating) {
 					this.close();
@@ -3620,9 +3653,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_makeAncestorsOverflowVisible',
 			value: function _makeAncestorsOverflowVisible() {
 				this.ancestorsChanged = $();
-				var ancestor = this.placeholder[0].parentNode;
+				let ancestor = this.placeholder[0].parentNode;
 				while (ancestor !== null && !$(ancestor).is(document)) {
-					var curr = $(ancestor);
+					const curr = $(ancestor);
 					if (curr.css('overflow') !== 'visible') {
 						curr.css('overflow', 'visible');
 						if (this.ancestorsChanged === undefined) {
@@ -3643,9 +3676,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateImageIn',
 			value: function _animateImageIn() {
-				var _this16 = this;
+				const _this16 = this;
 
-				var animOptions = {
+				const animOptions = {
 					targets: this.el,
 					height: [this.originalHeight, this.newHeight],
 					width: [this.originalWidth, this.newWidth],
@@ -3683,9 +3716,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateImageOut',
 			value: function _animateImageOut() {
-				var _this17 = this;
+				const _this17 = this;
 
-				var animOptions = {
+				const animOptions = {
 					targets: this.el,
 					width: this.originalWidth,
 					height: this.originalHeight,
@@ -3751,7 +3784,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'open',
 			value: function open() {
-				var _this18 = this;
+				const _this18 = this;
 
 				this._updateVars();
 				this.originalWidth = this.el.getBoundingClientRect().width;
@@ -3810,7 +3843,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this.$el.before(this.$overlay);
 
 				// Set dimensions if needed
-				var overlayOffset = this.$overlay[0].getBoundingClientRect();
+				const overlayOffset = this.$overlay[0].getBoundingClientRect();
 				this.$overlay.css({
 					width: this.windowWidth + 'px',
 					height: this.windowHeight + 'px',
@@ -3848,9 +3881,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				// Resize Image
-				var ratio = 0;
-				var widthPercent = this.originalWidth / this.windowWidth;
-				var heightPercent = this.originalHeight / this.windowHeight;
+				let ratio = 0;
+				const widthPercent = this.originalWidth / this.windowWidth;
+				const heightPercent = this.originalHeight / this.windowHeight;
 				this.newWidth = 0;
 				this.newHeight = 0;
 
@@ -3884,7 +3917,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'close',
 			value: function close() {
-				var _this19 = this;
+				const _this19 = this;
 
 				this._updateVars();
 				this.doneAnimating = false;
@@ -3945,7 +3978,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Materialbox;
 			},
 		}, {
@@ -3967,17 +4000,18 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {
-		responsiveThreshold: 0, // breakpoint for swipeable
+	const _defaults = {
+		responsiveThreshold: 0,
 	};
 
-	var Parallax = function(_Component5) {
+	const Parallax = function(_Component5) {
 		_inherits(Parallax, _Component5);
 
+		// eslint-disable-next-line no-shadow
 		function Parallax(el, options) {
 			_classCallCheck(this, Parallax);
 
-			var _this20 = _possibleConstructorReturn(this, (Parallax.__proto__ || Object.getPrototypeOf(Parallax)).call(this, Parallax, el, options));
+			const _this20 = _possibleConstructorReturn(this, (Parallax.__proto__ || Object.getPrototypeOf(Parallax)).call(this, Parallax, el, options));
 
 			_this20.el.M_Parallax = _this20;
 
@@ -3991,7 +4025,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 			_this20.$img = _this20.$el.find('img').first();
 			_this20.$img.each(function() {
-				var el = this;
+				// eslint-disable-next-line no-shadow
+				const el = this;
 				if (el.complete) $(el).trigger('load');
 			});
 
@@ -4054,16 +4089,16 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_updateParallax',
 			value: function _updateParallax() {
-				var containerHeight = this.$el.height() > 0 ? this.el.parentNode.offsetHeight : 500;
-				var imgHeight = this.$img[0].offsetHeight;
-				var parallaxDist = imgHeight - containerHeight;
-				var bottom = this.$el.offset().top + containerHeight;
-				var top = this.$el.offset().top;
-				var scrollTop = M.getDocumentScrollTop();
-				var windowHeight = window.innerHeight;
-				var windowBottom = scrollTop + windowHeight;
-				var percentScrolled = (windowBottom - top) / (containerHeight + windowHeight);
-				var parallax = parallaxDist * percentScrolled;
+				const containerHeight = this.$el.height() > 0 ? this.el.parentNode.offsetHeight : 500;
+				const imgHeight = this.$img[0].offsetHeight;
+				const parallaxDist = imgHeight - containerHeight;
+				const bottom = this.$el.offset().top + containerHeight;
+				const top = this.$el.offset().top;
+				const scrollTop = M.getDocumentScrollTop();
+				const windowHeight = window.innerHeight;
+				const windowBottom = scrollTop + windowHeight;
+				const percentScrolled = (windowBottom - top) / (containerHeight + windowHeight);
+				const parallax = parallaxDist * percentScrolled;
 
 				if (!this._enabled) {
 					this.$img[0].style.transform = '';
@@ -4085,22 +4120,22 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Parallax;
 			},
 		}, {
 			key: '_handleScroll',
 			value: function _handleScroll() {
-				for (var i = 0; i < Parallax._parallaxes.length; i++) {
-					var parallaxInstance = Parallax._parallaxes[i];
+				for (let i = 0; i < Parallax._parallaxes.length; i++) {
+					const parallaxInstance = Parallax._parallaxes[i];
 					parallaxInstance._updateParallax.call(parallaxInstance);
 				}
 			},
 		}, {
 			key: '_handleWindowResize',
 			value: function _handleWindowResize() {
-				for (var i = 0; i < Parallax._parallaxes.length; i++) {
-					var parallaxInstance = Parallax._parallaxes[i];
+				for (let i = 0; i < Parallax._parallaxes.length; i++) {
+					const parallaxInstance = Parallax._parallaxes[i];
 					parallaxInstance._enabled = window.innerWidth > parallaxInstance.options.responsiveThreshold;
 				}
 			},
@@ -4131,11 +4166,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		duration: 300,
 		onShow: null,
 		swipeable: false,
-		responsiveThreshold: Infinity, // breakpoint for swipeable
+		responsiveThreshold: Infinity,
 	};
 
 	/**
@@ -4143,7 +4178,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Tabs = function(_Component6) {
+	const Tabs = function(_Component6) {
 		_inherits(Tabs, _Component6);
 
 		/**
@@ -4152,10 +4187,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Tabs(el, options) {
 			_classCallCheck(this, Tabs);
 
-			var _this21 = _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this, Tabs, el, options));
+			const _this21 = _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this, Tabs, el, options));
 
 			_this21.el.M_Tabs = _this21;
 
@@ -4256,10 +4292,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleTabClick',
 			value: function _handleTabClick(e) {
-				var _this22 = this;
+				const _this22 = this;
 
-				var tab = $(e.target).closest('li.tab');
-				var tabLink = $(e.target).closest('a');
+				const tab = $(e.target).closest('li.tab');
+				const tabLink = $(e.target).closest('a');
 
 				// Handle click on tab link only
 				if (!tabLink.length || !tabLink.parent().hasClass('tab')) {
@@ -4272,7 +4308,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				// Act as regular link if target attribute is specified.
-				if (!!tabLink.attr('target')) {
+				if (tabLink.attr('target')) {
 					return;
 				}
 
@@ -4280,7 +4316,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 				// Make the old tab inactive.
 				this.$activeTabLink.removeClass('active');
-				var $oldContent = this.$content;
+				const $oldContent = this.$content;
 
 				// Update the variables with the new link and content
 				this.$activeTabLink = tabLink;
@@ -4289,7 +4325,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 				// Make the tab active.
 				this.$activeTabLink.addClass('active');
-				var prevIndex = this.index;
+				const prevIndex = this.index;
 				this.index = Math.max(this.$tabLinks.index(tabLink), 0);
 
 				// Swap content
@@ -4302,18 +4338,16 @@ $jscomp.polyfill = function(e, r, p, m) {
 						});
 					}
 				}
-				else {
-					if (this.$content.length) {
-						this.$content[0].style.display = 'block';
-						this.$content.addClass('active');
-						if (typeof this.options.onShow === 'function') {
-							this.options.onShow.call(this, this.$content[0]);
-						}
+				else if (this.$content.length) {
+					this.$content[0].style.display = 'block';
+					this.$content.addClass('active');
+					if (typeof this.options.onShow === 'function') {
+						this.options.onShow.call(this, this.$content[0]);
+					}
 
-						if ($oldContent.length && !$oldContent.is(this.$content)) {
-							$oldContent[0].style.display = 'none';
-							$oldContent.removeClass('active');
-						}
+					if ($oldContent.length && !$oldContent.is(this.$content)) {
+						$oldContent[0].style.display = 'none';
+						$oldContent.removeClass('active');
 					}
 				}
 
@@ -4331,9 +4365,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_createIndicator',
 			value: function _createIndicator() {
-				var _this23 = this;
+				const _this23 = this;
 
-				var indicator = document.createElement('li');
+				const indicator = document.createElement('li');
 				indicator.classList.add('indicator');
 
 				this.el.appendChild(indicator);
@@ -4381,33 +4415,33 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupSwipeableTabs',
 			value: function _setupSwipeableTabs() {
-				var _this24 = this;
+				const _this24 = this;
 
 				// Change swipeable according to responsive threshold
 				if (window.innerWidth > this.options.responsiveThreshold) {
 					this.options.swipeable = false;
 				}
 
-				var $tabsContent = $();
+				let $tabsContent = $();
 				this.$tabLinks.each(function(link) {
-					var $currContent = $(M.escapeHash(link.hash));
+					const $currContent = $(M.escapeHash(link.hash));
 					$currContent.addClass('carousel-item');
 					$tabsContent = $tabsContent.add($currContent);
 				});
 
-				var $tabsWrapper = $('<div class="tabs-content carousel carousel-slider"></div>');
+				const $tabsWrapper = $('<div class="tabs-content carousel carousel-slider"></div>');
 				$tabsContent.first().before($tabsWrapper);
 				$tabsWrapper.append($tabsContent);
 				$tabsContent[0].style.display = '';
 
 				// Keep active tab index to set initial carousel slide
-				var activeTabIndex = this.$activeTabLink.closest('.tab').index();
+				const activeTabIndex = this.$activeTabLink.closest('.tab').index();
 
 				this._tabsCarousel = M.Carousel.init($tabsWrapper[0], {
 					fullWidth: true,
 					noWrap: true,
 					onCycleTo: function(item) {
-						var prevIndex = _this24.index;
+						const prevIndex = _this24.index;
 						_this24.index = $(item).index();
 						_this24.$activeTabLink.removeClass('active');
 						_this24.$activeTabLink = _this24.$tabLinks.eq(_this24.index);
@@ -4430,7 +4464,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_teardownSwipeableTabs',
 			value: function _teardownSwipeableTabs() {
-				var $tabsWrapper = this._tabsCarousel.$el;
+				const $tabsWrapper = this._tabsCarousel.$el;
 				this._tabsCarousel.destroy();
 
 				// Unwrap
@@ -4447,8 +4481,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 			value: function _setupNormalTabs() {
 				// Hide Tabs Content
 				this.$tabLinks.not(this.$activeTabLink).each(function(link) {
-					if (!!link.hash) {
-						var $currContent = $(M.escapeHash(link.hash));
+					if (link.hash) {
+						const $currContent = $(M.escapeHash(link.hash));
 						if ($currContent.length) {
 							$currContent[0].style.display = 'none';
 						}
@@ -4465,8 +4499,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 			value: function _teardownNormalTabs() {
 				// show Tabs Content
 				this.$tabLinks.each(function(link) {
-					if (!!link.hash) {
-						var $currContent = $(M.escapeHash(link.hash));
+					if (link.hash) {
+						const $currContent = $(M.escapeHash(link.hash));
 						if ($currContent.length) {
 							$currContent[0].style.display = '';
 						}
@@ -4520,7 +4554,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateIndicator',
 			value: function _animateIndicator(prevIndex) {
-				var leftDelay = 0,
+				let leftDelay = 0,
 					rightDelay = 0;
 
 				if (this.index - prevIndex >= 0) {
@@ -4531,7 +4565,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				// Animate
-				var animOptions = {
+				const animOptions = {
 					targets: this._indicator,
 					left: {
 						value: this._calcLeftPos(this.$activeTabLink),
@@ -4556,7 +4590,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'select',
 			value: function select(tabId) {
-				var tab = this.$tabLinks.filter('[href="#' + tabId + '"]');
+				const tab = this.$tabLinks.filter('[href="#' + tabId + '"]');
 				if (tab.length) {
 					tab.trigger('click');
 				}
@@ -4574,7 +4608,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Tabs;
 			},
 		}, {
@@ -4596,7 +4630,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		exitDelay: 200,
 		enterDelay: 0,
 		html: null,
@@ -4612,7 +4646,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Tooltip = function(_Component7) {
+	const Tooltip = function(_Component7) {
 		_inherits(Tooltip, _Component7);
 
 		/**
@@ -4621,10 +4655,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Tooltip(el, options) {
 			_classCallCheck(this, Tooltip);
 
-			var _this25 = _possibleConstructorReturn(this, (Tooltip.__proto__ || Object.getPrototypeOf(Tooltip)).call(this, Tooltip, el, options));
+			const _this25 = _possibleConstructorReturn(this, (Tooltip.__proto__ || Object.getPrototypeOf(Tooltip)).call(this, Tooltip, el, options));
 
 			_this25.el.M_Tooltip = _this25;
 			_this25.options = $.extend({}, Tooltip.defaults, options);
@@ -4652,11 +4687,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_appendTooltipEl',
 			value: function _appendTooltipEl() {
-				var tooltipEl = document.createElement('div');
+				const tooltipEl = document.createElement('div');
 				tooltipEl.classList.add('material-tooltip');
 				this.tooltipEl = tooltipEl;
 
-				var tooltipContentEl = document.createElement('div');
+				const tooltipContentEl = document.createElement('div');
 				tooltipContentEl.classList.add('tooltip-content');
 				tooltipContentEl.innerHTML = this.options.html;
 				tooltipEl.appendChild(tooltipContentEl);
@@ -4718,7 +4753,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setExitDelayTimeout',
 			value: function _setExitDelayTimeout() {
-				var _this26 = this;
+				const _this26 = this;
 
 				clearTimeout(this._exitDelayTimeout);
 
@@ -4738,7 +4773,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setEnterDelayTimeout',
 			value: function _setEnterDelayTimeout() {
-				var _this27 = this;
+				const _this27 = this;
 
 				clearTimeout(this._enterDelayTimeout);
 
@@ -4753,13 +4788,20 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_positionTooltip',
 			value: function _positionTooltip() {
-				var origin = this.el,
+				// eslint-disable-next-line prefer-const
+				let origin = this.el,
+					// eslint-disable-next-line prefer-const
 					tooltip = this.tooltipEl,
+					// eslint-disable-next-line prefer-const
 					originHeight = origin.offsetHeight,
+					// eslint-disable-next-line prefer-const
 					originWidth = origin.offsetWidth,
+					// eslint-disable-next-line prefer-const
 					tooltipHeight = tooltip.offsetHeight,
+					// eslint-disable-next-line prefer-const
 					tooltipWidth = tooltip.offsetWidth,
 					newCoordinates = void 0,
+					// eslint-disable-next-line prefer-const
 					margin = this.options.margin,
 					targetTop = void 0,
 					targetLeft = void 0;
@@ -4799,20 +4841,20 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_repositionWithinScreen',
 			value: function _repositionWithinScreen(x, y, width, height) {
-				var scrollLeft = M.getDocumentScrollLeft();
-				var scrollTop = M.getDocumentScrollTop();
-				var newX = x - scrollLeft;
-				var newY = y - scrollTop;
+				const scrollLeft = M.getDocumentScrollLeft();
+				const scrollTop = M.getDocumentScrollTop();
+				let newX = x - scrollLeft;
+				let newY = y - scrollTop;
 
-				var bounding = {
+				const bounding = {
 					left: newX,
 					top: newY,
 					width: width,
 					height: height,
 				};
 
-				var offset = this.options.margin + this.options.transitionMovement;
-				var edges = M.checkWithinContainer(document.body, bounding, offset);
+				const offset = this.options.margin + this.options.transitionMovement;
+				const edges = M.checkWithinContainer(document.body, bounding, offset);
 
 				if (edges.left) {
 					newX = offset;
@@ -4888,9 +4930,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_getAttributeOptions',
 			value: function _getAttributeOptions() {
-				var attributeOptions = {};
-				var tooltipTextOption = this.el.getAttribute('data-tooltip');
-				var positionOption = this.el.getAttribute('data-position');
+				const attributeOptions = {};
+				const tooltipTextOption = this.el.getAttribute('data-tooltip');
+				const positionOption = this.el.getAttribute('data-position');
 
 				if (tooltipTextOption) {
 					attributeOptions.html = tooltipTextOption;
@@ -4914,7 +4956,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Tooltip;
 			},
 		}, {
@@ -4932,21 +4974,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 	if (M.jQueryLoaded) {
 		M.initializeJqueryWrapper(Tooltip, 'tooltip', 'M_Tooltip');
 	}
-})(cash, M.anime);
-; /*!
-  * Waves v0.6.4
-  * http://fian.my.id/Waves
-  *
-  * Copyright 2014 Alfiana E. Sibuea and other contributors
-  * Released under the MIT license
-  * https://github.com/fians/Waves/blob/master/LICENSE
-  */
+})(cash, M.anime);;
 
 ; (function(window) {
 	'use strict';
 
+	// eslint-disable-next-line no-var
 	var Waves = Waves || {};
-	var $$ = document.querySelectorAll.bind(document);
+	const $$ = document.querySelectorAll.bind(document);
 
 	// Find exact position of element
 	function isWindow(obj) {
@@ -4958,16 +4993,19 @@ $jscomp.polyfill = function(e, r, p, m) {
 	}
 
 	function offset(elem) {
-		var docElem,
+		let docElem,
 			win,
 			box = { top: 0, left: 0 },
+			// eslint-disable-next-line prefer-const
 			doc = elem && elem.ownerDocument;
 
+		// eslint-disable-next-line prefer-const
 		docElem = doc.documentElement;
 
 		if (typeof elem.getBoundingClientRect !== typeof undefined) {
 			box = elem.getBoundingClientRect();
 		}
+		// eslint-disable-next-line prefer-const
 		win = getWindow(doc);
 		return {
 			top: box.top + win.pageYOffset - docElem.clientTop,
@@ -4976,10 +5014,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 	}
 
 	function convertStyle(obj) {
-		var style = '';
+		let style = '';
 
-		for (var a in obj) {
-			if (obj.hasOwnProperty(a)) {
+		for (const a in obj) {
+			if (Object.prototype.hasOwnProperty.call(obj, a)) {
 				style += a + ':' + obj[a] + ';';
 			}
 		}
@@ -4987,6 +5025,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		return style;
 	}
 
+	// eslint-disable-next-line no-var
 	var Effect = {
 
 		// Effect delay
@@ -4999,18 +5038,18 @@ $jscomp.polyfill = function(e, r, p, m) {
 				return false;
 			}
 
-			var el = element || this;
+			const el = element || this;
 
 			// Create ripple
-			var ripple = document.createElement('div');
+			const ripple = document.createElement('div');
 			ripple.className = 'waves-ripple';
 			el.appendChild(ripple);
 
 			// Get click coordinate and element witdh
-			var pos = offset(el);
-			var relativeY = e.pageY - pos.top;
-			var relativeX = e.pageX - pos.left;
-			var scale = 'scale(' + el.clientWidth / 100 * 10 + ')';
+			const pos = offset(el);
+			let relativeY = e.pageY - pos.top;
+			let relativeX = e.pageX - pos.left;
+			const scale = 'scale(' + el.clientWidth / 100 * 10 + ')';
 
 			// Support for touch devices
 			if ('touches' in e) {
@@ -5025,7 +5064,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			ripple.setAttribute('data-y', relativeY);
 
 			// Set ripple position
-			var rippleStyle = {
+			const rippleStyle = {
 				'top': relativeY + 'px',
 				'left': relativeX + 'px',
 			};
@@ -5058,12 +5097,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 		hide: function(e) {
 			TouchHandler.touchup(e);
 
-			var el = this;
-			var width = el.clientWidth * 1.4;
+			const el = this;
 
 			// Get first ripple
-			var ripple = null;
-			var ripples = el.getElementsByClassName('waves-ripple');
+			let ripple = null;
+			const ripples = el.getElementsByClassName('waves-ripple');
 			if (ripples.length > 0) {
 				ripple = ripples[ripples.length - 1];
 			}
@@ -5071,13 +5109,13 @@ $jscomp.polyfill = function(e, r, p, m) {
 				return false;
 			}
 
-			var relativeX = ripple.getAttribute('data-x');
-			var relativeY = ripple.getAttribute('data-y');
-			var scale = ripple.getAttribute('data-scale');
+			const relativeX = ripple.getAttribute('data-x');
+			const relativeY = ripple.getAttribute('data-y');
+			const scale = ripple.getAttribute('data-scale');
 
 			// Get delay beetween mousedown and mouse leave
-			var diff = Date.now() - Number(ripple.getAttribute('data-hold'));
-			var delay = 350 - diff;
+			const diff = Date.now() - Number(ripple.getAttribute('data-hold'));
+			let delay = 350 - diff;
 
 			if (delay < 0) {
 				delay = 0;
@@ -5085,7 +5123,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 			// Fade out ripple after delay
 			setTimeout(function() {
-				var style = {
+				const style = {
 					'top': relativeY + 'px',
 					'left': relativeX + 'px',
 					'opacity': '0',
@@ -5108,6 +5146,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					try {
 						el.removeChild(ripple);
 					}
+					// eslint-disable-next-line no-unused-vars, no-shadow
 					catch (e) {
 						return false;
 					}
@@ -5117,11 +5156,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		// Little hack to make <input> can perform waves effect
 		wrapInput: function(elements) {
-			for (var a = 0; a < elements.length; a++) {
-				var el = elements[a];
+			for (let a = 0; a < elements.length; a++) {
+				const el = elements[a];
 
 				if (el.tagName.toLowerCase() === 'input') {
-					var parent = el.parentNode;
+					const parent = el.parentNode;
 
 					// If input already have parent just pass through
 					if (parent.tagName.toLowerCase() === 'i' && parent.className.indexOf('waves-effect') !== -1) {
@@ -5129,10 +5168,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 					}
 
 					// Put element class and style to the specified parent
-					var wrapper = document.createElement('i');
+					const wrapper = document.createElement('i');
 					wrapper.className = el.className + ' waves-input-wrapper';
 
-					var elementStyle = el.getAttribute('style');
+					let elementStyle = el.getAttribute('style');
 
 					if (!elementStyle) {
 						elementStyle = '';
@@ -5154,22 +5193,19 @@ $jscomp.polyfill = function(e, r, p, m) {
 	/**
      * Disable mousedown event for 500ms during and after touch
      */
+	// eslint-disable-next-line no-var
 	var TouchHandler = {
-		/* uses an integer rather than bool so there's no issues with
-         * needing to clear timeouts if another touch event occurred
-         * within the 500ms. Cannot mouseup between touchstart and
-         * touchend, nor in the 500ms after touchend. */
 		touches: 0,
 		allowEvent: function(e) {
-			var allow = true;
+			let allow = true;
 
 			if (e.type === 'touchstart') {
-				TouchHandler.touches += 1; //push
+				TouchHandler.touches += 1;
 			}
 			else if (e.type === 'touchend' || e.type === 'touchcancel') {
 				setTimeout(function() {
 					if (TouchHandler.touches > 0) {
-						TouchHandler.touches -= 1; //pop after 500ms
+						TouchHandler.touches -= 1;
 					}
 				}, 500);
 			}
@@ -5193,8 +5229,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 			return null;
 		}
 
-		var element = null;
-		var target = e.target || e.srcElement;
+		let element = null;
+		let target = e.target || e.srcElement;
 
 		while (target.parentNode !== null) {
 			if (!(target instanceof SVGElement) && target.className.indexOf('waves-effect') !== -1) {
@@ -5210,7 +5246,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      * Bubble the click and show effect if .waves-effect elem was found
      */
 	function showEffect(e) {
-		var element = getWavesEffectElement(e);
+		const element = getWavesEffectElement(e);
 
 		if (element !== null) {
 			Effect.show(e, element);
@@ -5233,7 +5269,6 @@ $jscomp.polyfill = function(e, r, p, m) {
 			Effect.duration = options.duration;
 		}
 
-		//Wrap input inside <i> tag
 		Effect.wrapInput($$('.waves-effect'));
 
 		if ('ontouchstart' in window) {
@@ -5250,7 +5285,6 @@ $jscomp.polyfill = function(e, r, p, m) {
      * where the user doesn't want a delegated click handler.
      */
 	Waves.attach = function(element) {
-		//FUTURE: automatically add waves classes and allow users
 		// to specify them with an options param? Eg. light/classic/button
 		if (element.tagName.toLowerCase() === 'input') {
 			Effect.wrapInput([element]);
@@ -5273,7 +5307,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		html: '',
 		displayLength: 4000,
 		inDuration: 300,
@@ -5283,39 +5317,42 @@ $jscomp.polyfill = function(e, r, p, m) {
 		activationPercent: 0.8,
 	};
 
-	var Toast = function() {
-		function Toast(options) {
-			_classCallCheck(this, Toast);
+	const Toast = function() {
+		// eslint-disable-next-line no-shadow
+		class Toast {
+			constructor(options) {
+				_classCallCheck(this, Toast);
 
-			/**
-             * Options for the toast
-             * @member Toast#options
-             */
-			this.options = $.extend({}, Toast.defaults, options);
-			this.message = this.options.html;
+				/**
+				 * Options for the toast
+				 * @member Toast#options
+				 */
+				this.options = $.extend({}, Toast.defaults, options);
+				this.message = this.options.html;
 
-			/**
-             * Describes current pan state toast
-             * @type {Boolean}
-             */
-			this.panning = false;
+				/**
+				 * Describes current pan state toast
+				 * @type {Boolean}
+				 */
+				this.panning = false;
 
-			/**
-             * Time remaining until toast is removed
-             */
-			this.timeRemaining = this.options.displayLength;
+				/**
+				 * Time remaining until toast is removed
+				 */
+				this.timeRemaining = this.options.displayLength;
 
-			if (Toast._toasts.length === 0) {
-				Toast._createContainer();
+				if (Toast._toasts.length === 0) {
+					Toast._createContainer();
+				}
+
+				// Create new toast
+				Toast._toasts.push(this);
+				const toastElement = this._createToast();
+				toastElement.M_Toast = this;
+				this.el = toastElement;
+				this._animateIn();
+				this._setTimer();
 			}
-
-			// Create new toast
-			Toast._toasts.push(this);
-			var toastElement = this._createToast();
-			toastElement.M_Toast = this;
-			this.el = toastElement;
-			this._animateIn();
-			this._setTimer();
 		}
 
 		_createClass(Toast, [{
@@ -5326,11 +5363,11 @@ $jscomp.polyfill = function(e, r, p, m) {
              * Create toast and append it to toast container
              */
 			value: function _createToast() {
-				var toast = document.createElement('div');
+				const toast = document.createElement('div');
 				toast.classList.add('toast');
 
 				// Add custom classes onto toast
-				if (!!this.options.classes.length) {
+				if (this.options.classes.length) {
 					$(toast).addClass(this.options.classes);
 				}
 
@@ -5340,7 +5377,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 					// Check if it is jQuery object
 				}
-				else if (!!this.message.jquery) {
+				else if (this.message.jquery) {
 					$(toast).append(this.message[0]);
 
 					// Insert as html;
@@ -5379,7 +5416,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setTimer',
 			value: function _setTimer() {
-				var _this28 = this;
+				const _this28 = this;
 
 				if (this.timeRemaining !== Infinity) {
 					this.counterInterval = setInterval(function() {
@@ -5403,10 +5440,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'dismiss',
 			value: function dismiss() {
-				var _this29 = this;
+				const _this29 = this;
 
 				window.clearInterval(this.counterInterval);
-				var activationDistance = this.el.offsetWidth * this.options.activationPercent;
+				const activationDistance = this.el.offsetWidth * this.options.activationPercent;
 
 				if (this.wasSwiped) {
 					this.el.style.transition = 'transform .05s, opacity .05s';
@@ -5442,7 +5479,7 @@ $jscomp.polyfill = function(e, r, p, m) {
              * Get Instance
              */
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Toast;
 			},
 
@@ -5453,7 +5490,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_createContainer',
 			value: function _createContainer() {
-				var container = document.createElement('div');
+				const container = document.createElement('div');
 				container.setAttribute('id', 'toast-container');
 
 				// Add event handler
@@ -5493,8 +5530,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_onDragStart',
 			value: function _onDragStart(e) {
 				if (e.target && $(e.target).closest('.toast').length) {
-					var $toast = $(e.target).closest('.toast');
-					var toast = $toast[0].M_Toast;
+					const $toast = $(e.target).closest('.toast');
+					const toast = $toast[0].M_Toast;
 					toast.panning = true;
 					Toast._draggedToast = toast;
 					toast.el.classList.add('panning');
@@ -5513,16 +5550,16 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_onDragMove',
 			value: function _onDragMove(e) {
-				if (!!Toast._draggedToast) {
+				if (Toast._draggedToast) {
 					e.preventDefault();
-					var toast = Toast._draggedToast;
+					const toast = Toast._draggedToast;
 					toast.deltaX = Math.abs(toast.xPos - Toast._xPos(e));
 					toast.xPos = Toast._xPos(e);
 					toast.velocityX = toast.deltaX / (Date.now() - toast.time);
 					toast.time = Date.now();
 
-					var totalDeltaX = toast.xPos - toast.startingXPos;
-					var activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
+					const totalDeltaX = toast.xPos - toast.startingXPos;
+					const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
 					toast.el.style.transform = 'translateX(' + totalDeltaX + 'px)';
 					toast.el.style.opacity = 1 - Math.abs(totalDeltaX / activationDistance);
 				}
@@ -5535,14 +5572,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_onDragEnd',
 			value: function _onDragEnd() {
-				if (!!Toast._draggedToast) {
-					var toast = Toast._draggedToast;
+				if (Toast._draggedToast) {
+					const toast = Toast._draggedToast;
 					toast.panning = false;
 					toast.el.classList.remove('panning');
 
-					var totalDeltaX = toast.xPos - toast.startingXPos;
-					var activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
-					var shouldBeDismissed = Math.abs(totalDeltaX) > activationDistance || toast.velocityX > 1;
+					const totalDeltaX = toast.xPos - toast.startingXPos;
+					const activationDistance = toast.el.offsetWidth * toast.options.activationPercent;
+					const shouldBeDismissed = Math.abs(totalDeltaX) > activationDistance || toast.velocityX > 1;
 
 					// Remove toast
 					if (shouldBeDismissed) {
@@ -5582,7 +5619,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'dismissAll',
 			value: function dismissAll() {
-				for (var toastIndex in Toast._toasts) {
+				for (const toastIndex in Toast._toasts) {
 					Toast._toasts[toastIndex].dismiss();
 				}
 			},
@@ -5626,7 +5663,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		edge: 'left',
 		draggable: true,
 		inDuration: 250,
@@ -5642,7 +5679,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      * @class
      */
 
-	var Sidenav = function(_Component8) {
+	const Sidenav = function(_Component8) {
 		_inherits(Sidenav, _Component8);
 
 		/**
@@ -5651,10 +5688,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Sidenav(el, options) {
 			_classCallCheck(this, Sidenav);
 
-			var _this30 = _possibleConstructorReturn(this, (Sidenav.__proto__ || Object.getPrototypeOf(Sidenav)).call(this, Sidenav, el, options));
+			const _this30 = _possibleConstructorReturn(this, (Sidenav.__proto__ || Object.getPrototypeOf(Sidenav)).call(this, Sidenav, el, options));
 
 			_this30.el.M_Sidenav = _this30;
 			_this30.id = _this30.$el.attr('id');
@@ -5718,7 +5756,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this.dragTarget.parentNode.removeChild(this.dragTarget);
 				this.el.M_Sidenav = undefined;
 
-				var index = Sidenav._sidenavs.indexOf(this);
+				const index = Sidenav._sidenavs.indexOf(this);
 				if (index >= 0) {
 					Sidenav._sidenavs.splice(index, 1);
 				}
@@ -5726,7 +5764,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_createOverlay',
 			value: function _createOverlay() {
-				var overlay = document.createElement('div');
+				const overlay = document.createElement('div');
 				this._closeBound = this.close.bind(this);
 				overlay.classList.add('sidenav-overlay');
 
@@ -5791,11 +5829,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleTriggerClick',
 			value: function _handleTriggerClick(e) {
-				var $trigger = $(e.target).closest('.sidenav-trigger');
+				const $trigger = $(e.target).closest('.sidenav-trigger');
 				if (e.target && $trigger.length) {
-					var sidenavId = M.getIdFromTrigger($trigger[0]);
+					const sidenavId = M.getIdFromTrigger($trigger[0]);
 
-					var sidenavInstance = document.getElementById(sidenavId).M_Sidenav;
+					const sidenavInstance = document.getElementById(sidenavId).M_Sidenav;
 					if (sidenavInstance) {
 						sidenavInstance.open($trigger);
 					}
@@ -5812,7 +5850,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_startDrag',
 			value: function _startDrag(e) {
-				var clientX = e.targetTouches[0].clientX;
+				const clientX = e.targetTouches[0].clientX;
 				this.isDragged = true;
 				this._startingXpos = clientX;
 				this._xPos = this._startingXpos;
@@ -5833,8 +5871,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_dragMoveUpdate',
 			value: function _dragMoveUpdate(e) {
-				var clientX = e.targetTouches[0].clientX;
-				var currentScrollTop = this.isOpen ? this.el.scrollTop : M.getDocumentScrollTop();
+				const clientX = e.targetTouches[0].clientX;
+				const currentScrollTop = this.isOpen ? this.el.scrollTop : M.getDocumentScrollTop();
 				this.deltaX = Math.abs(this._xPos - clientX);
 				this._xPos = clientX;
 				this.velocityX = this.deltaX / (Date.now() - this._time);
@@ -5866,10 +5904,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this._dragMoveUpdate(e);
 
 				// Calculate raw deltaX
-				var totalDeltaX = this._xPos - this._startingXpos;
+				let totalDeltaX = this._xPos - this._startingXpos;
 
 				// dragDirection is the attempted user drag direction
-				var dragDirection = totalDeltaX > 0 ? 'right' : 'left';
+				const dragDirection = totalDeltaX > 0 ? 'right' : 'left';
 
 				// Don't allow totalDeltaX to exceed Sidenav width or be dragged in the opposite direction
 				totalDeltaX = Math.min(this._width, Math.abs(totalDeltaX));
@@ -5882,8 +5920,8 @@ $jscomp.polyfill = function(e, r, p, m) {
                  * transformPrefix is the initial transform placement
                  * Invert values if Sidenav is right edge
                  */
-				var transformX = totalDeltaX;
-				var transformPrefix = 'translateX(-100%)';
+				let transformX = totalDeltaX;
+				let transformPrefix = 'translateX(-100%)';
 				if (this.options.edge === 'right') {
 					transformPrefix = 'translateX(100%)';
 					transformX = -transformX;
@@ -5905,7 +5943,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_handleDragTargetRelease',
 			value: function _handleDragTargetRelease() {
 				if (this.isDragged) {
-					if (this.percentOpen > .5) {
+					if (this.percentOpen > 0.5) {
 						this.open();
 					}
 					else {
@@ -5940,10 +5978,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 					this._dragMoveUpdate(e);
 
 					// Calculate raw deltaX
-					var totalDeltaX = this._xPos - this._startingXpos;
+					let totalDeltaX = this._xPos - this._startingXpos;
 
 					// dragDirection is the attempted user drag direction
-					var dragDirection = totalDeltaX > 0 ? 'right' : 'left';
+					const dragDirection = totalDeltaX > 0 ? 'right' : 'left';
 
 					// Don't allow totalDeltaX to exceed Sidenav width or be dragged in the opposite direction
 					totalDeltaX = Math.min(this._width, Math.abs(totalDeltaX));
@@ -5951,7 +5989,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 						totalDeltaX = 0;
 					}
 
-					var transformX = -totalDeltaX;
+					let transformX = -totalDeltaX;
 					if (this.options.edge === 'right') {
 						transformX = -transformX;
 					}
@@ -5973,7 +6011,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_handleCloseRelease',
 			value: function _handleCloseRelease() {
 				if (this.isOpen && this.isDragged) {
-					if (this.percentOpen > .5) {
+					if (this.percentOpen > 0.5) {
 						this._animateIn();
 					}
 					else {
@@ -5992,7 +6030,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleCloseTriggerClick',
 			value: function _handleCloseTriggerClick(e) {
-				var $closeTrigger = $(e.target).closest('.sidenav-close');
+				const $closeTrigger = $(e.target).closest('.sidenav-close');
 				if ($closeTrigger.length && !this._isCurrentlyFixed()) {
 					this.close();
 				}
@@ -6047,7 +6085,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_createDragTarget',
 			value: function _createDragTarget() {
-				var dragTarget = document.createElement('div');
+				const dragTarget = document.createElement('div');
 				dragTarget.classList.add('drag-target');
 				document.body.appendChild(dragTarget);
 				this.dragTarget = dragTarget;
@@ -6055,13 +6093,13 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_preventBodyScrolling',
 			value: function _preventBodyScrolling() {
-				var body = document.body;
+				const body = document.body;
 				body.style.overflow = 'hidden';
 			},
 		}, {
 			key: '_enableBodyScrolling',
 			value: function _enableBodyScrolling() {
-				var body = document.body;
+				const body = document.body;
 				body.style.overflow = '';
 			},
 		}, {
@@ -6118,7 +6156,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 				// Handle fixed Sidenav
 				if (this._isCurrentlyFixed()) {
-					var transformX = this.options.edge === 'left' ? '-105%' : '105%';
+					const transformX = this.options.edge === 'left' ? '-105%' : '105%';
 					this.el.style.transform = 'translateX(' + transformX + ')';
 
 					// Handle non-fixed Sidenav
@@ -6143,9 +6181,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateSidenavIn',
 			value: function _animateSidenavIn() {
-				var _this31 = this;
+				const _this31 = this;
 
-				var slideOutPercent = this.options.edge === 'left' ? -1 : 1;
+				let slideOutPercent = this.options.edge === 'left' ? -1 : 1;
 				if (this.isDragged) {
 					slideOutPercent = this.options.edge === 'left' ? slideOutPercent + this.percentOpen : slideOutPercent - this.percentOpen;
 				}
@@ -6167,7 +6205,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateOverlayIn',
 			value: function _animateOverlayIn() {
-				var start = 0;
+				let start = 0;
 				if (this.isDragged) {
 					start = this.percentOpen;
 				}
@@ -6194,10 +6232,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateSidenavOut',
 			value: function _animateSidenavOut() {
-				var _this32 = this;
+				const _this32 = this;
 
-				var endPercent = this.options.edge === 'left' ? -1 : 1;
-				var slideOutPercent = 0;
+				const endPercent = this.options.edge === 'left' ? -1 : 1;
+				let slideOutPercent = 0;
 				if (this.isDragged) {
 					slideOutPercent = this.options.edge === 'left' ? endPercent + this.percentOpen : endPercent - this.percentOpen;
 				}
@@ -6219,7 +6257,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateOverlayOut',
 			value: function _animateOverlayOut() {
-				var _this33 = this;
+				const _this33 = this;
 
 				anim.remove(this._overlay);
 				anim({
@@ -6245,7 +6283,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Sidenav;
 			},
 		}, {
@@ -6276,9 +6314,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		throttle: 100,
-		scrollOffset: 200, // offset - 200 allows elements near bottom of page to scroll
+		scrollOffset: 200,
 		activeClass: 'active',
 		getActiveElement: function(id) {
 			return 'a[href="#' + id + '"]';
@@ -6290,7 +6328,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var ScrollSpy = function(_Component9) {
+	const ScrollSpy = function(_Component9) {
 		_inherits(ScrollSpy, _Component9);
 
 		/**
@@ -6299,10 +6337,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function ScrollSpy(el, options) {
 			_classCallCheck(this, ScrollSpy);
 
-			var _this34 = _possibleConstructorReturn(this, (ScrollSpy.__proto__ || Object.getPrototypeOf(ScrollSpy)).call(this, ScrollSpy, el, options));
+			const _this34 = _possibleConstructorReturn(this, (ScrollSpy.__proto__ || Object.getPrototypeOf(ScrollSpy)).call(this, ScrollSpy, el, options));
 
 			_this34.el.M_ScrollSpy = _this34;
 
@@ -6351,7 +6390,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupEventHandlers',
 			value: function _setupEventHandlers() {
-				var throttledResize = M.throttle(this._handleWindowScroll, 200);
+				const throttledResize = M.throttle(this._handleWindowScroll, 200);
 				this._handleThrottledResizeBound = throttledResize.bind(this);
 				this._handleWindowScrollBound = this._handleWindowScroll.bind(this);
 				if (ScrollSpy._count === 1) {
@@ -6383,12 +6422,12 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleTriggerClick',
 			value: function _handleTriggerClick(e) {
-				var $trigger = $(e.target);
-				for (var i = ScrollSpy._elements.length - 1; i >= 0; i--) {
-					var scrollspy = ScrollSpy._elements[i];
+				const $trigger = $(e.target);
+				for (let i = ScrollSpy._elements.length - 1; i >= 0; i--) {
+					const scrollspy = ScrollSpy._elements[i];
 					if ($trigger.is('a[href="#' + scrollspy.$el.attr('id') + '"]')) {
 						e.preventDefault();
-						var offset = scrollspy.$el.offset().top + 1;
+						const offset = scrollspy.$el.offset().top + 1;
 
 						anim({
 							targets: [document.documentElement, document.body],
@@ -6412,16 +6451,16 @@ $jscomp.polyfill = function(e, r, p, m) {
 				ScrollSpy._ticks++;
 
 				// viewport rectangle
-				var top = M.getDocumentScrollTop(),
+				const top = M.getDocumentScrollTop(),
 					left = M.getDocumentScrollLeft(),
 					right = left + window.innerWidth,
 					bottom = top + window.innerHeight;
 
 				// determine which elements are in view
-				var intersections = ScrollSpy._findElements(top, right, bottom, left);
-				for (var i = 0; i < intersections.length; i++) {
-					var scrollspy = intersections[i];
-					var lastTick = scrollspy.tickId;
+				const intersections = ScrollSpy._findElements(top, right, bottom, left);
+				for (let i = 0; i < intersections.length; i++) {
+					const scrollspy = intersections[i];
+					const lastTick = scrollspy.tickId;
 					if (lastTick < 0) {
 						// entered into view
 						scrollspy._enter();
@@ -6431,9 +6470,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 					scrollspy.tickId = ScrollSpy._ticks;
 				}
 
-				for (var _i = 0; _i < ScrollSpy._elementsInView.length; _i++) {
-					var _scrollspy = ScrollSpy._elementsInView[_i];
-					var _lastTick = _scrollspy.tickId;
+				for (let _i = 0; _i < ScrollSpy._elementsInView.length; _i++) {
+					const _scrollspy = ScrollSpy._elementsInView[_i];
+					const _lastTick = _scrollspy.tickId;
 					if (_lastTick >= 0 && _lastTick !== ScrollSpy._ticks) {
 						// exited from view
 						_scrollspy._exit();
@@ -6479,7 +6518,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_exit',
 			value: function _exit() {
-				var _this35 = this;
+				const _this35 = this;
 
 				ScrollSpy._visibleElements = ScrollSpy._visibleElements.filter(function(value) {
 					return value.height() != 0;
@@ -6510,24 +6549,24 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_ScrollSpy;
 			},
 		}, {
 			key: '_findElements',
 			value: function _findElements(top, right, bottom, left) {
-				var hits = [];
-				for (var i = 0; i < ScrollSpy._elements.length; i++) {
-					var scrollspy = ScrollSpy._elements[i];
-					var currTop = top + scrollspy.options.scrollOffset || 200;
+				const hits = [];
+				for (let i = 0; i < ScrollSpy._elements.length; i++) {
+					const scrollspy = ScrollSpy._elements[i];
+					const currTop = top + scrollspy.options.scrollOffset || 200;
 
 					if (scrollspy.$el.height() > 0) {
-						var elTop = scrollspy.$el.offset().top,
+						const elTop = scrollspy.$el.offset().top,
 							elLeft = scrollspy.$el.offset().left,
 							elRight = elLeft + scrollspy.$el.width(),
 							elBottom = elTop + scrollspy.$el.height();
 
-						var isIntersect = !(elLeft > right || elRight < left || elTop > bottom || elBottom < currTop);
+						const isIntersect = !(elLeft > right || elRight < left || elTop > bottom || elBottom < currTop);
 
 						if (isIntersect) {
 							hits.push(scrollspy);
@@ -6596,11 +6635,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {
-		data: {}, // Autocomplete data set
-		limit: Infinity, // Limit of results the autocomplete shows
-		onAutocomplete: null, // Callback for when autocompleted
-		minLength: 1, // Min characters before autocomplete starts
+	const _defaults = {
+		data: {},
+		limit: Infinity,
+		onAutocomplete: null,
+		minLength: 1,
 		sortFunction: function(a, b, inputString) {
 			// Sort function for sorting autocomplete results
 			return a.indexOf(inputString) - b.indexOf(inputString);
@@ -6612,7 +6651,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Autocomplete = function(_Component10) {
+	const Autocomplete = function(_Component10) {
 		_inherits(Autocomplete, _Component10);
 
 		/**
@@ -6621,10 +6660,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Autocomplete(el, options) {
 			_classCallCheck(this, Autocomplete);
 
-			var _this36 = _possibleConstructorReturn(this, (Autocomplete.__proto__ || Object.getPrototypeOf(Autocomplete)).call(this, Autocomplete, el, options));
+			const _this36 = _possibleConstructorReturn(this, (Autocomplete.__proto__ || Object.getPrototypeOf(Autocomplete)).call(this, Autocomplete, el, options));
 
 			_this36.el.M_Autocomplete = _this36;
 
@@ -6761,14 +6801,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleInputKeyupAndFocus',
 			value: function _handleInputKeyupAndFocus(e) {
-				var _this37 = this;
+				const _this37 = this;
 
 				if (e.type === 'keyup') {
 					Autocomplete._keydown = false;
 				}
 
 				this.count = 0;
-				var val = this.el.value.toLowerCase();
+				const val = this.el.value.toLowerCase();
 
 				// Don't capture enter or arrow key usage.
 				if (e.keyCode === 13 || e.keyCode === 38 || e.keyCode === 40) {
@@ -6813,8 +6853,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 				Autocomplete._keydown = true;
 
 				// Arrow keys and enter key usage
-				var keyCode = e.keyCode,
+				// eslint-disable-next-line prefer-const
+				let keyCode = e.keyCode,
 					liElement = void 0,
+					// eslint-disable-next-line prefer-const
 					numItems = $(this.container).children('li').length;
 
 				// select element on Enter
@@ -6855,7 +6897,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleContainerMousedownAndTouchstart',
 			value: function _handleContainerMousedownAndTouchstart(e) {
-				var $autocompleteOption = $(e.target).closest('li');
+				const $autocompleteOption = $(e.target).closest('li');
 				this.selectOption($autocompleteOption);
 			},
 
@@ -6866,8 +6908,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_highlight',
 			value: function _highlight(string, $el) {
-				var img = $el.find('img');
-				var matchStart = $el.text().toLowerCase().indexOf('' + string.toLowerCase() + ''),
+				const img = $el.find('img');
+				const matchStart = $el.text().toLowerCase().indexOf('' + string.toLowerCase() + ''),
 					matchEnd = matchStart + string.length - 1,
 					beforeMatch = $el.text().slice(0, matchStart),
 					matchText = $el.text().slice(matchStart, matchEnd + 1),
@@ -6910,7 +6952,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'selectOption',
 			value: function selectOption(el) {
-				var text = el.text().trim();
+				const text = el.text().trim();
 				this.el.value = text;
 				this.$el.trigger('change');
 				this._resetAutocomplete();
@@ -6931,21 +6973,21 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_renderDropdown',
 			value: function _renderDropdown(data, val) {
-				var _this38 = this;
+				const _this38 = this;
 
 				this._resetAutocomplete();
 
-				var matchingData = [];
+				const matchingData = [];
 
 				// Gather all matching data
-				for (var key in data) {
-					if (data.hasOwnProperty(key) && key.toLowerCase().indexOf(val) !== -1) {
+				for (const key in data) {
+					if (Object.prototype.hasOwnProperty.call(data, key) && key.toLowerCase().indexOf(val) !== -1) {
 						// Break if past limit
 						if (this.count >= this.options.limit) {
 							break;
 						}
 
-						var entry = {
+						const entry = {
 							data: data[key],
 							key: key,
 						};
@@ -6956,16 +6998,16 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				// Sort
-				var sortFunctionBound = function(a, b) {
+				const sortFunctionBound = function(a, b) {
 					return _this38.options.sortFunction(a.key.toLowerCase(), b.key.toLowerCase(), val.toLowerCase());
 				};
 				matchingData.sort(sortFunctionBound);
 
 				// Render
-				for (var i = 0; i < matchingData.length; i++) {
-					var _entry = matchingData[i];
-					var $autocompleteOption = $('<li></li>');
-					if (!!_entry.data) {
+				for (let i = 0; i < matchingData.length; i++) {
+					const _entry = matchingData[i];
+					const $autocompleteOption = $('<li></li>');
+					if (_entry.data) {
 						$autocompleteOption.append('<img src="' + _entry.data + '" class="right circle"><span>' + _entry.key + '</span>');
 					}
 					else {
@@ -6985,7 +7027,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'updateData',
 			value: function updateData(data) {
-				var val = this.el.value.toLowerCase();
+				const val = this.el.value.toLowerCase();
 				this.options.data = data;
 
 				if (this.isOpen) {
@@ -7005,7 +7047,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Autocomplete;
 			},
 		}, {
@@ -7035,9 +7077,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	// Function to update labels of text fields
 	M.updateTextFields = function() {
-		var input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], input[type=date], input[type=time], textarea';
-		$(input_selector).each(function(element, index) {
-			var $this = $(this);
+		const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], input[type=date], input[type=time], textarea';
+		$(input_selector).each(function(element) {
+			const $this = $(this);
 			if (element.value.length > 0 || $(element).is(':focus') || element.autofocus || $this.attr('placeholder') !== null) {
 				$this.siblings('label').addClass('active');
 			}
@@ -7051,9 +7093,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 	};
 
 	M.validate_field = function(object) {
-		var hasLength = object.attr('data-length') !== null;
-		var lenAttr = parseInt(object.attr('data-length'));
-		var len = object[0].value.length;
+		const hasLength = object.attr('data-length') !== null;
+		const lenAttr = parseInt(object.attr('data-length'));
+		const len = object[0].value.length;
 
 		if (len === 0 && object[0].validity.badInput === false && !object.is(':required')) {
 			if (object.hasClass('validate')) {
@@ -7061,17 +7103,15 @@ $jscomp.polyfill = function(e, r, p, m) {
 				object.removeClass('invalid');
 			}
 		}
-		else {
-			if (object.hasClass('validate')) {
-				// Check for character counter attributes
-				if (object.is(':valid') && hasLength && len <= lenAttr || object.is(':valid') && !hasLength) {
-					object.removeClass('invalid');
-					object.addClass('valid');
-				}
-				else {
-					object.removeClass('valid');
-					object.addClass('invalid');
-				}
+		else if (object.hasClass('validate')) {
+			// Check for character counter attributes
+			if (object.is(':valid') && hasLength && len <= lenAttr || object.is(':valid') && !hasLength) {
+				object.removeClass('invalid');
+				object.addClass('valid');
+			}
+			else {
+				object.removeClass('valid');
+				object.addClass('invalid');
 			}
 		}
 	};
@@ -7088,22 +7128,22 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}
 
 		// Textarea Auto Resize
-		var hiddenDiv = $('.hiddendiv').first();
+		let hiddenDiv = $('.hiddendiv').first();
 		if (!hiddenDiv.length) {
 			hiddenDiv = $('<div class="hiddendiv common"></div>');
 			$('body').append(hiddenDiv);
 		}
 
 		// Set font properties of hiddenDiv
-		var fontFamily = $textarea.css('font-family');
-		var fontSize = $textarea.css('font-size');
-		var lineHeight = $textarea.css('line-height');
+		const fontFamily = $textarea.css('font-family');
+		const fontSize = $textarea.css('font-size');
+		const lineHeight = $textarea.css('line-height');
 
 		// Firefox can't handle padding shorthand.
-		var paddingTop = $textarea.css('padding-top');
-		var paddingRight = $textarea.css('padding-right');
-		var paddingBottom = $textarea.css('padding-bottom');
-		var paddingLeft = $textarea.css('padding-left');
+		const paddingTop = $textarea.css('padding-top');
+		const paddingRight = $textarea.css('padding-right');
+		const paddingBottom = $textarea.css('padding-bottom');
+		const paddingLeft = $textarea.css('padding-left');
 
 		if (fontSize) {
 			hiddenDiv.css('font-size', fontSize);
@@ -7137,7 +7177,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}
 
 		hiddenDiv.text($textarea[0].value + '\n');
-		var content = hiddenDiv.html().replace(/\n/g, '<br>');
+		const content = hiddenDiv.html().replace(/\n/g, '<br>');
 		hiddenDiv.html(content);
 
 		// When textarea is hidden, width goes crazy.
@@ -7170,7 +7210,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 	$(document).ready(function() {
 		// Text based inputs
-		var input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], input[type=date], input[type=time], textarea';
+		const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], input[type=date], input[type=time], textarea';
 
 		// Add active if form auto complete
 		$(document).on('change', input_selector, function() {
@@ -7187,10 +7227,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		// HTML DOM FORM RESET handling
 		$(document).on('reset', function(e) {
-			var formReset = $(e.target);
+			const formReset = $(e.target);
 			if (formReset.is('form')) {
 				formReset.find(input_selector).removeClass('valid').removeClass('invalid');
-				formReset.find(input_selector).each(function(e) {
+				formReset.find(input_selector).each(function() {
 					if (this.value.length) {
 						$(this).siblings('label').removeClass('active');
 					}
@@ -7201,7 +7241,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					formReset.find('select').each(function() {
 						// check if initialized
 						if (this.M_FormSelect) {
-							var reset_text = $(this).find('option[selected]').text();
+							const reset_text = $(this).find('option[selected]').text();
 							$(this).siblings('input.select-dropdown')[0].value = reset_text;
 						}
 					});
@@ -7224,9 +7264,9 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Event} e
          */
 		document.addEventListener('blur', function(e) {
-			var $inputElement = $(e.target);
+			const $inputElement = $(e.target);
 			if ($inputElement.is(input_selector)) {
-				var selector = '.prefix';
+				let selector = '.prefix';
 
 				if ($inputElement[0].value.length === 0 && $inputElement[0].validity.badInput !== true && $inputElement.attr('placeholder') === null) {
 					selector += ', label';
@@ -7237,22 +7277,22 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, true);
 
 		// Radio and Checkbox focus class
-		var radio_checkbox = 'input[type=radio], input[type=checkbox]';
+		const radio_checkbox = 'input[type=radio], input[type=checkbox]';
 		$(document).on('keyup', radio_checkbox, function(e) {
 			// TAB, check if tabbing to radio or checkbox.
 			if (e.which === M.keys.TAB) {
 				$(this).addClass('tabbed');
-				var $this = $(this);
-				$this.one('blur', function(e) {
+				const $this = $(this);
+				$this.one('blur', function() {
 					$(this).removeClass('tabbed');
 				});
 				return;
 			}
 		});
 
-		var text_area_selector = '.materialize-textarea';
+		const text_area_selector = '.materialize-textarea';
 		$(text_area_selector).each(function() {
-			var $textarea = $(this);
+			const $textarea = $(this);
 			/**
              * Resize textarea on document load after storing
              * the original height and the original length
@@ -7271,22 +7311,22 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		// File Input Path
 		$(document).on('change', '.file-field input[type="file"]', function() {
-			var file_field = $(this).closest('.file-field');
-			var path_input = file_field.find('input.file-path');
-			var files = $(this)[0].files;
-			var file_names = [];
-			for (var i = 0; i < files.length; i++) {
+			const file_field = $(this).closest('.file-field');
+			const path_input = file_field.find('input.file-path');
+			const files = $(this)[0].files;
+			const file_names = [];
+			for (let i = 0; i < files.length; i++) {
 				file_names.push(files[i].name);
 			}
 			path_input[0].value = file_names.join(', ');
 			path_input.trigger('change');
 		});
-	}); // End of $(document).ready
+	});
 })(cash);
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		indicators: true,
 		height: 400,
 		duration: 500,
@@ -7298,7 +7338,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Slider = function(_Component11) {
+	const Slider = function(_Component11) {
 		_inherits(Slider, _Component11);
 
 		/**
@@ -7307,10 +7347,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Slider(el, options) {
 			_classCallCheck(this, Slider);
 
-			var _this39 = _possibleConstructorReturn(this, (Slider.__proto__ || Object.getPrototypeOf(Slider)).call(this, Slider, el, options));
+			const _this39 = _possibleConstructorReturn(this, (Slider.__proto__ || Object.getPrototypeOf(Slider)).call(this, Slider, el, options));
 
 			_this39.el.M_Slider = _this39;
 
@@ -7337,13 +7378,15 @@ $jscomp.polyfill = function(e, r, p, m) {
 			_this39._setSliderHeight();
 
 			// Set initial positions of captions
+			// eslint-disable-next-line no-shadow
 			_this39.$slides.find('.caption').each(function(el) {
 				_this39._animateCaptionIn(el, 0);
 			});
 
 			// Move img src into background-image
+			// eslint-disable-next-line no-shadow
 			_this39.$slides.find('img').each(function(el) {
-				var placeholderBase64 = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+				const placeholderBase64 = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 				if ($(el).attr('src') !== placeholderBase64) {
 					$(el).css('background-image', 'url("' + $(el).attr('src') + '")');
 					$(el).attr('src', placeholderBase64);
@@ -7375,7 +7418,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			}
 
 			// Adjust height to current slide
-			_this39.$active.find('img').each(function(el) {
+			_this39.$active.find('img').each(function() {
 				anim({
 					targets: _this39.$active.find('.caption')[0],
 					opacity: 1,
@@ -7414,7 +7457,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupEventHandlers',
 			value: function _setupEventHandlers() {
-				var _this40 = this;
+				const _this40 = this;
 
 				this._handleIntervalBound = this._handleInterval.bind(this);
 				this._handleIndicatorClickBound = this._handleIndicatorClick.bind(this);
@@ -7433,7 +7476,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_removeEventHandlers',
 			value: function _removeEventHandlers() {
-				var _this41 = this;
+				const _this41 = this;
 
 				if (this.options.indicators) {
 					this.$indicators.each(function(el) {
@@ -7450,7 +7493,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleIndicatorClick',
 			value: function _handleIndicatorClick(e) {
-				var currIndex = $(e.target).index();
+				const currIndex = $(e.target).index();
 				this.set(currIndex);
 			},
 
@@ -7461,8 +7504,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleInterval',
 			value: function _handleInterval() {
-				var newActiveIndex = this.$slider.find('.active').index();
-				if (this.$slides.length === newActiveIndex + 1) newActiveIndex = 0; // loop to start
+				let newActiveIndex = this.$slider.find('.active').index();
+				if (this.$slides.length === newActiveIndex + 1) newActiveIndex = 0;
 				else newActiveIndex += 1;
 
 				this.set(newActiveIndex);
@@ -7477,7 +7520,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateCaptionIn',
 			value: function _animateCaptionIn(caption, duration) {
-				var animOptions = {
+				const animOptions = {
 					targets: caption,
 					opacity: 0,
 					duration: duration,
@@ -7524,12 +7567,13 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupIndicators',
 			value: function _setupIndicators() {
-				var _this42 = this;
+				const _this42 = this;
 
 				if (this.options.indicators) {
 					this.$indicators = $('<ul class="indicators"></ul>');
-					this.$slides.each(function(el, index) {
-						var $indicator = $('<li class="indicator-item"></li>');
+					// eslint-disable-next-line no-unused-vars
+					this.$slides.each(function(_el) {
+						const $indicator = $('<li class="indicator-item"></li>');
 						_this42.$indicators.append($indicator[0]);
 					});
 					this.$el.append(this.$indicators[0]);
@@ -7555,7 +7599,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'set',
 			value: function set(index) {
-				var _this43 = this;
+				const _this43 = this;
 
 				// Wrap around indices.
 				if (index >= this.$slides.length) index = 0; else if (index < 0) index = this.$slides.length - 1;
@@ -7563,7 +7607,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				// Only do if index changes
 				if (this.activeIndex != index) {
 					this.$active = this.$slides.eq(this.activeIndex);
-					var $caption = this.$active.find('.caption');
+					const $caption = this.$active.find('.caption');
 					this.$active.removeClass('active');
 
 					anim({
@@ -7646,7 +7690,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'next',
 			value: function next() {
-				var newIndex = this.activeIndex + 1;
+				let newIndex = this.activeIndex + 1;
 
 				// Wrap around indices.
 				if (newIndex >= this.$slides.length) newIndex = 0; else if (newIndex < 0) newIndex = this.$slides.length - 1;
@@ -7661,7 +7705,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'prev',
 			value: function prev() {
-				var newIndex = this.activeIndex - 1;
+				let newIndex = this.activeIndex - 1;
 
 				// Wrap around indices.
 				if (newIndex >= this.$slides.length) newIndex = 0; else if (newIndex < 0) newIndex = this.$slides.length - 1;
@@ -7681,7 +7725,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Slider;
 			},
 		}, {
@@ -7703,11 +7747,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	$(document).on('click', '.card', function(e) {
 		if ($(this).children('.card-reveal').length) {
-			var $card = $(e.target).closest('.card');
+			const $card = $(e.target).closest('.card');
 			if ($card.data('initialOverflow') === undefined) {
 				$card.data('initialOverflow', $card.css('overflow') === undefined ? '' : $card.css('overflow'));
 			}
-			var $cardReveal = $(this).find('.card-reveal');
+			const $cardReveal = $(this).find('.card-reveal');
 			if ($(e.target).is($('.card-reveal .card-title')) || $(e.target).is($('.card-reveal .card-title i'))) {
 				// Make Reveal animate down and display none
 				anim({
@@ -7715,8 +7759,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 					translateY: 0,
 					duration: 225,
 					easing: 'easeInOutQuad',
+					// eslint-disable-next-line no-shadow
 					complete: function(anim) {
-						var el = anim.animatables[0].target;
+						const el = anim.animatables[0].target;
 						$(el).css({ display: 'none' });
 						$card.css('overflow', $card.data('initialOverflow'));
 					},
@@ -7738,7 +7783,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		data: [],
 		placeholder: '',
 		secondaryPlaceholder: '',
@@ -7760,7 +7805,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Chips = function(_Component12) {
+	const Chips = function(_Component12) {
 		_inherits(Chips, _Component12);
 
 		/**
@@ -7769,10 +7814,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Chips(el, options) {
 			_classCallCheck(this, Chips);
 
-			var _this44 = _possibleConstructorReturn(this, (Chips.__proto__ || Object.getPrototypeOf(Chips)).call(this, Chips, el, options));
+			const _this44 = _possibleConstructorReturn(this, (Chips.__proto__ || Object.getPrototypeOf(Chips)).call(this, Chips, el, options));
 
 			_this44.el.M_Chips = _this44;
 
@@ -7882,10 +7928,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleChipClick',
 			value: function _handleChipClick(e) {
-				var $chip = $(e.target).closest('.chip');
-				var clickedClose = $(e.target).is('.close');
+				const $chip = $(e.target).closest('.chip');
+				const clickedClose = $(e.target).is('.close');
 				if ($chip.length) {
-					var index = $chip.index();
+					const index = $chip.index();
 					if (clickedClose) {
 						// delete chip
 						this.deleteChip(index);
@@ -7973,8 +8019,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 					return;
 				}
 
-				var renderedChip = document.createElement('div');
-				var closeIcon = document.createElement('i');
+				const renderedChip = document.createElement('div');
+				const closeIcon = document.createElement('i');
 				renderedChip.classList.add('chip');
 				renderedChip.textContent = chip.tag;
 				renderedChip.setAttribute('tabindex', 0);
@@ -7983,7 +8029,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 				// attach image if needed
 				if (chip.image) {
-					var img = document.createElement('img');
+					const img = document.createElement('img');
 					img.setAttribute('src', chip.image);
 					renderedChip.insertBefore(img, renderedChip.firstChild);
 				}
@@ -8000,8 +8046,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_renderChips',
 			value: function _renderChips() {
 				this.$chips.remove();
-				for (var i = 0; i < this.chipsData.length; i++) {
-					var chipEl = this._renderChip(this.chipsData[i]);
+				for (let i = 0; i < this.chipsData.length; i++) {
+					const chipEl = this._renderChip(this.chipsData[i]);
 					this.$el.append(chipEl);
 					this.$chips.add(chipEl);
 				}
@@ -8017,7 +8063,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupAutocomplete',
 			value: function _setupAutocomplete() {
-				var _this45 = this;
+				const _this45 = this;
 
 				this.options.autocompleteOptions.onAutocomplete = function(val) {
 					_this45.addChip({
@@ -8082,9 +8128,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_isValid',
 			value: function _isValid(chip) {
-				if (chip.hasOwnProperty('tag') && chip.tag !== '') {
-					var exists = false;
-					for (var i = 0; i < this.chipsData.length; i++) {
+				if (Object.prototype.hasOwnProperty.call(chip, 'tag') && chip.tag !== '') {
+					let exists = false;
+					for (let i = 0; i < this.chipsData.length; i++) {
 						if (this.chipsData[i].tag === chip.tag) {
 							exists = true;
 							break;
@@ -8108,7 +8154,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					return;
 				}
 
-				var renderedChip = this._renderChip(chip);
+				const renderedChip = this._renderChip(chip);
 				this.$chips.add(renderedChip);
 				this.chipsData.push(chip);
 				$(this.$input).before(renderedChip);
@@ -8128,7 +8174,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'deleteChip',
 			value: function deleteChip(chipIndex) {
-				var $chip = this.$chips.eq(chipIndex);
+				const $chip = this.$chips.eq(chipIndex);
 				this.$chips.eq(chipIndex).remove();
 				this.$chips = this.$chips.filter(function(el) {
 					return $(el).index() >= 0;
@@ -8150,7 +8196,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'selectChip',
 			value: function selectChip(chipIndex) {
-				var $chip = this.$chips.eq(chipIndex);
+				const $chip = this.$chips.eq(chipIndex);
 				this._selectedChip = $chip;
 				$chip[0].focus();
 
@@ -8172,7 +8218,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Chips;
 			},
 		}, {
@@ -8180,23 +8226,23 @@ $jscomp.polyfill = function(e, r, p, m) {
 			value: function _handleChipsKeydown(e) {
 				Chips._keydown = true;
 
-				var $chips = $(e.target).closest('.chips');
-				var chipsKeydown = e.target && $chips.length;
+				const $chips = $(e.target).closest('.chips');
+				const chipsKeydown = e.target && $chips.length;
 
 				// Don't handle keydown inputs on input and textarea
 				if ($(e.target).is('input, textarea') || !chipsKeydown) {
 					return;
 				}
 
-				var currChips = $chips[0].M_Chips;
+				const currChips = $chips[0].M_Chips;
 
 				// backspace and delete
 				if (e.keyCode === 8 || e.keyCode === 46) {
 					e.preventDefault();
 
-					var selectIndex = currChips.chipsData.length;
+					let selectIndex = currChips.chipsData.length;
 					if (currChips._selectedChip) {
-						var index = currChips._selectedChip.index();
+						const index = currChips._selectedChip.index();
 						currChips.deleteChip(index);
 						currChips._selectedChip = null;
 
@@ -8212,7 +8258,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 				else if (e.keyCode === 37) {
 					if (currChips._selectedChip) {
-						var _selectIndex = currChips._selectedChip.index() - 1;
+						const _selectIndex = currChips._selectedChip.index() - 1;
 						if (_selectIndex < 0) {
 							return;
 						}
@@ -8223,7 +8269,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 				else if (e.keyCode === 39) {
 					if (currChips._selectedChip) {
-						var _selectIndex2 = currChips._selectedChip.index() + 1;
+						const _selectIndex2 = currChips._selectedChip.index() + 1;
 
 						if (_selectIndex2 >= currChips.chipsData.length) {
 							currChips.$input[0].focus();
@@ -8242,7 +8288,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		}, {
 			key: '_handleChipsKeyup',
-			value: function _handleChipsKeyup(e) {
+			value: function _handleChipsKeyup() {
 				Chips._keydown = false;
 			},
 
@@ -8255,8 +8301,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_handleChipsBlur',
 			value: function _handleChipsBlur(e) {
 				if (!Chips._keydown) {
-					var $chips = $(e.target).closest('.chips');
-					var currChips = $chips[0].M_Chips;
+					const $chips = $(e.target).closest('.chips');
+					const currChips = $chips[0].M_Chips;
 
 					currChips._selectedChip = null;
 				}
@@ -8288,7 +8334,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 	$(document).ready(function() {
 		// Handle removal of static chips.
 		$(document.body).on('click', '.chip .close', function() {
-			var $chips = $(this).closest('.chips');
+			const $chips = $(this).closest('.chips');
 			if ($chips.length && $chips[0].M_Chips) {
 				return;
 			}
@@ -8299,7 +8345,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		top: 0,
 		bottom: Infinity,
 		offset: 0,
@@ -8311,7 +8357,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Pushpin = function(_Component13) {
+	const Pushpin = function(_Component13) {
 		_inherits(Pushpin, _Component13);
 
 		/**
@@ -8320,10 +8366,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Pushpin(el, options) {
 			_classCallCheck(this, Pushpin);
 
-			var _this46 = _possibleConstructorReturn(this, (Pushpin.__proto__ || Object.getPrototypeOf(Pushpin)).call(this, Pushpin, el, options));
+			const _this46 = _possibleConstructorReturn(this, (Pushpin.__proto__ || Object.getPrototypeOf(Pushpin)).call(this, Pushpin, el, options));
 
 			_this46.el.M_Pushpin = _this46;
 
@@ -8353,7 +8400,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this._removeEventHandlers();
 
 				// Remove pushpin Inst
-				var index = Pushpin._pushpins.indexOf(this);
+				const index = Pushpin._pushpins.indexOf(this);
 				Pushpin._pushpins.splice(index, 1);
 			},
 		}, {
@@ -8369,7 +8416,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_updatePosition',
 			value: function _updatePosition() {
-				var scrolled = M.getDocumentScrollTop() + this.options.offset;
+				const scrolled = M.getDocumentScrollTop() + this.options.offset;
 
 				if (this.options.top <= scrolled && this.options.bottom >= scrolled && !this.el.classList.contains('pinned')) {
 					this._removePinClasses();
@@ -8425,14 +8472,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Pushpin;
 			},
 		}, {
 			key: '_updateElements',
 			value: function _updateElements() {
-				for (var elIndex in Pushpin._pushpins) {
-					var pInstance = Pushpin._pushpins[elIndex];
+				for (const elIndex in Pushpin._pushpins) {
+					const pInstance = Pushpin._pushpins[elIndex];
 					pInstance._updatePosition();
 				}
 			},
@@ -8463,7 +8510,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		direction: 'top',
 		hoverEnabled: true,
 		toolbarEnabled: false,
@@ -8476,7 +8523,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var FloatingActionButton = function(_Component14) {
+	const FloatingActionButton = function(_Component14) {
 		_inherits(FloatingActionButton, _Component14);
 
 		/**
@@ -8485,10 +8532,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function FloatingActionButton(el, options) {
 			_classCallCheck(this, FloatingActionButton);
 
-			var _this47 = _possibleConstructorReturn(this, (FloatingActionButton.__proto__ || Object.getPrototypeOf(FloatingActionButton)).call(this, FloatingActionButton, el, options));
+			const _this47 = _possibleConstructorReturn(this, (FloatingActionButton.__proto__ || Object.getPrototypeOf(FloatingActionButton)).call(this, FloatingActionButton, el, options));
 
 			_this47.el.M_FloatingActionButton = _this47;
 
@@ -8653,16 +8701,16 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateInFAB',
 			value: function _animateInFAB() {
-				var _this48 = this;
+				const _this48 = this;
 
 				this.$el.addClass('active');
 
-				var time = 0;
+				let time = 0;
 				this.$floatingBtnsReverse.each(function(el) {
 					anim({
 						targets: el,
 						opacity: 1,
-						scale: [.4, 1],
+						scale: [0.4, 1],
 						translateY: [_this48.offsetY, 0],
 						translateX: [_this48.offsetX, 0],
 						duration: 275,
@@ -8680,14 +8728,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateOutFAB',
 			value: function _animateOutFAB() {
-				var _this49 = this;
+				const _this49 = this;
 
 				this.$floatingBtnsReverse.each(function(el) {
 					anim.remove(el);
 					anim({
 						targets: el,
 						opacity: 0,
-						scale: .4,
+						scale: 0.4,
 						translateY: _this49.offsetY,
 						translateX: _this49.offsetX,
 						duration: 175,
@@ -8706,14 +8754,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateInToolbar',
 			value: function _animateInToolbar() {
-				var _this50 = this;
+				const _this50 = this;
 
-				var scaleFactor = void 0;
-				var windowWidth = window.innerWidth;
-				var windowHeight = window.innerHeight;
-				var btnRect = this.el.getBoundingClientRect();
-				var backdrop = $('<div class="fab-backdrop"></div>');
-				var fabColor = this.$anchor.css('background-color');
+				let scaleFactor = void 0;
+				const windowWidth = window.innerWidth;
+				const windowHeight = window.innerHeight;
+				const btnRect = this.el.getBoundingClientRect();
+				const backdrop = $('<div class="fab-backdrop"></div>');
+				const fabColor = this.$anchor.css('background-color');
 				this.$anchor.append(backdrop);
 
 				this.offsetX = btnRect.left - windowWidth / 2 + btnRect.width / 2;
@@ -8780,12 +8828,12 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_animateOutToolbar',
 			value: function _animateOutToolbar() {
-				var _this51 = this;
+				const _this51 = this;
 
-				var windowWidth = window.innerWidth;
-				var windowHeight = window.innerHeight;
-				var backdrop = this.$el.find('.fab-backdrop');
-				var fabColor = this.$anchor.css('background-color');
+				const windowWidth = window.innerWidth;
+				const windowHeight = window.innerHeight;
+				const backdrop = this.$el.find('.fab-backdrop');
+				const fabColor = this.$anchor.css('background-color');
 
 				this.offsetX = this.btnLeft - windowWidth / 2 + this.btnWidth / 2;
 				this.offsetY = windowHeight - this.btnBottom;
@@ -8850,7 +8898,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_FloatingActionButton;
 			},
 		}, {
@@ -8872,7 +8920,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 
 		// the default output format for the input field value
 		format: 'mmm dd, yyyy',
@@ -8953,7 +9001,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Datepicker = function(_Component15) {
+	const Datepicker = function(_Component15) {
 		_inherits(Datepicker, _Component15);
 
 		/**
@@ -8962,17 +9010,18 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Datepicker(el, options) {
 			_classCallCheck(this, Datepicker);
 
-			var _this52 = _possibleConstructorReturn(this, (Datepicker.__proto__ || Object.getPrototypeOf(Datepicker)).call(this, Datepicker, el, options));
+			const _this52 = _possibleConstructorReturn(this, (Datepicker.__proto__ || Object.getPrototypeOf(Datepicker)).call(this, Datepicker, el, options));
 
 			_this52.el.M_Datepicker = _this52;
 
 			_this52.options = $.extend({}, Datepicker.defaults, options);
 
 			// make sure i18n defaults are not lost when only few i18n option properties are passed
-			if (!!options && options.hasOwnProperty('i18n') && typeof options.i18n === 'object') {
+			if (!!options && Object.prototype.hasOwnProperty.call(options, 'i18n') && typeof options.i18n === 'object') {
 				_this52.options.i18n = $.extend({}, Datepicker.defaults.i18n, options.i18n);
 			}
 
@@ -8993,7 +9042,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				_this52.options.setDefaultDate = true;
 			}
 
-			var defDate = _this52.options.defaultDate;
+			const defDate = _this52.options.defaultDate;
 
 			if (Datepicker._isDate(defDate)) {
 				if (_this52.options.setDefaultDate) {
@@ -9033,11 +9082,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'destroySelects',
 			value: function destroySelects() {
-				var oldYearSelect = this.calendarEl.querySelector('.pika-select-year');
+				const oldYearSelect = this.calendarEl.querySelector('.pika-select-year');
 				if (oldYearSelect) {
 					M.FormSelect.getInstance(oldYearSelect).destroy();
 				}
-				var oldMonthSelect = this.calendarEl.querySelector('.pika-select-month');
+				const oldMonthSelect = this.calendarEl.querySelector('.pika-select-month');
 				if (oldMonthSelect) {
 					M.FormSelect.getInstance(oldMonthSelect).destroy();
 				}
@@ -9063,7 +9112,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupModal',
 			value: function _setupModal() {
-				var _this53 = this;
+				const _this53 = this;
 
 				this.modalEl.id = 'modal-' + this.id;
 				this.modal = M.Modal.init(this.modalEl, {
@@ -9075,15 +9124,15 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'toString',
 			value: function toString(format) {
-				var _this54 = this;
+				const _this54 = this;
 
 				format = format || this.options.format;
 				if (!Datepicker._isDate(this.date)) {
 					return '';
 				}
 
-				var formatArray = format.split(/(d{1,4}|m{1,4}|y{4}|yy|!.)/g);
-				var formattedDate = formatArray.map(function(label) {
+				const formatArray = format.split(/(d{1,4}|m{1,4}|y{4}|yy|!.)/g);
+				const formattedDate = formatArray.map(function(label) {
 					if (_this54.formats[label]) {
 						return _this54.formats[label]();
 					}
@@ -9107,7 +9156,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					return;
 				}
 
-				var min = this.options.minDate,
+				const min = this.options.minDate,
 					max = this.options.maxDate;
 
 				if (Datepicker._isDate(min) && date < min) {
@@ -9137,11 +9186,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_renderDateDisplay',
 			value: function _renderDateDisplay() {
-				var displayDate = Datepicker._isDate(this.date) ? this.date : new Date();
-				var i18n = this.options.i18n;
-				var day = i18n.weekdaysShort[displayDate.getDay()];
-				var month = i18n.monthsShort[displayDate.getMonth()];
-				var date = displayDate.getDate();
+				const displayDate = Datepicker._isDate(this.date) ? this.date : new Date();
+				const i18n = this.options.i18n;
+				const day = i18n.weekdaysShort[displayDate.getDay()];
+				const month = i18n.monthsShort[displayDate.getMonth()];
+				const date = displayDate.getDate();
 				this.yearTextEl.innerHTML = displayDate.getFullYear();
 				this.dateTextEl.innerHTML = day + ', ' + month + ' ' + date;
 			},
@@ -9153,14 +9202,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'gotoDate',
 			value: function gotoDate(date) {
-				var newCalendar = true;
+				let newCalendar = true;
 
 				if (!Datepicker._isDate(date)) {
 					return;
 				}
 
 				if (this.calendars) {
-					var firstVisibleDate = new Date(this.calendars[0].year, this.calendars[0].month, 1),
+					const firstVisibleDate = new Date(this.calendars[0].year, this.calendars[0].month, 1),
 						lastVisibleDate = new Date(this.calendars[this.calendars.length - 1].year, this.calendars[this.calendars.length - 1].month, 1),
 						visibleDate = date.getTime();
 					// get the end of the month
@@ -9221,10 +9270,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'render',
 			value: function render(year, month, randId) {
-				var opts = this.options,
+				// eslint-disable-next-line prefer-const
+				let opts = this.options,
+					// eslint-disable-next-line prefer-const
 					now = new Date(),
+					// eslint-disable-next-line prefer-const
 					days = Datepicker._getDaysInMonth(year, month),
 					before = new Date(year, month, 1).getDay(),
+					// eslint-disable-next-line prefer-const
 					data = [],
 					row = [];
 				Datepicker._setToStartOfDay(now);
@@ -9234,30 +9287,39 @@ $jscomp.polyfill = function(e, r, p, m) {
 						before += 7;
 					}
 				}
-				var previousMonth = month === 0 ? 11 : month - 1,
+				const previousMonth = month === 0 ? 11 : month - 1,
 					nextMonth = month === 11 ? 0 : month + 1,
 					yearOfPreviousMonth = month === 0 ? year - 1 : year,
 					yearOfNextMonth = month === 11 ? year + 1 : year,
 					daysInPreviousMonth = Datepicker._getDaysInMonth(yearOfPreviousMonth, previousMonth);
-				var cells = days + before,
+				let cells = days + before,
 					after = cells;
 				while (after > 7) {
 					after -= 7;
 				}
 				cells += 7 - after;
-				var isWeekSelected = false;
-				for (var i = 0, r = 0; i < cells; i++) {
-					var day = new Date(year, month, 1 + (i - before)),
+				let isWeekSelected = false;
+				for (let i = 0, r = 0; i < cells; i++) {
+					// eslint-disable-next-line prefer-const
+					let day = new Date(year, month, 1 + (i - before)),
+						// eslint-disable-next-line prefer-const
 						isSelected = Datepicker._isDate(this.date) ? Datepicker._compareDates(day, this.date) : false,
+						// eslint-disable-next-line prefer-const
 						isToday = Datepicker._compareDates(day, now),
+						// eslint-disable-next-line prefer-const
 						hasEvent = opts.events.indexOf(day.toDateString()) !== -1 ? true : false,
+						// eslint-disable-next-line prefer-const
 						isEmpty = i < before || i >= days + before,
 						dayNumber = 1 + (i - before),
 						monthNumber = month,
 						yearNumber = year,
+						// eslint-disable-next-line prefer-const
 						isStartRange = opts.startRange && Datepicker._compareDates(opts.startRange, day),
+						// eslint-disable-next-line prefer-const
 						isEndRange = opts.endRange && Datepicker._compareDates(opts.endRange, day),
+						// eslint-disable-next-line prefer-const
 						isInRange = opts.startRange && opts.endRange && opts.startRange < day && day < opts.endRange,
+						// eslint-disable-next-line prefer-const
 						isDisabled = opts.minDate && day < opts.minDate || opts.maxDate && day > opts.maxDate || opts.disableWeekends && Datepicker._isWeekend(day) || opts.disableDayFn && opts.disableDayFn(day);
 
 					if (isEmpty) {
@@ -9273,7 +9335,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 						}
 					}
 
-					var dayConfig = {
+					const dayConfig = {
 						day: dayNumber,
 						month: monthNumber,
 						year: yearNumber,
@@ -9302,8 +9364,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'renderDay',
 			value: function renderDay(opts) {
-				var arr = [];
-				var ariaSelected = 'false';
+				const arr = [];
+				let ariaSelected = 'false';
 				if (opts.isEmpty) {
 					if (opts.showDaysInNextAndPreviousMonths) {
 						arr.push('is-outside-current-month');
@@ -9351,7 +9413,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'renderHead',
 			value: function renderHead(opts) {
-				var i = void 0,
+				let i = void 0,
+					// eslint-disable-next-line prefer-const
 					arr = [];
 				for (i = 0; i < 7; i++) {
 					arr.push('<th scope="col"><abbr title="' + this.renderDayName(opts, i) + '">' + this.renderDayName(opts, i, true) + '</abbr></th>');
@@ -9366,11 +9429,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'renderTitle',
 			value: function renderTitle(instance, c, year, month, refYear, randId) {
-				var i = void 0,
+				let i = void 0,
 					j = void 0,
 					arr = void 0,
+					// eslint-disable-next-line prefer-const
 					opts = this.options,
+					// eslint-disable-next-line prefer-const
 					isMinYear = year === opts.minYear,
+					// eslint-disable-next-line prefer-const
 					isMaxYear = year === opts.maxYear,
 					html = '<div id="' + randId + '" class="datepicker-controls" role="heading" aria-live="assertive">',
 					monthHtml = void 0,
@@ -9401,7 +9467,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 				yearHtml = '<select class="pika-select pika-select-year" tabindex="-1">' + arr.join('') + '</select>';
 
-				var leftArrow = '<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/><path d="M0-.5h24v24H0z" fill="none"/></svg>';
+				const leftArrow = '<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/><path d="M0-.5h24v24H0z" fill="none"/></svg>';
 				html += '<button class="month-prev' + (prev ? '' : ' is-disabled') + '" type="button">' + leftArrow + '</button>';
 
 				html += '<div class="selects-container">';
@@ -9422,7 +9488,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				// if (c === (this.options.numberOfMonths - 1) ) {
-				var rightArrow = '<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/><path d="M0-.25h24v24H0z" fill="none"/></svg>';
+				const rightArrow = '<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/><path d="M0-.25h24v24H0z" fill="none"/></svg>';
 				html += '<button class="month-next' + (next ? '' : ' is-disabled') + '" type="button">' + rightArrow + '</button>';
 				// }
 
@@ -9439,10 +9505,15 @@ $jscomp.polyfill = function(e, r, p, m) {
 				if (!this.isOpen && !force) {
 					return;
 				}
-				var opts = this.options,
+				// eslint-disable-next-line prefer-const
+				let opts = this.options,
+					// eslint-disable-next-line prefer-const
 					minYear = opts.minYear,
+					// eslint-disable-next-line prefer-const
 					maxYear = opts.maxYear,
+					// eslint-disable-next-line prefer-const
 					minMonth = opts.minMonth,
+					// eslint-disable-next-line prefer-const
 					maxMonth = opts.maxMonth,
 					html = '',
 					randId = void 0;
@@ -9462,7 +9533,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 				randId = 'pika-title-' + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 2);
 
-				for (var c = 0; c < 1; c++) {
+				for (let c = 0; c < 1; c++) {
 					this._renderDateDisplay();
 					html += this.renderTitle(this, c, this.calendars[c].year, this.calendars[c].month, this.calendars[0].year, randId) + this.render(this.calendars[c].year, this.calendars[c].month, randId);
 				}
@@ -9472,8 +9543,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this.calendarEl.innerHTML = html;
 
 				// Init Materialize Select
-				var yearSelect = this.calendarEl.querySelector('.pika-select-year');
-				var monthSelect = this.calendarEl.querySelector('.pika-select-month');
+				const yearSelect = this.calendarEl.querySelector('.pika-select-year');
+				const monthSelect = this.calendarEl.querySelector('.pika-select-month');
 				M.FormSelect.init(yearSelect, { classes: 'select-year', dropdownOptions: { container: document.body, constrainWidth: false } });
 				M.FormSelect.init(monthSelect, { classes: 'select-month', dropdownOptions: { container: document.body, constrainWidth: false } });
 
@@ -9516,7 +9587,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupVariables',
 			value: function _setupVariables() {
-				var _this55 = this;
+				const _this55 = this;
 
 				this.$modalEl = $(Datepicker._template);
 				this.modalEl = this.$modalEl[0];
@@ -9537,7 +9608,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 						return _this55.date.getDate();
 					},
 					dd: function() {
-						var d = _this55.date.getDate();
+						const d = _this55.date.getDate();
 						return (d < 10 ? '0' : '') + d;
 					},
 					ddd: function() {
@@ -9550,7 +9621,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 						return _this55.date.getMonth() + 1;
 					},
 					mm: function() {
-						var m = _this55.date.getMonth() + 1;
+						const m = _this55.date.getMonth() + 1;
 						return (m < 10 ? '0' : '') + m;
 					},
 					mmm: function() {
@@ -9600,7 +9671,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					return;
 				}
 
-				var $target = $(e.target);
+				const $target = $(e.target);
 				if (!$target.hasClass('is-disabled')) {
 					if ($target.hasClass('datepicker-day-button') && !$target.hasClass('is-empty') && !$target.parent().hasClass('is-disabled')) {
 						this.setDate(new Date(e.target.getAttribute('data-pika-year'), e.target.getAttribute('data-pika-month'), e.target.getAttribute('data-pika-day')));
@@ -9659,7 +9730,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleInputChange',
 			value: function _handleInputChange(e) {
-				var date = void 0;
+				let date = void 0;
 
 				// Prevent change event from being fired when triggered by the plugin
 				if (e.firedBy === this) {
@@ -9752,7 +9823,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_isWeekend',
 			value: function _isWeekend(date) {
-				var day = date.getDay();
+				const day = date.getDay();
 				return day === 0 || day === 6;
 			},
 		}, {
@@ -9790,7 +9861,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Datepicker;
 			},
 		}, {
@@ -9814,15 +9885,15 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		dialRadius: 135,
 		outerRadius: 105,
 		innerRadius: 70,
 		tickRadius: 20,
 		duration: 350,
 		container: null,
-		defaultTime: 'now', // default time, 'now' or '13:14' e.g.
-		fromNow: 0, // Millisecond offset from the defaultTime
+		defaultTime: 'now',
+		fromNow: 0,
 		showClearBtn: false,
 
 		// internationalization
@@ -9832,9 +9903,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 			done: 'Ok',
 		},
 
-		autoClose: false, // auto close when minute is selected
-		twelveHour: true, // change to 12 hour AM/PM clock from 24 hour
-		vibrate: true, // vibrate the device when dragging clock hand
+		autoClose: false,
+		twelveHour: true,
+		vibrate: true,
 	};
 
 	/**
@@ -9842,13 +9913,14 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Timepicker = function(_Component16) {
+	const Timepicker = function(_Component16) {
 		_inherits(Timepicker, _Component16);
 
+		// eslint-disable-next-line no-shadow
 		function Timepicker(el, options) {
 			_classCallCheck(this, Timepicker);
 
-			var _this56 = _possibleConstructorReturn(this, (Timepicker.__proto__ || Object.getPrototypeOf(Timepicker)).call(this, Timepicker, el, options));
+			const _this56 = _possibleConstructorReturn(this, (Timepicker.__proto__ || Object.getPrototypeOf(Timepicker)).call(this, Timepicker, el, options));
 
 			_this56.el.M_Timepicker = _this56;
 
@@ -9923,13 +9995,13 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_handleClockClickStart',
 			value: function _handleClockClickStart(e) {
 				e.preventDefault();
-				var clockPlateBR = this.plate.getBoundingClientRect();
-				var offset = { x: clockPlateBR.left, y: clockPlateBR.top };
+				const clockPlateBR = this.plate.getBoundingClientRect();
+				const offset = { x: clockPlateBR.left, y: clockPlateBR.top };
 
 				this.x0 = offset.x + this.options.dialRadius;
 				this.y0 = offset.y + this.options.dialRadius;
 				this.moved = false;
-				var clickPos = Timepicker._Pos(e);
+				const clickPos = Timepicker._Pos(e);
 				this.dx = clickPos.x - this.x0;
 				this.dy = clickPos.y - this.y0;
 
@@ -9948,23 +10020,23 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_handleDocumentClickMove',
 			value: function _handleDocumentClickMove(e) {
 				e.preventDefault();
-				var clickPos = Timepicker._Pos(e);
-				var x = clickPos.x - this.x0;
-				var y = clickPos.y - this.y0;
+				const clickPos = Timepicker._Pos(e);
+				const x = clickPos.x - this.x0;
+				const y = clickPos.y - this.y0;
 				this.moved = true;
 				this.setHand(x, y, false, true);
 			},
 		}, {
 			key: '_handleDocumentClickEnd',
 			value: function _handleDocumentClickEnd(e) {
-				var _this57 = this;
+				const _this57 = this;
 
 				e.preventDefault();
 				document.removeEventListener('mouseup', this._handleDocumentClickEndBound);
 				document.removeEventListener('touchend', this._handleDocumentClickEndBound);
-				var clickPos = Timepicker._Pos(e);
-				var x = clickPos.x - this.x0;
-				var y = clickPos.y - this.y0;
+				const clickPos = Timepicker._Pos(e);
+				const x = clickPos.x - this.x0;
+				const y = clickPos.y - this.y0;
 				if (this.moved && x === this.dx && y === this.dy) {
 					this.setHand(x, y);
 				}
@@ -9991,7 +10063,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this.modalEl.id = 'modal-' + this.id;
 
 				// Append popover to input by default
-				var containerEl = document.querySelector(this.options.container);
+				const containerEl = document.querySelector(this.options.container);
 				if (this.options.container && !!containerEl) {
 					this.$modalEl.appendTo(containerEl);
 				}
@@ -10002,7 +10074,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupModal',
 			value: function _setupModal() {
-				var _this58 = this;
+				const _this58 = this;
 
 				this.modal = M.Modal.init(this.modalEl, {
 					onCloseEnd: function() {
@@ -10031,12 +10103,12 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_pickerSetup',
 			value: function _pickerSetup() {
 
-				var $clearBtn = $('<button class="btn-flat timepicker-clear waves-effect" style="visibility: hidden;" type="button" tabindex="' + (this.options.twelveHour ? '3' : '1') + '">' + this.options.i18n.clear + '</button>').appendTo(this.footer).on('click', this.clear.bind(this));
+				const $clearBtn = $('<button class="btn-flat timepicker-clear waves-effect" style="visibility: hidden;" type="button" tabindex="' + (this.options.twelveHour ? '3' : '1') + '">' + this.options.i18n.clear + '</button>').appendTo(this.footer).on('click', this.clear.bind(this));
 				if (this.options.showClearBtn) {
 					$clearBtn.css({ visibility: '' });
 				}
 
-				var confirmationBtnsContainer = $('<div class="confirmation-btns"></div>');
+				const confirmationBtnsContainer = $('<div class="confirmation-btns"></div>');
 				$('<button class="btn-flat timepicker-close waves-effect" type="button" tabindex="' + (this.options.twelveHour ? '3' : '1') + '">' + this.options.i18n.cancel + '</button>').appendTo(confirmationBtnsContainer).on('click', this.close.bind(this));
 				$('<button class="btn-flat timepicker-close waves-effect" type="button" tabindex="' + (this.options.twelveHour ? '3' : '1') + '">' + this.options.i18n.done + '</button>').appendTo(confirmationBtnsContainer).on('click', this.done.bind(this));
 				confirmationBtnsContainer.appendTo(this.footer);
@@ -10059,25 +10131,25 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_buildSVGClock',
 			value: function _buildSVGClock() {
 				// Draw clock hands and others
-				var dialRadius = this.options.dialRadius;
-				var tickRadius = this.options.tickRadius;
-				var diameter = dialRadius * 2;
+				const dialRadius = this.options.dialRadius;
+				const tickRadius = this.options.tickRadius;
+				const diameter = dialRadius * 2;
 
-				var svg = Timepicker._createSVGEl('svg');
+				const svg = Timepicker._createSVGEl('svg');
 				svg.setAttribute('class', 'timepicker-svg');
 				svg.setAttribute('width', diameter);
 				svg.setAttribute('height', diameter);
-				var g = Timepicker._createSVGEl('g');
+				const g = Timepicker._createSVGEl('g');
 				g.setAttribute('transform', 'translate(' + dialRadius + ',' + dialRadius + ')');
-				var bearing = Timepicker._createSVGEl('circle');
+				const bearing = Timepicker._createSVGEl('circle');
 				bearing.setAttribute('class', 'timepicker-canvas-bearing');
 				bearing.setAttribute('cx', 0);
 				bearing.setAttribute('cy', 0);
 				bearing.setAttribute('r', 4);
-				var hand = Timepicker._createSVGEl('line');
+				const hand = Timepicker._createSVGEl('line');
 				hand.setAttribute('x1', 0);
 				hand.setAttribute('y1', 0);
-				var bg = Timepicker._createSVGEl('circle');
+				const bg = Timepicker._createSVGEl('circle');
 				bg.setAttribute('class', 'timepicker-canvas-bg');
 				bg.setAttribute('r', tickRadius);
 				g.appendChild(hand);
@@ -10094,13 +10166,13 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_buildHoursView',
 			value: function _buildHoursView() {
-				var $tick = $('<div class="timepicker-tick"></div>');
+				const $tick = $('<div class="timepicker-tick"></div>');
 				// Hours view
 				if (this.options.twelveHour) {
-					for (var i = 1; i < 13; i += 1) {
-						var tick = $tick.clone();
-						var radian = i / 6 * Math.PI;
-						var radius = this.options.outerRadius;
+					for (let i = 1; i < 13; i += 1) {
+						const tick = $tick.clone();
+						const radian = i / 6 * Math.PI;
+						const radius = this.options.outerRadius;
 						tick.css({
 							left: this.options.dialRadius + Math.sin(radian) * radius - this.options.tickRadius + 'px',
 							top: this.options.dialRadius - Math.cos(radian) * radius - this.options.tickRadius + 'px',
@@ -10111,11 +10183,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 					}
 				}
 				else {
-					for (var _i2 = 0; _i2 < 24; _i2 += 1) {
-						var _tick = $tick.clone();
-						var _radian = _i2 / 6 * Math.PI;
-						var inner = _i2 > 0 && _i2 < 13;
-						var _radius = inner ? this.options.innerRadius : this.options.outerRadius;
+					for (let _i2 = 0; _i2 < 24; _i2 += 1) {
+						const _tick = $tick.clone();
+						const _radian = _i2 / 6 * Math.PI;
+						const inner = _i2 > 0 && _i2 < 13;
+						const _radius = inner ? this.options.innerRadius : this.options.outerRadius;
 						_tick.css({
 							left: this.options.dialRadius + Math.sin(_radian) * _radius - this.options.tickRadius + 'px',
 							top: this.options.dialRadius - Math.cos(_radian) * _radius - this.options.tickRadius + 'px',
@@ -10129,11 +10201,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_buildMinutesView',
 			value: function _buildMinutesView() {
-				var $tick = $('<div class="timepicker-tick"></div>');
+				const $tick = $('<div class="timepicker-tick"></div>');
 				// Minutes view
-				for (var i = 0; i < 60; i += 5) {
-					var tick = $tick.clone();
-					var radian = i / 30 * Math.PI;
+				for (let i = 0; i < 60; i += 5) {
+					const tick = $tick.clone();
+					const radian = i / 30 * Math.PI;
 					tick.css({
 						left: this.options.dialRadius + Math.sin(radian) * this.options.outerRadius - this.options.tickRadius + 'px',
 						top: this.options.dialRadius - Math.cos(radian) * this.options.outerRadius - this.options.tickRadius + 'px',
@@ -10145,7 +10217,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleAmPmClick',
 			value: function _handleAmPmClick(e) {
-				var $btnClicked = $(e.target);
+				const $btnClicked = $(e.target);
 				this.amOrPm = $btnClicked.hasClass('am-btn') ? 'AM' : 'PM';
 				this._updateAmPmView();
 			},
@@ -10161,7 +10233,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_updateTimeFromInput',
 			value: function _updateTimeFromInput() {
 				// Get the time
-				var value = ((this.el.value || this.options.defaultTime || '') + '').split(':');
+				let value = ((this.el.value || this.options.defaultTime || '') + '').split(':');
 				if (this.options.twelveHour && !(typeof value[1] === 'undefined')) {
 					if (value[1].toUpperCase().indexOf('AM') > 0) {
 						this.amOrPm = 'AM';
@@ -10172,7 +10244,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					value[1] = value[1].replace('AM', '').replace('PM', '');
 				}
 				if (value[0] === 'now') {
-					var now = new Date(+new Date() + this.options.fromNow);
+					const now = new Date(+new Date() + this.options.fromNow);
 					value = [now.getHours(), now.getMinutes()];
 					if (this.options.twelveHour) {
 						this.amOrPm = value[0] >= 12 && value[0] < 24 ? 'PM' : 'AM';
@@ -10191,7 +10263,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				if (view === 'minutes' && $(this.hoursView).css('visibility') === 'visible') {
 					// raiseCallback(this.options.beforeHourSelect);
 				}
-				var isHours = view === 'hours',
+				const isHours = view === 'hours',
 					nextView = isHours ? this.hoursView : this.minutesView,
 					hideView = isHours ? this.minutesView : this.hoursView;
 				this.currentView = view;
@@ -10215,7 +10287,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'resetClock',
 			value: function resetClock(delay) {
-				var view = this.currentView,
+				const view = this.currentView,
 					value = this[view],
 					isHours = view === 'hours',
 					unit = Math.PI / (isHours ? 6 : 30),
@@ -10239,12 +10311,16 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'setHand',
 			value: function setHand(x, y, roundBy5) {
-				var _this59 = this;
+				const _this59 = this;
 
-				var radian = Math.atan2(x, -y),
+				let radian = Math.atan2(x, -y),
+					// eslint-disable-next-line prefer-const
 					isHours = this.currentView === 'hours',
+					// eslint-disable-next-line prefer-const
 					unit = Math.PI / (isHours || roundBy5 ? 6 : 30),
+					// eslint-disable-next-line prefer-const
 					z = Math.sqrt(x * x + y * y),
+					// eslint-disable-next-line prefer-const
 					inner = isHours && z < (this.options.outerRadius + this.options.innerRadius) / 2,
 					radius = inner ? this.options.innerRadius : this.options.outerRadius;
 
@@ -10258,7 +10334,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				// Get the round value
-				var value = Math.round(radian / unit);
+				let value = Math.round(radian / unit);
 
 				// Get the round radian
 				radian = value * unit;
@@ -10273,20 +10349,18 @@ $jscomp.polyfill = function(e, r, p, m) {
 						if (value === 60) value = 0;
 					}
 				}
-				else {
-					if (isHours) {
-						if (value === 12) {
-							value = 0;
-						}
-						value = inner ? value === 0 ? 12 : value : value === 0 ? 0 : value + 12;
+				else if (isHours) {
+					if (value === 12) {
+						value = 0;
 					}
-					else {
-						if (roundBy5) {
-							value *= 5;
-						}
-						if (value === 60) {
-							value = 0;
-						}
+					value = inner ? value === 0 ? 12 : value : value === 0 ? 0 : value + 12;
+				}
+				else {
+					if (roundBy5) {
+						value *= 5;
+					}
+					if (value === 60) {
+						value = 0;
 					}
 				}
 
@@ -10312,7 +10386,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				// Set clock hand and others' position
-				var cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
+				const cx1 = Math.sin(radian) * (radius - this.options.tickRadius),
 					cy1 = -Math.cos(radian) * (radius - this.options.tickRadius),
 					cx2 = Math.sin(radian) * radius,
 					cy2 = -Math.cos(radian) * radius;
@@ -10352,8 +10426,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: 'done',
 			value: function done(e, clearValue) {
 				// Set input value
-				var last = this.el.value;
-				var value = clearValue ? '' : Timepicker._addLeadingZero(this.hours) + ':' + Timepicker._addLeadingZero(this.minutes);
+				const last = this.el.value;
+				let value = clearValue ? '' : Timepicker._addLeadingZero(this.hours) + ':' + Timepicker._addLeadingZero(this.minutes);
 				this.time = value;
 				if (!clearValue && this.options.twelveHour) {
 					value = value + ' ' + this.amOrPm;
@@ -10386,7 +10460,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_createSVGEl',
 			value: function _createSVGEl(name) {
-				var svgNS = 'http://www.w3.org/2000/svg';
+				const svgNS = 'http://www.w3.org/2000/svg';
 				return document.createElementNS(svgNS, name);
 			},
 
@@ -10419,7 +10493,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Timepicker;
 			},
 		}, {
@@ -10443,14 +10517,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {};
+	const _defaults = {};
 
 	/**
      * @class
      *
      */
 
-	var CharacterCounter = function(_Component17) {
+	const CharacterCounter = function(_Component17) {
 		_inherits(CharacterCounter, _Component17);
 
 		/**
@@ -10459,10 +10533,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function CharacterCounter(el, options) {
 			_classCallCheck(this, CharacterCounter);
 
-			var _this60 = _possibleConstructorReturn(this, (CharacterCounter.__proto__ || Object.getPrototypeOf(CharacterCounter)).call(this, CharacterCounter, el, options));
+			const _this60 = _possibleConstructorReturn(this, (CharacterCounter.__proto__ || Object.getPrototypeOf(CharacterCounter)).call(this, CharacterCounter, el, options));
 
 			_this60.el.M_CharacterCounter = _this60;
 
@@ -10549,10 +10624,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'updateCounter',
 			value: function updateCounter() {
-				var maxLength = +this.$el.attr('data-length'),
+				const maxLength = +this.$el.attr('data-length'),
 					actualLength = this.el.value.length;
 				this.isValidLength = actualLength <= maxLength;
-				var counterString = actualLength;
+				let counterString = actualLength;
 
 				if (maxLength) {
 					counterString += '/' + maxLength;
@@ -10592,7 +10667,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_CharacterCounter;
 			},
 		}, {
@@ -10614,16 +10689,16 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {
-		duration: 200, // ms
-		dist: -100, // zoom scale TODO: make this more intuitive as an option
-		shift: 0, // spacing for center image
-		padding: 0, // Padding between non center items
-		numVisible: 5, // Number of visible items in carousel
-		fullWidth: false, // Change to full width styles
-		indicators: false, // Toggle indicators
-		noWrap: false, // Don't wrap around and cycle through items.
-		onCycleTo: null, // Callback for when a new slide is cycled to.
+	const _defaults = {
+		duration: 200,
+		dist: -100,
+		shift: 0,
+		padding: 0,
+		numVisible: 5,
+		fullWidth: false,
+		indicators: false,
+		noWrap: false,
+		onCycleTo: null,
 	};
 
 	/**
@@ -10631,7 +10706,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var Carousel = function(_Component18) {
+	const Carousel = function(_Component18) {
 		_inherits(Carousel, _Component18);
 
 		/**
@@ -10640,10 +10715,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Carousel(el, options) {
 			_classCallCheck(this, Carousel);
 
-			var _this61 = _possibleConstructorReturn(this, (Carousel.__proto__ || Object.getPrototypeOf(Carousel)).call(this, Carousel, el, options));
+			const _this61 = _possibleConstructorReturn(this, (Carousel.__proto__ || Object.getPrototypeOf(Carousel)).call(this, Carousel, el, options));
 
 			_this61.el.M_Carousel = _this61;
 
@@ -10672,7 +10748,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			_this61.images = [];
 			_this61.itemWidth = _this61.$el.find('.carousel-item').first().innerWidth();
 			_this61.itemHeight = _this61.$el.find('.carousel-item').first().innerHeight();
-			_this61.dim = _this61.itemWidth * 2 + _this61.options.padding || 1; // Make sure dim is non zero for divisions.
+			_this61.dim = _this61.itemWidth * 2 + _this61.options.padding || 1;
 			_this61._autoScrollBound = _this61._autoScroll.bind(_this61);
 			_this61._trackBound = _this61._track.bind(_this61);
 
@@ -10689,10 +10765,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 			// Iterate through slides
 			_this61.$indicators = $('<ul class="indicators"></ul>');
+			// eslint-disable-next-line no-shadow
 			_this61.$el.find('.carousel-item').each(function(el, i) {
 				_this61.images.push(el);
 				if (_this61.showIndicators) {
-					var $indicator = $('<li class="indicator-item"></li>');
+					const $indicator = $('<li class="indicator-item"></li>');
 
 					// Add active to first by default.
 					if (i === 0) {
@@ -10713,7 +10790,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			// Setup cross browser string
 			_this61.xform = 'transform';
 			['webkit', 'Moz', 'O', 'ms'].every(function(prefix) {
-				var e = prefix + 'Transform';
+				const e = prefix + 'Transform';
 				if (typeof document.body.style[e] !== 'undefined') {
 					_this61.xform = e;
 					return false;
@@ -10745,7 +10822,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupEventHandlers',
 			value: function _setupEventHandlers() {
-				var _this62 = this;
+				const _this62 = this;
 
 				this._handleCarouselTapBound = this._handleCarouselTap.bind(this);
 				this._handleCarouselDragBound = this._handleCarouselDrag.bind(this);
@@ -10766,13 +10843,13 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 				if (this.showIndicators && this.$indicators) {
 					this._handleIndicatorClickBound = this._handleIndicatorClick.bind(this);
-					this.$indicators.find('.indicator-item').each(function(el, i) {
+					this.$indicators.find('.indicator-item').each(function(el) {
 						el.addEventListener('click', _this62._handleIndicatorClickBound);
 					});
 				}
 
 				// Resize
-				var throttledResize = M.throttle(this._handleResize, 200);
+				const throttledResize = M.throttle(this._handleResize, 200);
 				this._handleThrottledResizeBound = throttledResize.bind(this);
 
 				window.addEventListener('resize', this._handleThrottledResizeBound);
@@ -10785,7 +10862,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_removeEventHandlers',
 			value: function _removeEventHandlers() {
-				var _this63 = this;
+				const _this63 = this;
 
 				if (typeof window.ontouchstart !== 'undefined') {
 					this.el.removeEventListener('touchstart', this._handleCarouselTapBound);
@@ -10799,7 +10876,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this.el.removeEventListener('click', this._handleCarouselClickBound);
 
 				if (this.showIndicators && this.$indicators) {
-					this.$indicators.find('.indicator-item').each(function(el, i) {
+					this.$indicators.find('.indicator-item').each(function(el) {
 						el.removeEventListener('click', _this63._handleIndicatorClickBound);
 					});
 				}
@@ -10840,7 +10917,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_handleCarouselDrag',
 			value: function _handleCarouselDrag(e) {
-				var x = void 0,
+				let x = void 0,
 					y = void 0,
 					delta = void 0,
 					deltaY = void 0;
@@ -10935,8 +11012,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 					return false;
 				}
 				else if (!this.options.fullWidth) {
-					var clickedIndex = $(e.target).closest('.carousel-item').index();
-					var diff = this._wrap(this.center) - clickedIndex;
+					const clickedIndex = $(e.target).closest('.carousel-item').index();
+					const diff = this._wrap(this.center) - clickedIndex;
 
 					// Disable clicks if carousel was shifted by click
 					if (diff !== 0) {
@@ -10957,7 +11034,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			value: function _handleIndicatorClick(e) {
 				e.stopPropagation();
 
-				var indicator = $(e.target).closest('.indicator-item');
+				const indicator = $(e.target).closest('.indicator-item');
 				if (indicator.length) {
 					this._cycleTo(indicator.index());
 				}
@@ -10970,7 +11047,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		}, {
 			key: '_handleResize',
-			value: function _handleResize(e) {
+			value: function _handleResize() {
 				if (this.options.fullWidth) {
 					this.itemWidth = this.$el.find('.carousel-item').first().innerWidth();
 					this.imageHeight = this.$el.find('.carousel-item.active').height();
@@ -10992,34 +11069,34 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setCarouselHeight',
 			value: function _setCarouselHeight(imageOnly) {
-				var _this64 = this;
+				const _this64 = this;
 
-				var firstSlide = this.$el.find('.carousel-item.active').length ? this.$el.find('.carousel-item.active').first() : this.$el.find('.carousel-item').first();
-				var firstImage = firstSlide.find('img').first();
+				const firstSlide = this.$el.find('.carousel-item.active').length ? this.$el.find('.carousel-item.active').first() : this.$el.find('.carousel-item').first();
+				const firstImage = firstSlide.find('img').first();
 				if (firstImage.length) {
 					if (firstImage[0].complete) {
 						// If image won't trigger the load event
-						var imageHeight = firstImage.height();
+						const imageHeight = firstImage.height();
 						if (imageHeight > 0) {
 							this.$el.css('height', imageHeight + 'px');
 						}
 						else {
 							// If image still has no height, use the natural dimensions to calculate
-							var naturalWidth = firstImage[0].naturalWidth;
-							var naturalHeight = firstImage[0].naturalHeight;
-							var adjustedHeight = this.$el.width() / naturalWidth * naturalHeight;
+							const naturalWidth = firstImage[0].naturalWidth;
+							const naturalHeight = firstImage[0].naturalHeight;
+							const adjustedHeight = this.$el.width() / naturalWidth * naturalHeight;
 							this.$el.css('height', adjustedHeight + 'px');
 						}
 					}
 					else {
 						// Get height when image is loaded normally
-						firstImage.one('load', function(el, i) {
+						firstImage.one('load', function(el) {
 							_this64.$el.css('height', el.offsetHeight + 'px');
 						});
 					}
 				}
 				else if (!imageOnly) {
-					var slideHeight = firstSlide.height();
+					const slideHeight = firstSlide.height();
 					this.$el.css('height', slideHeight + 'px');
 				}
 			},
@@ -11076,7 +11153,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_track',
 			value: function _track() {
-				var now = void 0,
+				let now = void 0,
 					elapsed = void 0,
 					delta = void 0,
 					v = void 0;
@@ -11098,7 +11175,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_autoScroll',
 			value: function _autoScroll() {
-				var elapsed = void 0,
+				let elapsed = void 0,
 					delta = void 0;
 
 				if (this.amplitude) {
@@ -11122,7 +11199,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_scroll',
 			value: function _scroll(x) {
-				var _this65 = this;
+				const _this65 = this;
 
 				// Track scrolling state
 				if (!this.$el.hasClass('scrolling')) {
@@ -11136,7 +11213,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}, this.options.duration);
 
 				// Start actual scroll
-				var i = void 0,
+				let i = void 0,
 					half = void 0,
 					delta = void 0,
 					dir = void 0,
@@ -11146,8 +11223,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 					zTranslation = void 0,
 					tweenedOpacity = void 0,
 					centerTweenedOpacity = void 0;
-				var lastCenter = this.center;
-				var numVisibleOffset = 1 / this.options.numVisible;
+				const lastCenter = this.center;
+				const numVisibleOffset = 1 / this.options.numVisible;
 
 				this.offset = typeof x === 'number' ? x : this.offset;
 				this.center = Math.floor((this.offset + this.dim / 2) / this.dim);
@@ -11168,8 +11245,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 				// Set indicator active
 				if (this.showIndicators) {
-					var diff = this.center % this.count;
-					var activeIndicator = this.$indicators.find('.indicator-item.active');
+					const diff = this.center % this.count;
+					const activeIndicator = this.$indicators.find('.indicator-item.active');
 					if (activeIndicator.index() !== diff) {
 						activeIndicator.removeClass('active');
 						this.$indicators.find('.indicator-item').eq(diff)[0].classList.add('active');
@@ -11186,7 +11263,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 						this.$el.find('.carousel-item').removeClass('active');
 						el.classList.add('active');
 					}
-					var transformString = alignment + ' translateX(' + -delta / 2 + 'px)' + ' translateX(' + dir * this.options.shift * tween * i + 'px)' + ' translateZ(' + this.options.dist * tween + 'px)';
+					const transformString = alignment + ' translateX(' + -delta / 2 + 'px)' + ' translateX(' + dir * this.options.shift * tween * i + 'px)' + ' translateZ(' + this.options.dist * tween + 'px)';
 					this._updateItemStyle(el, centerTweenedOpacity, 0, transformString);
 				}
 
@@ -11203,7 +11280,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					// Don't show wrapped items.
 					if (!this.noWrap || this.center + i < this.count) {
 						el = this.images[this._wrap(this.center + i)];
-						var _transformString = alignment + ' translateX(' + (this.options.shift + (this.dim * i - delta) / 2) + 'px)' + ' translateZ(' + zTranslation + 'px)';
+						const _transformString = alignment + ' translateX(' + (this.options.shift + (this.dim * i - delta) / 2) + 'px)' + ' translateZ(' + zTranslation + 'px)';
 						this._updateItemStyle(el, tweenedOpacity, -i, _transformString);
 					}
 
@@ -11219,7 +11296,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					// Don't show wrapped items.
 					if (!this.noWrap || this.center - i >= 0) {
 						el = this.images[this._wrap(this.center - i)];
-						var _transformString2 = alignment + ' translateX(' + (-this.options.shift + (-this.dim * i - delta) / 2) + 'px)' + ' translateZ(' + zTranslation + 'px)';
+						const _transformString2 = alignment + ' translateX(' + (-this.options.shift + (-this.dim * i - delta) / 2) + 'px)' + ' translateZ(' + zTranslation + 'px)';
 						this._updateItemStyle(el, tweenedOpacity, -i, _transformString2);
 					}
 				}
@@ -11228,12 +11305,12 @@ $jscomp.polyfill = function(e, r, p, m) {
 				// Don't show wrapped items.
 				if (!this.noWrap || this.center >= 0 && this.center < this.count) {
 					el = this.images[this._wrap(this.center)];
-					var _transformString3 = alignment + ' translateX(' + -delta / 2 + 'px)' + ' translateX(' + dir * this.options.shift * tween + 'px)' + ' translateZ(' + this.options.dist * tween + 'px)';
+					const _transformString3 = alignment + ' translateX(' + -delta / 2 + 'px)' + ' translateX(' + dir * this.options.shift * tween + 'px)' + ' translateZ(' + this.options.dist * tween + 'px)';
 					this._updateItemStyle(el, centerTweenedOpacity, 0, _transformString3);
 				}
 
 				// onCycleTo callback
-				var $currItem = this.$el.find('.carousel-item').eq(this._wrap(this.center));
+				const $currItem = this.$el.find('.carousel-item').eq(this._wrap(this.center));
 				if (lastCenter !== this.center && typeof this.options.onCycleTo === 'function') {
 					this.options.onCycleTo.call(this, $currItem[0], this.dragged);
 				}
@@ -11271,7 +11348,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_cycleTo',
 			value: function _cycleTo(n, callback) {
-				var diff = this.center % this.count - n;
+				let diff = this.center % this.count - n;
 
 				// Account for wraparound.
 				if (!this.noWrap) {
@@ -11323,7 +11400,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					n = 1;
 				}
 
-				var index = this.center + n;
+				let index = this.center + n;
 				if (index > this.count || index < 0) {
 					if (this.noWrap) {
 						return;
@@ -11346,7 +11423,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					n = 1;
 				}
 
-				var index = this.center - n;
+				let index = this.center - n;
 				if (index > this.count || index < 0) {
 					if (this.noWrap) {
 						return;
@@ -11394,7 +11471,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Carousel;
 			},
 		}, {
@@ -11416,7 +11493,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		onOpen: undefined,
 		onClose: undefined,
 	};
@@ -11426,7 +11503,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var TapTarget = function(_Component19) {
+	const TapTarget = function(_Component19) {
 		_inherits(TapTarget, _Component19);
 
 		/**
@@ -11435,10 +11512,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function TapTarget(el, options) {
 			_classCallCheck(this, TapTarget);
 
-			var _this66 = _possibleConstructorReturn(this, (TapTarget.__proto__ || Object.getPrototypeOf(TapTarget)).call(this, TapTarget, el, options));
+			const _this66 = _possibleConstructorReturn(this, (TapTarget.__proto__ || Object.getPrototypeOf(TapTarget)).call(this, TapTarget, el, options));
 
 			_this66.el.M_TapTarget = _this66;
 
@@ -11488,7 +11566,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this.originEl.addEventListener('click', this._handleOriginClickBound);
 
 				// Resize
-				var throttledResize = M.throttle(this._handleResize, 200);
+				const throttledResize = M.throttle(this._handleResize, 200);
 				this._handleThrottledResizeBound = throttledResize.bind(this);
 
 				window.addEventListener('resize', this._handleThrottledResizeBound);
@@ -11513,7 +11591,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		}, {
 			key: '_handleTargetClick',
-			value: function _handleTargetClick(e) {
+			value: function _handleTargetClick() {
 				this.open();
 			},
 
@@ -11524,7 +11602,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		}, {
 			key: '_handleOriginClick',
-			value: function _handleOriginClick(e) {
+			value: function _handleOriginClick() {
 				this.close();
 			},
 
@@ -11535,7 +11613,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		}, {
 			key: '_handleResize',
-			value: function _handleResize(e) {
+			value: function _handleResize() {
 				this._calculatePositioning();
 			},
 
@@ -11609,10 +11687,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_calculatePositioning',
 			value: function _calculatePositioning() {
 				// Element or parent is fixed position?
-				var isFixed = this.$origin.css('position') === 'fixed';
+				let isFixed = this.$origin.css('position') === 'fixed';
 				if (!isFixed) {
-					var parents = this.$origin.parents();
-					for (var i = 0; i < parents.length; i++) {
+					const parents = this.$origin.parents();
+					for (let i = 0; i < parents.length; i++) {
 						isFixed = $(parents[i]).css('position') == 'fixed';
 						if (isFixed) {
 							break;
@@ -11621,47 +11699,47 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				// Calculating origin
-				var originWidth = this.$origin.outerWidth();
-				var originHeight = this.$origin.outerHeight();
-				var originTop = isFixed ? this.$origin.offset().top - M.getDocumentScrollTop() : this.$origin.offset().top;
-				var originLeft = isFixed ? this.$origin.offset().left - M.getDocumentScrollLeft() : this.$origin.offset().left;
+				const originWidth = this.$origin.outerWidth();
+				const originHeight = this.$origin.outerHeight();
+				const originTop = isFixed ? this.$origin.offset().top - M.getDocumentScrollTop() : this.$origin.offset().top;
+				const originLeft = isFixed ? this.$origin.offset().left - M.getDocumentScrollLeft() : this.$origin.offset().left;
 
 				// Calculating screen
-				var windowWidth = window.innerWidth;
-				var windowHeight = window.innerHeight;
-				var centerX = windowWidth / 2;
-				var centerY = windowHeight / 2;
-				var isLeft = originLeft <= centerX;
-				var isRight = originLeft > centerX;
-				var isTop = originTop <= centerY;
-				var isBottom = originTop > centerY;
-				var isCenterX = originLeft >= windowWidth * 0.25 && originLeft <= windowWidth * 0.75;
+				const windowWidth = window.innerWidth;
+				const windowHeight = window.innerHeight;
+				const centerX = windowWidth / 2;
+				const centerY = windowHeight / 2;
+				const isLeft = originLeft <= centerX;
+				const isRight = originLeft > centerX;
+				const isTop = originTop <= centerY;
+				const isBottom = originTop > centerY;
+				const isCenterX = originLeft >= windowWidth * 0.25 && originLeft <= windowWidth * 0.75;
 
 				// Calculating tap target
-				var tapTargetWidth = this.$el.outerWidth();
-				var tapTargetHeight = this.$el.outerHeight();
-				var tapTargetTop = originTop + originHeight / 2 - tapTargetHeight / 2;
-				var tapTargetLeft = originLeft + originWidth / 2 - tapTargetWidth / 2;
-				var tapTargetPosition = isFixed ? 'fixed' : 'absolute';
+				const tapTargetWidth = this.$el.outerWidth();
+				const tapTargetHeight = this.$el.outerHeight();
+				const tapTargetTop = originTop + originHeight / 2 - tapTargetHeight / 2;
+				const tapTargetLeft = originLeft + originWidth / 2 - tapTargetWidth / 2;
+				const tapTargetPosition = isFixed ? 'fixed' : 'absolute';
 
 				// Calculating content
-				var tapTargetTextWidth = isCenterX ? tapTargetWidth : tapTargetWidth / 2 + originWidth;
-				var tapTargetTextHeight = tapTargetHeight / 2;
-				var tapTargetTextTop = isTop ? tapTargetHeight / 2 : 0;
-				var tapTargetTextBottom = 0;
-				var tapTargetTextLeft = isLeft && !isCenterX ? tapTargetWidth / 2 - originWidth : 0;
-				var tapTargetTextRight = 0;
-				var tapTargetTextPadding = originWidth;
-				var tapTargetTextAlign = isBottom ? 'bottom' : 'top';
+				const tapTargetTextWidth = isCenterX ? tapTargetWidth : tapTargetWidth / 2 + originWidth;
+				const tapTargetTextHeight = tapTargetHeight / 2;
+				const tapTargetTextTop = isTop ? tapTargetHeight / 2 : 0;
+				const tapTargetTextBottom = 0;
+				const tapTargetTextLeft = isLeft && !isCenterX ? tapTargetWidth / 2 - originWidth : 0;
+				const tapTargetTextRight = 0;
+				const tapTargetTextPadding = originWidth;
+				const tapTargetTextAlign = isBottom ? 'bottom' : 'top';
 
 				// Calculating wave
-				var tapTargetWaveWidth = originWidth > originHeight ? originWidth * 2 : originWidth * 2;
-				var tapTargetWaveHeight = tapTargetWaveWidth;
-				var tapTargetWaveTop = tapTargetHeight / 2 - tapTargetWaveHeight / 2;
-				var tapTargetWaveLeft = tapTargetWidth / 2 - tapTargetWaveWidth / 2;
+				const tapTargetWaveWidth = originWidth > originHeight ? originWidth * 2 : originWidth * 2;
+				const tapTargetWaveHeight = tapTargetWaveWidth;
+				const tapTargetWaveTop = tapTargetHeight / 2 - tapTargetWaveHeight / 2;
+				const tapTargetWaveLeft = tapTargetWidth / 2 - tapTargetWaveWidth / 2;
 
 				// Setting tap target
-				var tapTargetWrapperCssObj = {};
+				const tapTargetWrapperCssObj = {};
 				tapTargetWrapperCssObj.top = isTop ? tapTargetTop + 'px' : '';
 				tapTargetWrapperCssObj.right = isRight ? windowWidth - tapTargetLeft - tapTargetWidth + 'px' : '';
 				tapTargetWrapperCssObj.bottom = isBottom ? windowHeight - tapTargetTop - tapTargetHeight + 'px' : '';
@@ -11748,7 +11826,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_TapTarget;
 			},
 		}, {
@@ -11770,7 +11848,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($) {
 	'use strict';
 
-	var _defaults = {
+	const _defaults = {
 		classes: '',
 		dropdownOptions: {},
 	};
@@ -11780,7 +11858,7 @@ $jscomp.polyfill = function(e, r, p, m) {
      *
      */
 
-	var FormSelect = function(_Component20) {
+	const FormSelect = function(_Component20) {
 		_inherits(FormSelect, _Component20);
 
 		/**
@@ -11789,11 +11867,12 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function FormSelect(el, options) {
 			_classCallCheck(this, FormSelect);
 
 			// Don't init if browser default version
-			var _this67 = _possibleConstructorReturn(this, (FormSelect.__proto__ || Object.getPrototypeOf(FormSelect)).call(this, FormSelect, el, options));
+			const _this67 = _possibleConstructorReturn(this, (FormSelect.__proto__ || Object.getPrototypeOf(FormSelect)).call(this, FormSelect, el, options));
 
 			if (_this67.$el.hasClass('browser-default')) {
 				return _possibleConstructorReturn(_this67);
@@ -11812,7 +11891,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			// Setup
 			_this67.el.tabIndex = -1;
 			_this67._keysSelected = {};
-			_this67._valueDict = {}; // Maps key to original and generated option element.
+			_this67._valueDict = {};
 			_this67._setupDropdown();
 
 			_this67._setupEventHandlers();
@@ -11839,7 +11918,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupEventHandlers',
 			value: function _setupEventHandlers() {
-				var _this68 = this;
+				const _this68 = this;
 
 				this._handleSelectChangeBound = this._handleSelectChange.bind(this);
 				this._handleOptionClickBound = this._handleOptionClick.bind(this);
@@ -11859,7 +11938,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_removeEventHandlers',
 			value: function _removeEventHandlers() {
-				var _this69 = this;
+				const _this69 = this;
 
 				$(this.dropdownOptions).find('li:not(.optgroup)').each(function(el) {
 					el.removeEventListener('click', _this69._handleOptionClickBound);
@@ -11875,7 +11954,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 
 		}, {
 			key: '_handleSelectChange',
-			value: function _handleSelectChange(e) {
+			value: function _handleSelectChange() {
 				this._setValueToInput();
 			},
 
@@ -11888,21 +11967,21 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_handleOptionClick',
 			value: function _handleOptionClick(e) {
 				e.preventDefault();
-				var option = $(e.target).closest('li')[0];
-				var key = option.id;
+				const option = $(e.target).closest('li')[0];
+				const key = option.id;
 				if (!$(option).hasClass('disabled') && !$(option).hasClass('optgroup') && key.length) {
-					var selected = true;
+					let selected = true;
 
 					if (this.isMultiple) {
 						// Deselect placeholder option if still selected.
-						var placeholderOption = $(this.dropdownOptions).find('li.disabled.selected');
+						const placeholderOption = $(this.dropdownOptions).find('li.disabled.selected');
 						if (placeholderOption.length) {
 							placeholderOption.removeClass('selected');
 							placeholderOption.find('input[type="checkbox"]').prop('checked', false);
 							this._toggleEntryFromArray(placeholderOption[0].id);
 						}
 
-						var checkbox = $(option).find('input[type="checkbox"]');
+						const checkbox = $(option).find('input[type="checkbox"]');
 						checkbox.prop('checked', !checkbox.prop('checked'));
 						selected = this._toggleEntryFromArray(key);
 					}
@@ -11940,7 +12019,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setupDropdown',
 			value: function _setupDropdown() {
-				var _this70 = this;
+				const _this70 = this;
 
 				this.wrapper = document.createElement('div');
 				$(this.wrapper).addClass('select-wrapper' + ' ' + this.options.classes);
@@ -11962,7 +12041,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					this.$selectOptions.each(function(el) {
 						if ($(el).is('option')) {
 							// Direct descendant option.
-							var optionEl = void 0;
+							let optionEl = void 0;
 							if (_this70.isMultiple) {
 								optionEl = _this70._appendOptionWithIcon(_this70.$el, el, 'multiple');
 							}
@@ -11974,11 +12053,12 @@ $jscomp.polyfill = function(e, r, p, m) {
 						}
 						else if ($(el).is('optgroup')) {
 							// Optgroup.
-							var selectOptions = $(el).children('option');
+							const selectOptions = $(el).children('option');
 							$(_this70.dropdownOptions).append($('<li class="optgroup"><span>' + el.getAttribute('label') + '</span></li>')[0]);
 
+							// eslint-disable-next-line no-shadow
 							selectOptions.each(function(el) {
-								var optionEl = _this70._appendOptionWithIcon(_this70.$el, el, 'optgroup-option');
+								const optionEl = _this70._appendOptionWithIcon(_this70.$el, el, 'optgroup-option');
 								_this70._addOptionToValueDict(el, optionEl);
 							});
 						}
@@ -12001,19 +12081,19 @@ $jscomp.polyfill = function(e, r, p, m) {
 				this._setValueToInput();
 
 				// Add caret
-				var dropdownIcon = $('<svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+				const dropdownIcon = $('<svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
 				this.$el.before(dropdownIcon[0]);
 
 				// Initialize dropdown
 				if (!this.el.disabled) {
-					var dropdownOptions = $.extend({}, this.options.dropdownOptions);
+					const dropdownOptions = $.extend({}, this.options.dropdownOptions);
 
 					// Add callback for centering selected option when dropdown content is scrollable
-					dropdownOptions.onOpenEnd = function(el) {
-						var selectedOption = $(_this70.dropdownOptions).find('.selected').first();
+					dropdownOptions.onOpenEnd = function() {
+						const selectedOption = $(_this70.dropdownOptions).find('.selected').first();
 						if (_this70.dropdown.isScrollable && selectedOption.length) {
-							var scrollOffset = selectedOption[0].getBoundingClientRect().top - _this70.dropdownOptions.getBoundingClientRect().top; // scroll to selected option
-							scrollOffset -= _this70.dropdownOptions.clientHeight / 2; // center in dropdown
+							let scrollOffset = selectedOption[0].getBoundingClientRect().top - _this70.dropdownOptions.getBoundingClientRect().top;
+							scrollOffset -= _this70.dropdownOptions.clientHeight / 2;
 							_this70.dropdownOptions.scrollTop = scrollOffset;
 						}
 					};
@@ -12037,9 +12117,9 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_addOptionToValueDict',
 			value: function _addOptionToValueDict(el, optionEl) {
-				var index = Object.keys(this._valueDict).length;
-				var key = this.dropdownOptions.id + index;
-				var obj = {};
+				const index = Object.keys(this._valueDict).length;
+				const key = this.dropdownOptions.id + index;
+				const obj = {};
 				optionEl.id = key;
 
 				obj.el = el;
@@ -12073,20 +12153,19 @@ $jscomp.polyfill = function(e, r, p, m) {
 			key: '_appendOptionWithIcon',
 			value: function _appendOptionWithIcon(select, option, type) {
 				// Add disabled attr if disabled
-				var disabledClass = option.disabled ? 'disabled ' : '';
-				var optgroupClass = type === 'optgroup-option' ? 'optgroup-option ' : '';
-				var multipleCheckbox = this.isMultiple ? '<label><input type="checkbox"' + disabledClass + '"/><span>' + option.innerHTML + '</span></label>' : option.innerHTML;
-				var liEl = $('<li></li>');
-				var spanEl = $('<span></span>');
+				const disabledClass = option.disabled ? 'disabled ' : '';
+				const optgroupClass = type === 'optgroup-option' ? 'optgroup-option ' : '';
+				const multipleCheckbox = this.isMultiple ? '<label><input type="checkbox"' + disabledClass + '"/><span>' + option.innerHTML + '</span></label>' : option.innerHTML;
+				const liEl = $('<li></li>');
+				const spanEl = $('<span></span>');
 				spanEl.html(multipleCheckbox);
 				liEl.addClass(disabledClass + ' ' + optgroupClass);
 				liEl.append(spanEl);
 
 				// add icons
-				var iconUrl = option.getAttribute('data-icon');
-				var classes = option.getAttribute('class');
-				if (!!iconUrl) {
-					var imgEl = $('<img alt="" src="' + iconUrl + '">');
+				const iconUrl = option.getAttribute('data-icon');
+				if (iconUrl) {
+					const imgEl = $('<img alt="" src="' + iconUrl + '">');
 					liEl.prepend(imgEl);
 				}
 
@@ -12104,7 +12183,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_toggleEntryFromArray',
 			value: function _toggleEntryFromArray(key) {
-				var notAdded = !this._keysSelected.hasOwnProperty(key);
+				const notAdded = !Object.prototype.hasOwnProperty.call(this._keysSelected, key);
 				if (notAdded) {
 					this._keysSelected[key] = true;
 				}
@@ -12127,18 +12206,18 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_setValueToInput',
 			value: function _setValueToInput() {
-				var value = '';
-				var options = this.$el.find('option');
+				let value = '';
+				const options = this.$el.find('option');
 
 				options.each(function(el) {
 					if ($(el).prop('selected')) {
-						var text = $(el).text();
+						const text = $(el).text();
 						value === '' ? value += text : value += ', ' + text;
 					}
 				});
 
 				if (value === '') {
-					var firstDisabled = this.$el.find('option:disabled').eq(0);
+					const firstDisabled = this.$el.find('option:disabled').eq(0);
 					if (firstDisabled.length) {
 						value = firstDisabled.text();
 					}
@@ -12156,8 +12235,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 			value: function _setSelectedStates() {
 				this._keysSelected = {};
 
-				for (var key in this._valueDict) {
-					var option = this._valueDict[key];
+				for (const key in this._valueDict) {
+					const option = this._valueDict[key];
 					if ($(option.el).prop('selected')) {
 						$(option.optionEl).find('input[type="checkbox"]').prop('checked', true);
 						this._activateOption($(this.dropdownOptions), $(option.optionEl));
@@ -12184,7 +12263,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 						collection.find('li.selected').removeClass('selected');
 					}
 
-					var option = $(newOption);
+					const option = $(newOption);
 					option.addClass('selected');
 				}
 			},
@@ -12197,8 +12276,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getSelectedValues',
 			value: function getSelectedValues() {
-				var selectedValues = [];
-				for (var key in this._keysSelected) {
+				const selectedValues = [];
+				for (const key in this._keysSelected) {
 					selectedValues.push(this._valueDict[key].el.value);
 				}
 				return selectedValues;
@@ -12216,7 +12295,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_FormSelect;
 			},
 		}, {
@@ -12238,14 +12317,14 @@ $jscomp.polyfill = function(e, r, p, m) {
 ; (function($, anim) {
 	'use strict';
 
-	var _defaults = {};
+	const _defaults = {};
 
 	/**
      * @class
      *
      */
 
-	var Range = function(_Component21) {
+	const Range = function(_Component21) {
 		_inherits(Range, _Component21);
 
 		/**
@@ -12254,10 +12333,11 @@ $jscomp.polyfill = function(e, r, p, m) {
          * @param {Element} el
          * @param {Object} options
          */
+		// eslint-disable-next-line no-shadow
 		function Range(el, options) {
 			_classCallCheck(this, Range);
 
-			var _this71 = _possibleConstructorReturn(this, (Range.__proto__ || Object.getPrototypeOf(Range)).call(this, Range, el, options));
+			const _this71 = _possibleConstructorReturn(this, (Range.__proto__ || Object.getPrototypeOf(Range)).call(this, Range, el, options));
 
 			_this71.el.M_Range = _this71;
 
@@ -12360,7 +12440,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 					this._showRangeBubble();
 				}
 
-				var offsetLeft = this._calcRangeOffset();
+				const offsetLeft = this._calcRangeOffset();
 				$(this.thumb).addClass('active').css('left', offsetLeft + 'px');
 			},
 
@@ -12396,7 +12476,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 				}
 
 				if (e.type !== 'input') {
-					var offsetLeft = this._calcRangeOffset();
+					const offsetLeft = this._calcRangeOffset();
 					$(this.thumb).addClass('active').css('left', offsetLeft + 'px');
 				}
 			},
@@ -12413,7 +12493,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 						this._showRangeBubble();
 					}
 
-					var offsetLeft = this._calcRangeOffset();
+					const offsetLeft = this._calcRangeOffset();
 					$(this.thumb).addClass('active').css('left', offsetLeft + 'px');
 					$(this.value).html(this.$el.val());
 				}
@@ -12439,8 +12519,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 			value: function _handleRangeBlurMouseoutTouchleave() {
 				if (!this._mousedown) {
 					this.$el.removeClass('focused');
-					var paddingLeft = parseInt(this.$el.css('padding-left'));
-					var marginLeft = 7 + paddingLeft + 'px';
+					const paddingLeft = parseInt(this.$el.css('padding-left'));
+					const marginLeft = 7 + paddingLeft + 'px';
 
 					if ($(this.thumb).hasClass('active')) {
 						anim.remove(this.thumb);
@@ -12490,8 +12570,8 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_showRangeBubble',
 			value: function _showRangeBubble() {
-				var paddingLeft = parseInt($(this.thumb).parent().css('padding-left'));
-				var marginLeft = -7 + paddingLeft + 'px'; // TODO: fix magic number?
+				const paddingLeft = parseInt($(this.thumb).parent().css('padding-left'));
+				const marginLeft = -7 + paddingLeft + 'px';
 				anim.remove(this.thumb);
 				anim({
 					targets: this.thumb,
@@ -12512,10 +12592,10 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: '_calcRangeOffset',
 			value: function _calcRangeOffset() {
-				var width = this.$el.width() - 15;
-				var max = parseFloat(this.$el.attr('max'));
-				var min = parseFloat(this.$el.attr('min'));
-				var percent = (parseFloat(this.$el.val()) - min) / (max - min);
+				const width = this.$el.width() - 15;
+				const max = parseFloat(this.$el.attr('max'));
+				const min = parseFloat(this.$el.attr('min'));
+				const percent = (parseFloat(this.$el.val()) - min) / (max - min);
 				return percent * width;
 			},
 		}], [{
@@ -12531,7 +12611,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}, {
 			key: 'getInstance',
 			value: function getInstance(el) {
-				var domElem = !!el.jquery ? el[0] : el;
+				const domElem = el.jquery ? el[0] : el;
 				return domElem.M_Range;
 			},
 		}, {
