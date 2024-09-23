@@ -4,6 +4,8 @@ var money = Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
 });
 
+import DOMPurify from 'dompurify';
+
 (() => {
     Kashacter = {};
 
@@ -15,15 +17,15 @@ var money = Intl.NumberFormat("en-US", {
                 '<div class="character-info"><p class="character-info-name"><h1>' +
                 `${translate.name} ` +
                 "</h1><span>" +
-                data.firstname +
+                DOMPurify.sanitize(data.firstname) +
                 " " +
-                data.lastname +
+                DOMPurify.sanitize(data.lastname) +
                 '</span></p><p class="character-info-work"><h1>' +
                 `${translate.job} ` +
                 "</h1><span>" +
-                data.job +
+                DOMPurify.sanitize(data.job) +
                 " " +
-                data.job_grade +
+                DOMPurify.sanitize(data.job_grade) +
                 '</span></p><p class="character-info-money"><h1>' +
                 `${translate.money} ` +
                 "</h1><span> " +
@@ -35,11 +37,11 @@ var money = Intl.NumberFormat("en-US", {
                 '</span></p> <p class="character-info-dateofbirth"><h1>' +
                 `${translate.dob} ` +
                 "</h1><span>" +
-                data.dateofbirth +
+                DOMPurify.sanitize(data.dateofbirth) +
                 '</span></p> <p class="character-info-gender"><h1>' +
                 `${translate.gender} ` +
                 "</h1><span>" +
-                data.sex +
+                DOMPurify.sanitize(data.sex) +
                 "</span></p></div>"
             )
             .attr("data-ischar", "true");
