@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 $(window).ready(function() {
 	window.addEventListener('message', function(event) {
 		const data = event.data;
@@ -19,12 +21,12 @@ $(window).ready(function() {
 
 				if (data.poundCost != undefined) {
 					$('.content .vehicle-list').html(
-						getVehicles(data.locales, data.vehiclesList, data.poundCost),
+						DOMPurify.sanitize(getVehicles(data.locales, data.vehiclesList, data.poundCost)),
 					);
 				}
 				else {
 					$('.content .vehicle-list').html(
-						getVehicles(data.locales, data.vehiclesList),
+						DOMPurify.sanitize(getVehicles(data.locales, data.vehiclesList)),
 					);
 				}
 
@@ -42,7 +44,7 @@ $(window).ready(function() {
 				if (data.poundCost) $('#container').data('poundcost', data.poundCost);
 
 				$('.impounded_content .vehicle-list').html(
-					getImpoundedVehicles(data.locales, data.vehiclesImpoundedList),
+					DOMPurify.sanitize(getImpoundedVehicles(data.locales, data.vehiclesImpoundedList)),
 				);
 				$('.impounded_content h2').hide();
 			}
