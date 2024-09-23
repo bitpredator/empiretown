@@ -3,7 +3,6 @@
  * Copyright 2014-2017 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
  */
-// eslint-disable-next-line max-statements-per-line
 const _get = function get(object, property, receiver) {
 	// eslint-disable-next-line max-statements-per-line
 	if (object === null) object = Function.prototype; const desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) {
@@ -32,21 +31,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 (function(factory) {
 	window.cash = factory();
 })(function() {
-	// eslint-disable-next-line prefer-const
 	const doc = document,
-		// eslint-disable-next-line prefer-const
 		win = window,
-		// eslint-disable-next-line prefer-const
 		ArrayProto = Array.prototype,
-		// eslint-disable-next-line prefer-const
 		slice = ArrayProto.slice,
-		// eslint-disable-next-line prefer-const
 		filter = ArrayProto.filter,
 		push = ArrayProto.push;
 
-	// eslint-disable-next-line prefer-const, no-empty-function
+	// eslint-disable-next-line no-empty-function
 	const noop = function() { },
-		// eslint-disable-next-line prefer-const
 		isFunction = function(item) {
 			// @see https://crbug.com/568448
 			return typeof item === typeof noop && item.call;
@@ -55,11 +48,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			return typeof item === typeof '';
 		};
 
-	// eslint-disable-next-line prefer-const
 	const idMatch = /^#[\w-]*$/,
-		// eslint-disable-next-line prefer-const
 		classMatch = /^\.[\w-]*$/,
-		// eslint-disable-next-line prefer-const
 		htmlMatch = /<.+>/,
 		singlet = /^\w+$/;
 
@@ -92,53 +82,53 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		}
 	}
 
-	function Init(selector, context) {
-		if (!selector) {
-			return this;
-		}
-
-		// If already a cash collection, don't do any further processing
-		if (selector.cash && selector !== win) {
-			return selector;
-		}
-
-		let elems = selector,
-			i = 0,
-			length;
-
-		if (isString(selector)) {
-			elems = idMatch.test(selector) ?
-			// If an ID use the faster getElementById check
-				doc.getElementById(selector.slice(1)) : htmlMatch.test(selector) ?
-				// If HTML, parse it into real elements
-					parseHTML(selector) :
-				// else use `find`
-					find(selector, context);
-
-			// If function, use as shortcut for DOM ready
-		}
-		else if (isFunction(selector)) {
-			onReady(selector); return this;
-		}
-
-		if (!elems) {
-			return this;
-		}
-
-		// If a single DOM element is passed in or received via ID, return the single element
-		if (elems.nodeType || elems === win) {
-			this[0] = elems;
-			this.length = 1;
-		}
-		else {
-			// Treat like an array and loop through each item.
-			length = this.length = elems.length;
-			for (; i < length; i++) {
-				this[i] = elems[i];
+	class Init {
+		constructor(selector, context) {
+			if (!selector) {
+				return this;
 			}
-		}
 
-		return this;
+			// If already a cash collection, don't do any further processing
+			if (selector.cash && selector !== win) {
+				return selector;
+			}
+
+			let elems = selector, i = 0, length;
+
+			if (isString(selector)) {
+				elems = idMatch.test(selector) ?
+					// If an ID use the faster getElementById check
+					doc.getElementById(selector.slice(1)) : htmlMatch.test(selector) ?
+						// If HTML, parse it into real elements
+						parseHTML(selector) :
+						// else use `find`
+						find(selector, context);
+
+				// If function, use as shortcut for DOM ready
+			}
+			else if (isFunction(selector)) {
+				onReady(selector); return this;
+			}
+
+			if (!elems) {
+				return this;
+			}
+
+			// If a single DOM element is passed in or received via ID, return the single element
+			if (elems.nodeType || elems === win) {
+				this[0] = elems;
+				this.length = 1;
+			}
+			else {
+				// Treat like an array and loop through each item.
+				length = this.length = elems.length;
+				for (; i < length; i++) {
+					this[i] = elems[i];
+				}
+			}
+
+			return this;
+		}
 	}
 
 	function cash(selector, context) {
@@ -505,7 +495,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 	});
 
 	const camelCase = function() {
-		// eslint-disable-next-line prefer-const
 		const camelRegex = /(?:^\w|[A-Z]|\b\w)/g,
 			whiteSpace = /[\s-_]+/g;
 		return function(str) {
@@ -516,11 +505,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 	}();
 
 	const getPrefixedProp = function() {
-		// eslint-disable-next-line prefer-const
 		const cache = {},
 			// eslint-disable-next-line no-shadow
 			doc = document,
-			// eslint-disable-next-line prefer-const
 			div = doc.createElement('div'),
 			style = div.style;
 
@@ -530,9 +517,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				return cache[prop];
 			}
 
-			// eslint-disable-next-line prefer-const
 			const ucProp = prop.charAt(0).toUpperCase() + prop.slice(1),
-				// eslint-disable-next-line prefer-const
 				prefixes = ['webkit', 'moz', 'ms', 'o'],
 				props = (prop + ' ' + prefixes.join(ucProp + ' ') + ucProp).split(' ');
 
@@ -861,7 +846,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			const _this = this;
 
 			cash(selector).each(function(el, i) {
-				// eslint-disable-next-line prefer-const
 				const parent = el.parentNode,
 					sibling = el.nextSibling;
 				_this.each(function(v) {
@@ -1771,115 +1755,177 @@ $jscomp.polyfill = function(e, r, p, m) {
 			return z(a, d);
 		});
 	} function ba(a, c) {
-		var d = {},
+		// eslint-disable-next-line prefer-const
+		let d = {},
 			b; for (b in a) {
-			var f = I(a[b], c); h.arr(f) && (f = f.map(function(a) {
+			// eslint-disable-next-line no-shadow
+			let f = I(a[b], c); h.arr(f) && (f = f.map(function(a) {
 				return I(a, c);
-			}), 1 === f.length && (f = f[0])); d[b] = f;
+			}), f.length === 1 && (f = f[0])); d[b] = f;
+		// eslint-disable-next-line max-statements-per-line
 		} d.duration = parseFloat(d.duration); d.delay = parseFloat(d.delay); return d;
 	} function ca(a) {
 		return h.arr(a) ? A.apply(this, a) : Q[a];
 	} function da(a, c) {
-		var d; return a.tweens.map(function(b) {
+		let d; return a.tweens.map(function(b) {
+			// eslint-disable-next-line no-var
 			b = ba(b, c); var f = b.value,
+				// eslint-disable-next-line no-shadow
 				e = K(c.target, a.name),
 				k = d ? d.to.original : e,
+				// eslint-disable-next-line no-redeclare
 				k = h.arr(f) ? f[0] : k,
 				w = L(h.arr(f) ? f[1] : f, k),
+				// eslint-disable-next-line no-redeclare, max-statements-per-line
 				e = y(w) || y(k) || y(e); b.from = O(k, e); b.to = O(w, e); b.start = d ? d.end : a.offset; b.end = b.start + b.delay + b.duration; b.easing = ca(b.easing); b.elasticity = (1E3 - Math.min(Math.max(b.elasticity, 1), 999)) / 1E3; b.isPath = h.pth(f); b.isColor = h.col(b.from.original); b.isColor && (b.round = 1); return d = b;
 		});
 	} function ea(a, c) {
+		// eslint-disable-next-line no-shadow
 		return r(p(a.map(function(a) {
 			return c.map(function(b) {
-				var c = J(a.target, b.name); if (c) {
-					var d = da(b, a); b = { type: c, property: b.name, animatable: a, tweens: d, duration: d[d.length - 1].end, delay: d[0].delay };
+				// eslint-disable-next-line no-shadow
+				const c = J(a.target, b.name); if (c) {
+					const d = da(b, a); b = { type: c, property: b.name, animatable: a, tweens: d, duration: d[d.length - 1].end, delay: d[0].delay };
 				}
-				else b = void 0; return b;
+				else {b = void 0;} return b;
 			});
+		// eslint-disable-next-line no-shadow
 		})), function(a) {
 			return !h.und(a);
 		});
 	} function R(a, c, d, b) {
-		var f = 'delay' === a; return c.length ? (f ? Math.min : Math.max).apply(Math, c.map(function(b) {
+		// eslint-disable-next-line no-shadow
+		const f = a === 'delay'; return c.length ? (f ? Math.min : Math.max).apply(Math, c.map(function(b) {
 			return b[a];
 		})) : f ? b.delay : d.offset + b.delay + b.duration;
 	} function fa(a) {
-		var c = D(ga, a),
+		// eslint-disable-next-line prefer-const
+		let c = D(ga, a),
+			// eslint-disable-next-line prefer-const
 			d = D(S, a),
+			// eslint-disable-next-line prefer-const
 			b = Z(a.targets),
+			// eslint-disable-next-line prefer-const
 			f = [],
+			// eslint-disable-next-line no-shadow, prefer-const
 			e = z(c, d),
 			k; for (k in a) {
-			e.hasOwnProperty(k) || 'targets' === k || f.push({ name: k, offset: e.offset, tweens: aa(a[k], d) });
+			Object.prototype.hasOwnProperty.call(e, k) || k === 'targets' || f.push({ name: k, offset: e.offset, tweens: aa(a[k], d) });
+		// eslint-disable-next-line max-statements-per-line
 		} a = ea(b, f); return z(c, { children: [], animatables: b, animations: a, duration: R('duration', a, c, d), delay: R('delay', a, c, d) });
 	} function q(a) {
 		function c() {
+			// eslint-disable-next-line no-shadow
 			return window.Promise && new Promise(function(a) {
 				return p = a;
 			});
+		// eslint-disable-next-line no-shadow
 		} function d(a) {
 			return g.reversed ? g.duration - a : a;
+		// eslint-disable-next-line no-shadow
 		} function b(a) {
+			// eslint-disable-next-line no-var, no-shadow
 			for (var b = 0, c = {}, d = g.animations, f = d.length; b < f;) {
+				// eslint-disable-next-line no-var, no-shadow
 				var e = d[b],
+					// eslint-disable-next-line no-shadow
 					k = e.animatable,
 					h = e.tweens,
 					n = h.length - 1,
+					// eslint-disable-next-line no-shadow
 					l = h[n]; n && (l = r(h, function(b) {
 					return a < b.end;
+				// eslint-disable-next-line no-var, no-redeclare
 				})[0] || l); for (var h = Math.min(Math.max(a - l.start - l.delay, 0), l.duration) / l.duration, w = isNaN(h) ? 1 : l.easing(h, l.elasticity), h = l.to.strings, p = l.round, n = [], m = void 0, m = l.to.numbers.length, t = 0; t < m; t++) {
+					// eslint-disable-next-line no-var
 					var x = void 0,
+						// eslint-disable-next-line no-redeclare
 						x = l.to.numbers[t],
+						// eslint-disable-next-line no-shadow
 						q = l.from.numbers[t],
-						x = l.isPath ? Y(l.value, w * x) : q + w * (x - q); p && (l.isColor && 2 < t || (x = Math.round(x * p) / p)); n.push(x);
-				} if (l = h.length) for (m = h[0], w = 0; w < l; w++) {
-					p = h[w + 1], t = n[w], isNaN(t) || (m = p ? m + (t + p) : m + (t + ' '));
-				} else m = n[0]; ha[e.type](k.target, e.property, m, c, k.id); e.currentValue = m; b++;
-			} if (b = Object.keys(c).length) for (d = 0; d < b; d++) {
-				H || (H = E(document.body, 'transform') ? 'transform' : '-webkit-transform'), g.animatables[d].target.style[H] = c[d].join(' ');
+						// eslint-disable-next-line no-redeclare, max-statements-per-line
+						x = l.isPath ? Y(l.value, w * x) : q + w * (x - q); p && (l.isColor && t > 2 || (x = Math.round(x * p) / p)); n.push(x);
+				// eslint-disable-next-line no-cond-assign
+				} if (l = h.length) {
+					for (m = h[0], w = 0; w < l; w++) {
+						p = h[w + 1], t = n[w], isNaN(t) || (m = p ? m + (t + p) : m + (t + ' '));
+					}
+				}
+				// eslint-disable-next-line max-statements-per-line
+				else {m = n[0];} ha[e.type](k.target, e.property, m, c, k.id); e.currentValue = m; b++;
+			// eslint-disable-next-line no-cond-assign
+			} if (b = Object.keys(c).length) {
+				for (d = 0; d < b; d++) {
+					H || (H = E(document.body, 'transform') ? 'transform' : '-webkit-transform'), g.animatables[d].target.style[H] = c[d].join(' ');
+				}
+			// eslint-disable-next-line max-statements-per-line
 			} g.currentTime = a; g.progress = a / g.duration * 100;
+		// eslint-disable-next-line no-shadow
 		} function f(a) {
 			if (g[a]) g[a](g);
+		// eslint-disable-next-line no-shadow
 		} function e() {
 			g.remaining && !0 !== g.remaining && g.remaining--;
+		// eslint-disable-next-line no-shadow
 		} function k(a) {
-			var k = g.duration,
+			// eslint-disable-next-line no-shadow
+			const k = g.duration,
 				n = g.offset,
 				w = n + g.delay,
+				// eslint-disable-next-line no-shadow
 				r = g.currentTime,
 				x = g.reversed,
+				// eslint-disable-next-line no-shadow
 				q = d(a); if (g.children.length) {
-				var u = g.children,
+				// eslint-disable-next-line no-shadow, prefer-const
+				let u = g.children,
 					v = u.length;
-				if (q >= g.currentTime) for (var G = 0; G < v; G++) {
-					u[G].seek(q);
-				} else for (; v--;) {
-					u[v].seek(q);
+				if (q >= g.currentTime) {
+					for (let G = 0; G < v; G++) {
+						u[G].seek(q);
+					}
 				}
-			} if (q >= w || !k) g.began || (g.began = !0, f('begin')), f('run'); if (q > n && q < k) b(q); else if (q <= n && 0 !== r && (b(0), x && e()), q >= k && r !== k || !k) b(k), x || e(); f('update'); a >= k && (g.remaining ? (t = h, 'alternate' === g.direction && (g.reversed = !g.reversed)) : (g.pause(), g.completed || (g.completed = !0, f('complete'), 'Promise' in window && (p(), m = c()))), l = 0);
+				else {
+					for (; v--;) {
+						u[v].seek(q);
+					}
+				}
+			// eslint-disable-next-line max-statements-per-line
+			} if (q >= w || !k) g.began || (g.began = !0, f('begin')), f('run'); if (q > n && q < k) b(q); else if (q <= n && r !== 0 && (b(0), x && e()), q >= k && r !== k || !k) b(k), x || e(); f('update'); a >= k && (g.remaining ? (t = h, g.direction === 'alternate' && (g.reversed = !g.reversed)) : (g.pause(), g.completed || (g.completed = !0, f('complete'), 'Promise' in window && (p(), m = c()))), l = 0);
+		// eslint-disable-next-line max-statements-per-line, no-var
 		} a = void 0 === a ? {} : a; var h,
 			t,
 			l = 0,
+			// eslint-disable-next-line no-shadow
 			p = null,
+			// eslint-disable-next-line no-shadow
 			m = c(),
 			g = fa(a); g.reset = function() {
-			var a = g.direction,
-				c = g.loop; g.currentTime = 0; g.progress = 0; g.paused = !0; g.began = !1; g.completed = !1; g.reversed = 'reverse' === a; g.remaining = 'alternate' === a && 1 === c ? 2 : c; b(0); for (a = g.children.length; a--;) {
+			// eslint-disable-next-line no-shadow
+			let a = g.direction,
+				// eslint-disable-next-line no-shadow, prefer-const, max-statements-per-line
+				c = g.loop; g.currentTime = 0; g.progress = 0; g.paused = !0; g.began = !1; g.completed = !1; g.reversed = a === 'reverse'; g.remaining = a === 'alternate' && c === 1 ? 2 : c; b(0); for (a = g.children.length; a--;) {
 				g.children[a].reset();
 			}
+		// eslint-disable-next-line no-shadow
 		}; g.tick = function(a) {
+			// eslint-disable-next-line max-statements-per-line
 			h = a; t || (t = h); k((l + h - t) * q.speed);
+		// eslint-disable-next-line no-shadow
 		}; g.seek = function(a) {
 			k(d(a));
 		}; g.pause = function() {
-			var a = v.indexOf(g); -1 < a && v.splice(a, 1); g.paused = !0;
+			// eslint-disable-next-line max-statements-per-line, no-shadow
+			const a = v.indexOf(g); a > -1 && v.splice(a, 1); g.paused = !0;
 		}; g.play = function() {
 			g.paused && (g.paused = !1, t = 0, l = d(g.currentTime), v.push(g), B || ia());
 		}; g.reverse = function() {
+			// eslint-disable-next-line max-statements-per-line
 			g.reversed = !g.reversed; t = 0; l = d(g.currentTime);
 		}; g.restart = function() {
 			g.pause();
 			g.reset(); g.play();
+		// eslint-disable-next-line max-statements-per-line
 		}; g.finished = m; g.reset(); g.autoplay && g.play(); return g;
 	} var ga = { update: void 0, begin: void 0, run: void 0, complete: void 0, loop: 1, direction: 'normal', autoplay: !0, offset: 0 },
 		S = { duration: 1E3, delay: 0, easing: 'easeOutElastic', elasticity: 500, round: 0 },
@@ -1889,7 +1935,7 @@ $jscomp.polyfill = function(e, r, p, m) {
 			arr: function(a) {
 				return Array.isArray(a);
 			}, obj: function(a) {
-				return -1 < Object.prototype.toString.call(a).indexOf('Object');
+				return Object.prototype.toString.call(a).indexOf('Object') > -1;
 			},
 			pth: function(a) {
 				return h.obj(a) && a.hasOwnProperty('totalLength');
@@ -1898,11 +1944,11 @@ $jscomp.polyfill = function(e, r, p, m) {
 			}, dom: function(a) {
 				return a.nodeType || h.svg(a);
 			}, str: function(a) {
-				return 'string' === typeof a;
+				return typeof a === 'string';
 			}, fnc: function(a) {
-				return 'function' === typeof a;
+				return typeof a === 'function';
 			}, und: function(a) {
-				return 'undefined' === typeof a;
+				return typeof a === 'undefined';
 			}, hex: function(a) {
 				return (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(a)
 				);
@@ -1920,25 +1966,28 @@ $jscomp.polyfill = function(e, r, p, m) {
 			function a(a, d, b) {
 				return (((1 - 3 * b + 3 * d) * a + (3 * b - 6 * d)) * a + 3 * d) * a;
 			} return function(c, d, b, f) {
-				if (0 <= c && 1 >= c && 0 <= b && 1 >= b) {
-					var e = new Float32Array(11); if (c !== d || b !== f) for (var k = 0; 11 > k; ++k) {
-						e[k] = a(.1 * k, c, b);
+				if (c >= 0 && c <= 1 && b >= 0 && b <= 1) {
+					const e = new Float32Array(11); if (c !== d || b !== f) {
+						for (let k = 0; k < 11; ++k) {
+							e[k] = a(.1 * k, c, b);
+						}
 					} return function(k) {
-						if (c === d && b === f) return k; if (0 === k) return 0; if (1 === k) return 1; for (var h = 0, l = 1; 10 !== l && e[l] <= k; ++l) {
+						if (c === d && b === f) return k; if (k === 0) return 0; if (k === 1) return 1; for (var h = 0, l = 1; l !== 10 && e[l] <= k; ++l) {
 							h += .1;
 						} --l; var l = h + (k - e[l]) / (e[l + 1] - e[l]) * .1,
-							n = 3 * (1 - 3 * b + 3 * c) * l * l + 2 * (3 * b - 6 * c) * l + 3 * c; if (.001 <= n) {
-							for (h = 0; 4 > h; ++h) {
-								n = 3 * (1 - 3 * b + 3 * c) * l * l + 2 * (3 * b - 6 * c) * l + 3 * c; if (0 === n) break; var m = a(l, c, b) - k,
+							n = 3 * (1 - 3 * b + 3 * c) * l * l + 2 * (3 * b - 6 * c) * l + 3 * c; if (n >= .001) {
+							for (h = 0; h < 4; ++h) {
+								n = 3 * (1 - 3 * b + 3 * c) * l * l + 2 * (3 * b - 6 * c) * l + 3 * c; if (n === 0) break; var m = a(l, c, b) - k,
 									l = l - m / n;
 							} k = l;
 						}
-						else if (0 === n) k = l; else {
+						else if (n === 0) {k = l;}
+						else {
 							var l = h,
 								h = h + .1,
 								g = 0; do {
-								m = l + (h - l) / 2, n = a(m, c, b) - k, 0 < n ? h = m : l = m;
-							} while (1e-7 < Math.abs(n) && 10 > ++g); k = m;
+								m = l + (h - l) / 2, n = a(m, c, b) - k, n > 0 ? h = m : l = m;
+							} while (Math.abs(n) > 1e-7 && ++g < 10); k = m;
 						} return a(k, d, f);
 					};
 				}
@@ -1946,16 +1995,16 @@ $jscomp.polyfill = function(e, r, p, m) {
 		}(),
 		Q = function() {
 			function a(a, b) {
-				return 0 === a || 1 === a ? a : -Math.pow(2, 10 * (a - 1)) * Math.sin(2 * (a - 1 - b / (2 * Math.PI) * Math.asin(1)) * Math.PI / b);
-			} var c = 'Quad Cubic Quart Quint Sine Expo Circ Back Elastic'.split(' '),
+				return a === 0 || a === 1 ? a : -Math.pow(2, 10 * (a - 1)) * Math.sin(2 * (a - 1 - b / (2 * Math.PI) * Math.asin(1)) * Math.PI / b);
+			} let c = 'Quad Cubic Quart Quint Sine Expo Circ Back Elastic'.split(' '),
 				d = {
-					In: [[.55, .085, .68, .53], [.55, .055, .675, .19], [.895, .03, .685, .22], [.755, .05, .855, .06], [.47, 0, .745, .715], [.95, .05, .795, .035], [.6, .04, .98, .335], [.6, -.28, .735, .045], a], Out: [[.25, .46, .45, .94], [.215, .61, .355, 1], [.165, .84, .44, 1], [.23, 1, .32, 1], [.39, .575, .565, 1], [.19, 1, .22, 1], [.075, .82, .165, 1], [.175, .885, .32, 1.275], function(b, c) {
+					In: [[.55, .085, .68, .53], [.55, .055, .675, .19], [.895, .03, .685, .22], [.755, .05, .855, .06], [.47, 0, .745, .715], [.95, .05, .795, .035], [.6, .04, .98, .335], [.6, -.28, .735, .045], a], Out: [[.25, .46, .45, .94], [.215, .61, .355, 1], [.165, .84, .44, 1], [.23, 1, .32, 1], [.39, 0.575, 0.565, 1], [0.19, 1, 0.22, 1], [0.075, 0.82, 0.165, 1], [0.175, 0.885, 0.32, 1.275], function(b, c) {
 						return 1 - a(1 - b, c);
-					}], InOut: [[.455, .03, .515, .955], [.645, .045, .355, 1], [.77, 0, .175, 1], [.86, 0, .07, 1], [.445, .05, .55, .95], [1, 0, 0, 1], [.785, .135, .15, .86], [.68, -.55, .265, 1.55], function(b, c) {
-						return .5 > b ? a(2 * b, c) / 2 : 1 - a(-2 * b + 2, c) / 2;
+					}], InOut: [[0.455, 0.03, 0.515, 0.955], [0.645, 0.045, 0.355, 1], [0.77, 0, 0.175, 1], [0.86, 0, 0.07, 1], [0.445, 0.05, 0.55, 0.95], [1, 0, 0, 1], [0.785, 0.135, 0.15, 0.86], [0.68, -0.55, 0.265, 1.55], function(b, c) {
+						return b < 0.5 ? a(2 * b, c) / 2 : 1 - a(-2 * b + 2, c) / 2;
 					}],
 				},
-				b = { linear: A(.25, .25, .75, .75) },
+				b = { linear: A(0.25, 0.25, 0.75, 0.75) },
 				f = {},
 				e; for (e in d) {
 				f.type = e, d[f.type].forEach(function(a) {
@@ -1982,12 +2031,12 @@ $jscomp.polyfill = function(e, r, p, m) {
 			function a() {
 				B = requestAnimationFrame(c);
 			} function c(c) {
-				var b = v.length; if (b) {
-					for (var d = 0; d < b;) {
+				const b = v.length; if (b) {
+					for (let d = 0; d < b;) {
 						v[d] && v[d].tick(c), d++;
 					} a();
 				}
-				else cancelAnimationFrame(B), B = 0;
+				else {cancelAnimationFrame(B), B = 0;}
 			} return a;
 		}(); q.version = '2.2.0'; q.speed = 1; q.running = v; q.remove = function(a) {
 		a = P(a); for (var c = v.length; c--;) {
