@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 $(window).ready(function() {
 	window.addEventListener('message', function(event) {
 		const data = event.data;
@@ -52,13 +54,13 @@ $(window).ready(function() {
 			}
 
 			$('.vehicle-listing').html(function(_i, text) {
-				return text.replace('Model', data.locales.veh_model);
+				return text.replace('Model', DOMPurify.sanitize(data.locales.veh_model));
 			});
 			$('.vehicle-listing').html(function(_i, text) {
-				return text.replace('Plate', data.locales.veh_plate);
+				return text.replace('Plate', DOMPurify.sanitize(data.locales.veh_plate));
 			});
 			$('.vehicle-listing').html(function(_i, text) {
-				return text.replace('Condition', data.locales.veh_condition);
+				return text.replace('Condition', DOMPurify.sanitize(data.locales.veh_condition));
 			});
 		}
 		else if (data.hideAll) {
