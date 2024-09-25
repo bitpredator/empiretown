@@ -780,7 +780,7 @@ end)
 ESX.RegisterServerCallback('esx_property:getPlayerDressing', function(source, cb)
   local xPlayer = ESX.GetPlayerFromId(source)
 
-  TriggerEvent('esx_datastore:getDataStore', 'property', xPlayer.identifier, function(store)
+  TriggerEvent('bpt_datastore:getDataStore', 'property', xPlayer.identifier, function(store)
     local count = store.count('dressing')
     local labels = {}
 
@@ -999,7 +999,7 @@ end)
 ESX.RegisterServerCallback('esx_property:getPlayerOutfit', function(source, cb, num)
   local xPlayer = ESX.GetPlayerFromId(source)
 
-  TriggerEvent('esx_datastore:getDataStore', 'property', xPlayer.identifier, function(store)
+  TriggerEvent('bpt_datastore:getDataStore', 'property', xPlayer.identifier, function(store)
     local outfit = store.get('dressing', num)
     cb(outfit.skin)
   end)

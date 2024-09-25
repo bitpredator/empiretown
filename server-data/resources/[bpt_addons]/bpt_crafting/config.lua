@@ -58,7 +58,7 @@ Config = {
         ["fisherman"] = {
             Label = "fisherman",
             Image = "fisherman",
-            Jobs = { "fisherman" },
+            Jobs = { "unicorn" },
         },
         ["ammunation"] = {
             Label = "Munizioni",
@@ -490,7 +490,7 @@ Config = {
             Level = 0,
             Category = "fisherman",
             isGun = false,
-            Jobs = { "fisherman" },
+            Jobs = { "unicorn" },
             JobGrades = {},
             Amount = 2,
             SuccessRate = 100,
@@ -567,7 +567,7 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "slicedchips", "bread_deer" },
+            recipes = { "almondmilk", "slicedchips", "bread_deer", "salmon_fillet" },
             radius = 1.0,
         },
         {
@@ -582,13 +582,6 @@ Config = {
             jobs = { "baker" },
             blip = false,
             recipes = { "flour", "bread" },
-            radius = 1.0,
-        },
-        {
-            coords = vector3(-316.549438, -2781.217529, 4.982422),
-            jobs = { "fisherman" },
-            blip = false,
-            recipes = { "salmon_fillet" },
             radius = 1.0,
         },
     },
