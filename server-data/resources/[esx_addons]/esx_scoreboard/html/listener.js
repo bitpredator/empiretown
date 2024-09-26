@@ -50,7 +50,7 @@ $(function() {
 			break;
 		case 'updateServerInfo':
 			if (event.data.maxPlayers) {
-				const sanitizedMaxPlayers = DOMPurify.sanitize(event.data.maxPlayers);
+				const sanitizedMaxPlayers = (event.data.maxPlayers);
 				$('#max_players').html(sanitizedMaxPlayers);
 			}
 			break;
