@@ -131,14 +131,14 @@ function StoreNearbyVehicle(playerCoords)
             local vehicleId = index[plate]
             local attempts = 0
             ESX.Game.DeleteVehicle(vehicleId)
-            isBusy = true
+            IsBusy = true
 
             CreateThread(function()
                 BeginTextCommandBusyspinnerOn("STRING")
                 AddTextComponentSubstringPlayerName(TranslateCap("garage_storing"))
                 EndTextCommandBusyspinnerOn(4)
 
-                while isBusy do
+                while IsBusy do
                     Wait(100)
                 end
 
@@ -167,7 +167,7 @@ function StoreNearbyVehicle(playerCoords)
                 end
             end
 
-            isBusy = false
+            IsBusy = false
             ESX.ShowNotification(TranslateCap("garage_has_stored"))
         else
             ESX.ShowNotification(TranslateCap("garage_has_notstored"))
@@ -196,7 +196,7 @@ end
 
 function OpenShopMenu(elements, restoreCoords, shopCoords)
     local playerPed = PlayerPedId()
-    isInShopMenu = true
+    IsInShopMenu = true
     ESX.OpenContext("right", elements, function(menu, element)
         local elements2 = {
             { unselectable = true, icon = "fas fa-car", title = element.title },
@@ -227,7 +227,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 
                 ESX.OpenContext("right", elements3, function(menu3, element3)
                     if element3.value == "stop" then
-                        isInShopMenu = false
+                        IsInShopMenu = false
                         ESX.CloseContext()
 
                         DeleteSpawnedVehicles()
@@ -245,7 +245,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
                             if bought then
                                 ESX.ShowNotification(TranslateCap("vehicleshop_bought", element.name, ESX.Math.GroupDigits(element.price)))
 
-                                isInShopMenu = false
+                                IsInShopMenu = false
                                 ESX.CloseContext()
                                 DeleteSpawnedVehicles()
                                 FreezeEntityPosition(playerPed, false)
@@ -259,7 +259,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
                         end, props, element.type)
                     end
                 end, function()
-                    isInShopMenu = false
+                    IsInShopMenu = false
                     ESX.CloseContext()
 
                     DeleteSpawnedVehicles()
@@ -275,10 +275,10 @@ end
 
 CreateThread(function()
     while true do
-        sleep = 1500
+        Sleep = 1500
 
-        if isInShopMenu then
-            sleep = 0
+        if IsInShopMenu then
+            Sleep = 0
             DisableControlAction(0, 75, true) -- Disable exit vehicle
             DisableControlAction(27, 75, true) -- Disable exit vehicle
         end
