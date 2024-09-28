@@ -733,4 +733,10 @@ return {
 		stack = true,
 		close = true,
 	},
+
+	["stevo_policebadge"] = {
+		label = "Police Badge",
+		weight = 250,
+		stack = false,
+	},
 }
