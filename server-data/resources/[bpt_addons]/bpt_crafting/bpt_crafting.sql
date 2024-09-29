@@ -15,6 +15,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('cottonforbandages', 'cottonforbandages'),
 	('cotton', 'cotton'),
 	('ironsheet', 'ironsheet'),
+	('steelsheet', 'steelsheet'),
 	('garbage', 'garbage'),
 	('WEAPON_APPISTOL', 'WEAPON APPISTOL'),
 	('iron', 'iron'),
@@ -57,5 +58,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('diamond', 'Diamond'),
 	('marijuana_extract', 'Marijuana extract'),
 	('medikit', 'Medikit'),
-	('salmon_fillet', 'Salmon Fillet')
+	('salmon_fillet', 'Salmon Fillet'),
+	('armour', 'armour'),
 ;

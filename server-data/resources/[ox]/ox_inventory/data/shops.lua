@@ -98,25 +98,11 @@ return {
 			{ name = "water", price = 100 },
 			{ name = "cola", price = 80 },
 			{ name = "burger", price = 70 },
-		},
-		locations = {
-			vec3(25.846155, -1346.782471, 29.482056),
-		},
-	},
-
-	Fishingshop = {
-		name = "Fishing shop",
-		blip = {
-			id = 68,
-			colour = 69,
-			scale = 0.8,
-		},
-		inventory = {
 			{ name = "fishingrod", price = 100 },
 			{ name = "fishbait", price = 80 },
 		},
 		locations = {
-			vec3(-327.639557, -2793.745117, 5.201416),
+			vec3(25.846155, -1346.782471, 29.482056),
 		},
 	},
 

@@ -208,6 +208,14 @@ return {
 		consume = 0,
 	},
 
+	["steelsheet"]  = {
+		label = "lamiera di acciaio",
+		weight = 60,
+		stack = true,
+		close = false,
+		consume = 0,
+	},
+
 	["identification"] = {
 		label = "Identification",
 	},
@@ -732,5 +740,11 @@ return {
 		weight = 10,
 		stack = true,
 		close = true,
+	},
+
+	["stevo_policebadge"] = {
+		label = "Police Badge",
+		weight = 250,
+		stack = false,
 	},
 }

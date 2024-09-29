@@ -1485,7 +1485,7 @@ RegisterNetEvent('ox_inventory:setPlayerInventory', function(currentDrops, inven
 
 							TriggerServerEvent('ox_inventory:updateWeapon', 'throw', nil, weapon.slot)
 
-							plyState.invBusy = false
+							plyState:set('invBusy', false, true)
 							currentWeapon = nil
 
 							RemoveWeaponFromPed(playerPed, weapon.hash)
@@ -1500,7 +1500,7 @@ RegisterNetEvent('ox_inventory:setPlayerInventory', function(currentDrops, inven
 		end
 	end)
 
-	plyState:set('invBusy', false, false)
+	plyState:set('invBusy', false, true)
 	plyState:set('invOpen', false, false)
 	plyState:set('invHotkeys', true, false)
 	plyState:set('canUseWeapons', true, false)
@@ -1609,7 +1609,10 @@ local function giveItemToTarget(serverId, slotId, count)
     end
 
     Utils.PlayAnim(0, 'mp_common', 'givetake1_a', 1.0, 1.0, 2000, 50, 0.0, 0, 0, 0)
-    TriggerServerEvent('ox_inventory:giveItem', slotId, serverId, count or 0)
+	local notification = lib.callback.await('ox_inventory:giveItem', false, slotId, serverId, count or 0)
+    if notification then
+        lib.notify({ type = 'error', description = locale(table.unpack(notification)) })
+    end
 end
 
 exports('giveItemToTarget', giveItemToTarget)
