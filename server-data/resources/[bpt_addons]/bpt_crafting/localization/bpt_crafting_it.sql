@@ -15,6 +15,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('cottonforbandages', 'cotone per bende'),
 	('cotton', 'cotone'),
 	('ironsheet', 'lamiera di ferro'),
+	('steelsheet', 'lamiera di acciaio'),
 	('garbage', 'rifiuti'),
 	('WEAPON_APPISTOL', 'pistola AP'),
 	('iron', 'Ferro'),
@@ -54,8 +55,9 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('marijuana', 'marijuana'),
 	('cannabis', 'Cannabis'),
 	('diamond_tip', 'Punta di diamante'),
-	('diamond', 'Diamond'),
+	('diamond', 'Diamante'),
 	('marijuana_extract', 'Estratto di marijuana'),
 	('medikit', 'Medikit'),
-	('salmon_fillet', 'Filetto di salmone')
+	('salmon_fillet', 'Filetto di salmone'),
+	('armour', 'giubbotto antiproiettile')
 ;

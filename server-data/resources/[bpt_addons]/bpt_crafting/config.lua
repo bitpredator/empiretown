@@ -169,6 +169,22 @@ Config = {
             },
         },
 
+        ["steelsheet"] = {
+            Level = 0,
+            Category = "manufacturing",
+            isGun = false,
+            Jobs = { "import" },
+            JobGrades = {},
+            Amount = 5,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 60,
+            Ingredients = {
+                ["steel"] = 1,
+                ["hammer"] = 1,
+            },
+        },
+
         ["diamond_tip"] = {
             Level = 0,
             Category = "tools",
@@ -440,6 +456,23 @@ Config = {
             },
         },
 
+        ["armour"] = {
+            Level = 10,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 60,
+            Ingredients = {
+                ["steelsheet"] = 1,
+                ["ironsheet"] = 1,
+                ["hammer"] = 1,
+            },
+        },
+
         ["bread"] = {
             Level = 0,
             Category = "baker",
@@ -526,6 +559,7 @@ Config = {
                 "cottonforbandages",
                 "hammer",
                 "ironsheet",
+                "steelsheet",
                 "recycled_paper",
                 "paper",
                 "recycled_plastic",
@@ -560,6 +594,7 @@ Config = {
                 "WEAPON_KNUCKLE",
                 "WEAPON_NIGHTSTICK",
                 "WEAPON_PISTOL",
+                "armour",
             },
             radius = 1.0,
         },
