@@ -44,7 +44,7 @@ local Weapon = require("modules.weapon.client")
 
 RegisterNetEvent("esx_policejob:handcuff", function()
     PlayerData.cuffed = not PlayerData.cuffed
-    LocalPlayer.state:set("invBusy", PlayerData.cuffed, false)
+    LocalPlayer.state:set('invBusy', PlayerData.cuffed, true)
 
     if not PlayerData.cuffed then
         return
@@ -55,5 +55,5 @@ end)
 
 RegisterNetEvent("esx_policejob:unrestrain", function()
     PlayerData.cuffed = false
-    LocalPlayer.state:set("invBusy", PlayerData.cuffed, false)
+    LocalPlayer.state:set('invBusy', PlayerData.cuffed, true)
 end)
