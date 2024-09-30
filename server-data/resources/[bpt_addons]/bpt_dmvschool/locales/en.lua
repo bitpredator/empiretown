@@ -14,6 +14,7 @@ Locales["en"] = {
     ["passed_test"] = "you passed the test, congratulations!",
     ["failed_test"] = "you ~r~failed the test, better luck next time!",
     ["theory_test"] = "theoretical Driving Test",
+    ['test_failed_go_to_start_point'] = '~r~Go to the starting point, because you failed the test!',
     ["road_test_car"] = "driving Test",
     ["road_test_bike"] = "motorcycle Skills Test",
     ["road_test_truck"] = "truck Skills Test",
