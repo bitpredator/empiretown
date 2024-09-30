@@ -14,6 +14,7 @@ Locales["it"] = {
     ["passed_test"] = "hai superato il test, congratulazioni!",
     ["failed_test"] = "~r~non hai superato il test, buona fortuna per la prossima volta!",
     ["theory_test"] = "Quiz teorico",
+    ['test_failed_go_to_start_point'] = '~r~Vai al punto di partenza, perché hai fallito il test!',
     ["road_test_car"] = "Test pratico auto",
     ["road_test_bike"] = "Test pratico moto",
     ["road_test_truck"] = "Test pratico camion",

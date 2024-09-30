@@ -1,53 +1,5 @@
 local fishing = false
 
-if Config.sellShop.enabled then
-    CreateThread(function()
-        local ped, textUI
-        CreateBlip(Config.sellShop.coords, 356, 1, Strings.sell_shop_blip, 0.80)
-        local point = lib.points.new({
-            coords = Config.sellShop.coords,
-            distance = 30,
-        })
-
-        function point:nearby()
-            if self.currentDistance < self.distance then
-                if not ped then
-                    lib.requestAnimDict("mini@strip_club@idles@bouncer@base", 100)
-                    lib.requestModel(Config.sellShop.ped, 100)
-                    ped = CreatePed(28, Config.sellShop.ped, Config.sellShop.coords.x, Config.sellShop.coords.y, Config.sellShop.coords.z, Config.sellShop.heading, false, false)
-                    FreezeEntityPosition(ped, true)
-                    SetEntityInvincible(ped, true)
-                    SetBlockingOfNonTemporaryEvents(ped, true)
-                    TaskPlayAnim(ped, "mini@strip_club@idles@bouncer@base", "base", 8.0, 0.0, -1, 1, 0, 0, 0, 0)
-                end
-                if self.currentDistance <= 1.8 then
-                    if not textUI then
-                        lib.showTextUI(Strings.sell_fish)
-                        textUI = true
-                    end
-                    if IsControlJustReleased(0, 38) then
-                        FishingSellItems()
-                    end
-                elseif self.currentDistance >= 1.9 and textUI then
-                    lib.hideTextUI()
-                    textUI = nil
-                end
-            end
-        end
-
-        function point:onExit()
-            if ped then
-                local model = GetEntityModel(ped)
-                SetModelAsNoLongerNeeded(model)
-                DeletePed(ped)
-                SetPedAsNoLongerNeeded(ped)
-                RemoveAnimDict("mini@strip_club@idles@bouncer@base")
-                ped = nil
-            end
-        end
-    end)
-end
-
 RegisterNetEvent("wasabi_fishing:startFishing", function()
     if IsPedInAnyVehicle(cache.ped) or IsPedSwimming(cache.ped) then
         TriggerEvent("wasabi_fishing:notify", Strings.cannot_perform, Strings.cannot_perform_desc, "error")
