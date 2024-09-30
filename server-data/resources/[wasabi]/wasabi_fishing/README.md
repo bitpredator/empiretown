@@ -10,11 +10,9 @@ This resource was created as a free interactive fishing script for ESX/QBCore se
 - Chance of fishing rod breaking upon failing skill-check(Can be changed in config)
 - Configurable random wait time for getting bite on line
 - Configurable fishing rewards(4 by default included)
-- Configurable prices to sell fishing rewards
 - Configurable skill-check difficulty per fishing reward
 - Ability to fish from boat, pier, or anywhere with a body of water
 - No job requirement
-- Fully configurable fish buyer to sell fish
 
 ## Dependencies
 - es_extended OR qb-core

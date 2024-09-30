@@ -26,7 +26,3 @@ end
 TryFish = function(data)
     TriggerServerEvent("wasabi_fishing:tryFish", data)
 end
-
-FishingSellItems = function()
-    TriggerServerEvent("wasabi_fishing:sellFish")
-end
