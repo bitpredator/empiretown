@@ -41,7 +41,7 @@ Config.PoliceStations = {
 		Vehicles = {
 			{
 				Spawner = vector3(454.6, -1017.4, 28.4),
-				InsideShop = vector3(228.5, -993.5, -99.5),
+				InsideShop = vector3(444.553833, -1019.498901, 28.605835),
 				SpawnPoints = {
 					{ coords = vector3(438.4, -1018.3, 27.7), heading = 90.0, radius = 6.0 },
 					{ coords = vector3(441.0, -1024.2, 28.3), heading = 90.0, radius = 6.0 },
@@ -131,8 +131,10 @@ Config.AuthorizedVehicles = {
 		boss = {
 			{ model = "riot", price = 70000 },
 			{ model = "fbi2", price = 60000 },
+			{ model = "fbi", price = 60000 },
 			{ model = "policet", price = 18500 },
 			{ model = "policeb", price = 30500 },
+			{ model = "police3", price = 20000 },
 			{ model = "police3", price = 20000 },
 		},
 	},

@@ -1,7 +1,7 @@
 local CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask = {}, {}, {}, {}, {}
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, hasAlreadyJoined, playerInService = false, false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
-dragStatus.isDragged, isInShopMenu = false, false
+dragStatus.isDragged, IsInShopMenu = false, false
 
 function CleanPlayer(playerPed)
     SetPedArmour(playerPed, 0)
@@ -732,7 +732,7 @@ function OpenBuyWeaponsMenu()
 
     for k, v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
         local weaponNum, weapon = ESX.GetWeapon(v.weapon)
-        local components, label = {}
+        local components, label = {}, nil
         local hasWeapon = HasPedGotWeapon(playerPed, joaat(v.weapon), false)
 
         if v.components then
@@ -972,7 +972,7 @@ AddEventHandler("bpt_policejob:hasEnteredMarker", function(station, part, partNu
 end)
 
 AddEventHandler("bpt_policejob:hasExitedMarker", function(station, part, partNum)
-    if not isInShopMenu then
+    if not IsInShopMenu then
         ESX.CloseContext()
     end
 
