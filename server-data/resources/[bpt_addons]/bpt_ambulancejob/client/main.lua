@@ -245,7 +245,7 @@ function StartDeathTimer()
         -- early respawn timer
         while earlySpawnTimer > 0 and IsDead do
             Wait(0)
-            text = TranslateCap("respawn_available_in", secondsToClock(earlySpawnTimer))
+            text = TranslateCap("respawn_available_in", SecondsToClock(earlySpawnTimer))
 
             DrawGenericTextThisFrame()
             BeginTextCommandDisplayText("STRING")
@@ -256,7 +256,7 @@ function StartDeathTimer()
         -- bleedout timer
         while bleedoutTimer > 0 and IsDead do
             Wait(0)
-            text = TranslateCap("respawn_bleedout_in", secondsToClock(bleedoutTimer))
+            text = TranslateCap("respawn_bleedout_in", SecondsToClock(bleedoutTimer))
 
             if not Config.EarlyRespawnFine then
                 text = text .. TranslateCap("respawn_bleedout_prompt")
