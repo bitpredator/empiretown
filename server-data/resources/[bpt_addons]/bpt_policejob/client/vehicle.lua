@@ -200,7 +200,7 @@ end
 
 function OpenShopMenu(elements, restoreCoords, shopCoords)
     local playerPed = PlayerPedId()
-    isInShopMenu = true
+    IsInShopMenu = true
     ESX.OpenContext("right", elements, function(menu, element)
         local elements2 = {
             { unselectable = true, icon = "fas fa-car", title = element.title },
@@ -231,7 +231,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 
                 ESX.OpenContext("right", elements3, function(menu3, element3)
                     if element3.value == "stop" then
-                        isInShopMenu = false
+                        IsInShopMenu = false
                         ESX.CloseContext()
 
                         DeleteSpawnedVehicles()
@@ -249,7 +249,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
                             if bought then
                                 ESX.ShowNotification(TranslateCap("vehicleshop_bought", element.name, ESX.Math.GroupDigits(element.price)))
 
-                                isInShopMenu = false
+                                IsInShopMenu = false
                                 ESX.CloseContext()
                                 DeleteSpawnedVehicles()
                                 FreezeEntityPosition(playerPed, false)
@@ -263,7 +263,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
                         end, props, element.type)
                     end
                 end, function()
-                    isInShopMenu = false
+                    IsInShopMenu = false
                     ESX.CloseContext()
 
                     DeleteSpawnedVehicles()
@@ -281,7 +281,7 @@ CreateThread(function()
     while true do
         Wait(0)
 
-        if isInShopMenu then
+        if IsInShopMenu then
             DisableControlAction(0, 75, true) -- Disable exit vehicle
             DisableControlAction(27, 75, true) -- Disable exit vehicle
         else
