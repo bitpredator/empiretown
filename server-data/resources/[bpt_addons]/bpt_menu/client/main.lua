@@ -82,7 +82,6 @@ local function getPersonalMenuCategory(id)
     return personalMenuCategoriesById[id]
 end
 
-local animationCategory = addPersonalMenuCategory("animation", TranslateCap("animation_title"))
 local plyPed
 
 addPersonalMenuCategory("vehicle", TranslateCap("vehicle_title"), function()
@@ -96,11 +95,6 @@ end)
 addPersonalMenuCategory("admin", TranslateCap("admin_title"), function()
     return adminGroups[PlayerVars.group] ~= nil
 end)
-
-for i = 1, #Config.Animations do
-    local animationCfg = Config.Animations[i]
-    animationCfg.menu = RageUI.CreateSubMenu(animationCategory.menu, animationCfg.name)
-end
 
 if Config.Framework == "esx" then
     AddEventHandler("esx:onPlayerDeath", function()
@@ -196,35 +190,6 @@ function DrawPersonalMenu()
 
             GameNotification(TranslateCap("gps", gpsCfg.name))
         end)
-    end)
-end
-
-getPersonalMenuCategory("animation").drawer = function()
-    for i = 1, #Config.Animations do
-        local animationCfg = Config.Animations[i]
-        RageUI.Button(animationCfg.name, nil, { RightLabel = "→→→" }, true, nil, animationCfg.menu)
-    end
-end
-
-function DrawAnimationsCategory(animationCfg)
-    ruiDrawContent(drawContentOptions, function()
-        for i = 1, #animationCfg.items do
-            local animItemCfg = animationCfg.items[i]
-
-            RageUI.Button(animItemCfg.name, nil, nil, true, function(Hovered, Active, Selected)
-                if not Selected then
-                    return
-                end
-
-                if animItemCfg.type == "anim" then
-                    startAnim(animItemCfg.animDict, animItemCfg.animName)
-                elseif animItemCfg.type == "scenario" then
-                    TaskStartScenarioInPlace(plyPed, animItemCfg.scenarioName, 0, false)
-                elseif animItemCfg.type == "attitude" then
-                    startAttitude(animItemCfg.animSet)
-                end
-            end)
-        end
     end)
 end
 
@@ -497,15 +462,6 @@ CreateThread(function()
             end
         end
 
-        for i = 1, #Config.Animations do
-            local animationCfg = Config.Animations[i]
-
-            if ruiVisible(animationCfg.menu) then
-                DrawAnimationsCategory(animationCfg)
-                goto continue
-            end
-        end
-
         ::continue::
         Wait(0)
     end
@@ -524,11 +480,10 @@ end, false)
 
 RegisterCommand("-stoptask", function() end, false)
 
-RegisterKeyMapping("+stoptask", "Annulez animation", "KEYBOARD", Config.Controls.StopTasks.keyboard)
 TriggerEvent("chat:removeSuggestion", "/+stoptask")
 TriggerEvent("chat:removeSuggestion", "/-stoptask")
 
-function tpMarker()
+function TpMarker()
     local waypointHandle = GetFirstBlipInfoId(8)
 
     if not DoesBlipExist(waypointHandle) then
@@ -571,7 +526,7 @@ CreateThread(function()
                     return
                 end
 
-                tpMarker()
+                TpMarker()
             end)
         end
 
