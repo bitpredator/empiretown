@@ -95,7 +95,6 @@ Config.Controls = {
     HandsUP = { keyboard = "GRAVE" },
     Pointing = { keyboard = "B" },
     Crouch = { keyboard = Keys["LEFTCTRL"] },
-    StopTasks = { keyboard = "X" },
     TPMarker = { keyboard1 = Keys["LEFTALT"], keyboard2 = Keys["E"] },
 }
 
