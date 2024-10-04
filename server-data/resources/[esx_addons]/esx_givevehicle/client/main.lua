@@ -38,7 +38,7 @@ AddEventHandler("esx_giveownedcar:spawnVehicle", function(playerID, model, playe
         if DoesEntityExist(vehicle) then
             carExist = true
             SetEntityVisible(vehicle, false, false)
-            SetEntityCollision(vehicle, false)
+            SetEntityCollision(vehicle, false, false)
 
             local newPlate = exports.esx_vehicleshop:GeneratePlate()
             local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
@@ -77,7 +77,7 @@ AddEventHandler("esx_giveownedcar:spawnVehiclePlate", function(playerID, model, 
                 if DoesEntityExist(vehicle) then
                     carExist = true
                     SetEntityVisible(vehicle, false, false)
-                    SetEntityCollision(vehicle, false)
+                    SetEntityCollision(vehicle, false, false)
 
                     local newPlate = string.upper(plate)
                     local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
