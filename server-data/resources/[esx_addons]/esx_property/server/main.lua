@@ -746,6 +746,7 @@ ESX.RegisterServerCallback("esx_property:SetInventoryPosition", function(source,
     cb(false)
   end
 end)
+
 -- Wardrobe
 ESX.RegisterServerCallback("esx_property:SetWardrobePosition", function(source, cb, PropertyId, Coords, Reset)
   local Property = Properties[PropertyId]
@@ -919,7 +920,7 @@ ESX.RegisterServerCallback('esx_property:StoreVehicle', function(source, cb, Pro
         }
         cb(true)
       end
-      MySQL.query(Config.Garage.MySQLquery, { 1, VehicleProperties.plate }) -- Set vehicle as stored in MySQL
+      MySQL.query(Config.Garage.MySQLquery, {1, VehicleProperties.plate}) -- Set vehicle as stored in MySQL
     else
       xPlayer.showNotification(TranslateCap("garage_not_enabled"), 'error')
       cb(false)
@@ -1089,7 +1090,7 @@ RegisterNetEvent('esx_property:SetVehicleOut', function(PropertyId, VehIndex)
   local VehicleData = Properties[PropertyId].garage.StoredVehicles[VehIndex]
   local plate = VehicleData.vehicle.plate
   table.remove(Properties[PropertyId].garage.StoredVehicles, VehIndex)
-  MySQL.query(Config.Garage.MySQLquery, { 0, plate }) -- Set vehicle as no longer stored
+  MySQL.query(Config.Garage.MySQLquery, {0, plate}) -- Set vehicle as no longer stored
 end)
 
 
