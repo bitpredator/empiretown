@@ -2,7 +2,7 @@ function GetShapeTestResultSync(shape)
     local handle, hit, coords, normal, entity
     repeat
         handle, hit, coords, normal, entity = GetShapeTestResult(shape)
-    until handle ~= 1 or Wait()
+    until handle ~= 1 or Wait(Sleep)
     return hit, coords, normal, entity
 end
 

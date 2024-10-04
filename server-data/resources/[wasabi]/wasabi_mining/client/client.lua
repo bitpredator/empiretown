@@ -29,7 +29,7 @@ CreateThread(function()
                         local axe = CreateObject(model, GetEntityCoords(cache.ped), true, false, false)
                         AttachEntityToEntity(axe, cache.ped, GetPedBoneIndex(cache.ped, 57005), 0.09, 0.03, -0.02, -78.0, 13.0, 28.0, false, true, true, true, 0, true)
                         while mining do
-                            Wait(1)
+                            Wait(sleep)
                             local unarmed = `WEAPON_UNARMED`
                             SetCurrentPedWeapon(cache.ped, unarmed, false)
                             ShowHelp(Strings.intro_instruction)
