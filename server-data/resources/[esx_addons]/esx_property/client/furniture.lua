@@ -9,7 +9,7 @@ if Config.Furniture.Enabled then
     RegisterNetEvent("esx_property:placeFurniture", function(Id, furniture, findex)
         if Properties[Id] and InProperty and CurrentId == Id then
             ESX.Game.SpawnLocalObject(furniture.Name, vector3(furniture.Pos.x, furniture.Pos.y, furniture.Pos.z - 0.1), function(object)
-                SetEntityCoordsNoOffset(object, furniture.Pos.x, furniture.Pos.y, furniture.Pos.z)
+                SetEntityCoordsNoOffset(object, furniture.Pos.x, furniture.Pos.y, furniture.Pos.z, false, false, false)
                 SetEntityHeading(object, furniture.Heading)
                 SetEntityAsMissionEntity(object, true, true)
                 FreezeEntityPosition(object, true)
@@ -31,7 +31,7 @@ if Config.Furniture.Enabled then
         if Properties[Id] and InProperty and CurrentId == Id then
             if SpawnedFurniture[furniture] then
                 local obj = SpawnedFurniture[furniture].obj
-                SetEntityCoordsNoOffset(obj, Pos.x, Pos.y, Pos.z)
+                SetEntityCoordsNoOffset(obj, Pos.x, Pos.y, Pos.z, false, false, false)
                 SetEntityHeading(obj, Heading)
                 SpawnedFurniture[furniture].data.Pos = Pos
                 SpawnedFurniture[furniture].data.Heading = Heading

@@ -102,6 +102,7 @@ Config = {
                 ["marijuana"] = 5,
                 ["bandage"] = 1,
                 ["cottonforbandages"] = 2,
+                ["marijuana_extract"] = 2,
             },
         },
 

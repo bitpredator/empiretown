@@ -123,7 +123,7 @@ end)
 
 function JailLogin()
     local JailPosition = Config.JailPositions["Cell"]
-    SetEntityCoords(PlayerPedId(), JailPosition["x"], JailPosition["y"], JailPosition["z"] - 1)
+    SetEntityCoords(PlayerPedId(), JailPosition["x"], JailPosition["y"], JailPosition["z"] - 1, false, false, false, false)
     ESX.ShowNotification(TranslateCap("back_in_jail"))
     InJail()
 end

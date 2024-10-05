@@ -28,9 +28,9 @@ if Config.Multichar then
         if not ESX.Players[src] then
             local identifier = char .. ":" .. ESX.GetIdentifier(src)
             if data then
-                createESXPlayer(identifier, src, data)
+                CreateESXPlayer(identifier, src, data)
             else
-                loadESXPlayer(identifier, src, false)
+                LoadESXPlayer(identifier, src, false)
             end
         end
     end)
@@ -43,12 +43,12 @@ else
         end
 
         if not ESX.Players[_source] then
-            onPlayerJoined(_source)
+            OnPlayerJoined(_source)
         end
     end)
 end
 
-function onPlayerJoined(playerId)
+function OnPlayerJoined(playerId)
     local identifier = ESX.GetIdentifier(playerId)
     if identifier then
         if ESX.GetPlayerFromIdentifier(identifier) then
@@ -61,9 +61,9 @@ function onPlayerJoined(playerId)
         else
             local result = MySQL.scalar.await("SELECT 1 FROM users WHERE identifier = ?", { identifier })
             if result then
-                loadESXPlayer(identifier, playerId, false)
+                LoadESXPlayer(identifier, playerId, false)
             else
-                createESXPlayer(identifier, playerId)
+                CreateESXPlayer(identifier, playerId)
             end
         end
     else
@@ -71,7 +71,7 @@ function onPlayerJoined(playerId)
     end
 end
 
-function createESXPlayer(identifier, playerId, data)
+function CreateESXPlayer(identifier, playerId, data)
     local accounts = {}
 
     for account, money in pairs(Config.StartingAccountMoney) do
@@ -91,7 +91,7 @@ function createESXPlayer(identifier, playerId, data)
     end
 
     MySQL.prepare(newPlayer, parameters, function()
-        loadESXPlayer(identifier, playerId, true)
+        LoadESXPlayer(identifier, playerId, true)
     end)
 end
 
@@ -123,7 +123,7 @@ if not Config.Multichar then
     end)
 end
 
-function loadESXPlayer(identifier, playerId, isNew)
+function LoadESXPlayer(identifier, playerId, isNew)
     local userData = {
         accounts = {},
         inventory = {},
@@ -306,7 +306,7 @@ end
 
 AddEventHandler("chatMessage", function(playerId, _, message)
     local xPlayer = ESX.GetPlayerFromId(playerId)
-    if message:sub(1, 1) == "/" and playerId > 0 then
+    if xPlayer and message:sub(1, 1) == "/" and playerId > 0 then
         CancelEvent()
         local commandName = message:sub(1):gmatch("%w+")()
         xPlayer.showNotification(TranslateCap("commanderror_invalidcommand", commandName))

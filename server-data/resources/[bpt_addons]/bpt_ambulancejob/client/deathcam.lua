@@ -2,7 +2,7 @@ function GetShapeTestResultSync(shape)
     local handle, hit, coords, normal, entity
     repeat
         handle, hit, coords, normal, entity = GetShapeTestResult(shape)
-    until handle ~= 1 or Wait()
+    until handle ~= 1 or Wait(Sleep)
     return hit, coords, normal, entity
 end
 
@@ -14,14 +14,14 @@ local zoom = Config.zoom
 local playerPed
 
 function StartDeathCam()
-    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 0, 0, 0, 0, 0, 0, GetGameplayCamFov(), 1)
+    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 0, 0, 0, 0, 0, 0, GetGameplayCamFov(), true, 1)
     RenderScriptCams(true, true, 1000, true, false)
 
     playerPed = PlayerPedId()
 end
 
 function EndDeathCam()
-    RenderScriptCams(0)
+    RenderScriptCams(false, false, 0, false, false)
     camera = DestroyCam(camera)
 end
 

@@ -89,9 +89,9 @@ function DrawText3D(x, y, z, text, scale)
 
     SetTextScale(scale, scale)
     SetTextFont(4)
-    SetTextProportional(1)
+    SetTextProportional(true)
     SetTextEntry("STRING")
-    SetTextCentre(1)
+    SetTextCentre(true)
     SetTextColour(255, 255, 255, 255)
     SetTextOutline()
 

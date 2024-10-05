@@ -29,10 +29,10 @@ CreateThread(function()
                         local axe = CreateObject(model, GetEntityCoords(cache.ped), true, false, false)
                         AttachEntityToEntity(axe, cache.ped, GetPedBoneIndex(cache.ped, 57005), 0.09, 0.03, -0.02, -78.0, 13.0, 28.0, false, true, true, true, 0, true)
                         while mining do
-                            Wait()
+                            Wait(sleep)
                             local unarmed = `WEAPON_UNARMED`
-                            SetCurrentPedWeapon(cache.ped, unarmed)
-                            showHelp(Strings.intro_instruction)
+                            SetCurrentPedWeapon(cache.ped, unarmed, false)
+                            ShowHelp(Strings.intro_instruction)
                             DisableControlAction(0, 24, true)
                             if IsDisabledControlJustReleased(0, 24) then
                                 lib.requestAnimDict("melee@hatchet@streamed_core", 100)
@@ -40,7 +40,7 @@ CreateThread(function()
                                 local rockData = lib.callback.await("wasabi_mining:getRockData", 100)
                                 if lib.skillCheck(rockData.difficulty) then
                                     ClearPedTasks(cache.ped)
-                                    tryMine(rockData, i)
+                                    TryMine(rockData, i)
                                 else
                                     local breakChance = math.random(1, 100)
                                     if breakChance < Config.axe.breakChance then
