@@ -90,7 +90,7 @@ const IR8 = {
 			}
 		}
 
-		return IR8.debugPrint(`Event[${event.data.action}] called, but no handler for event is present.`);
+		return IR8.debugPrint(`Event[${e.data.action}] called, but no handler for event is present or action is not allowed.`);
 	},
 
 	/**
