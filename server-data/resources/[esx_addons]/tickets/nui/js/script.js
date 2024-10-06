@@ -78,7 +78,7 @@ const IR8 = {
 
 		// If data action is not provided
 		if (!e.data.action) {
-			IR8.debugPrint('Message received, but not action present.');
+			IR8.debugPrint('Message received, but no action present.');
 			return false;
 		}
 
@@ -212,7 +212,7 @@ const IR8 = {
 	setCategories: () => {
 		if (IR8.state.categories.length) {
 			$('#category').html('');
-			IR8.state.categories.forEach((category, index) => {
+			IR8.state.categories.forEach((category) => {
 				$('#category').append(`<option value="${category}">${category}</option>`);
 			});
 		}
@@ -257,7 +257,7 @@ const IR8 = {
 
 		if (Array.isArray(replies)) {
 			if (replies.length) {
-				replies.forEach((reply, index) => {
+				replies.forEach((reply) => {
 					$('#replies').append(
 						`
                             <div class="card w-100 mt-3">
@@ -304,7 +304,7 @@ const IR8 = {
 
 			buttonTicketStatus.html(res.status);
 			buttonTicketStatuses.html('');
-			IR8.state.statuses.forEach((status, index) => {
+			IR8.state.statuses.forEach((status) => {
 				buttonTicketStatuses.append(
 					`<li><a class="dropdown-item" href="javascript:void(0);" onclick="IR8.updateTicketStatus(${res.id}, '${status.label}');">${status.label}</a></li>`,
 				);
@@ -539,7 +539,7 @@ IR8.handlers.tickets = (data) => {
             `);
 		}
 
-		IR8.state.tickets.forEach((item, key) => {
+		IR8.state.tickets.forEach((item) => {
 
 			const status = item.status.toLowerCase();
 			let badgeType = 'default';
