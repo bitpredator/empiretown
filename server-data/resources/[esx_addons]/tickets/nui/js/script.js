@@ -82,10 +82,11 @@ const IR8 = {
 			return false;
 		}
 
-		if (IR8.handlers[e.data.action]) {
-			if (typeof IR8.handlers[e.data.action] == 'function') {
-				IR8.debugPrint(`Invoking Event[${event.data.action}]`);
-				return IR8.handlers[e.data.action](e.data);
+		if (Object.prototype.hasOwnProperty.call(IR8.handlers, e.data.action)) {
+			const handler = IR8.handlers[e.data.action];
+			if (typeof handler === 'function') {
+				IR8.debugPrint(`Invoking Event[${e.data.action}]`);
+				return handler(e.data);
 			}
 		}
 
