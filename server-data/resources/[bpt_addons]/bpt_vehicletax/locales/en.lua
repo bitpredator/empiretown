@@ -1,3 +1,3 @@
 Locales["en"] = {
-	["vehicle_tax"] = "vehicle tax",
+    ["vehicle_tax"] = "vehicle tax",
 }
