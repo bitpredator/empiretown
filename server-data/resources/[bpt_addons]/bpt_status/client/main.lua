@@ -6,17 +6,17 @@ function GetStatusData(minimal)
     for i = 1, #Status, 1 do
         if minimal then
             table.insert(status, {
-                name    = Status[i].name,
-                val     = Status[i].val,
-                percent = (Status[i].val / Config.StatusMax) * 100
+                name = Status[i].name,
+                val = Status[i].val,
+                percent = (Status[i].val / Config.StatusMax) * 100,
             })
         else
             table.insert(status, {
-                name    = Status[i].name,
-                val     = Status[i].val,
-                color   = Status[i].color,
+                name = Status[i].name,
+                val = Status[i].val,
+                color = Status[i].color,
                 visible = Status[i].visible(Status[i]),
-                percent = (Status[i].val / Config.StatusMax) * 100
+                percent = (Status[i].val / Config.StatusMax) * 100,
             })
         end
     end
@@ -24,7 +24,7 @@ function GetStatusData(minimal)
     return status
 end
 
-AddEventHandler('bpt_status:registerStatus', function(name, default, color, visible, tickCallback)
+AddEventHandler("bpt_status:registerStatus", function(name, default, color, visible, tickCallback)
     local status = CreateStatus(name, default, color, visible, tickCallback)
 
     for i = 1, #OriginalStatus, 1 do
@@ -36,7 +36,7 @@ AddEventHandler('bpt_status:registerStatus', function(name, default, color, visi
     table.insert(Status, status)
 end)
 
-AddEventHandler('bpt_status:unregisterStatus', function(name)
+AddEventHandler("bpt_status:unregisterStatus", function(name)
     for k, v in ipairs(Status) do
         if v.name == name then
             table.remove(Status, k)
@@ -45,25 +45,27 @@ AddEventHandler('bpt_status:unregisterStatus', function(name)
     end
 end)
 
-RegisterNetEvent('esx:onPlayerLogout')
-AddEventHandler('esx:onPlayerLogout', function()
+RegisterNetEvent("esx:onPlayerLogout")
+AddEventHandler("esx:onPlayerLogout", function()
     ESX.PlayerLoaded = false
     Status = {}
     if Config.Display then
         SendNUIMessage({
             update = true,
-            status = Status
+            status = Status,
         })
     end
 end)
 
-RegisterNetEvent('bpt_status:load')
-AddEventHandler('bpt_status:load', function(status)
+RegisterNetEvent("bpt_status:load")
+AddEventHandler("bpt_status:load", function(status)
     OriginalStatus = status
     ESX.PlayerLoaded = true
-    TriggerEvent('bpt_status:loaded')
+    TriggerEvent("bpt_status:loaded")
 
-    if Config.Display then TriggerEvent('bpt_status:setDisplay', 0.5) end
+    if Config.Display then
+        TriggerEvent("bpt_status:setDisplay", 0.5)
+    end
 
     CreateThread(function()
         local data = {}
@@ -73,7 +75,7 @@ AddEventHandler('bpt_status:load', function(status)
                 table.insert(data, {
                     name = Status[i].name,
                     val = Status[i].val,
-                    percent = (Status[i].val / Config.StatusMax) * 100
+                    percent = (Status[i].val / Config.StatusMax) * 100,
                 })
             end
 
@@ -85,19 +87,19 @@ AddEventHandler('bpt_status:load', function(status)
                 end
                 SendNUIMessage({
                     update = true,
-                    status = fullData
+                    status = fullData,
                 })
             end
 
-            TriggerEvent('bpt_status:onTick', data)
+            TriggerEvent("bpt_status:onTick", data)
             table.wipe(data)
             Wait(Config.TickTime)
         end
     end)
 end)
 
-RegisterNetEvent('bpt_status:set')
-AddEventHandler('bpt_status:set', function(name, val)
+RegisterNetEvent("bpt_status:set")
+AddEventHandler("bpt_status:set", function(name, val)
     for i = 1, #Status, 1 do
         if Status[i].name == name then
             Status[i].set(val)
@@ -107,13 +109,13 @@ AddEventHandler('bpt_status:set', function(name, val)
     if Config.Display then
         SendNUIMessage({
             update = true,
-            status = GetStatusData()
+            status = GetStatusData(),
         })
     end
 end)
 
-RegisterNetEvent('bpt_status:add')
-AddEventHandler('bpt_status:add', function(name, val)
+RegisterNetEvent("bpt_status:add")
+AddEventHandler("bpt_status:add", function(name, val)
     for i = 1, #Status, 1 do
         if Status[i].name == name then
             Status[i].add(val)
@@ -123,13 +125,13 @@ AddEventHandler('bpt_status:add', function(name, val)
     if Config.Display then
         SendNUIMessage({
             update = true,
-            status = GetStatusData()
+            status = GetStatusData(),
         })
     end
 end)
 
-RegisterNetEvent('bpt_status:remove')
-AddEventHandler('bpt_status:remove', function(name, val)
+RegisterNetEvent("bpt_status:remove")
+AddEventHandler("bpt_status:remove", function(name, val)
     for i = 1, #Status, 1 do
         if Status[i].name == name then
             Status[i].remove(val)
@@ -139,12 +141,12 @@ AddEventHandler('bpt_status:remove', function(name, val)
     if Config.Display then
         SendNUIMessage({
             update = true,
-            status = GetStatusData()
+            status = GetStatusData(),
         })
     end
 end)
 
-AddEventHandler('bpt_status:getStatus', function(name, cb)
+AddEventHandler("bpt_status:getStatus", function(name, cb)
     for i = 1, #Status, 1 do
         if Status[i].name == name then
             cb(Status[i])
@@ -153,33 +155,33 @@ AddEventHandler('bpt_status:getStatus', function(name, cb)
     end
 end)
 
-AddEventHandler('bpt_status:getAllStatus', function(cb)
+AddEventHandler("bpt_status:getAllStatus", function(cb)
     cb(Status)
 end)
 
-AddEventHandler('bpt_status:setDisplay', function(val)
+AddEventHandler("bpt_status:setDisplay", function(val)
     SendNUIMessage({
         setDisplay = true,
-        display    = val
+        display = val,
     })
 end)
 
 -- Pause menu disable hud display
 if Config.Display then
-    AddEventHandler('esx:pauseMenuActive', function(state)
+    AddEventHandler("esx:pauseMenuActive", function(state)
         if state then
             isPaused = true
-            TriggerEvent('bpt_status:setDisplay', 0.0)
+            TriggerEvent("bpt_status:setDisplay", 0.0)
             return
         end
         isPaused = false
-        TriggerEvent('bpt_status:setDisplay', 0.5)
+        TriggerEvent("bpt_status:setDisplay", 0.5)
     end)
 
     -- Loading screen off event
-    AddEventHandler('esx:loadingScreenOff', function()
+    AddEventHandler("esx:loadingScreenOff", function()
         if not isPaused then
-            TriggerEvent('bpt_status:setDisplay', 0.3)
+            TriggerEvent("bpt_status:setDisplay", 0.3)
         end
     end)
 end
@@ -188,6 +190,8 @@ end
 CreateThread(function()
     while true do
         Wait(Config.UpdateInterval)
-        if ESX.PlayerLoaded then TriggerServerEvent('bpt_status:update', GetStatusData(true)) end
+        if ESX.PlayerLoaded then
+            TriggerServerEvent("bpt_status:update", GetStatusData(true))
+        end
     end
 end)

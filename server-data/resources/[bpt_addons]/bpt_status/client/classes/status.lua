@@ -1,11 +1,11 @@
 function CreateStatus(name, default, color, visible, tickCallback)
-    local self        = {}
+    local self = {}
 
-    self.val          = default
-    self.name         = name
-    self.default      = default
-    self.color        = color
-    self.visible      = visible
+    self.val = default
+    self.name = name
+    self.default = default
+    self.color = color
+    self.visible = visible
     self.tickCallback = tickCallback
 
     function self._set(k, v)
