@@ -64,7 +64,6 @@ function OpenCarRental(index)
                     DeleteEntity(lastLocalVehicle)
                     lastLocalVehicle = nil
                     FreezeEntityPosition(PlayerPedId(), false)
-                    SetEntityInvincible(PlayerPedId(), false)
                     SetEntityCoords(PlayerPedId(), Config.Points[index].Pos)
                 end
                 SpawnLocalVehicle(vehiclesToRent[vehicleId], Config.Points[index].SpawnPoint)
@@ -94,7 +93,6 @@ function OpenCarRental(index)
                     DeleteEntity(lastLocalVehicle)
                     lastLocalVehicle = nil
                     FreezeEntityPosition(PlayerPedId(), false)
-                    SetEntityInvincible(PlayerPedId(), false)
                     SetEntityCoords(PlayerPedId(), Config.Points[index].Pos)
                 end
                 TriggerServerEvent("sqz_carrental:RentVehicle", vehiclesToRent[vehicleId], insurance, price, Config.RentalTimes[rentalTimeIndex], index)
@@ -107,7 +105,6 @@ function OpenCarRental(index)
                 DeleteEntity(lastLocalVehicle)
                 lastLocalVehicle = nil
                 FreezeEntityPosition(PlayerPedId(), false)
-                SetEntityInvincible(PlayerPedId(), false)
                 SetEntityCoords(PlayerPedId(), Config.Points[index].Pos)
             end
             return
@@ -128,11 +125,9 @@ function SpawnLocalVehicle(model, coords)
     SetEntityAsMissionEntity(lastLocalVehicle, true, true)
     SetVehicleOnGroundProperly(lastLocalVehicle)
     FreezeEntityPosition(lastLocalVehicle, true)
-    SetEntityInvincible(lastLocalVehicle, true)
     SetVehicleDoorsLocked(lastLocalVehicle, 2)
     TaskWarpPedIntoVehicle(PlayerPedId(), lastLocalVehicle, -1)
     FreezeEntityPosition(PlayerPedId(), true)
-    SetEntityInvincible(PlayerPedId(), true)
 end
 
 CreateThread(function()
