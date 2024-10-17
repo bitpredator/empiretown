@@ -8,16 +8,10 @@ function getRandomSongNumber() {
 // Function for setting a random song
 function setNewSong() {
 	if (random == 1) {
-		document.getElementById('loading').src = 'song/song1.mp3';
-		songname.innerHTML = 'Asketa & Natan Chaim - More [NCS Release]';
+		document.getElementById('loading').src = 'song/halloween1.mp3';
 	}
 	else if (random == 2) {
-		document.getElementById('loading').src = 'song/song2.mp3';
-		songname.innerHTML = 'Akacia - Electric [NCS Release]';
-	}
-	else if (random == 3) {
-		document.getElementById('loading').src = 'song/song3.mp3';
-		songname.innerHTML = 'Wiguez & Vizzen - Running Wild [NCS Release]';
+		document.getElementById('loading').src = 'song/halloween2.mp3';
 	}
 
 }
@@ -49,25 +43,20 @@ window.addEventListener('keyup', function(e) {
 // Function for lower or higher up sound in background, its working function in script but its not noted in text//
 
 const mutetext = document.getElementById('text');
-// eslint-disable-next-line no-var
-var songname = document.getElementById('songname');
 
 window.addEventListener('keyup', function(event) {
 	// eslint-disable-next-line no-inline-comments
 	if (event.which == 37) { // ArrowLEFT
-		if (document.getElementById('loading').src.endsWith('song2.mp3')) {
-			document.getElementById('loading').src = 'song/song1.mp3';
-			songname.innerHTML = 'Asketa & Natan Chaim - More [NCS Release]';
+		if (document.getElementById('loading').src.endsWith('halloween2.mp3')) {
+			document.getElementById('loading').src = 'song/halloween1.mp3';
 
 		}
-		else if (document.getElementById('loading').src.endsWith('song1.mp3')) {
+		else if (document.getElementById('loading').src.endsWith('halloween1.mp3')) {
 			document.getElementById('loading').src = 'song/song3.mp3';
-			songname.innerHTML = 'Wiguez & Vizzen Ft. Maestro Chives - Running Wild (EH!DE Remix) [NCS Release]';
 
 		}
 		else if (document.getElementById('loading').src.endsWith('song3.mp3')) {
-			document.getElementById('loading').src = 'song/song2.mp3';
-			songname.innerHTML = 'Akacia - Electric [NCS Release]';
+			document.getElementById('loading').src = 'song/halloween2.mp3';
 		}
 		document.getElementById('loading').play();
 		mutetext.innerHTML = 'MUTE';
@@ -75,19 +64,16 @@ window.addEventListener('keyup', function(event) {
 
 	// eslint-disable-next-line no-inline-comments
 	if (event.which == 39) { // ArrowRIGHT
-		if (document.getElementById('loading').src.endsWith('song2.mp3')) {
+		if (document.getElementById('loading').src.endsWith('halloween2.mp3')) {
 			document.getElementById('loading').src = 'song/song3.mp3';
-			songname.innerHTML = 'Wiguez & Vizzen Ft. Maestro Chives - Running Wild (EH!DE Remix) [NCS Release]';
 
 		}
 		else if (document.getElementById('loading').src.endsWith('song3.mp3')) {
-			document.getElementById('loading').src = 'song/song1.mp3';
-			songname.innerHTML = 'Asketa & Natan Chaim - More [NCS Release]';
+			document.getElementById('loading').src = 'song/halloween1.mp3';
 
 		}
-		else if (document.getElementById('loading').src.endsWith('song1.mp3')) {
-			document.getElementById('loading').src = 'song/song2.mp3';
-			songname.innerHTML = 'Akacia - Electric [NCS Release]';
+		else if (document.getElementById('loading').src.endsWith('halloween1.mp3')) {
+			document.getElementById('loading').src = 'song/halloween2.mp3';
 
 		}
 		document.getElementById('loading').play();
