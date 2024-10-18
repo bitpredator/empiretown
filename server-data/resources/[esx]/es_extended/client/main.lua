@@ -140,7 +140,7 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, _, skin)
         for i = 1, 15 do
             EnableDispatchService(i, false)
         end
-        SetAudioFlag('PoliceScannerDisabled', true)
+        SetAudioFlag("PoliceScannerDisabled", true)
     end
 
     -- Disable Scenarios
@@ -709,6 +709,6 @@ ESX.RegisterClientCallback("esx:GetVehicleType", function(cb, model)
     cb(ESX.GetVehicleType(model))
 end)
 
-AddStateBagChangeHandler("metadata", "player:" .. tostring(GetPlayerServerId(PlayerId())), function(_, key, val)
+RegisterNetEvent("esx:updatePlayerData", function(key, val)
     ESX.SetPlayerData(key, val)
 end)
