@@ -1,4 +1,4 @@
-function clone(object)
+function Clone(object)
 	local lookup_table = {}
 	local function copy(object)
 		if type(object) ~= "table" then
@@ -17,7 +17,7 @@ function clone(object)
 end
 
 function MergeConfig(t1, t2)
-	local copy = clone(t1)
+	local copy = Clone(t1)
 	for k, v in pairs(t2) do
 		if type(v) == "table" then
 			if type(copy[k] or false) == "table" then

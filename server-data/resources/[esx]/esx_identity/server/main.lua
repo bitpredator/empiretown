@@ -21,17 +21,30 @@ local function deleteIdentityFromDatabase(xPlayer)
 	end
 end
 
+function SetPlayerData(xPlayer, data)
+	local name = ("%s %s"):format(data.firstName, data.lastName)
+	xPlayer.setName(name)
+	xPlayer.set("firstName", data.firstName)
+	xPlayer.set("lastName", data.lastName)
+	xPlayer.set("dateofbirth", data.dateOfBirth)
+	xPlayer.set("sex", data.sex)
+	xPlayer.set("height", data.height)
+
+	local state = Player(xPlayer.source).state
+	state:set("name", name, true)
+	state:set("firstName", data.firstName, true)
+	state:set("lastName", data.lastName, true)
+	state:set("dateofbirth", data.dateOfBirth, true)
+	state:set("sex", data.sex, true)
+	state:set("height", data.height, true)
+end
+
 local function deleteIdentity(xPlayer)
 	if not alreadyRegistered[xPlayer.identifier] then
 		return
 	end
 
-	xPlayer.setName(("%s %s"):format(nil, nil))
-	xPlayer.set("firstName", nil)
-	xPlayer.set("lastName", nil)
-	xPlayer.set("dateofbirth", nil)
-	xPlayer.set("sex", nil)
-	xPlayer.set("height", nil)
+	SetPlayerData(xPlayer, { firstName = nil, lastName = nil, dateOfBirth = nil, sex = nil, height = nil })
 	deleteIdentityFromDatabase(xPlayer)
 end
 
@@ -256,12 +269,8 @@ if Config.UseDeferrals then
 		end
 
 		local currentIdentity = playerIdentity[xPlayer.identifier]
-		xPlayer.setName(("%s %s"):format(currentIdentity.firstName, currentIdentity.lastName))
-		xPlayer.set("firstName", currentIdentity.firstName)
-		xPlayer.set("lastName", currentIdentity.lastName)
-		xPlayer.set("dateofbirth", currentIdentity.dateOfBirth)
-		xPlayer.set("sex", currentIdentity.sex)
-		xPlayer.set("height", currentIdentity.height)
+		SetPlayerData(xPlayer, currentIdentity)
+
 		if currentIdentity.saveToDatabase then
 			saveIdentityToDatabase(xPlayer.identifier, currentIdentity)
 		end
@@ -277,13 +286,8 @@ else
 			return
 		end
 		local currentIdentity = playerIdentity[xPlayer.identifier]
+		SetPlayerData(xPlayer, currentIdentity)
 
-		xPlayer.setName(("%s %s"):format(currentIdentity.firstName, currentIdentity.lastName))
-		xPlayer.set("firstName", currentIdentity.firstName)
-		xPlayer.set("lastName", currentIdentity.lastName)
-		xPlayer.set("dateofbirth", currentIdentity.dateOfBirth)
-		xPlayer.set("sex", currentIdentity.sex)
-		xPlayer.set("height", currentIdentity.height)
 		TriggerClientEvent("esx_identity:setPlayerData", xPlayer.source, currentIdentity)
 		if currentIdentity.saveToDatabase then
 			saveIdentityToDatabase(xPlayer.identifier, currentIdentity)
@@ -382,12 +386,8 @@ else
 			local currentIdentity = playerIdentity[xPlayer.identifier]
 
 			if currentIdentity and alreadyRegistered[xPlayer.identifier] then
-				xPlayer.setName(("%s %s"):format(currentIdentity.firstName, currentIdentity.lastName))
-				xPlayer.set("firstName", currentIdentity.firstName)
-				xPlayer.set("lastName", currentIdentity.lastName)
-				xPlayer.set("dateofbirth", currentIdentity.dateOfBirth)
-				xPlayer.set("sex", currentIdentity.sex)
-				xPlayer.set("height", currentIdentity.height)
+				SetPlayerData(xPlayer, currentIdentity)
+
 				TriggerClientEvent("esx_identity:setPlayerData", xPlayer.source, currentIdentity)
 				if currentIdentity.saveToDatabase then
 					saveIdentityToDatabase(xPlayer.identifier, currentIdentity)
@@ -442,12 +442,8 @@ else
 
 			local currentIdentity = playerIdentity[xPlayer.identifier]
 
-			xPlayer.setName(("%s %s"):format(currentIdentity.firstName, currentIdentity.lastName))
-			xPlayer.set("firstName", currentIdentity.firstName)
-			xPlayer.set("lastName", currentIdentity.lastName)
-			xPlayer.set("dateofbirth", currentIdentity.dateOfBirth)
-			xPlayer.set("sex", currentIdentity.sex)
-			xPlayer.set("height", currentIdentity.height)
+			SetPlayerData(xPlayer, currentIdentity)
+
 			TriggerClientEvent("esx_identity:setPlayerData", xPlayer.source, currentIdentity)
 			saveIdentityToDatabase(xPlayer.identifier, currentIdentity)
 			alreadyRegistered[xPlayer.identifier] = true
