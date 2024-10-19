@@ -20,7 +20,7 @@ AddEventHandler("esx:setJob", function(job)
 end)
 
 AddEventHandler("esx:onPlayerDeath", function()
-	closeMenu()
+	CloseMenu()
 end)
 
 -- Appearance Events
@@ -83,7 +83,7 @@ RegisterNetEvent("fivem-appearance:saveOutfit", function()
 end)
 
 AddEventHandler("fivem-appearance:clothingMenu", function(price)
-	openShop("clothing_menu", price)
+	OpenShop("clothing_menu", price)
 end)
 
 RegisterNetEvent("fivem-appearance:deleteOutfitMenu", function()
@@ -196,7 +196,7 @@ end)
 CreateThread(function()
 	for i = 1, #Config.ClothingShops do
 		if Config.ClothingShops[i].blip.enabled then
-			createBlip(
+			CreateBlip(
 				Config.ClothingShops[i].coords,
 				Config.ClothingShops[i].blip.sprite,
 				Config.ClothingShops[i].blip.color,
@@ -207,7 +207,7 @@ CreateThread(function()
 	end
 	for i = 1, #Config.BarberShops do
 		if Config.BarberShops[i].blip.enabled then
-			createBlip(
+			CreateBlip(
 				Config.BarberShops[i].coords,
 				Config.BarberShops[i].blip.sprite,
 				Config.BarberShops[i].blip.color,
@@ -218,7 +218,7 @@ CreateThread(function()
 	end
 	for i = 1, #Config.TattooShops do
 		if Config.TattooShops[i].blip.enabled then
-			createBlip(
+			CreateBlip(
 				Config.TattooShops[i].coords,
 				Config.TattooShops[i].blip.sprite,
 				Config.TattooShops[i].blip.color,
@@ -230,7 +230,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-	shops = consolidateShops()
+	shops = ConsolidateShops()
 	local textUI = {}
 	while true do
 		local sleep = 2000
@@ -240,12 +240,12 @@ CreateThread(function()
 				local dist = #(coords - v.coords)
 				if dist < (v.distance + 1) then
 					if not textUI[k] then
-						lib.showTextUI(showTextUI(v.store))
+						lib.showTextUI(ShowTextUI(v.store))
 						textUI[k] = true
 					end
 					sleep = 0
 					if IsControlJustReleased(0, 38) then
-						openShop(v.store, v.price)
+						OpenShop(v.store, v.price)
 					end
 				elseif dist > v.distance and textUI[k] then
 					lib.hideTextUI()

@@ -1,4 +1,4 @@
-closeMenu = function()
+CloseMenu = function()
 	RenderScriptCams(false, false, 0, true, true)
 	DestroyAllCams(true)
 	DisplayRadar(true)
@@ -12,11 +12,11 @@ closeMenu = function()
 	})
 end
 
-addCommas = function(n)
+AddCommas = function(n)
 	return tostring(math.floor(n)):reverse():gsub("(%d%d%d)", "%1,"):gsub(",(%-?)$", "%1"):reverse()
 end
 
-createBlip = function(coords, sprite, color, text, scale)
+CreateBlip = function(coords, sprite, color, text, scale)
 	local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
 	SetBlipSprite(blip, sprite)
 	SetBlipDisplay(blip, 4)
@@ -28,7 +28,7 @@ createBlip = function(coords, sprite, color, text, scale)
 	EndTextCommandSetBlipName(blip)
 end
 
-consolidateShops = function()
+ConsolidateShops = function()
 	local shops = {}
 	for _, v in ipairs(Config.ClothingShops) do
 		shops[#shops + 1] = { coords = v.coords, distance = v.distance, price = v.price, store = "clothing" }
@@ -42,7 +42,7 @@ consolidateShops = function()
 	return shops
 end
 
-showTextUI = function(store)
+ShowTextUI = function(store)
 	if store == "clothing" then
 		store = Strings.clothing_menu
 	elseif store == "barber" then
@@ -53,7 +53,7 @@ showTextUI = function(store)
 	return store
 end
 
-openShop = function(store, price)
+OpenShop = function(store, price)
 	local ped = cache.ped
 	local currentAppearance = exports["fivem-appearance"]:getPedAppearance(ped)
 	local tetovaze = exports["fivem-appearance"]:getPedTattoos(ped)
@@ -104,7 +104,7 @@ openShop = function(store, price)
 					if paid then
 						lib.notify({
 							title = Strings.success,
-							description = (Strings.success_desc):format(addCommas(price)),
+							description = (Strings.success_desc):format(AddCommas(price)),
 							duration = 3500,
 							icon = "basket-shopping",
 							type = "success",
@@ -132,13 +132,13 @@ openShop = function(store, price)
 				end
 			else
 				ESX.SetPlayerData("ped", PlayerPedId())
-				inMenu = false
+				InMenu = false
 			end
 		end, config)
 	end
 end
 
-openWardrobe = function()
+OpenWardrobe = function()
 	local outfits = lib.callback.await("fivem-appearance:getOutfits", 100)
 	local Options = {}
 	if outfits then
@@ -170,10 +170,10 @@ openWardrobe = function()
 	lib.showContext("wardrobe_menu")
 end
 
-exports("openWardrobe", openWardrobe)
+exports("openWardrobe", OpenWardrobe)
 
 -- ESX Skin/Skin Changer compatibility
-convertClothes = function(outfit)
+ConvertClothes = function(outfit)
 	local data = {}
 	data.Components = exports["fivem-appearance"]:getPedComponents(cache.ped)
 	data.Props = exports["fivem-appearance"]:getPedProps(cache.ped)
