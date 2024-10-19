@@ -42,7 +42,7 @@ local function onEnterShop(point)
 
 		SetModelAsNoLongerNeeded(model)
 		FreezeEntityPosition(entity, true)
-		SetEntityInvincible(entity, true)
+		SetEntityInvincible(entity, false)
 		SetBlockingOfNonTemporaryEvents(entity, true)
 
 		exports.ox_target:addLocalEntity(entity, {

@@ -20,7 +20,7 @@ CreateThread(function() -- Examples
 	SetPedDiesWhenInjured(ped_info, false) -- Can Die?
 	SetPedCanPlayAmbientAnims(ped_info, true) -- Don't Change
 	SetPedCanRagdollFromPlayerImpact(ped_info, false) -- Ped Fall Down
-	SetEntityInvincible(ped_info, true) -- Ped Invincible
+	SetEntityInvincible(ped_info, false) -- Ped Invincible
 	FreezeEntityPosition(ped_info, true) -- Don't Change
 	TaskStartScenarioInPlace(ped_info, "WORLD_HUMAN_COP_IDLES", 0, true) -- Ped Anim
 end)
