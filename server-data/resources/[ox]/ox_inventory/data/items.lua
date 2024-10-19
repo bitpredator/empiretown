@@ -747,4 +747,10 @@ return {
 		weight = 250,
 		stack = false,
 	},
+
+	["halloween"] = {
+		label = "Halloween",
+		weight = 00,
+		stack = true,
+	},
 }
