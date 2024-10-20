@@ -219,7 +219,7 @@ function ShowPedMenu(zoom)
             ClonePedToTarget(PlayerPedId(), clonedPed)
 
             SetEntityCollision(clonedPed, false, false)
-            SetEntityInvincible(clonedPed, true)
+            SetEntityInvincible(clonedPed, false)
             SetEntityLocallyVisible(clonedPed)
 
             NetworkSetEntityInvisibleToNetwork(clonedPed, true)

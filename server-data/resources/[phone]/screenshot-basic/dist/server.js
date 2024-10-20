@@ -14,7 +14,7 @@
 /* eslint-disable no-constant-binary-expression */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-inline-comments */
-(function(modules) { // webpackBootstrap
+(function(modules) {
  	// The module cache
  	const installedModules = {};
 

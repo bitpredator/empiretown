@@ -174,7 +174,7 @@ if Config.UsePED then
                     end
                     ped = CreatePed(4, model, Config.Duty.x, Config.Duty.y, Config.Duty.z, Config.Duty.w, false, false)
                     FreezeEntityPosition(ped, true)
-                    SetEntityInvincible(ped, true)
+                    SetEntityInvincible(ped, false)
                     SetPedCanRagdollFromPlayerImpact(ped, false)
                     SetPedCanRagdoll(ped, false)
                     SetBlockingOfNonTemporaryEvents(ped, true)

@@ -48,10 +48,6 @@ body {
     fill: transparent;
 }
 
-.ui-dial svg circle:nth-child(2) {
-    /* z-index: 11; */
-}
-
 .ui-dial svg circle:last-child {
     z-index: 10;
     opacity: 0.8;

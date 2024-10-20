@@ -38,7 +38,7 @@ Citizen.CreateThread(function()
 						SetModelAsNoLongerNeeded(model)
 
 						FreezeEntityPosition(npc, true)
-						SetEntityInvincible(npc, true)
+						SetEntityInvincible(npc, false)
 						SetBlockingOfNonTemporaryEvents(npc, true)
 
 						if pedGroup.scenario then

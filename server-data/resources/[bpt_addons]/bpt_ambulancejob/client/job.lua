@@ -64,7 +64,7 @@ function OpenMobileAmbulanceActionsMenu()
                     ESX.ShowNotification(TranslateCap("no_players"))
                 else
                     if element2.value == "revive" then
-                        revivePlayer(closestPlayer)
+                        RevivePlayer(closestPlayer)
                     elseif element2.value == "small" then
                         ESX.TriggerServerCallback("bpt_ambulancejob:getItemAmount", function(quantity)
                             if quantity > 0 then
