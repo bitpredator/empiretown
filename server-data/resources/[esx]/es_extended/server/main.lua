@@ -240,7 +240,7 @@ function loadESXPlayer(identifier, playerId, isNew)
     end
 
     -- Position
-    userData.coords = json.decode(result.position) or Config.DefaultSpawns[math.random(#Config.DefaultSpawns)]
+    userData.coords = json.decode(result.position) or Config.DefaultSpawns[ESX.Math.Random(1,#Config.DefaultSpawns)]
 
     -- Skin
     userData.skin = (result.skin and result.skin ~= "") and json.decode(result.skin) or { sex = userData.sex == "f" and 1 or 0 }
@@ -306,7 +306,7 @@ end
 
 AddEventHandler("chatMessage", function(playerId, _, message)
     local xPlayer = ESX.GetPlayerFromId(playerId)
-    if message:sub(1, 1) == "/" and playerId > 0 then
+    if xPlayer and message:sub(1, 1) == "/" and playerId > 0 then
         CancelEvent()
         local commandName = message:sub(1):gmatch("%w+")()
         xPlayer.showNotification(TranslateCap("commanderror_invalidcommand", commandName))
@@ -689,13 +689,13 @@ AddEventHandler("onResourceStart", function(key)
         end
 
         StopResource(key)
-        print(("[^1ERROR^7] WE STOPPED A RESOURCE THAT WILL BREAK ^1ESX^7, PLEASE REMOVE ^5%s^7"):format(key))
+        error(("WE STOPPED A RESOURCE THAT WILL BREAK ^1ESX^7, PLEASE REMOVE ^5%s^7"):format(key))
     end
 end)
 
 for key in pairs(DoNotUse) do
     if GetResourceState(key) == "started" or GetResourceState(key) == "starting" then
         StopResource(key)
-        print(("[^1ERROR^7] WE STOPPED A RESOURCE THAT WILL BREAK ^1ESX^7, PLEASE REMOVE ^5%s^7"):format(key))
+        error(("WE STOPPED A RESOURCE THAT WILL BREAK ^1ESX^7, PLEASE REMOVE ^5%s^7"):format(key))
     end
 end
