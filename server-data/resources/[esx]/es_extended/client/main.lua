@@ -25,14 +25,19 @@ function ESX.SpawnPlayer(skin, coords, cb)
     end)
     Citizen.Await(p)
 
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+
     local playerPed = PlayerPedId()
+    local timer = GetGameTimer()
+
     FreezeEntityPosition(playerPed, true)
     SetEntityCoordsNoOffset(playerPed, coords.x, coords.y, coords.z, false, false, false, true)
     SetEntityHeading(playerPed, coords.heading)
-    while not HasCollisionLoadedAroundEntity(playerPed) do
+
+    while not HasCollisionLoadedAroundEntity(playerPed) and (GetGameTimer() - timer) < 5000 do
         Wait(0)
     end
-    FreezeEntityPosition(playerPed, false)
+
     NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, coords.heading, true, true, false)
     TriggerEvent("playerSpawned", coords)
     cb()
@@ -204,6 +209,10 @@ AddEventHandler("esx:playerLoaded", function(xPlayer, _, skin)
         end
     end
 
+    if not Config.Multichar then
+        FreezeEntityPosition(ESX.PlayerData.ped, false)
+    end
+
     if IsScreenFadedOut() then
         DoScreenFadeIn(500)
     end
@@ -327,17 +336,17 @@ if not Config.OxInventory then
 
     RegisterNetEvent("esx:addWeapon")
     AddEventHandler("esx:addWeapon", function()
-        print("[^1ERROR^7] event ^5'esx:addWeapon'^7 Has Been Removed. Please use ^5xPlayer.addWeapon^7 Instead!")
+        error("event ^5'esx:addWeapon'^7 Has Been Removed. Please use ^5xPlayer.addWeapon^7 Instead!")
     end)
 
     RegisterNetEvent("esx:addWeaponComponent")
     AddEventHandler("esx:addWeaponComponent", function()
-        print("[^1ERROR^7] event ^5'esx:addWeaponComponent'^7 Has Been Removed. Please use ^5xPlayer.addWeaponComponent^7 Instead!")
+        error("event ^5'esx:addWeaponComponent'^7 Has Been Removed. Please use ^5xPlayer.addWeaponComponent^7 Instead!")
     end)
 
     RegisterNetEvent("esx:setWeaponAmmo")
     AddEventHandler("esx:setWeaponAmmo", function()
-        print("[^1ERROR^7] event ^5'esx:setWeaponAmmo'^7 Has Been Removed. Please use ^5xPlayer.addWeaponAmmo^7 Instead!")
+        error("event ^5'esx:setWeaponAmmo'^7 Has Been Removed. Please use ^5xPlayer.addWeaponAmmo^7 Instead!")
     end)
 
     RegisterNetEvent("esx:setWeaponTint")
@@ -347,7 +356,7 @@ if not Config.OxInventory then
 
     RegisterNetEvent("esx:removeWeapon")
     AddEventHandler("esx:removeWeapon", function()
-        print("[^1ERROR^7] event ^5'esx:removeWeapon'^7 Has Been Removed. Please use ^5xPlayer.removeWeapon^7 Instead!")
+        error("event ^5'esx:removeWeapon'^7 Has Been Removed. Please use ^5xPlayer.removeWeapon^7 Instead!")
     end)
 
     RegisterNetEvent("esx:removeWeaponComponent")
