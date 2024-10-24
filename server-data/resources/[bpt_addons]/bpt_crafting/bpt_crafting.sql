@@ -60,4 +60,5 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('medikit', 'Medikit'),
 	('salmon_fillet', 'Salmon Fillet'),
 	('armour', 'armour'),
+	('WEAPON_FLASHLIGHT', 'WEAPON FLASHLIGHT')
 ;

@@ -59,5 +59,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('marijuana_extract', 'Estratto di marijuana'),
 	('medikit', 'Medikit'),
 	('salmon_fillet', 'Filetto di salmone'),
-	('armour', 'giubbotto antiproiettile')
+	('armour', 'giubbotto antiproiettile'),
+	('WEAPON_FLASHLIGHT', 'Torcia')
 ;
