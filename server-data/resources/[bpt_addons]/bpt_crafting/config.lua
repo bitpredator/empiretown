@@ -440,6 +440,24 @@ Config = {
             },
         },
 
+        ["WEAPON_FLASHLIGHT"] = {
+            Level = 10,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 60,
+            Ingredients = {
+                ["diamond"] = 1,
+                ["copper"] = 1,
+                ["hammer"] = 1,
+                ["recycled_plastic"] = 1,
+            },
+        },
+
         ["WEAPON_NIGHTSTICK"] = {
             Level = 10,
             Category = "ammu",
@@ -596,6 +614,7 @@ Config = {
                 "WEAPON_NIGHTSTICK",
                 "WEAPON_PISTOL",
                 "armour",
+                "WEAPON_FLASHLIGHT",
             },
             radius = 1.0,
         },

@@ -753,4 +753,10 @@ return {
 		weight = 00,
 		stack = true,
 	},
+
+	["WEAPON_FLASHLIGHT"] = {
+		label = "Torcia",
+		weight = 50,
+		stack = false,
+	},
 }
