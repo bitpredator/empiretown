@@ -40,6 +40,7 @@ local ruiDrawContent = RageUI.DrawContent
 local adminGroups = {
     ["mod"] = true,
     ["admin"] = true,
+    ["helper"] = true,
 }
 
 CreateThread(function()
@@ -145,7 +146,7 @@ function KeyboardInput(entryTitle, textEntry, inputText, maxLength)
     end
 end
 
-function startAttitude(animSet)
+function StartAttitude(animSet)
     if not animSet then
         ResetPedMovementClipset(plyPed, 1.0)
         return
@@ -159,7 +160,7 @@ function startAttitude(animSet)
     RemoveAnimSet(animSet)
 end
 
-function startAnim(animDict, animName)
+function StartAnim(animDict, animName)
     LoadAnimDict(animDict)
     TaskPlayAnim(plyPed, animDict, animName, 8.0, 1.0, -1, 49, 0, false, false, false)
     RemoveAnimDict(animDict)

@@ -278,7 +278,7 @@ Config.AdminCommands = {
     {
         id = "showname",
         name = TranslateCap("admin_showname_button"),
-        groups = { "admin", "mod" },
+        groups = { "admin", "mod", "helper" },
         command = function()
             PlayerVars.showName = not PlayerVars.showName
 
@@ -307,7 +307,7 @@ Config.AdminCommands = {
     {
         id = "revive",
         name = TranslateCap("admin_revive_button"),
-        groups = { "admin" },
+        groups = { "admin", "helper" },
         command = function()
             local targetServerId = KeyboardInput("PM_BOX_ID", TranslateCap("dialogbox_playerid"), "", 8)
             if not targetServerId then
