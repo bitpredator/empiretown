@@ -153,8 +153,4 @@ end)
 -- CLEANUP ON RESOURCE STOP
 --
 -------------------------------------------------
-AddEventHandler("onResourceStop", function(resource)
-    if resource == GetCurrentResourceName() then
-      -- Any cleanup if necessary.If not, remove this
-    end
-end)
+AddEventHandler("onResourceStop", function(resource) end)
