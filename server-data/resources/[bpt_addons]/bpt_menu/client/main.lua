@@ -146,26 +146,6 @@ function KeyboardInput(entryTitle, textEntry, inputText, maxLength)
     end
 end
 
-function StartAttitude(animSet)
-    if not animSet then
-        ResetPedMovementClipset(plyPed, 1.0)
-        return
-    end
-
-    LoadAnimSet(animSet)
-
-    SetPedMotionBlur(plyPed, false)
-    SetPedMovementClipset(plyPed, animSet, 1.0)
-
-    RemoveAnimSet(animSet)
-end
-
-function StartAnim(animDict, animName)
-    LoadAnimDict(animDict)
-    TaskPlayAnim(plyPed, animDict, animName, 8.0, 1.0, -1, 49, 0, false, false, false)
-    RemoveAnimDict(animDict)
-end
-
 function DrawPersonalMenu()
     ruiDrawContent(drawContentOptions, function()
         for i = 1, #personalMenuCategories do
@@ -236,7 +216,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
                 SetVehicleDoorOpen(plyVeh, 0, false, false)
             elseif PersonalMenu.DoorState.FrontLeft then
                 PersonalMenu.DoorState.FrontLeft = false
-                SetVehicleDoorShut(plyVeh, 0, false, false)
+                SetVehicleDoorShut(plyVeh, 0, false)
             end
         elseif Index == 2 then
             if not PersonalMenu.DoorState.FrontRight then
@@ -244,7 +224,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
                 SetVehicleDoorOpen(plyVeh, 1, false, false)
             elseif PersonalMenu.DoorState.FrontRight then
                 PersonalMenu.DoorState.FrontRight = false
-                SetVehicleDoorShut(plyVeh, 1, false, false)
+                SetVehicleDoorShut(plyVeh, 1, false)
             end
         elseif Index == 3 then
             if not PersonalMenu.DoorState.BackLeft then
@@ -252,7 +232,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
                 SetVehicleDoorOpen(plyVeh, 2, false, false)
             elseif PersonalMenu.DoorState.BackLeft then
                 PersonalMenu.DoorState.BackLeft = false
-                SetVehicleDoorShut(plyVeh, 2, false, false)
+                SetVehicleDoorShut(plyVeh, 2, false)
             end
         elseif Index == 4 then
             if not PersonalMenu.DoorState.BackRight then
@@ -260,7 +240,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
                 SetVehicleDoorOpen(plyVeh, 3, false, false)
             elseif PersonalMenu.DoorState.BackRight then
                 PersonalMenu.DoorState.BackRight = false
-                SetVehicleDoorShut(plyVeh, 3, false, false)
+                SetVehicleDoorShut(plyVeh, 3, false)
             end
         end
     end)
