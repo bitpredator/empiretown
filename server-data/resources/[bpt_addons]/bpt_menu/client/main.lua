@@ -40,6 +40,7 @@ local ruiDrawContent = RageUI.DrawContent
 local adminGroups = {
     ["mod"] = true,
     ["admin"] = true,
+    ["helper"] = true,
 }
 
 CreateThread(function()
@@ -145,26 +146,6 @@ function KeyboardInput(entryTitle, textEntry, inputText, maxLength)
     end
 end
 
-function startAttitude(animSet)
-    if not animSet then
-        ResetPedMovementClipset(plyPed, 1.0)
-        return
-    end
-
-    LoadAnimSet(animSet)
-
-    SetPedMotionBlur(plyPed, false)
-    SetPedMovementClipset(plyPed, animSet, 1.0)
-
-    RemoveAnimSet(animSet)
-end
-
-function startAnim(animDict, animName)
-    LoadAnimDict(animDict)
-    TaskPlayAnim(plyPed, animDict, animName, 8.0, 1.0, -1, 49, 0, false, false, false)
-    RemoveAnimDict(animDict)
-end
-
 function DrawPersonalMenu()
     ruiDrawContent(drawContentOptions, function()
         for i = 1, #personalMenuCategories do
@@ -235,7 +216,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
                 SetVehicleDoorOpen(plyVeh, 0, false, false)
             elseif PersonalMenu.DoorState.FrontLeft then
                 PersonalMenu.DoorState.FrontLeft = false
-                SetVehicleDoorShut(plyVeh, 0, false, false)
+                SetVehicleDoorShut(plyVeh, 0, false)
             end
         elseif Index == 2 then
             if not PersonalMenu.DoorState.FrontRight then
