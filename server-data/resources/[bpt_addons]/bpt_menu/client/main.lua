@@ -224,7 +224,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
                 SetVehicleDoorOpen(plyVeh, 1, false, false)
             elseif PersonalMenu.DoorState.FrontRight then
                 PersonalMenu.DoorState.FrontRight = false
-                SetVehicleDoorShut(plyVeh, 1, false)
+                SetVehicleDoorShut(plyVeh, 1, false, false)
             end
         elseif Index == 3 then
             if not PersonalMenu.DoorState.BackLeft then
@@ -232,7 +232,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
                 SetVehicleDoorOpen(plyVeh, 2, false, false)
             elseif PersonalMenu.DoorState.BackLeft then
                 PersonalMenu.DoorState.BackLeft = false
-                SetVehicleDoorShut(plyVeh, 2, false)
+                SetVehicleDoorShut(plyVeh, 2, false, false)
             end
         elseif Index == 4 then
             if not PersonalMenu.DoorState.BackRight then
@@ -240,7 +240,7 @@ getPersonalMenuCategory("vehicle").drawer = function()
                 SetVehicleDoorOpen(plyVeh, 3, false, false)
             elseif PersonalMenu.DoorState.BackRight then
                 PersonalMenu.DoorState.BackRight = false
-                SetVehicleDoorShut(plyVeh, 3, false)
+                SetVehicleDoorShut(plyVeh, 3, false, false)
             end
         end
     end)
