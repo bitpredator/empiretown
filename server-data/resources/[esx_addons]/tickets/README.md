@@ -35,6 +35,7 @@ If you need any support, feel free to reach out to us via our Discord: https://d
 ```
 # Ticket Administration Ace
 add_ace group.admin ticket.admin allow
+add_ace group.helper ticket.helper allow
 ```
 
 ### Webhook Configuration

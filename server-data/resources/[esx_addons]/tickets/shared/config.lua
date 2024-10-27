@@ -65,7 +65,7 @@ IR8.Config = {
     },
 
     -- Those with the following ace permissions will have admin access
-    AdminPermissions = { "ticket.admin" },
+    AdminPermissions = { "ticket.admin", "ticket.helper" },
 
     -- Command information
     Commands = {
