@@ -246,7 +246,7 @@ Config.AdminCommands = {
     {
         id = "repairveh",
         name = TranslateCap("admin_repairveh_button"),
-        groups = { "admin" },
+        groups = { "admin", "helper" },
         command = function()
             local plyPed = PlayerPedId()
             local plyVeh = GetVehiclePedIsIn(plyPed, false)

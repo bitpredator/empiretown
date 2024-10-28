@@ -79,7 +79,7 @@ Config.Impounds = {
         SpawnPoint = {
             x = 401.9,
             y = -1647.4,
-            z = 30.2,
+            z = 29.2,
             heading = 323.3,
         },
         Sprite = 524,
