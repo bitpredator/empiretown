@@ -42,7 +42,7 @@ Config.Garages = {
         SpawnPoint = {
             x = -309.3,
             y = -897.0,
-            z = 31.0,
+            z = 30.0,
             heading = 351.8,
         },
         Sprite = 357,
