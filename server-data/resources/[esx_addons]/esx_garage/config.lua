@@ -42,7 +42,7 @@ Config.Garages = {
         SpawnPoint = {
             x = -309.3,
             y = -897.0,
-            z = 30.0,
+            z = 31.0,
             heading = 351.8,
         },
         Sprite = 357,
@@ -79,7 +79,7 @@ Config.Impounds = {
         SpawnPoint = {
             x = 401.9,
             y = -1647.4,
-            z = 29.2,
+            z = 30.2,
             heading = 323.3,
         },
         Sprite = 524,
