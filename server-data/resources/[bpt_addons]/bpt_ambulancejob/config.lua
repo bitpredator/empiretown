@@ -72,38 +72,6 @@ Config.Hospitals = {
                 },
             },
         },
-
-        FastTravels = {
-            -- roof access (ok)
-            {
-                From = vector3(329.393402, -601.081299, 42.282104),
-                To = { coords = vector3(341.076935, -581.604370, 74.150879), heading = 0.0 },
-                Marker = { type = 1, x = 1.5, y = 1.5, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false },
-            },
-
-            -- DW main
-            {
-                From = vector3(339.454956, -584.175842, 73.150879),
-                To = { coords = vector3(331.371429, -595.424194, 43.282104), heading = 0.0 },
-                Marker = { type = 1, x = 2.0, y = 2.0, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false },
-            },
-
-            -- Garage dw
-            {
-                From = vector3(327.217590, -603.560425, 42.282104),
-                To = { coords = vector3(339.283508, -584.479126, 28.791260), heading = 0.0 },
-                Marker = { type = 1, x = 2.0, y = 2.0, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false },
-            },
-
-            -- Garage up
-            {
-                From = vector3(340.892303, -580.378052, 27.791260),
-                To = { coords = vector3(332.175812, -595.569214, 43.282104), heading = 0.0 },
-                Marker = { type = 1, x = 2.0, y = 2.0, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false },
-            },
-
-            -- Roof access end
-        },
     },
 }
 
