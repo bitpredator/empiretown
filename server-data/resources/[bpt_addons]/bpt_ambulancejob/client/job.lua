@@ -438,38 +438,6 @@ function OpenCloakroomMenu()
     end)
 end
 
-function OpenPharmacyMenu()
-    local elements = {
-        { unselectable = true, icon = "fas fa-pills", title = TranslateCap("pharmacy_menu_title") },
-    }
-
-    for k, v in pairs(Config.PharmacyItems) do
-        elements[#elements + 1] = {
-            icon = "fas fa-pills",
-            title = v.title,
-            item = v.item,
-        }
-    end
-
-    ESX.OpenContext("right", elements, function(menu, element)
-        local elements2 = {
-            { unselectable = true, icon = "fas fa-pills", title = element.title },
-            { title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = "Amount to buy.." },
-            { icon = "fas fa-check-double", title = "Confirm", val = "confirm" },
-        }
-
-        ESX.OpenContext("right", elements2, function(menu2, element2)
-            local amount = menu2.eles[2].inputValue
-            if Config.Debug then
-                print("[^2INFO^7] Attempting to Give Item - ^5" .. tostring(element.item) .. "^7")
-            end
-            TriggerServerEvent("bpt_ambulancejob:giveItem", element.item, amount)
-        end, function(menu)
-            OpenPharmacyMenu()
-        end)
-    end)
-end
-
 RegisterNetEvent("bpt_ambulancejob:heal")
 AddEventHandler("bpt_ambulancejob:heal", function(healType, quiet)
     local playerPed = PlayerPedId()
