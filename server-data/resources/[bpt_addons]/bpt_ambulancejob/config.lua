@@ -33,68 +33,44 @@ Config.Hospitals = {
     CentralLosSantos = {
 
         Blip = {
-            coords = vector3(292.05, -582.39, 43.18),
+            coords = vector3(338.716492, -1394.439575, 32.498169),
             sprite = 61,
             scale = 1.2,
             color = 2,
         },
 
         AmbulanceActions = {
-            vector3(301.925293, -598.549438, 42.282104),
+            vector3(346.589020, -1428.435181, 31.936279),
         },
 
         Vehicles = {
             {
-                Spawner = vector3(338.123077, -575.947266, 28.791260),
-                InsideShop = vector3(320.756042, -548.004395, 28.740601),
+                Spawner = vector3(390.356049, -1436.822021, 29.431519),
+                InsideShop = vector3(393.784607, -1442.624146, 29.397827),
                 Marker = { type = 36, x = 1.0, y = 1.0, z = 1.0, r = 100, g = 50, b = 200, a = 100, rotate = true },
                 SpawnPoints = {
-                    { coords = vector3(328.021973, -576.553833, 28.791260), heading = 227.6, radius = 4.0 },
+                    { coords = vector3(402.989014, -1426.417603, 29.448364), heading = 227.6, radius = 4.0 },
                 },
             },
         },
 
         Helicopters = {
             {
-                Spawner = vector3(352.04, -588.39, 74.16),
-                InsideShop = vector3(352.04, -588.39, 74.16),
+                Spawner = vector3(299.419769, -1454.004395, 46.500366),
+                InsideShop = vector3(299.419769, -1454.004395, 46.500366),
                 Marker = { type = 34, x = 1.5, y = 1.5, z = 1.5, r = 100, g = 150, b = 150, a = 100, rotate = true },
                 SpawnPoints = {
-                    { coords = vector3(352.04, -588.39, 74.16), heading = 142.7, radius = 10.0 },
+                    { coords = vector3(299.419769, -1454.004395, 46.500366), heading = 142.7, radius = 10.0 },
                 },
             },
-        },
-
-        FastTravels = {
-            -- roof access (ok)
             {
-                From = vector3(329.393402, -601.081299, 42.282104),
-                To = { coords = vector3(341.076935, -581.604370, 74.150879), heading = 0.0 },
-                Marker = { type = 1, x = 1.5, y = 1.5, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false },
+                Spawner = vector3(313.120880, -1465.661499, 46.500366),
+                InsideShop = vector3(313.120880, -1465.661499, 46.500366),
+                Marker = { type = 34, x = 1.5, y = 1.5, z = 1.5, r = 100, g = 150, b = 150, a = 100, rotate = true },
+                SpawnPoints = {
+                    { coords = vector3(313.120880, -1465.661499, 46.500366), heading = 142.7, radius = 10.0 },
+                },
             },
-
-            -- DW main
-            {
-                From = vector3(339.454956, -584.175842, 73.150879),
-                To = { coords = vector3(331.371429, -595.424194, 43.282104), heading = 0.0 },
-                Marker = { type = 1, x = 2.0, y = 2.0, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false },
-            },
-
-            -- Garage dw
-            {
-                From = vector3(327.217590, -603.560425, 42.282104),
-                To = { coords = vector3(339.283508, -584.479126, 28.791260), heading = 0.0 },
-                Marker = { type = 1, x = 2.0, y = 2.0, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false },
-            },
-
-            -- Garage up
-            {
-                From = vector3(340.892303, -580.378052, 27.791260),
-                To = { coords = vector3(332.175812, -595.569214, 43.282104), heading = 0.0 },
-                Marker = { type = 1, x = 2.0, y = 2.0, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false },
-            },
-
-            -- Roof access end
         },
     },
 }

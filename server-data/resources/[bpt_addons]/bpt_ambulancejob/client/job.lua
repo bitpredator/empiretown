@@ -253,20 +253,6 @@ CreateThread(function()
                         end
                     end
                 end
-
-                -- Fast Travels (Prompt)
-                for k, v in ipairs(hospital.FastTravels) do
-                    local distance = #(playerCoords - v.From)
-
-                    if distance < Config.DrawDistance then
-                        sleep = 0
-                        DrawMarker(v.Marker.type, v.From, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
-
-                        if distance < v.Marker.x then
-                            isInMarker, currentHospital, currentPart, currentPartNum = true, hospitalNum, "FastTravels", k
-                        end
-                    end
-                end
             end
 
             -- Logic for exiting & entering markers
@@ -303,12 +289,6 @@ AddEventHandler("bpt_ambulancejob:hasEnteredMarker", function(hospital, part, pa
         CurrentAction = part
         CurrentActionMsg = TranslateCap("helicopter_prompt")
         CurrentActionData = { hospital = hospital, partNum = partNum }
-    elseif part == "FastTravels" then
-        local travelItem = Config.Hospitals[hospital][part][partNum]
-
-        CurrentAction = part
-        CurrentActionMsg = travelItem.Prompt
-        CurrentActionData = { to = travelItem.To.coords, heading = travelItem.To.heading }
     end
 
     ESX.TextUI(CurrentActionMsg)
@@ -337,8 +317,6 @@ CreateThread(function()
                     OpenVehicleSpawnerMenu("car", CurrentActionData.hospital, CurrentAction, CurrentActionData.partNum)
                 elseif CurrentAction == "Helicopters" then
                     OpenVehicleSpawnerMenu("helicopter", CurrentActionData.hospital, CurrentAction, CurrentActionData.partNum)
-                elseif CurrentAction == "FastTravels" then
-                    FastTravel(CurrentActionData.to, CurrentActionData.heading)
                 end
 
                 CurrentAction = nil
@@ -346,22 +324,6 @@ CreateThread(function()
         end
 
         local playerCoords, letSleep = GetEntityCoords(PlayerPedId()), true
-
-        for hospitalNum, hospital in pairs(Config.Hospitals) do
-            -- Fast Travels
-            for k, v in ipairs(hospital.FastTravels) do
-                local distance = #(playerCoords - v.From)
-
-                if distance < Config.DrawDistance then
-                    sleep = 0
-                    DrawMarker(v.Marker.type, v.From, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
-
-                    if distance < v.Marker.x then
-                        FastTravel(v.To.coords, v.To.heading)
-                    end
-                end
-            end
-        end
         Wait(sleep)
     end
 end)
@@ -435,38 +397,6 @@ function OpenCloakroomMenu()
                 end
             end)
         end
-    end)
-end
-
-function OpenPharmacyMenu()
-    local elements = {
-        { unselectable = true, icon = "fas fa-pills", title = TranslateCap("pharmacy_menu_title") },
-    }
-
-    for k, v in pairs(Config.PharmacyItems) do
-        elements[#elements + 1] = {
-            icon = "fas fa-pills",
-            title = v.title,
-            item = v.item,
-        }
-    end
-
-    ESX.OpenContext("right", elements, function(menu, element)
-        local elements2 = {
-            { unselectable = true, icon = "fas fa-pills", title = element.title },
-            { title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 100, inputPlaceholder = "Amount to buy.." },
-            { icon = "fas fa-check-double", title = "Confirm", val = "confirm" },
-        }
-
-        ESX.OpenContext("right", elements2, function(menu2, element2)
-            local amount = menu2.eles[2].inputValue
-            if Config.Debug then
-                print("[^2INFO^7] Attempting to Give Item - ^5" .. tostring(element.item) .. "^7")
-            end
-            TriggerServerEvent("bpt_ambulancejob:giveItem", element.item, amount)
-        end, function(menu)
-            OpenPharmacyMenu()
-        end)
     end)
 end
 
