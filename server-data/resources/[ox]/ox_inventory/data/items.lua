@@ -759,4 +759,10 @@ return {
 		weight = 50,
 		stack = false,
 	},
+
+	["contract"] = {
+		label = "Contratto",
+		weight = 3,
+		stack = true,
+	},
 }
