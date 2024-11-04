@@ -14,7 +14,7 @@ jobs:
           extra_libs: mysql+ox_lib
       - name: Generate Lint Report
         if: always()
-        uses: mikepenz/action-junit-report@v4
+        uses: mikepenz/action-junit-report@v5
         with:
           report_paths: "**/junit.xml"
           check_name: Linting Report
