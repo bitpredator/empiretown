@@ -208,7 +208,7 @@ return {
 		consume = 0,
 	},
 
-	["steelsheet"]  = {
+	["steelsheet"] = {
 		label = "lamiera di acciaio",
 		weight = 60,
 		stack = true,
@@ -752,12 +752,6 @@ return {
 		label = "Halloween",
 		weight = 00,
 		stack = true,
-	},
-
-	["WEAPON_FLASHLIGHT"] = {
-		label = "Torcia",
-		weight = 50,
-		stack = false,
 	},
 
 	["contract"] = {
