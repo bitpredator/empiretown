@@ -567,6 +567,21 @@ Config = {
                 ["plastic_bag"] = 1,
             },
         },
+
+        ["contract"] = {
+            Level = 0,
+            Category = "manufacturing",
+            isGun = false,
+            Jobs = { "import" },
+            JobGrades = {},
+            Amount = 2,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["recycled_paper"] = 2,
+            },
+        },
     },
 
     Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
@@ -584,6 +599,7 @@ Config = {
                 "recycled_plastic",
                 "iron",
                 "diamond_tip",
+                "contract",
             },
             radius = 1.0,
         },
