@@ -139,39 +139,39 @@ local function addKeybindEventHandlers()
         local src = source
         local myid = GetPlayerIdentifier(source)
         if key == "num4" then
-            chosenk = "keybind1"
+            Chosenk = "keybind1"
         elseif key == "num5" then
-            chosenk = "keybind2"
+            Chosenk = "keybind2"
         elseif key == "num6" then
-            chosenk = "keybind3"
+            Chosenk = "keybind3"
         elseif key == "num7" then
-            chosenk = "keybind4"
+            Chosenk = "keybind4"
         elseif key == "num8" then
-            chosenk = "keybind5"
+            Chosenk = "keybind5"
         elseif key == "num9" then
-            chosenk = "keybind6"
+            Chosenk = "keybind6"
         end
-        if chosenk == "keybind1" then
+        if Chosenk == "keybind1" then
             MySQL.update("UPDATE dpkeybinds SET emote1=@emote WHERE id=@id", { id = myid, emote = emote }, function()
                 TriggerClientEvent("rp:ClientKeybindGetOne", src, key, emote)
             end)
-        elseif chosenk == "keybind2" then
+        elseif Chosenk == "keybind2" then
             MySQL.update("UPDATE dpkeybinds SET emote2=@emote WHERE id=@id", { id = myid, emote = emote }, function()
                 TriggerClientEvent("rp:ClientKeybindGetOne", src, key, emote)
             end)
-        elseif chosenk == "keybind3" then
+        elseif Chosenk == "keybind3" then
             MySQL.update("UPDATE dpkeybinds SET emote3=@emote WHERE id=@id", { id = myid, emote = emote }, function()
                 TriggerClientEvent("rp:ClientKeybindGetOne", src, key, emote)
             end)
-        elseif chosenk == "keybind4" then
+        elseif Chosenk == "keybind4" then
             MySQL.update("UPDATE dpkeybinds SET emote4=@emote WHERE id=@id", { id = myid, emote = emote }, function()
                 TriggerClientEvent("rp:ClientKeybindGetOne", src, key, emote)
             end)
-        elseif chosenk == "keybind5" then
+        elseif Chosenk == "keybind5" then
             MySQL.update("UPDATE dpkeybinds SET emote5=@emote WHERE id=@id", { id = myid, emote = emote }, function()
                 TriggerClientEvent("rp:ClientKeybindGetOne", src, key, emote)
             end)
-        elseif chosenk == "keybind6" then
+        elseif Chosenk == "keybind6" then
             MySQL.update("UPDATE dpkeybinds SET emote6=@emote WHERE id=@id", { id = myid, emote = emote }, function()
                 TriggerClientEvent("rp:ClientKeybindGetOne", src, key, emote)
             end)
