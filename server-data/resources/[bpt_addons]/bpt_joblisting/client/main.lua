@@ -1,4 +1,4 @@
-local menuIsShowed, TextUIdrawing = false, false
+local menuIsShowed, isNear, TextUIdrawing = false, false, false
 
 function ShowJobListingMenu()
     menuIsShowed = true
@@ -25,7 +25,7 @@ end
 -- Activate menu when player is inside marker, and draw markers
 CreateThread(function()
     while true do
-        local Sleep = 1500
+        local Sleep = 1000
 
         local coords = GetEntityCoords(ESX.PlayerData.ped)
         local isInMarker = false
@@ -35,18 +35,44 @@ CreateThread(function()
 
             if distance < Config.DrawDistance then
                 Sleep = 0
-                DrawMarker(Config.MarkerType, Config.Zones[i], 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.ZoneSize.x, Config.ZoneSize.y, Config.ZoneSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
-            end
+                DrawMarker(
+                Config.MarkerType,
+                    Config.Zones[i].x,
+                    Config.Zones[i].y,
+                    Config.Zones[i].z,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0,
+                    0.0,
+                    0.0,
+                    Config.ZoneSize.x,
+                    Config.ZoneSize.y,
+                    Config.ZoneSize.z,
+                    Config.MarkerColor.r,
+                    Config.MarkerColor.g,
+                    Config.MarkerColor.b,
+                    100,
+                    false,
+                    true,
+                    2,
+                    false,
+                    false,
+                    false,
+                    false
+                )
 
-            if distance < (Config.ZoneSize.x / 2) then
+                isNear = distance < (Config.ZoneSize.x / 2)
                 isInMarker = true
-                if not TextUIdrawing then
-                    ESX.TextUI(TranslateCap("access_job_center"))
+
+                if isNear and not TextUIdrawing then
+                    ESX.TextUI(TranslateCap("access_job_center", ESX.GetInteractKey()))
                     TextUIdrawing = true
-                end
-                if IsControlJustReleased(0, 38) and not menuIsShowed then
-                    ShowJobListingMenu()
-                    ESX.HideUI()
+                else
+                    if not isNear and TextUIdrawing then
+                        ESX.HideUI()
+                        TextUIdrawing = false
+                    end
                 end
             end
         end
@@ -78,3 +104,9 @@ if Config.Blip.Enabled then
         end
     end)
 end
+
+ESX.RegisterInteraction("open_joblisting", function()
+    ShowJobListingMenu()
+end, function()
+    return isNear and not menuIsShowed
+end)
