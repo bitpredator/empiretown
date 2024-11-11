@@ -34,7 +34,8 @@
 		}
 	};
 
-	window.onload = function() {
+	// eslint-disable-next-line no-unused-vars
+	window.onload = function(e) {
 		window.addEventListener('message', (event) => {
 			onData(event.data);
 		});
