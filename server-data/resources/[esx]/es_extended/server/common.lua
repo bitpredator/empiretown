@@ -43,7 +43,7 @@ MySQL.ready(function()
 
     ESX.RefreshJobs()
 
-    print(("[^2INFO^7] ESX ^5Legacy %s^0 initialized!"):format(GetResourceMetadata(GetCurrentResourceName(), "version", 0)))
+    print(("[^2INFO^7] BPT ^5FRAMEWORK %s^0 initialized!"):format(GetResourceMetadata(GetCurrentResourceName(), "version", 0)))
 
     StartDBSync()
     if Config.EnablePaycheck then
