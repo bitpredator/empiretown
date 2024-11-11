@@ -285,7 +285,8 @@ AddStateBagChangeHandler("VehicleProperties", nil, function(bagName, _, value)
         return
     end
 
-    local netId = bagName:gsub("entity:", "")
+    bagName = bagName:gsub("entity:", "")
+    local netId = tonumber(bagName)
     local vehicle = NetToVeh(tonumber(netId))
 
     ESX.Game.SetVehicleProperties(vehicle, value)
