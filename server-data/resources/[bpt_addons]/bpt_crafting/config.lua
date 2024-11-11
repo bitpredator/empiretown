@@ -463,7 +463,7 @@ Config = {
             },
         },
 
-        ["at_suppressor"] = {
+        ["at_suppressor_light"] = {
             Level = 10,
             Category = "accessory",
             isGun = false,
@@ -653,7 +653,7 @@ Config = {
                 "WEAPON_PISTOL",
                 "armour",
                 "WEAPON_FLASHLIGHT",
-                "at_suppressor",
+                "at_suppressor_light",
             },
             radius = 1.0,
         },
