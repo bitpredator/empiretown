@@ -278,4 +278,5 @@ Locales["en"] = {
     ["ponypink"] = "Pony Pink",
     ["hotpink"] = "Hot Pink",
     ["blacklight"] = "Blacklight",
+    ["ls_custom"] = "LS CUSTOM"
 }

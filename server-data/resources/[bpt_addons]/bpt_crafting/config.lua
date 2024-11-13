@@ -10,6 +10,11 @@ Config = {
             Image = "tools",
             Jobs = { "import" },
         },
+        ["accessory"] = {
+            Label = "Accessori",
+            Image = "accessory",
+            Jobs = { "ammu" },
+        },
         ["recycled"] = {
             Label = "Riciclo",
             Image = "recycled",
@@ -407,7 +412,7 @@ Config = {
 
         ["WEAPON_KNIFE"] = {
             Level = 10,
-            Category = "ammu",
+            Category = "accessory",
             isGun = false,
             Jobs = { "ammu" },
             JobGrades = {},
@@ -425,7 +430,7 @@ Config = {
 
         ["WEAPON_KNUCKLE"] = {
             Level = 10,
-            Category = "ammu",
+            Category = "accessory",
             isGun = false,
             Jobs = { "ammu" },
             JobGrades = {},
@@ -442,7 +447,7 @@ Config = {
 
         ["WEAPON_FLASHLIGHT"] = {
             Level = 10,
-            Category = "ammu",
+            Category = "accessory",
             isGun = false,
             Jobs = { "ammu" },
             JobGrades = {},
@@ -458,9 +463,26 @@ Config = {
             },
         },
 
+        ["at_suppressor_light"] = {
+            Level = 10,
+            Category = "accessory",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 60,
+            Ingredients = {
+                ["iron"] = 1,
+                ["hammer"] = 1,
+                ["steel"] = 2,
+            },
+        },
+
         ["WEAPON_NIGHTSTICK"] = {
             Level = 10,
-            Category = "ammu",
+            Category = "accessory",
             isGun = false,
             Jobs = { "ammu" },
             JobGrades = {},
@@ -477,7 +499,7 @@ Config = {
 
         ["armour"] = {
             Level = 10,
-            Category = "ammu",
+            Category = "accessory",
             isGun = false,
             Jobs = { "ammu" },
             JobGrades = {},
@@ -631,6 +653,7 @@ Config = {
                 "WEAPON_PISTOL",
                 "armour",
                 "WEAPON_FLASHLIGHT",
+                "at_suppressor_light",
             },
             radius = 1.0,
         },

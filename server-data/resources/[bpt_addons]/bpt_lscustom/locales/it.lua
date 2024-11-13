@@ -272,4 +272,5 @@ Locales["it"] = {
     ["ponypink"] = "Rosa Pony",
     ["hotpink"] = "Rosa Shocking",
     ["blacklight"] = "Luce Scura",
+    ["ls_custom"] = "CENTRO MODIFICHE"
 }
