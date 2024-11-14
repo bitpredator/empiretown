@@ -1,7 +1,7 @@
 fx_version("cerulean")
 game("gta5")
 description("rpemotes-reborn")
-version("1.7.4")
+version("1.7.8")
 
 lua54("yes")
 use_experimental_fxv2_oal("yes")
@@ -14,11 +14,8 @@ dependencies({
     "/onesync",
 })
 
--- uncomment the below four lines if you would like to use the SQL keybinds. Requires oxmysql.
---#region oxmysql
--- dependency 'oxmysql'
+-- Uncomment the below line if you would like to use the SQL keybinds. Requires oxmysql.
 -- server_script '@oxmysql/lib/MySQL.lua'
---#endregion oxmysql
 
 files({
     "conditionalanims.meta",
@@ -36,6 +33,7 @@ shared_scripts({
 
 server_scripts({
     "server/Server.lua",
+    "server/Updates.lua",
     "server/frameworks/*.lua",
 })
 
@@ -59,8 +57,6 @@ client_scripts({
     "client/frameworks/*.lua",
 })
 
----- Loads all ytyp files for custom props to stream ---
----- You will need to add a data_file 'DLC_ITYP_REQUEST' for your own to work in game ---
 data_file("DLC_ITYP_REQUEST")("stream/rpemotesreborn_props.ytyp")
 
 data_file("DLC_ITYP_REQUEST")("stream/brummie_props.ytyp")

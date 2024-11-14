@@ -17,6 +17,7 @@ Locales['id'] = {
         ['resetdef'] = "Mengatur ulang ke default",
         ['normalreset'] = "~h~~r~ Normal (Atur Ulang)",
         ['moods'] = "~h~~p~ Ekspresi 😒",
+        ['infoupdate'] = "~h~~g~ Kredit 🤝🏻",
         ['infoupdateav'] = "Informasi (Pembaruan tersedia)",
         ['infoupdateavtext'] = "Pembaruan tersedia, dapatkan versi terbaru dari ~y~https://github.com/alberttheprince/rpemotes-reborn~w~",
         ['suggestions'] = "Saran?",

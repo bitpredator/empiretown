@@ -1,22 +1,30 @@
 if Config.RagdollEnabled then
-    RegisterCommand('+ragdoll', function() Ragdoll() end, false)
-    RegisterCommand('-ragdoll', function() StopRagdoll() end, false)
-    RegisterKeyMapping('+ragdoll', Translate('register_ragdoll'), 'keyboard', Config.RagdollKeybind)
+    RegisterCommand("+ragdoll", function()
+        Ragdoll()
+    end, false)
+    RegisterCommand("-ragdoll", function()
+        StopRagdoll()
+    end, false)
+    RegisterKeyMapping("+ragdoll", Translate("register_ragdoll"), "keyboard", Config.RagdollKeybind)
 
-    local stop = true
+    local isRagdolling = true
     function Ragdoll()
-        if IsInAnimation then return end
-
-        local ped = PlayerPedId()
-        if not IsPedOnFoot(ped) then return end
-
-        if Config.RagdollAsToggle then
-            stop = not stop
-        else
-            stop = false
+        if IsInAnimation then
+            return
         end
 
-        while not stop do
+        local ped = PlayerPedId()
+        if not IsPedOnFoot(ped) then
+            return
+        end
+
+        if Config.RagdollAsToggle then
+            isRagdolling = not isRagdolling
+        else
+            isRagdolling = true
+        end
+
+        while not isRagdolling do
             ped = PlayerPedId()
             SetPedRagdollForceFall(ped)
             ResetPedRagdollTimer(ped)
@@ -27,7 +35,9 @@ if Config.RagdollEnabled then
     end
 
     function StopRagdoll()
-        if Config.RagdollAsToggle then return end
-        stop = true
+        if Config.RagdollAsToggle then
+            return
+        end
+        isRagdolling = false
     end
 end

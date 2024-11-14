@@ -17,6 +17,7 @@ Locales['sr'] = {
         ['resetdef'] = "Restartuj na podrazumevano",
         ['normalreset'] = "Normalan (Reset)",
         ['moods'] = "Raspoloženja 😒",
+        ['infoupdate'] = "Zasluge i Sugestije 🙏🏻",
         ['infoupdateav'] = "Informacija (Ažuriranje Dostupno)",
         ['infoupdateavtext'] = "Ažuriranje je dostupno, skini zadnju verziju sa ~y~https://github.com/alberttheprince/rpemotes-reborn~w~",
         ['suggestions'] = "Sugestije?",
