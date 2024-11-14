@@ -17,6 +17,7 @@ Locales['no'] = {
         ['resetdef'] = "Reset til standard",
         ['normalreset'] = "~h~~r~ Normal (Reset)",
         ['moods'] = "~h~~p~ Ansiktsuttrykk 😒",
+        ['infoupdate'] = "~h~~g~ Anerkjennelser 🤝🏻",
         ['infoupdateav'] = "Informasjon (Oppdatering tilgjengelig)",
         ['infoupdateavtext'] = "En oppdatering er tilgjengelig, du finner den nyeste versjonen her: ~y~https://github.com/alberttheprince/rpemotes-reborn~w~",
         ['suggestions'] = "Forslag?",
