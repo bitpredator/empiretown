@@ -6,7 +6,9 @@ function WalkMenuStart(name, force)
         EmoteChatMessage(unable_message)
         return
     end
-    if Config.PersistentWalk then SetResourceKvp("walkstyle", name) end
+    if Config.PersistentWalk then
+        SetResourceKvp("walkstyle", name)
+    end
     RequestWalking(name)
     SetPedMovementClipset(PlayerPedId(), name, 0.2)
     RemoveAnimSet(name)
@@ -78,27 +80,31 @@ if Config.WalkingStylesEnabled and Config.PersistentWalk then
         end
     end
 
-    AddEventHandler('playerSpawned', handleWalkstyle)
-    RegisterNetEvent('QBCore:Client:OnPlayerLoaded', handleWalkstyle)
-    RegisterNetEvent('esx:playerLoaded', handleWalkstyle)
+    AddEventHandler("playerSpawned", handleWalkstyle)
+    RegisterNetEvent("QBCore:Client:OnPlayerLoaded", handleWalkstyle)
+    RegisterNetEvent("esx:playerLoaded", handleWalkstyle)
 end
 
 if Config.WalkingStylesEnabled then
-    RegisterCommand('walks', function() WalksOnCommand() end, false)
-    RegisterCommand('walk', function(_, args, _) WalkCommandStart(tostring(args[1])) end, false)
-    TriggerEvent('chat:addSuggestion', '/walk', 'Set your walkingstyle.', { { name = "style", help = "/walks for a list of valid styles" } })
-    TriggerEvent('chat:addSuggestion', '/walks', 'List available walking styles.')
+    RegisterCommand("walks", function()
+        WalksOnCommand()
+    end, false)
+    RegisterCommand("walk", function(_, args, _)
+        WalkCommandStart(tostring(args[1]))
+    end, false)
+    TriggerEvent("chat:addSuggestion", "/walk", "Set your walkingstyle.", { { name = "style", help = "/walks for a list of valid styles" } })
+    TriggerEvent("chat:addSuggestion", "/walks", "List available walking styles.")
 end
 
-exports('toggleWalkstyle', function(bool, message)
+exports("toggleWalkstyle", function(bool, message)
     canChange = bool
     if message then
         unable_message = message
     end
 end)
 
-exports('getWalkstyle', function()
+exports("getWalkstyle", function()
     return GetResourceKvpString("walkstyle")
 end)
 
-exports('setWalkstyle', WalkMenuStart)
+exports("setWalkstyle", WalkMenuStart)
