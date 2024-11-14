@@ -1,4 +1,4 @@
-LocalPlayer.state:set('canEmote', true, true) -- Allow emotes to be played by default
+LocalPlayer.state:set("canEmote", true, true) -- Allow emotes to be played by default
 
 -- You can edit this function to add support for your favorite notification system
 function SimpleNotify(message)
@@ -22,8 +22,7 @@ function FirstToUpper(str)
 end
 
 function IsPlayerAiming(player)
-    return (IsPlayerFreeAiming(player) or IsAimCamActive() or IsAimCamThirdPersonActive()) and
-    tonumber(GetSelectedPedWeapon(player)) ~= tonumber(GetHashKey("WEAPON_UNARMED"))
+    return (IsPlayerFreeAiming(player) or IsAimCamActive() or IsAimCamThirdPersonActive()) and tonumber(GetSelectedPedWeapon(player)) ~= tonumber(GetHashKey("WEAPON_UNARMED"))
 end
 
 function CanPlayerCrouchCrawl(playerPed)
@@ -36,8 +35,7 @@ end
 
 function PlayAnimOnce(playerPed, animDict, animName, blendInSpeed, blendOutSpeed, duration, startTime)
     LoadAnim(animDict)
-    TaskPlayAnim(playerPed, animDict, animName, blendInSpeed or 2.0, blendOutSpeed or 2.0, duration or -1, 0,
-        startTime or 0.0, false, false, false)
+    TaskPlayAnim(playerPed, animDict, animName, blendInSpeed or 2.0, blendOutSpeed or 2.0, duration or -1, 0, startTime or 0.0, false, false, false)
     RemoveAnimDict(animDict)
 end
 
@@ -57,7 +55,7 @@ function EmoteChatMessage(msg, multiline)
         TriggerEvent("chat:addMessage", {
             multiline = multiline == true or false,
             color = { 255, 255, 255 },
-            args = { "^1Help^0", tostring(msg) }
+            args = { "^1Help^0", tostring(msg) },
         })
     end
 end
@@ -68,7 +66,7 @@ function PairsByKeys(t, f)
         table.insert(a, n)
     end
     table.sort(a, f)
-    local i = 0             -- iterator variable
+    local i = 0 -- iterator variable
     local iter = function() -- iterator function
         i = i + 1
         if a[i] == nil then
@@ -132,8 +130,7 @@ function GetPedInFront()
     local plyPed = GetPlayerPed(player)
     local plyPos = GetEntityCoords(plyPed, false)
     local plyOffset = GetOffsetFromEntityInWorldCoords(plyPed, 0.0, 1.3, 0.0)
-    local rayHandle = StartShapeTestCapsule(plyPos.x, plyPos.y, plyPos.z, plyOffset.x, plyOffset.y, plyOffset.z, 10.0, 12
-    , plyPed, 7)
+    local rayHandle = StartShapeTestCapsule(plyPos.x, plyPos.y, plyPos.z, plyOffset.x, plyOffset.y, plyOffset.z, 10.0, 12, plyPed, 7)
     local _, _, _, _, ped2 = GetShapeTestResult(rayHandle)
     return ped2
 end
@@ -144,7 +141,7 @@ function NearbysOnCommand(source, args, raw)
         NearbysCommand = NearbysCommand .. "" .. a .. ", "
     end
     EmoteChatMessage(NearbysCommand)
-    EmoteChatMessage(Translate('emotemenucmd'))
+    EmoteChatMessage(Translate("emotemenucmd"))
 end
 
 function GetClosestPlayer()
@@ -156,11 +153,10 @@ function GetClosestPlayer()
 
     for index, value in ipairs(players) do
         local target = GetPlayerPed(value)
-        if (target ~= ped) then
+        if target ~= ped then
             local targetCoords = GetEntityCoords(GetPlayerPed(value), false)
-            local distance = GetDistanceBetweenCoords(targetCoords["x"], targetCoords["y"], targetCoords["z"],
-                pedCoords["x"], pedCoords["y"], pedCoords["z"], true)
-            if (closestDistance == -1 or closestDistance > distance) then
+            local distance = GetDistanceBetweenCoords(targetCoords["x"], targetCoords["y"], targetCoords["z"], pedCoords["x"], pedCoords["y"], pedCoords["z"], true)
+            if closestDistance == -1 or closestDistance > distance then
                 closestPlayer = value
                 closestDistance = distance
             end
@@ -186,23 +182,25 @@ end
 ---@param ignores? table | nil key string is the ignored value
 function IsInActionWithErrorMessage(ignores)
     DebugPrint(ignores)
-    DebugPrint('IsProne', IsProne)
-    DebugPrint('IsUsingNewscam', IsUsingNewscam)
-    DebugPrint('IsUsingBinoculars', IsUsingBinoculars)
-    if (ignores == nil) then ignores = {} end
+    DebugPrint("IsProne", IsProne)
+    DebugPrint("IsUsingNewscam", IsUsingNewscam)
+    DebugPrint("IsUsingBinoculars", IsUsingBinoculars)
+    if ignores == nil then
+        ignores = {}
+    end
 
-    if not ignores['IsProne'] and IsProne then
-        EmoteChatMessage(Translate('no_anim_crawling'))
+    if not ignores["IsProne"] and IsProne then
+        EmoteChatMessage(Translate("no_anim_crawling"))
         return true
     end
-    if not ignores['IsUsingNewscam'] and IsUsingNewscam then
+    if not ignores["IsUsingNewscam"] and IsUsingNewscam then
         -- TODO: use specific error message
-        EmoteChatMessage(Translate('no_anim_right_now'))
+        EmoteChatMessage(Translate("no_anim_right_now"))
         return true
     end
-    if not ignores['IsUsingBinoculars'] and IsUsingBinoculars then
+    if not ignores["IsUsingBinoculars"] and IsUsingBinoculars then
         -- TODO: use specific error message
-        EmoteChatMessage(Translate('no_anim_right_now'))
+        EmoteChatMessage(Translate("no_anim_right_now"))
         return true
     end
 
@@ -213,10 +211,10 @@ function HideHUDThisFrame()
     HideHelpTextThisFrame()
     HideHudAndRadarThisFrame()
     HideHudComponentThisFrame(19) -- weapon wheel
-    HideHudComponentThisFrame(1)  -- Wanted Stars
-    HideHudComponentThisFrame(2)  -- Weapon icon
-    HideHudComponentThisFrame(3)  -- Cash
-    HideHudComponentThisFrame(4)  -- MP CASH
+    HideHudComponentThisFrame(1) -- Wanted Stars
+    HideHudComponentThisFrame(2) -- Weapon icon
+    HideHudComponentThisFrame(3) -- Cash
+    HideHudComponentThisFrame(4) -- MP CASH
     HideHudComponentThisFrame(13) -- Cash Change
     HideHudComponentThisFrame(11) -- Floating Help Text
     HideHudComponentThisFrame(12) -- more floating help text
@@ -267,8 +265,8 @@ function HandleZoomAndCheckRotation(cam, fov)
     local rotation = GetCamRot(cam, 2)
 
     if rightAxisX ~= 0.0 or rightAxisY ~= 0.0 then
-        local new_z = rotation.z + rightAxisX * -1.0 * (speed_ud) * (zoomvalue + 0.1)
-        local new_x = math.max(math.min(20.0, rotation.x + rightAxisY * -1.0 * (speed_lr) * (zoomvalue + 0.1)), -29.5)
+        local new_z = rotation.z + rightAxisX * -1.0 * speed_ud * (zoomvalue + 0.1)
+        local new_x = math.max(math.min(20.0, rotation.x + rightAxisY * -1.0 * speed_lr * (zoomvalue + 0.1)), -29.5)
         SetCamRot(cam, new_x, 0.0, new_z, 2)
     end
 
@@ -306,7 +304,9 @@ end
 ShowPed = false
 
 function ShowPedMenu(zoom)
-    if not Config.PreviewPed then return end
+    if not Config.PreviewPed then
+        return
+    end
 
     if not ShowPed then
         CreateThread(function()
@@ -334,7 +334,7 @@ function ShowPedMenu(zoom)
                     if Config.MenuPosition == "left" then
                         screencoordsX = 1.0 - screencoordsX
                     end
-                    local world, normal = GetWorldCoordFromScreenCoord(screencoordsX, screencoordsY)  --  GetWorldCoordFromScreenCoord(0.67135417461395, 0.7787036895752)
+                    local world, normal = GetWorldCoordFromScreenCoord(screencoordsX, screencoordsY) --  GetWorldCoordFromScreenCoord(0.67135417461395, 0.7787036895752)
                     local depth = 3.5
                     local target = world + normal * depth
                     local camRot = GetGameplayCamRot(2)
@@ -350,11 +350,10 @@ function ShowPedMenu(zoom)
                     end
                     averagedTarget = averagedTarget / #positionBuffer
 
-                    SetEntityCoords(ClonedPed, averagedTarget.x, averagedTarget.y, averagedTarget.z, false, false, false,
-                        true)
+                    SetEntityCoords(ClonedPed, averagedTarget.x, averagedTarget.y, averagedTarget.z, false, false, false, true)
                     local heading_offset = Config.MenuPosition == "left" and 170.0 or 190.0
                     SetEntityHeading(ClonedPed, camRot.z + heading_offset)
-                    SetEntityRotation(ClonedPed, camRot.x * (-1), 0, camRot.z + 170.0, 2, false)
+                    SetEntityRotation(ClonedPed, camRot.x * -1, 0, camRot.z + 170.0, 2, false)
 
                     Wait(4)
                 end
@@ -380,11 +379,10 @@ function ShowPedMenu(zoom)
                     end
                     averagedTarget = averagedTarget / #positionBuffer
 
-                    SetEntityCoords(ClonedPed, averagedTarget.x, averagedTarget.y, averagedTarget.z, false, false, false,
-                        true)
+                    SetEntityCoords(ClonedPed, averagedTarget.x, averagedTarget.y, averagedTarget.z, false, false, false, true)
                     local heading_offset = Config.MenuPosition == "left" and 170.0 or 190.0
                     SetEntityHeading(ClonedPed, camRot.z + heading_offset)
-                    SetEntityRotation(ClonedPed, camRot.x * (-1), 0, camRot.z + 170.0, 2, false)
+                    SetEntityRotation(ClonedPed, camRot.x * -1, 0, camRot.z + 170.0, 2, false)
 
                     Wait(4)
                 end
@@ -394,7 +392,9 @@ function ShowPedMenu(zoom)
 end
 
 function ClosePedMenu()
-    if not Config.PreviewPed then return end
+    if not Config.PreviewPed then
+        return
+    end
 
     if ClonedPed then
         ShowPed = false
@@ -404,7 +404,9 @@ function ClosePedMenu()
 end
 
 function ClearPedTaskPreview()
-    if not Config.PreviewPed then return end
+    if not Config.PreviewPed then
+        return
+    end
 
     if ClonedPed then
         DestroyAllProps(true)
