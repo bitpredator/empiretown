@@ -1,28 +1,29 @@
 local isRequestAnim = false
-local requestedemote = ''
+local requestedemote = ""
 local targetPlayerId
 
 if Config.SharedEmotesEnabled then
-    RegisterCommand('nearby', function(source, args, raw)
-        if not LocalPlayer.state.canEmote then return end
+    RegisterCommand("nearby", function(source, args, raw)
+        if not LocalPlayer.state.canEmote then
+            return
+        end
         if IsPedInAnyVehicle(PlayerPedId(), true) then
-            return EmoteChatMessage(Translate('not_in_a_vehicle'))
+            return EmoteChatMessage(Translate("not_in_a_vehicle"))
         end
 
         if #args > 0 then
             local emotename = string.lower(args[1])
             local target, distance = GetClosestPlayer()
-            if (distance ~= -1 and distance < 3) then
+            if distance ~= -1 and distance < 3 then
                 if RP.Shared[emotename] ~= nil then
                     local _, _, ename = table.unpack(RP.Shared[emotename])
                     TriggerServerEvent("ServerEmoteRequest", GetPlayerServerId(target), emotename)
-                    SimpleNotify(Translate('sentrequestto') ..
-                        GetPlayerName(target) .. " ~w~(~g~" .. ename .. "~w~)")
+                    SimpleNotify(Translate("sentrequestto") .. GetPlayerName(target) .. " ~w~(~g~" .. ename .. "~w~)")
                 else
-                    EmoteChatMessage("'" .. emotename .. "' " .. Translate('notvalidsharedemote') .. "")
+                    EmoteChatMessage("'" .. emotename .. "' " .. Translate("notvalidsharedemote") .. "")
                 end
             else
-                SimpleNotify(Translate('nobodyclose'))
+                SimpleNotify(Translate("nobodyclose"))
             end
         else
             NearbysOnCommand()
@@ -37,7 +38,7 @@ RegisterNetEvent("SyncPlayEmote", function(emote, player)
     local plyServerId = GetPlayerFromServerId(player)
 
     if IsPedInAnyVehicle(GetPlayerPed(plyServerId ~= 0 and plyServerId or GetClosestPlayer()), true) then
-        return EmoteChatMessage(Translate('not_in_a_vehicle'))
+        return EmoteChatMessage(Translate("not_in_a_vehicle"))
     end
 
     -- wait a little to make sure animation shows up right on both clients after canceling any previous emote
@@ -49,23 +50,7 @@ RegisterNetEvent("SyncPlayEmote", function(emote, player)
                 local ped = PlayerPedId()
                 local pedInFront = GetPlayerPed(plyServerId ~= 0 and plyServerId or GetClosestPlayer())
 
-                AttachEntityToEntity(
-                    ped,
-                    pedInFront,
-                    GetPedBoneIndex(pedInFront, options.bone or -1),
-                    options.xPos or 0.0,
-                    options.yPos or 0.0,
-                    options.zPos or 0.0,
-                    options.xRot or 0.0,
-                    options.yRot or 0.0,
-                    options.zRot or 0.0,
-                    false,
-                    false,
-                    false,
-                    true,
-                    1,
-                    true
-                )
+                AttachEntityToEntity(ped, pedInFront, GetPedBoneIndex(pedInFront, options.bone or -1), options.xPos or 0.0, options.yPos or 0.0, options.zPos or 0.0, options.xRot or 0.0, options.yRot or 0.0, options.zRot or 0.0, false, false, false, true, 1, true)
             end
         end
 
@@ -85,30 +70,13 @@ RegisterNetEvent("SyncPlayEmoteSource", function(emote, player)
     local pedInFront = GetPlayerPed(plyServerId ~= 0 and plyServerId or GetClosestPlayer())
 
     if IsPedInAnyVehicle(ped, true) or IsPedInAnyVehicle(pedInFront, true) then
-        return EmoteChatMessage(Translate('not_in_a_vehicle'))
+        return EmoteChatMessage(Translate("not_in_a_vehicle"))
     end
 
     local options = RP.Shared[emote] and RP.Shared[emote].AnimationOptions
     if options then
-
-        if (options.Attachto) then
-            AttachEntityToEntity(
-                ped,
-                pedInFront,
-                GetPedBoneIndex(pedInFront, options.bone or -1),
-                options.xPos or 0.0,
-                options.yPos or 0.0,
-                options.zPos or 0.0,
-                options.xRot or 0.0,
-                options.yRot or 0.0,
-                options.zRot or 0.0,
-                false,
-                false,
-                false,
-                true,
-                1,
-                true
-            )
+        if options.Attachto then
+            AttachEntityToEntity(ped, pedInFront, GetPedBoneIndex(pedInFront, options.bone or -1), options.xPos or 0.0, options.yPos or 0.0, options.zPos or 0.0, options.xRot or 0.0, options.yRot or 0.0, options.zRot or 0.0, false, false, false, true, 1, true)
         end
     end
 
@@ -146,10 +114,10 @@ end
 RegisterNetEvent("ClientEmoteRequestReceive", function(emotename, etype, target)
     isRequestAnim = true
 
-    local displayed = (etype == 'Dances') and select(3, table.unpack(RP.Dances[emotename])) or select(3, table.unpack(RP.Shared[emotename]))
+    local displayed = (etype == "Dances") and select(3, table.unpack(RP.Dances[emotename])) or select(3, table.unpack(RP.Shared[emotename]))
 
     PlaySound(-1, "NAV", "HUD_AMMO_SHOP_SOUNDSET", false, 0, true)
-    SimpleNotify(Translate('doyouwanna') .. displayed .. "~w~)")
+    SimpleNotify(Translate("doyouwanna") .. displayed .. "~w~)")
     -- The player has now 10 seconds to accept the request
     local timer = 10 * 1000
     while isRequestAnim do
@@ -157,7 +125,7 @@ RegisterNetEvent("ClientEmoteRequestReceive", function(emotename, etype, target)
         timer = timer - 5
         if timer <= 0 then
             isRequestAnim = false
-            SimpleNotify(Translate('refuseemote'))
+            SimpleNotify(Translate("refuseemote"))
         end
 
         if IsControlJustPressed(1, 246) then
@@ -167,7 +135,7 @@ RegisterNetEvent("ClientEmoteRequestReceive", function(emotename, etype, target)
             TriggerServerEvent("ServerValidEmote", target, requestedemote, otheremote)
         elseif IsControlJustPressed(1, 182) then
             isRequestAnim = false
-            SimpleNotify(Translate('refuseemote'))
+            SimpleNotify(Translate("refuseemote"))
         end
     end
 end)
