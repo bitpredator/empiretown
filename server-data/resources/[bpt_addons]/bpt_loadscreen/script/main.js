@@ -8,10 +8,10 @@ function getRandomSongNumber() {
 // Function for setting a random song
 function setNewSong() {
 	if (random == 1) {
-		document.getElementById('loading').src = 'song/halloween1.mp3';
+		document.getElementById('loading').src = 'song/christmas1.mp3';
 	}
 	else if (random == 2) {
-		document.getElementById('loading').src = 'song/halloween2.mp3';
+		document.getElementById('loading').src = 'song/christmas2.mp3';
 	}
 
 }
@@ -47,16 +47,16 @@ const mutetext = document.getElementById('text');
 window.addEventListener('keyup', function(event) {
 	// eslint-disable-next-line no-inline-comments
 	if (event.which == 37) { // ArrowLEFT
-		if (document.getElementById('loading').src.endsWith('halloween2.mp3')) {
-			document.getElementById('loading').src = 'song/halloween1.mp3';
+		if (document.getElementById('loading').src.endsWith('christmas2.mp3')) {
+			document.getElementById('loading').src = 'song/christmas1.mp3';
 
 		}
-		else if (document.getElementById('loading').src.endsWith('halloween1.mp3')) {
+		else if (document.getElementById('loading').src.endsWith('christmas1.mp3')) {
 			document.getElementById('loading').src = 'song/song3.mp3';
 
 		}
 		else if (document.getElementById('loading').src.endsWith('song3.mp3')) {
-			document.getElementById('loading').src = 'song/halloween2.mp3';
+			document.getElementById('loading').src = 'song/christmas2.mp3';
 		}
 		document.getElementById('loading').play();
 		mutetext.innerHTML = 'MUTE';
@@ -64,16 +64,16 @@ window.addEventListener('keyup', function(event) {
 
 	// eslint-disable-next-line no-inline-comments
 	if (event.which == 39) { // ArrowRIGHT
-		if (document.getElementById('loading').src.endsWith('halloween2.mp3')) {
+		if (document.getElementById('loading').src.endsWith('christmas2.mp3')) {
 			document.getElementById('loading').src = 'song/song3.mp3';
 
 		}
 		else if (document.getElementById('loading').src.endsWith('song3.mp3')) {
-			document.getElementById('loading').src = 'song/halloween1.mp3';
+			document.getElementById('loading').src = 'song/christmas1.mp3';
 
 		}
-		else if (document.getElementById('loading').src.endsWith('halloween1.mp3')) {
-			document.getElementById('loading').src = 'song/halloween2.mp3';
+		else if (document.getElementById('loading').src.endsWith('christmas1.mp3')) {
+			document.getElementById('loading').src = 'song/christmas2.mp3';
 
 		}
 		document.getElementById('loading').play();
