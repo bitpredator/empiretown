@@ -1,3 +1,5 @@
+import he from 'he';
+
 const money = Intl.NumberFormat('en-US', {
 	style: 'currency',
 	currency: 'USD',
@@ -15,15 +17,15 @@ const money = Intl.NumberFormat('en-US', {
 				'<div class="character-info"><p class="character-info-name"><h1>' +
                 `${translate.name} ` +
                 '</h1><span>' +
-                data.firstname +
+                he.escape(data.firstname) +
                 ' ' +
-                data.lastname +
+                he.escape(data.lastname) +
                 '</span></p><p class="character-info-work"><h1>' +
                 `${translate.job} ` +
                 '</h1><span>' +
-                data.job +
+                he.escape(data.job) +
                 ' ' +
-                data.job_grade +
+                he.escape(data.job_grade) +
                 '</span></p><p class="character-info-money"><h1>' +
                 `${translate.money} ` +
                 '</h1><span> ' +
@@ -35,11 +37,11 @@ const money = Intl.NumberFormat('en-US', {
                 '</span></p> <p class="character-info-dateofbirth"><h1>' +
                 `${translate.dob} ` +
                 '</h1><span>' +
-                data.dateofbirth +
+                he.escape(data.dateofbirth) +
                 '</span></p> <p class="character-info-gender"><h1>' +
                 `${translate.gender} ` +
                 '</h1><span>' +
-                data.sex +
+                he.escape(data.sex) +
                 '</span></p></div>',
 			)
 			.attr('data-ischar', 'true');
