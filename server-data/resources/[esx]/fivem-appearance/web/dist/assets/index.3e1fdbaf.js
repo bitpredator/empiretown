@@ -3699,9 +3699,16 @@ function Wp(e) {
 	t.pendingContext ? Tc(e, t.pendingContext, t.pendingContext !== t.context) : t.context && Tc(e, t.context, !1), hs(e, t.containerInfo);
 }
 
-function qc(e, t, n, r, i) { return mr(), ps(i), t.flags |= 256, Je(e, t, n, r), t.child; }
+function qc(e, t, n, r, i) {
+	return mr(), ps(i), t.flags |= 256, Je(e, t, n, r), t.child;
+}
+
 const Wi = { dehydrated: null, treeContext: null, retryLane: 0 };
-function Gi(e) { return { baseLanes: e, cachePool: null }; }
+
+function Gi(e) {
+	return { baseLanes: e, cachePool: null };
+}
+
 function Gp(e, t, n) {
 	// eslint-disable-next-line prefer-const
 	let r = t.pendingProps, i = Pe.current, o = !1, a = (t.flags & 128) !== 0, l;
@@ -3757,11 +3764,14 @@ function Kc(e, t, n, r, i) {
 	let a = e.sibling, l = { mode: 'hidden', children: n };
 	return (o & 1) === 0 && t.child !== e ? (n = t.child, n.childLanes = 0, n.pendingProps = l, t.deletions = null) : (n = Cn(e, l), n.subtreeFlags = e.subtreeFlags & 14680064), a !== null ? r = Cn(a, r) : (r = Rn(r, o, i, null), r.flags |= 2), r.return = t, n.return = t, n.sibling = r, t.child = n, r;
 }
+
 function Qi(e, t, n, r) {
 	return r !== null && ps(r), vr(t, e.child, null, n), e = mu(t, t.pendingProps.children), e.flags |= 2, t.memoizedState = null, e;
 }
+
 function Xc(e, t, n) {
-	e.lanes |= t; const r = e.alternate;
+	e.lanes |= t;
+	const r = e.alternate;
 	r !== null && (r.lanes |= t), au(e.return, t, n);
 }
 
@@ -3790,7 +3800,9 @@ function Qp(e, t, n) {
 			}
 		} r &= 1;
 	}
-	if (ke(Pe, r), (t.mode & 1) === 0) {t.memoizedState = null;}
+	if (ke(Pe, r), (t.mode & 1) === 0) {
+		t.memoizedState = null;
+	}
 	else {
 		switch (i) {
 		case 'forwards': for (n = t.child, i = null; n !== null;)e = n.alternate, e !== null && No(e) === null && (i = n), n = n.sibling;
@@ -3798,7 +3810,8 @@ function Qp(e, t, n) {
 			break;
 		case 'backwards': for (n = null, i = t.child, t.child = null; i !== null;) {
 			if (e = i.alternate, e !== null && No(e) === null) {
-				t.child = i; break;
+				t.child = i;
+				break;
 			} e = i.sibling, i.sibling = n, n = i, i = e;
 		}
 			pl(t, !0, n, null, o);
@@ -3810,6 +3823,7 @@ function Qp(e, t, n) {
 	}
 	return t.child;
 }
+
 function Jt(e, t, n) {
 	if (e !== null && (t.dependencies = e.dependencies), xr |= t.lanes, (n & t.childLanes) === 0) {
 		return null;
@@ -5341,7 +5355,10 @@ function Vs(e) {
 	this._internalRoot = e;
 }
 
-xa.prototype.render = Vs.prototype.render = function(e) { var t = this._internalRoot; if (t === null) throw Error(_(409)); ya(e, t, null, null); }; xa.prototype.unmount = Vs.prototype.unmount = function() { var e = this._internalRoot; if (e !== null) { this._internalRoot = null; var t = e.containerInfo; zn(function() { ya(null, e, null, null); }), t[Zt] = null; } }; function xa(e) { this._internalRoot = e; } xa.prototype.unstable_scheduleHydration = function(e) { if (e) { var t = jd(); e = { blockedOn: null, target: e, priority: t }; for (var n = 0; n < sn.length && t !== 0 && t < sn[n].priority; n++); sn.splice(n, 0, e), n === 0 && Ud(e); } };
+xa.prototype.render = Vs.prototype.render = function(e) {
+	const t = this._internalRoot;
+	if (t === null) throw Error(_(409)); ya(e, t, null, null);
+}; xa.prototype.unmount = Vs.prototype.unmount = function() { var e = this._internalRoot; if (e !== null) { this._internalRoot = null; var t = e.containerInfo; zn(function() { ya(null, e, null, null); }), t[Zt] = null; } }; function xa(e) { this._internalRoot = e; } xa.prototype.unstable_scheduleHydration = function(e) { if (e) { var t = jd(); e = { blockedOn: null, target: e, priority: t }; for (var n = 0; n < sn.length && t !== 0 && t < sn[n].priority; n++); sn.splice(n, 0, e), n === 0 && Ud(e); } };
 function Is(e) { return !(!e || e.nodeType !== 1 && e.nodeType !== 9 && e.nodeType !== 11); }
 function wa(e) { return !(!e || e.nodeType !== 1 && e.nodeType !== 9 && e.nodeType !== 11 && (e.nodeType !== 8 || e.nodeValue !== ' react-mount-point-unstable ')); } 
 function cf() { } function tv(e, t, n, r, i) { if (i) { if (typeof r == 'function') { var o = r; r = function() { var s = Qo(a); o.call(s); }; } var a = lh(t, r, e, 0, null, !1, !1, '', cf); return e._reactRootContainer = a, e[Zt] = a.current, si(e.nodeType === 8 ? e.parentNode : e), zn(), a; } for (; i = e.lastChild;)e.removeChild(i); if (typeof r == 'function') { var l = r; r = function() { var s = Qo(u); l.call(s); }; } var u = Fs(e, 0, !1, null, null, !1, !1, '', cf); return e._reactRootContainer = u, e[Zt] = u.current, si(e.nodeType === 8 ? e.parentNode : e), zn(function() { ya(t, u, n, r); }), u; } function Sa(e, t, n, r, i) { var o = n._reactRootContainer; if (o) { var a = o; if (typeof i == 'function') { var l = i; i = function() { var u = Qo(a); l.call(u); }; } ya(t, a, e, i); } else a = tv(n, t, e, i, r); return Qo(a); } $d = function(e) { switch (e.tag) { case 3: var t = e.stateNode; if (t.current.memoizedState.isDehydrated) { var n = jr(t.pendingLanes); n !== 0 && (Ju(t, n | 1), st(t, Ie()), (he & 6) === 0 && (wr = Ie() + 500, On())); } break; case 13: var r = et(); zn(function() { return Ot(e, 1, r); }), _s(e, 1); } }; es = function(e) { if (e.tag === 13) { var t = et(); Ot(e, 134217728, t), _s(e, 134217728); } }; Bd = function(e) { if (e.tag === 13) { var t = et(), n = yn(e); Ot(e, n, t), _s(e, n); } }; jd = function() { return xe; }; Hd = function(e, t) { var n = xe; try { return xe = e, t(); } finally { xe = n; } }; Ql = function(e, t, n) { switch (t) { case 'input': if ($l(e, n), t = n.name, n.type === 'radio' && t != null) { for (n = e; n.parentNode;)n = n.parentNode; for (n = n.querySelectorAll('input[name=' + JSON.stringify('' + t) + '][type="radio"]'), t = 0; t < n.length; t++) { var r = n[t]; if (r !== e && r.form === e.form) { var i = fa(r); if (!i) throw Error(_(90)); Sd(r), $l(r, i); } } } break; case 'textarea': Cd(e, n); break; case 'select': t = n.value, t != null && ar(e, !!n.multiple, t, !1); } }; _d = bs; Vd = zn; var nv = { usingClientEntryPoint: !1, Events: [Pi, Zn, fa, Ad, Fd, bs] }, Lr = { findFiberByHostInstance: _n, bundleType: 0, version: '18.0.0-fc46dba67-20220329', rendererPackageName: 'react-dom' }, rv = { bundleType: Lr.bundleType, version: Lr.version, rendererPackageName: Lr.rendererPackageName, rendererConfig: Lr.rendererConfig, overrideHookState: null, overrideHookStateDeletePath: null, overrideHookStateRenamePath: null, overrideProps: null, overridePropsDeletePath: null, overridePropsRenamePath: null, setErrorHandler: null, setSuspenseHandler: null, scheduleUpdate: null, currentDispatcherRef: en.ReactCurrentDispatcher, findHostInstanceByFiber: function(e) { return e = Md(e), e === null ? null : e.stateNode; }, findFiberByHostInstance: Lr.findFiberByHostInstance || ev, findHostInstancesForRefresh: null, scheduleRefresh: null, scheduleRoot: null, setRefreshHandler: null, getCurrentFiber: null, reconcilerVersion: '18.0.0-fc46dba67-20220329' }; if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ != 'undefined') { var Ki = __REACT_DEVTOOLS_GLOBAL_HOOK__; if (!Ki.isDisabled && Ki.supportsFiber) try { la = Ki.inject(rv), zt = Ki; } catch { } } yt.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = nv; yt.createPortal = function(e, t) { var n = 2 < arguments.length && arguments[2] !== void 0 ? arguments[2] : null; if (!Is(t)) throw Error(_(200)); return J1(e, t, null, n); }; yt.createRoot = function(e, t) { if (!Is(e)) throw Error(_(299)); var n = !1, r = '', i = uh; return t != null && (t.unstable_strictMode === !0 && (n = !0), t.identifierPrefix !== void 0 && (r = t.identifierPrefix), t.onRecoverableError !== void 0 && (i = t.onRecoverableError)), t = Fs(e, 1, !1, null, null, n, !1, r, i), e[Zt] = t.current, si(e.nodeType === 8 ? e.parentNode : e), new Vs(t); }; yt.findDOMNode = function(e) { if (e == null) return null; if (e.nodeType === 1) return e; var t = e._reactInternals; if (t === void 0) throw typeof e.render == 'function' ? Error(_(188)) : (e = Object.keys(e).join(','), Error(_(268, e))); return e = Md(t), e = e === null ? null : e.stateNode, e; }; yt.flushSync = function(e) { return zn(e); }; yt.hydrate = function(e, t, n) { if (!wa(t)) throw Error(_(200)); return Sa(null, e, t, !0, n); }; yt.hydrateRoot = function(e, t, n) { if (!Is(e)) throw Error(_(405)); var r = n != null && n.hydratedSources || null, i = !1, o = '', a = uh; if (n != null && (n.unstable_strictMode === !0 && (i = !0), n.identifierPrefix !== void 0 && (o = n.identifierPrefix), n.onRecoverableError !== void 0 && (a = n.onRecoverableError)), t = lh(t, null, e, 1, n != null ? n : null, i, !1, o, a), e[Zt] = t.current, si(e), r) for (e = 0; e < r.length; e++)n = r[e], i = n._getVersion, i = i(n._source), t.mutableSourceEagerHydrationData == null ? t.mutableSourceEagerHydrationData = [n, i] : t.mutableSourceEagerHydrationData.push(n, i); return new xa(t); }; yt.render = function(e, t, n) { if (!wa(t)) throw Error(_(200)); return Sa(null, e, t, !1, n); }; yt.unmountComponentAtNode = function(e) { if (!wa(e)) throw Error(_(40)); return e._reactRootContainer ? (zn(function() { Sa(null, null, e, !1, function() { e._reactRootContainer = null, e[Zt] = null; }); }), !0) : !1; }; yt.unstable_batchedUpdates = bs; yt.unstable_renderSubtreeIntoContainer = function(e, t, n, r) { if (!wa(n)) throw Error(_(200)); if (e == null || e._reactInternals === void 0) throw Error(_(38)); return Sa(e, t, n, !1, r); }; yt.version = '18.0.0-fc46dba67-20220329'; function sh() { if (!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ == 'undefined' || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE != 'function')) try { __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(sh); } catch (e) { console.error(e); } } sh(), Uu.exports = yt; var ch, iv = Uu.exports; ch = iv.createRoot; var ka = { exports: {} }, Ca = {};/**
@@ -6107,7 +6124,12 @@ function Yg(e, t) {
 
 const ye = { post: Qg, onEvent: qg, emitEvent: Yg },
 	Kg = () => (window.addEventListener('message', e => {
-		!ta[e.data.type] || ta[e.data.type](e.data.payload);
+		if (Object.prototype.hasOwnProperty.call(ta, e.data.type) && typeof ta[e.data.type] === 'function') {
+			ta[e.data.type](e.data.payload);
+		}
+		else {
+			console.error(`Invalid event type: ${e.data.type}`);
+		}
 	}), null), Ff = {
 		model: 'mp_m_freemode_01',
 		tattoos: {},
