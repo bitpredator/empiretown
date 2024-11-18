@@ -47,18 +47,18 @@ if ESX.GetConfig().Multichar then
     end)
 
     StartLoop = function()
-        hidePlayers = true
+        HidePlayers = true
         MumbleSetVolumeOverride(PlayerId(), 0.0)
         CreateThread(function()
             local keys = { 18, 27, 172, 173, 174, 175, 176, 177, 187, 188, 191, 201, 108, 109, 209, 19 }
-            while hidePlayers do
+            while HidePlayers do
                 DisableAllControlActions(0)
                 for i = 1, #keys do
                     EnableControlAction(0, keys[i], true)
                 end
                 SetEntityVisible(PlayerPedId(), true, true)
-                SetLocalPlayerVisibleLocally(1)
-                SetPlayerInvincible(PlayerId(), 1)
+                SetLocalPlayerVisibleLocally(true)
+                SetPlayerInvincible(PlayerId(), true)
                 ThefeedHideThisFrame()
                 HideHudComponentThisFrame(11)
                 HideHudComponentThisFrame(12)
@@ -73,14 +73,14 @@ if ESX.GetConfig().Multichar then
             local playerId, playerPed = PlayerId(), PlayerPedId()
             MumbleSetVolumeOverride(playerId, -1.0)
             SetEntityVisible(PlayerPedId(), true, true)
-            SetPlayerInvincible(playerId, 0)
+            SetPlayerInvincible(playerId, false)
             FreezeEntityPosition(playerPed, false)
             Wait(10000)
             canRelog = true
         end)
         CreateThread(function()
             local playerPool = {}
-            while hidePlayers do
+            while HidePlayers do
                 local players = GetActivePlayers()
                 for i = 1, #players do
                     local player = players[i]
@@ -102,10 +102,10 @@ if ESX.GetConfig().Multichar then
             local skin = Characters[index] and Characters[index].skin or Characters[index] and Config.Default
 
             if Characters[index] and not Characters[index].model then
-                skin.sex = Characters[index].sex == TranslateCap('female') and 1 or 0
+                skin.sex = Characters[index].sex == TranslateCap("female") and 1 or 0
             end
 
-            ESX.SpawnPlayer(skin, {x = SpawnCoords.x, y = SpawnCoords.y, z = SpawnCoords.z}, function()
+            ESX.SpawnPlayer(skin, { x = SpawnCoords.x, y = SpawnCoords.y, z = SpawnCoords.z }, function()
                 canRelog = false
                 DoScreenFadeIn(600)
             end)
@@ -128,7 +128,7 @@ if ESX.GetConfig().Multichar then
         local playerPed = PlayerPedId()
         FreezeEntityPosition(PlayerPedId(), true)
         SetPedAoBlobRendering(playerPed, true)
-        SetEntityAlpha(playerPed, 255)
+        SetEntityAlpha(PlayerPedId(), 255, false)
         SendNUIMessage({
             action = "openui",
             character = Characters[spawned],
@@ -223,7 +223,7 @@ if ESX.GetConfig().Multichar then
                 TriggerEvent("esx_identity:showRegisterIdentity")
                 local playerPed = PlayerPedId()
                 SetPedAoBlobRendering(playerPed, false)
-                SetEntityAlpha(playerPed, 0)
+                SetEntityAlpha(PlayerPedId(), 0, false)
                 SendNUIMessage({
                     action = "closeui",
                 })
@@ -248,15 +248,15 @@ if ESX.GetConfig().Multichar then
             SendNUIMessage({
                 action = "closeui",
             })
-            ESX.SpawnPlayer({model = mp_m_freemode_01}, {x = SpawnCoords.x, y = SpawnCoords.y, z = SpawnCoords.z}, function()
+            ESX.SpawnPlayer({ model = mp_m_freemode_01 }, { x = SpawnCoords.x, y = SpawnCoords.y, z = SpawnCoords.z }, function()
                 canRelog = false
                 DoScreenFadeIn(400)
                 Wait(400)
                 local ped = PlayerPedId()
                 SetPedAoBlobRendering(ped, false)
-                SetEntityAlpha(ped, 0)
-                TriggerServerEvent('esx_multicharacter:CharacterChosen', 1, true)
-                TriggerEvent('esx_identity:showRegisterIdentity')
+                SetEntityAlpha(ped, 0, false)
+                TriggerServerEvent("esx_multicharacter:CharacterChosen", 1, true)
+                TriggerEvent("esx_identity:showRegisterIdentity")
             end)
         else
             SelectCharacterMenu(Characters, slots)
@@ -318,7 +318,7 @@ if ESX.GetConfig().Multichar then
         TriggerEvent("esx:onPlayerSpawn")
         TriggerEvent("playerSpawned")
         TriggerEvent("esx:restoreLoadout")
-        Characters, hidePlayers = {}, false
+        Characters, HidePlayers = {}, false
     end)
 
     RegisterNetEvent("esx:onPlayerLogout")
