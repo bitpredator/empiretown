@@ -62,5 +62,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('armour', 'armour'),
 	('WEAPON_FLASHLIGHT', 'WEAPON FLASHLIGHT'),
 	('contract', 'Contract'),
-	('at_suppressor_light', 'Suppressor')
+	('at_suppressor_light', 'Suppressor'),
+	('WEAPON_COMBATSHOTGUN', 'WEAPON COMBATSHOTGUN'),
+	('ammo-shotgun', 'ammo shotgun')
 ;

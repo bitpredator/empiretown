@@ -62,5 +62,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('armour', 'giubbotto antiproiettile'),
 	('WEAPON_FLASHLIGHT', 'Torcia'),
 	('contract', 'Contratto per auto'),
-	('at_suppressor_light', 'Silenziatore')
+	('at_suppressor_light', 'Silenziatore'),
+	('WEAPON_COMBATSHOTGUN', 'Fucile a pompa da combattimento'),
+	('ammo-shotgun', 'Munizioni fucile a pompa')
 ;
