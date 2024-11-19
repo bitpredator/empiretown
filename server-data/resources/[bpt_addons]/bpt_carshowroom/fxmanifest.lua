@@ -1,7 +1,7 @@
 fx_version("adamant")
 game("gta5")
 
-description("esx_carshowroom")
+description("bpt_carshowroom")
 lua54("yes")
 version("1.0.2")
 
@@ -11,5 +11,5 @@ client_scripts({
     "@es_extended/locale.lua",
     "locales/*.lua",
     "config.lua",
-    "client/main.lua",
+    "client/*.lua",
 })
