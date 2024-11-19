@@ -3,7 +3,7 @@ game("gta5")
 
 author("Squizer - refactor by: bitpredator")
 description("Script that allows you to borrow vehicles.")
-version("1.0.1")
+version("1.0.2")
 
 shared_script("@es_extended/imports.lua")
 

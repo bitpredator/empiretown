@@ -2,7 +2,7 @@ fx_version("cerulean")
 game("gta5")
 lua54("yes")
 description("esx-radialmenu")
-version("1.0.1")
+version("1.0.2")
 
 ui_page("html/index.html")
 

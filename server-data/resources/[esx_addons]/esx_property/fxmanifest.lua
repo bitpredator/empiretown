@@ -5,7 +5,7 @@ lua54("yes")
 
 author("ESX-Framework")
 description("Allows players to buy/sell houses, aswell as furnish them")
-version("1.0.1")
+version("1.0.2")
 
 shared_scripts({ "@es_extended/imports.lua", "@es_extended/locale.lua", "locales/*.lua" })
 file("client/html/copy.html")
