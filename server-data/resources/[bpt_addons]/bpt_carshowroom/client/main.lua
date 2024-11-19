@@ -199,7 +199,7 @@ function OpenShopMenu()
             },
         }, function(data2, menu2)
             if data2.current.value == "yes" then
-                sendNotification(TranslateCap("contact_dealer") .. vehicleData.price * Config.Price .. TranslateCap("currency"), "warning", 5000)
+                SendNotification(TranslateCap("contact_dealer") .. vehicleData.price * Config.Price .. TranslateCap("currency"), "warning", 5000)
             end
 
             if data2.current.value == "no" then
@@ -365,7 +365,7 @@ function DisplayHelpText(str)
 end
 
 --notification
-function sendNotification(message, messageType, messageTimeout)
+function SendNotification(message, messageType, messageTimeout)
     TriggerEvent("pNotify:SendNotification", {
         text = message,
         type = messageType,
