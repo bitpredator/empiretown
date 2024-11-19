@@ -372,6 +372,26 @@ Config = {
                 ["hammer"] = 1,
             },
         },
+
+        ["WEAPON_COMBATSHOTGUN"] = {
+            Level = 10,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 180,
+            Ingredients = {
+                ["copper"] = 1,
+                ["iron"] = 5,
+                ["wood"] = 1,
+                ["steel"] = 10,
+                ["hammer"] = 1,
+            },
+        },
+
         ["ammo-sniper"] = {
             Level = 10,
             Category = "ammunation",
@@ -392,6 +412,25 @@ Config = {
         },
 
         ["ammo-9"] = {
+            Level = 10,
+            Category = "ammunation",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 10,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["copper"] = 1,
+                ["iron"] = 1,
+                ["gunpowder"] = 1,
+                ["gold"] = 1,
+                ["hammer"] = 1,
+            },
+        },
+
+        ["ammo-shotgun"] = {
             Level = 10,
             Category = "ammunation",
             isGun = false,
@@ -647,6 +686,7 @@ Config = {
                 "WEAPON_APPISTOL",
                 "ammo-sniper",
                 "ammo-9",
+                "ammo-shotgun",
                 "WEAPON_KNIFE",
                 "WEAPON_KNUCKLE",
                 "WEAPON_NIGHTSTICK",
@@ -654,6 +694,7 @@ Config = {
                 "armour",
                 "WEAPON_FLASHLIGHT",
                 "at_suppressor_light",
+                "WEAPON_COMBATSHOTGUN",
             },
             radius = 1.0,
         },
