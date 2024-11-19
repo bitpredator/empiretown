@@ -4,7 +4,7 @@ game("gta5")
 author("ESX-Framework")
 description("Allows Players to Store & Retrieve their vehicles")
 
-version("1.0.1")
+version("1.0.2")
 
 lua54("yes")
 

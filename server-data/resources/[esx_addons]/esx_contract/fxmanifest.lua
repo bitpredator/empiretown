@@ -4,7 +4,7 @@ game("gta5")
 
 description("esx_contract")
 
-version("1.0.1")
+version("1.0.2")
 
 shared_script("@es_extended/imports.lua")
 
