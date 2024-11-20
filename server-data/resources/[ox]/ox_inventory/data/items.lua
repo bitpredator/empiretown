@@ -386,7 +386,7 @@ return {
 
 	["apple"] = {
 		label = "Mele",
-		weight = 100,
+		weight = 20,
 		stack = true,
 	},
 
@@ -422,7 +422,7 @@ return {
 
 	["fishbait"] = {
 		label = "esca per pesci",
-		weight = 100,
+		weight = 3,
 		stack = true,
 	},
 
