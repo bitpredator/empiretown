@@ -28,6 +28,12 @@ files({
     "data/mads14/handling.meta",
     "data/mads14/vehicles.meta",
     "data/mads14/carvariations.meta",
+
+    -- Tmax500
+    "data/Tmax500/handling.meta",
+    "data/Tmax500/vehicles.meta",
+    "data/Tmax500/carcols.meta",
+    "data/Tmax500/carvariations.meta",
 })
 
 -- bmw440
@@ -52,6 +58,12 @@ data_file("VEHICLE_VARIATION_FILE")("data/SkylineGT-R/carvariations.meta")
 data_file("HANDLING_FILE")("data/mads14/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/mads14/vehicles.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/mads14/carvariations.meta")
+
+-- Tmax500
+data_file("HANDLING_FILE")("data/Tmax500/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/Tmax500/vehicles.meta")
+data_file("CARCOLS_FILE")("data/Tmax500/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/Tmax500/carvariations.meta")
 
 client_script({
     "vehicle_names.lua",
