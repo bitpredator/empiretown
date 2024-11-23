@@ -25,7 +25,6 @@ Config.fish = {
     { item = "trout", label = "Trout", difficulty = { "easy" } },
     { item = "anchovy", label = "Anchovy", difficulty = { "easy" } },
     { item = "plastic_bag", label = "Plastic Bag", difficulty = { "easy" } },
-    { item = "halloween", label = "Halloween", difficulty = { "easy" } },
 }
 
 RegisterNetEvent("wasabi_fishing:notify")
