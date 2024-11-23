@@ -12,11 +12,6 @@ server-data/db/default
 server-data/imgui.ini
 
 # Resources
-server-data/easyadmin_permissions.cfg
-server-data/resources/\[esx]/\fivem-performance-analyzer
-server-data/resources/\[esx]/EasyAdmin
-server-data/resources/\[esx_addons]/discord_perms
-server-data/resources/\[esx_addons]/DiscordRoles
 server-data/resources/\[anticheat]/discord-screenshot
 server-data/resources/\[anticheat]/FIREAC
 
