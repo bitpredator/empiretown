@@ -12,12 +12,13 @@ server-data/db/default
 server-data/imgui.ini
 
 # Resources
-server-data/resources/\[gameplay]
-server-data/resources/\[managers]
-server-data/resources/\[system]
-server-data/resources/\[system]/\[builders]
-server-data/resources/\[test]
-server-data/resources/\[gamemodes]
+server-data/easyadmin_permissions.cfg
+server-data/resources/\[esx]/\fivem-performance-analyzer
+server-data/resources/\[esx]/EasyAdmin
+server-data/resources/\[esx_addons]/discord_perms
+server-data/resources/\[esx_addons]/DiscordRoles
+server-data/resources/\[anticheat]/discord-screenshot
+server-data/resources/\[anticheat]/FIREAC
 
 # Resources log
 server-data/resources/\[phone]/npwd/sv_npwd.log

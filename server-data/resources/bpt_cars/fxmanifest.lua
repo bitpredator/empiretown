@@ -34,6 +34,12 @@ files({
     "data/Tmax500/vehicles.meta",
     "data/Tmax500/carcols.meta",
     "data/Tmax500/carvariations.meta",
+
+    -- Mercedes-BenzSLS
+    "data/Mercedes-BenzSLS/handling.meta",
+    "data/Mercedes-BenzSLS/vehicles.meta",
+    "data/Mercedes-BenzSLS/carcols.meta",
+    "data/Mercedes-BenzSLS/carvariations.meta",
 })
 
 -- bmw440
@@ -64,6 +70,12 @@ data_file("HANDLING_FILE")("data/Tmax500/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/Tmax500/vehicles.meta")
 data_file("CARCOLS_FILE")("data/Tmax500/carcols.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/Tmax500/carvariations.meta")
+
+-- Mercedes-BenzSLS
+data_file("HANDLING_FILE")("data/Mercedes-BenzSLS/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/Mercedes-BenzSLS/vehicles.meta")
+data_file("CARCOLS_FILE")("data/Mercedes-BenzSLS/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/Mercedes-BenzSLS/carvariations.meta")
 
 client_script({
     "vehicle_names.lua",
