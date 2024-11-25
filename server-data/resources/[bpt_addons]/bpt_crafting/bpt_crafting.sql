@@ -27,7 +27,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('water', 'water'),
 	('almonds', 'almonds'),
 	('chips', 'chips'),
-	('slicedchips', 'slicedchips'),
+	('fries', 'fries'),
 	('potato', 'patato'),
 	('trash_can', 'trash can'),
 	('recycled_paper', 'recycled paper'),
@@ -65,5 +65,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('at_suppressor_light', 'Suppressor'),
 	('WEAPON_COMBATSHOTGUN', 'WEAPON COMBATSHOTGUN'),
 	('ammo-shotgun', 'ammo shotgun'),
-	('salmon', 'Salmon')
+	('salmon', 'Salmon'),
+	('fry_oil', 'Fry oil')
 ;

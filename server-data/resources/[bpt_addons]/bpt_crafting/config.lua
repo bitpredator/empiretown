@@ -288,7 +288,7 @@ Config = {
             },
         },
 
-        ["slicedchips"] = {
+        ["fries"] = {
             Level = 0,
             Category = "unicorn",
             isGun = false,
@@ -300,7 +300,8 @@ Config = {
             Time = 10,
             Ingredients = {
                 ["potato"] = 1,
-                ["water"] = 1,
+                ["fry_oil"] = 1,
+                ["WEAPON_KNIFE"] = 1,
             },
         },
 
@@ -702,7 +703,7 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "slicedchips", "bread_deer", "salmon_fillet" },
+            recipes = { "almondmilk", "fries", "bread_deer", "salmon_fillet" },
             radius = 1.0,
         },
         {

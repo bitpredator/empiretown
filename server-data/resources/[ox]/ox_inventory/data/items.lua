@@ -38,6 +38,18 @@ return {
         },
     },
 
+    ["fries"] = {
+        label = "patatine fritte",
+        weight = 220,
+        client = {
+            status = { hunger = 40000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiano delle patatine fritte",
+        },
+    },
+
     ["bread_deer"] = {
         label = "panino con carne di cervo",
         weight = 220,
@@ -416,12 +428,6 @@ return {
 
     ["chips"] = {
         label = "Patatine fritte",
-        weight = 100,
-        stack = true,
-    },
-
-    ["slicedchips"] = {
-        label = "Patate affettate",
         weight = 100,
         stack = true,
     },
