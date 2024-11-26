@@ -26,8 +26,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('ice', 'ghiaccio'),
 	('water', 'acqua'),
 	('almonds', 'mandorle'),
-	('chips', 'patatine fritte'),
-	('slicedchips', 'patate affettate'),
+	('fries', 'patatine fritte'),
 	('potato', 'patate'),
 	('trash_can', 'lattina usata'),
 	('recycled_paper', 'carta riciclata'),
@@ -64,5 +63,8 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('contract', 'Contratto per auto'),
 	('at_suppressor_light', 'Silenziatore'),
 	('WEAPON_COMBATSHOTGUN', 'Fucile a pompa da combattimento'),
-	('ammo-shotgun', 'Munizioni fucile a pompa')
+	('ammo-shotgun', 'Munizioni fucile a pompa'),
+	('salmon', 'Salmone'),
+	('fry_oil', 'olio per fritti'),
+	('grilled_salmon', 'salmone grigliato')
 ;

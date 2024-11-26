@@ -288,7 +288,7 @@ Config = {
             },
         },
 
-        ["slicedchips"] = {
+        ["fries"] = {
             Level = 0,
             Category = "unicorn",
             isGun = false,
@@ -300,7 +300,8 @@ Config = {
             Time = 10,
             Ingredients = {
                 ["potato"] = 1,
-                ["water"] = 1,
+                ["fry_oil"] = 1,
+                ["WEAPON_KNIFE"] = 1,
             },
         },
 
@@ -611,6 +612,22 @@ Config = {
             Time = 60,
             Ingredients = {
                 ["salmon"] = 1,
+                ["WEAPON_KNIFE"] = 1,
+            },
+        },
+
+        ["grilled_salmon"] = {
+            Level = 0,
+            Category = "fisherman",
+            isGun = false,
+            Jobs = { "unicorn" },
+            JobGrades = {},
+            Amount = 2,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 60,
+            Ingredients = {
+                ["salmon_fillet"] = 1,
             },
         },
 
@@ -702,7 +719,8 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "slicedchips", "bread_deer", "salmon_fillet" },
+            recipes = { "almondmilk", "fries", "salmon_fillet", "grilled_salmon" },
+            --  "bread_deer",
             radius = 1.0,
         },
         {
