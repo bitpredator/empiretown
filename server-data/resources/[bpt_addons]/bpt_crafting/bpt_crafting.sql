@@ -66,5 +66,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('WEAPON_COMBATSHOTGUN', 'WEAPON COMBATSHOTGUN'),
 	('ammo-shotgun', 'ammo shotgun'),
 	('salmon', 'Salmon'),
-	('fry_oil', 'Fry oil')
+	('fry_oil', 'Fry oil'),
+	('grilled_salmon', 'grilled salmon')
 ;

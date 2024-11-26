@@ -50,6 +50,18 @@ return {
         },
     },
 
+    ["grilled_salmon"] = {
+        label = "salmone grigliato",
+        weight = 140,
+        client = {
+            status = { hunger = 40000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiano del salmone grigliato",
+        },
+    },
+
     ["bread_deer"] = {
         label = "panino con carne di cervo",
         weight = 220,
