@@ -476,7 +476,7 @@ return {
 
     ["almondmilk"] = {
         label = "Latte di mandorla",
-        weight = 500,
+        weight = 80,
         client = {
             status = { thirst = 200000 },
             anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
@@ -505,7 +505,7 @@ return {
 
     ["pelt_mtnlion"] = {
         label = "Pelle di leone di montagna",
-        weight = 700,
+        weight = 400,
         stack = true,
     },
 
