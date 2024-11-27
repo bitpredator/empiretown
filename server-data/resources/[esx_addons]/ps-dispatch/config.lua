@@ -9,12 +9,12 @@ Config.Cooldown311 = 60
 Config.Enable = {}
 Config.Timer = {}
 
-Config.PoliceJob = { "police", "bcso"}
+Config.PoliceJob = { "police"}
 
 -- Enable if you only want to send alerts to onDuty officers
 Config.OnDutyOnly = true
 
-Config.PoliceAndAmbulance = { "police", "ambulance", "bcso"}
+Config.PoliceAndAmbulance = { "police", "ambulance"}
 Config.PhoneModel = 'patoche_props_phone1'
 
 -- sets report chance to 100%
