@@ -1,14 +1,11 @@
-
 local playAnim = false
 local phoneProp = 0
 local phoneModel = Config.PhoneModel
-
 
 -- Item checks to return whether or not the client has a phone or not
 local function HasPhone()
     return Functions[Config.Core].HasPhone()
 end
-
 
 -- Loads the animdict so we can execute it on the ped
 local function loadAnimDict(dict)
