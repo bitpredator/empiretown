@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 $(document).ready(() => {
 	window.addEventListener('message', function (event) {
 		let data = event.data;
@@ -82,10 +84,13 @@ function timeAgo(dateParam) {
 function addNewCall(callID, timer, info, isPolice) {
 	const prio = info['priority'];
 	let DispatchItem;
+	const sanitizedCallID = DOMPurify.sanitize(callID);
+	const sanitizedDispatchCode = DOMPurify.sanitize(info.dispatchCode);
+	const sanitizedDispatchMessage = DOMPurify.sanitize(info.dispatchMessage);
 	if (info['isDead']) {
-		DispatchItem = `<div class="dispatch-item ${callID} dispatch-item-${info['isDead']} animate__animated"><div class="top-info-holder"><div class="call-id">#${callID}</div><div class="call-code priority-${prio}">${info.dispatchCode}</div><div class="call-name">${info.dispatchMessage}</div></div><div class="bottom-info-holder">`;
+		DispatchItem = `<div class="dispatch-item ${sanitizedCallID} dispatch-item-${info['isDead']} animate__animated"><div class="top-info-holder"><div class="call-id">#${sanitizedCallID}</div><div class="call-code priority-${prio}">${sanitizedDispatchCode}</div><div class="call-name">${sanitizedDispatchMessage}</div></div><div class="bottom-info-holder">`;
 	} else {
-		DispatchItem = `<div class="dispatch-item ${callID} dispatch-item-${isPolice} animate__animated"><div class="top-info-holder"><div class="call-id">#${callID}</div><div class="call-code priority-${prio}">${info.dispatchCode}</div><div class="call-name">${info.dispatchMessage}</div></div><div class="bottom-info-holder">`;
+		DispatchItem = `<div class="dispatch-item ${sanitizedCallID} dispatch-item-${isPolice} animate__animated"><div class="top-info-holder"><div class="call-id">#${sanitizedCallID}</div><div class="call-code priority-${prio}">${sanitizedDispatchCode}</div><div class="call-name">${sanitizedDispatchMessage}</div></div><div class="bottom-info-holder">`;
 	}
 
 	// Above we are defining a default dispatch item and then we will append the data we have been sent.
@@ -139,16 +144,20 @@ function addNewCall(callID, timer, info, isPolice) {
 		DispatchItem += `<div class="call-bottom-info"><span class="fab fa-blackberry"></span>Automatic Gunfire</div>`;
 	}
 
-	if (info['name'] && info['number']) {
-		DispatchItem += `<div class="call-bottom-info"><span class="far fa-id-badge"></span>${info['name']}<span class="fas fa-mobile-alt" style="margin-left: 2vh;"></span>${info['number']}</div>`;
-	} else if (info['number']) {
-		DispatchItem += `<div class="call-bottom-info"><span class="fas fa-mobile-alt"></span>${info['number']}</div>`;
-	} else if (info['name']) {
-		DispatchItem += `<div class="call-bottom-info"><span class="far fa-id-badge"></span>${info['name']}</div>`;
+	const sanitizedName = DOMPurify.sanitize(info['name']);
+	const sanitizedNumber = DOMPurify.sanitize(info['number']);
+	const sanitizedInformation = DOMPurify.sanitize(info['information']);
+
+	if (sanitizedName && sanitizedNumber) {
+		DispatchItem += `<div class="call-bottom-info"><span class="far fa-id-badge"></span>${sanitizedName}<span class="fas fa-mobile-alt" style="margin-left: 2vh;"></span>${sanitizedNumber}</div>`;
+	} else if (sanitizedNumber) {
+		DispatchItem += `<div class="call-bottom-info"><span class="fas fa-mobile-alt"></span>${sanitizedNumber}</div>`;
+	} else if (sanitizedName) {
+		DispatchItem += `<div class="call-bottom-info"><span class="far fa-id-badge"></span>${sanitizedName}</div>`;
 	}
 
-	if (info['information']) {
-		DispatchItem += `<div class="line"></div><div class="call-bottom-info call-bottom-information"><span class="far fa-question-circle"></span>${info['information']}</div>`;
+	if (sanitizedInformation) {
+		DispatchItem += `<div class="line"></div><div class="call-bottom-info call-bottom-information"><span class="far fa-question-circle"></span>${sanitizedInformation}</div>`;
 	}
 
 	DispatchItem += `</div></div>`;
