@@ -547,7 +547,7 @@ return {
 
     ["grain"] = {
         label = "grano",
-        weight = 100,
+        weight = 5,
         stack = true,
     },
 
