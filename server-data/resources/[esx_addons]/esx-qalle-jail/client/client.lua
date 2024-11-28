@@ -367,7 +367,7 @@ function OpenJailMenu()
                     })
                 end
 
-                ESX.UI.Menu.Open("default", GetCurrentResourceName(), "jailTranslateCapnjail_menu", {
+                ESX.UI.Menu.Open("default", GetCurrentResourceName(), "jail", TranslateCap("jail_menu"), {
                     title = "Unjail Player",
                     align = "center",
                     elements = elements,
