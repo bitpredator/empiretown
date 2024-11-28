@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local seconds, minutes = 1000, 60000
 Config = {}
 
