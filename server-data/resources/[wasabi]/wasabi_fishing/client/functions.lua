@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global, missing-parameter
+
 ShowHelp = function(msg)
     BeginTextCommandDisplayHelp("STRING")
     AddTextComponentSubstringPlayerName(msg)

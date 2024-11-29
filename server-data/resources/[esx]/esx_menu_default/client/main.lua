@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 local GUI, MenuType, OpenedMenus, CurrentNameSpace = {}, "default", 0, nil
 GUI.Time = 0
 
