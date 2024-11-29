@@ -434,13 +434,13 @@ return {
 
     ["potato"] = {
         label = "Patate",
-        weight = 100,
+        weight = 20,
         stack = true,
     },
 
     ["chips"] = {
         label = "Patatine fritte",
-        weight = 100,
+        weight = 25,
         stack = true,
     },
 
