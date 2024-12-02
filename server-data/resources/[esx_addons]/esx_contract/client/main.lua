@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 ESX = exports["es_extended"]:getSharedObject()
 
 RegisterNetEvent("esx_contract:getVehicle")
