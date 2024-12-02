@@ -1,4 +1,4 @@
----@diagnostic disable: undefined-global
+---@diagnostic disable: undefined-global, unused-local
 ESX = exports["es_extended"]:getSharedObject()
 
 RegisterServerEvent("esx_clothes:sellVehicle")
