@@ -1,4 +1,4 @@
----@diagnostic disable: undefined-global, unused-local
+---@diagnostic disable: undefined-global
 ESX = exports["es_extended"]:getSharedObject()
 
 RegisterServerEvent("esx_clothes:sellVehicle")
@@ -34,6 +34,6 @@ end)
 
 ESX.RegisterUsableItem("contract", function(source)
     local _source = source
-    local xPlayer = ESX.GetPlayerFromId(_source)
+    local _ = ESX.GetPlayerFromId(_source)
     TriggerClientEvent("esx_contract:getVehicle", _source)
 end)
