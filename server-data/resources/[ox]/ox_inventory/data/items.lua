@@ -463,8 +463,8 @@ return {
     },
 
     ["trout"] = {
-        label = "20",
-        weight = 100,
+        label = "trota",
+        weight = 20,
         stack = true,
     },
 
