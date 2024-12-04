@@ -29,5 +29,6 @@ Locales["it"] = {
 	["import"] = "import",
 	-- billing
 	["bill_amount"] = "importo della fattura",
+	["amount"] = "importo",
 	["confirm"] = "Conferma",
 }
