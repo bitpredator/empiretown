@@ -1,17 +1,10 @@
---[[ ===================================================== ]]
---
---[[         FiveM Real Parking Script by Akkariin         ]]
---
---[[ ===================================================== ]]
---
-
 Config = {}
 
 -- If you are using ESX 1.2.0 or higher please leave this to false
 Config.UsingOldESX = false
 
 -- locale
-Config.Locale = "en"
+Config.Locale = "it"
 
 -- The key to save the car, default key is "E" (horn)
 Config.KeyToSave = 51
