@@ -1,0 +1,16 @@
+Locales["it"] = {
+    ["only_allow_car"] = "Puoi depositare solo le auto qui",
+    ["car_saved"] = "La tua auto è stata depositata",
+    ["press_to_save"] = "Premi ~INPUT_CONTEXT~ per posteggiare la tua auto",
+    ["not_your_car"] = "Devi possedere l'auto per conservarla",
+    ["need_parking_fee"] = "Premi ~INPUT_CONTEXT~ per pagare le tariffe del parcheggio ~g~$%s~s~",
+    ["not_enough_money"] = "Non hai abbastanza soldi",
+    ["parking_fee"] = "Tasse di parcheggio: ~g~$%s/day",
+    ["pay_success"] = "Hai pagato il parcheggio ~g~$%s~s~ ora puoi guidare",
+    ["parking_full"] = "Questo parcheggio è pieno, non puoi parcheggiare qui",
+    ["invalid_car"] = "Non hai lasciato l'auto qui o non hai il permesso di guidarla",
+    ["already_parking"] = "In questo parcheggio è già custodita un'auto con la stessa targa",
+    ["owner"] = "Proprietario: ~y~%s~s~",
+    ["plate"] = "Targa: ~g~%s~s~",
+    ["stop_the_car"] = "Dovresti prima fermare la macchina",
+}

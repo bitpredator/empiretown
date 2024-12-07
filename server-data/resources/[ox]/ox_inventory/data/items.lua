@@ -14,6 +14,10 @@ return {
         label = "Dirty Money",
     },
 
+    ["parkingcard"] = {
+        label = "Tessera parcheggio",
+    },
+
     ["burger"] = {
         label = "Burger",
         weight = 220,
@@ -34,7 +38,7 @@ return {
             anim = "eating",
             prop = "burger",
             usetime = 2500,
-            notification = "Stai mangiano una fetta di panettone",
+            notification = "Stai mangiando una fetta di panettone",
         },
     },
 
