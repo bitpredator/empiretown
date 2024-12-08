@@ -71,9 +71,6 @@ CreateThread(function()
 
         -- Display Location and time when in any vehicle or on foot (if enabled)
         if pedInVeh or locationAlwaysOn then
-            -- Get time and display
-            DrawTxt(timeText, 4, locationColorText, 0.4, screenPosX, screenPosY + 0.048)
-
             -- Display remainder of HUD when engine is on and vehicle is not a bicycle
             local vehicleClass = GetVehicleClass(vehicle)
             if pedInVeh and GetIsVehicleEngineRunning(vehicle) and vehicleClass ~= 13 then

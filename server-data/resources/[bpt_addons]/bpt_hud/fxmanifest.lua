@@ -10,10 +10,7 @@ ui_page("html/ui.html")
 shared_script("@es_extended/imports.lua")
 
 files({
-    "html/*.css",
     "html/*.js",
-    "html/*.png",
-    "html/ui.html",
 })
 
 client_scripts({

@@ -57,7 +57,7 @@ if GetResourceState("ox_inventory") ~= "missing" then
     Config.CustomInventory = "ox"
 end
 
-local txAdminLocale = GetConvar("txAdmin-locale", "en")
+local txAdminLocale = GetConvar("txAdmin-locale", "it")
 local esxLocale = GetConvar("esx:locale", "invalid")
 
-Config.Locale = (esxLocale ~= "invalid") and esxLocale or (txAdminLocale ~= "custom" and txAdminLocale) or "en"
+Config.Locale = (esxLocale ~= "invalid") and esxLocale or (txAdminLocale ~= "custom" and txAdminLocale) or "it"

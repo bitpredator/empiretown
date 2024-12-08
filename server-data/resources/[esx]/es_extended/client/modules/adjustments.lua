@@ -171,44 +171,6 @@ local placeHolders = {
     end,
 }
 
-function Adjustments:PresencePlaceholders()
-    local presence = Config.DiscordActivity.presence
-
-    for placeholder, cb in pairs(placeHolders) do
-        local success, result = pcall(cb)
-
-        if not success then
-            error(("Failed to execute presence placeholder: ^5%s^7"):format(placeholder))
-            error(result)
-            return "Unknown"
-        end
-
-        presence = presence:gsub(("{%s}"):format(placeholder), result)
-    end
-
-    return presence
-end
-
-function Adjustments:DiscordPresence()
-    if Config.DiscordActivity.appId ~= 0 then
-        CreateThread(function()
-            while true do
-                SetDiscordAppId(Config.DiscordActivity.appId)
-                SetDiscordRichPresenceAsset(Config.DiscordActivity.assetName)
-                SetDiscordRichPresenceAssetText(Config.DiscordActivity.assetText)
-
-                for i = 1, #Config.DiscordActivity.buttons do
-                    local button = Config.DiscordActivity.buttons[i]
-                    SetDiscordRichPresenceAction(i - 1, button.label, button.url)
-                end
-
-                SetRichPresence(self:PresencePlaceholders())
-                Wait(Config.DiscordActivity.refresh)
-            end
-        end)
-    end
-end
-
 function Adjustments:WantedLevel()
     if not Config.EnableWantedLevel then
         ClearPlayerWantedLevel(ESX.playerId)
@@ -236,7 +198,6 @@ function Adjustments:Load()
     self:DispatchServices()
     self:NPCScenarios()
     self:LicensePlates()
-    self:DiscordPresence()
     self:WantedLevel()
     self:DisableRadio()
 end
