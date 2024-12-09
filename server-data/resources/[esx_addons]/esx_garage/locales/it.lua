@@ -1,8 +1,9 @@
 Locales["it"] = {
+    ["parking_blip_name"] = "Parcheggio del sequestro",
     ["Impound_blip_name"] = "Sequestro",
     ["access_Impound"] = "premi [E] per accedere al sequestro.",
-    ["not_owning_veh"] = "non possiedi questo veicolo!",
     ["veh_released"] = " Veicolo recuperato con successo. ",
+    ["not_owning_veh"] = "non possiedi questo veicolo!",
     ["veh_Impound_released"] = " Veicolo recuperato con successo dal sequestro. ",
     ["veh_stored"] = " Veicolo depositato con successo ",
     ["veh_impounded"] = " Veicolo sequestrato ",

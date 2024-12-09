@@ -84,6 +84,7 @@ CreateThread(function()
         SetBlipAsShortRange(blip, true)
 
         BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName(TranslateCap("parking_blip_name"))
         EndTextCommandSetBlipName(blip)
     end
 
