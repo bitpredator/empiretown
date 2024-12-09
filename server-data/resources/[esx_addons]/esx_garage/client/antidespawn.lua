@@ -1,5 +1,5 @@
 local model, coords, heading
-local vehicle = CreateVehicle(model, coords.x, coords.y, coords.z + 1.0, heading, true, false)
+local vehicle = CreateVehicle(model, GetEntityCoords(coords), GetEntityHeading(heading), 1, 0, false, false)
 
 SetVehicleNeedsToBeHotwired(vehicle, false)
 SetVehicleHasBeenOwnedByPlayer(vehicle, true)

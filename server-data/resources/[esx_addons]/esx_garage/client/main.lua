@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 local LastMarker, LastPart, thisGarage, thisPound = nil, nil, nil, nil
 local next = next
 local nearMarker, menuIsShowed = false, false
@@ -13,9 +15,6 @@ AddEventHandler("esx_garage:closemenu", function()
         hideAll = true,
     })
 
-    if not menuIsShowed and thisGarage then
-        ESX.TextUI(TranslateCap("access_parking"))
-    end
     if not menuIsShowed and thisPound then
         ESX.TextUI(TranslateCap("access_Impound"))
     end
@@ -85,7 +84,6 @@ CreateThread(function()
         SetBlipAsShortRange(blip, true)
 
         BeginTextCommandSetBlipName("STRING")
-        AddTextComponentSubstringPlayerName(TranslateCap("parking_blip_name"))
         EndTextCommandSetBlipName(blip)
     end
 
@@ -106,15 +104,9 @@ end)
 
 AddEventHandler("esx_garage:hasEnteredMarker", function(name, part)
     if part == "EntryPoint" then
-        local isInVehicle = IsPedInAnyVehicle(ESX.PlayerData.ped, false)
+        local _ = IsPedInAnyVehicle(ESX.PlayerData.ped, false)
         local garage = Config.Garages[name]
         thisGarage = garage
-
-        if isInVehicle then
-            ESX.TextUI(TranslateCap("park_veh"))
-        else
-            ESX.TextUI(TranslateCap("access_parking"))
-        end
     end
 
     if part == "GetOutPoint" then

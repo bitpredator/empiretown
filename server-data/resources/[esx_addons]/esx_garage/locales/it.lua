@@ -1,9 +1,6 @@
 Locales["it"] = {
-    ["parking_blip_name"] = "Garage",
     ["Impound_blip_name"] = "Sequestro",
-    ["access_parking"] = "premi [E] per accedere al parcheggio.",
     ["access_Impound"] = "premi [E] per accedere al sequestro.",
-    ["park_veh"] = "premi [E] per parcheggiare il veicolo.",
     ["not_owning_veh"] = "non possiedi questo veicolo!",
     ["veh_released"] = " Veicolo recuperato con successo. ",
     ["veh_Impound_released"] = " Veicolo recuperato con successo dal sequestro. ",

@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 RegisterServerEvent("esx_garage:updateOwnedVehicle")
 AddEventHandler("esx_garage:updateOwnedVehicle", function(stored, parking, Impound, data, spawn)
     local source = source

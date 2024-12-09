@@ -39,29 +39,6 @@ Config.Garages = {
             y = -886.5,
             z = 31.0,
         },
-        SpawnPoint = {
-            x = -309.3,
-            y = -897.0,
-            z = 31.0,
-            heading = 351.8,
-        },
-        Sprite = 357,
-        Scale = 0.8,
-        Colour = 3,
-        ImpoundedName = "LosSantos",
-    },
-    SanAndreasAvenue = {
-        EntryPoint = {
-            x = 216.4,
-            y = -786.6,
-            z = 30.8,
-        },
-        SpawnPoint = {
-            x = 218.9,
-            y = -779.7,
-            z = 30.8,
-            heading = 338.8,
-        },
         Sprite = 357,
         Scale = 0.8,
         Colour = 3,
@@ -126,6 +103,7 @@ Config.Impounds = {
 exports("getGarages", function()
     return Config.Garages
 end)
+
 exports("getImpounds", function()
     return Config.Impounds
 end)
