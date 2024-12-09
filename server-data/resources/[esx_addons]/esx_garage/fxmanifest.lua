@@ -1,10 +1,10 @@
 fx_version("cerulean")
 game("gta5")
 
-author("ESX-Framework")
+author("ESX-Framework - Rework: Bitpredator")
 description("Allows Players to Store & Retrieve their vehicles")
 
-version("1.0.2")
+version("1.0.3")
 
 lua54("yes")
 
