@@ -2,7 +2,7 @@ fx_version("bodacious")
 game("gta5")
 
 description("vSyncRevamped")
-version("1.0.2")
+version("1.0.3")
 
 server_scripts({
     "config.lua",
