@@ -44,8 +44,6 @@ AddEventHandler("vSync:updateTime", function(base, offset, freeze)
 end)
 
 Citizen.CreateThread(function()
-    local hour = 0
-    local minute = 0
     while true do
         Citizen.Wait(0)
         local newBaseTime = baseTime
@@ -57,8 +55,8 @@ Citizen.CreateThread(function()
             timeOffset = timeOffset + baseTime - newBaseTime
         end
         baseTime = newBaseTime
-        hour = math.floor(((baseTime + timeOffset) / 60) % 24)
-        minute = math.floor((baseTime + timeOffset) % 60)
+        local hour = math.floor(((baseTime + timeOffset) / 60) % 24)
+        local minute = math.floor((baseTime + timeOffset) % 60)
         NetworkOverrideClockTime(hour, minute, 0)
     end
 end)
