@@ -4,6 +4,7 @@ local timeOffset = Config.TimeOffset
 local freezeTime = Config.FreezeTime
 local blackout = Config.Blackout
 local newWeatherTimer = Config.NewWeatherTimer
+local isAllowedToChange
 
 RegisterServerEvent("vSync:requestSync")
 AddEventHandler("vSync:requestSync", function()
