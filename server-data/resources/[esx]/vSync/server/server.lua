@@ -329,5 +329,3 @@ function NextWeatherStage()
     end
     TriggerEvent("vSync:requestSync")
 end
-
-print("vSync Revamped by Kalinka loaded!")
