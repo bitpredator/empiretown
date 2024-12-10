@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 local AccountsIndex, Accounts, SharedAccounts = {}, {}, {}
 
 AddEventHandler("onResourceStart", function(resourceName)

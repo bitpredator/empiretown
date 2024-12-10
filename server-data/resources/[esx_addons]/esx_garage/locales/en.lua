@@ -1,11 +1,9 @@
 Locales["en"] = {
     ["parking_blip_name"] = "Garage",
     ["Impound_blip_name"] = "Impound",
-    ["access_parking"] = "press [E] to access the car park.",
     ["access_Impound"] = "press [E] to access the impound.",
-    ["park_veh"] = "press [E] to park the vehicle.",
-    ["not_owning_veh"] = "You do not own this vehicle!",
     ["veh_released"] = "Successfully Retrieved Vehicle.",
+    ["not_owning_veh"] = "You do not own this vehicle!",
     ["veh_Impound_released"] = "Successfully Retrieved Vehicle From Impound.",
     ["veh_stored"] = "Successfully Stored Vehicle",
     ["veh_impounded"] = "Impounded Vehicle",

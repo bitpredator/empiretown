@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 function CreateAddonAccount(name, owner, money)
     local self = {}
 
