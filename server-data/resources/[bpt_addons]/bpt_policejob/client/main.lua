@@ -82,7 +82,6 @@ function OpenCloakroomMenu()
                         TriggerServerEvent("esx_service:notifyAllInService", notification, "police")
 
                         TriggerServerEvent("esx_service:disableService", "police")
-                        TriggerEvent("bpt_policejob:updateBlip")
                         ESX.ShowNotification(TranslateCap("service_out"))
                     end
                 end, "police")
@@ -110,7 +109,6 @@ function OpenCloakroomMenu()
                                 }
 
                                 TriggerServerEvent("esx_service:notifyAllInService", notification, "police")
-                                TriggerEvent("bpt_policejob:updateBlip")
                                 ESX.ShowNotification(TranslateCap("service_in"))
                             end
                         end, "police")
@@ -126,7 +124,6 @@ function OpenCloakroomMenu()
                         }
 
                         TriggerServerEvent("esx_service:notifyAllInService", notification, "police")
-                        TriggerEvent("bpt_policejob:updateBlip")
                         ESX.ShowNotification(TranslateCap("service_in"))
                     end
                 else
@@ -197,8 +194,6 @@ function OpenArmoryMenu(station)
             OpenGetWeaponMenu()
         elseif data.current.value == "put_weapon" then
             OpenPutWeaponMenu()
-        elseif data.current.value == "buy_weapons" then
-            OpenBuyWeaponsMenu()
         elseif data.current.value == "put_stock" then
             OpenPutStocksMenu()
         elseif data.current.value == "get_stock" then
@@ -726,116 +721,6 @@ function OpenPutWeaponMenu()
     end)
 end
 
-function OpenBuyWeaponsMenu()
-    local elements = {
-        { unselectable = true, icon = "fas fa-gun", title = TranslateCap("armory_weapontitle") },
-    }
-    local playerPed = PlayerPedId()
-
-    for k, v in ipairs(Config.AuthorizedWeapons[ESX.PlayerData.job.grade_name]) do
-        local weaponNum, weapon = ESX.GetWeapon(v.weapon)
-        local components, label = {}, nil
-        local hasWeapon = HasPedGotWeapon(playerPed, joaat(v.weapon), false)
-
-        if v.components then
-            for i = 1, #v.components do
-                if v.components[i] then
-                    local component = weapon.components[i]
-                    local hasComponent = HasPedGotWeaponComponent(playerPed, joaat(v.weapon), component.hash)
-
-                    if hasComponent then
-                        label = ('%s: <span style="color:green;">%s</span>'):format(component.label, TranslateCap("armory_owned"))
-                    else
-                        if v.components[i] > 0 then
-                            label = ('%s: <span style="color:green;">%s</span>'):format(component.label, TranslateCap("armory_item", ESX.Math.GroupDigits(v.components[i])))
-                        else
-                            label = ('%s: <span style="color:green;">%s</span>'):format(component.label, TranslateCap("armory_free"))
-                        end
-                    end
-
-                    components[#components + 1] = {
-                        icon = "fas fa-gun",
-                        title = label,
-                        componentLabel = component.label,
-                        hash = component.hash,
-                        name = component.name,
-                        price = v.components[i],
-                        hasComponent = hasComponent,
-                        componentNum = i,
-                    }
-                end
-            end
-        end
-
-        if hasWeapon and v.components then
-            label = ('%s: <span style="color:green;">></span>'):format(weapon.label)
-        elseif hasWeapon and not v.components then
-            label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, TranslateCap("armory_owned"))
-        else
-            if v.price > 0 then
-                label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, TranslateCap("armory_item", ESX.Math.GroupDigits(v.price)))
-            else
-                label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, TranslateCap("armory_free"))
-            end
-        end
-
-        elements[#elements + 1] = {
-            icon = "fas fa-gun",
-            title = label,
-            weaponLabel = weapon.label,
-            name = weapon.name,
-            components = components,
-            price = v.price,
-            hasWeapon = hasWeapon,
-        }
-    end
-
-    ESX.OpenContext("right", elements, function(menu, element)
-        local data = { current = element }
-        if data.current.hasWeapon then
-            if #data.current.components > 0 then
-                OpenWeaponComponentShop(data.current.components, data.current.name, menu)
-            end
-        else
-            ESX.TriggerServerCallback("bpt_policejob:buyWeapon", function(bought)
-                if bought then
-                    if data.current.price > 0 then
-                        ESX.ShowNotification(TranslateCap("armory_bought", data.current.weaponLabel, ESX.Math.GroupDigits(data.current.price)))
-                    end
-
-                    ESX.CloseContext()
-                    OpenBuyWeaponsMenu()
-                else
-                    ESX.ShowNotification(TranslateCap("armory_money"))
-                end
-            end, data.current.name, 1)
-        end
-    end)
-end
-
-function OpenWeaponComponentShop(components, weaponName, parentShop)
-    ESX.OpenContext("right", components, function(menu, element)
-        local data = { current = element }
-        if data.current.hasComponent then
-            ESX.ShowNotification(TranslateCap("armory_hascomponent"))
-        else
-            ESX.TriggerServerCallback("bpt_policejob:buyWeapon", function(bought)
-                if bought then
-                    if data.current.price > 0 then
-                        ESX.ShowNotification(TranslateCap("armory_bought", data.current.componentLabel, ESX.Math.GroupDigits(data.current.price)))
-                    end
-
-                    ESX.CloseContext()
-                    parentShop.close()
-                    OpenBuyWeaponsMenu()
-                else
-                    ESX.ShowNotification(TranslateCap("armory_money"))
-                end
-            end, weaponName, 2, data.current.componentNum)
-        end
-    end)
-end
-
 function OpenGetStocksMenu()
     ESX.TriggerServerCallback("bpt_policejob:getStockItems", function(items)
         local elements = {
@@ -937,16 +822,6 @@ function OpenPutStocksMenu()
             end)
         end)
     end)
-end
-
-function OnPlayerData(k, v)
-    if k ~= "job" then
-        return
-    end
-    if v.name == "police" then
-        Wait(1000)
-        TriggerServerEvent("bpt_policejob:forceBlip")
-    end
 end
 
 AddEventHandler("bpt_policejob:hasEnteredMarker", function(station, part, partNum)
@@ -1475,40 +1350,6 @@ function CreateBlip(id)
     end
 end
 
-RegisterNetEvent("bpt_policejob:updateBlip")
-AddEventHandler("bpt_policejob:updateBlip", function()
-    -- Refresh all blips
-    for k, existingBlip in pairs(blipsCops) do
-        RemoveBlip(existingBlip)
-    end
-
-    -- Clean the blip table
-    blipsCops = {}
-
-    -- Enable blip?
-    if Config.EnableESXService and not playerInService then
-        return
-    end
-
-    if not Config.EnableJobBlip then
-        return
-    end
-
-    -- Is the player a cop? In that case show all the blips for other cops
-    if ESX.PlayerData.job and ESX.PlayerData.job.name == "police" then
-        ESX.TriggerServerCallback("bpt_society:getOnlinePlayers", function(players)
-            for i = 1, #players, 1 do
-                if players[i].job.name == "police" then
-                    local id = GetPlayerFromServerId(players[i].source)
-                    if NetworkIsPlayerActive(id) and GetPlayerPed(id) ~= PlayerPedId() then
-                        CreateBlip(id)
-                    end
-                end
-            end
-        end)
-    end
-end)
-
 AddEventHandler("esx:onPlayerSpawn", function(spawn)
     isDead = false
     TriggerEvent("bpt_policejob:unrestrain")
@@ -1560,10 +1401,4 @@ function ImpoundVehicle(vehicle)
     ESX.Game.DeleteVehicle(vehicle)
     ESX.ShowNotification(TranslateCap("impound_successful"))
     currentTask.busy = false
-end
-
-if ESX.PlayerLoaded and ESX.PlayerData.job == "police" then
-    SetTimeout(1000, function()
-        TriggerServerEvent("bpt_policejob:forceBlip")
-    end)
 end
