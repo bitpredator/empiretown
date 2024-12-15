@@ -464,7 +464,7 @@ function OpenBodySearchMenu(player)
         end
 
         ESX.OpenContext("right", elements, function(_, element)
-            local data = { current = element }
+            data = { current = element }
             if data.current.value then
                 TriggerServerEvent("bpt_policejob:confiscatePlayerItem", GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
                 OpenBodySearchMenu(player)
@@ -510,7 +510,7 @@ function OpenFineCategoryMenu(player, category)
         { unselectable = true, icon = "fas fa-scroll", title = TranslateCap("fine") },
     }
 
-    for k, fine in ipairs(fineList[category]) do
+    for _, fine in ipairs(fineList[category]) do
         elements[#elements + 1] = {
             icon = "fas fa-scroll",
             title = ('%s <span style="color:green;">%s</span>'):format(fine.label, TranslateCap("armory_item", ESX.Math.GroupDigits(fine.amount))),
@@ -580,7 +580,7 @@ function LookupVehicle(elementF)
             ESX.ShowNotification(TranslateCap("search_database_error_invalid"))
         else
             ESX.TriggerServerCallback("bpt_policejob:getVehicleInfos", function(retrivedInfo)
-                local elements = {
+                elements = {
                     { unselectable = true, icon = "fas fa-car", title = element.title },
                     { unselectable = true, icon = "fas fa-car", title = TranslateCap("plate", retrivedInfo.plate) },
                 }
@@ -591,7 +591,7 @@ function LookupVehicle(elementF)
                     elements[#elements + 1] = { unselectable = true, icon = "fas fa-user", title = TranslateCap("owner", retrivedInfo.owner) }
                 end
 
-                ESX.OpenContext("right", elements, nil, function(menu)
+                ESX.OpenContext("right", elements, nil, function()
                     OpenPoliceActionsMenu()
                 end)
             end, data.value)
@@ -866,8 +866,8 @@ AddEventHandler("bpt_policejob:hasEnteredEntityZone", function(entity)
     end
 
     if GetEntityModel(entity) == `p_ld_stinger_s` then
-        local playerPed = PlayerPedId()
-        local coords = GetEntityCoords(playerPed)
+        playerPed = PlayerPedId()
+        local _ = GetEntityCoords(playerPed)
 
         if IsPedInAnyVehicle(playerPed, false) then
             local vehicle = GetVehiclePedIsIn(playerPed)
@@ -1085,7 +1085,7 @@ end)
 
 -- Create blips
 CreateThread(function()
-    for k, v in pairs(Config.PoliceStations) do
+    for _, v in pairs(Config.PoliceStations) do
         local blip = AddBlipForCoord(v.Blip.Coords)
 
         SetBlipSprite(blip, v.Blip.Sprite)
@@ -1259,7 +1259,7 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) " .. TranslateCap("interac
         return
     end
 
-    if not ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == "police") then
+    if ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == "police") then
         return
     end
     if CurrentAction == "menu_cloakroom" then
