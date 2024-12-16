@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "eslint": "^9.16.0"
+    "eslint": "^9.17.0"
   },
   "dependencies": {
     "dompurify": "^3.2.1"

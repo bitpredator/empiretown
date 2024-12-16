@@ -40,6 +40,13 @@ files({
     "data/Mercedes-BenzSLS/vehicles.meta",
     "data/Mercedes-BenzSLS/carcols.meta",
     "data/Mercedes-BenzSLS/carvariations.meta",
+
+    -- Ford-Mustang-mgt
+    "data/Ford-Mustang-mgt/handling.meta",
+    "data/Ford-Mustang-mgt/vehicles.meta",
+    "data/Ford-Mustang-mgt/carcols.meta",
+    "data/Ford-Mustang-mgt/carvariations.meta",
+    "data/Ford-Mustang-mgt/dlctext.meta",
 })
 
 -- bmw440
@@ -76,6 +83,13 @@ data_file("HANDLING_FILE")("data/Mercedes-BenzSLS/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/Mercedes-BenzSLS/vehicles.meta")
 data_file("CARCOLS_FILE")("data/Mercedes-BenzSLS/carcols.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/Mercedes-BenzSLS/carvariations.meta")
+
+-- Ford-Mustang-mgt
+data_file("HANDLING_FILE")("data/Ford-Mustang-mgt/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/Ford-Mustang-mgt/vehicles.meta")
+data_file("CARCOLS_FILE")("data/Ford-Mustang-mgt/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/Ford-Mustang-mgt/carvariations.meta")
+data_file("DLCTEXT_FILE")("data/Ford-Mustang-mgt/dlctext.meta")
 
 client_script({
     "vehicle_names.lua",

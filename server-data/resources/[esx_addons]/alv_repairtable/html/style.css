@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family: Ubuntu;
+  overflow: hidden;
+}
+
+#notification {
+  display: none;
+  position: absolute;
+  border-radius: 6px;
+  background: rgba(30, 30, 30, 0.6);
+  color: rgb(255, 255, 255);
+  border-bottom: 2px solid rgb(0, 150, 255);
+  left: 90%;
+  top: 45%;
+  padding: 10px;
+  text-align: center;
+  width: 150px;
+  opacity: 1;
+  animation: fade 2s linear;
+}
+
+@keyframes fade {
+  0% { opacity: 0 }
+  50% { opacity: 0.5 }
+  100% { opacity: 1.0 }
+}
+
+#ui_main {
+  display: none;
+  position: absolute;
+  left: 30%;
+  top: 25%;
+  text-align: center;
+  align-items: center;
+  translate: calc(50%, -50%);
+  width: 40%;
+  height: 60%;
+  border: none;
+  border-bottom: 3px solid red;
+  border-top: 3px solid red;
+  background: url('https://cdn.steamstatic.com/steamcommunity/public/images/items/691320/f25982e19fd4d1d674b434f546548d3cdf96e936.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  border-radius: 20px;
+  color: white;
+  font-size: 20px;
+  user-select: none;
+}
+
+#ui_weapons button {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  padding: 6px;
+  border: none;
+  width: 25%;
+  height: 7%;
+  font-size: 17px;
+  border-bottom: 2px solid red;
+  background: rgba(100, 100, 100, 0.6);
+  border-radius: 6px;
+  color: white;
+}
+
+#ui_weapons button:hover {
+  cursor: pointer;
+}
+
+#close-button {
+  position: absolute;
+  right: 2%;
+  top: 2%;
+  width: 5%;
+  height: 6%;
+}
+
+#close-button:hover {
+  cursor: pointer;
+}
