@@ -36,18 +36,10 @@ Config.Ammu = {
 
         Vehicles = {
             {
-                Spawner = vector3(454.6, -1017.4, 28.4),
-                InsideShop = vector3(444.553833, -1019.498901, 28.605835),
+                Spawner = vector3(821.274719, -2144.584717, 28.740601),
+                InsideShop = vector3(832.193420, -2124.145020, 29.380981),
                 SpawnPoints = {
-                    { coords = vector3(438.4, -1018.3, 27.7), heading = 90.0, radius = 6.0 },
-                },
-            },
-
-            {
-                Spawner = vector3(473.3, -1018.8, 28.0),
-                InsideShop = vector3(228.5, -993.5, -99.0),
-                SpawnPoints = {
-                    { coords = vector3(475.9, -1021.6, 28.0), heading = 276.1, radius = 6.0 },
+                    { coords = vector3(818.452759, -2131.556152, 29.279907), heading = 90.0, radius = 6.0 },
                 },
             },
         },
@@ -63,15 +55,12 @@ Config.AuthorizedVehicles = {
         apprentice = {},
 
         gunsmith = {
-            { model = "police3", price = 20000 },
         },
 
         armorychief = {
-            { model = "policet", price = 18500 },
         },
 
         deputydirector = {
-            { model = "riot", price = 70000 },
         },
 
         boss = {

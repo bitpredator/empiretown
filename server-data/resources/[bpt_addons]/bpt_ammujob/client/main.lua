@@ -2,7 +2,7 @@
 
 local CurrentActionData, handcuffTimer, dragStatus, blipsCops = {}, {}, {}, {}
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, hasAlreadyJoined, playerInService = false, false, false, false, false
-local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
+local LastStation, LastPart, LastPartNum, CurrentAction, CurrentActionMsg
 dragStatus.isDragged, IsInShopMenu = false, false
 
 function CleanPlayer(playerPed)
@@ -14,7 +14,6 @@ function CleanPlayer(playerPed)
 end
 
 function OpenArmoryMenu(station)
-    local elements
     if Config.OxInventory then
         exports.ox_inventory:openInventory("stash", { id = "society_ammu", owner = station })
         return ESX.CloseContext()
