@@ -1,22 +1,8 @@
 Locales["en"] = {
     -- Armory
-    ["remove_object"] = "withdraw object",
-    ["deposit_object"] = "deposit object",
-    ["get_weapon"] = "withdraw weapon from armory",
-    ["put_weapon"] = "store weapon in armory",
-    ["buy_weapons"] = "buy weapons",
     ["armory"] = "armory",
     ["open_armory"] = "press [E] to access the Armory.",
-    ["armory_owned"] = "owned",
-    ["armory_free"] = "free",
     ["armory_item"] = "$%s",
-    ["armory_weapontitle"] = "armory - Buy weapon",
-    ["armory_componenttitle"] = "armory - Weapon attatchments",
-    ["armory_bought"] = "you bought an %s for $%s",
-    ["armory_money"] = "you cannot afford that weapon",
-    ["armory_hascomponent"] = "you have that attatchment equiped!",
-    ["get_weapon_menu"] = "armory - Withdraw Weapon",
-    ["put_weapon_menu"] = "armory - Store Weapon",
     ["confirm"] = "Confirm",
     -- Vehicles
     ["vehicle_menu"] = "vehicle",

@@ -31,7 +31,7 @@ Config.Ammu = {
         },
 
         Armories = {
-            vector3(487.239563, -996.949463, 30.678345),
+            vector3(812.518677, -2159.010986, 29.616821),
         },
 
         Vehicles = {
@@ -40,9 +40,6 @@ Config.Ammu = {
                 InsideShop = vector3(444.553833, -1019.498901, 28.605835),
                 SpawnPoints = {
                     { coords = vector3(438.4, -1018.3, 27.7), heading = 90.0, radius = 6.0 },
-                    { coords = vector3(441.0, -1024.2, 28.3), heading = 90.0, radius = 6.0 },
-                    { coords = vector3(453.5, -1022.2, 28.0), heading = 90.0, radius = 6.0 },
-                    { coords = vector3(450.9, -1016.5, 28.1), heading = 90.0, radius = 6.0 },
                 },
             },
 
@@ -51,7 +48,6 @@ Config.Ammu = {
                 InsideShop = vector3(228.5, -993.5, -99.0),
                 SpawnPoints = {
                     { coords = vector3(475.9, -1021.6, 28.0), heading = 276.1, radius = 6.0 },
-                    { coords = vector3(484.1, -1023.1, 27.5), heading = 302.5, radius = 6.0 },
                 },
             },
         },

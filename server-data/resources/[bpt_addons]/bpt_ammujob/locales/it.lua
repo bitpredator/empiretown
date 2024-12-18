@@ -1,22 +1,8 @@
 Locales["it"] = {
     -- Armeria
-    ["remove_object"] = "Prendi oggetto",
-    ["deposit_object"] = "Deposita oggetto",
-    ["get_weapon"] = "Prendi arma dall'armeria",
-    ["put_weapon"] = "Deposita arma nell'armeria",
-    ["buy_weapons"] = "Acquista armi",
     ["armory"] = "armeria",
     ["open_armory"] = "Premi [E] per accedere all'Armeria.",
-    ["armory_owned"] = "posseduto",
-    ["armory_free"] = "gratuito",
     ["armory_item"] = "$%s",
-    ["armory_weapontitle"] = "armeria - Acquista arma",
-    ["armory_componenttitle"] = "armeria - Accessori arma",
-    ["armory_bought"] = "Hai comprato un %s per $%s",
-    ["armory_money"] = "Non puoi permetterti quell'arma",
-    ["armory_hascomponent"] = "Hai già quel accessorio equipaggiato!",
-    ["get_weapon_menu"] = "armeria - Prendi arma",
-    ["put_weapon_menu"] = "armeria - Deposita arma",
     ["confirm"] = "Conferma",
     -- Veicoli
     ["vehicle_menu"] = "veicolo",

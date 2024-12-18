@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global
 
-local CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask = {}, {}, {}, {}, {}
+local CurrentActionData, handcuffTimer, dragStatus, blipsCops = {}, {}, {}, {}
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, hasAlreadyJoined, playerInService = false, false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
 dragStatus.isDragged, IsInShopMenu = false, false
@@ -18,32 +18,9 @@ function OpenArmoryMenu(station)
     if Config.OxInventory then
         exports.ox_inventory:openInventory("stash", { id = "society_ammu", owner = station })
         return ESX.CloseContext()
-    else
-        elements = {
-            { unselectable = true, icon = "fas fa-gun", title = TranslateCap("armory") },
-            { icon = "fas fa-gun", title = TranslateCap("buy_weapons"), value = "buy_weapons" },
-        }
-
-        if Config.EnableArmoryManagement then
-            table.insert(elements, { icon = "fas fa-gun", title = TranslateCap("get_weapon"), value = "get_weapon" })
-            table.insert(elements, { icon = "fas fa-gun", title = TranslateCap("put_weapon"), value = "put_weapon" })
-            table.insert(elements, { icon = "fas fa-box", title = TranslateCap("remove_object"), value = "get_stock" })
-            table.insert(elements, { icon = "fas fa-box", title = TranslateCap("deposit_object"), value = "put_stock" })
-        end
     end
 
-    ESX.OpenContext("right", elements, function(menu, element)
-        local data = { current = element }
-        if data.current.value == "get_weapon" then
-            OpenGetWeaponMenu()
-        elseif data.current.value == "put_weapon" then
-            OpenPutWeaponMenu()
-        elseif data.current.value == "put_stock" then
-            OpenPutStocksMenu()
-        elseif data.current.value == "get_stock" then
-            OpenGetStocksMenu()
-        end
-    end, function(menu)
+    ESX.OpenContext("right", elements, function(menu)
         CurrentAction = "menu_armory"
         CurrentActionMsg = TranslateCap("open_armory")
         CurrentActionData = { station = station }
@@ -318,60 +295,6 @@ function ShowPlayerLicense(player)
             end
         end
     end, GetPlayerServerId(player))
-end
-
-function OpenGetWeaponMenu()
-    ESX.TriggerServerCallback("bpt_ammujob:getArmoryWeapons", function(weapons)
-        local elements = {
-            { unselectable = true, icon = "fas fa-gun", title = TranslateCap("get_weapon_menu") },
-        }
-
-        for i = 1, #weapons, 1 do
-            if weapons[i].count > 0 then
-                elements[#elements + 1] = {
-                    icon = "fas fa-gun",
-                    title = "x" .. weapons[i].count .. " " .. ESX.GetWeaponLabel(weapons[i].name),
-                    value = weapons[i].name,
-                }
-            end
-        end
-
-        ESX.OpenContext("right", elements, function(menu, element)
-            local data = { current = element }
-            ESX.TriggerServerCallback("bpt_ammujob:removeArmoryWeapon", function()
-                ESX.CloseContext()
-                OpenGetWeaponMenu()
-            end, data.current.value)
-        end)
-    end)
-end
-
-function OpenPutWeaponMenu()
-    local elements = {
-        { unselectable = true, icon = "fas fa-gun", title = TranslateCap("put_weapon_menu") },
-    }
-    local playerPed = PlayerPedId()
-    local weaponList = ESX.GetWeaponList()
-
-    for i = 1, #weaponList, 1 do
-        local weaponHash = joaat(weaponList[i].name)
-
-        if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= "WEAPON_UNARMED" then
-            elements[#elements + 1] = {
-                icon = "fas fa-gun",
-                title = weaponList[i].label,
-                value = weaponList[i].name,
-            }
-        end
-    end
-
-    ESX.OpenContext("right", elements, function(menu, element)
-        local data = { current = element }
-        ESX.TriggerServerCallback("bpt_ammujob:addArmoryWeapon", function()
-            ESX.CloseContext()
-            OpenPutWeaponMenu()
-        end, data.current.value, true)
-    end)
 end
 
 function OpenGetStocksMenu()
@@ -816,57 +739,6 @@ CreateThread(function()
             if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
                 HasAlreadyEnteredMarker = false
                 TriggerEvent("bpt_ammujob:hasExitedMarker", LastStation, LastPart, LastPartNum)
-            end
-        end
-        Wait(Sleep)
-    end
-end)
-
--- Enter / Exit entity zone events
-CreateThread(function()
-    local trackedEntities = {
-        `prop_roadcone02a`,
-        `prop_barrier_work05`,
-        `p_ld_stinger_s`,
-        `prop_boxpile_07d`,
-        `hei_prop_cash_crate_half_full`,
-    }
-
-    while true do
-        local Sleep = 1500
-
-        local GetEntityCoords = GetEntityCoords
-        local GetClosestObjectOfType = GetClosestObjectOfType
-        local DoesEntityExist = DoesEntityExist
-        local playerCoords = GetEntityCoords(ESX.PlayerData.ped)
-
-        local closestDistance = -1
-        local closestEntity = nil
-
-        for i = 1, #trackedEntities, 1 do
-            local object = GetClosestObjectOfType(playerCoords, 3.0, trackedEntities[i], false, false, false)
-
-            if DoesEntityExist(object) then
-                Sleep = 500
-                local objCoords = GetEntityCoords(object)
-                local distance = #(playerCoords - objCoords)
-
-                if closestDistance == -1 or closestDistance > distance then
-                    closestDistance = distance
-                    closestEntity = object
-                end
-            end
-        end
-
-        if closestDistance ~= -1 and closestDistance <= 3.0 then
-            if LastEntity ~= closestEntity then
-                TriggerEvent("bpt_ammujob:hasEnteredEntityZone", closestEntity)
-                LastEntity = closestEntity
-            end
-        else
-            if LastEntity then
-                TriggerEvent("bpt_ammujob:hasExitedEntityZone", LastEntity)
-                LastEntity = nil
             end
         end
         Wait(Sleep)
