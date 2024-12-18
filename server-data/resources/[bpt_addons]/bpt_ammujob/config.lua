@@ -54,14 +54,11 @@ Config.AuthorizedVehicles = {
     car = {
         apprentice = {},
 
-        gunsmith = {
-        },
+        gunsmith = {},
 
-        armorychief = {
-        },
+        armorychief = {},
 
-        deputydirector = {
-        },
+        deputydirector = {},
 
         boss = {
             { model = "stockade4", price = 15000 },
