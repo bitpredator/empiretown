@@ -54,7 +54,6 @@ function OpenAmmuActionsMenu()
     local elements = {
         { unselectable = true, icon = "fas fa-ammu", title = TranslateCap("menu_title") },
         { icon = "fas fa-user", title = TranslateCap("citizen_interaction"), value = "citizen_interaction" },
-        { icon = "fas fa-car", title = TranslateCap("vehicle_interaction"), value = "vehicle_interaction" },
     }
 
     ESX.OpenContext("right", elements, function(menu, element)
@@ -113,99 +112,6 @@ function OpenAmmuActionsMenu()
                 else
                     ESX.ShowNotification(TranslateCap("no_players_nearby"))
                 end
-            end, function()
-                OpenAmmuActionsMenu()
-            end)
-        elseif data.current.value == "vehicle_interaction" then
-            local elements3 = {
-                { unselectable = true, icon = "fas fa-car", title = element.title },
-            }
-            local playerPed = PlayerPedId()
-            local vehicle = ESX.Game.GetVehicleInDirection()
-
-            if DoesEntityExist(vehicle) then
-                elements3[#elements3 + 1] = { icon = "fas fa-car", title = TranslateCap("vehicle_info"), value = "vehicle_infos" }
-                elements3[#elements3 + 1] = { icon = "fas fa-car", title = TranslateCap("pick_lock"), value = "hijack_vehicle" }
-                elements3[#elements3 + 1] = { icon = "fas fa-car", title = TranslateCap("impound"), value = "impound" }
-            end
-
-            elements3[#elements3 + 1] = {
-                icon = "fas fa-scroll",
-                title = TranslateCap("search_database"),
-                value = "search_database",
-            }
-
-            ESX.OpenContext("right", elements3, function(menu3, element3)
-                local data2 = { current = element3 }
-                local coords = GetEntityCoords(playerPed)
-                vehicle = ESX.Game.GetVehicleInDirection()
-                local action = data2.current.value
-
-                if action == "search_database" then
-                    LookupVehicle(element3)
-                elseif DoesEntityExist(vehicle) then
-                    if action == "vehicle_infos" then
-                        local vehicleData = ESX.Game.GetVehicleProperties(vehicle)
-                        OpenVehicleInfosMenu(vehicleData)
-                    elseif action == "hijack_vehicle" then
-                        if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 3.0) then
-                            TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_WELDING", 0, true)
-                            Wait(20000)
-                            ClearPedTasksImmediately(playerPed)
-
-                            SetVehicleDoorsLocked(vehicle, 1)
-                            SetVehicleDoorsLockedForAllPlayers(vehicle, false)
-                            ESX.ShowNotification(TranslateCap("vehicle_unlocked"))
-                        end
-                    elseif action == "impound" then
-                        if currentTask.busy then
-                            return
-                        end
-
-                        ESX.ShowHelpNotification(TranslateCap("impound_prompt"))
-                        TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true)
-
-                        currentTask.busy = true
-                        currentTask.task = ESX.SetTimeout(10000, function()
-                            ClearPedTasks(playerPed)
-                            ImpoundVehicle(vehicle)
-                            Wait(100)
-                        end)
-
-                        CreateThread(function()
-                            while currentTask.busy do
-                                Wait(1000)
-
-                                vehicle = GetClosestVehicle(coords.x, coords.y, coords.z, 3.0, 0, 71)
-                                if not DoesEntityExist(vehicle) and currentTask.busy then
-                                    ESX.ShowNotification(TranslateCap("impound_canceled_moved"))
-                                    ESX.ClearTimeout(currentTask.task)
-                                    ClearPedTasks(playerPed)
-                                    currentTask.busy = false
-                                    break
-                                end
-                            end
-                        end)
-                    end
-                else
-                    ESX.ShowNotification(TranslateCap("no_vehicles_nearby"))
-                end
-            end, function()
-                OpenAmmuActionsMenu()
-            end)
-        elseif data.current.value == "object_spawner" then
-
-            ESX.OpenContext("right", elements4, function(menu4, element4)
-                local data2 = { current = element4 }
-                local playerPed = PlayerPedId()
-                local coords, forward = GetEntityCoords(playerPed), GetEntityForwardVector(playerPed)
-                local objectCoords = (coords + forward * 1.0)
-
-                ESX.Game.SpawnObject(data2.current.model, objectCoords, function(obj)
-                    Wait(100)
-                    SetEntityHeading(obj, GetEntityHeading(playerPed))
-                    PlaceObjectOnGroundProperly(obj)
-                end)
             end, function()
                 OpenAmmuActionsMenu()
             end)
@@ -398,44 +304,7 @@ function OpenFineTextInput(player)
     end)
 end
 
-function LookupVehicle(elementF)
-    local elements = {
-        { unselectable = true, icon = "fas fa-car", title = elementF.title },
-        { title = TranslateCap("search_plate"), input = true, inputType = "text", inputPlaceholder = "ABC 123" },
-        { icon = "fas fa-check-double", title = TranslateCap("lookup_plate"), value = "lookup" },
-    }
-
-    ESX.OpenContext("right", elements, function(menu, element)
-        local data = { value = menu.eles[2].inputValue }
-        local length = string.len(data.value)
-        if not data.value or length < 2 or length > 8 then
-            ESX.ShowNotification(TranslateCap("search_database_error_invalid"))
-        else
-            ESX.TriggerServerCallback("bpt_ammujob:getVehicleInfos", function(retrivedInfo)
-                elements = {
-                    { unselectable = true, icon = "fas fa-car", title = element.title },
-                    { unselectable = true, icon = "fas fa-car", title = TranslateCap("plate", retrivedInfo.plate) },
-                }
-
-                if not retrivedInfo.owner then
-                    elements[#elements + 1] = { unselectable = true, icon = "fas fa-user", title = TranslateCap("owner_unknown") }
-                else
-                    elements[#elements + 1] = { unselectable = true, icon = "fas fa-user", title = TranslateCap("owner", retrivedInfo.owner) }
-                end
-
-                ESX.OpenContext("right", elements, nil, function()
-                    OpenAmmuActionsMenu()
-                end)
-            end, data.value)
-        end
-    end)
-end
-
 function ShowPlayerLicense(player)
-    local elements = {
-        { unselectable = true, icon = "fas fa-scroll", title = TranslateCap("license_revoke") },
-    }
-
     ESX.TriggerServerCallback("bpt_ammujob:getOtherPlayerData", function(playerData)
         if playerData.licenses then
             for i = 1, #playerData.licenses, 1 do
@@ -448,36 +317,7 @@ function ShowPlayerLicense(player)
                 end
             end
         end
-
-        ESX.OpenContext("right", elements, function(menu, element)
-            local data = { current = element }
-            ESX.ShowNotification(TranslateCap("licence_you_revoked", data.current.label, playerData.name))
-            TriggerServerEvent("bpt_ammujob:message", GetPlayerServerId(player), TranslateCap("license_revoked", data.current.label))
-
-            TriggerServerEvent("esx_license:removeLicense", GetPlayerServerId(player), data.current.type)
-
-            ESX.SetTimeout(300, function()
-                ShowPlayerLicense(player)
-            end)
-        end)
     end, GetPlayerServerId(player))
-end
-
-function OpenVehicleInfosMenu(vehicleData)
-    ESX.TriggerServerCallback("bpt_ammujob:getVehicleInfos", function(retrivedInfo)
-        local elements = {
-            { unselectable = true, icon = "fas fa-car", title = TranslateCap("vehicle_info") },
-            { icon = "fas fa-car", title = TranslateCap("plate", retrivedInfo.plate) },
-        }
-
-        if not retrivedInfo.owner then
-            elements[#elements + 1] = { unselectable = true, icon = "fas fa-user", title = TranslateCap("owner_unknown") }
-        else
-            elements[#elements + 1] = { unselectable = true, icon = "fas fa-user", title = TranslateCap("owner", retrivedInfo.owner) }
-        end
-
-        ESX.OpenContext("right", elements, nil, nil)
-    end, vehicleData.plate)
 end
 
 function OpenGetWeaponMenu()
@@ -917,7 +757,6 @@ CreateThread(function()
             local currentStation, currentPart, currentPartNum
 
             for k, v in pairs(Config.Ammu) do
-
                 for i = 1, #v.Armories, 1 do
                     local distance = #(playerCoords - v.Armories[i])
 
@@ -1161,14 +1000,4 @@ function StartHandcuffTimer()
         TriggerEvent("bpt_ammujob:unrestrain")
         handcuffTimer.active = false
     end)
-end
-
--- TODO
---   - return to garage if owned
---   - message owner that his vehicle has been impounded
-function ImpoundVehicle(vehicle)
-    --local vehicleName = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
-    ESX.Game.DeleteVehicle(vehicle)
-    ESX.ShowNotification(TranslateCap("impound_successful"))
-    currentTask.busy = false
 end
