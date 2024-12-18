@@ -64,7 +64,7 @@ Config.AuthorizedVehicles = {
         },
 
         boss = {
-            { model = "riot", price = 70000 },
+            { model = "stockade4", price = 15000 },
         },
     },
 }

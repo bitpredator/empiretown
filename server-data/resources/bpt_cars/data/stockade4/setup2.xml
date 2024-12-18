@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SSetupData>
+  <deviceName>dlc_stockade4</deviceName>
+  <datFile>content.xml</datFile>
+  <timeStamp>26/01/20 00:00:00</timeStamp>
+  <nameHash>stockade4</nameHash>
+  <contentChangeSetGroups>
+    <Item>
+      <NameHash>GROUP_STARTUP</NameHash>
+      <ContentChangeSets>
+        <Item>stockade4_AUTOGEN</Item>
+      </ContentChangeSets>
+    </Item>
+  </contentChangeSetGroups>
+	<type>EXTRACONTENT_LEVEL_PACK</type>
+  <order value="56" />  
+  <minorOrder value="0" />
+  <isLevelPack value="true" />
+  <dependencyPackHash />
+  <requiredVersion />
+  <subPackCount value="0" />
+</SSetupData>

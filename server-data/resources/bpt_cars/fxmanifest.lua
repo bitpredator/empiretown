@@ -47,6 +47,11 @@ files({
     "data/Ford-Mustang-mgt/carcols.meta",
     "data/Ford-Mustang-mgt/carvariations.meta",
     "data/Ford-Mustang-mgt/dlctext.meta",
+
+    -- stockade4
+    "data/stockade4/handling.meta",
+    "data/stockade4/vehicles.meta",
+    "data/stockade4/carvariations.meta",
 })
 
 -- bmw440
@@ -90,6 +95,11 @@ data_file("VEHICLE_METADATA_FILE")("data/Ford-Mustang-mgt/vehicles.meta")
 data_file("CARCOLS_FILE")("data/Ford-Mustang-mgt/carcols.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/Ford-Mustang-mgt/carvariations.meta")
 data_file("DLCTEXT_FILE")("data/Ford-Mustang-mgt/dlctext.meta")
+
+-- stockade4
+data_file("HANDLING_FILE")("data/stockade4/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/stockade4/vehicles.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/stockade4/carvariations.meta")
 
 client_script({
     "vehicle_names.lua",

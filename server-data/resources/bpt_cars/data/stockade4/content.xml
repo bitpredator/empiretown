@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDataFileMgr__ContentsOfDataFileXml>
+  <disabledFiles />
+  <includedXmlFiles />
+  <includedDataFiles />
+  <dataFiles>
+    <Item>
+      <filename>dlc_stockade4:/common/data/levels/gta5/vehicles.meta</filename>
+      <fileType>VEHICLE_METADATA_FILE</fileType>
+      <overlay value="false" />
+      <disabled value="true" />
+      <persistent value="false" />
+    </Item>
+    <Item>
+      <filename>dlc_stockade4:/common/data/handling.meta</filename>
+      <fileType>HANDLING_FILE</fileType>
+      <overlay value="false" />
+      <disabled value="true" />
+      <persistent value="false" />
+    </Item>
+    <Item>
+      <filename>dlc_stockade4:/common/data/carvariations.meta</filename>
+      <fileType>VEHICLE_VARIATION_FILE</fileType>
+      <overlay value="false" />
+      <disabled value="true" />
+      <persistent value="false" />
+        </Item>
+    <Item>
+      <filename>dlc_stockade4:/%PLATFORM%/levels/gta5/vehicles/vehicles.rpf</filename>
+      <fileType>RPF_FILE</fileType>
+      <locked value="true"/>
+      <overlay value="true" />
+      <disabled value="true" />
+      <persistent value="true" />
+    </Item>
+    <Item>
+      <filename>dlc_stockade4:/%PLATFORM%/audio/stockade4_game.dat</filename>
+      <fileType>AUDIO_GAMEDATA</fileType>
+      <overlay value="false" />
+      <disabled value="true" />
+      <persistent value="false" />
+    </Item>
+        <Item>
+      <filename>dlc_stockade4:/%PLATFORM%/audio/stockade4_sounds.dat</filename>
+      <fileType>AUDIO_SOUNDDATA</fileType>
+      <overlay value="false" />
+      <disabled value="true" />
+      <persistent value="false" />
+    </Item>
+  </dataFiles>
+  <contentChangeSets>
+    <Item>
+      <changeSetName>stockade4_AUTOGEN</changeSetName>
+      <filesToDisable />
+      <filesToEnable>
+                <Item>dlc_stockade4:/common/data/levels/gta5/vehicles.meta</Item>
+                <Item>dlc_stockade4:/common/data/handling.meta</Item>
+                <Item>dlc_stockade4:/common/data/carvariations.meta</Item>
+                <Item>dlc_stockade4:/%PLATFORM%/levels/gta5/vehicles/vehicles.rpf</Item>
+                <Item>dlc_stockade4:/%PLATFORM%/audio/stockade4_GAME.DAT</Item>
+                <Item>dlc_stockade4:/%PLATFORM%/audio/stockade4_SOUNDS.DAT</Item>
+      </filesToEnable>
+      <txdToLoad />
+      <txdToUnload />
+      <residentResources />
+      <unregisterResources />
+    </Item>
+  </contentChangeSets>
+  <patchFiles />
+</CDataFileMgr__ContentsOfDataFileXml>
