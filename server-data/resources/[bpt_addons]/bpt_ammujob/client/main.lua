@@ -44,7 +44,7 @@ function OpenAmmuActionsMenu()
                 { icon = "fas fa-idkyet", title = TranslateCap("drag"), value = "drag" },
                 { icon = "fas fa-idkyet", title = TranslateCap("put_in_vehicle"), value = "put_in_vehicle" },
                 { icon = "fas fa-idkyet", title = TranslateCap("out_the_vehicle"), value = "out_the_vehicle" },
-                { icon = "fas fa-idkyet", title = TranslateCap("fine"), value = "fine" },
+                { icon = "fas fa-idkyet", title = TranslateCap("billing"), value = "billing" },
                 { icon = "fas fa-idkyet", title = TranslateCap("weapon"), value = "weapon" },
             }
 
@@ -76,7 +76,7 @@ function OpenAmmuActionsMenu()
                         TriggerServerEvent("bpt_ammujob:putInVehicle", GetPlayerServerId(closestPlayer))
                     elseif action == "out_the_vehicle" then
                         TriggerServerEvent("bpt_ammujob:OutVehicle", GetPlayerServerId(closestPlayer))
-                    elseif action == "fine" then
+                    elseif action == "billing" then
                         OpenFineMenu(closestPlayer)
                     elseif action == "weapon" then
                         TriggerServerEvent("esx_license:addLicense", GetPlayerServerId(closestPlayer), "weapon")
@@ -190,7 +190,7 @@ end
 function OpenFineMenu(player)
     if Config.EnableFinePresets then
         local elements = {
-            { unselectable = true, icon = "fas fa-scroll", title = TranslateCap("fine") },
+            { unselectable = true, icon = "fas fa-scroll", title = TranslateCap("billing") },
             { icon = "fas fa-scroll", title = TranslateCap("traffic_offense"), value = 0 },
             { icon = "fas fa-scroll", title = TranslateCap("minor_offense"), value = 1 },
             { icon = "fas fa-scroll", title = TranslateCap("average_offense"), value = 2 },
@@ -221,7 +221,7 @@ function OpenFineCategoryMenu(player, category)
     end
 
     local elements = {
-        { unselectable = true, icon = "fas fa-scroll", title = TranslateCap("fine") },
+        { unselectable = true, icon = "fas fa-scroll", title = TranslateCap("billing") },
     }
 
     for _, fine in ipairs(fineList[category]) do

@@ -35,13 +35,7 @@ Locales["it"] = {
     ["buy_car"] = "Compra",
     ["stop_view"] = "Interrompi la visualizzazione",
     -- Servizio
-    ["service_max"] = "non puoi entrare in servizio, numero massimo di agenti in servizio: %s/%s",
     ["service_not"] = "non sei in servizio! Devi cambiarti prima.",
-    ["service_anonunce"] = "informazioni servizio",
-    ["service_in"] = "sei entrato in servizio, benvenuto!",
-    ["service_in_announce"] = "l'operatore %s è entrato in servizio!",
-    ["service_out"] = "hai lasciato il servizio.",
-    ["service_out_announce"] = "l'operatore %s ha lasciato il servizio.",
     -- Menu Azioni
     ["menu_title"] = "Armeria",
     ["citizen_interaction"] = "Interazione con cittadino",
@@ -51,7 +45,7 @@ Locales["it"] = {
     ["drag"] = "scorta",
     ["put_in_vehicle"] = "metti in veicolo",
     ["out_the_vehicle"] = "trascina fuori dal veicolo",
-    ["fine"] = "multa",
+    ["billing"] = "Fattura",
     ["license_check"] = "gestisci licenze",
     ["no_players_nearby"] = "non ci sono giocatori nelle vicinanze!",
     ["being_searched"] = "perquisizione in corso",

@@ -35,13 +35,7 @@ Locales["en"] = {
     ["buy_car"] = "Buy",
     ["stop_view"] = "Stop Viewing",
     -- Service
-    ["service_max"] = "you cannot enter service, max officers in service: %s/%s",
     ["service_not"] = "you have not entered service! You'll have to get changed first.",
-    ["service_anonunce"] = "service information",
-    ["service_in"] = "you've entered service, welcome!",
-    ["service_in_announce"] = "operator %s has entered service!",
-    ["service_out"] = "you have left service.",
-    ["service_out_announce"] = "operator %s has left their service.",
     -- Action Menu
     ["menu_title"] = "Ammu",
     ["citizen_interaction"] = "citizen Interaction",
@@ -51,7 +45,7 @@ Locales["en"] = {
     ["drag"] = "escort",
     ["put_in_vehicle"] = "put in Vehicle",
     ["out_the_vehicle"] = "drag out from vehicle",
-    ["fine"] = "fine",
+    ["billing"] = "billing",
     ["license_check"] = "manage license",
     ["no_players_nearby"] = "there is no player(s) nearby!",
     ["being_searched"] = "you are being searched by the Ammu",
