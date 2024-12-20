@@ -19,10 +19,7 @@ shared_scripts({
 })
 
 client_scripts({
-    "client/cursor.lua",
-    "client/tv.lua",
-    "client/dui.lua",
-    "client/main.lua",
+    "client/*.lua",
 })
 
 server_scripts({

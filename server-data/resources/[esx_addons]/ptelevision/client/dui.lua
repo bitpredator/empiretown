@@ -1,7 +1,7 @@
 function CreateNamedRenderTargetForModel(name, model)
     local handle = 0
     if not IsNamedRendertargetRegistered(name) then
-        RegisterNamedRendertarget(name, 0)
+        RegisterNamedRendertarget(name, false)
     end
     if not IsNamedRendertargetLinked(model) then
         LinkNamedRendertarget(model)

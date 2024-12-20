@@ -1,5 +1,4 @@
-let player;
-let playerData;
+let player, playerData;
 $(document).ready(function() {
 	$.post('https://ptelevision/pageLoaded', JSON.stringify({}));
 });
