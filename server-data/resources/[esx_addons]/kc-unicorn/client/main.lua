@@ -367,16 +367,16 @@ AddEventHandler("kc-unicorn:lapdance", function(PlayerMoney, PlayerBirthdate, To
     PreviousCamViewMode = GetFollowPedCamViewMode(Cache.Player)
 
     if Config.Framework == "QBCore" then
-        index = 1
+        Index = 1
         for value in string.gmatch(PlayerBirthdate, "[^-]+") do
             Birthdate[index] = value
-            index = index + 1
+            Index = index + 1
         end
 
-        index = 1
+        Index = 1
         for value in string.gmatch(TodayDate, "[^-]+") do
             Date[index] = value
-            index = index + 1
+            Index = index + 1
         end
 
         Year = Date[1] - Birthdate[1] - 4
@@ -467,33 +467,12 @@ AddEventHandler("kc-unicorn:lapdance", function(PlayerMoney, PlayerBirthdate, To
     else
         SetPedComponentVariation(Cache.SpawnPed, 8, 1) -- Topless
     end
-    print(
-        "Shoes | Drawable: " .. GetPedDrawableVariation(Cache.SpawnPed, 4),
-        "Drawables: " .. GetNumberOfPedDrawableVariations(Cache.SpawnPed, 4),
-        "Texture: " .. GetPedTextureVariation(Cache.SpawnPed, 4),
-        "Textures: " .. GetNumberOfPedTextureVariations(Cache.SpawnPed, 4),
-        "Palette: " .. GetPedPaletteVariation(Cache.SpawnPed, 4)
-    )
-    print(
-        "Underwear | Drawable: " .. GetPedDrawableVariation(Cache.SpawnPed, 6),
-        "Drawables: " .. GetNumberOfPedDrawableVariations(Cache.SpawnPed, 6),
-        "Texture: " .. GetPedTextureVariation(Cache.SpawnPed, 6),
-        "Textures: " .. GetNumberOfPedTextureVariations(Cache.SpawnPed, 6),
-        "Palette: " .. GetPedPaletteVariation(Cache.SpawnPed, 6)
-    )
-    print(
-        "Underwear?? | Drawable: " .. GetPedDrawableVariation(Cache.SpawnPed, 10),
-        "Drawables: " .. GetNumberOfPedDrawableVariations(Cache.SpawnPed, 10),
-        "Texture: " .. GetPedTextureVariation(Cache.SpawnPed, 10),
-        "Textures: " .. GetNumberOfPedTextureVariations(Cache.SpawnPed, 10),
-        "Palette: " .. GetPedPaletteVariation(Cache.SpawnPed, 10)
-    )
 
     if Config.Framework ~= "Standalone" then
         if PlayerMoney >= Config.LegMoney then
-            SetPedComponentVariation(Cache.SpawnPed, 9, 1)
+            SetPedComponentVariation(Cache.SpawnPed, 9, 1, 0, 0)
         else
-            SetPedComponentVariation(Cache.SpawnPed, 9, 0)
+            SetPedComponentVariation(Cache.SpawnPed, 9, 0, 0, 0)
         end
     end
 
@@ -503,8 +482,6 @@ AddEventHandler("kc-unicorn:lapdance", function(PlayerMoney, PlayerBirthdate, To
         print("Config.Language is set to: " .. Config.Language)
         print("Framework used: " .. Config.Framework)
         print(Config.Language .. "", lg)
-        --[[ print("Birthdate split: ", Birthdate[1], Birthdate[2], Birthdate[3])
-		print("Date split: ", Date[1], Date[2], Date[3]) ]]
         print("Year: ", Year, "Month: ", Month, "Day: ", Day)
         print(GetPedDrawableVariation(Cache.SpawnPed, 1), "Head")
         print(GetPedDrawableVariation(Cache.SpawnPed, 2), "Beard")
@@ -538,6 +515,7 @@ AddEventHandler("kc-unicorn:lapdance", function(PlayerMoney, PlayerBirthdate, To
 
     TaskPlayAnim(Cache.SpawnPed, LoadDict("mini@strip_club@idles@stripper", true), "stripper_idle_02", 8.0, -8.0, -1, 0, 0, false, false, false)
 
+    ---@diagnostic disable-next-line: missing-parameter
     SetEntityCoords(Cache.Player, 116.88, -1295.04, 28.42)
 
     ------------------- First seat ----------------------
@@ -654,10 +632,6 @@ AddEventHandler("kc-unicorn:SetPlayerSeated", function(GetPlayerSeated, Seat1Bus
     Seat7 = Seat7Busy
     PlayerSeated = GetPlayerSeated
 end)
-
---------
-
----- Lean
 
 Citizen.CreateThread(function()
     if Config.Text == "3D" then
@@ -791,12 +765,9 @@ function LeanStart(PlyHeading)
     FreezeEntityPosition(Cache.Player, false)
 end
 
---------
-
----- ????
-
 RegisterNetEvent("kc-unicorn:poledancescene")
-AddEventHandler("kc-unicorn:poledancescene", function(ped, number)
+AddEventHandler("kc-unicorn:poledancescene",
+function(ped, number)
     PedPole = NetworkGetEntityFromNetworkId(ped)
     local scene = NetworkCreateSynchronisedScene(vector3(112.65, -1286.74, 28.5), vector3(0.0, 0.0, 0.0), 2, false, false, 1065353216, 0, 1.3)
     NetworkAddPedToSynchronisedScene(PedPole, scene, "mini@strip_club@pole_dance@pole_dance" .. number, "pd_dance_0" .. number, 1.5, -4.0, 1, 1, 1148846080, 0)
@@ -804,10 +775,6 @@ AddEventHandler("kc-unicorn:poledancescene", function(ped, number)
     Citizen.Wait(30000)
     TriggerServerEvent("kc-unicorn:poledancestop")
 end)
-
---------
-
----- Debug
 
 Citizen.CreateThread(function()
     local Count = 0
@@ -825,8 +792,6 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
---------
 
 RegisterNetEvent("kc-unicorn:esxplayermoney")
 AddEventHandler("kc-unicorn:esxplayermoney", function(money)

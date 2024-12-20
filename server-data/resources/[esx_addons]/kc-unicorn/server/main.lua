@@ -29,14 +29,14 @@ Citizen.CreateThread(function()
 
     inPoleDance = true
 
-    SetPedComponentVariation(PoledancePed2, 8, 0)
-    SetPedComponentVariation(PoledancePed1, 8, 0)
+    SetPedComponentVariation(PoledancePed2, 8, 0, 0, 0)
+    SetPedComponentVariation(PoledancePed1, 8, 0, 0, 0)
 
     repeat
         inPoleDance = true
 
-        TaskGoToCoordAnyMeans(PoledancePed1, 102.13, -1296.19, 28.77, 1.0, 0, 0, 0, 0xbf800000)
-        TaskGoToCoordAnyMeans(PoledancePed2, 112.27, -1287.22, 28.46, 1.0, 0, 0, 0, 0xbf800000)
+        TaskGoToCoordAnyMeans(PoledancePed1, 102.13, -1296.19, 28.77, 1.0, 0, false, 0, 0xbf800000)
+        TaskGoToCoordAnyMeans(PoledancePed2, 112.27, -1287.22, 28.46, 1.0, 0, false, 0, 0xbf800000)
         PoleDance(PoledancePed2)
 
         inPoleDance = true
