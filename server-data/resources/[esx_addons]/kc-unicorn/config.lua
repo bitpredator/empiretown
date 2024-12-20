@@ -50,8 +50,6 @@ Config.Debug = false -- If you think something is not working, you can set 'Conf
 Config.DebugPolyzones = false -- Set to true if you want to display the Polyzones
 Config.MoreDebug = false -- If set to true, this will print more debug about server and client lapdance seat status
 Config.MoreDebugRefreshTime = 5 -- Refresh time of "Config.MoreDebug" in seconds
-Config.UpdateChecker = false -- Set to false if you don't want to check for resource update on start
-Config.ChangeLog = false -- Set to false if you don't want to display the changelog if new version is find
 
 ----- DO NOT TOUCH! /!\ LOCALE SYSTEM /!\
 Language = {}
@@ -73,4 +71,3 @@ function Loc(text, replacement)
     end
     return text
 end
------------------------------------------
