@@ -1,7 +1,7 @@
 local scale = 1.5
 local screenWidth = math.floor(1920 / scale)
 local screenHeight = math.floor(1080 / scale)
-shouldDraw = false
+local shouldDraw = false
 
 function SetInteractScreen(bool)
     if not shouldDraw and bool then
