@@ -8,8 +8,8 @@ updates:
     labels:
       - 'dependencies'
 
-  # Dependencies npm & yarn
-  - package-ecosystem: 'npm, yarn'
+  # Dependencies npm
+  - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'daily'
