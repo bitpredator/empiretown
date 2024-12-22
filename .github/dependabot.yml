@@ -8,24 +8,11 @@ updates:
     labels:
       - 'dependencies'
 
-  # Dependencies npm
-  - package-ecosystem: 'npm'
+  # Dependencies npm & yarn
+  - package-ecosystem: 'npm, yarn'
     directory: '/'
     schedule:
       interval: 'daily'
-    # Disable version updates for npm dependencies
-    # https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates#overriding-the-default-behavior-with-a-configuration-file
     open-pull-requests-limit: 99
     labels:
       - 'dependencies'
-
-  # Dependencies yarn
-  - package-ecosystem: 'yarn'
-  directory: '/'
-  schedule:
-    interval: 'daily'
-  # Disable version updates for yarn dependencies
-  # https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates#overriding-the-default-behavior-with-a-configuration-file
-  open-pull-requests-limit: 99
-  labels:
-    - 'dependencies'
