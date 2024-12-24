@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 $(document).ready(() => {
-	window.addEventListener('message', function (event) {
-		let data = event.data;
-		if (data.update == 'newCall') {
+	window.addEventListener('message', function(event) {
+		const data = event.data;
+		if (data.update === 'newCall') {
 			addNewCall(data.callID, data.timer, data.data, data.isPolice);
 		}
 	});
@@ -50,7 +51,7 @@ function timeAgo(dateParam) {
 	}
 
 	const date =
-		typeof dateParam === 'object' ? dateParam : new Date(dateParam);
+				typeof dateParam === 'object' ? dateParam : new Date(dateParam);
 	const DAY_IN_MS = 86400000;
 	const today = new Date();
 	const yesterday = new Date(today - DAY_IN_MS);
@@ -62,17 +63,23 @@ function timeAgo(dateParam) {
 
 	if (seconds < 5) {
 		return 'Just Now';
-	} else if (seconds < 60) {
+	}
+	else if (seconds < 60) {
 		return `${seconds} Seconds ago`;
-	} else if (seconds < 90) {
+	}
+	else if (seconds < 90) {
 		return 'About a minute ago';
-	} else if (minutes < 60) {
+	}
+	else if (minutes < 60) {
 		return `${minutes} Minutes ago`;
-	} else if (isToday) {
+	}
+	else if (isToday) {
 		return getFormattedDate(date, 'Today');
-	} else if (isYesterday) {
+	}
+	else if (isYesterday) {
 		return getFormattedDate(date, 'Yesterday');
-	} else if (isThisYear) {
+	}
+	else if (isThisYear) {
 		return getFormattedDate(date, false, true);
 	}
 
@@ -84,7 +91,8 @@ function addNewCall(callID, timer, info, isPolice) {
 	let DispatchItem;
 	if (info['isDead']) {
 		DispatchItem = `<div class="dispatch-item ${callID} dispatch-item-${info['isDead']} animate__animated"><div class="top-info-holder"><div class="call-id">#${callID}</div><div class="call-code priority-${prio}">${info.dispatchCode}</div><div class="call-name">${info.dispatchMessage}</div></div><div class="bottom-info-holder">`;
-	} else {
+	}
+	else {
 		DispatchItem = `<div class="dispatch-item ${callID} dispatch-item-${isPolice} animate__animated"><div class="top-info-holder"><div class="call-id">#${callID}</div><div class="call-code priority-${prio}">${info.dispatchCode}</div><div class="call-name">${info.dispatchMessage}</div></div><div class="bottom-info-holder">`;
 	}
 
@@ -92,7 +100,7 @@ function addNewCall(callID, timer, info, isPolice) {
 
 	if (info['time']) {
 		DispatchItem += `<div class="call-bottom-info"><span class="fas fa-clock"></span>${timeAgo(
-			info['time']
+			info['time'],
 		)}</div>`;
 	}
 
@@ -126,9 +134,11 @@ function addNewCall(callID, timer, info, isPolice) {
 
 	if (info['model'] && info['plate']) {
 		DispatchItem += `<div class="call-bottom-info"><span class="fas fa-car"></span>${info['model']}<span class="fas fa-digital-tachograph" style="margin-left: 2vh;"></span>${info['plate']}</div>`;
-	} else if (info['plate']) {
+	}
+	else if (info['plate']) {
 		DispatchItem += `<div class="call-bottom-info"><span class="fas fa-digital-tachograph"></span>${info['plate']}</div>`;
-	} else if (info['model']) {
+	}
+	else if (info['model']) {
 		DispatchItem += `<div class="call-bottom-info"><span class="fas fa-car"></span>${info['model']}</div>`;
 	}
 
@@ -136,14 +146,16 @@ function addNewCall(callID, timer, info, isPolice) {
 		DispatchItem += `<div class="call-bottom-info"><span class="fas fa-spray-can"></span>${info['firstColor']}</div>`;
 	}
 	if (info['automaticGunfire'] == true) {
-		DispatchItem += `<div class="call-bottom-info"><span class="fab fa-blackberry"></span>Automatic Gunfire</div>`;
+		DispatchItem += '<div class="call-bottom-info"><span class="fab fa-blackberry"></span>Automatic Gunfire</div>';
 	}
 
 	if (info['name'] && info['number']) {
 		DispatchItem += `<div class="call-bottom-info"><span class="far fa-id-badge"></span>${info['name']}<span class="fas fa-mobile-alt" style="margin-left: 2vh;"></span>${info['number']}</div>`;
-	} else if (info['number']) {
+	}
+	else if (info['number']) {
 		DispatchItem += `<div class="call-bottom-info"><span class="fas fa-mobile-alt"></span>${info['number']}</div>`;
-	} else if (info['name']) {
+	}
+	else if (info['name']) {
 		DispatchItem += `<div class="call-bottom-info"><span class="far fa-id-badge"></span>${info['name']}</div>`;
 	}
 
@@ -151,21 +163,27 @@ function addNewCall(callID, timer, info, isPolice) {
 		DispatchItem += `<div class="line"></div><div class="call-bottom-info call-bottom-information"><span class="far fa-question-circle"></span>${info['information']}</div>`;
 	}
 
-	DispatchItem += `</div></div>`;
+	DispatchItem += '</div></div>';
 
 	$('.dispatch-holder').prepend(DispatchItem);
 
-	var timer = 4000;
+	timer = 4000;
 
 	if (prio == 1) {
-		timer = 12000;
-	} else if (prio == 2) {
-		timer = 9000;
+		if (prio == 1) {
+			timer = 12000;
+		}
+		else if (prio == 2) {
+			timer = 9000;
+		}
 	}
+}
 
+function removeCall(callID, timer) {
 	$(`.${callID}`).addClass('animate__backInRight');
 	setTimeout(() => {
 		$(`.${callID}`).addClass('animate__backOutRight');
+
 		setTimeout(() => {
 			$(`.${callID}`).remove();
 		}, 1000);
