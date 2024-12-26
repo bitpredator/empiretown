@@ -19,7 +19,7 @@ function OpenArmoryMenu(station)
         return ESX.CloseContext()
     end
 
-    ESX.OpenContext("right", elements, function(menu)
+    ESX.OpenContext("right", function(menu)
         CurrentAction = "menu_armory"
         CurrentActionMsg = TranslateCap("open_armory")
         CurrentActionData = { station = station }
@@ -282,6 +282,7 @@ end
 
 function ShowPlayerLicense(player)
     ESX.TriggerServerCallback("bpt_ammujob:getOtherPlayerData", function(playerData)
+        local elements = {}
         if playerData.licenses then
             for i = 1, #playerData.licenses, 1 do
                 if playerData.licenses[i].label and playerData.licenses[i].type then
@@ -293,6 +294,9 @@ function ShowPlayerLicense(player)
                 end
             end
         end
+        ESX.OpenContext("right", elements, nil, function(menu)
+            OpenAmmuActionsMenu()
+        end)
     end, GetPlayerServerId(player))
 end
 
@@ -437,7 +441,7 @@ AddEventHandler("bpt_ammujob:hasEnteredEntityZone", function(entity)
         local _ = GetEntityCoords(playerPed)
 
         if IsPedInAnyVehicle(playerPed, false) then
-            local vehicle = GetVehiclePedIsIn(playerPed)
+            local vehicle = GetVehiclePedIsIn(playerPed, false)
 
             for i = 0, 7, 1 do
                 SetVehicleTyreBurst(vehicle, i, true, 1000)
@@ -463,7 +467,7 @@ AddEventHandler("bpt_ammujob:handcuff", function()
             Wait(100)
         end
 
-        TaskPlayAnim(playerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+        TaskPlayAnim(playerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, false, false, false)
         RemoveAnimDict("mp_arresting")
 
         SetEnableHandcuffs(playerPed, true)
@@ -749,9 +753,10 @@ ESX.RegisterInput("ammu:interact", "(BPT AmmuJob) " .. TranslateCap("interaction
         return
     end
 
-    if not ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == "ammu") then
+    if not ESX.PlayerData.job or (ESX.PlayerData.job and ESX.PlayerData.job.name ~= "ammu") then
         return
     end
+
     if CurrentAction == "menu_armory" then
         if not Config.EnableESXService then
             OpenArmoryMenu(CurrentActionData.station)
