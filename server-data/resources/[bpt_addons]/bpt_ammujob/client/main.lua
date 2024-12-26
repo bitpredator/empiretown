@@ -19,7 +19,7 @@ function OpenArmoryMenu(station)
         return ESX.CloseContext()
     end
 
-    ESX.OpenContext("right", elements, function(menu)
+    ESX.OpenContext("right", function(menu)
         CurrentAction = "menu_armory"
         CurrentActionMsg = TranslateCap("open_armory")
         CurrentActionData = { station = station }
