@@ -753,9 +753,10 @@ ESX.RegisterInput("ammu:interact", "(BPT AmmuJob) " .. TranslateCap("interaction
         return
     end
 
-    if not ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == "ammu") then
+    if not ESX.PlayerData.job or (ESX.PlayerData.job and ESX.PlayerData.job.name ~= "ammu") then
         return
     end
+
     if CurrentAction == "menu_armory" then
         if not Config.EnableESXService then
             OpenArmoryMenu(CurrentActionData.station)
