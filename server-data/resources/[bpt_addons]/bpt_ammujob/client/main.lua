@@ -294,6 +294,9 @@ function ShowPlayerLicense(player)
                 end
             end
         end
+        ESX.OpenContext("right", elements, nil, function(menu)
+            OpenAmmuActionsMenu()
+        end)
     end, GetPlayerServerId(player))
 end
 
@@ -438,7 +441,7 @@ AddEventHandler("bpt_ammujob:hasEnteredEntityZone", function(entity)
         local _ = GetEntityCoords(playerPed)
 
         if IsPedInAnyVehicle(playerPed, false) then
-            local vehicle = GetVehiclePedIsIn(playerPed)
+            local vehicle = GetVehiclePedIsIn(playerPed, false)
 
             for i = 0, 7, 1 do
                 SetVehicleTyreBurst(vehicle, i, true, 1000)
@@ -464,7 +467,7 @@ AddEventHandler("bpt_ammujob:handcuff", function()
             Wait(100)
         end
 
-        TaskPlayAnim(playerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+        TaskPlayAnim(playerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, false, false, false)
         RemoveAnimDict("mp_arresting")
 
         SetEnableHandcuffs(playerPed, true)
