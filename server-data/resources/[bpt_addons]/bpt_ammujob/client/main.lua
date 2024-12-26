@@ -282,6 +282,7 @@ end
 
 function ShowPlayerLicense(player)
     ESX.TriggerServerCallback("bpt_ammujob:getOtherPlayerData", function(playerData)
+        local elements = {}
         if playerData.licenses then
             for i = 1, #playerData.licenses, 1 do
                 if playerData.licenses[i].label and playerData.licenses[i].type then
