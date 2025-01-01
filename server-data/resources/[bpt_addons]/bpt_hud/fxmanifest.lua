@@ -3,7 +3,7 @@ fx_version("adamant")
 game("gta5")
 author("bitpredator")
 description("bitpredator HUD")
-version("1.0.2")
+version("1.0.7")
 
 ui_page("html/ui.html")
 

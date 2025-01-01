@@ -1,7 +1,7 @@
 fx_version("adamant")
 game("gta5")
 lua54("yes")
-version("1.0.2")
+version("1.0.7")
 
 ui_page("html/index.html")
 

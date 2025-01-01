@@ -1,7 +1,10 @@
 Core = nil
 
-if Config.Core == "QBCore" then Core = exports['qb-core']:GetCoreObject()
-elseif Config.Core == "ESX" then Core = exports['es_extended']:getSharedObject() end
+if Config.Core == "QBCore" then
+    Core = exports["qb-core"]:GetCoreObject()
+elseif Config.Core == "ESX" then
+    Core = exports["es_extended"]:getSharedObject()
+end
 
 Functions = {}
 
@@ -32,7 +35,7 @@ Functions.QBCore.GetCallSign = function(playerData)
     return playerData.metadata["callsign"]
 end
 Functions.QBCore.IsHandcuffed = function()
-    return exports['qb-policejob']:IsHandcuffed()
+    return exports["qb-policejob"]:IsHandcuffed()
 end
 
 -- ESX
@@ -60,22 +63,22 @@ Functions.ESX.HasPhone = function()
     return true
 end
 Functions.ESX.GetPhoneNumber = function()
-    return ''
+    return ""
 end
 Functions.ESX.GetCallSign = function()
-    return ''
+    return ""
 end
 Functions.ESX.IsHandcuffed = function()
     return false
 end
 Functions.ESX.LoadPlayerName = function()
-    Core.TriggerServerCallback('ps-dispatch:server:esx:getPlayerName', function(firstName, lastName)
+    Core.TriggerServerCallback("ps-dispatch:server:esx:getPlayerName", function(firstName, lastName)
         esxFirstName = firstName
         esxLastName = lastName
     end)
 end
 
-AddEventHandler('onResourceStart', function(resourceName)
+AddEventHandler("onResourceStart", function(resourceName)
     if GetCurrentResourceName() == resourceName then
         isLoggedIn = true
         PlayerData = Functions[Config.Core].GetPlayerData()
@@ -93,7 +96,7 @@ RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     PlayerJob = PlayerData.job
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+RegisterNetEvent("QBCore:Client:OnPlayerUnload", function()
     PlayerData = {}
     isLoggedIn = false
     currentCallSign = ""
@@ -106,14 +109,14 @@ RegisterNetEvent("QBCore:Client:OnJobUpdate", function(JobInfo)
     PlayerJob = JobInfo
 end)
 
-AddEventHandler('esx:setPlayerData', function(key, val, last)
-    if GetInvokingResource() == 'es_extended' then
+AddEventHandler("esx:setPlayerData", function(key, val, last)
+    if GetInvokingResource() == "es_extended" then
         Core.PlayerData[key] = val
         PlayerJob = Core.PlayerData.job
     end
 end)
 
-RegisterNetEvent('esx:playerLoaded', function(xPlayer)
+RegisterNetEvent("esx:playerLoaded", function(xPlayer)
     Core.PlayerData = xPlayer
     Core.PlayerLoaded = true
     isLoggedIn = true
@@ -122,7 +125,7 @@ RegisterNetEvent('esx:playerLoaded', function(xPlayer)
     Functions.ESX.LoadPlayerName()
 end)
 
-RegisterNetEvent('esx:onPlayerLogout', function()
+RegisterNetEvent("esx:onPlayerLogout", function()
     Core.PlayerLoaded = false
     Core.PlayerData = {}
     isLoggedIn = false

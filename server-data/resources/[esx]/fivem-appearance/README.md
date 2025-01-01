@@ -1,4 +1,4 @@
-Copyright (C) 2023-2024 bitpredator
+Copyright (C) 2023-2025 bitpredator
 
 This program is a project for the fivem community, you have legal permission to distribute and / or modify it only if you have forked this repository, if it is not a fork repository, the version will be removed from the DMCA request.
 

@@ -2,7 +2,7 @@ fx_version("adamant")
 game("gta5")
 name("Mythic Framework Notification System")
 
-version("1.0.2")
+version("1.0.7")
 
 ui_page({
     "html/ui.html",

@@ -4,7 +4,7 @@ game("gta5")
 
 description("Allows players to RP as a mechanic (repair and modify vehicles)")
 lua54("yes")
-version("1.0.2")
+version("1.0.7")
 
 shared_script("@es_extended/imports.lua")
 

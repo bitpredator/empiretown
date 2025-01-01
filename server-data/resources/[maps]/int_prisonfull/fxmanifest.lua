@@ -1,5 +1,5 @@
 fx_version("adamant")
 game("gta5")
 this_is_a_map("yes")
-version("1.0.2")
+version("1.0.7")
 client_script 'client.lua'
