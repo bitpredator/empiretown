@@ -1,48 +1,48 @@
 local WeaponTable = {
-    [584646201]   = "CLASS 2: AP-Pistol",
-    [453432689]   = "CLASS 1: Pistol",
-    [3219281620]  = "CLASS 1: Pistol MK2",
-    [1593441988]  = "CLASS 1: Combat Pistol",
+    [584646201] = "CLASS 2: AP-Pistol",
+    [453432689] = "CLASS 1: Pistol",
+    [3219281620] = "CLASS 1: Pistol MK2",
+    [1593441988] = "CLASS 1: Combat Pistol",
     [-1716589765] = "CLASS 1: Heavy Pistol",
     [-1076751822] = "CLASS 1: SNS-Pistol",
-    [-771403250]  = "CLASS 2: Desert Eagle",
-    [137902532]   = "CLASS 2: Vintage Pistol",
-    [-598887786]  = "CLASS 2: Marksman Pistol",
+    [-771403250] = "CLASS 2: Desert Eagle",
+    [137902532] = "CLASS 2: Vintage Pistol",
+    [-598887786] = "CLASS 2: Marksman Pistol",
     [-1045183535] = "CLASS 2: Revolver",
-    [911657153]   = "Taser",
-    [324215364]   = "CLASS 2: Micro-SMG",
-    [-619010992]  = "CLASS 2: Machine-Pistol",
-    [736523883]   = "CLASS 2: SMG",
-    [2024373456]  = "CLASS 2: SMG MK2",
-    [-270015777]  = "CLASS 2: Assault SMG",
-    [171789620]   = "CLASS 2: Combat PDW",
+    [911657153] = "Taser",
+    [324215364] = "CLASS 2: Micro-SMG",
+    [-619010992] = "CLASS 2: Machine-Pistol",
+    [736523883] = "CLASS 2: SMG",
+    [2024373456] = "CLASS 2: SMG MK2",
+    [-270015777] = "CLASS 2: Assault SMG",
+    [171789620] = "CLASS 2: Combat PDW",
     [-1660422300] = "CLASS 4: Combat MG",
-    [3686625920]  = "CLASS 4: Combat MG MK2",
-    [1627465347]  = "CLASS 4: Gusenberg",
+    [3686625920] = "CLASS 4: Combat MG MK2",
+    [1627465347] = "CLASS 4: Gusenberg",
     [-1121678507] = "CLASS 2: Mini SMG",
     [-1074790547] = "CLASS 3: Assaultrifle",
-    [961495388]   = "CLASS 3: Assaultrifle MK2",
+    [961495388] = "CLASS 3: Assaultrifle MK2",
     [-2084633992] = "CLASS 3: Carbinerifle",
-    [4208062921]  = "CLASS 3: Carbinerifle MK2",
+    [4208062921] = "CLASS 3: Carbinerifle MK2",
     [-1357824103] = "CLASS 3: Advancedrifle",
     [-1063057011] = "CLASS 3: Specialcarbine",
-    [2132975508]  = "CLASS 3: Bulluprifle",
-    [1649403952]  = "CLASS 3: Compactrifle",
-    [100416529]   = "CLASS 4: Sniperrifle",
-    [205991906]   = "CLASS 4: Heavy Sniper",
-    [177293209]   = "CLASS 4: Heavy Sniper MK2",
-    [-952879014]  = "CLASS 4: Marksmanrifle",
-    [487013001]   = "CLASS 2: Pumpshotgun",
-    [2017895192]  = "CLASS 2: Sawnoff Shotgun",
+    [2132975508] = "CLASS 3: Bulluprifle",
+    [1649403952] = "CLASS 3: Compactrifle",
+    [100416529] = "CLASS 4: Sniperrifle",
+    [205991906] = "CLASS 4: Heavy Sniper",
+    [177293209] = "CLASS 4: Heavy Sniper MK2",
+    [-952879014] = "CLASS 4: Marksmanrifle",
+    [487013001] = "CLASS 2: Pumpshotgun",
+    [2017895192] = "CLASS 2: Sawnoff Shotgun",
     [-1654528753] = "CLASS 3: Bullupshotgun",
-    [-494615257]  = "CLASS 3: Assaultshotgun",
+    [-494615257] = "CLASS 3: Assaultshotgun",
     [-1466123874] = "CLASS 3: Musket",
-    [984333226]   = "CLASS 3: Heavyshotgun",
-    [-275439685]  = "CLASS 2: Doublebarrel Shotgun",
-    [317205821]   = "CLASS 2: Autoshotgun",
+    [984333226] = "CLASS 3: Heavyshotgun",
+    [-275439685] = "CLASS 2: Doublebarrel Shotgun",
+    [317205821] = "CLASS 2: Autoshotgun",
     [-1568386805] = "CLASS 5: GRENADE LAUNCHER",
     [-1312131151] = "CLASS 5: RPG",
-    [125959754]   = "CLASS 5: Compactlauncher"
+    [125959754] = "CLASS 5: Compactlauncher",
 }
 local function VehicleTheft(vehicle)
     local vehdata = vehicleData(vehicle)
@@ -62,14 +62,14 @@ local function VehicleTheft(vehicle)
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('vehicletheft'),
-        job = { "police" }
+        dispatchMessage = _U("vehicletheft"),
+        job = { "police" },
     })
 end
 
-exports('VehicleTheft', VehicleTheft)
+exports("VehicleTheft", VehicleTheft)
 
 local function VehicleShooting(vehdata)
     local vehicle = QBCore.Functions.GetClosestVehicle()
@@ -83,11 +83,27 @@ local function VehicleShooting(vehdata)
     local PlayerPed = PlayerPedId()
     local CurrentWeapon = GetSelectedPedWeapon(PlayerPed)
     local weapon = WeaponTable[CurrentWeapon] or "UNKNOWN"
-    if GetEntityBoneIndexByName(vehicle, 'door_pside_f') ~= -1 then doorCount = doorCount + 1 end
-    if GetEntityBoneIndexByName(vehicle, 'door_pside_r') ~= -1 then doorCount = doorCount + 1 end
-    if GetEntityBoneIndexByName(vehicle, 'door_dside_f') ~= -1 then doorCount = doorCount + 1 end
-    if GetEntityBoneIndexByName(vehicle, 'door_dside_r') ~= -1 then doorCount = doorCount + 1 end
-    if doorCount == 2 then doorCount = "Two-Door" elseif doorCount == 3 then doorCount = "Three-Door" elseif doorCount == 4 then doorCount = "Four-Door" else doorCount = "UNKNOWN" end
+    if GetEntityBoneIndexByName(vehicle, "door_pside_f") ~= -1 then
+        doorCount = doorCount + 1
+    end
+    if GetEntityBoneIndexByName(vehicle, "door_pside_r") ~= -1 then
+        doorCount = doorCount + 1
+    end
+    if GetEntityBoneIndexByName(vehicle, "door_dside_f") ~= -1 then
+        doorCount = doorCount + 1
+    end
+    if GetEntityBoneIndexByName(vehicle, "door_dside_r") ~= -1 then
+        doorCount = doorCount + 1
+    end
+    if doorCount == 2 then
+        doorCount = "Two-Door"
+    elseif doorCount == 3 then
+        doorCount = "Three-Door"
+    elseif doorCount == 4 then
+        doorCount = "Four-Door"
+    else
+        doorCount = "UNKNOWN"
+    end
     TriggerServerEvent("dispatch:server:notify", {
         dispatchcodename = "vehicleshots", -- has to match the codes in sv_dispatchcodes.lua so that it generates the right blip
         dispatchCode = "10-60",
@@ -104,15 +120,14 @@ local function VehicleShooting(vehdata)
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('vehicleshots'),
-        job = { "police" }
+        dispatchMessage = _U("vehicleshots"),
+        job = { "police" },
     })
 end
 
-exports('VehicleShooting', VehicleShooting)
-
+exports("VehicleShooting", VehicleShooting)
 
 local function Shooting()
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -137,15 +152,14 @@ local function Shooting()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('shooting'),
-        job = { "police" }
+        dispatchMessage = _U("shooting"),
+        job = { "police" },
     })
-
 end
 
-exports('Shooting', Shooting)
+exports("Shooting", Shooting)
 
 local function SpeedingVehicle(vehdata)
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -164,14 +178,14 @@ local function SpeedingVehicle(vehdata)
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('speeding'),
-        job = { "police" }
+        dispatchMessage = _U("speeding"),
+        job = { "police" },
     })
 end
 
-exports('SpeedingVehicle', SpeedingVehicle)
+exports("SpeedingVehicle", SpeedingVehicle)
 
 local function Fight()
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -190,14 +204,14 @@ local function Fight()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('melee'),
-        job = { "police" }
+        dispatchMessage = _U("melee"),
+        job = { "police" },
     })
 end
 
-exports('Fight', Fight)
+exports("Fight", Fight)
 
 local function InjuriedPerson()
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -216,14 +230,14 @@ local function InjuriedPerson()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('persondown'), -- message
-        job = { "ambulance" } -- jobs that will get the alerts
+        dispatchMessage = _U("persondown"), -- message
+        job = { "ambulance" }, -- jobs that will get the alerts
     })
 end
 
-exports('InjuriedPerson', InjuriedPerson)
+exports("InjuriedPerson", InjuriedPerson)
 
 local function DeceasedPerson()
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -242,14 +256,14 @@ local function DeceasedPerson()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
         dispatchMessage = "Civilian Bled Out", -- message
-        job = { "ambulance" } -- jobs that will get the alerts
+        job = { "ambulance" }, -- jobs that will get the alerts
     })
 end
 
-exports('DeceasedPerson', DeceasedPerson)
+exports("DeceasedPerson", DeceasedPerson)
 
 local function StoreRobbery(camId)
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -269,14 +283,14 @@ local function StoreRobbery(camId)
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('storerobbery'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("storerobbery"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('StoreRobbery', StoreRobbery)
+exports("StoreRobbery", StoreRobbery)
 
 local function FleecaBankRobbery(camId)
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -296,14 +310,14 @@ local function FleecaBankRobbery(camId)
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('fleecabank'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("fleecabank"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('FleecaBankRobbery', FleecaBankRobbery)
+exports("FleecaBankRobbery", FleecaBankRobbery)
 
 local function PaletoBankRobbery(camId)
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -323,14 +337,14 @@ local function PaletoBankRobbery(camId)
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('paletobank'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("paletobank"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('PaletoBankRobbery', PaletoBankRobbery)
+exports("PaletoBankRobbery", PaletoBankRobbery)
 
 local function PacificBankRobbery(camId)
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -350,14 +364,14 @@ local function PacificBankRobbery(camId)
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('pacificbank'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("pacificbank"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('PacificBankRobbery', PacificBankRobbery)
+exports("PacificBankRobbery", PacificBankRobbery)
 
 local function PrisonBreak()
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -376,14 +390,14 @@ local function PrisonBreak()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('prisonbreak'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("prisonbreak"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('PrisonBreak', PrisonBreak)
+exports("PrisonBreak", PrisonBreak)
 
 local function VangelicoRobbery(camId)
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -404,14 +418,14 @@ local function VangelicoRobbery(camId)
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('vangelico'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("vangelico"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('VangelicoRobbery', VangelicoRobbery)
+exports("VangelicoRobbery", VangelicoRobbery)
 
 local function HouseRobbery()
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -430,14 +444,14 @@ local function HouseRobbery()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('houserobbery'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("houserobbery"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('HouseRobbery', HouseRobbery)
+exports("HouseRobbery", HouseRobbery)
 
 local function YachtHeist()
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -456,14 +470,14 @@ local function YachtHeist()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('yachtheist'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("yachtheist"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('YachtHeist', YachtHeist)
+exports("YachtHeist", YachtHeist)
 
 local function DrugSale()
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -482,18 +496,17 @@ local function DrugSale()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('drugsell'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("drugsell"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('DrugSale', DrugSale)
-
+exports("DrugSale", DrugSale)
 
 -- for rcore_gangs, haven't tested server side exports so made this instead. Remove if you do not need :)
-RegisterNetEvent('ps-dispatch:client:drugsale', function()
+RegisterNetEvent("ps-dispatch:client:drugsale", function()
     DrugSale()
 end)
 
@@ -515,14 +528,14 @@ local function CarJacking(vehicle)
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('carjacking'),
-        job = { "police" }
+        dispatchMessage = _U("carjacking"),
+        job = { "police" },
     })
 end
 
-exports('CarJacking', CarJacking)
+exports("CarJacking", CarJacking)
 
 local function OfficerDown()
     local plyData = Functions[Config.Core].GetPlayerData()
@@ -543,16 +556,16 @@ local function OfficerDown()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('officerdown'), -- message
-        job = { "ambulance", "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("officerdown"), -- message
+        job = { "ambulance", "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('OfficerDown', OfficerDown)
+exports("OfficerDown", OfficerDown)
 
-RegisterNetEvent("ps-dispatch:client:officerdown", function ()
+RegisterNetEvent("ps-dispatch:client:officerdown", function()
     OfficerDown()
 end)
 
@@ -575,16 +588,16 @@ local function EmsDown()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('emsdown'), -- message
-        job = { "ambulance", "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("emsdown"), -- message
+        job = { "ambulance", "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('EmsDown', EmsDown)
+exports("EmsDown", EmsDown)
 
-RegisterNetEvent("ps-dispatch:client:emsdown", function ()
+RegisterNetEvent("ps-dispatch:client:emsdown", function()
     EmsDown()
 end)
 
@@ -605,14 +618,14 @@ local function Explosion()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
         dispatchMessage = "Explosion Reported", -- message
-        job = { "police" } -- jobs that will get the alerts
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('Explosion', Explosion)
+exports("Explosion", Explosion)
 
 local function SuspiciousActivity()
     local currentPos = GetEntityCoords(PlayerPedId())
@@ -631,27 +644,29 @@ local function SuspiciousActivity()
         origin = {
             x = currentPos.x,
             y = currentPos.y,
-            z = currentPos.z
+            z = currentPos.z,
         },
-        dispatchMessage = _U('susactivity'), -- message
-        job = { "police" } -- jobs that will get the alerts
+        dispatchMessage = _U("susactivity"), -- message
+        job = { "police" }, -- jobs that will get the alerts
     })
 end
 
-exports('SuspiciousActivity', SuspiciousActivity)
+exports("SuspiciousActivity", SuspiciousActivity)
 
 local function CustomAlert(data)
-
     local coords = data.coords or vec3(0.0, 0.0, 0.0)
     local gender = GetPedGender()
-    if not data.gender then gender = nil end 
+    if not data.gender then
+        gender = nil
+    end
     local job = { "police" }
-    if data.job then job = data.job end
-
+    if data.job then
+        job = data.job
+    end
 
     local locationInfo = getStreetandZone(coords)
     TriggerServerEvent("dispatch:server:notify", {
-        dispatchCode = data.dispatchCode or "NONE", 
+        dispatchCode = data.dispatchCode or "NONE",
         firstStreet = locationInfo,
         gender = gender,
         model = data.model or nil,
@@ -667,24 +682,24 @@ local function CustomAlert(data)
         origin = {
             x = coords.x,
             y = coords.y,
-            z = coords.z
+            z = coords.z,
         },
-        dispatchMessage = data.message or "", 
+        dispatchMessage = data.message or "",
         job = job,
         alert = {
-            displayCode = data.dispatchCode or "NONE", 
-            description = data.description or "", 
-            radius = data.radius or 0, 
-            recipientList = job, 
-            blipSprite = data.sprite or 1, 
-            blipColour = data.color or 1, 
-            blipScale = data.scale or 0.5, 
-            blipLength = data.length or 2, 
-            sound = data.sound or "Lose_1st", 
-            sound2 = data.sound2 or "GTAO_FM_Events_Soundset", 
-            offset = data.offset or "false", 
-            blipflash = data.flash or "false"
-        }
+            displayCode = data.dispatchCode or "NONE",
+            description = data.description or "",
+            radius = data.radius or 0,
+            recipientList = job,
+            blipSprite = data.sprite or 1,
+            blipColour = data.color or 1,
+            blipScale = data.scale or 0.5,
+            blipLength = data.length or 2,
+            sound = data.sound or "Lose_1st",
+            sound2 = data.sound2 or "GTAO_FM_Events_Soundset",
+            offset = data.offset or "false",
+            blipflash = data.flash or "false",
+        },
     })
 end
-exports('CustomAlert', CustomAlert)
+exports("CustomAlert", CustomAlert)

@@ -17,26 +17,26 @@ local function loadAnimDict(dict)
 end
 
 local function DeletePhone()
-	if phoneProp ~= 0 then
-		DeleteObject(phoneProp)
-		phoneProp = 0
-	end
+    if phoneProp ~= 0 then
+        DeleteObject(phoneProp)
+        phoneProp = 0
+    end
 end
 
 local function NewPropWhoDis()
-	DeletePhone()
-	RequestModel(phoneModel)
-	while not HasModelLoaded(phoneModel) do
-		Wait(1)
-	end
-	phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, 1, 1, 0)
+    DeletePhone()
+    RequestModel(phoneModel)
+    while not HasModelLoaded(phoneModel) do
+        Wait(1)
+    end
+    phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, true, true, false)
 
-	local bone = GetPedBoneIndex(PlayerPedId(), 28422)
-	if phoneModel == Config.PhoneModel then
-		AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 15.0, 0.0, 0.0, 1, 1, 0, 0, 2, 1)
-	else
-		AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 0, 2, 1)
-	end
+    local bone = GetPedBoneIndex(PlayerPedId(), 28422)
+    if phoneModel == Config.PhoneModel then
+        AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 15.0, 0.0, 0.0, true, true, false, false, 2, true)
+    else
+        AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, false, 2, true)
+    end
 end
 
 -- Does the actual animation of the animation when calling 911
@@ -47,8 +47,8 @@ local function PhoneCallAnim()
         NewPropWhoDis()
         playAnim = true
         while playAnim do
-            if not IsEntityPlayingAnim(ped, "cellphone@", 'cellphone_text_to_call', 3) then
-                TaskPlayAnim(ped, "cellphone@", 'cellphone_text_to_call', 3.0, 3.0, -1, 50, 0, false, false, false)
+            if not IsEntityPlayingAnim(ped, "cellphone@", "cellphone_text_to_call", 3) then
+                TaskPlayAnim(ped, "cellphone@", "cellphone_text_to_call", 3.0, 3.0, -1, 50, 0, false, false, false)
             end
             Wait(100)
         end
@@ -58,7 +58,7 @@ end
 local last911Used = 0
 
 -- Regular 911 call that goes straight to the Police
-RegisterCommand('911', function(source, args, rawCommand)
+RegisterCommand("911", function(source, args, rawCommand)
     local timeNow = GetCloudTimeAsInt()
 
     if timeNow - last911Used <= Config.Cooldown911 then
@@ -71,7 +71,7 @@ RegisterCommand('911', function(source, args, rawCommand)
         if not Functions[Config.Core].IsHandcuffed() then
             if HasPhone() then
                 PhoneCallAnim()
-                Wait(math.random(3,8) * 1000)
+                Wait(math.random(3, 8) * 1000)
                 playAnim = false
                 local plyData = Functions[Config.Core].GetPlayerData()
                 local currentPos = GetEntityCoords(PlayerPedId())
@@ -80,25 +80,25 @@ RegisterCommand('911', function(source, args, rawCommand)
 
                 local firstname, lastname = Functions[Config.Core].GetName(plyData)
 
-                TriggerServerEvent("dispatch:server:notify",{
+                TriggerServerEvent("dispatch:server:notify", {
                     dispatchcodename = "911call", -- has to match the codes in sv_dispatchcodes.lua so that it generates the right blip
                     dispatchCode = "911",
                     firstStreet = locationInfo,
                     priority = 2, -- priority
-                    name = firstname:sub(1,1):upper()..firstname:sub(2) .. " ".. lastname:sub(1,1):upper()..lastname:sub(2),
+                    name = firstname:sub(1, 1):upper() .. firstname:sub(2) .. " " .. lastname:sub(1, 1):upper() .. lastname:sub(2),
                     number = Functions[Config.Core].GetPhoneNumber(plyData),
                     origin = {
                         x = currentPos.x,
                         y = currentPos.y,
-                        z = currentPos.z
+                        z = currentPos.z,
                     },
                     dispatchMessage = "Incoming Call", -- message
                     information = msg,
-                    job = {"police", "ambulance"} -- jobs that will get the alerts
+                    job = { "police", "ambulance" }, -- jobs that will get the alerts
                 })
                 Wait(1000)
                 DeletePhone()
-                StopEntityAnim(PlayerPedId(), 'cellphone_text_to_call', "cellphone@", 3)
+                StopEntityAnim(PlayerPedId(), "cellphone_text_to_call", "cellphone@", 3)
             else
                 Functions[Config.Core].Notify("You can't call without a Phone!", "error", 4500)
             end
@@ -106,22 +106,22 @@ RegisterCommand('911', function(source, args, rawCommand)
             Functions[Config.Core].Notify("You can't call police while handcuffed!", "error", 4500)
         end
     else
-        Functions[Config.Core].Notify('Please put a reason after the 911', "success")
+        Functions[Config.Core].Notify("Please put a reason after the 911", "success")
     end
 end)
 
-RegisterCommand('911a', function(source, args, rawCommand)
+RegisterCommand("911a", function(source, args, rawCommand)
     local msg = rawCommand:sub(5)
     if string.len(msg) > 0 then
         if not Functions[Config.Core].IsHandcuffed() then
             if HasPhone() then
                 PhoneCallAnim()
-                Wait(math.random(3,8) * 1000)
+                Wait(math.random(3, 8) * 1000)
                 playAnim = false
                 local currentPos = GetEntityCoords(PlayerPedId())
                 local locationInfo = getStreetandZone(currentPos)
                 local gender = GetPedGender()
-                TriggerServerEvent("dispatch:server:notify",{
+                TriggerServerEvent("dispatch:server:notify", {
                     dispatchcodename = "911call", -- has to match the codes in sv_dispatchcodes.lua so that it generates the right blip
                     dispatchCode = "911",
                     firstStreet = locationInfo,
@@ -131,15 +131,15 @@ RegisterCommand('911a', function(source, args, rawCommand)
                     origin = {
                         x = currentPos.x,
                         y = currentPos.y,
-                        z = currentPos.z
+                        z = currentPos.z,
                     },
                     dispatchMessage = "Incoming Anonymous Call", -- message
                     information = msg,
-                    job = {"police", "ambulance"} -- jobs that will get the alerts
+                    job = { "police", "ambulance" }, -- jobs that will get the alerts
                 })
                 Wait(1000)
                 DeletePhone()
-                StopEntityAnim(PlayerPedId(), 'cellphone_text_to_call', "cellphone@", 3)
+                StopEntityAnim(PlayerPedId(), "cellphone_text_to_call", "cellphone@", 3)
             else
                 Functions[Config.Core].Notify("You can't call without a Phone!", "error", 4500)
             end
@@ -147,14 +147,14 @@ RegisterCommand('911a', function(source, args, rawCommand)
             Functions[Config.Core].Notify("You can't call police while handcuffed!", "error", 4500)
         end
     else
-        Functions[Config.Core].Notify('Please put a reason after the 911', "success")
+        Functions[Config.Core].Notify("Please put a reason after the 911", "success")
     end
 end)
 
 local last311Used = 0
 
 -- Regular 311 call that goes straight to the Police
-RegisterCommand('311', function(source, args, rawCommand)
+RegisterCommand("311", function(source, args, rawCommand)
     local timeNow = GetCloudTimeAsInt()
 
     if timeNow - last311Used <= Config.Cooldown311 then
@@ -168,7 +168,7 @@ RegisterCommand('311', function(source, args, rawCommand)
         if not Functions[Config.Core].IsHandcuffed() then
             if HasPhone() then
                 PhoneCallAnim()
-                Wait(math.random(3,8) * 1000)
+                Wait(math.random(3, 8) * 1000)
                 playAnim = false
                 local plyData = Functions[Config.Core].GetPlayerData()
 
@@ -178,25 +178,25 @@ RegisterCommand('311', function(source, args, rawCommand)
 
                 local firstname, lastname = Functions[Config.Core].GetName(plyData)
 
-                TriggerServerEvent("dispatch:server:notify",{
+                TriggerServerEvent("dispatch:server:notify", {
                     dispatchcodename = "311call", -- has to match the codes in sv_dispatchcodes.lua so that it generates the right blip
                     dispatchCode = "311",
                     firstStreet = locationInfo,
                     priority = 2, -- priority
-                    name = firstname:sub(1,1):upper()..firstname:sub(2).. " ".. lastname:sub(1,1):upper()..lastname:sub(2),
+                    name = firstname:sub(1, 1):upper() .. firstname:sub(2) .. " " .. lastname:sub(1, 1):upper() .. lastname:sub(2),
                     number = Functions[Config.Core].GetPhoneNumber(plyData),
                     origin = {
                         x = currentPos.x,
                         y = currentPos.y,
-                        z = currentPos.z
+                        z = currentPos.z,
                     },
                     dispatchMessage = "Incoming Call", -- message
                     information = msg,
-                    job = {"police", "ambulance"} -- jobs that will get the alerts
+                    job = { "police", "ambulance" }, -- jobs that will get the alerts
                 })
                 Wait(1000)
                 DeletePhone()
-                StopEntityAnim(PlayerPedId(), 'cellphone_text_to_call', "cellphone@", 3)
+                StopEntityAnim(PlayerPedId(), "cellphone_text_to_call", "cellphone@", 3)
             else
                 Functions[Config.Core].Notify("You can't call without a Phone!", "error", 4500)
             end
@@ -204,24 +204,24 @@ RegisterCommand('311', function(source, args, rawCommand)
             Functions[Config.Core].Notify("You can't call police while handcuffed!", "error", 4500)
         end
     else
-        Functions[Config.Core].NotifyNotify('Please put a reason after the 911', "success")
+        Functions[Config.Core].NotifyNotify("Please put a reason after the 911", "success")
     end
 end)
 
 -- Regular 311 call that goes straight to the Police
-RegisterCommand('311a', function(source, args, rawCommand)
+RegisterCommand("311a", function(source, args, rawCommand)
     local msg = rawCommand:sub(5)
     if string.len(msg) > 0 then
         if not Functions[Config.Core].IsHandcuffed() then
             if HasPhone() then
                 PhoneCallAnim()
-                Wait(math.random(3,8) * 1000)
+                Wait(math.random(3, 8) * 1000)
                 playAnim = false
                 local currentPos = GetEntityCoords(PlayerPedId())
                 local locationInfo = getStreetandZone(currentPos)
                 local gender = GetPedGender()
 
-                TriggerServerEvent("dispatch:server:notify",{
+                TriggerServerEvent("dispatch:server:notify", {
                     dispatchcodename = "311call", -- has to match the codes in sv_dispatchcodes.lua so that it generates the right blip
                     dispatchCode = "311",
                     firstStreet = locationInfo,
@@ -231,15 +231,15 @@ RegisterCommand('311a', function(source, args, rawCommand)
                     origin = {
                         x = currentPos.x,
                         y = currentPos.y,
-                        z = currentPos.z
+                        z = currentPos.z,
                     },
                     dispatchMessage = "Incoming Call", -- message
                     information = msg,
-                    job = {"police", "ambulance"} -- jobs that will get the alerts
+                    job = { "police", "ambulance" }, -- jobs that will get the alerts
                 })
                 Wait(1000)
                 DeletePhone()
-                StopEntityAnim(PlayerPedId(), 'cellphone_text_to_call', "cellphone@", 3)
+                StopEntityAnim(PlayerPedId(), "cellphone_text_to_call", "cellphone@", 3)
             else
                 Functions[Config.Core].Notify("You can't call without a Phone!", "error", 4500)
             end
@@ -247,14 +247,13 @@ RegisterCommand('311a', function(source, args, rawCommand)
             Functions[Config.Core].Notify("You can't call police while handcuffed!", "error", 4500)
         end
     else
-        Functions[Config.Core].Notify('Please put a reason after the 911', "success")
+        Functions[Config.Core].Notify("Please put a reason after the 911", "success")
     end
 end)
 
-
 Citizen.CreateThread(function()
-    TriggerEvent('chat:addSuggestion', '/911', 'Send a message to the police.', {{ name="message", help="Message to police."}})
-    TriggerEvent('chat:addSuggestion', '/911a', 'Send a message to the police anonymously.', {{ name="message", help="Message to police anonymous."}})
-    TriggerEvent('chat:addSuggestion', '/311', 'Send a message to the EMS.', {{ name="message", help="Message to EMS."}})
-    TriggerEvent('chat:addSuggestion', '/311a', 'Send a message to the EMS anonymously.', {{ name="message", help="Message to EMS anonymous."}})
+    TriggerEvent("chat:addSuggestion", "/911", "Send a message to the police.", { { name = "message", help = "Message to police." } })
+    TriggerEvent("chat:addSuggestion", "/911a", "Send a message to the police anonymously.", { { name = "message", help = "Message to police anonymous." } })
+    TriggerEvent("chat:addSuggestion", "/311", "Send a message to the EMS.", { { name = "message", help = "Message to EMS." } })
+    TriggerEvent("chat:addSuggestion", "/311a", "Send a message to the EMS anonymously.", { { name = "message", help = "Message to EMS anonymous." } })
 end)
