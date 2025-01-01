@@ -4,7 +4,7 @@ game("gta5")
 
 description("bpt_ammunation job RP server")
 lua54("yes")
-version("1.0.3")
+version("1.0.7")
 
 shared_script("@es_extended/imports.lua")
 

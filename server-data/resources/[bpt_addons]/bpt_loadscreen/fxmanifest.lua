@@ -3,7 +3,7 @@ games({ "gta5" })
 
 author("Bitpredator")
 description("fivem loadscreen")
-version("1.0.2")
+version("1.0.7")
 
 loadscreen("index.html")
 loadscreen_manual_shutdown("yes")
