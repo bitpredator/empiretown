@@ -198,10 +198,6 @@ function OpenShopMenu()
                 { label = TranslateCap("back"), value = "no" },
             },
         }, function(data2, menu2)
-            if data2.current.value == "yes" then
-                SendNotification(TranslateCap("contact_dealer") .. vehicleData.price * Config.Price .. TranslateCap("currency"), "warning", 5000)
-            end
-
             if data2.current.value == "no" then
                 menu2.close()
             end
@@ -277,7 +273,7 @@ Citizen.CreateThread(function()
         if CurrentAction ~= nil then
             SetTextComponentFormat("STRING")
             AddTextComponentString(CurrentActionMsg)
-            DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+            DisplayHelpTextFromStringLabel(0, false, true, -1)
 
             if IsControlPressed(0, Keys["E"]) and (GetGameTimer() - GUI.Time) > 300 then
                 if CurrentAction == "cars_menu" then
@@ -361,16 +357,5 @@ end
 function DisplayHelpText(str)
     SetTextComponentFormat("STRING")
     AddTextComponentString(str)
-    DisplayHelpTextFromStringLabel(0, 0, 1, -1)
-end
-
---notification
-function SendNotification(message, messageType, messageTimeout)
-    TriggerEvent("pNotify:SendNotification", {
-        text = message,
-        type = messageType,
-        queue = "katalog",
-        timeout = messageTimeout,
-        layout = "bottomCenter",
-    })
+    DisplayHelpTextFromStringLabel(0, false, true, -1)
 end
