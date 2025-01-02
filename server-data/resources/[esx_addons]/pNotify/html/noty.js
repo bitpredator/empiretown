@@ -1,1323 +1,1411 @@
+/* eslint-disable indent */
+/* eslint-disable prefer-const */
+/* eslint-disable no-empty-function */
+/* eslint-disable no-var */
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 (function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
-	else if(typeof define === 'function' && define.amd)
-		define("Noty", [], factory);
-	else if(typeof exports === 'object')
-		exports["Noty"] = factory();
-	else
-		root["Noty"] = factory();
+	if (typeof exports === 'object' && typeof module === 'object') {module.exports = factory();}
+	else if (typeof define === 'function' && define.amd) {define('Noty', [], factory);}
+	else if (typeof exports === 'object') {exports['Noty'] = factory();}
+	else {root['Noty'] = factory();}
 })(this, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+	return (function(modules) {
+		// The module cache
+		const installedModules = {};
 
-"use strict";
+		// The require function
+		function __webpack_require__(moduleId) {
+
+			// Check if module is in cache
+			if (installedModules[moduleId]) {
+				return installedModules[moduleId].exports;
+			}
+
+			// Create a new module (and put it into the cache)
+			const module = installedModules[moduleId] = {
+				i: moduleId,
+				l: false,
+ 			exports: {},
+ 		};
+
+ 		// Execute the module function
+ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+ 		// Flag the module as loaded
+ 		module.l = true;
+
+ 		// Return the exports of the module
+ 		return module.exports;
+ 	}
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.css = exports.deepExtend = exports.animationEndEvents = undefined;
+ 	// expose the modules object (__webpack_modules__)
+ 	__webpack_require__.m = modules;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+ 	// expose the module cache
+ 	__webpack_require__.c = installedModules;
 
-exports.inArray = inArray;
-exports.stopPropagation = stopPropagation;
-exports.generateID = generateID;
-exports.outerHeight = outerHeight;
-exports.addListener = addListener;
-exports.hasClass = hasClass;
-exports.addClass = addClass;
-exports.removeClass = removeClass;
-exports.remove = remove;
-exports.classList = classList;
-exports.visibilityChangeFlow = visibilityChangeFlow;
-exports.createAudioElements = createAudioElements;
+ 	// identity function for calling harmony imports with the correct context
+ 	__webpack_require__.i = function(value) { return value; };
 
-var _api = __webpack_require__(1);
+ 	// define getter function for harmony exports
+ 	__webpack_require__.d = function(exports, name, getter) {
+ 		if (!__webpack_require__.o(exports, name)) {
+ 			Object.defineProperty(exports, name, {
+ 				configurable: false,
+ 				enumerable: true,
+ 				get: getter,
+ 			});
+ 		}
+ 	};
 
-var API = _interopRequireWildcard(_api);
+ 	// getDefaultExport function for compatibility with non-harmony modules
+ 	__webpack_require__.n = function(module) {
+ 		const getter = module && module.__esModule ?
+ 			function getDefault() { return module['default']; } :
+ 			function getModuleExports() { return module; };
+ 		__webpack_require__.d(getter, 'a', getter);
+ 		return getter;
+ 	};
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+ 	// Object.prototype.hasOwnProperty.call
+ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 
-var animationEndEvents = exports.animationEndEvents = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+ 	// __webpack_public_path__
+ 	__webpack_require__.p = '';
 
-function inArray(needle, haystack, argStrict) {
-  var key = void 0;
-  var strict = !!argStrict;
+ 	// Load entry module and return exports
+ 	return __webpack_require__(__webpack_require__.s = 6);
+	})
+	// eslint-disable-next-line no-unexpected-multiline
+	([
+		(function(exports, __webpack_require__) {
+			'use strict';
+			Object.defineProperty(exports, '__esModule', {
+				value: true,
+			});
+			exports.css = exports.deepExtend = exports.animationEndEvents = undefined;
 
-  if (strict) {
-    for (key in haystack) {
-      if (haystack.hasOwnProperty(key) && haystack[key] === needle) {
-        return true;
-      }
-    }
-  } else {
-    for (key in haystack) {
-      if (haystack.hasOwnProperty(key) && haystack[key] === needle) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
+			const _typeof = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol' ? function(obj) {
+				return typeof obj;
+			} : function(obj) {
+				return obj && typeof Symbol === 'function' && obj.constructor === Symbol && obj !== Symbol.prototype ? 'symbol' : typeof obj;
+			};
 
-function stopPropagation(evt) {
-  evt = evt || window.event;
+			exports.inArray = inArray;
+			exports.stopPropagation = stopPropagation;
+			exports.generateID = generateID;
+			exports.outerHeight = outerHeight;
+			exports.addListener = addListener;
+			exports.hasClass = hasClass;
+			exports.addClass = addClass;
+			exports.removeClass = removeClass;
+			exports.remove = remove;
+			exports.classList = classList;
+			exports.visibilityChangeFlow = visibilityChangeFlow;
+			exports.createAudioElements = createAudioElements;
 
-  if (typeof evt.stopPropagation !== 'undefined') {
-    evt.stopPropagation();
-  } else {
-    evt.cancelBubble = true;
-  }
-}
+			var _api = __webpack_require__(1);
 
-var deepExtend = exports.deepExtend = function deepExtend(out) {
-  out = out || {};
+			const API = _interopRequireWildcard(_api);
 
-  for (var i = 1; i < arguments.length; i++) {
-    var obj = arguments[i];
-
-    if (!obj) continue;
-
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (Array.isArray(obj[key])) {
-          out[key] = obj[key];
-        } else if (_typeof(obj[key]) === 'object' && obj[key] !== null) {
-          out[key] = deepExtend(out[key], obj[key]);
-        } else {
-          out[key] = obj[key];
+			function _interopRequireWildcard(obj) {
+				if (obj && obj.__esModule) {
+          return obj;
         }
-      }
-    }
-  }
-
-  return out;
-};
-
-function generateID() {
-  var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-  var id = 'noty_' + prefix + '_';
-
-  id += 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = Math.random() * 16 | 0;
-    var v = c === 'x' ? r : r & 0x3 | 0x8;
-    return v.toString(16);
-  });
-
-  return id;
-}
-
-function outerHeight(el) {
-  var height = el.offsetHeight;
-  var style = window.getComputedStyle(el);
-
-  height += parseInt(style.marginTop) + parseInt(style.marginBottom);
-  return height;
-}
-
-var css = exports.css = function () {
-  var cssPrefixes = ['Webkit', 'O', 'Moz', 'ms'];
-  var cssProps = {};
-
-  function camelCase(string) {
-    return string.replace(/^-ms-/, 'ms-').replace(/-([\da-z])/gi, function (match, letter) {
-      return letter.toUpperCase();
-    });
-  }
-
-  function getVendorProp(name) {
-    var style = document.body.style;
-    if (name in style) return name;
-
-    var i = cssPrefixes.length;
-    var capName = name.charAt(0).toUpperCase() + name.slice(1);
-    var vendorName = void 0;
-
-    while (i--) {
-      vendorName = cssPrefixes[i] + capName;
-      if (vendorName in style) return vendorName;
-    }
-
-    return name;
-  }
-
-  function getStyleProp(name) {
-    name = camelCase(name);
-    return cssProps[name] || (cssProps[name] = getVendorProp(name));
-  }
-
-  function applyCss(element, prop, value) {
-    prop = getStyleProp(prop);
-    element.style[prop] = value;
-  }
-
-  return function (element, properties) {
-    var args = arguments;
-    var prop = void 0;
-    var value = void 0;
-
-    if (args.length === 2) {
-      for (prop in properties) {
-        if (properties.hasOwnProperty(prop)) {
-          value = properties[prop];
-          if (value !== undefined && properties.hasOwnProperty(prop)) {
-            applyCss(element, prop, value);
-          }
-        }
-      }
-    } else {
-      applyCss(element, args[1], args[2]);
-    }
-  };
-}();
-
-function addListener(el, events, cb) {
-  var useCapture = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-
-  events = events.split(' ');
-  for (var i = 0; i < events.length; i++) {
-    if (document.addEventListener) {
-      el.addEventListener(events[i], cb, useCapture);
-    } else if (document.attachEvent) {
-      el.attachEvent('on' + events[i], cb);
-    }
-  }
-}
-
-function hasClass(element, name) {
-  var list = typeof element === 'string' ? element : classList(element);
-  return list.indexOf(' ' + name + ' ') >= 0;
-}
-
-function addClass(element, name) {
-  var oldList = classList(element);
-  var newList = oldList + name;
-
-  if (hasClass(oldList, name)) return;
-
-  // Trim the opening space.
-  element.className = newList.substring(1);
-}
-
-function removeClass(element, name) {
-  var oldList = classList(element);
-  var newList = void 0;
-
-  if (!hasClass(element, name)) return;
-
-  // Replace the class name.
-  newList = oldList.replace(' ' + name + ' ', ' ');
-
-  // Trim the opening and closing spaces.
-  element.className = newList.substring(1, newList.length - 1);
-}
-
-function remove(element) {
-  if (element.parentNode) {
-    element.parentNode.removeChild(element);
-  }
-}
-
-function classList(element) {
-  return (' ' + (element && element.className || '') + ' ').replace(/\s+/gi, ' ');
-}
-
-function visibilityChangeFlow() {
-  var hidden = void 0;
-  var visibilityChange = void 0;
-  if (typeof document.hidden !== 'undefined') {
-    // Opera 12.10 and Firefox 18 and later support
-    hidden = 'hidden';
-    visibilityChange = 'visibilitychange';
-  } else if (typeof document.msHidden !== 'undefined') {
-    hidden = 'msHidden';
-    visibilityChange = 'msvisibilitychange';
-  } else if (typeof document.webkitHidden !== 'undefined') {
-    hidden = 'webkitHidden';
-    visibilityChange = 'webkitvisibilitychange';
-  }
-
-  function onVisibilityChange() {
-    API.PageHidden = document[hidden];
-    handleVisibilityChange();
-  }
-
-  function onBlur() {
-    API.PageHidden = true;
-    handleVisibilityChange();
-  }
-
-  function onFocus() {
-    API.PageHidden = false;
-    handleVisibilityChange();
-  }
-
-  function handleVisibilityChange() {
-    if (API.PageHidden) stopAll();else resumeAll();
-  }
-
-  function stopAll() {
-    setTimeout(function () {
-      Object.keys(API.Store).forEach(function (id) {
-        if (API.Store.hasOwnProperty(id)) {
-          if (API.Store[id].options.visibilityControl) {
-            API.Store[id].stop();
-          }
-        }
-      });
-    }, 100);
-  }
-
-  function resumeAll() {
-    setTimeout(function () {
-      Object.keys(API.Store).forEach(function (id) {
-        if (API.Store.hasOwnProperty(id)) {
-          if (API.Store[id].options.visibilityControl) {
-            API.Store[id].resume();
-          }
-        }
-      });
-      API.queueRenderAll();
-    }, 100);
-  }
-
-  addListener(document, visibilityChange, onVisibilityChange);
-  addListener(window, 'blur', onBlur);
-  addListener(window, 'focus', onFocus);
-}
-
-function createAudioElements(ref) {
-  if (ref.hasSound) {
-    var audioElement = document.createElement('audio');
-
-    ref.options.sounds.sources.forEach(function (s) {
-      var source = document.createElement('source');
-      source.src = s;
-      source.type = 'audio/' + getExtension(s);
-      audioElement.appendChild(source);
-    });
-
-    if (ref.barDom) {
-      ref.barDom.appendChild(audioElement);
-    } else {
-      document.querySelector('body').appendChild(audioElement);
-    }
-
-    audioElement.volume = ref.options.sounds.volume;
-
-    if (!ref.soundPlayed) {
-      audioElement.play();
-      ref.soundPlayed = true;
-    }
-
-    audioElement.onended = function () {
-      remove(audioElement);
-    };
-  }
-}
-
-function getExtension(fileName) {
-  return fileName.match(/\.([^.]+)$/)[1];
-}
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Defaults = exports.Store = exports.Queues = exports.DefaultMaxVisible = exports.docTitle = exports.DocModalCount = exports.PageHidden = undefined;
-exports.getQueueCounts = getQueueCounts;
-exports.addToQueue = addToQueue;
-exports.removeFromQueue = removeFromQueue;
-exports.queueRender = queueRender;
-exports.queueRenderAll = queueRenderAll;
-exports.ghostFix = ghostFix;
-exports.build = build;
-exports.hasButtons = hasButtons;
-exports.handleModal = handleModal;
-exports.handleModalClose = handleModalClose;
-exports.queueClose = queueClose;
-exports.dequeueClose = dequeueClose;
-exports.fire = fire;
-exports.openFlow = openFlow;
-exports.closeFlow = closeFlow;
-
-var _utils = __webpack_require__(0);
-
-var Utils = _interopRequireWildcard(_utils);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var PageHidden = exports.PageHidden = false;
-var DocModalCount = exports.DocModalCount = 0;
-
-var DocTitleProps = {
-  originalTitle: null,
-  count: 0,
-  changed: false,
-  timer: -1
-};
-
-var docTitle = exports.docTitle = {
-  increment: function increment() {
-    DocTitleProps.count++;
-
-    docTitle._update();
-  },
-
-  decrement: function decrement() {
-    DocTitleProps.count--;
-
-    if (DocTitleProps.count <= 0) {
-      docTitle._clear();
-      return;
-    }
-
-    docTitle._update();
-  },
-
-  _update: function _update() {
-    var title = document.title;
-
-    if (!DocTitleProps.changed) {
-      DocTitleProps.originalTitle = title;
-      document.title = '(' + DocTitleProps.count + ') ' + title;
-      DocTitleProps.changed = true;
-    } else {
-      document.title = '(' + DocTitleProps.count + ') ' + DocTitleProps.originalTitle;
-    }
-  },
-
-  _clear: function _clear() {
-    if (DocTitleProps.changed) {
-      DocTitleProps.count = 0;
-      document.title = DocTitleProps.originalTitle;
-      DocTitleProps.changed = false;
-    }
-  }
-};
-
-var DefaultMaxVisible = exports.DefaultMaxVisible = 5;
-
-var Queues = exports.Queues = {
-  global: {
-    maxVisible: DefaultMaxVisible,
-    queue: []
-  }
-};
-
-var Store = exports.Store = {};
-
-var Defaults = exports.Defaults = {
-  type: 'alert',
-  layout: 'topRight',
-  theme: 'mint',
-  text: '',
-  timeout: false,
-  progressBar: true,
-  closeWith: ['click'],
-  animation: {
-    open: 'noty_effects_open',
-    close: 'noty_effects_close'
-  },
-  id: false,
-  force: false,
-  killer: false,
-  queue: 'global',
-  container: false,
-  buttons: [],
-  callbacks: {
-    beforeShow: null,
-    onShow: null,
-    afterShow: null,
-    onClose: null,
-    afterClose: null,
-    onHover: null,
-    onTemplate: null
-  },
-  sounds: {
-    sources: [],
-    volume: 1,
-    conditions: []
-  },
-  titleCount: {
-    conditions: []
-  },
-  modal: false,
-  visibilityControl: true
-};
-
-/**
+				else {
+					const newObj = {};
+					if (obj != null) {
+						for (const key in obj) {
+							if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+						}
+					} newObj.default = obj;
+					return newObj;
+				}
+			}
+
+
+			const animationEndEvents = exports.animationEndEvents = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+
+			function inArray(needle, haystack, argStrict) {
+				let key = void 0;
+				const strict = !!argStrict;
+
+				if (strict) {
+					for (key in haystack) {
+						if (Object.prototype.hasOwnProperty.call(haystack, key) && haystack[key] === needle) {
+							return true;
+						}
+					}
+				}
+				else {
+					for (key in haystack) {
+						if (Object.prototype.hasOwnProperty.call(haystack, key) && haystack[key] === needle) {
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+
+			function stopPropagation(evt) {
+				evt = evt || window.event;
+
+				if (typeof evt.stopPropagation !== 'undefined') {
+					evt.stopPropagation();
+				}
+				else {
+					evt.cancelBubble = true;
+				}
+			}
+
+
+			const deepExtend = exports.deepExtend = function deepExtend(out) {
+				out = out || {};
+
+				for (let i = 1; i < arguments.length; i++) {
+					const obj = arguments[i];
+
+					if (!obj) continue;
+
+					for (const key in obj) {
+						if (Object.prototype.hasOwnProperty.call(obj, key)) {
+							if (Array.isArray(obj[key])) {
+								out[key] = obj[key];
+							}
+							else if (_typeof(obj[key]) === 'object' && obj[key] !== null) {
+								out[key] = deepExtend(out[key], obj[key]);
+							}
+							else {
+								out[key] = obj[key];
+							}
+						}
+					}
+				}
+
+				return out;
+			};
+
+			function generateID() {
+				const prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+				let id = 'noty_' + prefix + '_';
+
+				id += 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+					const r = Math.random() * 16 | 0;
+					const v = c === 'x' ? r : r & 0x3 | 0x8;
+					return v.toString(16);
+				});
+
+				return id;
+			}
+
+			function outerHeight(el) {
+				let height = el.offsetHeight;
+				const style = window.getComputedStyle(el);
+
+				height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+				return height;
+			}
+
+
+			const css = exports.css = function() {
+				const cssPrefixes = ['Webkit', 'O', 'Moz', 'ms'];
+				const cssProps = {};
+
+				function camelCase(string) {
+					return string.replace(/^-ms-/, 'ms-').replace(/-([\da-z])/gi, function(match, letter) {
+						return letter.toUpperCase();
+					});
+				}
+
+				function getVendorProp(name) {
+					const style = document.body.style;
+					if (name in style) return name;
+
+					let i = cssPrefixes.length;
+					const capName = name.charAt(0).toUpperCase() + name.slice(1);
+					let vendorName = void 0;
+
+					while (i--) {
+						vendorName = cssPrefixes[i] + capName;
+						if (vendorName in style) return vendorName;
+					}
+
+					return name;
+				}
+
+				function getStyleProp(name) {
+					name = camelCase(name);
+					return cssProps[name] || (cssProps[name] = getVendorProp(name));
+				}
+
+				function applyCss(element, prop, value) {
+					prop = getStyleProp(prop);
+					element.style[prop] = value;
+				}
+
+				return function(element, properties) {
+					const args = arguments;
+					let prop = void 0;
+					let value = void 0;
+
+					if (args.length === 2) {
+						for (prop in properties) {
+							if (Object.prototype.hasOwnProperty.call(properties, prop)) {
+								value = properties[prop];
+								if (value !== undefined && Object.prototype.hasOwnProperty.call(properties, prop)) {
+									applyCss(element, prop, value);
+								}
+							}
+						}
+					}
+					else {
+						applyCss(element, args[1], args[2]);
+					}
+				};
+			}();
+
+			function addListener(el, events, cb) {
+				const useCapture = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+				events = events.split(' ');
+				for (let i = 0; i < events.length; i++) {
+					if (document.addEventListener) {
+						el.addEventListener(events[i], cb, useCapture);
+					}
+					else if (document.attachEvent) {
+						el.attachEvent('on' + events[i], cb);
+					}
+				}
+			}
+
+			function hasClass(element, name) {
+				const list = typeof element === 'string' ? element : classList(element);
+				return list.indexOf(' ' + name + ' ') >= 0;
+			}
+
+			function addClass(element, name) {
+				const oldList = classList(element);
+				const newList = oldList + name;
+
+				if (hasClass(oldList, name)) return;
+
+				// Trim the opening space.
+				element.className = newList.substring(1);
+			}
+
+			function removeClass(element, name) {
+				const oldList = classList(element);
+				let newList = void 0;
+
+				if (!hasClass(element, name)) return;
+
+				// Replace the class name.
+				newList = oldList.replace(' ' + name + ' ', ' ');
+
+				// Trim the opening and closing spaces.
+				element.className = newList.substring(1, newList.length - 1);
+			}
+
+			function remove(element) {
+				if (element.parentNode) {
+					element.parentNode.removeChild(element);
+				}
+			}
+
+			function classList(element) {
+				return (' ' + (element && element.className || '') + ' ').replace(/\s+/gi, ' ');
+			}
+
+			function visibilityChangeFlow() {
+				let hidden = void 0;
+				let visibilityChange = void 0;
+				if (typeof document.hidden !== 'undefined') {
+					// Opera 12.10 and Firefox 18 and later support
+					hidden = 'hidden';
+					visibilityChange = 'visibilitychange';
+				}
+				else if (typeof document.msHidden !== 'undefined') {
+					hidden = 'msHidden';
+					visibilityChange = 'msvisibilitychange';
+				}
+				else if (typeof document.webkitHidden !== 'undefined') {
+					hidden = 'webkitHidden';
+					visibilityChange = 'webkitvisibilitychange';
+				}
+
+				function onVisibilityChange() {
+					API.PageHidden = document[hidden];
+					handleVisibilityChange();
+				}
+
+				function onBlur() {
+					API.PageHidden = true;
+					handleVisibilityChange();
+				}
+
+				function onFocus() {
+					API.PageHidden = false;
+					handleVisibilityChange();
+				}
+
+				function handleVisibilityChange() {
+					if (API.PageHidden) stopAll();else resumeAll();
+				}
+
+				function stopAll() {
+					setTimeout(function() {
+						Object.keys(API.Store).forEach(function(id) {
+							if (Object.prototype.hasOwnProperty.call(API.Store, id)) {
+								if (API.Store[id].options.visibilityControl) {
+									API.Store[id].stop();
+								}
+							}
+						});
+					}, 100);
+				}
+
+				function resumeAll() {
+					setTimeout(function() {
+						Object.keys(API.Store).forEach(function(id) {
+							if (Object.prototype.hasOwnProperty.call(API.Store, id)) {
+								if (API.Store[id].options.visibilityControl) {
+									API.Store[id].resume();
+								}
+							}
+						});
+						API.queueRenderAll();
+					}, 100);
+				}
+
+				addListener(document, visibilityChange, onVisibilityChange);
+				addListener(window, 'blur', onBlur);
+				addListener(window, 'focus', onFocus);
+			}
+
+			function createAudioElements(ref) {
+				if (ref.hasSound) {
+					const audioElement = document.createElement('audio');
+
+					ref.options.sounds.sources.forEach(function(s) {
+						const source = document.createElement('source');
+						source.src = s;
+						source.type = 'audio/' + getExtension(s);
+						audioElement.appendChild(source);
+					});
+
+					if (ref.barDom) {
+						ref.barDom.appendChild(audioElement);
+					}
+					else {
+						document.querySelector('body').appendChild(audioElement);
+					}
+
+					audioElement.volume = ref.options.sounds.volume;
+
+					if (!ref.soundPlayed) {
+						audioElement.play();
+						ref.soundPlayed = true;
+					}
+
+					audioElement.onended = function() {
+						remove(audioElement);
+					};
+				}
+			}
+
+			function getExtension(fileName) {
+				return fileName.match(/\.([^.]+)$/)[1];
+			}
+
+		}),
+
+		(function(module, exports, __webpack_require__) {
+			'use strict';
+
+			Object.defineProperty(exports, '__esModule', {
+				value: true,
+			});
+			exports.Defaults = exports.Store = exports.Queues = exports.DefaultMaxVisible = exports.docTitle = exports.DocModalCount = exports.PageHidden = undefined;
+			exports.getQueueCounts = getQueueCounts;
+			exports.addToQueue = addToQueue;
+			exports.removeFromQueue = removeFromQueue;
+			exports.queueRender = queueRender;
+			exports.queueRenderAll = queueRenderAll;
+			exports.ghostFix = ghostFix;
+			exports.build = build;
+			exports.hasButtons = hasButtons;
+			exports.handleModal = handleModal;
+			exports.handleModalClose = handleModalClose;
+			exports.queueClose = queueClose;
+			exports.dequeueClose = dequeueClose;
+			exports.fire = fire;
+			exports.openFlow = openFlow;
+			exports.closeFlow = closeFlow;
+
+			const _utils = __webpack_require__(0);
+
+			const Utils = _interopRequireWildcard(_utils);
+
+			function _interopRequireWildcard(obj) {
+				if (obj && obj.__esModule) { return obj; }
+				else {
+					const newObj = {}; if (obj != null) {
+						for (const key in obj) {
+							if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+						}
+					} newObj.default = obj;
+					return newObj;
+				}
+			}
+
+
+			const PageHidden = exports.PageHidden = false;
+			let DocModalCount = exports.DocModalCount = 0;
+
+			const DocTitleProps = {
+				originalTitle: null,
+				count: 0,
+				changed: false,
+				timer: -1,
+			};
+
+
+			var docTitle = exports.docTitle = {
+				increment: function increment() {
+					DocTitleProps.count++;
+
+					docTitle._update();
+				},
+
+				decrement: function decrement() {
+					DocTitleProps.count--;
+
+					if (DocTitleProps.count <= 0) {
+						docTitle._clear();
+						return;
+					}
+
+					docTitle._update();
+				},
+
+				_update: function _update() {
+					const title = document.title;
+
+					if (!DocTitleProps.changed) {
+						DocTitleProps.originalTitle = title;
+						document.title = '(' + DocTitleProps.count + ') ' + title;
+						DocTitleProps.changed = true;
+					}
+					else {
+						document.title = '(' + DocTitleProps.count + ') ' + DocTitleProps.originalTitle;
+					}
+				},
+
+				_clear: function _clear() {
+					if (DocTitleProps.changed) {
+						DocTitleProps.count = 0;
+						document.title = DocTitleProps.originalTitle;
+						DocTitleProps.changed = false;
+					}
+				},
+			};
+
+			const DefaultMaxVisible = exports.DefaultMaxVisible = 5;
+
+			const Queues = exports.Queues = {
+				global: {
+					maxVisible: DefaultMaxVisible,
+					queue: [],
+				},
+			};
+
+			const Store = exports.Store = {};
+
+
+			const Defaults = exports.Defaults = {
+				type: 'alert',
+				layout: 'topRight',
+				theme: 'mint',
+				text: '',
+				timeout: false,
+				progressBar: true,
+				closeWith: ['click'],
+				animation: {
+					open: 'noty_effects_open',
+					close: 'noty_effects_close',
+				},
+				id: false,
+				force: false,
+				killer: false,
+				queue: 'global',
+				container: false,
+				buttons: [],
+				callbacks: {
+					beforeShow: null,
+					onShow: null,
+					afterShow: null,
+					onClose: null,
+					afterClose: null,
+					onHover: null,
+					onTemplate: null,
+				},
+				sounds: {
+					sources: [],
+					volume: 1,
+					conditions: [],
+				},
+				titleCount: {
+					conditions: [],
+				},
+				modal: false,
+				visibilityControl: true,
+			};
+
+			/**
  * @param {string} queueName
  * @return {object}
  */
-function getQueueCounts() {
-  var queueName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'global';
+			function getQueueCounts() {
+				const queueName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'global';
 
-  var count = 0;
-  var max = DefaultMaxVisible;
+				let count = 0;
+				let max = DefaultMaxVisible;
 
-  if (Queues.hasOwnProperty(queueName)) {
-    max = Queues[queueName].maxVisible;
-    Object.keys(Store).forEach(function (i) {
-      if (Store[i].options.queue === queueName && !Store[i].closed) count++;
-    });
-  }
+				if (Object.prototype.hasOwnProperty.call(Queues, queueName)) {
+					max = Queues[queueName].maxVisible;
+					Object.keys(Store).forEach(function(i) {
+						if (Store[i].options.queue === queueName && !Store[i].closed) count++;
+					});
+				}
 
-  return {
-    current: count,
-    maxVisible: max
-  };
-}
+				return {
+					current: count,
+					maxVisible: max,
+				};
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function addToQueue(ref) {
-  if (!Queues.hasOwnProperty(ref.options.queue)) {
-    Queues[ref.options.queue] = { maxVisible: DefaultMaxVisible, queue: [] };
-  }
+			function addToQueue(ref) {
+				if (!Object.prototype.hasOwnProperty.call(Queues, ref.options.queue)) {
+					Queues[ref.options.queue] = { maxVisible: DefaultMaxVisible, queue: [] };
+				}
 
-  Queues[ref.options.queue].queue.push(ref);
-}
+				Queues[ref.options.queue].queue.push(ref);
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function removeFromQueue(ref) {
-  if (Queues.hasOwnProperty(ref.options.queue)) {
-    var queue = [];
-    Object.keys(Queues[ref.options.queue].queue).forEach(function (i) {
-      if (Queues[ref.options.queue].queue[i].id !== ref.id) {
-        queue.push(Queues[ref.options.queue].queue[i]);
-      }
-    });
-    Queues[ref.options.queue].queue = queue;
-  }
-}
+			function removeFromQueue(ref) {
+				if (Object.prototype.hasOwnProperty.call(Queues, ref.options.queue)) {
+					const queue = [];
+					Object.keys(Queues[ref.options.queue].queue).forEach(function(i) {
+						if (Queues[ref.options.queue].queue[i].id !== ref.id) {
+							queue.push(Queues[ref.options.queue].queue[i]);
+						}
+					});
+					Queues[ref.options.queue].queue = queue;
+				}
+			}
 
-/**
+			/**
  * @param {string} queueName
  * @return {void}
  */
-function queueRender() {
-  var queueName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'global';
+			function queueRender() {
+				const queueName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'global';
 
-  if (Queues.hasOwnProperty(queueName)) {
-    var noty = Queues[queueName].queue.shift();
+				if (Object.prototype.hasOwnProperty.call(Queues, queueName)) {
+					const noty = Queues[queueName].queue.shift();
 
-    if (noty) noty.show();
-  }
-}
+					if (noty) noty.show();
+				}
+			}
 
-/**
+			/**
  * @return {void}
  */
-function queueRenderAll() {
-  Object.keys(Queues).forEach(function (queueName) {
-    queueRender(queueName);
-  });
-}
+			function queueRenderAll() {
+				Object.keys(Queues).forEach(function(queueName) {
+					queueRender(queueName);
+				});
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function ghostFix(ref) {
-  var ghostID = Utils.generateID('ghost');
-  var ghost = document.createElement('div');
-  ghost.setAttribute('id', ghostID);
-  Utils.css(ghost, {
-    height: Utils.outerHeight(ref.barDom) + 'px'
-  });
+			function ghostFix(ref) {
+				const ghostID = Utils.generateID('ghost');
+				let ghost = document.createElement('div');
+				ghost.setAttribute('id', ghostID);
+				Utils.css(ghost, {
+					height: Utils.outerHeight(ref.barDom) + 'px',
+				});
 
-  ref.barDom.insertAdjacentHTML('afterend', ghost.outerHTML);
+				ref.barDom.insertAdjacentHTML('afterend', ghost.outerHTML);
 
-  Utils.remove(ref.barDom);
-  ghost = document.getElementById(ghostID);
-  Utils.addClass(ghost, 'noty_fix_effects_height');
-  Utils.addListener(ghost, Utils.animationEndEvents, function () {
-    Utils.remove(ghost);
-  });
-}
+				Utils.remove(ref.barDom);
+				ghost = document.getElementById(ghostID);
+				Utils.addClass(ghost, 'noty_fix_effects_height');
+				Utils.addListener(ghost, Utils.animationEndEvents, function() {
+					Utils.remove(ghost);
+				});
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function build(ref) {
-  findOrCreateContainer(ref);
+			function build(ref) {
+				findOrCreateContainer(ref);
 
-  var markup = '<div class="noty_body">' + ref.options.text + '</div>' + buildButtons(ref) + (ref.options.progressBar ? '<div class="noty_progressbar"></div>' : '');
+				const markup = '<div class="noty_body">' + ref.options.text + '</div>' + buildButtons(ref) + (ref.options.progressBar ? '<div class="noty_progressbar"></div>' : '');
 
-  ref.barDom = document.createElement('div');
-  ref.barDom.setAttribute('id', ref.id);
-  Utils.addClass(ref.barDom, 'noty_bar noty_type__' + ref.options.type + ' noty_theme__' + ref.options.theme);
+				ref.barDom = document.createElement('div');
+				ref.barDom.setAttribute('id', ref.id);
+				Utils.addClass(ref.barDom, 'noty_bar noty_type__' + ref.options.type + ' noty_theme__' + ref.options.theme);
 
-  ref.barDom.innerHTML = markup;
+				ref.barDom.innerHTML = markup;
 
-  fire(ref, 'onTemplate');
-}
+				fire(ref, 'onTemplate');
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {boolean}
  */
-function hasButtons(ref) {
-  return !!(ref.options.buttons && Object.keys(ref.options.buttons).length);
-}
+			function hasButtons(ref) {
+				return !!(ref.options.buttons && Object.keys(ref.options.buttons).length);
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {string}
  */
-function buildButtons(ref) {
-  if (hasButtons(ref)) {
-    var buttons = document.createElement('div');
-    Utils.addClass(buttons, 'noty_buttons');
+			function buildButtons(ref) {
+				if (hasButtons(ref)) {
+					const buttons = document.createElement('div');
+					Utils.addClass(buttons, 'noty_buttons');
 
-    Object.keys(ref.options.buttons).forEach(function (key) {
-      buttons.appendChild(ref.options.buttons[key].dom);
-    });
+					Object.keys(ref.options.buttons).forEach(function(key) {
+						buttons.appendChild(ref.options.buttons[key].dom);
+					});
 
-    ref.options.buttons.forEach(function (btn) {
-      buttons.appendChild(btn.dom);
-    });
-    return buttons.outerHTML;
-  }
-  return '';
-}
+					ref.options.buttons.forEach(function(btn) {
+						buttons.appendChild(btn.dom);
+					});
+					return buttons.outerHTML;
+				}
+				return '';
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function handleModal(ref) {
-  if (ref.options.modal) {
-    if (DocModalCount === 0) {
-      createModal(ref);
-    }
+			function handleModal(ref) {
+				if (ref.options.modal) {
+					if (DocModalCount === 0) {
+						createModal(ref);
+					}
 
-    exports.DocModalCount = DocModalCount += 1;
-  }
-}
+					exports.DocModalCount = DocModalCount += 1;
+				}
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function handleModalClose(ref) {
-  if (ref.options.modal && DocModalCount > 0) {
-    exports.DocModalCount = DocModalCount -= 1;
+			function handleModalClose(ref) {
+				if (ref.options.modal && DocModalCount > 0) {
+					exports.DocModalCount = DocModalCount -= 1;
 
-    if (DocModalCount <= 0) {
-      var modal = document.querySelector('.noty_modal');
+					if (DocModalCount <= 0) {
+						const modal = document.querySelector('.noty_modal');
 
-      if (modal) {
-        Utils.removeClass(modal, 'noty_modal_open');
-        Utils.addClass(modal, 'noty_modal_close');
-        Utils.addListener(modal, Utils.animationEndEvents, function () {
-          Utils.remove(modal);
-        });
-      }
-    }
-  }
-}
+						if (modal) {
+							Utils.removeClass(modal, 'noty_modal_open');
+							Utils.addClass(modal, 'noty_modal_close');
+							Utils.addListener(modal, Utils.animationEndEvents, function() {
+								Utils.remove(modal);
+							});
+						}
+					}
+				}
+			}
 
-/**
+			/**
  * @return {void}
  */
-function createModal() {
-  var body = document.querySelector('body');
-  var modal = document.createElement('div');
-  Utils.addClass(modal, 'noty_modal');
-  body.insertBefore(modal, body.firstChild);
-  Utils.addClass(modal, 'noty_modal_open');
+			function createModal() {
+				const body = document.querySelector('body');
+				const modal = document.createElement('div');
+				Utils.addClass(modal, 'noty_modal');
+				body.insertBefore(modal, body.firstChild);
+				Utils.addClass(modal, 'noty_modal_open');
 
-  Utils.addListener(modal, Utils.animationEndEvents, function () {
-    Utils.removeClass(modal, 'noty_modal_open');
-  });
-}
+				Utils.addListener(modal, Utils.animationEndEvents, function() {
+					Utils.removeClass(modal, 'noty_modal_open');
+				});
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function findOrCreateContainer(ref) {
-  if (ref.options.container) {
-    ref.layoutDom = document.querySelector(ref.options.container);
-    return;
-  }
+			function findOrCreateContainer(ref) {
+				if (ref.options.container) {
+					ref.layoutDom = document.querySelector(ref.options.container);
+					return;
+				}
 
-  var layoutID = 'noty_layout__' + ref.options.layout;
-  ref.layoutDom = document.querySelector('div#' + layoutID);
+				const layoutID = 'noty_layout__' + ref.options.layout;
+				ref.layoutDom = document.querySelector('div#' + layoutID);
 
-  if (!ref.layoutDom) {
-    ref.layoutDom = document.createElement('div');
-    ref.layoutDom.setAttribute('id', layoutID);
-    Utils.addClass(ref.layoutDom, 'noty_layout');
-    document.querySelector('body').appendChild(ref.layoutDom);
-  }
-}
+				if (!ref.layoutDom) {
+					ref.layoutDom = document.createElement('div');
+					ref.layoutDom.setAttribute('id', layoutID);
+					Utils.addClass(ref.layoutDom, 'noty_layout');
+					document.querySelector('body').appendChild(ref.layoutDom);
+				}
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function queueClose(ref) {
-  if (ref.options.timeout) {
-    if (ref.options.progressBar && ref.progressDom) {
-      Utils.css(ref.progressDom, {
-        transition: 'width ' + ref.options.timeout + 'ms linear',
-        width: '0%'
-      });
-    }
+			function queueClose(ref) {
+				if (ref.options.timeout) {
+					if (ref.options.progressBar && ref.progressDom) {
+						Utils.css(ref.progressDom, {
+							transition: 'width ' + ref.options.timeout + 'ms linear',
+							width: '0%',
+						});
+					}
 
-    clearTimeout(ref.closeTimer);
+					clearTimeout(ref.closeTimer);
 
-    ref.closeTimer = setTimeout(function () {
-      ref.close();
-    }, ref.options.timeout);
-  }
-}
+					ref.closeTimer = setTimeout(function() {
+						ref.close();
+					}, ref.options.timeout);
+				}
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function dequeueClose(ref) {
-  if (ref.options.timeout && ref.closeTimer) {
-    clearTimeout(ref.closeTimer);
-    ref.closeTimer = -1;
+			function dequeueClose(ref) {
+				if (ref.options.timeout && ref.closeTimer) {
+					clearTimeout(ref.closeTimer);
+					ref.closeTimer = -1;
 
-    if (ref.options.progressBar && ref.progressDom) {
-      Utils.css(ref.progressDom, {
-        transition: 'width 0ms linear',
-        width: '100%'
-      });
-    }
-  }
-}
+					if (ref.options.progressBar && ref.progressDom) {
+						Utils.css(ref.progressDom, {
+							transition: 'width 0ms linear',
+							width: '100%',
+						});
+					}
+				}
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @param {string} eventName
  * @return {void}
  */
-function fire(ref, eventName) {
-  if (ref.listeners.hasOwnProperty(eventName)) {
-    ref.listeners[eventName].forEach(function (cb) {
-      if (typeof cb === 'function') {
-        cb.apply(ref);
-      }
-    });
-  }
-}
+			function fire(ref, eventName) {
+				if (Object.prototype.hasOwnProperty.call(ref.listeners, eventName)) {
+					ref.listeners[eventName].forEach(function(cb) {
+						if (typeof cb === 'function') {
+							cb.apply(ref);
+						}
+					});
+				}
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function openFlow(ref) {
-  fire(ref, 'afterShow');
-  queueClose(ref);
+			function openFlow(ref) {
+				fire(ref, 'afterShow');
+				queueClose(ref);
 
-  Utils.addListener(ref.barDom, 'mouseenter', function () {
-    dequeueClose(ref);
-  });
+				Utils.addListener(ref.barDom, 'mouseenter', function() {
+					dequeueClose(ref);
+				});
 
-  Utils.addListener(ref.barDom, 'mouseleave', function () {
-    queueClose(ref);
-  });
-}
+				Utils.addListener(ref.barDom, 'mouseleave', function() {
+					queueClose(ref);
+				});
+			}
 
-/**
+			/**
  * @param {Noty} ref
  * @return {void}
  */
-function closeFlow(ref) {
-  delete Store[ref.id];
-  ref.closing = false;
-  fire(ref, 'afterClose');
+			function closeFlow(ref) {
+				delete Store[ref.id];
+				ref.closing = false;
+				fire(ref, 'afterClose');
 
-  Utils.remove(ref.barDom);
+				Utils.remove(ref.barDom);
 
-  if (ref.layoutDom.querySelectorAll('.noty_bar').length === 0 && !ref.options.container) {
-    Utils.remove(ref.layoutDom);
-  }
+				if (ref.layoutDom.querySelectorAll('.noty_bar').length === 0 && !ref.options.container) {
+					Utils.remove(ref.layoutDom);
+				}
 
-  if (Utils.inArray('docVisible', ref.options.titleCount.conditions) || Utils.inArray('docHidden', ref.options.titleCount.conditions)) {
-    docTitle.decrement();
-  }
+				if (Utils.inArray('docVisible', ref.options.titleCount.conditions) || Utils.inArray('docHidden', ref.options.titleCount.conditions)) {
+					docTitle.decrement();
+				}
 
-  queueRender(ref.options.queue);
-}
+				queueRender(ref.options.queue);
+			}
 
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+		}),
+		(function(module, exports, __webpack_require__) {
+			'use strict';
 
-"use strict";
+			Object.defineProperty(exports, '__esModule', {
+				value: true,
+			});
+			exports.NotyButton = undefined;
 
+			const _utils = __webpack_require__(0);
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.NotyButton = undefined;
+			const Utils = _interopRequireWildcard(_utils);
 
-var _utils = __webpack_require__(0);
+			function _interopRequireWildcard(obj) {
+				if (obj && obj.__esModule) { return obj; }
+				else {
+					const newObj = {}; if (obj != null) {
+						for (const key in obj) {
+							if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+						}
+					} newObj.default = obj;
+					return newObj;
+				}
+			}
 
-var Utils = _interopRequireWildcard(_utils);
+			function _classCallCheck(instance, Constructor) {
+				if (!(instance instanceof Constructor)) {
+					throw new TypeError('Cannot call a class as a function');
+				}
+			}
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+			const NotyButton = exports.NotyButton = function NotyButton(html, classes, cb) {
+				const _this = this;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+				const attributes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-var NotyButton = exports.NotyButton = function NotyButton(html, classes, cb) {
-  var _this = this;
+				_classCallCheck(this, NotyButton);
 
-  var attributes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+				this.dom = document.createElement('button');
+				this.dom.innerHTML = html;
+				this.id = attributes.id = attributes.id || Utils.generateID('button');
+				this.cb = cb;
+				Object.keys(attributes).forEach(function(propertyName) {
+					_this.dom.setAttribute(propertyName, attributes[propertyName]);
+				});
+				Utils.addClass(this.dom, classes || 'noty_btn');
 
-  _classCallCheck(this, NotyButton);
+				return this;
+			};
 
-  this.dom = document.createElement('button');
-  this.dom.innerHTML = html;
-  this.id = attributes.id = attributes.id || Utils.generateID('button');
-  this.cb = cb;
-  Object.keys(attributes).forEach(function (propertyName) {
-    _this.dom.setAttribute(propertyName, attributes[propertyName]);
-  });
-  Utils.addClass(this.dom, classes || 'noty_btn');
+		}),
 
-  return this;
-};
+		(function(module, exports, __webpack_require__) {
+			'use strict';
 
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+			Object.defineProperty(exports, '__esModule', {
+				value: true,
+			});
 
-"use strict";
+			const _createClass = function() {
+				function defineProperties(target, props) {
+					for (let i = 0; i < props.length; i++) {
+						const descriptor = props[i];
+						descriptor.enumerable = descriptor.enumerable || false;
+						descriptor.configurable = true;
+						if ('value' in descriptor) descriptor.writable = true;
+						Object.defineProperty(target, descriptor.key, descriptor);
+					}
+				} return function(Constructor, protoProps, staticProps) {
+					if (protoProps) defineProperties(Constructor.prototype, protoProps);
+					if (staticProps) defineProperties(Constructor, staticProps); return Constructor;
+				};
+			}();
 
+			function _classCallCheck(instance, Constructor) {
+				if (!(instance instanceof Constructor)) {
+					throw new TypeError('Cannot call a class as a function');
+				}
+			}
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+			const Push = exports.Push = function() {
+				function Push() {
+					const workerPath = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/service-worker.js';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+					_classCallCheck(this, Push);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+					this.subData = {};
+					this.workerPath = workerPath;
+					this.listeners = {
+						onPermissionGranted: [],
+						onPermissionDenied: [],
+						onSubscriptionSuccess: [],
+						onSubscriptionCancel: [],
+						onWorkerError: [],
+						onWorkerSuccess: [],
+						onWorkerNotSupported: [],
+					};
+					return this;
+				}
 
-var Push = exports.Push = function () {
-  function Push() {
-    var workerPath = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/service-worker.js';
-
-    _classCallCheck(this, Push);
-
-    this.subData = {};
-    this.workerPath = workerPath;
-    this.listeners = {
-      onPermissionGranted: [],
-      onPermissionDenied: [],
-      onSubscriptionSuccess: [],
-      onSubscriptionCancel: [],
-      onWorkerError: [],
-      onWorkerSuccess: [],
-      onWorkerNotSupported: []
-    };
-    return this;
-  }
-
-  /**
+				/**
    * @param {string} eventName
    * @param {function} cb
    * @return {Push}
    */
 
 
-  _createClass(Push, [{
-    key: 'on',
-    value: function on(eventName) {
-      var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+				_createClass(Push, [{
+					key: 'on',
+					value: function on(eventName) {
 
-      if (typeof cb === 'function' && this.listeners.hasOwnProperty(eventName)) {
-        this.listeners[eventName].push(cb);
-      }
+						const cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function() {};
 
-      return this;
-    }
-  }, {
-    key: 'fire',
-    value: function fire(eventName) {
-      var _this = this;
+						if (typeof cb === 'function' && Object.prototype.hasOwnProperty.call(this.listeners, eventName)) {
+							this.listeners[eventName].push(cb);
+						}
 
-      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+						return this;
+					},
+				}, {
+					key: 'fire',
+					value: function fire(eventName) {
+						const _this = this;
 
-      if (this.listeners.hasOwnProperty(eventName)) {
-        this.listeners[eventName].forEach(function (cb) {
-          if (typeof cb === 'function') {
-            cb.apply(_this, params);
-          }
-        });
-      }
-    }
-  }, {
-    key: 'create',
-    value: function create() {
-      console.log('NOT IMPLEMENTED YET');
-    }
+						const params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
-    /**
+						if (Object.prototype.hasOwnProperty.call(this.listeners, eventName)) {
+							this.listeners[eventName].forEach(function(cb) {
+								if (typeof cb === 'function') {
+									cb.apply(_this, params);
+								}
+							});
+						}
+					},
+				}, {
+					key: 'create',
+					value: function create() {
+						console.log('NOT IMPLEMENTED YET');
+					},
+
+					/**
      * @return {boolean}
      */
 
-  }, {
-    key: 'isSupported',
-    value: function isSupported() {
-      var result = false;
+				}, {
+					key: 'isSupported',
+					value: function isSupported() {
+						let result = false;
 
-      try {
-        result = window.Notification || window.webkitNotifications || navigator.mozNotification || window.external && window.external.msIsSiteMode() !== undefined;
-      } catch (e) {}
+						try {
+							result = window.Notification || window.webkitNotifications || navigator.mozNotification || window.external && window.external.msIsSiteMode() !== undefined;
+						}
+						// eslint-disable-next-line no-inline-comments
+						catch (e) { /* empty */ }
 
-      return result;
-    }
+						return result;
+					},
 
-    /**
+					/**
      * @return {string}
      */
 
-  }, {
-    key: 'getPermissionStatus',
-    value: function getPermissionStatus() {
-      var perm = 'default';
+				}, {
+					key: 'getPermissionStatus',
+					value: function getPermissionStatus() {
+						let perm = 'default';
 
-      if (window.Notification && window.Notification.permissionLevel) {
-        perm = window.Notification.permissionLevel;
-      } else if (window.webkitNotifications && window.webkitNotifications.checkPermission) {
-        switch (window.webkitNotifications.checkPermission()) {
-          case 1:
-            perm = 'default';
-            break;
-          case 0:
-            perm = 'granted';
-            break;
-          default:
-            perm = 'denied';
-        }
-      } else if (window.Notification && window.Notification.permission) {
-        perm = window.Notification.permission;
-      } else if (navigator.mozNotification) {
-        perm = 'granted';
-      } else if (window.external && window.external.msIsSiteMode() !== undefined) {
-        perm = window.external.msIsSiteMode() ? 'granted' : 'default';
-      }
+						if (window.Notification && window.Notification.permissionLevel) {
+							perm = window.Notification.permissionLevel;
+						}
+						else if (window.webkitNotifications && window.webkitNotifications.checkPermission) {
+							switch (window.webkitNotifications.checkPermission()) {
+							case 1:
+								perm = 'default';
+								break;
+							case 0:
+								perm = 'granted';
+								break;
+							default:
+								perm = 'denied';
+							}
+						}
+						else if (window.Notification && window.Notification.permission) {
+							perm = window.Notification.permission;
+						}
+						else if (navigator.mozNotification) {
+							perm = 'granted';
+						}
+						else if (window.external && window.external.msIsSiteMode() !== undefined) {
+							perm = window.external.msIsSiteMode() ? 'granted' : 'default';
+						}
 
-      return perm.toString().toLowerCase();
-    }
+						return perm.toString().toLowerCase();
+					},
 
-    /**
+					/**
      * @return {string}
      */
 
-  }, {
-    key: 'getEndpoint',
-    value: function getEndpoint(subscription) {
-      var endpoint = subscription.endpoint;
-      var subscriptionId = subscription.subscriptionId;
+				}, {
+					key: 'getEndpoint',
+					value: function getEndpoint(subscription) {
+						let endpoint = subscription.endpoint;
+						const subscriptionId = subscription.subscriptionId;
 
-      // fix for Chrome < 45
-      if (subscriptionId && endpoint.indexOf(subscriptionId) === -1) {
-        endpoint += '/' + subscriptionId;
-      }
+						// fix for Chrome < 45
+						if (subscriptionId && endpoint.indexOf(subscriptionId) === -1) {
+							endpoint += '/' + subscriptionId;
+						}
 
-      return endpoint;
-    }
+						return endpoint;
+					},
 
-    /**
+					/**
      * @return {boolean}
      */
 
-  }, {
-    key: 'isSWRegistered',
-    value: function isSWRegistered() {
-      try {
-        return navigator.serviceWorker.controller.state === 'activated';
-      } catch (e) {
-        return false;
-      }
-    }
+				}, {
+					key: 'isSWRegistered',
+					value: function isSWRegistered() {
+						try {
+							return navigator.serviceWorker.controller.state === 'activated';
+						}
+						catch (e) {
+							return false;
+						}
+					},
 
-    /**
+					/**
      * @return {void}
      */
 
-  }, {
-    key: 'unregisterWorker',
-    value: function unregisterWorker() {
-      var self = this;
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function (registrations) {
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
+				}, {
+					key: 'unregisterWorker',
+					value: function unregisterWorker() {
+						const self = this;
+						if ('serviceWorker' in navigator) {
+							navigator.serviceWorker.getRegistrations().then(function(registrations) {
+								let _iteratorNormalCompletion = true;
+								let _didIteratorError = false;
+								let _iteratorError = undefined;
 
-          try {
-            for (var _iterator = registrations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var registration = _step.value;
+								try {
 
-              registration.unregister();
-              self.fire('onSubscriptionCancel');
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
-          }
-        });
-      }
-    }
+									for (var _iterator = registrations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+										const registration = _step.value;
 
-    /**
+										registration.unregister();
+										self.fire('onSubscriptionCancel');
+									}
+								}
+								catch (err) {
+									_didIteratorError = true;
+									_iteratorError = err;
+								}
+								finally {
+									try {
+										if (!_iteratorNormalCompletion && _iterator.return) {
+											_iterator.return();
+										}
+									}
+									finally {
+										if (_didIteratorError) {
+											// eslint-disable-next-line no-unsafe-finally
+											throw _iteratorError;
+										}
+									}
+								}
+							});
+						}
+					},
+
+					/**
      * @return {void}
      */
 
-  }, {
-    key: 'requestSubscription',
-    value: function requestSubscription() {
-      var _this2 = this;
+				}, {
+					key: 'requestSubscription',
+					value: function requestSubscription() {
+						const _this2 = this;
 
-      var userVisibleOnly = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+						const userVisibleOnly = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
-      var self = this;
-      var current = this.getPermissionStatus();
-      var cb = function cb(result) {
-        if (result === 'granted') {
-          _this2.fire('onPermissionGranted');
+						const self = this;
+						const current = this.getPermissionStatus();
+						const cb = function cb(result) {
+							if (result === 'granted') {
+								_this2.fire('onPermissionGranted');
 
-          if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(_this2.workerPath).then(function () {
-              navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
-                self.fire('onWorkerSuccess');
-                serviceWorkerRegistration.pushManager.subscribe({
-                  userVisibleOnly: userVisibleOnly
-                }).then(function (subscription) {
-                  var key = subscription.getKey('p256dh');
-                  var token = subscription.getKey('auth');
+								if ('serviceWorker' in navigator) {
+									navigator.serviceWorker.register(_this2.workerPath).then(function() {
+										navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+											self.fire('onWorkerSuccess');
+											serviceWorkerRegistration.pushManager.subscribe({
+												userVisibleOnly: userVisibleOnly,
+											}).then(function(subscription) {
+												const key = subscription.getKey('p256dh');
+												const token = subscription.getKey('auth');
 
-                  self.subData = {
-                    endpoint: self.getEndpoint(subscription),
-                    p256dh: key ? window.btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : null,
-                    auth: token ? window.btoa(String.fromCharCode.apply(null, new Uint8Array(token))) : null
-                  };
+												self.subData = {
+													endpoint: self.getEndpoint(subscription),
+													p256dh: key ? window.btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : null,
+													auth: token ? window.btoa(String.fromCharCode.apply(null, new Uint8Array(token))) : null,
+												};
 
-                  self.fire('onSubscriptionSuccess', [self.subData]);
-                }).catch(function (err) {
-                  self.fire('onWorkerError', [err]);
-                });
-              });
-            });
-          } else {
-            self.fire('onWorkerNotSupported');
-          }
-        } else if (result === 'denied') {
-          _this2.fire('onPermissionDenied');
-          _this2.unregisterWorker();
-        }
-      };
+												self.fire('onSubscriptionSuccess', [self.subData]);
+											}).catch(function(err) {
+												self.fire('onWorkerError', [err]);
+											});
+										});
+									});
+								}
+								else {
+									self.fire('onWorkerNotSupported');
+								}
+							}
+							else if (result === 'denied') {
+								_this2.fire('onPermissionDenied');
+								_this2.unregisterWorker();
+							}
+						};
 
-      if (current === 'default') {
-        if (window.Notification && window.Notification.requestPermission) {
-          window.Notification.requestPermission(cb);
-        } else if (window.webkitNotifications && window.webkitNotifications.checkPermission) {
-          window.webkitNotifications.requestPermission(cb);
-        }
-      } else {
-        cb(current);
-      }
-    }
-  }]);
+						if (current === 'default') {
+							if (window.Notification && window.Notification.requestPermission) {
+								window.Notification.requestPermission(cb);
+							}
+							else if (window.webkitNotifications && window.webkitNotifications.checkPermission) {
+								window.webkitNotifications.requestPermission(cb);
+							}
+						}
+						else {
+							cb(current);
+						}
+					},
+				}]);
 
-  return Push;
-}();
+				return Push;
+			}();
 
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
+		}),
+		(function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process, global) {var require;/*!
- * @overview es6-promise - a tiny implementation of Promises/A+.
- * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
- * @license   Licensed under MIT license
- *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   4.1.0
- */
+			(function(process, global) {
+				let require;
 
-(function (global, factory) {
-     true ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global.ES6Promise = factory());
-}(this, (function () { 'use strict';
+				(function(global, factory) {
+					true ? module.exports = factory() :
+						typeof define === 'function' && define.amd ? define(factory) :
+							(global.ES6Promise = factory());
+				}(this, (function() {
+					'use strict';
 
-function objectOrFunction(x) {
-  return typeof x === 'function' || typeof x === 'object' && x !== null;
-}
+					function objectOrFunction(x) {
+						return typeof x === 'function' || typeof x === 'object' && x !== null;
+					}
 
-function isFunction(x) {
-  return typeof x === 'function';
-}
+					function isFunction(x) {
+						return typeof x === 'function';
+					}
 
-var _isArray = undefined;
-if (!Array.isArray) {
-  _isArray = function (x) {
-    return Object.prototype.toString.call(x) === '[object Array]';
-  };
-} else {
-  _isArray = Array.isArray;
-}
+					let _isArray = undefined;
+					if (!Array.isArray) {
+						_isArray = function(x) {
+							return Object.prototype.toString.call(x) === '[object Array]';
+						};
+					}
+					else {
+						_isArray = Array.isArray;
+					}
 
-var isArray = _isArray;
+					const isArray = _isArray;
 
-var len = 0;
-var vertxNext = undefined;
-var customSchedulerFn = undefined;
+					let len = 0;
+					let vertxNext = undefined;
+					let customSchedulerFn = undefined;
 
-var asap = function asap(callback, arg) {
-  queue[len] = callback;
-  queue[len + 1] = arg;
-  len += 2;
-  if (len === 2) {
-    // If len is 2, that means that we need to schedule an async flush.
-    // If additional callbacks are queued before the queue is flushed, they
-    // will be processed by this flush that we are scheduling.
-    if (customSchedulerFn) {
-      customSchedulerFn(flush);
-    } else {
-      scheduleFlush();
-    }
-  }
-};
+					let asap = function asap(callback, arg) {
+						queue[len] = callback;
+						queue[len + 1] = arg;
+						len += 2;
+						if (len === 2) {
+							// If len is 2, that means that we need to schedule an async flush.
+							// If additional callbacks are queued before the queue is flushed, they
+							// will be processed by this flush that we are scheduling.
+							if (customSchedulerFn) {
+								customSchedulerFn(flush);
+							}
+							else {
+								scheduleFlush();
+							}
+						}
+					};
 
-function setScheduler(scheduleFn) {
-  customSchedulerFn = scheduleFn;
-}
+					function setScheduler(scheduleFn) {
+						customSchedulerFn = scheduleFn;
+					}
 
-function setAsap(asapFn) {
-  asap = asapFn;
-}
+					function setAsap(asapFn) {
+						asap = asapFn;
+					}
 
-var browserWindow = typeof window !== 'undefined' ? window : undefined;
-var browserGlobal = browserWindow || {};
-var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
-var isNode = typeof self === 'undefined' && typeof process !== 'undefined' && ({}).toString.call(process) === '[object process]';
+					const browserWindow = typeof window !== 'undefined' ? window : undefined;
+					const browserGlobal = browserWindow || {};
+					const BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
+					const isNode = typeof self === 'undefined' && typeof process !== 'undefined' && ({}).toString.call(process) === '[object process]';
 
-// test for web worker but not in IE10
-var isWorker = typeof Uint8ClampedArray !== 'undefined' && typeof importScripts !== 'undefined' && typeof MessageChannel !== 'undefined';
+					// test for web worker but not in IE10
+					const isWorker = typeof Uint8ClampedArray !== 'undefined' && typeof importScripts !== 'undefined' && typeof MessageChannel !== 'undefined';
 
-// node
-function useNextTick() {
-  // node version 0.10.x displays a deprecation warning when nextTick is used recursively
-  // see https://github.com/cujojs/when/issues/410 for details
-  return function () {
-    return process.nextTick(flush);
-  };
-}
+					// node
+					function useNextTick() {
+						// node version 0.10.x displays a deprecation warning when nextTick is used recursively
+						// see https://github.com/cujojs/when/issues/410 for details
+						return function() {
+							return process.nextTick(flush);
+						};
+					}
 
-// vertx
-function useVertxTimer() {
-  if (typeof vertxNext !== 'undefined') {
-    return function () {
-      vertxNext(flush);
-    };
-  }
+					// vertx
+					function useVertxTimer() {
+						if (typeof vertxNext !== 'undefined') {
+							return function() {
+								vertxNext(flush);
+							};
+						}
 
-  return useSetTimeout();
-}
+						return useSetTimeout();
+					}
 
-function useMutationObserver() {
-  var iterations = 0;
-  var observer = new BrowserMutationObserver(flush);
-  var node = document.createTextNode('');
-  observer.observe(node, { characterData: true });
+					function useMutationObserver() {
+						let iterations = 0;
+						const observer = new BrowserMutationObserver(flush);
+						const node = document.createTextNode('');
+						observer.observe(node, { characterData: true });
 
-  return function () {
-    node.data = iterations = ++iterations % 2;
-  };
-}
+						return function() {
+							node.data = iterations = ++iterations % 2;
+						};
+					}
 
-// web worker
-function useMessageChannel() {
-  var channel = new MessageChannel();
-  channel.port1.onmessage = flush;
-  return function () {
-    return channel.port2.postMessage(0);
-  };
-}
+					// web worker
+					function useMessageChannel() {
+						const channel = new MessageChannel();
+						channel.port1.onmessage = flush;
+						return function() {
+							return channel.port2.postMessage(0);
+						};
+					}
 
-function useSetTimeout() {
-  // Store setTimeout reference so es6-promise will be unaffected by
-  // other code modifying setTimeout (like sinon.useFakeTimers())
-  var globalSetTimeout = setTimeout;
-  return function () {
-    return globalSetTimeout(flush, 1);
-  };
-}
+					function useSetTimeout() {
+						// Store setTimeout reference so es6-promise will be unaffected by
+						// other code modifying setTimeout (like sinon.useFakeTimers())
+						const globalSetTimeout = setTimeout;
+						return function() {
+							return globalSetTimeout(flush, 1);
+						};
+					}
 
-var queue = new Array(1000);
-function flush() {
-  for (var i = 0; i < len; i += 2) {
-    var callback = queue[i];
-    var arg = queue[i + 1];
 
-    callback(arg);
+					var queue = new Array(1000);
+					function flush() {
+						for (let i = 0; i < len; i += 2) {
+							const callback = queue[i];
+							const arg = queue[i + 1];
 
-    queue[i] = undefined;
-    queue[i + 1] = undefined;
-  }
+							callback(arg);
 
-  len = 0;
-}
+							queue[i] = undefined;
+							queue[i + 1] = undefined;
+						}
 
-function attemptVertx() {
-  try {
-    var r = require;
-    var vertx = __webpack_require__(9);
-    vertxNext = vertx.runOnLoop || vertx.runOnContext;
-    return useVertxTimer();
-  } catch (e) {
-    return useSetTimeout();
-  }
-}
+						len = 0;
+					}
 
-var scheduleFlush = undefined;
-// Decide what async method to use to triggering processing of queued callbacks:
-if (isNode) {
-  scheduleFlush = useNextTick();
-} else if (BrowserMutationObserver) {
-  scheduleFlush = useMutationObserver();
-} else if (isWorker) {
-  scheduleFlush = useMessageChannel();
-} else if (browserWindow === undefined && "function" === 'function') {
-  scheduleFlush = attemptVertx();
-} else {
-  scheduleFlush = useSetTimeout();
-}
+					function attemptVertx() {
+						try {
+							const r = require;
+							const vertx = __webpack_require__(9);
+							vertxNext = vertx.runOnLoop || vertx.runOnContext;
+							return useVertxTimer();
+						}
+						catch (e) {
+							return useSetTimeout();
+						}
+					}
 
-function then(onFulfillment, onRejection) {
-  var _arguments = arguments;
+					var scheduleFlush = undefined;
+					// Decide what async method to use to triggering processing of queued callbacks:
+					if (isNode) {
+						scheduleFlush = useNextTick();
+					}
+					else if (BrowserMutationObserver) {
+						scheduleFlush = useMutationObserver();
+					}
+					else if (isWorker) {
+						scheduleFlush = useMessageChannel();
+					}
+					else if (browserWindow === undefined && 'function' === 'function') {
+						scheduleFlush = attemptVertx();
+					}
+					else {
+						scheduleFlush = useSetTimeout();
+					}
 
-  var parent = this;
+					function then(onFulfillment, onRejection) {
+						const _arguments = arguments;
 
-  var child = new this.constructor(noop);
+						const parent = this;
 
-  if (child[PROMISE_ID] === undefined) {
-    makePromise(child);
-  }
+						const child = new this.constructor(noop);
 
-  var _state = parent._state;
+						if (child[PROMISE_ID] === undefined) {
+							makePromise(child);
+						}
 
-  if (_state) {
-    (function () {
-      var callback = _arguments[_state - 1];
-      asap(function () {
-        return invokeCallback(_state, child, callback, parent._result);
-      });
-    })();
-  } else {
-    subscribe(parent, child, onFulfillment, onRejection);
-  }
+						const _state = parent._state;
 
-  return child;
-}
+						if (_state) {
+							(function() {
+								const callback = _arguments[_state - 1];
+								asap(function() {
+									return invokeCallback(_state, child, callback, parent._result);
+								});
+							})();
+						}
+						else {
+							subscribe(parent, child, onFulfillment, onRejection);
+						}
 
-/**
+						return child;
+					}
+
+					/**
   `Promise.resolve` returns a promise that will become resolved with the
   passed `value`. It is shorthand for the following:
 
@@ -1348,372 +1436,396 @@ function then(onFulfillment, onRejection) {
   @return {Promise} a promise that will become fulfilled with the given
   `value`
 */
-function resolve(object) {
-  /*jshint validthis:true */
-  var Constructor = this;
+					function resolve(object) {
+						const Constructor = this;
 
-  if (object && typeof object === 'object' && object.constructor === Constructor) {
-    return object;
-  }
+						if (object && typeof object === 'object' && object.constructor === Constructor) {
+							return object;
+						}
 
-  var promise = new Constructor(noop);
-  _resolve(promise, object);
-  return promise;
-}
+						const promise = new Constructor(noop);
+						_resolve(promise, object);
+						return promise;
+					}
 
-var PROMISE_ID = Math.random().toString(36).substring(16);
+					var PROMISE_ID = Math.random().toString(36).substring(16);
 
-function noop() {}
+					function noop() {}
 
-var PENDING = void 0;
-var FULFILLED = 1;
-var REJECTED = 2;
+					const PENDING = void 0;
+					const FULFILLED = 1;
+					const REJECTED = 2;
 
-var GET_THEN_ERROR = new ErrorObject();
+					const GET_THEN_ERROR = new ErrorObject();
 
-function selfFulfillment() {
-  return new TypeError("You cannot resolve a promise with itself");
-}
+					function selfFulfillment() {
+						return new TypeError('You cannot resolve a promise with itself');
+					}
 
-function cannotReturnOwn() {
-  return new TypeError('A promises callback cannot return that same promise.');
-}
+					function cannotReturnOwn() {
+						return new TypeError('A promises callback cannot return that same promise.');
+					}
 
-function getThen(promise) {
-  try {
-    return promise.then;
-  } catch (error) {
-    GET_THEN_ERROR.error = error;
-    return GET_THEN_ERROR;
-  }
-}
+					function getThen(promise) {
+						try {
+							return promise.then;
+						}
+						catch (error) {
+							GET_THEN_ERROR.error = error;
+							return GET_THEN_ERROR;
+						}
+					}
 
-function tryThen(then, value, fulfillmentHandler, rejectionHandler) {
-  try {
-    then.call(value, fulfillmentHandler, rejectionHandler);
-  } catch (e) {
-    return e;
-  }
-}
+					function tryThen(then, value, fulfillmentHandler, rejectionHandler) {
+						try {
+							then.call(value, fulfillmentHandler, rejectionHandler);
+						}
+						catch (e) {
+							return e;
+						}
+					}
 
-function handleForeignThenable(promise, thenable, then) {
-  asap(function (promise) {
-    var sealed = false;
-    var error = tryThen(then, thenable, function (value) {
-      if (sealed) {
-        return;
-      }
-      sealed = true;
-      if (thenable !== value) {
-        _resolve(promise, value);
-      } else {
-        fulfill(promise, value);
-      }
-    }, function (reason) {
-      if (sealed) {
-        return;
-      }
-      sealed = true;
+					function handleForeignThenable(promise, thenable, then) {
+						asap(function(promise) {
+							let sealed = false;
+							const error = tryThen(then, thenable, function(value) {
+								if (sealed) {
+									return;
+								}
+								sealed = true;
+								if (thenable !== value) {
+									_resolve(promise, value);
+								}
+								else {
+									fulfill(promise, value);
+								}
+							}, function(reason) {
+								if (sealed) {
+									return;
+								}
+								sealed = true;
 
-      _reject(promise, reason);
-    }, 'Settle: ' + (promise._label || ' unknown promise'));
+								_reject(promise, reason);
+							}, 'Settle: ' + (promise._label || ' unknown promise'));
 
-    if (!sealed && error) {
-      sealed = true;
-      _reject(promise, error);
-    }
-  }, promise);
-}
+							if (!sealed && error) {
+								sealed = true;
+								_reject(promise, error);
+							}
+						}, promise);
+					}
 
-function handleOwnThenable(promise, thenable) {
-  if (thenable._state === FULFILLED) {
-    fulfill(promise, thenable._result);
-  } else if (thenable._state === REJECTED) {
-    _reject(promise, thenable._result);
-  } else {
-    subscribe(thenable, undefined, function (value) {
-      return _resolve(promise, value);
-    }, function (reason) {
-      return _reject(promise, reason);
-    });
-  }
-}
+					function handleOwnThenable(promise, thenable) {
+						if (thenable._state === FULFILLED) {
+							fulfill(promise, thenable._result);
+						}
+						else if (thenable._state === REJECTED) {
+							_reject(promise, thenable._result);
+						}
+						else {
+							subscribe(thenable, undefined, function(value) {
+								return _resolve(promise, value);
+							}, function(reason) {
+								return _reject(promise, reason);
+							});
+						}
+					}
 
-function handleMaybeThenable(promise, maybeThenable, then$$) {
-  if (maybeThenable.constructor === promise.constructor && then$$ === then && maybeThenable.constructor.resolve === resolve) {
-    handleOwnThenable(promise, maybeThenable);
-  } else {
-    if (then$$ === GET_THEN_ERROR) {
-      _reject(promise, GET_THEN_ERROR.error);
-      GET_THEN_ERROR.error = null;
-    } else if (then$$ === undefined) {
-      fulfill(promise, maybeThenable);
-    } else if (isFunction(then$$)) {
-      handleForeignThenable(promise, maybeThenable, then$$);
-    } else {
-      fulfill(promise, maybeThenable);
-    }
-  }
-}
+					function handleMaybeThenable(promise, maybeThenable, then$$) {
+						if (maybeThenable.constructor === promise.constructor && then$$ === then && maybeThenable.constructor.resolve === resolve) {
+							handleOwnThenable(promise, maybeThenable);
+						}
+						else if (then$$ === GET_THEN_ERROR) {
+							_reject(promise, GET_THEN_ERROR.error);
+							GET_THEN_ERROR.error = null;
+						}
+						else if (then$$ === undefined) {
+							fulfill(promise, maybeThenable);
+						}
+						else if (isFunction(then$$)) {
+							handleForeignThenable(promise, maybeThenable, then$$);
+						}
+						else {
+							fulfill(promise, maybeThenable);
+						}
+					}
 
-function _resolve(promise, value) {
-  if (promise === value) {
-    _reject(promise, selfFulfillment());
-  } else if (objectOrFunction(value)) {
-    handleMaybeThenable(promise, value, getThen(value));
-  } else {
-    fulfill(promise, value);
-  }
-}
+					function _resolve(promise, value) {
+						if (promise === value) {
+							_reject(promise, selfFulfillment());
+						}
+						else if (objectOrFunction(value)) {
+							handleMaybeThenable(promise, value, getThen(value));
+						}
+						else {
+							fulfill(promise, value);
+						}
+					}
 
-function publishRejection(promise) {
-  if (promise._onerror) {
-    promise._onerror(promise._result);
-  }
+					function publishRejection(promise) {
+						if (promise._onerror) {
+							promise._onerror(promise._result);
+						}
 
-  publish(promise);
-}
+						publish(promise);
+					}
 
-function fulfill(promise, value) {
-  if (promise._state !== PENDING) {
-    return;
-  }
+					function fulfill(promise, value) {
+						if (promise._state !== PENDING) {
+							return;
+						}
 
-  promise._result = value;
-  promise._state = FULFILLED;
+						promise._result = value;
+						promise._state = FULFILLED;
 
-  if (promise._subscribers.length !== 0) {
-    asap(publish, promise);
-  }
-}
+						if (promise._subscribers.length !== 0) {
+							asap(publish, promise);
+						}
+					}
 
-function _reject(promise, reason) {
-  if (promise._state !== PENDING) {
-    return;
-  }
-  promise._state = REJECTED;
-  promise._result = reason;
+					function _reject(promise, reason) {
+						if (promise._state !== PENDING) {
+							return;
+						}
+						promise._state = REJECTED;
+						promise._result = reason;
 
-  asap(publishRejection, promise);
-}
+						asap(publishRejection, promise);
+					}
 
-function subscribe(parent, child, onFulfillment, onRejection) {
-  var _subscribers = parent._subscribers;
-  var length = _subscribers.length;
+					function subscribe(parent, child, onFulfillment, onRejection) {
+						const _subscribers = parent._subscribers;
+						const length = _subscribers.length;
 
-  parent._onerror = null;
+						parent._onerror = null;
 
-  _subscribers[length] = child;
-  _subscribers[length + FULFILLED] = onFulfillment;
-  _subscribers[length + REJECTED] = onRejection;
+						_subscribers[length] = child;
+						_subscribers[length + FULFILLED] = onFulfillment;
+						_subscribers[length + REJECTED] = onRejection;
 
-  if (length === 0 && parent._state) {
-    asap(publish, parent);
-  }
-}
+						if (length === 0 && parent._state) {
+							asap(publish, parent);
+						}
+					}
 
-function publish(promise) {
-  var subscribers = promise._subscribers;
-  var settled = promise._state;
+					function publish(promise) {
+						const subscribers = promise._subscribers;
+						const settled = promise._state;
 
-  if (subscribers.length === 0) {
-    return;
-  }
+						if (subscribers.length === 0) {
+							return;
+						}
 
-  var child = undefined,
-      callback = undefined,
-      detail = promise._result;
+						let child = undefined,
+							callback = undefined,
+							detail = promise._result;
 
-  for (var i = 0; i < subscribers.length; i += 3) {
-    child = subscribers[i];
-    callback = subscribers[i + settled];
+						for (let i = 0; i < subscribers.length; i += 3) {
+							child = subscribers[i];
+							callback = subscribers[i + settled];
 
-    if (child) {
-      invokeCallback(settled, child, callback, detail);
-    } else {
-      callback(detail);
-    }
-  }
+							if (child) {
+								invokeCallback(settled, child, callback, detail);
+							}
+							else {
+								callback(detail);
+							}
+						}
 
-  promise._subscribers.length = 0;
-}
+						promise._subscribers.length = 0;
+					}
 
-function ErrorObject() {
-  this.error = null;
-}
+					function ErrorObject() {
+						this.error = null;
+					}
 
-var TRY_CATCH_ERROR = new ErrorObject();
+					const TRY_CATCH_ERROR = new ErrorObject();
 
-function tryCatch(callback, detail) {
-  try {
-    return callback(detail);
-  } catch (e) {
-    TRY_CATCH_ERROR.error = e;
-    return TRY_CATCH_ERROR;
-  }
-}
+					function tryCatch(callback, detail) {
+						try {
+							return callback(detail);
+						}
+						catch (e) {
+							TRY_CATCH_ERROR.error = e;
+							return TRY_CATCH_ERROR;
+						}
+					}
 
-function invokeCallback(settled, promise, callback, detail) {
-  var hasCallback = isFunction(callback),
-      value = undefined,
-      error = undefined,
-      succeeded = undefined,
-      failed = undefined;
+					function invokeCallback(settled, promise, callback, detail) {
+						let hasCallback = isFunction(callback),
+							value = undefined,
+							error = undefined,
+							succeeded = undefined,
+							failed = undefined;
 
-  if (hasCallback) {
-    value = tryCatch(callback, detail);
+						if (hasCallback) {
+							value = tryCatch(callback, detail);
 
-    if (value === TRY_CATCH_ERROR) {
-      failed = true;
-      error = value.error;
-      value.error = null;
-    } else {
-      succeeded = true;
-    }
+							if (value === TRY_CATCH_ERROR) {
+								failed = true;
+								error = value.error;
+								value.error = null;
+							}
+							else {
+								succeeded = true;
+							}
 
-    if (promise === value) {
-      _reject(promise, cannotReturnOwn());
-      return;
-    }
-  } else {
-    value = detail;
-    succeeded = true;
-  }
+							if (promise === value) {
+								_reject(promise, cannotReturnOwn());
+								return;
+							}
+						}
+						else {
+							value = detail;
+							succeeded = true;
+						}
 
-  if (promise._state !== PENDING) {
-    // noop
-  } else if (hasCallback && succeeded) {
-      _resolve(promise, value);
-    } else if (failed) {
-      _reject(promise, error);
-    } else if (settled === FULFILLED) {
-      fulfill(promise, value);
-    } else if (settled === REJECTED) {
-      _reject(promise, value);
-    }
-}
+						if (promise._state !== PENDING) {
+							// noop
+						}
+						else if (hasCallback && succeeded) {
+							_resolve(promise, value);
+						}
+						else if (failed) {
+							_reject(promise, error);
+						}
+						else if (settled === FULFILLED) {
+							fulfill(promise, value);
+						}
+						else if (settled === REJECTED) {
+							_reject(promise, value);
+						}
+					}
 
-function initializePromise(promise, resolver) {
-  try {
-    resolver(function resolvePromise(value) {
-      _resolve(promise, value);
-    }, function rejectPromise(reason) {
-      _reject(promise, reason);
-    });
-  } catch (e) {
-    _reject(promise, e);
-  }
-}
+					function initializePromise(promise, resolver) {
+						try {
+							resolver(function resolvePromise(value) {
+								_resolve(promise, value);
+							}, function rejectPromise(reason) {
+								_reject(promise, reason);
+							});
+						}
+						catch (e) {
+							_reject(promise, e);
+						}
+					}
 
-var id = 0;
-function nextId() {
-  return id++;
-}
+					let id = 0;
+					function nextId() {
+						return id++;
+					}
 
-function makePromise(promise) {
-  promise[PROMISE_ID] = id++;
-  promise._state = undefined;
-  promise._result = undefined;
-  promise._subscribers = [];
-}
+					function makePromise(promise) {
+						promise[PROMISE_ID] = id++;
+						promise._state = undefined;
+						promise._result = undefined;
+						promise._subscribers = [];
+					}
 
-function Enumerator(Constructor, input) {
-  this._instanceConstructor = Constructor;
-  this.promise = new Constructor(noop);
+					function Enumerator(Constructor, input) {
+						this._instanceConstructor = Constructor;
+						this.promise = new Constructor(noop);
 
-  if (!this.promise[PROMISE_ID]) {
-    makePromise(this.promise);
-  }
+						if (!this.promise[PROMISE_ID]) {
+							makePromise(this.promise);
+						}
 
-  if (isArray(input)) {
-    this._input = input;
-    this.length = input.length;
-    this._remaining = input.length;
+						if (isArray(input)) {
+							this._input = input;
+							this.length = input.length;
+							this._remaining = input.length;
 
-    this._result = new Array(this.length);
+							this._result = new Array(this.length);
 
-    if (this.length === 0) {
-      fulfill(this.promise, this._result);
-    } else {
-      this.length = this.length || 0;
-      this._enumerate();
-      if (this._remaining === 0) {
-        fulfill(this.promise, this._result);
-      }
-    }
-  } else {
-    _reject(this.promise, validationError());
-  }
-}
+							if (this.length === 0) {
+								fulfill(this.promise, this._result);
+							}
+							else {
+								this.length = this.length || 0;
+								this._enumerate();
+								if (this._remaining === 0) {
+									fulfill(this.promise, this._result);
+								}
+							}
+						}
+						else {
+							_reject(this.promise, validationError());
+						}
+					}
 
-function validationError() {
-  return new Error('Array Methods must be provided an Array');
-};
+					function validationError() {
+						return new Error('Array Methods must be provided an Array');
+					};
 
-Enumerator.prototype._enumerate = function () {
-  var length = this.length;
-  var _input = this._input;
+					Enumerator.prototype._enumerate = function() {
+						const length = this.length;
+						const _input = this._input;
 
-  for (var i = 0; this._state === PENDING && i < length; i++) {
-    this._eachEntry(_input[i], i);
-  }
-};
+						for (let i = 0; this._state === PENDING && i < length; i++) {
+							this._eachEntry(_input[i], i);
+						}
+					};
 
-Enumerator.prototype._eachEntry = function (entry, i) {
-  var c = this._instanceConstructor;
-  var resolve$$ = c.resolve;
+					Enumerator.prototype._eachEntry = function(entry, i) {
+						const c = this._instanceConstructor;
+						const resolve$$ = c.resolve;
 
-  if (resolve$$ === resolve) {
-    var _then = getThen(entry);
+						if (resolve$$ === resolve) {
+							const _then = getThen(entry);
 
-    if (_then === then && entry._state !== PENDING) {
-      this._settledAt(entry._state, i, entry._result);
-    } else if (typeof _then !== 'function') {
-      this._remaining--;
-      this._result[i] = entry;
-    } else if (c === Promise) {
-      var promise = new c(noop);
-      handleMaybeThenable(promise, entry, _then);
-      this._willSettleAt(promise, i);
-    } else {
-      this._willSettleAt(new c(function (resolve$$) {
-        return resolve$$(entry);
-      }), i);
-    }
-  } else {
-    this._willSettleAt(resolve$$(entry), i);
-  }
-};
+							if (_then === then && entry._state !== PENDING) {
+								this._settledAt(entry._state, i, entry._result);
+							}
+							else if (typeof _then !== 'function') {
+								this._remaining--;
+								this._result[i] = entry;
+							}
+							else if (c === Promise) {
+								const promise = new c(noop);
+								handleMaybeThenable(promise, entry, _then);
+								this._willSettleAt(promise, i);
+							}
+							else {
+								this._willSettleAt(new c(function(resolve$$) {
+									return resolve$$(entry);
+								}), i);
+							}
+						}
+						else {
+							this._willSettleAt(resolve$$(entry), i);
+						}
+					};
 
-Enumerator.prototype._settledAt = function (state, i, value) {
-  var promise = this.promise;
+					Enumerator.prototype._settledAt = function(state, i, value) {
+						const promise = this.promise;
 
-  if (promise._state === PENDING) {
-    this._remaining--;
+						if (promise._state === PENDING) {
+							this._remaining--;
 
-    if (state === REJECTED) {
-      _reject(promise, value);
-    } else {
-      this._result[i] = value;
-    }
-  }
+							if (state === REJECTED) {
+								_reject(promise, value);
+							}
+							else {
+								this._result[i] = value;
+							}
+						}
 
-  if (this._remaining === 0) {
-    fulfill(promise, this._result);
-  }
-};
+						if (this._remaining === 0) {
+							fulfill(promise, this._result);
+						}
+					};
 
-Enumerator.prototype._willSettleAt = function (promise, i) {
-  var enumerator = this;
+					Enumerator.prototype._willSettleAt = function(promise, i) {
+						const enumerator = this;
 
-  subscribe(promise, undefined, function (value) {
-    return enumerator._settledAt(FULFILLED, i, value);
-  }, function (reason) {
-    return enumerator._settledAt(REJECTED, i, reason);
-  });
-};
+						subscribe(promise, undefined, function(value) {
+							return enumerator._settledAt(FULFILLED, i, value);
+						}, function(reason) {
+							return enumerator._settledAt(REJECTED, i, reason);
+						});
+					};
 
-/**
+					/**
   `Promise.all` accepts an array of promises, and returns a new promise which
   is fulfilled with an array of fulfillment values for the passed promises, or
   rejected with the reason of the first passed promise to be rejected. It casts all
@@ -1760,11 +1872,11 @@ Enumerator.prototype._willSettleAt = function (promise, i) {
   fulfilled, or rejected if any of them become rejected.
   @static
 */
-function all(entries) {
-  return new Enumerator(this, entries).promise;
-}
+					function all(entries) {
+						return new Enumerator(this, entries).promise;
+					}
 
-/**
+					/**
   `Promise.race` returns a new promise which is settled in the same way as the
   first passed promise to settle.
 
@@ -1829,25 +1941,25 @@ function all(entries) {
   @return {Promise} a promise which settles in the same way as the first passed
   promise to settle.
 */
-function race(entries) {
-  /*jshint validthis:true */
-  var Constructor = this;
+					function race(entries) {
+						const Constructor = this;
 
-  if (!isArray(entries)) {
-    return new Constructor(function (_, reject) {
-      return reject(new TypeError('You must pass an array to race.'));
-    });
-  } else {
-    return new Constructor(function (resolve, reject) {
-      var length = entries.length;
-      for (var i = 0; i < length; i++) {
-        Constructor.resolve(entries[i]).then(resolve, reject);
-      }
-    });
-  }
-}
+						if (!isArray(entries)) {
+							return new Constructor(function(_, reject) {
+								return reject(new TypeError('You must pass an array to race.'));
+							});
+						}
+						else {
+							return new Constructor(function(resolve, reject) {
+								const length = entries.length;
+								for (let i = 0; i < length; i++) {
+									Constructor.resolve(entries[i]).then(resolve, reject);
+								}
+							});
+						}
+					}
 
-/**
+					/**
   `Promise.reject` returns a promise rejected with the passed `reason`.
   It is shorthand for the following:
 
@@ -1881,23 +1993,22 @@ function race(entries) {
   Useful for tooling.
   @return {Promise} a promise rejected with the given `reason`.
 */
-function reject(reason) {
-  /*jshint validthis:true */
-  var Constructor = this;
-  var promise = new Constructor(noop);
-  _reject(promise, reason);
-  return promise;
-}
+					function reject(reason) {
+						const Constructor = this;
+						const promise = new Constructor(noop);
+						_reject(promise, reason);
+						return promise;
+					}
 
-function needsResolver() {
-  throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
-}
+					function needsResolver() {
+						throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
+					}
 
-function needsNew() {
-  throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
-}
+					function needsNew() {
+						throw new TypeError('Failed to construct \'Promise\': Please use the \'new\' operator, this object constructor cannot be called as a function.');
+					}
 
-/**
+					/**
   Promise objects represent the eventual result of an asynchronous operation. The
   primary way of interacting with a promise is through its `then` method, which
   registers callbacks to receive either a promise's eventual value or the reason
@@ -2000,33 +2111,33 @@ function needsNew() {
   Useful for tooling.
   @constructor
 */
-function Promise(resolver) {
-  this[PROMISE_ID] = nextId();
-  this._result = this._state = undefined;
-  this._subscribers = [];
+					function Promise(resolver) {
+						this[PROMISE_ID] = nextId();
+						this._result = this._state = undefined;
+						this._subscribers = [];
 
-  if (noop !== resolver) {
-    typeof resolver !== 'function' && needsResolver();
-    this instanceof Promise ? initializePromise(this, resolver) : needsNew();
-  }
-}
+						if (noop !== resolver) {
+							typeof resolver !== 'function' && needsResolver();
+							this instanceof Promise ? initializePromise(this, resolver) : needsNew();
+						}
+					}
 
-Promise.all = all;
-Promise.race = race;
-Promise.resolve = resolve;
-Promise.reject = reject;
-Promise._setScheduler = setScheduler;
-Promise._setAsap = setAsap;
-Promise._asap = asap;
+					Promise.all = all;
+					Promise.race = race;
+					Promise.resolve = resolve;
+					Promise.reject = reject;
+					Promise._setScheduler = setScheduler;
+					Promise._setAsap = setAsap;
+					Promise._asap = asap;
 
-Promise.prototype = {
-  constructor: Promise,
+					Promise.prototype = {
+						constructor: Promise,
 
-  /**
+						/**
     The primary way of interacting with a promise is through its `then` method,
     which registers callbacks to receive either a promise's eventual value or the
     reason why the promise cannot be fulfilled.
-  
+
     ```js
     findUser().then(function(user){
       // user is available
@@ -2034,14 +2145,14 @@ Promise.prototype = {
       // user is unavailable, and you are given the reason why
     });
     ```
-  
+
     Chaining
     --------
-  
+
     The return value of `then` is itself a promise.  This second, 'downstream'
     promise is resolved with the return value of the first promise's fulfillment
     or rejection handler, or rejected if the handler throws an exception.
-  
+
     ```js
     findUser().then(function (user) {
       return user.name;
@@ -2051,7 +2162,7 @@ Promise.prototype = {
       // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
       // will be `'default name'`
     });
-  
+
     findUser().then(function (user) {
       throw new Error('Found user, but still unhappy');
     }, function (reason) {
@@ -2064,7 +2175,7 @@ Promise.prototype = {
     });
     ```
     If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
-  
+
     ```js
     findUser().then(function (user) {
       throw new PedagogicalException('Upstream error');
@@ -2076,15 +2187,15 @@ Promise.prototype = {
       // The `PedgagocialException` is propagated all the way down to here
     });
     ```
-  
+
     Assimilation
     ------------
-  
+
     Sometimes the value you want to propagate to a downstream promise can only be
     retrieved asynchronously. This can be achieved by returning a promise in the
     fulfillment or rejection handler. The downstream promise will then be pending
     until the returned promise is settled. This is called *assimilation*.
-  
+
     ```js
     findUser().then(function (user) {
       return findCommentsByAuthor(user);
@@ -2092,9 +2203,9 @@ Promise.prototype = {
       // The user's comments are now available
     });
     ```
-  
+
     If the assimliated promise rejects, then the downstream promise will also reject.
-  
+
     ```js
     findUser().then(function (user) {
       return findCommentsByAuthor(user);
@@ -2104,15 +2215,15 @@ Promise.prototype = {
       // If `findCommentsByAuthor` rejects, we'll have the reason here
     });
     ```
-  
+
     Simple Example
     --------------
-  
+
     Synchronous Example
-  
+
     ```javascript
     let result;
-  
+
     try {
       result = findResult();
       // success
@@ -2120,9 +2231,9 @@ Promise.prototype = {
       // failure
     }
     ```
-  
+
     Errback Example
-  
+
     ```js
     findResult(function(result, err){
       if (err) {
@@ -2132,9 +2243,9 @@ Promise.prototype = {
       }
     });
     ```
-  
+
     Promise Example;
-  
+
     ```javascript
     findResult().then(function(result){
       // success
@@ -2142,15 +2253,15 @@ Promise.prototype = {
       // failure
     });
     ```
-  
+
     Advanced Example
     --------------
-  
+
     Synchronous Example
-  
+
     ```javascript
     let author, books;
-  
+
     try {
       author = findAuthor();
       books  = findBooksByAuthor(author);
@@ -2159,19 +2270,19 @@ Promise.prototype = {
       // failure
     }
     ```
-  
+
     Errback Example
-  
+
     ```js
-  
+
     function foundBooks(books) {
-  
+
     }
-  
+
     function failure(reason) {
-  
+
     }
-  
+
     findAuthor(function(author, err){
       if (err) {
         failure(err);
@@ -2196,9 +2307,9 @@ Promise.prototype = {
       }
     });
     ```
-  
+
     Promise Example;
-  
+
     ```javascript
     findAuthor().
       then(findBooksByAuthor).
@@ -2208,579 +2319,613 @@ Promise.prototype = {
       // something went wrong
     });
     ```
-  
+
     @method then
     @param {Function} onFulfilled
     @param {Function} onRejected
     Useful for tooling.
     @return {Promise}
   */
-  then: then,
+						then: then,
 
-  /**
+						/**
     `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
     as the catch block of a try/catch statement.
-  
+
     ```js
     function findAuthor(){
       throw new Error('couldn't find that author');
     }
-  
+
     // synchronous
     try {
       findAuthor();
     } catch(reason) {
       // something went wrong
     }
-  
+
     // async with promises
     findAuthor().catch(function(reason){
       // something went wrong
     });
     ```
-  
+
     @method catch
     @param {Function} onRejection
     Useful for tooling.
     @return {Promise}
   */
-  'catch': function _catch(onRejection) {
-    return this.then(null, onRejection);
-  }
-};
+						'catch': function _catch(onRejection) {
+							return this.then(null, onRejection);
+						},
+					};
 
-function polyfill() {
-    var local = undefined;
+					function polyfill() {
+						let local = undefined;
 
-    if (typeof global !== 'undefined') {
-        local = global;
-    } else if (typeof self !== 'undefined') {
-        local = self;
-    } else {
-        try {
-            local = Function('return this')();
-        } catch (e) {
-            throw new Error('polyfill failed because global object is unavailable in this environment');
+						if (typeof global !== 'undefined') {
+							local = global;
+						}
+						else if (typeof self !== 'undefined') {
+							local = self;
+						}
+						else {
+							try {
+								local = Function('return this')();
+							}
+							catch (e) {
+								throw new Error('polyfill failed because global object is unavailable in this environment');
+							}
+						}
+
+						const P = local.Promise;
+
+						if (P) {
+							let promiseToString = null;
+							try {
+								promiseToString = Object.prototype.toString.call(P.resolve());
+							}
+							catch (e) {
+								// silently ignored
+							}
+
+							if (promiseToString === '[object Promise]' && !P.cast) {
+								return;
+							}
+						}
+
+						local.Promise = Promise;
+					}
+
+					// Strange compat..
+					Promise.polyfill = polyfill;
+					Promise.Promise = Promise;
+
+					return Promise;
+
+				})));
+
+			}.call(exports, __webpack_require__(7), __webpack_require__(8)));
+
+		}),
+
+(function(module, exports) {
+}),
+(function(module, exports, __webpack_require__) {
+
+			'use strict';
+
+
+			Object.defineProperty(exports, '__esModule', {
+				value: true,
+			});
+
+			const _createClass = function() {
+        function defineProperties(target, props) {
+        for (let i = 0; i < props.length; i++) {
+          let descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true;
+          if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor);
         }
-    }
+      } return function(Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps); return Constructor;
+      };
+    }(); /* global VERSION */
 
-    var P = local.Promise;
+			__webpack_require__(5);
 
-    if (P) {
-        var promiseToString = null;
-        try {
-            promiseToString = Object.prototype.toString.call(P.resolve());
-        } catch (e) {
-            // silently ignored
+			const _es6Promise = __webpack_require__(4);
+
+			const _es6Promise2 = _interopRequireDefault(_es6Promise);
+
+			const _utils = __webpack_require__(0);
+
+			const Utils = _interopRequireWildcard(_utils);
+
+			const _api = __webpack_require__(1);
+
+			const API = _interopRequireWildcard(_api);
+
+			const _button = __webpack_require__(2);
+
+			const _push = __webpack_require__(3);
+
+			function _interopRequireWildcard(obj) {
+				if (obj && obj.__esModule) { return obj; }
+				else {
+          const newObj = {}; if (obj != null) {
+          for (const key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+          }
+        } newObj.default = obj;
+         return newObj;
         }
+			}
 
-        if (promiseToString === '[object Promise]' && !P.cast) {
-            return;
+			function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+			function _classCallCheck(instance, Constructor) {
+         if (!(instance instanceof Constructor)) {
+         throw new TypeError('Cannot call a class as a function');
         }
-    }
+      }
 
-    local.Promise = Promise;
-}
-
-// Strange compat..
-Promise.polyfill = polyfill;
-Promise.Promise = Promise;
-
-return Promise;
-
-})));
-//# sourceMappingURL=es6-promise.map
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(8)))
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* global VERSION */
-
-__webpack_require__(5);
-
-var _es6Promise = __webpack_require__(4);
-
-var _es6Promise2 = _interopRequireDefault(_es6Promise);
-
-var _utils = __webpack_require__(0);
-
-var Utils = _interopRequireWildcard(_utils);
-
-var _api = __webpack_require__(1);
-
-var API = _interopRequireWildcard(_api);
-
-var _button = __webpack_require__(2);
-
-var _push = __webpack_require__(3);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Noty = function () {
-  /**
+			const Noty = function() {
+				/**
    * @param {object} options
    * @return {Noty}
    */
-  function Noty() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+				function Noty() {
+					let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    _classCallCheck(this, Noty);
+					_classCallCheck(this, Noty);
 
-    this.options = Utils.deepExtend({}, API.Defaults, options);
-    this.id = this.options.id || Utils.generateID('bar');
-    this.closeTimer = -1;
-    this.barDom = null;
-    this.layoutDom = null;
-    this.progressDom = null;
-    this.showing = false;
-    this.shown = false;
-    this.closed = false;
-    this.closing = false;
-    this.killable = this.options.timeout || this.options.closeWith.length > 0;
-    this.hasSound = this.options.sounds.sources.length > 0;
-    this.soundPlayed = false;
-    this.listeners = {
-      beforeShow: [],
-      onShow: [],
-      afterShow: [],
-      onClose: [],
-      afterClose: [],
-      onHover: [],
-      onTemplate: []
-    };
-    this.promises = {
-      show: null,
-      close: null
-    };
-    this.on('beforeShow', this.options.callbacks.beforeShow);
-    this.on('onShow', this.options.callbacks.onShow);
-    this.on('afterShow', this.options.callbacks.afterShow);
-    this.on('onClose', this.options.callbacks.onClose);
-    this.on('afterClose', this.options.callbacks.afterClose);
-    this.on('onHover', this.options.callbacks.onHover);
-    this.on('onTemplate', this.options.callbacks.onTemplate);
+					this.options = Utils.deepExtend({}, API.Defaults, options);
+					this.id = this.options.id || Utils.generateID('bar');
+					this.closeTimer = -1;
+					this.barDom = null;
+					this.layoutDom = null;
+					this.progressDom = null;
+					this.showing = false;
+					this.shown = false;
+					this.closed = false;
+					this.closing = false;
+					this.killable = this.options.timeout || this.options.closeWith.length > 0;
+					this.hasSound = this.options.sounds.sources.length > 0;
+					this.soundPlayed = false;
+					this.listeners = {
+						beforeShow: [],
+						onShow: [],
+						afterShow: [],
+						onClose: [],
+						afterClose: [],
+						onHover: [],
+						onTemplate: [],
+					};
+					this.promises = {
+						show: null,
+						close: null,
+					};
+					this.on('beforeShow', this.options.callbacks.beforeShow);
+					this.on('onShow', this.options.callbacks.onShow);
+					this.on('afterShow', this.options.callbacks.afterShow);
+					this.on('onClose', this.options.callbacks.onClose);
+					this.on('afterClose', this.options.callbacks.afterClose);
+					this.on('onHover', this.options.callbacks.onHover);
+					this.on('onTemplate', this.options.callbacks.onTemplate);
 
-    return this;
-  }
+					return this;
+				}
 
-  /**
+				/**
    * @param {string} eventName
    * @param {function} cb
    * @return {Noty}
    */
 
 
-  _createClass(Noty, [{
-    key: 'on',
-    value: function on(eventName) {
-      var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+				_createClass(Noty, [{
+					key: 'on',
+					value: function on(eventName) {
+						let cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function() {};
 
-      if (typeof cb === 'function' && this.listeners.hasOwnProperty(eventName)) {
-        this.listeners[eventName].push(cb);
-      }
+						if (typeof cb === 'function' && Object.prototype.hasOwnProperty.call(this.listeners, eventName)) {
+							this.listeners[eventName].push(cb);
+						}
 
-      return this;
-    }
+						return this;
+					},
 
-    /**
+					/**
      * @return {Noty}
      */
 
-  }, {
-    key: 'show',
-    value: function show() {
-      var _this = this;
+				}, {
+					key: 'show',
+					value: function show() {
+						let _this = this;
 
-      if (this.options.killer === true && !API.PageHidden) {
-        Noty.closeAll();
-      } else if (typeof this.options.killer === 'string' && !API.PageHidden) {
-        Noty.closeAll(this.options.killer);
-      } else {
-        var queueCounts = API.getQueueCounts(this.options.queue);
+						if (this.options.killer === true && !API.PageHidden) {
+							Noty.closeAll();
+						}
+						else if (typeof this.options.killer === 'string' && !API.PageHidden) {
+							Noty.closeAll(this.options.killer);
+						}
+						else {
+							let queueCounts = API.getQueueCounts(this.options.queue);
 
-        if (queueCounts.current >= queueCounts.maxVisible || API.PageHidden) {
-          API.addToQueue(this);
+							if (queueCounts.current >= queueCounts.maxVisible || API.PageHidden) {
+								API.addToQueue(this);
 
-          if (API.PageHidden && this.hasSound && Utils.inArray('docHidden', this.options.sounds.conditions)) {
-            Utils.createAudioElements(this);
-          }
+								if (API.PageHidden && this.hasSound && Utils.inArray('docHidden', this.options.sounds.conditions)) {
+									Utils.createAudioElements(this);
+								}
 
-          if (API.PageHidden && Utils.inArray('docHidden', this.options.titleCount.conditions)) {
-            API.docTitle.increment();
-          }
+								if (API.PageHidden && Utils.inArray('docHidden', this.options.titleCount.conditions)) {
+									API.docTitle.increment();
+								}
 
-          return this;
-        }
-      }
+								return this;
+							}
+						}
 
-      API.Store[this.id] = this;
+						API.Store[this.id] = this;
 
-      API.fire(this, 'beforeShow');
+						API.fire(this, 'beforeShow');
 
-      this.showing = true;
+						this.showing = true;
 
-      if (this.closing) {
-        this.showing = false;
-        return this;
-      }
+						if (this.closing) {
+							this.showing = false;
+							return this;
+						}
 
-      API.build(this);
-      API.handleModal(this);
+						API.build(this);
+						API.handleModal(this);
 
-      if (this.options.force) {
-        this.layoutDom.insertBefore(this.barDom, this.layoutDom.firstChild);
-      } else {
-        this.layoutDom.appendChild(this.barDom);
-      }
+						if (this.options.force) {
+							this.layoutDom.insertBefore(this.barDom, this.layoutDom.firstChild);
+						}
+						else {
+							this.layoutDom.appendChild(this.barDom);
+						}
 
-      if (this.hasSound && !this.soundPlayed && Utils.inArray('docVisible', this.options.sounds.conditions)) {
-        Utils.createAudioElements(this);
-      }
+						if (this.hasSound && !this.soundPlayed && Utils.inArray('docVisible', this.options.sounds.conditions)) {
+							Utils.createAudioElements(this);
+						}
 
-      if (Utils.inArray('docVisible', this.options.titleCount.conditions)) {
-        API.docTitle.increment();
-      }
+						if (Utils.inArray('docVisible', this.options.titleCount.conditions)) {
+							API.docTitle.increment();
+						}
 
-      this.shown = true;
-      this.closed = false;
+						this.shown = true;
+						this.closed = false;
 
-      // bind button events if any
-      if (API.hasButtons(this)) {
-        Object.keys(this.options.buttons).forEach(function (key) {
-          var btn = _this.barDom.querySelector('#' + _this.options.buttons[key].id);
-          Utils.addListener(btn, 'click', function (e) {
-            Utils.stopPropagation(e);
-            _this.options.buttons[key].cb();
-          });
-        });
-      }
+						// bind button events if any
+						if (API.hasButtons(this)) {
+							Object.keys(this.options.buttons).forEach(function(key) {
+								let btn = _this.barDom.querySelector('#' + _this.options.buttons[key].id);
+								Utils.addListener(btn, 'click', function(e) {
+									Utils.stopPropagation(e);
+									_this.options.buttons[key].cb();
+								});
+							});
+						}
 
-      this.progressDom = this.barDom.querySelector('.noty_progressbar');
+						this.progressDom = this.barDom.querySelector('.noty_progressbar');
 
-      if (Utils.inArray('click', this.options.closeWith)) {
-        Utils.addClass(this.barDom, 'noty_close_with_click');
-        Utils.addListener(this.barDom, 'click', function (e) {
-          Utils.stopPropagation(e);
-          _this.close();
-        }, false);
-      }
+						if (Utils.inArray('click', this.options.closeWith)) {
+							Utils.addClass(this.barDom, 'noty_close_with_click');
+							Utils.addListener(this.barDom, 'click', function(e) {
+								Utils.stopPropagation(e);
+								_this.close();
+							}, false);
+						}
 
-      Utils.addListener(this.barDom, 'mouseenter', function () {
-        API.fire(_this, 'onHover');
-      }, false);
+						Utils.addListener(this.barDom, 'mouseenter', function() {
+							API.fire(_this, 'onHover');
+						}, false);
 
-      if (this.options.timeout) Utils.addClass(this.barDom, 'noty_has_timeout');
+						if (this.options.timeout) Utils.addClass(this.barDom, 'noty_has_timeout');
 
-      if (Utils.inArray('button', this.options.closeWith)) {
-        Utils.addClass(this.barDom, 'noty_close_with_button');
+						if (Utils.inArray('button', this.options.closeWith)) {
+							Utils.addClass(this.barDom, 'noty_close_with_button');
 
-        var closeButton = document.createElement('div');
-        Utils.addClass(closeButton, 'noty_close_button');
-        closeButton.innerHTML = '×';
-        this.barDom.appendChild(closeButton);
+							let closeButton = document.createElement('div');
+							Utils.addClass(closeButton, 'noty_close_button');
+							closeButton.innerHTML = '×';
+							this.barDom.appendChild(closeButton);
 
-        Utils.addListener(closeButton, 'click', function (e) {
-          Utils.stopPropagation(e);
-          _this.close();
-        }, false);
-      }
+							Utils.addListener(closeButton, 'click', function(e) {
+								Utils.stopPropagation(e);
+								_this.close();
+							}, false);
+						}
 
-      API.fire(this, 'onShow');
+						API.fire(this, 'onShow');
 
-      if (this.options.animation.open === null) {
-        this.promises.show = new _es6Promise2.default(function (resolve) {
-          resolve();
-        });
-      } else if (typeof this.options.animation.open === 'function') {
-        this.promises.show = new _es6Promise2.default(this.options.animation.open.bind(this));
-      } else {
-        Utils.addClass(this.barDom, this.options.animation.open);
-        this.promises.show = new _es6Promise2.default(function (resolve) {
-          Utils.addListener(_this.barDom, Utils.animationEndEvents, function () {
-            Utils.removeClass(_this.barDom, _this.options.animation.open);
-            resolve();
-          });
-        });
-      }
+						if (this.options.animation.open === null) {
+							this.promises.show = new _es6Promise2.default(function(resolve) {
+								resolve();
+							});
+						}
+						else if (typeof this.options.animation.open === 'function') {
+							this.promises.show = new _es6Promise2.default(this.options.animation.open.bind(this));
+						}
+						else {
+							Utils.addClass(this.barDom, this.options.animation.open);
+							this.promises.show = new _es6Promise2.default(function(resolve) {
+								Utils.addListener(_this.barDom, Utils.animationEndEvents, function() {
+									Utils.removeClass(_this.barDom, _this.options.animation.open);
+									resolve();
+								});
+							});
+						}
 
-      this.promises.show.then(function () {
-        var _t = _this;
-        setTimeout(function () {
-          API.openFlow(_t);
-        }, 100);
-      });
+						this.promises.show.then(function() {
+							let _t = _this;
+							setTimeout(function() {
+								API.openFlow(_t);
+							}, 100);
+						});
 
-      return this;
-    }
+						return this;
+					},
 
-    /**
+					/**
      * @return {Noty}
      */
 
-  }, {
-    key: 'stop',
-    value: function stop() {
-      API.dequeueClose(this);
-      return this;
-    }
+				}, {
+					key: 'stop',
+					value: function stop() {
+						API.dequeueClose(this);
+						return this;
+					},
 
-    /**
+					/**
      * @return {Noty}
      */
 
-  }, {
-    key: 'resume',
-    value: function resume() {
-      API.queueClose(this);
-      return this;
-    }
+				}, {
+					key: 'resume',
+					value: function resume() {
+						API.queueClose(this);
+						return this;
+					},
 
-    /**
+					/**
      * @param {int|boolean} ms
      * @return {Noty}
      */
 
-  }, {
-    key: 'setTimeout',
-    value: function (_setTimeout) {
-      function setTimeout(_x) {
-        return _setTimeout.apply(this, arguments);
-      }
+				}, {
+					key: 'setTimeout',
+					value: function(_setTimeout) {
+						function setTimeout(_x) {
+							return _setTimeout.apply(this, arguments);
+						}
 
-      setTimeout.toString = function () {
-        return _setTimeout.toString();
-      };
+						setTimeout.toString = function() {
+							return _setTimeout.toString();
+						};
 
-      return setTimeout;
-    }(function (ms) {
-      this.stop();
-      this.options.timeout = ms;
+						return setTimeout;
+					}(function(ms) {
+						this.stop();
+						this.options.timeout = ms;
 
-      if (this.barDom) {
-        if (this.options.timeout) {
-          Utils.addClass(this.barDom, 'noty_has_timeout');
-        } else {
-          Utils.removeClass(this.barDom, 'noty_has_timeout');
-        }
+						if (this.barDom) {
+							if (this.options.timeout) {
+								Utils.addClass(this.barDom, 'noty_has_timeout');
+							}
+							else {
+								Utils.removeClass(this.barDom, 'noty_has_timeout');
+							}
 
-        var _t = this;
-        setTimeout(function () {
-          // ugly fix for progressbar display bug
-          _t.resume();
-        }, 100);
-      }
+							let _t = this;
+							setTimeout(function() {
+								// ugly fix for progressbar display bug
+								_t.resume();
+							}, 100);
+						}
 
-      return this;
-    })
+						return this;
+					}),
 
-    /**
+					/**
      * @param {string} html
      * @param {boolean} optionsOverride
      * @return {Noty}
      */
 
-  }, {
-    key: 'setText',
-    value: function setText(html) {
-      var optionsOverride = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+				}, {
+					key: 'setText',
+					value: function setText(html) {
+						let optionsOverride = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-      if (this.barDom) {
-        this.barDom.querySelector('.noty_body').innerHTML = html;
-      }
+						if (this.barDom) {
+							this.barDom.querySelector('.noty_body').innerHTML = html;
+						}
 
-      if (optionsOverride) this.options.text = html;
+						if (optionsOverride) this.options.text = html;
 
-      return this;
-    }
+						return this;
+					},
 
-    /**
+					/**
      * @param {string} type
      * @param {boolean} optionsOverride
      * @return {Noty}
      */
 
-  }, {
-    key: 'setType',
-    value: function setType(type) {
-      var _this2 = this;
+				}, {
+					key: 'setType',
+					value: function setType(type) {
+						let _this2 = this;
 
-      var optionsOverride = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+						let optionsOverride = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-      if (this.barDom) {
-        var classList = Utils.classList(this.barDom).split(' ');
+						if (this.barDom) {
+							let classList = Utils.classList(this.barDom).split(' ');
 
-        classList.forEach(function (c) {
-          if (c.substring(0, 11) === 'noty_type__') {
-            Utils.removeClass(_this2.barDom, c);
-          }
-        });
+							classList.forEach(function(c) {
+								if (c.substring(0, 11) === 'noty_type__') {
+									Utils.removeClass(_this2.barDom, c);
+								}
+							});
 
-        Utils.addClass(this.barDom, 'noty_type__' + type);
-      }
+							Utils.addClass(this.barDom, 'noty_type__' + type);
+						}
 
-      if (optionsOverride) this.options.type = type;
+						if (optionsOverride) this.options.type = type;
 
-      return this;
-    }
+						return this;
+					},
 
-    /**
+					/**
      * @param {string} theme
      * @param {boolean} optionsOverride
      * @return {Noty}
      */
 
-  }, {
-    key: 'setTheme',
-    value: function setTheme(theme) {
-      var _this3 = this;
+				}, {
+					key: 'setTheme',
+					value: function setTheme(theme) {
+						let _this3 = this;
 
-      var optionsOverride = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+						let optionsOverride = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-      if (this.barDom) {
-        var classList = Utils.classList(this.barDom).split(' ');
+						if (this.barDom) {
+							let classList = Utils.classList(this.barDom).split(' ');
 
-        classList.forEach(function (c) {
-          if (c.substring(0, 12) === 'noty_theme__') {
-            Utils.removeClass(_this3.barDom, c);
-          }
-        });
+							classList.forEach(function(c) {
+								if (c.substring(0, 12) === 'noty_theme__') {
+									Utils.removeClass(_this3.barDom, c);
+								}
+							});
 
-        Utils.addClass(this.barDom, 'noty_theme__' + theme);
-      }
+							Utils.addClass(this.barDom, 'noty_theme__' + theme);
+						}
 
-      if (optionsOverride) this.options.theme = theme;
+						if (optionsOverride) this.options.theme = theme;
 
-      return this;
-    }
+						return this;
+					},
 
-    /**
+					/**
      * @return {Noty}
      */
 
-  }, {
-    key: 'close',
-    value: function close() {
-      var _this4 = this;
+				}, {
+					key: 'close',
+					value: function close() {
+						let _this4 = this;
 
-      if (this.closed) return this;
+						if (this.closed) return this;
 
-      if (!this.shown) {
-        // it's in the queue
-        API.removeFromQueue(this);
-        return this;
-      }
+						if (!this.shown) {
+							// it's in the queue
+							API.removeFromQueue(this);
+							return this;
+						}
 
-      API.fire(this, 'onClose');
+						API.fire(this, 'onClose');
 
-      this.closing = true;
+						this.closing = true;
 
-      if (this.options.animation.close === null) {
-        this.promises.close = new _es6Promise2.default(function (resolve) {
-          resolve();
-        });
-      } else if (typeof this.options.animation.close === 'function') {
-        this.promises.close = new _es6Promise2.default(this.options.animation.close.bind(this));
-      } else {
-        Utils.addClass(this.barDom, this.options.animation.close);
-        this.promises.close = new _es6Promise2.default(function (resolve) {
-          Utils.addListener(_this4.barDom, Utils.animationEndEvents, function () {
-            if (_this4.options.force) {
-              Utils.remove(_this4.barDom);
-            } else {
-              API.ghostFix(_this4);
-            }
-            resolve();
-          });
-        });
-      }
+						if (this.options.animation.close === null) {
+							this.promises.close = new _es6Promise2.default(function(resolve) {
+								resolve();
+							});
+						}
+						else if (typeof this.options.animation.close === 'function') {
+							this.promises.close = new _es6Promise2.default(this.options.animation.close.bind(this));
+						}
+						else {
+							Utils.addClass(this.barDom, this.options.animation.close);
+							this.promises.close = new _es6Promise2.default(function(resolve) {
+								Utils.addListener(_this4.barDom, Utils.animationEndEvents, function() {
+									if (_this4.options.force) {
+										Utils.remove(_this4.barDom);
+									}
+									else {
+										API.ghostFix(_this4);
+									}
+									resolve();
+								});
+							});
+						}
 
-      this.promises.close.then(function () {
-        API.closeFlow(_this4);
-        API.handleModalClose(_this4);
-      });
+						this.promises.close.then(function() {
+							API.closeFlow(_this4);
+							API.handleModalClose(_this4);
+						});
 
-      this.closed = true;
+						this.closed = true;
 
-      return this;
-    }
+						return this;
+					},
 
-    // API functions
+					// API functions
 
-    /**
+					/**
      * @param {boolean|string} queueName
      * @return {Noty}
      */
 
-  }], [{
-    key: 'closeAll',
-    value: function closeAll() {
-      var queueName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+				}], [{
+					key: 'closeAll',
+					value: function closeAll() {
+						let queueName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-      Object.keys(API.Store).forEach(function (id) {
-        if (queueName) {
-          if (API.Store[id].options.queue === queueName && API.Store[id].killable) {
-            API.Store[id].close();
-          }
-        } else if (API.Store[id].killable) {
-          API.Store[id].close();
-        }
-      });
-      return this;
-    }
+						Object.keys(API.Store).forEach(function(id) {
+							if (queueName) {
+								if (API.Store[id].options.queue === queueName && API.Store[id].killable) {
+									API.Store[id].close();
+								}
+							}
+							else if (API.Store[id].killable) {
+								API.Store[id].close();
+							}
+						});
+						return this;
+					},
 
-    /**
+					/**
      * @param {Object} obj
      * @return {Noty}
      */
 
-  }, {
-    key: 'overrideDefaults',
-    value: function overrideDefaults(obj) {
-      API.Defaults = Utils.deepExtend({}, API.Defaults, obj);
-      return this;
-    }
+				}, {
+					key: 'overrideDefaults',
+					value: function overrideDefaults(obj) {
+						API.Defaults = Utils.deepExtend({}, API.Defaults, obj);
+						return this;
+					},
 
-    /**
+					/**
      * @param {int} amount
      * @param {string} queueName
      * @return {Noty}
      */
 
-  }, {
-    key: 'setMaxVisible',
-    value: function setMaxVisible() {
-      var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : API.DefaultMaxVisible;
-      var queueName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'global';
+				}, {
+					key: 'setMaxVisible',
+					value: function setMaxVisible() {
+						let amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : API.DefaultMaxVisible;
+						let queueName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'global';
 
-      if (!API.Queues.hasOwnProperty(queueName)) {
-        API.Queues[queueName] = { maxVisible: amount, queue: [] };
-      }
+						if (!Object.prototype.hasOwnProperty.call(API.Queues, queueName)) {
+							API.Queues[queueName] = { maxVisible: amount, queue: [] };
+						}
 
-      API.Queues[queueName].maxVisible = amount;
-      return this;
-    }
+						API.Queues[queueName].maxVisible = amount;
+						return this;
+					},
 
-    /**
+					/**
      * @param {string} innerHtml
      * @param {String} classes
      * @param {Function} cb
@@ -2788,268 +2933,276 @@ var Noty = function () {
      * @return {NotyButton}
      */
 
-  }, {
-    key: 'button',
-    value: function button(innerHtml) {
-      var classes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      var cb = arguments[2];
-      var attributes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+				}, {
+					key: 'button',
+					value: function button(innerHtml) {
+						let classes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+						let cb = arguments[2];
+						let attributes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-      return new _button.NotyButton(innerHtml, classes, cb, attributes);
-    }
+						return new _button.NotyButton(innerHtml, classes, cb, attributes);
+					},
 
-    /**
+					/**
      * @return {string}
      */
 
-  }, {
-    key: 'version',
-    value: function version() {
-      return "3.1.0";
-    }
+				}, {
+					key: 'version',
+					value: function version() {
+						return '3.1.0';
+					},
 
-    /**
+					/**
      * @param {String} workerPath
      * @return {Push}
      */
 
-  }, {
-    key: 'Push',
-    value: function Push(workerPath) {
-      return new _push.Push(workerPath);
-    }
-  }]);
+				}, {
+					key: 'Push',
+					value: function Push(workerPath) {
+						return new _push.Push(workerPath);
+					},
+				}]);
 
-  return Noty;
-}();
+				return Noty;
+			}();
 
-// Document visibility change controller
-
-
-exports.default = Noty;
-Utils.visibilityChangeFlow();
-module.exports = exports['default'];
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
+			// Document visibility change controller
 
 
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
+			exports.default = Noty;
+			Utils.visibilityChangeFlow();
+			module.exports = exports['default'];
+
+		}),
+
+    (function(module, exports) {
+
+			// shim for using process in browser
+			const process = module.exports = {};
+
+			// cached from whatever global is present so that test runners that stub it
+			// don't break things.  But we need to wrap it in a try catch in case it is
+			// wrapped in strict mode code which doesn't define any globals.  It's inside a
+			// function because try/catches deoptimize in certain engines.
+
+			let cachedSetTimeout;
+			let cachedClearTimeout;
+
+			function defaultSetTimout() {
+				throw new Error('setTimeout has not been defined');
+			}
+			function defaultClearTimeout() {
+				throw new Error('clearTimeout has not been defined');
+			}
+			(function() {
+				try {
+					if (typeof setTimeout === 'function') {
+						cachedSetTimeout = setTimeout;
+					}
+					else {
+						cachedSetTimeout = defaultSetTimout;
+					}
+				}
+				catch (e) {
+					cachedSetTimeout = defaultSetTimout;
+				}
+				try {
+					if (typeof clearTimeout === 'function') {
+						cachedClearTimeout = clearTimeout;
+					}
+					else {
+						cachedClearTimeout = defaultClearTimeout;
+					}
+				}
+				catch (e) {
+					cachedClearTimeout = defaultClearTimeout;
+				}
+			} ());
+			function runTimeout(fun) {
+				if (cachedSetTimeout === setTimeout) {
+					// normal enviroments in sane situations
+					return setTimeout(fun, 0);
+				}
+				// if setTimeout wasn't available but was latter defined
+				if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+					cachedSetTimeout = setTimeout;
+					return setTimeout(fun, 0);
+				}
+				try {
+					// when when somebody has screwed with setTimeout but no I.E. maddness
+					return cachedSetTimeout(fun, 0);
+				}
+				catch (e) {
+					try {
+						// When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+						return cachedSetTimeout.call(null, fun, 0);
+					}
+					catch (e) {
+						// same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+						return cachedSetTimeout.call(this, fun, 0);
+					}
+				}
 
 
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
+			}
+			function runClearTimeout(marker) {
+				if (cachedClearTimeout === clearTimeout) {
+					// normal enviroments in sane situations
+					return clearTimeout(marker);
+				}
+				// if clearTimeout wasn't available but was latter defined
+				if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+					cachedClearTimeout = clearTimeout;
+					return clearTimeout(marker);
+				}
+				try {
+					// when when somebody has screwed with setTimeout but no I.E. maddness
+					return cachedClearTimeout(marker);
+				}
+				catch (e) {
+					try {
+						// When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+						return cachedClearTimeout.call(null, marker);
+					}
+					catch (e) {
+						// same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+						// Some versions of I.E. have different rules for clearTimeout vs setTimeout
+						return cachedClearTimeout.call(this, marker);
+					}
+				}
 
 
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
+			}
+			let queue = [];
+			let draining = false;
+			let currentQueue;
+			let queueIndex = -1;
 
-var g;
+			function cleanUpNextTick() {
+				if (!draining || !currentQueue) {
+					return;
+				}
+				draining = false;
+				if (currentQueue.length) {
+					queue = currentQueue.concat(queue);
+				}
+				else {
+					queueIndex = -1;
+				}
+				if (queue.length) {
+					drainQueue();
+				}
+			}
 
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
+			function drainQueue() {
+				if (draining) {
+					return;
+				}
+				const timeout = runTimeout(cleanUpNextTick);
+				draining = true;
 
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
+				let len = queue.length;
+				while (len) {
+					currentQueue = queue;
+					queue = [];
+					while (++queueIndex < len) {
+						if (currentQueue) {
+							currentQueue[queueIndex].run();
+						}
+					}
+					queueIndex = -1;
+					len = queue.length;
+				}
+				currentQueue = null;
+				draining = false;
+				runClearTimeout(timeout);
+			}
 
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
+			process.nextTick = function(fun) {
+				const args = new Array(arguments.length - 1);
+				if (arguments.length > 1) {
+					for (let i = 1; i < arguments.length; i++) {
+						args[i - 1] = arguments[i];
+					}
+				}
+				queue.push(new Item(fun, args));
+				if (queue.length === 1 && !draining) {
+					runTimeout(drainQueue);
+				}
+			};
 
-module.exports = g;
+			// v8 likes predictible objects
+			function Item(fun, array) {
+				this.fun = fun;
+				this.array = array;
+			}
+			Item.prototype.run = function() {
+				this.fun.apply(null, this.array);
+			};
+			process.title = 'browser';
+			process.browser = true;
+			process.env = {};
+			process.argv = [];
+			process.version = '';
+			process.versions = {};
+
+			function noop() {}
+
+			process.on = noop;
+			process.addListener = noop;
+			process.once = noop;
+			process.off = noop;
+			process.removeListener = noop;
+			process.removeAllListeners = noop;
+			process.emit = noop;
+
+			process.binding = function(name) {
+				throw new Error('process.binding is not supported');
+			};
+
+			process.cwd = function() { return '/'; };
+			process.chdir = function(dir) {
+				throw new Error('process.chdir is not supported');
+			};
+			process.umask = function() { return 0; };
 
 
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
+		}),
 
-/* (ignored) */
+		(function(module, exports) {
 
-/***/ })
-/******/ ]);
+			let g;
+
+			// This works in non-strict mode
+			g = (function() {
+				return this;
+			})();
+
+			try {
+				// This works if eval is allowed (see CSP)
+				g = g || Function('return this')() || (1, eval)('this');
+			}
+			catch (e) {
+				// This works if the window reference is available
+				if (typeof window === 'object') {g = window;}
+			}
+
+			// g can still be undefined, but nothing to do about it...
+			// We return undefined, instead of nothing here, so it's
+			// easier to handle this case. if(!global) { ...}
+
+			module.exports = g;
+
+
+		}),
+		/* 9 */
+		(function(module, exports) {
+
+			/* (ignored) */
+
+		}),
+	]);
 });
-//# sourceMappingURL=noty.js.map
+// # sourceMappingURL=noty.js.map
