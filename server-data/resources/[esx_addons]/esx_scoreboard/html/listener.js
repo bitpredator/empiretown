@@ -50,8 +50,8 @@ $(function() {
 			break;
 		case 'updateServerInfo':
 			if (event.data.maxPlayers) {
-				const sanitizedMaxPlayers = (event.data.maxPlayers);
-				$('#max_players').html(sanitizedMaxPlayers);
+				const MaxPlayers = $('<div>').text(event.data.maxPlayers).html();
+				$('#max_players').html(MaxPlayers);
 			}
 			break;
 		default:
