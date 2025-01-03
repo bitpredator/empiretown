@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "loader-utils": "^3.3.1"
+  }
+}
