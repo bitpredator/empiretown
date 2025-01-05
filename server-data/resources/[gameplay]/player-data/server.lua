@@ -1,12 +1,12 @@
 -- identifiers that we'll ignore (e.g. IP) as they're low-trust/high-variance
 local identifierBlocklist = {
-    ip = true
+    ip = true,
 }
 
 -- function to check if the identifier is blocked
 local function isIdentifierBlocked(identifier)
     -- Lua pattern to correctly split
-    local idType = identifier:match('([^:]+):')
+    local idType = identifier:match("([^:]+):")
 
     -- ensure it's a boolean
     return identifierBlocklist[idType] or false
@@ -20,16 +20,16 @@ local playersById = {}
 
 -- a sequence field using KVS
 local function incrementId()
-    local nextId = GetResourceKvpInt('nextId')
+    local nextId = GetResourceKvpInt("nextId")
     nextId = nextId + 1
-    SetResourceKvpInt('nextId', nextId)
+    SetResourceKvpInt("nextId", nextId)
 
     return nextId
 end
 
 -- gets the ID tied to an identifier in the schema, or nil
 local function getPlayerIdFromIdentifier(identifier)
-    local str = GetResourceKvpString(('identifier:%s'):format(identifier))
+    local str = GetResourceKvpString(("identifier:%s"):format(identifier))
 
     if not str then
         return nil
@@ -40,9 +40,9 @@ end
 
 -- stores the identifier + adds to a logging list
 local function setPlayerIdFromIdentifier(identifier, id)
-    local str = ('identifier:%s'):format(identifier)
+    local str = ("identifier:%s"):format(identifier)
     SetResourceKvp(str, msgpack.pack({ id = id }))
-    SetResourceKvp(('player:%s:identifier:%s'):format(id, identifier), 'true')
+    SetResourceKvp(("player:%s:identifier:%s"):format(id, identifier), "true")
 end
 
 -- stores any new identifiers for this player ID
@@ -93,27 +93,27 @@ local function setupPlayer(playerIdx)
 
     -- add state bag field
     if Player then
-        Player(playerIdx).state['cfx.re/playerData@id'] = playerId
+        Player(playerIdx).state["cfx.re/playerData@id"] = playerId
     end
 
     -- and add to our caching tables
     players[playerIdx] = {
-        dbId = playerId
+        dbId = playerId,
     }
 
     playersById[tostring(playerId)] = playerIdx
 end
 
 -- we want to add a player pretty early
-AddEventHandler('playerConnecting', function()
+AddEventHandler("playerConnecting", function()
     local playerIdx = tostring(source)
     setupPlayer(playerIdx)
 end)
 
 -- and migrate them to a 'joining' ID where possible
-RegisterNetEvent('playerJoining')
+RegisterNetEvent("playerJoining")
 
-AddEventHandler('playerJoining', function(oldIdx)
+AddEventHandler("playerJoining", function(oldIdx)
     -- resource restart race condition
     local oldPlayer = players[tostring(oldIdx)]
 
@@ -126,7 +126,7 @@ AddEventHandler('playerJoining', function(oldIdx)
 end)
 
 -- remove them if they're dropped
-AddEventHandler('playerDropped', function()
+AddEventHandler("playerDropped", function()
     local player = players[tostring(source)]
 
     if player then
@@ -142,17 +142,17 @@ for _, player in ipairs(GetPlayers()) do
 end
 
 -- also a quick command to get the current state
-RegisterCommand('playerData', function(source, args)
+RegisterCommand("playerData", function(source, args)
     if not args[1] then
-        print('Usage:')
-        print('\tplayerData getId <dbId>: gets identifiers for ID')
-        print('\tplayerData getIdentifier <identifier>: gets ID for identifier')
+        print("Usage:")
+        print("\tplayerData getId <dbId>: gets identifiers for ID")
+        print("\tplayerData getIdentifier <identifier>: gets ID for identifier")
 
         return
     end
 
-    if args[1] == 'getId' then
-        local prefix = ('player:%s:identifier:'):format(args[2])
+    if args[1] == "getId" then
+        local prefix = ("player:%s:identifier:"):format(args[2])
         local handle = StartFindKvp(prefix)
         local key
 
@@ -160,24 +160,24 @@ RegisterCommand('playerData', function(source, args)
             key = FindKvp(handle)
 
             if key then
-                print('result:', key:sub(#prefix + 1))
+                print("result:", key:sub(#prefix + 1))
             end
         until not key
 
         EndFindKvp(handle)
-    elseif args[1] == 'getIdentifier' then
-        print('result:', getPlayerIdFromIdentifier(args[2]))
+    elseif args[1] == "getIdentifier" then
+        print("result:", getPlayerIdFromIdentifier(args[2]))
     end
 end, true)
 
 -- COMPATIBILITY for server versions that don't export provide
 local function getExportEventName(resource, name)
-	return string.format('__cfx_export_%s_%s', resource, name)
+    return string.format("__cfx_export_%s_%s", resource, name)
 end
 
 function AddExport(name, fn)
     if not Citizen.Traits or not Citizen.Traits.ProvidesExports then
-        AddEventHandler(getExportEventName('cfx.re/playerData.v1alpha1', name), function(setCB)
+        AddEventHandler(getExportEventName("cfx.re/playerData.v1alpha1", name), function(setCB)
             setCB(fn)
         end)
     end
@@ -186,9 +186,9 @@ function AddExport(name, fn)
 end
 
 -- exports
-AddExport('getPlayerIdFromIdentifier', getPlayerIdFromIdentifier)
+AddExport("getPlayerIdFromIdentifier", getPlayerIdFromIdentifier)
 
-AddExport('getPlayerId', function(playerIdx)
+AddExport("getPlayerId", function(playerIdx)
     local player = players[tostring(playerIdx)]
 
     if not player then
@@ -198,6 +198,6 @@ AddExport('getPlayerId', function(playerIdx)
     return player.dbId
 end)
 
-AddExport('getPlayerById', function(playerId)
+AddExport("getPlayerById", function(playerId)
     return playersById[tostring(playerId)]
 end)
