@@ -23,11 +23,11 @@ Config.Ammu = {
     AMMU = {
 
         Blip = {
-            Coords = vector3(425.1, -979.5, 30.7),
-            Sprite = 60,
+            Coords = vector3(812.043945, -2145.692383, 29.330444),
+            Sprite = 110,
             Display = 4,
             Scale = 1.2,
-            Colour = 29,
+            Colour = 17,
         },
 
         Armories = {

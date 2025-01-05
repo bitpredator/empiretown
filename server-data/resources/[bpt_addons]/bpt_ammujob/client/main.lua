@@ -657,8 +657,7 @@ end)
 -- Create blips
 CreateThread(function()
     for _, v in pairs(Config.Ammu) do
-        local blip = AddBlipForCoord(v.Blip.Coords)
-
+        local blip = AddBlipForCoord(v.Blip.Coords.x, v.Blip.Coords.y, v.Blip.Coords.z)
         SetBlipSprite(blip, v.Blip.Sprite)
         SetBlipDisplay(blip, v.Blip.Display)
         SetBlipScale(blip, v.Blip.Scale)
