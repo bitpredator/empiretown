@@ -24,30 +24,6 @@ Config.Shops = {
         },
     },
 
-    ["ammu"] = {
-        label = "Ammunation Shop",
-        blip = {
-            enabled = true,
-            coords = vec3(811.147278, -2157.349365, 29.616821),
-            sprite = 61,
-            color = 8,
-            scale = 0.7,
-            string = "ammu",
-        },
-        locations = {
-            stash = {
-                string = "[E] - Access Inventory",
-                coords = vec3(819.665955, -2155.542969, 29.616821),
-                range = 3.0,
-            },
-            shop = {
-                string = "[E] - Access Shop",
-                coords = vec3(812.663757, -2152.364746, 29.616821),
-                range = 4.0,
-            },
-        },
-    },
-
     ["mechanic"] = {
         label = "Mechanic Shop",
         blip = {
