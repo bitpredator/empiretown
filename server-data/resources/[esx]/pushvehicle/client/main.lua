@@ -9,8 +9,6 @@ local NetworkGetEntityOwner = NetworkGetEntityOwner
 local NetworkGetEntityFromNetworkId = NetworkGetEntityFromNetworkId
 local NetworkGetNetworkIdFromEntity = NetworkGetNetworkIdFromEntity
 local SetVehicleForwardSpeed = SetVehicleForwardSpeed
-local SetVehicleEngineOn = SetVehicleEngineOn
-local SetVehicleBrake = SetVehicleBrake
 local SetVehicleSteeringAngle = SetVehicleSteeringAngle
 local DisableControlAction = DisableControlAction
 local IsDisabledControlPressed = IsDisabledControlPressed
@@ -19,9 +17,9 @@ local TaskPlayAnim = TaskPlayAnim
 local IsEntityUpsidedown = IsEntityUpsidedown
 local IsEntityAttachedToAnyVehicle = IsEntityAttachedToAnyVehicle
 local IsEntityInAir = IsEntityInAir
-local ped = cache.ped
-local playerId = cache.playerId
-local seat = cache.seat
+local ped = PlayerPedId()
+local playerId = PlayerId()
+local seat = -1
 local pushing, remotepush = false, false
 local vehiclepushing, keybind = nil, nil
 local uiThreadRunning = false
@@ -45,7 +43,7 @@ if Config.TextUI then
                     end
                 else
                     local coords = GetEntityCoords(ped)
-                    local vehicle = lib.getClosestVehicle(coords, 5.0, false)
+                    local vehicle = GetVehiclePedIsIn(ped, false)
                     if not vehicle then
                         if uiOpen then
                             lib.hideTextUI()

@@ -32,7 +32,7 @@ RegisterNetEvent("OT_pushvehicle:stopPushing", function(netid)
     pushing[src] = nil
     beingpushed[netid] = nil
     if Config.useOTSkills then
-        local xpgain = math.round((os.time() - skilltrack[src]) / 1.5)
+    local xpgain = (os.time() - skilltrack[src]) / 1.5
         if xpgain >= 2.0 then
             exports.OT_skills:addXP(src, "strength", xpgain <= Config.maxReward and xpgain or Config.maxReward)
         end
