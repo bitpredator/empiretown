@@ -1,6 +1,8 @@
 -- AFK Kick Time Limit (in seconds)
 SecondsUntilKick = 600
 KickWarning = true
+local PlayerPed, PrevPos, CurrentPos  = nil, nil, nil
+local Time = SecondsUntilKick
 
 Citizen.CreateThread(function()
     while true do
