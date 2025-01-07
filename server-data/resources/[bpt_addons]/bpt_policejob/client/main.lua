@@ -1272,7 +1272,7 @@ ESX.RegisterInput("police:interact", "(ESX PoliceJob) " .. TranslateCap("interac
         return
     end
 
-    if not ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == "police") then
+    if not ESX.PlayerData.job or (ESX.Playerdata.job and ESX.PlayerData.job.name ~= "police") then
         return
     end
     if CurrentAction == "menu_cloakroom" then
