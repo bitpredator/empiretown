@@ -300,7 +300,7 @@ RegisterNetEvent("esx-radialmenu:client:setExtra", function(data)
     local replace = string:gsub("extra", "")
     local extra = tonumber(replace)
     local ped = PlayerPedId()
-    local veh = GetVehiclePedIsIn(ped)
+    local veh = GetVehiclePedIsIn(ped, false)
     if veh ~= nil then
         if GetPedInVehicleSeat(veh, -1) == ped then
             SetVehicleAutoRepairDisabled(veh, true) -- Forces Auto Repair off when Toggling Extra [GTA 5 Niche Issue]
@@ -337,8 +337,10 @@ end)
 
 RegisterNetEvent("esx-radialmenu:client:ChangeSeat", function(data)
     local PlayerPedId = PlayerPedId()
+    local Veh = GetVehiclePedIsIn(PlayerPedId, false)
     local IsSeatFree = IsVehicleSeatFree(Veh, data.id)
     local speed = GetEntitySpeed(Veh)
+    local HasHarnass
     if not HasHarnass then
         local kmh = speed * 3.6
         if IsSeatFree then
