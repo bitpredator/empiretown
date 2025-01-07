@@ -165,4 +165,6 @@ Locales["en"] = {
     ["society_police"] = "Police",
     ["received_firearms_license"] = "You have received your firearms license",
     ["released_gun_licence"] = "you have issued your gun licence",
+    -- Jail
+    ["jail_menu"] = "Jail menu",
 }

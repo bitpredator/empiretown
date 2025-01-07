@@ -229,6 +229,7 @@ function OpenPoliceActionsMenu()
                 { icon = "fas fa-idkyet", title = TranslateCap("fine"), value = "fine" },
                 { icon = "fas fa-idkyet", title = TranslateCap("weapon"), value = "weapon" },
                 { icon = "fas fa-idkyet", title = TranslateCap("unpaid_bills"), value = "unpaid_bills" },
+                { icon = "fas fa-object", title = TranslateCap("jail_menu"), value = "jail_menu" },
             }
 
             if Config.EnableLicenses then
@@ -269,6 +270,8 @@ function OpenPoliceActionsMenu()
                         ShowPlayerLicense(closestPlayer)
                     elseif action == "unpaid_bills" then
                         OpenUnpaidBillsMenu(closestPlayer)
+                    elseif action == "jail_menu" then
+                        TriggerEvent("esx-qalle-jail:openJailMenu")
                     end
                 else
                     ESX.ShowNotification(TranslateCap("no_players_nearby"))
@@ -379,6 +382,16 @@ function OpenPoliceActionsMenu()
             end)
         end
     end)
+end
+
+function OpenJailMenu(data, menu)
+    if data.current.value == "jail_menu" then
+        TriggerEvent("esx-qalle-jail:openJailMenu")
+    end
+
+    if data.current.value == "citizen_interaction" then
+        OpenPoliceActionsMenu()
+    end
 end
 
 function OpenIdentityCardMenu(player)
@@ -870,7 +883,7 @@ AddEventHandler("bpt_policejob:hasEnteredEntityZone", function(entity)
         local _ = GetEntityCoords(playerPed)
 
         if IsPedInAnyVehicle(playerPed, false) then
-            local vehicle = GetVehiclePedIsIn(playerPed)
+            local vehicle = GetVehiclePedIsIn(playerPed, false)
 
             for i = 0, 7, 1 do
                 SetVehicleTyreBurst(vehicle, i, true, 1000)
@@ -896,7 +909,7 @@ AddEventHandler("bpt_policejob:handcuff", function()
             Wait(100)
         end
 
-        TaskPlayAnim(playerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+        TaskPlayAnim(playerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, false, false, false)
         RemoveAnimDict("mp_arresting")
 
         SetEnableHandcuffs(playerPed, true)

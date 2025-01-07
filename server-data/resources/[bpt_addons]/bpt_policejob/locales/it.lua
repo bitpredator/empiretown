@@ -163,4 +163,6 @@ Locales["it"] = {
     ["weapon"] = "Porto D'armi",
     ["received_firearms_license"] = "Hai ricevuto il porto d'armi",
     ["released_gun_licence"] = "Hai rilasciato il porto d'armi",
+    -- Jail
+    ["jail_menu"] = "Menu Carcere",
 }
