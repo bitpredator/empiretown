@@ -340,7 +340,7 @@ RegisterNetEvent("esx-radialmenu:client:ChangeSeat", function(data)
     local Veh = GetVehiclePedIsIn(PlayerPedId, false)
     local IsSeatFree = IsVehicleSeatFree(Veh, data.id)
     local speed = GetEntitySpeed(Veh)
-    local HasHarnass
+    local HasHarnass = (PlayerPedId) and IsPedInAnyVehicle(PlayerPedId, false)
     if not HasHarnass then
         local kmh = speed * 3.6
         if IsSeatFree then
