@@ -29,7 +29,7 @@ function OpenAmbulanceActionsMenu()
         if element.value == "cloakroom" then
             OpenCloakroomMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("bpt_society:openBossMenu", "ambulance", function(data, menu)
+            TriggerEvent("bpt_society:openBossMenu", "ambulance", function()
                 menu.close()
             end, { wash = false })
         end
@@ -164,7 +164,7 @@ function RevivePlayer(closestPlayer)
                 local lib, anim = "mini@cpr@char_a@cpr_str", "cpr_pumpchest"
                 ESX.ShowNotification(TranslateCap("revive_inprogress"))
 
-                for i = 1, 15 do
+                for _ = 1, 15 do
                     Wait(900)
 
                     ESX.Streaming.RequestAnimDict(lib, function()
@@ -183,24 +183,6 @@ function RevivePlayer(closestPlayer)
         end
         IsBusy = false
     end, "medikit")
-end
-
-function FastTravel(coords, heading)
-    local playerPed = PlayerPedId()
-
-    DoScreenFadeOut(800)
-
-    while not IsScreenFadedOut() do
-        Wait(500)
-    end
-
-    ESX.Game.Teleport(playerPed, coords, function()
-        DoScreenFadeIn(800)
-
-        if heading then
-            SetEntityHeading(playerPed, heading)
-        end
-    end)
 end
 
 -- Draw markers & Marker logic
