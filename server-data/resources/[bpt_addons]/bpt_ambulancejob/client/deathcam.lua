@@ -1,5 +1,5 @@
 function GetShapeTestResultSync(shape)
-    local handle, hit, coords, normal, entity
+    local handle, hit, coords, normal, entity, Sleep
     repeat
         handle, hit, coords, normal, entity = GetShapeTestResult(shape)
     until handle ~= 1 or Wait(Sleep)
