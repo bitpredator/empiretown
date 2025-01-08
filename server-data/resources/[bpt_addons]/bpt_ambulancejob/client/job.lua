@@ -306,17 +306,16 @@ CreateThread(function()
                 CurrentAction = nil
             end
         end
-
-        local playerCoords, letSleep = GetEntityCoords(PlayerPedId()), true
+        GetEntityCoords(PlayerPedId())
         Wait(sleep)
     end
 end)
 
-RegisterCommand("ambulance", function(src)
+RegisterCommand("ambulance", function()
     if ESX.PlayerData.job and ESX.PlayerData.job.name == "ambulance" and not ESX.PlayerData.dead then
         OpenMobileAmbulanceActionsMenu()
     end
-end)
+end, false)
 
 RegisterKeyMapping("ambulance", "Open Ambulance Actions Menu", "keyboard", "F6")
 
@@ -372,7 +371,7 @@ function OpenCloakroomMenu()
                 end
 
                 isOnDuty = true
-                ESX.TriggerServerCallback("bpt_ambulancejob:getDeadPlayers", function(_deadPlayers)
+                ESX.TriggerServerCallback("bpt_ambulancejob:getDeadPlayers", function()
                     TriggerEvent("bpt_ambulancejob:setDeadPlayers", _deadPlayers)
                 end)
                 if Config.Debug then
@@ -441,7 +440,7 @@ AddEventHandler("bpt_ambulancejob:PlayerNotDead", function(Player)
 end)
 
 RegisterNetEvent("bpt_ambulancejob:setDeadPlayers")
-AddEventHandler("bpt_ambulancejob:setDeadPlayers", function(_deadPlayers)
+AddEventHandler("bpt_ambulancejob:setDeadPlayers", function()
     deadPlayers = _deadPlayers
 
     if isOnDuty then
