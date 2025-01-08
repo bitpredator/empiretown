@@ -22,7 +22,7 @@ end
 
 function EndDeathCam()
     RenderScriptCams(false, false, 0, false, false)
-    camera = DestroyCam(camera)
+    DestroyCam(camera, false)
 end
 
 function ProcessCamControls()
@@ -34,7 +34,7 @@ function ProcessCamControls()
     end
 
     local coords = ProcessNewPosition(playerCoords)
-    SetCamCoord(camera, coords)
+    SetCamCoord(camera, coords.x, coords.y, coords.z)
     PointCamAtCoord(camera, playerCoords.x, playerCoords.y, playerCoords.z)
 end
 

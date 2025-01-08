@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local firstSpawn = true
 IsDead, IsSearched, Medic = false, false, 0
 
@@ -39,7 +40,7 @@ end)
 -- Create blips
 CreateThread(function()
     for k, v in pairs(Config.Hospitals) do
-        local blip = AddBlipForCoord(v.Blip.coords)
+        local blip = AddBlipForCoord(v.Blip.coords.x, v.Blip.coords.y, v.Blip.coords.z)
 
         SetBlipSprite(blip, v.Blip.sprite)
         SetBlipScale(blip, v.Blip.scale)
@@ -330,11 +331,11 @@ end
 
 function RespawnPed(ped, coords, heading)
     SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z, false, false, false)
-    NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, false)
+    NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, 1, false)
     SetPlayerInvincible(ped, false)
     ClearPedBloodDamage(ped)
 
-    TriggerEvent("esx_basicneeds:resetStatus")
+    TriggerEvent("bpt_basicneeds:resetStatus")
     TriggerServerEvent("esx:onPlayerSpawn")
     TriggerEvent("esx:onPlayerSpawn")
     TriggerEvent("playerSpawned") -- compatibility with old scripts, will be removed soon

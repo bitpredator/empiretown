@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 local CurrentAction, CurrentActionMsg, CurrentActionData, billing = nil, "", {}, {}
 local HasAlreadyEnteredMarker, LastHospital, LastPart, LastPartNum
 local IsBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
