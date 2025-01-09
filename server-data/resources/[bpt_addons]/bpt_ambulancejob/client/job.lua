@@ -140,6 +140,7 @@ function OpenMobileAmbulanceActionsMenu()
                 }
 
                 ESX.OpenContext("right", elements2, function(menu2)
+                    local GetPlayersServerId = GetPlayerServerId
                     local amount = tonumber(menu2.eles[2].inputValue)
                     if amount == nil then
                         ESX.ShowNotification(TranslateCap("invalid_amount"))
@@ -449,7 +450,6 @@ end)
 
 RegisterNetEvent("bpt_ambulancejob:setDeadPlayers")
 AddEventHandler("bpt_ambulancejob:setDeadPlayers", function()
-    local _ = _deadPlayers
 
     if isOnDuty then
         for playerId, v in pairs(deadPlayerBlips) do
