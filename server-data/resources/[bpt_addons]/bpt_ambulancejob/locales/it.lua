@@ -60,9 +60,9 @@ Locales["it"] = {
     ["ems_menu_putincar"] = "Metti in Veicolo",
     ["ems_menu_small"] = "Cura ferite leggere",
     ["ems_menu_big"] = "Tratta ferite gravi",
-    ["ems_menu_search"] = "Paziente non trovato",
+    ["ems_menu_search"] = "Cerca i documenti",
     -- Telefono
-    ["alert_ambulance"] = "Chiedi l'ambulanza",
+    ["alert_ambulance"] = "Chiama l'ambulanza",
     -- Morte
     ["respawn_available_in"] = "Puoi rinascere tra %s minuti %s secondi",
     ["respawn_bleedout_in"] = "Sanguinerai a morte tra %s minuti %s secondi\n",
