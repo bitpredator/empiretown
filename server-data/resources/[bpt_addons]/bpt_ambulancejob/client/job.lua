@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global
 
-local CurrentAction, CurrentActionMsg, CurrentActionData, billing = nil, "", {}, {}
+local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local HasAlreadyEnteredMarker, LastHospital, LastPart, LastPartNum
 local IsBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
 IsInShopMenu = false
@@ -51,7 +51,7 @@ function OpenMobileAmbulanceActionsMenu()
                 { icon = "fas fa-bandage", title = TranslateCap("ems_menu_big"), value = "big" },
                 { icon = "fas fa-car", title = TranslateCap("ems_menu_putincar"), value = "put_in_vehicle" },
                 { icon = "fas fa-syringe", title = TranslateCap("ems_menu_search"), value = "search" },
-                { icon = "fas fa-syringe", title = TranslateCap("billing"), value = "billing" },
+                { icon = "fas fa-money-bill", title = TranslateCap("billing"), value = "billing" },
             }
 
             ESX.OpenContext("right", elements2, function(menu2, element2)
@@ -124,33 +124,40 @@ function OpenMobileAmbulanceActionsMenu()
                     end
                 end
             end)
-        end
-    end)
-end
 
--- billing
-if billing == "billing" then
-    ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "billing", {
-        title = TranslateCap("invoice_amount"),
-    }, function(data, menu)
-        local amount = tonumber(data.value)
-        if amount == nil then
-            ESX.ShowNotification(TranslateCap("amount_invalid"))
-        else
-            menu.close()
-            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-            if closestPlayer == -1 or closestDistance > 3.0 then
-                ESX.ShowNotification(TranslateCap("no_players_near"))
-            else
-                TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ambulance", "Ambulance", amount)
-                ESX.ShowNotification(TranslateCap("billing_sent"))
+            if element.value == "billing" then
+                local elements2 = {
+                    { unselectable = true, icon = "fas fa-money-bill", title = TranslateCap("billing") },
+                    {
+                        title = TranslationCap("billing_amount"),
+                        input = true,
+                        inputType = "number",
+                        inputMin = 1,
+                        inputMax = 10000000,
+                        inputPlaceholder = TranslateCap("amount"),
+                    },
+                    { icon = "fas fa-chech-double", title = TranslateCap("confirm"), value = "confirm" },
+                }
+
+                ESX.OpenContext("right", elements2, function(menu2)
+                    local amount = tonumber(menu2.eles[2].inputValue)
+                    if amount == nil then
+                        ESX.ShowNotification(TranslateCap("invalid_amount"))
+                    else
+                        ESX.CloseContext()
+                        local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+                        if closestPlayer == -1 or closestDistance > 3.0 then
+                            ESX.ShowNotification(TranslateCap("no_players"))
+                        else
+                            TriggerServerEvent("bpt_billing:sendBill", GetPlayersServerId(closestPlayer), "society_ambulance", "Ambulance", amount)
+                            ESX.ShowNotification(TranslateCap(billing_sent))
+                        end
+                    end
+                end)
             end
         end
-    end, function(_, menu)
-        menu.close()
     end)
 end
--- end billing
 
 function RevivePlayer(closestPlayer)
     IsBusy = true
