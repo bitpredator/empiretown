@@ -50,7 +50,7 @@ function OpenMobileAmbulanceActionsMenu()
                 { icon = "fas fa-bandage", title = TranslateCap("ems_menu_small"), value = "small" },
                 { icon = "fas fa-bandage", title = TranslateCap("ems_menu_big"), value = "big" },
                 { icon = "fas fa-car", title = TranslateCap("ems_menu_putincar"), value = "put_in_vehicle" },
-                { icon = "fas fa-syringe", title = TranslateCap("ems_menu_search"), value = "search" },
+                { icon = "fas fa-search", title = TranslateCap("ems_menu_search"), value = "search" },
                 { icon = "fas fa-money-bill", title = TranslateCap("billing"), value = "billing" },
             }
 
@@ -129,7 +129,7 @@ function OpenMobileAmbulanceActionsMenu()
                 local elements2 = {
                     { unselectable = true, icon = "fas fa-money-bill", title = TranslateCap("billing") },
                     {
-                        title = TranslationCap("billing_amount"),
+                        title = TranslateCap("billing_amount"),
                         input = true,
                         inputType = "number",
                         inputMin = 1,
@@ -150,7 +150,7 @@ function OpenMobileAmbulanceActionsMenu()
                             ESX.ShowNotification(TranslateCap("no_players"))
                         else
                             TriggerServerEvent("bpt_billing:sendBill", GetPlayersServerId(closestPlayer), "society_ambulance", "Ambulance", amount)
-                            ESX.ShowNotification(TranslateCap(billing_sent))
+                            ESX.ShowNotification(TranslateCap("billing_sent"))
                         end
                     end
                 end)
@@ -378,6 +378,7 @@ function OpenCloakroomMenu()
                 end
 
                 isOnDuty = true
+                local _deadPlayers = deadPlayers
                 ESX.TriggerServerCallback("bpt_ambulancejob:getDeadPlayers", function()
                     TriggerEvent("bpt_ambulancejob:setDeadPlayers", _deadPlayers)
                 end)
@@ -448,7 +449,7 @@ end)
 
 RegisterNetEvent("bpt_ambulancejob:setDeadPlayers")
 AddEventHandler("bpt_ambulancejob:setDeadPlayers", function()
-    deadPlayers = _deadPlayers
+    local _ = _deadPlayers
 
     if isOnDuty then
         for playerId, v in pairs(deadPlayerBlips) do
