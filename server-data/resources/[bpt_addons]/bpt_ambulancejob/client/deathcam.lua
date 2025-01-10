@@ -48,6 +48,6 @@ function ProcessNewPosition(playerCoords)
     end
     local normal = vector3(math.sin(y) * math.cos(x), math.sin(y) * math.sin(x), math.cos(y))
     local pos = playerCoords + normal * camera_radius
-    local hit, coords = GetShapeTestResultSync(StartShapeTestLosProbe(playerCoords, pos, -1, playerPed))
+    local hit, coords = GetShapeTestResultSync(StartShapeTestLosProbe(playerCoords, 0, -1, playerPed, 7, playerPed, 0, 7, 0))
     return (hit == 1 and playerCoords + normal * (#(playerCoords - coords) - 1)) or pos
 end
