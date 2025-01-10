@@ -124,6 +124,7 @@ function OpenMobileAmbulanceActionsMenu()
                     end
                     if element.value == "billing" then
                         local elements2 = {
+                            { unselectable = true, icon = "fas fa-money-bill", title = TranslateCap("billing")},
                             {
                                 title = TranslateCap("amount"),
                                 input = true,
@@ -139,7 +140,6 @@ function OpenMobileAmbulanceActionsMenu()
                             ESX.ShowNotification(TranslateCap("amount_invalid"))
                         else
                             ESX.CloseContext()
-                            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
                             if closestPlayer == -1 or closestDistance > 3.0 then
                                 ESX.ShowNotification(TranslateCap("no_players_near"))
                             else
