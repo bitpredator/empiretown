@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 local playersHealing, deadPlayers = {}, {}
 
 if GetResourceState("npwd") ~= "missing" then
@@ -42,7 +44,7 @@ AddEventHandler("bpt_ambulancejob:revive", function(playerId)
                         xPlayer.triggerEvent("bpt_ambulancejob:PlayerNotDead", playerId)
                     end
                 end
-                deadPlayers[playerId] = nil
+                deadPlayers[playerId] = "distress"
             else
                 xPlayer.showNotification(TranslateCap("player_not_unconscious"))
             end

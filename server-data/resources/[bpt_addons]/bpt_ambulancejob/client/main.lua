@@ -1,5 +1,6 @@
+---@diagnostic disable: undefined-global
 local firstSpawn = true
-IsDead, IsSearched, Medic = false, false, 0
+IsDead, IsSearched = false, false
 
 RegisterNetEvent("esx:playerLoaded")
 AddEventHandler("esx:playerLoaded", function(xPlayer)
@@ -38,8 +39,8 @@ end)
 
 -- Create blips
 CreateThread(function()
-    for k, v in pairs(Config.Hospitals) do
-        local blip = AddBlipForCoord(v.Blip.coords)
+    for _, v in pairs(Config.Hospitals) do
+        local blip = AddBlipForCoord(v.Blip.coords.x, v.Blip.coords.y, v.Blip.coords.z)
 
         SetBlipSprite(blip, v.Blip.sprite)
         SetBlipScale(blip, v.Blip.scale)
@@ -139,6 +140,7 @@ function StartDeathLoop()
             ProcessCamControls()
             if IsSearched then
                 local playerPed = PlayerPedId()
+                local medic = Medic or 0
                 local ped = GetPlayerPed(GetPlayerFromServerId(medic))
                 IsSearched = false
 
@@ -177,7 +179,7 @@ end
 
 function SendDistressSignal()
     local playerPed = PlayerPedId()
-    local coords = GetEntityCoords(playerPed)
+    GetEntityCoords(playerPed)
 
     ESX.ShowNotification(TranslateCap("distress_sent"))
     TriggerServerEvent("bpt_ambulancejob:onPlayerDistress")
@@ -194,7 +196,7 @@ function DrawGenericTextThisFrame()
 end
 
 function SecondsToClock(seconds)
-    local seconds, hours, mins, secs = tonumber(seconds), 0, 0, 0
+   local seconds, hours, mins, secs = tonumber(seconds), 0, 0, 0
 
     if seconds <= 0 then
         return 0, 0
@@ -330,11 +332,11 @@ end
 
 function RespawnPed(ped, coords, heading)
     SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z, false, false, false)
-    NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, false)
+    NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, 1, false)
     SetPlayerInvincible(ped, false)
     ClearPedBloodDamage(ped)
 
-    TriggerEvent("esx_basicneeds:resetStatus")
+    TriggerEvent("bpt_basicneeds:resetStatus")
     TriggerServerEvent("esx:onPlayerSpawn")
     TriggerEvent("esx:onPlayerSpawn")
     TriggerEvent("playerSpawned") -- compatibility with old scripts, will be removed soon

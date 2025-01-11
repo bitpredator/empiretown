@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local spawnedVehicles = {}
 
 function OpenVehicleSpawnerMenu(type, hospital, part, partNum)

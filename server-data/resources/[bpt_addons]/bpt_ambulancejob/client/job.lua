@@ -1,4 +1,6 @@
-local CurrentAction, CurrentActionMsg, CurrentActionData, billing = nil, "", {}, {}
+---@diagnostic disable: undefined-global
+
+local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local HasAlreadyEnteredMarker, LastHospital, LastPart, LastPartNum
 local IsBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
 IsInShopMenu = false
@@ -27,7 +29,7 @@ function OpenAmbulanceActionsMenu()
         if element.value == "cloakroom" then
             OpenCloakroomMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("bpt_society:openBossMenu", "ambulance", function(data, menu)
+            TriggerEvent("bpt_society:openBossMenu", "ambulance", function()
                 menu.close()
             end, { wash = false })
         end
@@ -48,8 +50,8 @@ function OpenMobileAmbulanceActionsMenu()
                 { icon = "fas fa-bandage", title = TranslateCap("ems_menu_small"), value = "small" },
                 { icon = "fas fa-bandage", title = TranslateCap("ems_menu_big"), value = "big" },
                 { icon = "fas fa-car", title = TranslateCap("ems_menu_putincar"), value = "put_in_vehicle" },
-                { icon = "fas fa-syringe", title = TranslateCap("ems_menu_search"), value = "search" },
-                { icon = "fas fa-syringe", title = TranslateCap("billing"), value = "billing" },
+                { icon = "fas fa-search", title = TranslateCap("ems_menu_search"), value = "search" },
+                { icon = "fas fa-money-bill", title = TranslateCap("billing"), value = "billing" },
             }
 
             ESX.OpenContext("right", elements2, function(menu2, element2)
@@ -126,29 +128,32 @@ function OpenMobileAmbulanceActionsMenu()
     end)
 end
 
--- billing
-if billing == "billing" then
-    ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "billing", {
-        title = TranslateCap("invoice_amount"),
-    }, function(data, menu)
-        local amount = tonumber(data.value)
-        if amount == nil then
-            ESX.ShowNotification(TranslateCap("amount_invalid"))
+if value == "billing" then
+    local elements2 = {
+        { unselectable = true, icon = "fas fa-money-bill", title = TranslateCap("billing")},
+        {
+            title = TranslateCap("amount"),
+            input = true,
+            inputType = "number",
+            inputMin = 1,
+            inputMax = 10000000,
+            inputPlaceholder = TranslateCap("bill_amount"),
+        },
+        { icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
+    }
+    local amount = tonumber(menu2.eles[2].inputValue)
+    if amount == nil then
+        ESX.ShowNotification(TranslateCap("amount_invalid"))
+    else
+        ESX.CloseContext()
+        if closestPlayer == -1 or closestDistance > 3.0 then
+            ESX.ShowNotification(TranslateCap("no_players_near"))
         else
-            menu.close()
-            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-            if closestPlayer == -1 or closestDistance > 3.0 then
-                ESX.ShowNotification(TranslateCap("no_players_near"))
-            else
-                TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ambulance", "Ambulance", amount)
-                ESX.ShowNotification(TranslateCap("billing_sent"))
-            end
+            TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ballas", "Ballas", amount)
+            ESX.ShowNotification(TranslateCap("billing_sent"))
         end
-    end, function(_, menu)
-        menu.close()
-    end)
+    end
 end
--- end billing
 
 function RevivePlayer(closestPlayer)
     IsBusy = true
@@ -162,7 +167,7 @@ function RevivePlayer(closestPlayer)
                 local lib, anim = "mini@cpr@char_a@cpr_str", "cpr_pumpchest"
                 ESX.ShowNotification(TranslateCap("revive_inprogress"))
 
-                for i = 1, 15 do
+                for _ = 1, 15 do
                     Wait(900)
 
                     ESX.Streaming.RequestAnimDict(lib, function()
@@ -181,24 +186,6 @@ function RevivePlayer(closestPlayer)
         end
         IsBusy = false
     end, "medikit")
-end
-
-function FastTravel(coords, heading)
-    local playerPed = PlayerPedId()
-
-    DoScreenFadeOut(800)
-
-    while not IsScreenFadedOut() do
-        Wait(500)
-    end
-
-    ESX.Game.Teleport(playerPed, coords, function()
-        DoScreenFadeIn(800)
-
-        if heading then
-            SetEntityHeading(playerPed, heading)
-        end
-    end)
 end
 
 -- Draw markers & Marker logic
@@ -322,17 +309,16 @@ CreateThread(function()
                 CurrentAction = nil
             end
         end
-
-        local playerCoords, letSleep = GetEntityCoords(PlayerPedId()), true
+        GetEntityCoords(PlayerPedId())
         Wait(sleep)
     end
 end)
 
-RegisterCommand("ambulance", function(src)
+RegisterCommand("ambulance", function()
     if ESX.PlayerData.job and ESX.PlayerData.job.name == "ambulance" and not ESX.PlayerData.dead then
         OpenMobileAmbulanceActionsMenu()
     end
-end)
+end, false)
 
 RegisterKeyMapping("ambulance", "Open Ambulance Actions Menu", "keyboard", "F6")
 
@@ -388,7 +374,8 @@ function OpenCloakroomMenu()
                 end
 
                 isOnDuty = true
-                ESX.TriggerServerCallback("bpt_ambulancejob:getDeadPlayers", function(_deadPlayers)
+                local _deadPlayers = deadPlayers
+                ESX.TriggerServerCallback("bpt_ambulancejob:getDeadPlayers", function()
                     TriggerEvent("bpt_ambulancejob:setDeadPlayers", _deadPlayers)
                 end)
                 if Config.Debug then
@@ -457,9 +444,7 @@ AddEventHandler("bpt_ambulancejob:PlayerNotDead", function(Player)
 end)
 
 RegisterNetEvent("bpt_ambulancejob:setDeadPlayers")
-AddEventHandler("bpt_ambulancejob:setDeadPlayers", function(_deadPlayers)
-    deadPlayers = _deadPlayers
-
+AddEventHandler("bpt_ambulancejob:setDeadPlayers", function()
     if isOnDuty then
         for playerId, v in pairs(deadPlayerBlips) do
             RemoveBlip(v)
