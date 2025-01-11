@@ -122,36 +122,37 @@ function OpenMobileAmbulanceActionsMenu()
                     elseif element2.value == "put_in_vehicle" then
                         TriggerServerEvent("bpt_ambulancejob:putInVehicle", GetPlayerServerId(closestPlayer))
                     end
-                    if element.value == "billing" then
-                        local elements2 = {
-                            { unselectable = true, icon = "fas fa-money-bill", title = TranslateCap("billing")},
-                            {
-                                title = TranslateCap("amount"),
-                                input = true,
-                                inputType = "number",
-                                inputMin = 1,
-                                inputMax = 10000000,
-                                inputPlaceholder = TranslateCap("bill_amount"),
-                            },
-                            { icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
-                        }
-                        local amount = tonumber(menu2.eles[2].inputValue)
-                        if amount == nil then
-                            ESX.ShowNotification(TranslateCap("amount_invalid"))
-                        else
-                            ESX.CloseContext()
-                            if closestPlayer == -1 or closestDistance > 3.0 then
-                                ESX.ShowNotification(TranslateCap("no_players_near"))
-                            else
-                                TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ballas", "Ballas", amount)
-                                ESX.ShowNotification(TranslateCap("billing_sent"))
-                            end
-                        end
-                    end
                 end
             end)
         end
     end)
+end
+
+if value == "billing" then
+    local elements2 = {
+        { unselectable = true, icon = "fas fa-money-bill", title = TranslateCap("billing")},
+        {
+            title = TranslateCap("amount"),
+            input = true,
+            inputType = "number",
+            inputMin = 1,
+            inputMax = 10000000,
+            inputPlaceholder = TranslateCap("bill_amount"),
+        },
+        { icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
+    }
+    local amount = tonumber(menu2.eles[2].inputValue)
+    if amount == nil then
+        ESX.ShowNotification(TranslateCap("amount_invalid"))
+    else
+        ESX.CloseContext()
+        if closestPlayer == -1 or closestDistance > 3.0 then
+            ESX.ShowNotification(TranslateCap("no_players_near"))
+        else
+            TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ballas", "Ballas", amount)
+            ESX.ShowNotification(TranslateCap("billing_sent"))
+        end
+    end
 end
 
 function RevivePlayer(closestPlayer)
