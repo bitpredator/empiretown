@@ -2,7 +2,7 @@ Locales["it"] = {
     -- Armadietto
     ["cloakroom"] = "spogliatoio",
     ["citizen_wear"] = "Vestito civile",
-    ["police_wear"] = "Divisa di polizia",
+    ["police_wear"] = "Divisa polizia",
     ["gilet_wear"] = "Giubbotto riflettente arancione",
     ["bullet_wear"] = "Giubbotto antiproiettile",
     ["no_outfit"] = "Non c'è una divisa adatta a te!",
@@ -15,8 +15,6 @@ Locales["it"] = {
     ["buy_weapons"] = "Acquista armi",
     ["armory"] = "armeria",
     ["open_armory"] = "Premi [E] per accedere all'Armeria.",
-    ["armory_owned"] = "posseduto",
-    ["armory_free"] = "gratuito",
     ["armory_item"] = "$%s",
     ["armory_weapontitle"] = "armeria - Acquista arma",
     ["armory_componenttitle"] = "armeria - Accessori arma",
@@ -163,6 +161,5 @@ Locales["it"] = {
     ["weapon"] = "Porto D'armi",
     ["received_firearms_license"] = "Hai ricevuto il porto d'armi",
     ["released_gun_licence"] = "Hai rilasciato il porto d'armi",
-    -- Jail
     ["jail_menu"] = "Menu Carcere",
 }

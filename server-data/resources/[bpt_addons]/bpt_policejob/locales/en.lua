@@ -15,8 +15,6 @@ Locales["en"] = {
     ["buy_weapons"] = "buy weapons",
     ["armory"] = "armory",
     ["open_armory"] = "press [E] to access the Armory.",
-    ["armory_owned"] = "owned",
-    ["armory_free"] = "free",
     ["armory_item"] = "$%s",
     ["armory_weapontitle"] = "armory - Buy weapon",
     ["armory_componenttitle"] = "armory - Weapon attatchments",
@@ -165,6 +163,4 @@ Locales["en"] = {
     ["society_police"] = "Police",
     ["received_firearms_license"] = "You have received your firearms license",
     ["released_gun_licence"] = "you have issued your gun licence",
-    -- Jail
-    ["jail_menu"] = "Jail menu",
 }
