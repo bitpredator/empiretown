@@ -100,7 +100,7 @@ function OpenMechanicActionsMenu()
             else
                 local elements2 = {
                     { unselectable = true, icon = "fas fa-car", title = TranslateCap("service_vehicle") },
-                    { icon = "fas fa-truck", title = TranslateCap("flat_bed"), value = "flatbed" },
+                    { icon = "fas fa-truck", title = TranslateCap("flat_bed"), value = "flatbed3" },
                     { icon = "fas fa-truck", title = TranslateCap("tow_truck"), value = "towtruck2" },
                 }
 
@@ -310,7 +310,7 @@ function OpenMobileMechanicActionsMenu()
             local playerPed = PlayerPedId()
             local vehicle = GetVehiclePedIsIn(playerPed, true)
 
-            local towmodel = `flatbed`
+            local towmodel = `flatbed3`
             local isVehicleTow = IsVehicleModel(vehicle, towmodel)
 
             if isVehicleTow then
@@ -706,7 +706,7 @@ CreateThread(function()
                     else
                         local entityModel = GetEntityModel(CurrentActionData.vehicle)
 
-                        if entityModel == `flatbed` or entityModel == `towtruck2` or entityModel == `slamvan3` then
+                        if entityModel == `flatbed3` or entityModel == `towtruck2` or entityModel == `slamvan3` then
                             TriggerServerEvent("esx_service:disableService", "mechanic")
                         end
                     end
@@ -738,7 +738,7 @@ RegisterCommand("mechanicjob", function()
                 ESX.ShowNotification(TranslateCap("wait_five"), "error")
             end
         else
-            if IsPedInAnyVehicle(playerPed, false) and IsVehicleModel(GetVehiclePedIsIn(playerPed, false), `flatbed`) then
+            if IsPedInAnyVehicle(playerPed, false) and IsVehicleModel(GetVehiclePedIsIn(playerPed, false), `flatbed3`) then
                 StartNPCJob()
             else
                 ESX.ShowNotification(TranslateCap("must_in_flatbed"), "error")

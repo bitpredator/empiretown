@@ -1581,7 +1581,6 @@ function ESX.GetVehicleTypeClient(model)
     local vehicleType = GetVehicleClassFromName(model)
     local types = {
         [8] = "bike",
-        [11] = "trailer",
         [13] = "bike",
         [14] = "boat",
         [15] = "heli",
