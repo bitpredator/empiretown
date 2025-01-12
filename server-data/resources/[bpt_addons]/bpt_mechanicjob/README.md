@@ -1,7 +1,7 @@
 <h1 align='center'>bpt_mechanicjob</a></h1>
 <p align='center'><a href='https://discord.gg/ksGfNvDEfq'>Discord</a>
 
-Copyright (C) 2022-2024 bitpredator
+Copyright (C) 2022-2025 bitpredator
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 
