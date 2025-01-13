@@ -165,7 +165,7 @@ function addNewCall(callID, timer, info, isPolice) {
 
 	DispatchItem += '</div></div>';
 
-	$('.dispatch-holder').append(DispatchItem);
+	$('.dispatch-holder').prepend(DispatchItem);
 
 	timer = 4000;
 
