@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local function billPlayerByIdentifier(targetIdentifier, senderIdentifier, sharedAccountName, label, amount)
     local xTarget = ESX.GetPlayerFromIdentifier(targetIdentifier)
     amount = ESX.Math.Round(amount)
@@ -135,24 +136,24 @@ ESX.RegisterServerCallback("bpt_billing:payBill", function(source, cb, billId)
                 return cb()
             end
         end
-
-        local rowsChanged = MySQL.update.await("DELETE FROM billing WHERE id = ?", { billId })
-        if rowsChanged ~= 1 then
-            return cb()
-        end
-
-        xPlayer.removeAccountMoney(paymentAccount, amount, "Bill Paid")
-        account.addMoney(amount)
-
-        TriggerEvent("bpt_billing:paidBill", source, billId)
-
-        local groupedDigits = ESX.Math.GroupDigits(amount)
-        xPlayer.showNotification(TranslateCap("paid_invoice", groupedDigits))
-
-        if xTarget then
-            xTarget.showNotification(TranslateCap("received_payment", groupedDigits))
-        end
-
-        cb(true)
     end)
+
+    local rowsChanged = MySQL.update.await("DELETE FROM billing WHERE id = ?", { billId })
+    if rowsChanged ~= 1 then
+        return cb()
+    end
+
+    xPlayer.removeAccountMoney(paymentAccount, amount, "Bill Paid")
+    account.addMoney(amount)
+
+    TriggerEvent("bpt_billing:paidBill", source, billId)
+
+    local groupedDigits = ESX.Math.GroupDigits(amount)
+    xPlayer.showNotification(TranslateCap("paid_invoice", groupedDigits))
+
+    if xTarget then
+        xTarget.showNotification(TranslateCap("received_payment", groupedDigits))
+    end
+
+    cb(true)
 end)

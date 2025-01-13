@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local isDead = false
 
 local function showBillsMenu()
