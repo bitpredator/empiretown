@@ -660,6 +660,25 @@ Config = {
                 ["recycled_paper"] = 2,
             },
         },
+
+        ["WEAPON_PISTOL_MK2"] = {
+            Level = 10,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 180,
+            Ingredients = {
+                ["copper"] = 1,
+                ["iron"] = 3,
+                ["wood"] = 1,
+                ["steel"] = 5,
+                ["hammer"] = 1,
+            },
+        },
     },
 
     Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
@@ -712,6 +731,7 @@ Config = {
                 "WEAPON_FLASHLIGHT",
                 "at_suppressor_light",
                 "WEAPON_COMBATSHOTGUN",
+                "WEAPON_PISTOL_MK2",
             },
             radius = 1.0,
         },
@@ -720,7 +740,6 @@ Config = {
             jobs = { "unicorn" },
             blip = false,
             recipes = { "almondmilk", "fries", "salmon_fillet", "grilled_salmon" },
-            --  "bread_deer",
             radius = 1.0,
         },
         {
