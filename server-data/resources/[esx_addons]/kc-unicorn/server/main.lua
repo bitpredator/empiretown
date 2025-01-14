@@ -287,10 +287,12 @@ AddEventHandler("kc-unicorn:NoPlaceAvailable", function()
     TriggerClientEvent("QBCore:Notify", src, Loc("AllPlacesTaken"), "error", 1700)
 end)
 
-AddEventHandler("onResourceStop", function()
-    DeleteEntity(PoledancePed1)
-    DeleteEntity(PoledancePed2)
-    print("Ped succesfully deleted")
+AddEventHandler("onResourceStop", function(resource)
+    if resource == GetCurrentResourceName() then
+        DeleteEntity(PoledancePed1)
+        DeleteEntity(PoledancePed2)
+        print("Ped succesfully deleted")
+    end
 end)
 
 RegisterServerEvent("kc-unicorn:poledancestop")
