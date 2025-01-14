@@ -3,8 +3,6 @@ local speedBuffer = {}
 local velBuffer = {}
 local beltOn = false
 local wasInCar = false
-local notifIn = false
-local notifOut = false
 
 function DrawUI(x, y, width, height, scale, text, r, g, b, a, center)
     SetTextFont(4)
