@@ -18,20 +18,6 @@ local fuelColorText = { 255, 255, 255 } -- Color used to display fuel text
 local fuelColorOver = { 255, 255, 255 } -- Color used to display fuel when good
 local fuelColorUnder = { 255, 96, 96 } -- Color used to display fuel warning
 
--- SEATBELT PARAMETERS
-local seatbeltInput = 252 -- Toggle seatbelt on/off with K or DPAD down (controller)
-local seatbeltPlaySound = true -- Play seatbelt sound
-local seatbeltDisableExit = true -- Disable vehicle exit when seatbelt is enabled
-local seatbeltEjectSpeed = 45.0 -- Speed threshold to eject player (MPH)
-local seatbeltEjectAccel = 100.0 -- Acceleration threshold to eject player (G's)
-local seatbeltColorOn = { 160, 255, 160 } -- Color used when seatbelt is on
-local seatbeltColorOff = { 255, 96, 96 } -- Color used when seatbelt is off
-
--- CRUISE CONTROL PARAMETERS
-local cruiseInput = 137 -- Toggle cruise on/off with CAPSLOCK or A button (controller)
-local cruiseColorOn = { 160, 255, 160 } -- Color used when seatbelt is on
-local cruiseColorOff = { 255, 255, 255 } -- Color used when seatbelt is off
-
 -- LOCATION AND TIME PARAMETERS
 local locationAlwaysOn = false -- Always display location and time
 local locationColorText = { 255, 255, 255 } -- Color used to display location and time
@@ -48,7 +34,6 @@ CreateThread(function()
     local cruiseSpeed = 999.0
     local prevVelocity = { x = 0.0, y = 0.0, z = 0.0 }
     local cruiseIsOn = false
-    local seatbeltIsOn = false
 
     while true do
         -- Loop forever and update HUD every frame
@@ -66,7 +51,6 @@ CreateThread(function()
             -- Reset states when not in car
             pedInVeh = false
             cruiseIsOn = false
-            seatbeltIsOn = false
         end
 
         -- Display Location and time when in any vehicle or on foot (if enabled)
@@ -81,36 +65,10 @@ CreateThread(function()
                 -- Set PED flags
                 SetPedConfigFlag(PlayerPedId(), 32, true)
 
-                -- Check if seatbelt button pressed, toggle state and handle seatbelt logic
-                if IsControlJustReleased(0, seatbeltInput) and (enableController or GetLastInputMethod(0)) and vehicleClass ~= 8 then
-                    -- Toggle seatbelt status and play sound when enabled
-                    seatbeltIsOn = not seatbeltIsOn
-                    if seatbeltPlaySound then
-                        PlaySoundFrontend(-1, "Faster_Click", "RESPAWN_ONLINE_SOUNDSET", true)
-                    end
-                end
-                if not seatbeltIsOn then
-                    -- Eject PED when moving forward, vehicle was going over 45 MPH and acceleration over 100 G's
-                    local vehIsMovingFwd = GetEntitySpeedVector(vehicle, true).y > 1.0
-                    local vehAcc = (prevSpeed - currSpeed) / GetFrameTime()
-                    if vehIsMovingFwd and (prevSpeed > (seatbeltEjectSpeed / 2.237)) and (vehAcc > (seatbeltEjectAccel * 9.81)) then
-                        SetEntityCoords(player, position.x, position.y, position.z, false, false, false, true)
-                        SetEntityVelocity(player, prevVelocity.x, prevVelocity.y, prevVelocity.z)
-                        Wait(1)
-                        SetPedToRagdoll(player, 1000, 1000, 0, false, false, false)
-                    else
-                        -- Update previous velocity for ejecting player
-                        prevVelocity = GetEntityVelocity(vehicle)
-                    end
-                elseif seatbeltDisableExit then
-                    -- Disable vehicle exit when seatbelt is on
-                    DisableControlAction(0, 75, true)
-                end
-
                 -- When player in driver seat, handle cruise control
                 if GetPedInVehicleSeat(vehicle, -1) == player then
                     -- Check if cruise control button pressed, toggle state and set maximum speed appropriately
-                    if IsControlJustReleased(0, cruiseInput) and (enableController or GetLastInputMethod(0)) then
+                    if IsControlJustReleased(0, 19) and (enableController or GetLastInputMethod(0) == 0) then
                         cruiseIsOn = not cruiseIsOn
                         cruiseSpeed = currSpeed
                     end
@@ -142,14 +100,8 @@ CreateThread(function()
                 DrawTxt("FUEL", 2, fuelColorText, 0.4, screenPosX + 0.085, screenPosY + 0.018)
 
                 -- Draw cruise control status
-                local cruiseColor = cruiseIsOn and cruiseColorOn or cruiseColorOff
+                local cruiseColor = cruiseIsOn and speedColorOver or speedColorUnder
                 DrawTxt("CRUISE", 2, cruiseColor, 0.4, screenPosX + 0.020, screenPosY + 0.048)
-
-                -- Draw seatbelt status if not a motorcyle
-                if vehicleClass ~= 8 then
-                    local seatbeltColor = seatbeltIsOn and seatbeltColorOn or seatbeltColorOff
-                    DrawTxt("SEATBELT", 2, seatbeltColor, 0.4, screenPosX + 0.080, screenPosY + 0.048)
-                end
             end
         end
     end
