@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local pushing = {}
 local beingpushed = {}
 local skilltrack = {}

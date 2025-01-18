@@ -100,7 +100,6 @@ return {
             { name = "burger", price = 70 },
             { name = "fishingrod", price = 100 },
             { name = "fishbait", price = 80 },
-            { name = "panettone", price = 40 },
         },
         locations = {
             vec3(25.846155, -1346.782471, 29.482056),
