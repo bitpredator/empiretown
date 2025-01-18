@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local AttachEntityToEntity = AttachEntityToEntity
 local GetEntityCoords = GetEntityCoords
 local GetEntityModel = GetEntityModel
@@ -345,9 +346,9 @@ if Config.target then
             for i = 1, #options do
                 options[i].bones = { "bonnet", "boot" }
             end
-            exports[targetSystem]:addGlobalVehicle(options)
+            exports.ox_target:addGlobalVehicle(options)
         else
-            exports[targetSystem]:addGlobalVehicle(options)
+            exports.ox_target:addGlobalVehicle(options)
         end
     elseif targetSystem == "qb-target" then
         if Config.Usebones then
