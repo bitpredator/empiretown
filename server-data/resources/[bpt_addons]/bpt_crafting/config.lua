@@ -554,6 +554,22 @@ Config = {
             },
         },
 
+        ["at_skin_luxe"] = {
+            Level = 0,
+            Category = "accessory",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["gold"] = 1,
+                ["hammer"] = 1,
+            },
+        },
+
         ["bread"] = {
             Level = 0,
             Category = "baker",
@@ -732,6 +748,7 @@ Config = {
                 "at_suppressor_light",
                 "WEAPON_COMBATSHOTGUN",
                 "WEAPON_PISTOL_MK2",
+                "at_skin_luxe",
             },
             radius = 1.0,
         },
