@@ -1,0 +1,11 @@
+RegisterNUICallback('get-news', function(_, cb)
+    lib.callback('z-phone:server:GetNews', false, function(news)
+        cb(news)
+    end)
+end)
+
+RegisterNUICallback('create-news', function(body, cb)
+    lib.callback('z-phone:server:CreateNews', false, function(news)
+        cb(news)
+    end, body)
+end)
