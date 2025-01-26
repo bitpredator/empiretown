@@ -5,10 +5,12 @@ import "./index.css";
 import { MenuProvider } from "./context/MenuContext";
 import axios from "axios";
 
-const resourceName = "z-phone";
-// const resourceName = "phone-mock.vercel.app";
-axios.defaults.baseURL = `https://${resourceName}`;
-axios.defaults.headers.common["Authorization"] = "Bearer ZPHONE";
+
+const resourceName = "localhost:3000";
+axios.defaults.baseURL = `http://${resourceName}`;
+axios.defaults.headers.common["Authorization"];
+axios.defaults.headers.get["Accept"] = "application/json";
+axios.defaults.headers.post["Accept"] = "application/json";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 axios.interceptors.request.use(
