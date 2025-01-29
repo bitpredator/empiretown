@@ -7,7 +7,7 @@ export function searchByKeyValueContains(data, key, value) {
 
 	return data.filter(
 		// eslint-disable-next-line no-shadow
-		(data) => data[key] && data[key].toLowerCase().includes(value.toLowerCase())
+		(data) => data[key] && data[key].toLowerCase().includes(value.toLowerCase()),
 	);
 }
 
@@ -36,7 +36,7 @@ export function getLoopsProfile(citizenid) {
 		return null;
 	}
 	const profile = localStorage.getItem(
-		LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE + "-" + citizenid
+		LOOPS_LOCAL_STORAGE_LOOPS_DATA_PROFILE + '-' + citizenid,
 	);
 	if (profile) {
 		const data = JSON.parse(profile);
@@ -61,15 +61,18 @@ export function convertFromKb(valueInKb) {
 	if (valueInKb < 1000) {
 		value = valueInKb;
 		unit = 'KB';
-	} else if (valueInKb < 1000 * 1000) {
+	}
+	else if (valueInKb < 1000 * 1000) {
 		value = valueInKb / 1000;
 		unit = 'MB';
-	} else if (valueInKb < 1000 * 1000 * 1000) {
+	}
+	else if (valueInKb < 1000 * 1000 * 1000) {
 		value = valueInKb / (1000 * 1000);
 		unit = 'GB';
-	} else {
+	}
+	else {
 		value = valueInKb / (1000 * 1000 * 1000);
-		unit = 'TB'; // Optionally, you can handle terabytes (TB) as well
+		unit = 'TB';
 	}
 
 	return `${parseFloat(value).toFixed(2)}${unit}`;
