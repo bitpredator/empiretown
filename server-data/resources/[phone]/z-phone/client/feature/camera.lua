@@ -10,12 +10,12 @@ local function CellFrontCamActivate(activate)
     return Citizen.InvokeNative(0x2491A93618B7D838, activate)
 end
 
-RegisterNUICallback('TakePhoto', function(_, cb)
+RegisterNUICallback("TakePhoto", function(_, cb)
     -- SendNUIMessage({
     --     event = 'z-phone',
     --     isOpen = false,
     -- })
-    
+
     SetNuiFocus(false, false)
     CreateMobilePhone(1)
     CellCamActivate(true, true)
@@ -30,12 +30,12 @@ RegisterNUICallback('TakePhoto', function(_, cb)
             cb(nil)
             break
         elseif IsControlJustPressed(1, 176) then -- TAKE.. PIC
-            lib.callback('z-phone:server:GetWebhook', false, function(hook)
-            if not hook then
-                    xCore.Notify('Camera not setup', 'error', 3000)
+            lib.callback("z-phone:server:GetWebhook", false, function(hook)
+                if not hook then
+                    xCore.Notify("Camera not setup", "error", 3000)
                     return
                 end
-                exports['screenshot-basic']:requestScreenshotUpload(tostring(hook), 'files[]', function(data)
+                exports["screenshot-basic"]:requestScreenshotUpload(tostring(hook), "files[]", function(data)
                     SaveToInternalGallery()
                     local image = json.decode(data)
                     DestroyMobilePhone()
@@ -58,8 +58,8 @@ RegisterNUICallback('TakePhoto', function(_, cb)
     -- OpenPhone()
     SetNuiFocus(true, true)
     if not PhoneData.CallData.InCall then
-        DoPhoneAnimation('cellphone_text_in')
+        DoPhoneAnimation("cellphone_text_in")
     else
-        DoPhoneAnimation('cellphone_call_to_text')
+        DoPhoneAnimation("cellphone_call_to_text")
     end
 end)
