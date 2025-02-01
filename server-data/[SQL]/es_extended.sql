@@ -56,9 +56,9 @@ CREATE TABLE IF NOT EXISTS `addon_account_data` (
 
 -- Dump dei dati della tabella es_extended.addon_account_data: ~13 rows (circa)
 INSERT INTO `addon_account_data` (`id`, `account_name`, `money`, `owner`) VALUES
-	(4, 'society_mechanic', 60, NULL),
+	(4, 'society_mechanic', 0, NULL),
 	(9, 'society_ambulance', 0, NULL),
-	(10, 'society_ammu', 1, NULL),
+	(10, 'society_ammu', 0, NULL),
 	(11, 'society_baker', 0, NULL),
 	(12, 'society_ballas', 0, NULL),
 	(13, 'society_banker', 0, NULL),
@@ -314,9 +314,9 @@ CREATE TABLE IF NOT EXISTS `datastore_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_datastore_data_name_owner` (`name`,`owner`),
   KEY `index_datastore_data_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=910 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=913 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.datastore_data: ~854 rows (circa)
+-- Dump dei dati della tabella es_extended.datastore_data: ~857 rows (circa)
 INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(3, 'society_mechanic', NULL, '{}'),
 	(5, 'property', NULL, '{}'),
@@ -1167,11 +1167,14 @@ INSERT INTO `datastore_data` (`id`, `name`, `owner`, `data`) VALUES
 	(897, 'property', NULL, '{}'),
 	(898, 'property', NULL, '{}'),
 	(899, 'property', NULL, '{}'),
-	(905, 'property', NULL, '{}'),
+	(900, 'property', NULL, '{}'),
 	(906, 'property', NULL, '{}'),
 	(907, 'property', NULL, '{}'),
 	(908, 'property', NULL, '{}'),
-	(909, 'property', NULL, '{}');
+	(909, 'property', NULL, '{}'),
+	(910, 'property', NULL, '{}'),
+	(911, 'property', NULL, '{}'),
+	(912, 'property', NULL, '{}');
 
 -- Dump della struttura di tabella es_extended.fine_types
 CREATE TABLE IF NOT EXISTS `fine_types` (
@@ -1889,7 +1892,7 @@ CREATE TABLE IF NOT EXISTS `zp_inetmax_histories` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `citizenid` (`citizenid`) USING BTREE,
   KEY `citizenid_flag` (`citizenid`,`flag`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- Dump dei dati della tabella es_extended.zp_inetmax_histories: ~0 rows (circa)
 
@@ -1941,7 +1944,7 @@ CREATE TABLE IF NOT EXISTS `zp_photos` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE,
   KEY `citizenid` (`citizenid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- Dump dei dati della tabella es_extended.zp_photos: ~0 rows (circa)
 
@@ -1957,7 +1960,7 @@ CREATE TABLE IF NOT EXISTS `zp_service_messages` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `service` (`service`) USING BTREE,
   KEY `service_solved_by_citizenid` (`solved_by_citizenid`,`service`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- Dump dei dati della tabella es_extended.zp_service_messages: ~0 rows (circa)
 
