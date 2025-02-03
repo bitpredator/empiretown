@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 RegisterNUICallback('get-bank', function(_, cb)
     lib.callback('z-phone:server:GetBank', false, function(bank)
         cb(bank)
@@ -30,7 +31,7 @@ RegisterNUICallback('transfer-check', function(body, cb)
         cb(false)
         return
     end
-    
+
     lib.callback('z-phone:server:TransferCheck', false, function(result)
         TriggerServerEvent("z-phone:server:usage-internet-data", Config.App.Wallet.Name, Config.App.InetMax.InetMaxUsage.BankCheckTransferReceiver)
         cb(result)
@@ -47,7 +48,7 @@ RegisterNUICallback('transfer', function(body, cb)
         cb(false)
         return
     end
-    
+
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.BankTransfer then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",

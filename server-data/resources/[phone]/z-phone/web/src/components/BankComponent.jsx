@@ -245,10 +245,10 @@ const BankComponent = ({ isShow }) => {
                   </span>
                   <div className="flex flex-col">
                     <span className="text-base font-semibold line-clamp-1">
-                      Hi, {profile?.name?.split(" ")[0]}
+                      Ciao, {profile?.name?.split(" ")[0]}
                     </span>
                     <span className="text-xs text-gray-400">
-                      Welcome to Digital Banking.
+                    Benvenuti nella banca digitale.
                     </span>
                   </div>
                 </div>
@@ -263,7 +263,7 @@ const BankComponent = ({ isShow }) => {
               >
                 <div className="flex flex-col space-y-3">
                   <div className="flex justify-between space-x-2 items-center">
-                    <span className="text-xs font-semibold">MAIN ACCOUNT</span>
+                    <span className="text-xs font-semibold">CONTO PRINCIPALE</span>
                     <span className="text-sm font-semibold">
                       {profile.iban}
                     </span>
@@ -483,7 +483,7 @@ const BankComponent = ({ isShow }) => {
               onSubmit={handleTransferFormSubmit}
             >
               <div className="text-xs px-3 text-gray-400">
-                Transfer aman dan terjamin dengan Digital Banking!
+              Trasferimenti sicuri e protetti con Digital Banking!
               </div>
               <div className="pt-2 px-3">
                 <div className="flex flex-col space-y-1 border-b border-gray-800 w-full pb-1">
@@ -516,7 +516,7 @@ const BankComponent = ({ isShow }) => {
                     ) : null}
                   </div>
                   <span className="text-xss text-gray-400">
-                    Isi dengan nomor akun bank penerima.
+                  Inserisci il numero di conto bancario del destinatario.
                   </span>
                   <div className="flex space-x-2 items-center justify-between w-full">
                     <div className="flex items-center space-x-2 w-full">
@@ -594,7 +594,7 @@ const BankComponent = ({ isShow }) => {
               </div>
               <div className="px-3">
                 <div className="text-xss text-gray-400">
-                  * Pastikan data penerima benar!
+                  * Assicurati che i dati del destinatario siano corretti!
                 </div>
               </div>
               <div className="px-3">

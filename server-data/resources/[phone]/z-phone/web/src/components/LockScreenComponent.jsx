@@ -102,7 +102,7 @@ const LockScreenComponent = ({ isShow }) => {
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-xs font-bold">{NAME} Reporter</p>
-                <h2 className="text-lg font-bold">Latest News</h2>
+                <h2 className="text-lg font-bold">Ultime notizie</h2>
               </div>
             </div>
             <div className="mt-2 flex flex-col">
@@ -130,7 +130,7 @@ const LockScreenComponent = ({ isShow }) => {
             </div>
             <hr className="mt-4 border-black/20" />
             <div className="col-span-2 pt-2">
-              <h3 className="text-xs font-bold">More Updates</h3>
+              <h3 className="text-xs font-bold">Altri aggiornamenti</h3>
               <p className="mt-0.5 text-xs line-clamp-2">
                 {CFG_LATEST_NEWS.more_updates}
               </p>

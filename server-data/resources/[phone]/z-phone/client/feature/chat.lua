@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 RegisterNUICallback('new-or-continue-chat', function(body, cb)
     lib.callback('z-phone:server:StartOrContinueChatting', false, function(chatting)
         cb(chatting)
@@ -26,7 +27,7 @@ RegisterNUICallback('send-chatting', function(body, cb)
         cb(false)
         return
     end
-    
+
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.MessageSend then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",

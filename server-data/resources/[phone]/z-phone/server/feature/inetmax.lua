@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 lib.callback.register('z-phone:server:GetInternetData', function(source)
     local Player = xCore.GetPlayerBySource(source)
     if Player == nil then return {} end
@@ -89,10 +90,10 @@ Thank you for being a valued customer!
     MySQL.Async.insert('INSERT INTO zp_emails (institution, citizenid, subject, content) VALUES (?, ?, ?, ?)', {
         "inetmax",
         Player.citizenid,
-        "Your Internet Data Package Purchase Confirmation",
+        "Conferma di acquisto del pacchetto dati Internet",
         string.format(content, body.total, Config.App.InetMax.TopupRate.Price, Config.App.InetMax.TopupRate.InKB, "Success"),
     })
-    
+
     return IncrementBalance
 end)
 
@@ -120,7 +121,7 @@ RegisterNetEvent('z-phone:server:usage-internet-data', function(app, usageInKB)
         local Player = xCore.GetPlayerBySource(src)
         if Player == nil then return false end
 
-        local citizenid = Player.citizenid    
+        local citizenid = Player.citizenid
         UseInternetData(citizenid, app, usageInKB)
 
         TriggerClientEvent("z-phone:client:usage-internet-data", src,  app, usageInKB)
