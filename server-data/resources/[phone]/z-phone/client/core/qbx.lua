@@ -1,4 +1,4 @@
-if Config.Core == "QBX" then 
+if Config.Core == "QBX" then
     xCore = {}
     local QBX = exports["qb-core"]:GetCoreObject()
 

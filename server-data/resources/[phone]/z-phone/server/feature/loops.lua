@@ -1,4 +1,4 @@
-lib.callback.register('z-phone:server:LoopsLogin', function(source, body)
+lib.callback.register("z-phone:server:LoopsLogin", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
 
     if Player ~= nil then
@@ -8,7 +8,7 @@ lib.callback.register('z-phone:server:LoopsLogin', function(source, body)
             body.username,
             body.password,
         })
-    
+
         if not id then
             return {
                 is_valid = false,
@@ -16,9 +16,9 @@ lib.callback.register('z-phone:server:LoopsLogin', function(source, body)
             }
         end
 
-        MySQL.update.await('UPDATE zp_users SET active_loops_userid = ? WHERE citizenid = ?', {
-            id, 
-            citizenid
+        MySQL.update.await("UPDATE zp_users SET active_loops_userid = ? WHERE citizenid = ?", {
+            id,
+            citizenid,
         })
 
         local profileQuery = [[
@@ -38,13 +38,13 @@ lib.callback.register('z-phone:server:LoopsLogin', function(source, body)
         ]]
 
         local profile = MySQL.single.await(profileQuery, {
-            id
+            id,
         })
 
         return {
             is_valid = true,
-            message = "Welcome back @".. body.username,
-            profile = profile
+            message = "Welcome back @" .. body.username,
+            profile = profile,
         }
     end
 
@@ -54,20 +54,20 @@ lib.callback.register('z-phone:server:LoopsLogin', function(source, body)
     }
 end)
 
-lib.callback.register('z-phone:server:LoopsSignup', function(source, body)
+lib.callback.register("z-phone:server:LoopsSignup", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
 
     if Player ~= nil then
         local citizenid = Player.citizenid
         local checkUsernameQuery = "select id from zp_loops_users where username = ?"
         local duplicateUsername = MySQL.scalar.await(checkUsernameQuery, {
-            body.username
+            body.username,
         })
-    
+
         if duplicateUsername then
             return {
                 is_valid = false,
-                message = "@"..body.username .. " not available",
+                message = "@" .. body.username .. " not available",
             }
         end
 
@@ -84,7 +84,7 @@ lib.callback.register('z-phone:server:LoopsSignup', function(source, body)
             TriggerClientEvent("z-phone:client:sendNotifInternal", Player.source, {
                 type = "Notification",
                 from = "Loops",
-                message = "Awesome, let's signin!"
+                message = "Awesome, let's signin!",
             })
             local content = [[
 Welcome aboard! \
@@ -99,15 +99,15 @@ To get started, log in to your account and check out all tweets. \
 \
 We're excited to see you dive in and start exploring. Welcome to the Loopsverse!
     ]]
-            MySQL.single.await('INSERT INTO zp_emails (institution, citizenid, subject, content) VALUES (?, ?, ?, ?)', {
+            MySQL.single.await("INSERT INTO zp_emails (institution, citizenid, subject, content) VALUES (?, ?, ?, ?)", {
                 "loops",
                 Player.citizenid,
-                "Your account ".. body.username .. " Has Been Created",
-                string.format(content, body.username, body.fullname, body.password,  body.phone_number),
+                "Your account " .. body.username .. " Has Been Created",
+                string.format(content, body.username, body.fullname, body.password, body.phone_number),
             })
             return {
                 is_valid = true,
-                message = "Loops ".. body.username .. " Has Been Created",
+                message = "Loops " .. body.username .. " Has Been Created",
             }
         else
             return {
@@ -123,7 +123,7 @@ We're excited to see you dive in and start exploring. Welcome to the Loopsverse!
     }
 end)
 
-lib.callback.register('z-phone:server:GetTweets', function(source)
+lib.callback.register("z-phone:server:GetTweets", function(source)
     local Player = xCore.GetPlayerBySource(source)
     if Player ~= nil then
         local citizenid = Player.citizenid
@@ -160,7 +160,7 @@ lib.callback.register('z-phone:server:GetTweets', function(source)
     return {}
 end)
 
-lib.callback.register('z-phone:server:GetComments', function(source, body)
+lib.callback.register("z-phone:server:GetComments", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
     if Player ~= nil then
         local citizenid = Player.citizenid
@@ -179,7 +179,7 @@ lib.callback.register('z-phone:server:GetComments', function(source, body)
             ORDER BY zptc.id DESC
         ]]
 
-        local result = MySQL.query.await(query, {body.tweetid})
+        local result = MySQL.query.await(query, { body.tweetid })
 
         if result then
             return result
@@ -190,7 +190,7 @@ lib.callback.register('z-phone:server:GetComments', function(source, body)
     return {}
 end)
 
-lib.callback.register('z-phone:server:SendTweet', function(source, body)
+lib.callback.register("z-phone:server:SendTweet", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
 
     if Player ~= nil then
@@ -198,30 +198,30 @@ lib.callback.register('z-phone:server:SendTweet', function(source, body)
 
         local getLoopsUserIDQuery = "select active_loops_userid from zp_users where citizenid = ?"
         local loopsUserID = MySQL.scalar.await(getLoopsUserIDQuery, {
-            citizenid
+            citizenid,
         })
 
-        if loopsUserID == 0 then 
+        if loopsUserID == 0 then
             TriggerClientEvent("z-phone:client:sendNotifInternal", Player.source, {
                 type = "Notification",
                 from = "Loops",
-                message = "Please re-login to post tweet!"
+                message = "Please re-login to post tweet!",
             })
-            return 
+            return
         end
 
         local query = "INSERT INTO zp_tweets (loops_userid, tweet, media) VALUES (?, ?, ?)"
         local id = MySQL.insert.await(query, {
             loopsUserID,
             body.tweet,
-            body.media
+            body.media,
         })
 
         if id then
             TriggerClientEvent("z-phone:client:sendNotifInternal", Player.source, {
                 type = "Notification",
                 from = "Loops",
-                message = "Tweet posted!"
+                message = "Tweet posted!",
             })
             return true
         else
@@ -231,37 +231,37 @@ lib.callback.register('z-phone:server:SendTweet', function(source, body)
     return false
 end)
 
-lib.callback.register('z-phone:server:SendTweetComment', function(source, body)
+lib.callback.register("z-phone:server:SendTweetComment", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
 
     if Player ~= nil then
         local citizenid = Player.citizenid
         local getLoopsUserIDQuery = "select active_loops_userid from zp_users where citizenid = ?"
         local loopsUserID = MySQL.scalar.await(getLoopsUserIDQuery, {
-            citizenid
+            citizenid,
         })
 
-        if loopsUserID == 0 then 
+        if loopsUserID == 0 then
             TriggerClientEvent("z-phone:client:sendNotifInternal", Player.source, {
                 type = "Notification",
                 from = "Loops",
-                message = "Please re-login to comment tweet!"
+                message = "Please re-login to comment tweet!",
             })
-            return 
+            return
         end
 
         local query = "INSERT INTO zp_tweet_comments (tweetid, loops_userid, comment) VALUES (?, ?, ?)"
         local id = MySQL.insert.await(query, {
             body.tweetid,
             loopsUserID,
-            body.comment
+            body.comment,
         })
 
         if id then
             local queryNotification = [[
                 SELECT citizenid FROM zp_users WHERE active_loops_userid = ?
             ]]
-            local notifications = MySQL.query.await(queryNotification, {body.loops_userid})
+            local notifications = MySQL.query.await(queryNotification, { body.loops_userid })
 
             if not notifications then
                 return true
@@ -273,7 +273,7 @@ lib.callback.register('z-phone:server:SendTweetComment', function(source, body)
                     TriggerClientEvent("z-phone:client:sendNotifInternal", TargetPlayer.source, {
                         type = "Notification",
                         from = "Loops",
-                        message = "@"..body.comment_username .. " reply on your tweet"
+                        message = "@" .. body.comment_username .. " reply on your tweet",
                     })
                 end
             end
@@ -285,7 +285,7 @@ lib.callback.register('z-phone:server:SendTweetComment', function(source, body)
     return false
 end)
 
-lib.callback.register('z-phone:server:UpdateLoopsProfile', function(source, body)
+lib.callback.register("z-phone:server:UpdateLoopsProfile", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
     if Player ~= nil then
         local citizenid = Player.citizenid
@@ -295,27 +295,28 @@ lib.callback.register('z-phone:server:UpdateLoopsProfile', function(source, body
             body.username,
             body.id,
         })
-    
+
         if duplicateUsername then
             return {
                 is_valid = false,
-                message = "@"..body.username .. " not available",
+                message = "@" .. body.username .. " not available",
             }
         end
-        
+
         local activeLoopsUserIDQuery = "select active_loops_userid from zp_users where citizenid = ?"
         local activeLoopsUserID = MySQL.scalar.await(activeLoopsUserIDQuery, {
             citizenid,
         })
-    
+
         if activeLoopsUserID == 0 then
             return {
                 is_valid = false,
-                message = "Please re-login to update profile!"
+                message = "Please re-login to update profile!",
             }
         end
 
-        local affectedRow = MySQL.update.await([[
+        local affectedRow = MySQL.update.await(
+            [[
             UPDATE zp_loops_users SET 
                 fullname = ?,
                 username = ?,
@@ -325,16 +326,18 @@ lib.callback.register('z-phone:server:UpdateLoopsProfile', function(source, body
                 is_allow_message = ?,
                 phone_number = ?
             WHERE id = ?
-        ]], {
-            body.fullname,
-            body.username,
-            body.bio,
-            body.avatar,
-            body.cover,
-            body.is_allow_message,
-            body.phone_number,
-            activeLoopsUserID,
-        })
+        ]],
+            {
+                body.fullname,
+                body.username,
+                body.bio,
+                body.avatar,
+                body.cover,
+                body.is_allow_message,
+                body.phone_number,
+                activeLoopsUserID,
+            }
+        )
 
         if affectedRow then
             local profileQuery = [[
@@ -354,21 +357,21 @@ lib.callback.register('z-phone:server:UpdateLoopsProfile', function(source, body
             ]]
 
             local profile = MySQL.single.await(profileQuery, {
-                activeLoopsUserID
+                activeLoopsUserID,
             })
 
             TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
                 type = "Notification",
                 from = "Loops",
-                message = "Success update account!"
+                message = "Success update account!",
             })
             return {
                 is_valid = true,
                 message = "Success update account!",
-                profile = profile
+                profile = profile,
             }
         end
-        
+
         return {
             is_valid = false,
             message = "Please try again later!",
@@ -380,7 +383,7 @@ lib.callback.register('z-phone:server:UpdateLoopsProfile', function(source, body
     }
 end)
 
-lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
+lib.callback.register("z-phone:server:GetLoopsProfile", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
     if Player ~= nil then
         local citizenid = Player.citizenid
@@ -389,7 +392,7 @@ lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
                 is_me = false,
                 profile = {},
                 tweets = {},
-                replies = {}
+                replies = {},
             }
         end
 
@@ -397,13 +400,13 @@ lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
         local activeLoopsUserID = MySQL.scalar.await(activeLoopsUserIDQuery, {
             citizenid,
         })
-    
+
         if activeLoopsUserID == 0 then
             return {
                 is_me = false,
                 profile = {},
                 tweets = {},
-                replies = {}
+                replies = {},
             }
         end
 
@@ -425,7 +428,7 @@ lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
         ]]
 
         local profile = MySQL.single.await(profileQuery, {
-            body.id
+            body.id,
         })
 
         if not profile then
@@ -433,10 +436,10 @@ lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
                 is_me = false,
                 profile = {},
                 tweets = {},
-                replies = {}
+                replies = {},
             }
         end
-        
+
         local tweetsQuery = [[
             SELECT
                 zpt.id,
@@ -484,7 +487,7 @@ lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
         ]]
 
         local tweets = MySQL.query.await(tweetsQuery, {
-            body.id
+            body.id,
         })
 
         local replies = MySQL.query.await(repliesQuery, {
@@ -496,33 +499,35 @@ lib.callback.register('z-phone:server:GetLoopsProfile', function(source, body)
             is_me = activeLoopsUserID == profile.id,
             profile = profile,
             tweets = tweets,
-            replies = replies
+            replies = replies,
         }
     end
-    
+
     return {
         is_me = false,
         profile = {},
         tweets = {},
-        replies = {}
+        replies = {},
     }
 end)
 
-lib.callback.register('z-phone:server:UpdateLoopsLogout', function(source, body)
+lib.callback.register("z-phone:server:UpdateLoopsLogout", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
     if Player ~= nil then
         local citizenid = Player.citizenid
 
-        local affectedRow = MySQL.update.await([[
+        local affectedRow = MySQL.update.await(
+            [[
             UPDATE zp_users SET 
                 active_loops_userid = ?
             WHERE citizenid = ?
-        ]], {
-            0,
-            citizenid
-        })
+        ]],
+            {
+                0,
+                citizenid,
+            }
+        )
 
-        
         return true
     end
 

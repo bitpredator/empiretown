@@ -1,4 +1,4 @@
-import config from "/public/static/config.json";
+import config from '/public/static/config.json';
 
 export const MENU_LOCKSCREEN = config.APPS.MENU_LOCKSCREEN;
 export const MENU_GARAGE = config.APPS.MENU_GARAGE;
@@ -32,7 +32,7 @@ export const MENU_INTERNAL_NOTIFICATION =
   config.APPS.MENU_INTERNAL_NOTIFICATION;
 export const NAME = config.name;
 export const LOGO = config.logo;
-export const CLOSE_CALL = "CLOSE_CALL";
+export const CLOSE_CALL = 'CLOSE_CALL';
 export const MENU_INTERNET_DATA = config.APPS.MENU_INTERNET_DATA;
 export const CFG_INETMAX = config.INETMAX;
 export const CFG_WALLET = config.WALLET;
