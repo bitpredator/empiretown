@@ -490,7 +490,7 @@ Config.Vehicles = {
     cutter = { model = "cutter", name = "Cutter", brand = "HVY", category = "industrial", type = "automobile" },
     --- Utility (11)
     slamtruck = { model = "slamtruck", name = "Slam Truck", brand = "Vapid", category = "utility", type = "automobile" },
-    caddy3 = { model = "caddy3", name = "Caddy (Bunker)", brand = "Nagasaki", category = "utility", type = "automobile" },
+    caddy = { model = "caddy", name = "Caddy (Bunker)", brand = "Nagasaki", category = "utility", type = "automobile" },
     caddy2 = { model = "caddy2", name = "Caddy (Civilian)", brand = "Nagasaki", category = "utility", type = "automobile" },
     caddy3 = { model = "caddy3", name = "Caddy (Golf)", brand = "Nagasaki", category = "utility", type = "automobile" },
     utillitruck = { model = "utillitruck", name = "Utility Truck (Cherry Picker)", brand = "Brute", category = "utility", type = "automobile" },

@@ -14,7 +14,7 @@ RegisterNUICallback('topup-internet-data', function(body, cb)
         cb(false)
         return
     end
-    
+
     lib.callback('z-phone:server:TopupInternetData', false, function(purchaseInKB)
         Profile.inetmax_balance = Profile.inetmax_balance + purchaseInKB
         cb(purchaseInKB)

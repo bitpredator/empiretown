@@ -91,7 +91,7 @@ function OpenPhone()
             end
 
             SetTimeout(250, function()
-                newPhoneProp()
+                NewPhoneProp()
             end)
         else
             xCore.Notify("You don't have a phone", 'error', 3000)
@@ -113,7 +113,7 @@ RegisterNUICallback('close', function(_, cb)
         DoPhoneAnimation('cellphone_text_out')
         SetTimeout(400, function()
             StopAnimTask(PlayerPedId(), PhoneData.AnimationData.lib, PhoneData.AnimationData.anim, 2.5)
-            deletePhone()
+            DeletePhone()
             PhoneData.AnimationData.lib = nil
             PhoneData.AnimationData.anim = nil
         end)

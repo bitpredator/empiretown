@@ -2,10 +2,10 @@ local phoneProp = 0
 local phoneModel = `prop_amb_phone`
 
 local function LoadAnimation(dict)
-	RequestAnimDict(dict)
-	while not HasAnimDictLoaded(dict) do
-		Wait(1)
-	end
+    RequestAnimDict(dict)
+    while not HasAnimDictLoaded(dict) do
+        Wait(1)
+    end
 end
 
 local function CheckAnimLoop()
@@ -21,35 +21,35 @@ local function CheckAnimLoop()
     end)
 end
 
-function newPhoneProp()
-	deletePhone()
-	RequestModel(phoneModel)
-	while not HasModelLoaded(phoneModel) do
-		Wait(1)
-	end
-	phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, 1, 1, 0)
+function NewPhoneProp()
+    DeletePhone()
+    RequestModel(phoneModel)
+    while not HasModelLoaded(phoneModel) do
+        Wait(1)
+    end
+    phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, true, true, false)
 
-	local bone = GetPedBoneIndex(PlayerPedId(), 28422)
-	if phoneModel == `prop_cs_phone_01` then
-		AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 50.0, 320.0, 50.0, 1, 1, 0, 0, 2, 1)
-	else
-		AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 0, 2, 1)
-	end
+    local bone = GetPedBoneIndex(PlayerPedId(), 28422)
+    if phoneModel == `prop_cs_phone_01` then
+        AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 50.0, 320.0, 50.0, true, true, false, false, 2, true)
+    else
+        AttachEntityToEntity(phoneProp, PlayerPedId(), bone, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, false, 2, true)
+    end
 end
 
-function deletePhone()
-	if phoneProp ~= 0 then
-		DeleteObject(phoneProp)
-		phoneProp = 0
-	end
+function DeletePhone()
+    if phoneProp ~= 0 then
+        DeleteObject(phoneProp)
+        phoneProp = 0
+    end
 end
 
 function DoPhoneAnimation(anim)
     local ped = PlayerPedId()
-    local AnimationLib = 'cellphone@'
+    local AnimationLib = "cellphone@"
     local AnimationStatus = anim
     if IsPedInAnyVehicle(ped, false) then
-        AnimationLib = 'anim@cellphone@in_car@ps'
+        AnimationLib = "anim@cellphone@in_car@ps"
     end
     LoadAnimation(AnimationLib)
     TaskPlayAnim(ped, AnimationLib, AnimationStatus, 3.0, 3.0, -1, 50, 0, false, false, false)

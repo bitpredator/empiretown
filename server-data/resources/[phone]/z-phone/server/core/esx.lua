@@ -1,4 +1,4 @@
-if Config.Core == "ESX" then 
+if Config.Core == "ESX" then
     xCore = {}
     local ESX = exports["es_extended"]:getSharedObject()
     local ox_inventory = exports.ox_inventory

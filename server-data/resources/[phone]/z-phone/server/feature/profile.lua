@@ -1,6 +1,8 @@
-lib.callback.register('z-phone:server:GetProfile', function(source)
+lib.callback.register("z-phone:server:GetProfile", function(source)
     local Player = xCore.GetPlayerBySource(source)
-    if Player == nil then return nil end
+    if Player == nil then
+        return nil
+    end
 
     local citizenid = Player.citizenid
     local query = [[
@@ -25,12 +27,12 @@ lib.callback.register('z-phone:server:GetProfile', function(source)
     ]]
 
     local result = MySQL.single.await(query, {
-        citizenid
+        citizenid,
     })
 
     if not result then
-        local phone_number = math.random(81, 89)..math.random(100000, 999999)
-        local iban = math.random(7, 9)..math.random(1000000000, 9999999999)
+        local phone_number = math.random(81, 89) .. math.random(100000, 999999)
+        local iban = math.random(7, 9) .. math.random(1000000000, 9999999999)
         local queryNew = "INSERT INTO zp_users (citizenid, name, phone_number, iban, inetmax_balance) VALUES (?, ?, ?, ?, ?)"
 
         local id = MySQL.insert.await(queryNew, {
@@ -38,11 +40,11 @@ lib.callback.register('z-phone:server:GetProfile', function(source)
             Player.name,
             phone_number,
             iban,
-            5000000
+            5000000,
         })
 
         result = MySQL.single.await(query, {
-            citizenid
+            citizenid,
         })
     end
 
@@ -54,37 +56,41 @@ lib.callback.register('z-phone:server:GetProfile', function(source)
     return result
 end)
 
-lib.callback.register('z-phone:server:UpdateProfile', function(source, body)
+lib.callback.register("z-phone:server:UpdateProfile", function(source, body)
     local affectedRows = nil
     local Player = xCore.GetPlayerBySource(source)
     if Player ~= nil then
         local citizenid = Player.citizenid
-        if body.type == 'avatar' then
-            affectedRows = MySQL.update.await('UPDATE zp_users SET avatar = ? WHERE citizenid = ?', {
-                body.value, citizenid
+        if body.type == "avatar" then
+            affectedRows = MySQL.update.await("UPDATE zp_users SET avatar = ? WHERE citizenid = ?", {
+                body.value,
+                citizenid,
             })
-        elseif body.type == 'wallpaper' then
-            affectedRows = MySQL.update.await('UPDATE zp_users SET wallpaper = ? WHERE citizenid = ?', {
-                body.value, citizenid
+        elseif body.type == "wallpaper" then
+            affectedRows = MySQL.update.await("UPDATE zp_users SET wallpaper = ? WHERE citizenid = ?", {
+                body.value,
+                citizenid,
             })
-        elseif body.type == 'is_anonim' then
-            affectedRows = MySQL.update.await('UPDATE zp_users SET is_anonim = ? WHERE citizenid = ?', {
-                body.value, citizenid
+        elseif body.type == "is_anonim" then
+            affectedRows = MySQL.update.await("UPDATE zp_users SET is_anonim = ? WHERE citizenid = ?", {
+                body.value,
+                citizenid,
             })
-        elseif body.type == 'is_donot_disturb' then
-            affectedRows = MySQL.update.await('UPDATE zp_users SET is_donot_disturb = ? WHERE citizenid = ?', {
-                body.value, citizenid
+        elseif body.type == "is_donot_disturb" then
+            affectedRows = MySQL.update.await("UPDATE zp_users SET is_donot_disturb = ? WHERE citizenid = ?", {
+                body.value,
+                citizenid,
             })
-        elseif body.type == 'frame' then
-            affectedRows = MySQL.update.await('UPDATE zp_users SET frame = ? WHERE citizenid = ?', {
-                body.value, citizenid
+        elseif body.type == "frame" then
+            affectedRows = MySQL.update.await("UPDATE zp_users SET frame = ? WHERE citizenid = ?", {
+                body.value,
+                citizenid,
             })
-        elseif body.type == 'phone_height' then
-            affectedRows = MySQL.update.await('UPDATE zp_users SET phone_height = ? WHERE citizenid = ?', {
-                body.value, 
-                citizenid
+        elseif body.type == "phone_height" then
+            affectedRows = MySQL.update.await("UPDATE zp_users SET phone_height = ? WHERE citizenid = ?", {
+                body.value,
+                citizenid,
             })
-            
         else
             lib.print.info("RETRIGER DETECTED, SHOULD BANN IF NEEDED")
         end
@@ -93,7 +99,7 @@ lib.callback.register('z-phone:server:UpdateProfile', function(source, body)
             TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
                 type = "Notification",
                 from = "Setting",
-                message = "Success updated!"
+                message = "Success updated!",
             })
             return true
         else

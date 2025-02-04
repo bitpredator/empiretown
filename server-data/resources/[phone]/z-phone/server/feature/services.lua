@@ -1,6 +1,8 @@
-lib.callback.register('z-phone:server:GetServices', function(source)
+lib.callback.register("z-phone:server:GetServices", function(source)
     local Player = xCore.GetPlayerBySource(source)
-    if Player == nil then return false end
+    if Player == nil then
+        return false
+    end
 
     local job = Player.job
     local citizenid = Player.citizenid
@@ -25,11 +27,12 @@ lib.callback.register('z-phone:server:GetServices', function(source)
     return result
 end)
 
-
-lib.callback.register('z-phone:server:SendMessageService', function(source, body)
+lib.callback.register("z-phone:server:SendMessageService", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
-    if Player == nil then return false end
-    
+    if Player == nil then
+        return false
+    end
+
     local citizenid = Player.citizenid
     local query = "INSERT INTO zp_service_messages (citizenid, message, service) VALUES (?, ?, ?)"
 
@@ -42,30 +45,32 @@ lib.callback.register('z-phone:server:SendMessageService', function(source, body
     if not id then
         return false
     end
-    
+
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
         from = "Services",
-        message = "Message sended!"
+        message = "Message sended!",
     })
     return true
 end)
 
-lib.callback.register('z-phone:server:SolvedMessageService', function(source, body)
+lib.callback.register("z-phone:server:SolvedMessageService", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
-    if Player == nil then return false end
+    if Player == nil then
+        return false
+    end
 
     local citizenid = Player.citizenid
-    MySQL.update.await('UPDATE zp_service_messages SET solved_by_citizenid = ?, solved_reason = ? WHERE id = ?', {
+    MySQL.update.await("UPDATE zp_service_messages SET solved_by_citizenid = ?, solved_reason = ? WHERE id = ?", {
         citizenid,
-        body.reason, 
+        body.reason,
         body.id,
     })
-    
+
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
         from = "Services",
-        message = "Message service solved!"
+        message = "Message service solved!",
     })
 
     return true

@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local function GenerateCallId(caller, target)
     local CallId = math.ceil(((tonumber(caller) + tonumber(target)) / 100 * 1))
     return CallId
@@ -23,7 +24,7 @@ RegisterNUICallback('start-call', function(body, cb)
         cb(false)
         return
     end
-    
+
     if Profile.inetmax_balance < Config.App.InetMax.InetMaxUsage.PhoneCall then
         TriggerEvent("z-phone:client:sendNotifInternal", {
             type = "Notification",
@@ -33,7 +34,7 @@ RegisterNUICallback('start-call', function(body, cb)
         cb(false)
         return
     end
-    
+
     local callId = GenerateCallId(Profile.phone_number, body.to_phone_number)
     body.call_id = callId
     body.is_anonim = Profile.is_anonim

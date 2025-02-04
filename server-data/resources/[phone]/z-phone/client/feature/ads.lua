@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 RegisterNUICallback("get-ads", function(_, cb)
     lib.callback("z-phone:server:GetAds", false, function(ads)
         cb(ads)
