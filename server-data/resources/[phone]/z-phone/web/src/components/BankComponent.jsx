@@ -430,8 +430,7 @@ const BankComponent = ({ isShow }) => {
                   Bills
                 </h3>
                 <p className="text-xs text-gray-400">
-                  Lakukan pembayaran secepatnya, jika tidak maka akan terpotong
-                  otomatis pada akhir bulan dan membayar denda.
+                Effettua i pagamenti il ​​prima possibile, altrimenti verrà scalato automaticamente a fine mese e pagherai una penale.
                 </p>
               </div>
               <div className="flow-root pb-10">
