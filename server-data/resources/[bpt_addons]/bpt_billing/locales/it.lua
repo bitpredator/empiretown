@@ -8,6 +8,5 @@ Locales["it"] = {
     ["player_not_online"] = "il giocatore non ha effettuato l'accesso",
     ["no_money"] = "non hai abbastanza soldi per pagare questa fattura",
     ["target_no_money"] = "il giocatore ~r~non ha~s~ abbastanza soldi per pagare la fattura!",
-    ["keymap_showbills"] = "apri il menu delle fatture",
     ["billing"] = "fattura",
 }
