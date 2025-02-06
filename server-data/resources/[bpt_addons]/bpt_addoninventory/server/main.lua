@@ -58,7 +58,7 @@ MySQL.ready(function()
             end
 
             for k, v in pairs(items) do
-                local addonInventory = CreateAddonInventory(name, k, v)
+                local addonInventory = CreateAddonInventory()
                 table.insert(Inventories[name], addonInventory)
             end
         else
@@ -71,7 +71,7 @@ MySQL.ready(function()
                 })
             end
 
-            local addonInventory          = CreateAddonInventory(name, nil, items)
+            local addonInventory          = CreateAddonInventory()
             SharedInventories[name]       = addonInventory
             GlobalState.SharedInventories = SharedInventories
         end
@@ -101,7 +101,7 @@ function AddSharedInventory(society)
         ['shared'] = 1
     })
 
-    SharedInventories[society.name] = CreateAddonInventory(society.name, nil, {})
+    SharedInventories[society.name] = CreateAddonInventory()
 end
 
 AddEventHandler('bpt_addoninventory:getInventory', function(name, owner, cb)
@@ -120,7 +120,7 @@ AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
         local inventory = GetInventory(name, xPlayer.identifier)
 
         if inventory == nil then
-            inventory = CreateAddonInventory(name, xPlayer.identifier, {})
+            inventory = CreateAddonInventory()
             table.insert(Inventories[name], inventory)
         end
 
