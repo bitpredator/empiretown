@@ -3,7 +3,7 @@ game("gta5")
 description("bpt_cars - pack addon car")
 author("bitpredator")
 lua54("yes")
-version("1.0.7")
+version("1.0.8")
 
 files({
     -- bmw440

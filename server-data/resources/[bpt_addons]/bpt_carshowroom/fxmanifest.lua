@@ -3,7 +3,7 @@ game("gta5")
 
 description("bpt_carshowroom")
 lua54("yes")
-version("1.0.7")
+version("1.0.8")
 
 shared_script("@es_extended/imports.lua")
 

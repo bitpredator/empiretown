@@ -1,7 +1,7 @@
 fx_version("adamant")
 game("gta5")
 description("Provides a way for players to RP as paramedics (heal/revive players)")
-version("1.0.7")
+version("1.0.8")
 legacyversion("1.9.1")
 lua54("yes")
 

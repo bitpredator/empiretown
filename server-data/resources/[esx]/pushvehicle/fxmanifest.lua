@@ -2,7 +2,7 @@ fx_version("cerulean")
 games({ "gta5" })
 
 author("stuxxy")
-version("1.0.7")
+version("1.0.8")
 
 lua54("yes")
 
