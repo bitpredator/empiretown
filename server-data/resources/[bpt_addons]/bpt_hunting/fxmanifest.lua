@@ -3,7 +3,7 @@ games({ "gta5" })
 
 author("bitpredator")
 description("bpt_hunting")
-version("1.0.7")
+version("1.0.8")
 
 shared_script("@es_extended/imports.lua")
 

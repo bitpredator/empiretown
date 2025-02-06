@@ -4,7 +4,7 @@ game("gta5")
 author("ESX-Framework & Brayden")
 description("Offical ESX Legacy Context Menu")
 lua54("yes")
-version("1.0.7")
+version("1.0.8")
 
 ui_page("index.html")
 

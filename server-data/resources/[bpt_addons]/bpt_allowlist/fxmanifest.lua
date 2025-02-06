@@ -5,7 +5,7 @@ game("gta5")
 author("bitpredator")
 description("Allowlist system that allows you to only allow specific people to access your server")
 
-version("1.0.7")
+version("1.0.8")
 
 lua54("yes")
 server_only("yes")
