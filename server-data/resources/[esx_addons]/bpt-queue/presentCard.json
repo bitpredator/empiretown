@@ -12,7 +12,7 @@
                     "items": [
                         {
                             "type": "TextBlock",
-                            "text": "Loading Snipe Queue System",
+                            "text": "Loading Queue System",
                             "color": "Accent",
                             "weight": "Bolder",
                             "size": "ExtraLarge"
@@ -61,7 +61,7 @@
                                     "items": [
                                         {
                                             "type": "TextBlock",
-                                            "text": "Welcome To Snipe Server",
+                                            "text": "Welcome To Empiretown Server",
                                             "wrap": true,
                                             "horizontalAlignment": "Right",
                                             "size": "ExtraLarge",
@@ -117,9 +117,9 @@
                                             "actions": [
                                                 {
                                                     "type": "Action.OpenUrl",
-                                                    "title": "Store",
-                                                    "id": "store",
-                                                    "url": "https://snipe.tebex.io/"
+                                                    "title": "Web Site",
+                                                    "id": "website",
+                                                    "url": "https://bitpredator.github.io/bptdevelopment/"
                                                 }
                                             ]
                                         }
@@ -136,7 +136,7 @@
                                                 {
                                                     "type": "Action.OpenUrl",
                                                     "title": "Discord",
-                                                    "url": "https://discord.gg/AeCVP2F8h7"
+                                                    "url": "https://discord.gg/ksGfNvDEfq"
                                                 }
                                             ]
                                         }
@@ -154,7 +154,7 @@
                                                     "type": "Action.OpenUrl",
                                                     "title": "Rules",
                                                     "id": "rules",
-                                                    "url": "https://discord.gg/AeCVP2F8h7"
+                                                    "url": "https://discord.gg/ksGfNvDEfq"
                                                 }
                                             ]
                                         }
