@@ -2,7 +2,7 @@ local bagEquipped, bagObj
 local hash = `p_michael_backpack_s`
 local ox_inventory = exports.ox_inventory
 local ped = cache.ped
-local justConnect = true
+local justConnect = nil
 
 local function PutOnBag()
     local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(ped,0.0,3.0,0.5))
