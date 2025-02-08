@@ -2,6 +2,7 @@
   "dependencies": {
     "@hapi/address": "^2.1.4",
     "@hapi/joi": "^15.1.1",
+    "chokidar": "^3.6.0",
     "loader-utils": "^3.3.1"
   }
 }
