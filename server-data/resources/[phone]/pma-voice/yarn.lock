@@ -2,7 +2,12 @@
 # yarn lockfile v1
 
 
+"@hapi/address@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.npmjs.org/@hapi/address/-/address-2.1.4.tgz"
+  integrity sha512-QD1PhQk+s31P1ixsX0H0Suoupp3VMXzIVMSwobR3F3MSUO2YCV0B7xqLcUw/Bh8yuvd3LhpyqLQWTNcRmp6IdQ==
+
 loader-utils@^3.3.1:
   version "3.3.1"
-  resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-3.3.1.tgz#735b9a19fd63648ca7adbd31c2327dfe281304e5"
+  resolved "https://registry.npmjs.org/loader-utils/-/loader-utils-3.3.1.tgz"
   integrity sha512-FMJTLMXfCLMLfJxcX9PFqX5qD88Z5MRGaZCVzfuqeZSPsyiBzs+pahDQjbIWz2QIzPZz0NX9Zy4FX3lmK6YHIg==
