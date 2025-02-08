@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 local HasAlreadyEnteredMarker
 local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local LastZone
@@ -23,7 +25,7 @@ function DrawSub(msg, time)
     ClearPrints()
     BeginTextCommandPrint("STRING")
     AddTextComponentSubstringPlayerName(msg)
-    EndTextCommandPrint(time, 1)
+    EndTextCommandPrint(time, true)
 end
 
 function ShowLoadingPromt(msg, time, type)
@@ -303,7 +305,7 @@ CreateThread(function()
         if ESX.PlayerData.job and ESX.PlayerData.job.name == "baker" then
             local coords = GetEntityCoords(PlayerPedId())
             local isInMarker, currentZone = false
-            local inVeh = IsPedInAnyVehicle(PlayerPedId())
+            local inVeh = IsPedInAnyVehicle(PlayerPedId(), false)
 
             for k, v in pairs(Config.Zones) do
                 local zonePos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
