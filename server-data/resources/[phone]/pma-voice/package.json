@@ -1,9 +1,10 @@
 {
   "dependencies": {
-    "@hapi/address": "^2.1.4",
-    "@hapi/joi": "^15.1.1",
+    "@sideway/address": "^5.0.0",
+    "bourne": "^1.3.3",
     "chokidar": "^3.6.0",
     "consolidate": "^1.0.4",
+    "joi": "^17.13.3",
     "loader-utils": "^3.3.1"
   }
 }
