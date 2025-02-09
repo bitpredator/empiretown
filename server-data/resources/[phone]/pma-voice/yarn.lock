@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@hapi/bourne@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/@hapi/bourne/-/bourne-3.0.0.tgz"
+  integrity sha512-Waj1cwPXJDucOib4a3bAISsKJVb15MKi9IvmTI/7ssVEm6sywXGjVJDhl6/umt1pK1ZS7PacXU3A1PmFKHEZ2w==
+
 "@hapi/hoek@^10.0.0":
   version "10.0.1"
   resolved "https://registry.npmjs.org/@hapi/hoek/-/hoek-10.0.1.tgz"
