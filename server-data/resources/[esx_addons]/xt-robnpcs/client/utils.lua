@@ -53,11 +53,11 @@ function attackingPed(entity)
         ClearPedTasksImmediately(entity)
     end
 
-    SetPedFleeAttributes(entity, 0, 0)
-    SetPedCombatAttributes(entity, 46, 1)       -- BF_CanFightArmedPedsWhenNotArmed
-    SetPedCombatAttributes(entity, 17, 0)       -- BF_AlwaysFlee
-    SetPedCombatAttributes(entity, 5, 1)        -- BF_AlwaysFight
-    SetPedCombatAttributes(entity, 58, 1)       -- BF_DisableFleeFromCombat
+    SetPedFleeAttributes(entity, 0, false)
+    SetPedCombatAttributes(entity, 46, true)       -- BF_CanFightArmedPedsWhenNotArmed
+    SetPedCombatAttributes(entity, 17, false)       -- BF_AlwaysFlee
+    SetPedCombatAttributes(entity, 5, true)        -- BF_AlwaysFight
+    SetPedCombatAttributes(entity, 58, true)       -- BF_DisableFleeFromCombat
     SetPedCombatRange(entity, 3)
     SetPedRelationshipGroupHash(entity, joaat('HATES_PLAYER'))
     TaskCombatHatedTargetsAroundPed(entity, 50, 0)
@@ -65,8 +65,7 @@ function attackingPed(entity)
     local weaponChance = math.random(config.chancePedIsArmedWhileFighting.min, config.chancePedIsArmedWhileFighting.max)
     local randomChance2 = math.random(100)
     if randomChance2 <= weaponChance then
-        local randomWeapon = math.random(#config.pedWeapons)
-        GiveWeaponToPed(entity, config.pedWeapons[randomWeapon], false, false)
+        local _ = math.random(#config.pedWeapons)
     end
 
     TaskCombatHatedTargetsAroundPed(entity, 50, 0)
