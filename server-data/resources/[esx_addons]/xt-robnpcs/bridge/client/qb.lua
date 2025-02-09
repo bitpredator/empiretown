@@ -2,7 +2,7 @@ if GetResourceState('qb-core') ~= 'started' then return end
 
 local QBCore = exports['qb-core']:GetCoreObject()
 
-function isBlacklistedJob(jobs)
+function IsBlacklistedJob(jobs)
     local Player = QBCore.Functions.GetPlayerData()
     if type(jobs) == 'table' then
         for x = 1, #jobs do
