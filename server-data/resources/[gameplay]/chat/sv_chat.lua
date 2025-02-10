@@ -135,7 +135,7 @@ local function routeMessage(source, author, message, mode, fromConsole)
     end
 
     local messageCanceled = false
-    local routingTarget = -1
+    local routingTarget = {}
 
     local hookRef = {
         updateMessage = function(t)
@@ -162,7 +162,7 @@ local function routeMessage(source, author, message, mode, fromConsole)
         end,
 
         setSeObject = function(object)
-            routingTarget = getMatchingPlayers(object)
+            routingTarget = getMatchingPlayers(object) or {}
         end,
 
         setRouting = function(target)
@@ -241,7 +241,7 @@ end)
 
 RegisterCommand("say", function(source, args, rawCommand)
     TriggerClientEvent("chatMessage", -1, (source == 0) and "console" or GetPlayerName(source), { 255, 255, 255 }, rawCommand:sub(5))
-end)
+end, false)
 
 -- command suggestions for clients
 local function refreshCommands(player)
