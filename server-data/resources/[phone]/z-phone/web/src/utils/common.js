@@ -51,7 +51,7 @@ export function getLoopsProfile(citizenid) {
 }
 
 export function convertFromKb(valueInKb) {
-	if (valueInKb == NaN || valueInKb == undefined) {
+	if (Number.isNaN(valueInKb) || valueInKb == undefined) {
 		return 'Calculating';
 	}
 
