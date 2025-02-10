@@ -2,8 +2,8 @@
 
 local playersHealing, deadPlayers = {}, {}
 
-if GetResourceState("npwd") ~= "missing" then
-    TriggerEvent("npwd:registerNumber", "ambulance", TranslateCap("alert_ambulance"), true, true)
+if GetResourceState("z-phone") ~= "missing" then
+    TriggerEvent("z-phone:registerNumber", "ambulance", TranslateCap("alert_ambulance"), true, true)
 end
 
 if GetResourceState("bpt_society") ~= "missing" then
