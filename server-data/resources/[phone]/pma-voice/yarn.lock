@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@hapi/bourne@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/@hapi/bourne/-/bourne-3.0.0.tgz"
-  integrity sha512-Waj1cwPXJDucOib4a3bAISsKJVb15MKi9IvmTI/7ssVEm6sywXGjVJDhl6/umt1pK1ZS7PacXU3A1PmFKHEZ2w==
-
 "@hapi/hoek@^10.0.0":
   version "10.0.1"
   resolved "https://registry.npmjs.org/@hapi/hoek/-/hoek-10.0.1.tgz"
@@ -47,6 +42,11 @@
   version "2.0.0"
   resolved "https://registry.npmjs.org/@sideway/pinpoint/-/pinpoint-2.0.0.tgz"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
+
+"@sinclair/typebox@^0.34.16":
+  version "0.34.16"
+  resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.34.16.tgz"
+  integrity sha512-rIljj8VPYAfn26ANY+5pCNVBPiv6hSufuKGe46y65cJZpvx8vHvPXlU0Q/Le4OGtlNaL8Jg2FuhtvQX18lSIqA==
 
 anymatch@~3.1.2:
   version "3.1.3"
