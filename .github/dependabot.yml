@@ -4,15 +4,34 @@ updates:
     directory: '/'
     schedule:
       interval: daily
-    open-pull-requests-limit: 99
+      time: '02:00'  # Schedule updates at 2 AM UTC
+    open-pull-requests-limit: 10  # Reduce open PRs limit for better manageability
     labels:
       - 'dependencies'
+    assignees:  # Add assignees or reviewers
+      - 'bitpredator'
+    reviewers:
+      - 'bitpredator'
+    commit-message:
+      prefix: '[bot]'
+    auto-merge: true  # Enable auto-merge
 
   # Dependencies npm
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'daily'
-    open-pull-requests-limit: 99
+      time: '02:00'  # Schedule updates at 2 AM UTC
+    open-pull-requests-limit: 10  # Reduce open PRs limit for better manageability
     labels:
       - 'dependencies'
+    assignees:  # Add assignees or reviewers
+      - 'bitpredator'
+    reviewers:
+      - 'bitpredator'
+    commit-message:
+      prefix: '[bot]'
+    auto-merge: true  # Enable auto-merge
+    ignore:
+      - dependency-name: 'some-development-dependency'  # Example to ignore specific dependencies
+        versions: ['< 1.0.0']
