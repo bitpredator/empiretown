@@ -14,7 +14,6 @@ updates:
       - 'bitpredator'
     commit-message:
       prefix: '[bot]'
-    auto-merge: true  # Enable auto-merge
 
   # Dependencies npm
   - package-ecosystem: 'npm'
@@ -31,7 +30,6 @@ updates:
       - 'bitpredator'
     commit-message:
       prefix: '[bot]'
-    auto-merge: true  # Enable auto-merge
     ignore:
       - dependency-name: 'some-development-dependency'  # Example to ignore specific dependencies
         versions: ['< 1.0.0']
