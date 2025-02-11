@@ -1,167 +1,171 @@
 (() => {
-  var __create = Object.create;
-  var __defProp = Object.defineProperty;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-  var __getProtoOf = Object.getPrototypeOf;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop2 in b || (b = {}))
-      if (__hasOwnProp.call(b, prop2))
-        __defNormalProp(a, prop2, b[prop2]);
-    if (__getOwnPropSymbols)
-      for (var prop2 of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop2))
-          __defNormalProp(a, prop2, b[prop2]);
-      }
-    return a;
-  };
-  var __esm = (fn, res) => function __init() {
-    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-  };
-  var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-  var __copyProps = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
-      for (let key of __getOwnPropNames(from))
-        if (!__hasOwnProp.call(to, key) && key !== except)
-          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-    }
-    return to;
-  };
-  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-    mod
-  ));
-  var __async = (__this, __arguments, generator) => {
-    return new Promise((resolve, reject) => {
-      var fulfilled = (value) => {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var rejected = (value) => {
-        try {
-          step(generator.throw(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
-      step((generator = generator.apply(__this, __arguments)).next());
-    });
-  };
+	const __create = Object.create;
+	const __defProp = Object.defineProperty;
+	const __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+	const __getOwnPropNames = Object.getOwnPropertyNames;
+	const __getOwnPropSymbols = Object.getOwnPropertySymbols;
+	const __getProtoOf = Object.getPrototypeOf;
+	const __hasOwnProp = Object.prototype.hasOwnProperty;
+	const __propIsEnum = Object.prototype.propertyIsEnumerable;
+	const __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+	const __spreadValues = (a, b) => {
+		// eslint-disable-next-line no-var
+		for (var prop2 in b || (b = {})) {
+			if (__hasOwnProp.call(b, prop2)) {__defNormalProp(a, prop2, b[prop2]);}
+		}
+		if (__getOwnPropSymbols) {
+			// eslint-disable-next-line no-var, no-redeclare
+			for (var prop2 of __getOwnPropSymbols(b)) {
+				if (__propIsEnum.call(b, prop2)) {__defNormalProp(a, prop2, b[prop2]);}
+			}
+		}
+		return a;
+	};
+	const __esm = (fn, res) => function __init() {
+		return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+	};
+	const __commonJS = (cb, mod) => function __require() {
+		return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+	};
+	const __copyProps = (to, from, except, desc) => {
+		if (from && typeof from === 'object' || typeof from === 'function') {
+			for (const key of __getOwnPropNames(from)) {
+				if (!__hasOwnProp.call(to, key) && key !== except) {__defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });}
+			}
+		}
+		return to;
+	};
+	const __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+		isNodeMode || !mod || !mod.__esModule ? __defProp(target, 'default', { value: mod, enumerable: true }) : target,
+		mod,
+	));
+	const __async = (__this, __arguments, generator) => {
+		return new Promise((resolve, reject) => {
+			const fulfilled = (value) => {
+				try {
+					step(generator.next(value));
+				}
+				catch (e) {
+					reject(e);
+				}
+			};
+			const rejected = (value) => {
+				try {
+					step(generator.throw(value));
+				}
+				catch (e) {
+					reject(e);
+				}
+			};
+			// eslint-disable-next-line no-var
+			var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+			step((generator = generator.apply(__this, __arguments)).next());
+		});
+	};
 
-  // utils/fivem.ts
-  var Delay, uuidv4;
-  var init_fivem = __esm({
-    "utils/fivem.ts"() {
-      Delay = (ms) => new Promise((res) => setTimeout(res, ms));
-      uuidv4 = () => {
-        let uuid = "";
-        for (let ii = 0; ii < 32; ii += 1) {
-          switch (ii) {
-            case 8:
-            case 20:
-              uuid += "-";
-              uuid += (Math.random() * 16 | 0).toString(16);
-              break;
-            case 12:
-              uuid += "-";
-              uuid += "4";
-              break;
-            case 16:
-              uuid += "-";
-              uuid += (Math.random() * 4 | 8).toString(16);
-              break;
-            default:
-              uuid += (Math.random() * 16 | 0).toString(16);
-          }
-        }
-        return uuid;
-      };
-    }
-  });
+	// utils/fivem.ts
+	let Delay, uuidv4;
+	const init_fivem = __esm({
+		'utils/fivem.ts'() {
+			Delay = (ms) => new Promise((res) => setTimeout(res, ms));
+			uuidv4 = () => {
+				let uuid = '';
+				for (let ii = 0; ii < 32; ii += 1) {
+					switch (ii) {
+					case 8:
+					case 20:
+						uuid += '-';
+						uuid += (Math.random() * 16 | 0).toString(16);
+						break;
+					case 12:
+						uuid += '-';
+						uuid += '4';
+						break;
+					case 16:
+						uuid += '-';
+						uuid += (Math.random() * 4 | 8).toString(16);
+						break;
+					default:
+						uuid += (Math.random() * 16 | 0).toString(16);
+					}
+				}
+				return uuid;
+			};
+		},
+	});
 
-  // client/cl_utils.ts
-  var ClientUtils, RegisterNuiCB, playerLoaded, RegisterNuiProxy, verifyExportArgType;
-  var init_cl_utils = __esm({
-    "client/cl_utils.ts"() {
-      init_fivem();
-      init_client();
-      ClientUtils = class {
-        constructor(settings) {
-          this._defaultSettings = {
-            promiseTimeout: 15e3
-          };
-          this.setSettings(settings);
-        }
-        setSettings(settings) {
-          this._settings = __spreadValues(__spreadValues({}, this._defaultSettings), settings);
-        }
-        emitNetPromise(eventName, ...args) {
-          return new Promise((resolve, reject) => {
-            let hasTimedOut = false;
-            setTimeout(() => {
-              hasTimedOut = true;
-              reject(`${eventName} has timed out after ${this._settings.promiseTimeout} ms`);
-            }, this._settings.promiseTimeout);
-            const uniqId = uuidv4();
-            const listenEventName = `${eventName}:${uniqId}`;
-            emitNet(eventName, listenEventName, ...args);
-            const handleListenEvent = (data) => {
-              removeEventListener(listenEventName, handleListenEvent);
-              if (hasTimedOut)
-                return;
-              resolve(data);
-            };
-            onNet(listenEventName, handleListenEvent);
-          });
-        }
-      };
-      RegisterNuiCB = (event, callback) => {
-        RegisterNuiCallbackType(event);
-        on(`__cfx_nui:${event}`, callback);
-      };
-      playerLoaded = () => {
-        return new Promise((resolve) => {
-          const id = setInterval(() => {
-            if (global.isPlayerLoaded)
-              resolve(id);
-          }, 50);
-        }).then((id) => clearInterval(id));
-      };
-      RegisterNuiProxy = (event) => {
-        RegisterNuiCallbackType(event);
-        on(`__cfx_nui:${event}`, (data, cb) => __async(void 0, null, function* () {
-          if (!global.isPlayerLoaded)
-            yield playerLoaded();
-          try {
-            const res = yield ClUtils.emitNetPromise(event, data);
-            cb(res);
-          } catch (e) {
-            console.error("Error encountered while listening to resp. Error:", e);
-            cb({ status: "error" });
-          }
-        }));
-      };
-      verifyExportArgType = (exportName, passedArg, validTypes) => {
-        const passedArgType = typeof passedArg;
-        if (!validTypes.includes(passedArgType))
-          throw new Error(
-            `Export ${exportName} was called with incorrect argument type (${validTypes.join(
-              ", "
-            )}. Passed: ${passedArg}, Type: ${passedArgType})`
-          );
-      };
-    }
-  });
+	// client/cl_utils.ts
+	let ClientUtils, RegisterNuiCB, playerLoaded, RegisterNuiProxy, verifyExportArgType;
+	const init_cl_utils = __esm({
+		'client/cl_utils.ts'() {
+			init_fivem();
+			init_client();
+			ClientUtils = class {
+				constructor(settings) {
+					this._defaultSettings = {
+						promiseTimeout: 15e3,
+					};
+					this.setSettings(settings);
+				}
+				setSettings(settings) {
+					this._settings = __spreadValues(__spreadValues({}, this._defaultSettings), settings);
+				}
+				emitNetPromise(eventName, ...args) {
+					return new Promise((resolve, reject) => {
+						let hasTimedOut = false;
+						setTimeout(() => {
+							hasTimedOut = true;
+							reject(`${eventName} has timed out after ${this._settings.promiseTimeout} ms`);
+						}, this._settings.promiseTimeout);
+						const uniqId = uuidv4();
+						const listenEventName = `${eventName}:${uniqId}`;
+						emitNet(eventName, listenEventName, ...args);
+						const handleListenEvent = (data) => {
+							removeEventListener(listenEventName, handleListenEvent);
+							if (hasTimedOut) {return;}
+							resolve(data);
+						};
+						onNet(listenEventName, handleListenEvent);
+					});
+				}
+			};
+			RegisterNuiCB = (event, callback) => {
+				RegisterNuiCallbackType(event);
+				on(`__cfx_nui:${event}`, callback);
+			};
+			playerLoaded = () => {
+				return new Promise((resolve) => {
+					const id = setInterval(() => {
+						if (global.isPlayerLoaded) {resolve(id);}
+					}, 50);
+				}).then((id) => clearInterval(id));
+			};
+			RegisterNuiProxy = (event) => {
+				RegisterNuiCallbackType(event);
+				on(`__cfx_nui:${event}`, (data, cb) => __async(void 0, null, function* () {
+					if (!global.isPlayerLoaded) {yield playerLoaded();}
+					try {
+						const res = yield ClUtils.emitNetPromise(event, data);
+						cb(res);
+					}
+					catch (e) {
+						console.error('Error encountered while listening to resp. Error:', e);
+						cb({ status: 'error' });
+					}
+				}));
+			};
+			verifyExportArgType = (exportName, passedArg, validTypes) => {
+				const passedArgType = typeof passedArg;
+				if (!validTypes.includes(passedArgType)) {
+					throw new Error(
+						`Export ${exportName} was called with incorrect argument type (${validTypes.join(
+							', ',
+						)}. Passed: ${passedArg}, Type: ${passedArgType})`,
+					);
+				}
+			};
+		},
+	});
 
   // ../shared/deepMergeObjects.ts
   function isObject(item) {
