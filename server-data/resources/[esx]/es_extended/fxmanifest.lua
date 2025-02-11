@@ -32,6 +32,7 @@ server_scripts({
     "server/modules/actions.lua",
     "server/modules/npwd.lua",
     "server/modules/createJob.lua",
+    "server/modules/pingcheck.lua",
 })
 
 client_scripts({
