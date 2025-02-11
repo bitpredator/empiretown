@@ -75,7 +75,7 @@
 					case 8:
 					case 20:
 						uuid += '-';
-						uuid += (Math.random() * 16 | 0).toString(16);
+						uuid += Math.floor(Math.random() * 16).toString(16);
 						break;
 					case 12:
 						uuid += '-';
