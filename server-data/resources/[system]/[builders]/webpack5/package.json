@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "serialize-javascript": "^6.0.2",
     "webpack": "^5.76.0",
     "worker-farm": "^1.7.0"
   }
