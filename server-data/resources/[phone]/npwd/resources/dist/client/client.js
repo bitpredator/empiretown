@@ -483,7 +483,7 @@
 				}
 				createAnimationInterval() {
 					this.animationInterval = setInterval(() => __async(this, null, function* () {
-						const playerPed = playerPed();
+						const playerPed = PlayerPedId();
 						if (this.onCall) {
 							this.handleCallAnimation(playerPed);
 						}
