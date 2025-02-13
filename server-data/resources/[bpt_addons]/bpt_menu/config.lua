@@ -246,7 +246,7 @@ Config.AdminCommands = {
     {
         id = "repairveh",
         name = TranslateCap("admin_repairveh_button"),
-        groups = { "admin", "helper" },
+        groups = { "admin" },
         command = function()
             local plyPed = PlayerPedId()
             local plyVeh = GetVehiclePedIsIn(plyPed, false)
@@ -278,7 +278,7 @@ Config.AdminCommands = {
     {
         id = "showname",
         name = TranslateCap("admin_showname_button"),
-        groups = { "admin", "mod", "helper" },
+        groups = { "admin", "mod" },
         command = function()
             PlayerVars.showName = not PlayerVars.showName
 
@@ -307,7 +307,7 @@ Config.AdminCommands = {
     {
         id = "revive",
         name = TranslateCap("admin_revive_button"),
-        groups = { "admin", "helper" },
+        groups = { "admin" },
         command = function()
             local targetServerId = KeyboardInput("PM_BOX_ID", TranslateCap("dialogbox_playerid"), "", 8)
             if not targetServerId then
