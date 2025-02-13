@@ -186,6 +186,10 @@ Item('clothing', function(data, slot)
 	end)
 end)
 
+Item('fattura', function(data, slot)
+	exports.ars_billing:useBillingItem(data)
+end)
+
 -----------------------------------------------------------------------------------------------
 
 exports('Items', function(item) return getItem(nil, item) end)

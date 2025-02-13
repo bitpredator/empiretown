@@ -804,4 +804,12 @@ return {
         weight = 3,
         stack = true,
     },
+
+    ["fattura"] = {
+        label = "fattura",
+        weight = 1,
+        stack = true,
+        close = true,
+        description = "Fattura da pagare",
+    },
 }
