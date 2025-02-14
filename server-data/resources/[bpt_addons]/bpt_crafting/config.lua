@@ -60,11 +60,6 @@ Config = {
             Image = "baker",
             Jobs = { "baker" },
         },
-        ["fisherman"] = {
-            Label = "fisherman",
-            Image = "fisherman",
-            Jobs = { "unicorn" },
-        },
         ["ammunation"] = {
             Label = "Munizioni",
             Image = "ammu",
@@ -616,13 +611,13 @@ Config = {
             },
         },
 
-        ["salmon_fillet"] = {
+        ["grilled_salmon"] = {
             Level = 0,
-            Category = "fisherman",
+            Category = "unicorn",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
-            Amount = 2,
+            Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
             Time = 60,
@@ -632,18 +627,19 @@ Config = {
             },
         },
 
-        ["grilled_salmon"] = {
+        ["grilled_trout"] = {
             Level = 0,
-            Category = "fisherman",
+            Category = "unicorn",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
-            Amount = 2,
+            Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
             Time = 60,
             Ingredients = {
-                ["salmon_fillet"] = 1,
+                ["trout"] = 1,
+                ["WEAPON_KNIFE"] = 1,
             },
         },
 
@@ -756,7 +752,7 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "fries", "salmon_fillet", "grilled_salmon" },
+            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout" },
             radius = 1.0,
         },
         {
