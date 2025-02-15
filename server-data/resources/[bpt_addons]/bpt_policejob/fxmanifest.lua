@@ -25,6 +25,5 @@ client_scripts({
 
 dependencies({
 	"es_extended",
-	"bpt_billing",
 	"esx_vehicleshop",
 })

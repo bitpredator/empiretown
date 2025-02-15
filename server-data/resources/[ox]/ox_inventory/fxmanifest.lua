@@ -45,3 +45,7 @@ files({
     "modules/bridge/**/client.lua",
     "data/*.lua",
 })
+
+exports({
+    "registerHook",
+})

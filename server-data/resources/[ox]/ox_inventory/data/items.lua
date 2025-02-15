@@ -801,7 +801,7 @@ return {
     ["fattura"] = {
         label = "fattura",
         weight = 1,
-        stack = true,
+        stack = false,
         close = true,
         description = "Fattura da pagare",
     },
