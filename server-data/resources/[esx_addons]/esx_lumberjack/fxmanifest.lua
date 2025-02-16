@@ -8,16 +8,15 @@ shared_scripts({
     "@es_extended/imports.lua",
     "@ox_lib/init.lua",
     "config.lua",
+    "locales/*.lua",
 })
 
 client_scripts({
-	"@es_extended/locale.lua",
+    "@es_extended/locale.lua",
     "client/*.lua",
-	"locales/*.lua",
 })
 
 server_scripts({
-	"@es_extended/locale.lua",
+    "@es_extended/locale.lua",
     "server/*.lua",
-	"locales/*.lua",
 })
