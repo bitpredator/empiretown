@@ -47,6 +47,7 @@ Locales["zh-cn"] = {
     ["deposit_amount"] = "存放资金",
     ["money_withdraw"] = "提取资金",
     ["fast_travel"] = "键下 [E] 快捷移动.",
+    ["open_pharmacy"] = "键下 [E] 进入药房.",
     ["pharmacy_menu_title"] = "医院药房",
     ["pharmacy_take"] = '拿取 <span style="color:blue;">%s</span>',
     ["medikit"] = "紧急治疗包",

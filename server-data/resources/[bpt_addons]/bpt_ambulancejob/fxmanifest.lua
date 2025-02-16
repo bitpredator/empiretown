@@ -2,7 +2,6 @@ fx_version("adamant")
 game("gta5")
 description("Provides a way for players to RP as paramedics (heal/revive players)")
 version("1.0.8")
-legacyversion("1.9.1")
 lua54("yes")
 
 shared_scripts({
@@ -23,6 +22,5 @@ client_scripts({
 
 dependencies({
     "es_extended",
-    "esx_skin",
     "esx_vehicleshop",
 })

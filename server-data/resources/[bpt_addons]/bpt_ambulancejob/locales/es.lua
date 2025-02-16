@@ -49,6 +49,7 @@ Locales["es"] = {
     ["deposit_amount"] = "Cantidad de fianza depositada",
     ["money_withdraw"] = "Cantidad de fianza retirada",
     ["fast_travel"] = "Presiona [E] para viajar rápido.",
+    ["open_pharmacy"] = "Presiona [E] para abrir la farmacia.",
     ["pharmacy_menu_title"] = "Farmacia",
     ["pharmacy_take"] = 'tomar <span style="color:blue;">%s</span>',
     ["medikit"] = "Kit médico",

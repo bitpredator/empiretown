@@ -47,6 +47,7 @@ Locales["sr"] = {
     ["deposit_amount"] = "Iznos depozita",
     ["money_withdraw"] = "Iznos podignut",
     ["fast_travel"] = "Pritisni [E] za brzo putovanje.",
+    ["open_pharmacy"] = "Pritisni [E] da otvoriš apoteku.",
     ["pharmacy_menu_title"] = "Apoteka",
     ["pharmacy_take"] = 'Uzmi <span style="color:blue;">%s</span>',
     ["medikit"] = "Medikit",

@@ -47,6 +47,7 @@ Locales["nl"] = {
     ["deposit_amount"] = "Bedrag om te storten",
     ["money_withdraw"] = "Bedrag om op te nemen",
     ["fast_travel"] = "Druk op [E] om snel te reizen.",
+    ["open_pharmacy"] = "Druk op [E] om de apotheek te openen.",
     ["pharmacy_menu_title"] = "Apotheek",
     ["unconscious_found"] = "[DISPATCH]: Er is een bewusteloos persoon gemeld.",
     ["pharmacy_take"] = 'Pak <span style="color:blue;">%s</span>',

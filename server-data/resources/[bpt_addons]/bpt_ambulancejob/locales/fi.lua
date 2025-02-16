@@ -47,6 +47,7 @@ Locales["fi"] = {
     ["deposit_amount"] = "Talletettava summa",
     ["money_withdraw"] = "Nostettava summa",
     ["fast_travel"] = "Paina [E] liikkuaksesi nopeasti kerrosten välillä",
+    ["open_pharmacy"] = "Paina [E] avataksesi lääkekaappi",
     ["pharmacy_menu_title"] = "Lääkekaappi",
     ["pharmacy_take"] = 'Ota <span style="color:blue;">%s</span>',
     ["medikit"] = "Ensiapupakkauksia",

@@ -47,6 +47,7 @@ Locales["cs"] = {
     ["deposit_amount"] = "částka vkladu",
     ["money_withdraw"] = "částka výběru",
     ["fast_travel"] = "stiskněte [E] k rychlému odcestování.",
+    ["open_pharmacy"] = "stiskněte [E] k otevření lékárny.",
     ["pharmacy_menu_title"] = "lékárna",
     ["pharmacy_take"] = "vzít %s",
     ["medikit"] = "lékarnička",

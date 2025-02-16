@@ -47,6 +47,7 @@ Locales["fr"] = {
     ["deposit_amount"] = "montant du dépôt",
     ["money_withdraw"] = "montant du retrait",
     ["fast_travel"] = "appuyez sur [E] pour vous déplacer rapidement.",
+    ["open_pharmacy"] = "appuyez sur [E] pour ouvrir la pharmacie.",
     ["pharmacy_menu_title"] = "Pharmacie",
     ["pharmacy_take"] = 'prendre <span style="color:blue;">%s</span>',
     ["medikit"] = "kit de soin",
