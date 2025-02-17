@@ -1,14 +1,26 @@
+---@diagnostic disable: undefined-global
 Config = {}
 
 Config.DrawDistance = 10.0 -- How close do you need to be in order for the markers to be drawn (in GTA units).
-
+Config.Debug = ESX.GetConfig().EnableDebug
 Config.Marker = { type = 1, x = 1.5, y = 1.5, z = 0.5, r = 102, g = 0, b = 102, a = 100, rotate = false }
 
 Config.ReviveReward = 8000 -- Revive reward, set to 0 if you don't want it enabled
-Config.AntiCombatLog = true -- Enable anti-combat logging? (Removes Items when a player logs back after intentionally logging out while dead.)
 Config.LoadIpl = false -- Disable if you're using fivem-ipl or other IPL loaders
 
-Config.Locale = "it"
+Config.Locale = GetConvar("esx:locale", "it")
+
+Config.DistressBlip = {
+    Sprite = 310,
+    Color = 48,
+    Scale = 2.0,
+}
+
+Config.zoom = {
+    min = 1,
+    max = 6,
+    step = 0.5,
+}
 
 Config.EarlyRespawnTimer = 60000 * 10 -- time til respawn is available
 Config.BleedoutTimer = 60000 * 10 -- time til the player bleeds out
@@ -22,8 +34,8 @@ Config.RemoveItemsAfterRPDeath = false
 -- Let the player pay for respawning early, only if he can afford it.
 Config.EarlyRespawnFine = true
 Config.EarlyRespawnFineAmount = 5000
-Config.OxInventory = ESX.GetConfig().OxInventory
 
+Config.OxInventory = ESX.GetConfig().OxInventory
 Config.RespawnPoints = {
     { coords = vector3(341.0, -1397.3, 32.5), heading = 48.5 },
 }

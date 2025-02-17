@@ -47,8 +47,6 @@ Locales["it"] = {
     ["deposit_amount"] = "Importo del deposito",
     ["money_withdraw"] = "Importo ritirato",
     ["fast_travel"] = "premi [E] per viaggiare velocemente.",
-    ["pharmacy_menu_title"] = "Farmacia",
-    ["pharmacy_take"] = 'Prendi <span style="color:blue;">%s</span>',
     ["medikit"] = "Medikit",
     ["bandage"] = "Benda",
     ["max_item"] = "Hai già abbastanza oggetti.",
@@ -60,9 +58,9 @@ Locales["it"] = {
     ["ems_menu_putincar"] = "Metti in Veicolo",
     ["ems_menu_small"] = "Cura ferite leggere",
     ["ems_menu_big"] = "Tratta ferite gravi",
-    ["ems_menu_search"] = "Cerca i documenti",
+    ["ems_menu_search"] = "Paziente non trovato",
     -- Telefono
-    ["alert_ambulance"] = "Chiama l'ambulanza",
+    ["alert_ambulance"] = "Chiedi l'ambulanza",
     -- Morte
     ["respawn_available_in"] = "Puoi rinascere tra %s minuti %s secondi",
     ["respawn_bleedout_in"] = "Sanguinerai a morte tra %s minuti %s secondi\n",
@@ -82,8 +80,4 @@ Locales["it"] = {
     -- Blip
     ["blip_hospital"] = "Ospedale",
     ["blip_dead"] = "Giocatore morente",
-    -- billing
-    ["billing"] = "Fattura",
-    ["invoice_amount"] = "Importo della fattura",
-    ["no_players_near"] = "Nessun cittadino nelle vicinanze",
 }
