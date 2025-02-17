@@ -230,20 +230,6 @@ CreateThread(function()
                         end
                     end
                 end
-
-                -- Fast Travels (Prompt)
-                for k, v in ipairs(hospital.FastTravelsPrompt) do
-                    local distance = #(playerCoords - v.From)
-
-                    if distance < Config.DrawDistance then
-                        sleep = 0
-                        DrawMarker(v.Marker.type, v.From, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
-
-                        if distance < v.Marker.x then
-                            isInMarker, currentHospital, currentPart, currentPartNum = true, hospitalNum, "FastTravelsPrompt", k
-                        end
-                    end
-                end
             end
 
             -- Logic for exiting & entering markers
@@ -270,10 +256,6 @@ end)
 AddEventHandler("bpt_ambulancejob:hasEnteredMarker", function(hospital, part, partNum)
     if part == "AmbulanceActions" then
         CurrentAction = part
-        CurrentActionMsg = TranslateCap("actions_prompt")
-        CurrentActionData = {}
-    elseif part == "Pharmacy" then
-        CurrentAction = part
         CurrentActionMsg = TranslateCap("open_pharmacy")
         CurrentActionData = {}
     elseif part == "Vehicles" then
@@ -284,12 +266,6 @@ AddEventHandler("bpt_ambulancejob:hasEnteredMarker", function(hospital, part, pa
         CurrentAction = part
         CurrentActionMsg = TranslateCap("helicopter_prompt")
         CurrentActionData = { hospital = hospital, partNum = partNum }
-    elseif part == "FastTravelsPrompt" then
-        local travelItem = Config.Hospitals[hospital][part][partNum]
-
-        CurrentAction = part
-        CurrentActionMsg = travelItem.Prompt
-        CurrentActionData = { to = travelItem.To.coords, heading = travelItem.To.heading }
     end
 
     ESX.TextUI(CurrentActionMsg)
@@ -314,14 +290,10 @@ CreateThread(function()
             if IsControlJustReleased(0, 38) then
                 if CurrentAction == "AmbulanceActions" then
                     OpenAmbulanceActionsMenu()
-                elseif CurrentAction == "Pharmacy" then
-                    OpenPharmacyMenu()
                 elseif CurrentAction == "Vehicles" then
                     OpenVehicleSpawnerMenu("car", CurrentActionData.hospital, CurrentAction, CurrentActionData.partNum)
                 elseif CurrentAction == "Helicopters" then
                     OpenVehicleSpawnerMenu("helicopter", CurrentActionData.hospital, CurrentAction, CurrentActionData.partNum)
-                elseif CurrentAction == "FastTravelsPrompt" then
-                    FastTravel(CurrentActionData.to, CurrentActionData.heading)
                 end
 
                 CurrentAction = nil
@@ -329,22 +301,6 @@ CreateThread(function()
         end
 
         local playerCoords, letSleep = GetEntityCoords(PlayerPedId()), true
-
-        for hospitalNum, hospital in pairs(Config.Hospitals) do
-            -- Fast Travels
-            for k, v in ipairs(hospital.FastTravels) do
-                local distance = #(playerCoords - v.From)
-
-                if distance < Config.DrawDistance then
-                    sleep = 0
-                    DrawMarker(v.Marker.type, v.From, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
-
-                    if distance < v.Marker.x then
-                        FastTravel(v.To.coords, v.To.heading)
-                    end
-                end
-            end
-        end
         Wait(sleep)
     end
 end)
