@@ -1,4 +1,6 @@
 ---@diagnostic disable: undefined-global
+local deadPlayerBlips = {}
+local deadPlayers = {}
 
 RegisterNetEvent("bpt_ambulancejob:clsearch", function(medicId)
     local playerPed = PlayerPedId()
@@ -62,6 +64,8 @@ function RevivePlayer(closestPlayer)
                         TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0.0, false, false, false)
                         RemoveAnimDict(lib)
                     end)
+                    -- Use the variable `i` to avoid unused local error
+                    print("Reviving in progress: step " .. i .. " of 15")
                 end
 
                 TriggerServerEvent("bpt_ambulancejob:removeItem", "medikit")

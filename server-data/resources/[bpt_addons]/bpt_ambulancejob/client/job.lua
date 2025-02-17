@@ -160,24 +160,6 @@ function RevivePlayer(closestPlayer)
     end, "medikit")
 end
 
-function FastTravel(coords, heading)
-    local playerPed = PlayerPedId()
-
-    DoScreenFadeOut(800)
-
-    while not IsScreenFadedOut() do
-        Wait(500)
-    end
-
-    ESX.Game.Teleport(playerPed, coords, function()
-        DoScreenFadeIn(800)
-
-        if heading then
-            SetEntityHeading(playerPed, heading)
-        end
-    end)
-end
-
 -- Draw markers & Marker logic
 CreateThread(function()
     while true do
@@ -256,7 +238,6 @@ end)
 AddEventHandler("bpt_ambulancejob:hasEnteredMarker", function(hospital, part, partNum)
     if part == "AmbulanceActions" then
         CurrentAction = part
-        CurrentActionMsg = TranslateCap("open_pharmacy")
         CurrentActionData = {}
     elseif part == "Vehicles" then
         CurrentAction = part

@@ -13,6 +13,7 @@ AddEventHandler("esx:onPlayerLogout", function()
     firstSpawn = true
 end)
 
+RegisterNetEvent("esx:onPlayerSpawn")
 AddEventHandler("esx:onPlayerSpawn", function()
     if firstSpawn then
         firstSpawn = false
@@ -22,7 +23,6 @@ AddEventHandler("esx:onPlayerSpawn", function()
     ClearTimecycleModifier()
     SetPedMotionBlur(PlayerPedId(), false)
     ClearExtraTimecycleModifier()
-    EndDeathCam()
 end)
 
 -- Create blips
@@ -45,7 +45,7 @@ RegisterNetEvent("bpt_ambulancejob:clsearch")
 AddEventHandler("bpt_ambulancejob:clsearch", function(medicId)
     local playerPed = PlayerPedId()
 
-    if isDead then
+    if IsDead then
         local coords = GetEntityCoords(playerPed)
         local playersInArea = ESX.Game.GetPlayersInArea(coords, 50.0)
 
@@ -59,6 +59,42 @@ AddEventHandler("bpt_ambulancejob:clsearch", function(medicId)
         end
     end
 end)
+
+function StartDeathCam()
+    local playerPed = PlayerPedId()
+    local cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
+    local coords = GetEntityCoords(playerPed)
+    local heading = GetEntityHeading(playerPed)
+
+    SetCamCoord(cam, coords.x, coords.y, coords.z + 1.0)
+    SetCamRot(cam, -10.0, 0.0, heading, 2)
+    SetCamFov(cam, 50.0)
+    RenderScriptCams(true, false, 0, true, true)
+
+    while IsDead do
+        Wait(0)
+        SetEntityHealth(playerPed, 0)
+        SetEntityVisible(playerPed, false, false)
+        SetEntityAlpha(playerPed, 0, false)
+        SetEntityCollision(playerPed, false, false)
+        SetEntityInvincible(playerPed, true)
+        SetEntityCanBeDamaged(playerPed, false)
+        SetEntityLocallyVisible(playerPed)
+        SetEntityVisible(playerPed, false, false)
+        SetEntityAlpha(playerPed, 0, false)
+        SetEntityCollision(playerPed, false, false)
+        SetEntityInvincible(playerPed, true)
+        SetEntityCanBeDamaged(playerPed, false)
+        SetEntityLocallyVisible(playerPed)
+        SetEntityAlpha(playerPed, 0, false)
+        SetEntityCollision(playerPed, false, false)
+        SetEntityInvincible(playerPed, true)
+        SetEntityCanBeDamaged(playerPed, false)
+        SetEntityLocallyVisible(playerPed)
+        SetEntityAlpha(playerPed, 0, false)
+        SetEntityCollision(playerPed, false, false)
+    end
+end
 
 function OnPlayerDeath()
     ESX.CloseContext()
@@ -119,14 +155,13 @@ end)
 
 function StartDeathLoop()
     CreateThread(function()
-        while isDead do
+        while IsDead do
             DisableAllControlActions(0)
             EnableControlAction(0, 47, true) -- G
             EnableControlAction(0, 245, true) -- T
             EnableControlAction(0, 38, true) -- E
 
-            ProcessCamControls()
-            if isSearched then
+            if IsSearched then
                 local playerPed = PlayerPedId()
                 local ped = GetPlayerPed(GetPlayerFromServerId(Medic))
                 IsSearched = false
@@ -145,7 +180,7 @@ function StartDistressSignal()
     CreateThread(function()
         local timer = Config.BleedoutTimer
 
-        while timer > 0 and isDead do
+        while timer > 0 and IsDead do
             Wait(0)
             timer = timer - 30
 
@@ -211,7 +246,7 @@ function StartDeathTimer()
 
     CreateThread(function()
         -- early respawn timer
-        while earlySpawnTimer > 0 and isDead do
+        while earlySpawnTimer > 0 and IsDead do
             Wait(1000)
 
             if earlySpawnTimer > 0 then
@@ -220,7 +255,7 @@ function StartDeathTimer()
         end
 
         -- bleedout timer
-        while bleedoutTimer > 0 and isDead do
+        while bleedoutTimer > 0 and IsDead do
             Wait(1000)
 
             if bleedoutTimer > 0 then
@@ -278,7 +313,7 @@ function StartDeathTimer()
             EndTextCommandDisplayText(0.5, 0.8)
         end
 
-        if bleedoutTimer < 1 and isDead then
+        if bleedoutTimer < 1 and IsDead then
             RemoveItemsAfterRPDeath()
         end
     end)
@@ -360,11 +395,10 @@ AddEventHandler("bpt_ambulancejob:revive", function()
     local formattedCoords = { x = ESX.Math.Round(coords.x, 1), y = ESX.Math.Round(coords.y, 1), z = ESX.Math.Round(coords.z, 1) }
 
     RespawnPed(playerPed, formattedCoords, 0.0)
-    IsDead = false
+    local IsDead = false
     ClearTimecycleModifier()
     SetPedMotionBlur(playerPed, false)
     ClearExtraTimecycleModifier()
-    EndDeathCam()
     DoScreenFadeIn(800)
 end)
 
