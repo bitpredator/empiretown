@@ -18,7 +18,7 @@ ESX Ambulance Job is an plugin for ESX with features:
 
 bpt_ambulancejob - ambulance script for fivem
 
-Copyright (C) 2015-2024 bitpredator
+Copyright (C) 2015-2025 bitpredator
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 

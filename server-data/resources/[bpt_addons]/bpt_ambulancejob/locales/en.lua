@@ -47,7 +47,6 @@ Locales["en"] = {
     ["deposit_amount"] = "Deposit Amount",
     ["money_withdraw"] = "Amount withdrawn",
     ["fast_travel"] = "press [E] to fast travel.",
-    ["pharmacy_take"] = 'Take <span style="color:blue;">%s</span>',
     ["medikit"] = "Medikit",
     ["bandage"] = "Bandage",
     ["max_item"] = "You are already carrying enough.",

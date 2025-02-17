@@ -47,8 +47,6 @@ Locales["hu"] = {
     ["deposit_amount"] = "Összeg betétele",
     ["money_withdraw"] = "Összeg kivétele",
     ["fast_travel"] = "Nyomd meg az [E] gombot a lift használatához",
-    ["pharmacy_menu_title"] = "Kellékek",
-    ["pharmacy_take"] = 'Kivétel: <span style="color:red;">%s</span>',
     ["medikit"] = "Elsősegély készlet",
     ["bandage"] = "Kötszer",
     ["max_item"] = "Nem fér már el nálad!",

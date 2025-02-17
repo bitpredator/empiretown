@@ -47,8 +47,6 @@ Locales["id"] = {
     ["deposit_amount"] = "Jumlah Deposit",
     ["money_withdraw"] = "Jumlah Penarikan",
     ["fast_travel"] = "Tekan [E] untuk fast travel.",
-    ["pharmacy_menu_title"] = "Farmasi",
-    ["pharmacy_take"] = 'Ambil <span style="color:blue;">%s</span>',
     ["medikit"] = "Obat-obatan",
     ["bandage"] = "Perban",
     ["max_item"] = "Anda sudah cukup membawa.",
