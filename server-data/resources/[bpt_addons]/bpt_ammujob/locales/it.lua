@@ -2,10 +2,8 @@ Locales["it"] = {
     -- Armeria
     ["armory"] = "armeria",
     ["open_armory"] = "Premi [E] per accedere all'Armeria.",
-    ["armory_item"] = "$%s",
     ["confirm"] = "Conferma",
     -- Veicoli
-    ["vehicle_menu"] = "veicolo",
     ["vehicle_blocked"] = "tutti i punti di spawn disponibili sono attualmente bloccati!",
     ["garage_prompt"] = "Premi [E] per accedere alle Azioni sul Veicolo.",
     ["garage_title"] = "Azioni sul Veicolo",
@@ -45,12 +43,9 @@ Locales["it"] = {
     ["drag"] = "scorta",
     ["put_in_vehicle"] = "metti in veicolo",
     ["out_the_vehicle"] = "trascina fuori dal veicolo",
-    ["billing"] = "Fattura",
     ["license_check"] = "gestisci licenze",
     ["no_players_nearby"] = "non ci sono giocatori nelle vicinanze!",
     ["being_searched"] = "perquisizione in corso",
-    ["fine_enter_amount"] = "Inserisci l'importo della sanzione",
-    ["fine_enter_text"] = "Inserisci il motivo della multa",
     ["invalid_amount"] = "Errore: l'importo non era un numero o non era valido",
     -- Menu Carta d'identità
     ["name"] = "nome: %s",
@@ -60,8 +55,8 @@ Locales["it"] = {
     ["height"] = "altezza: %s",
     ["bac"] = "BAC: %s",
     ["unknown"] = "sconosciuto",
-    ["male"] = "maschio",
-    ["female"] = "femmina",
+    ["male"] = "uomo",
+    ["female"] = "donna",
     -- Menu Perquisizione corpo
     ["guns_label"] = "--- Armi ---",
     ["inventory_label"] = "--- Inventario ---",
@@ -76,11 +71,6 @@ Locales["it"] = {
     ["got_confiscated_account"] = "$%s (%s) sono stati confiscati da %s",
     ["you_confiscated_weapon"] = "hai confiscato %s da %s con ~o~%s proiettili",
     ["got_confiscated_weapon"] = "la tua %s con ~o~%s proiettili è stata confiscata da %s",
-    ["traffic_offense"] = "infrazione del traffico",
-    ["minor_offense"] = "infrazione minore",
-    ["average_offense"] = "infrazione media",
-    ["major_offense"] = "infrazione grave",
-    ["fine_total"] = "multa: %s",
     -- Menu Informazioni Veicolo
     ["plate"] = "targa: %s",
     ["owner_unknown"] = "proprietario: sconosciuto",

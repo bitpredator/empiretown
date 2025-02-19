@@ -1,11 +1,11 @@
 Citizen.CreateThread(function()
-	while true do
-		Wait(0)
+    while true do
+        Wait(0)
 
-		if NetworkIsSessionStarted() then
-			TriggerServerEvent("hardcap:playerActivated")
+        if NetworkIsSessionStarted() then
+            TriggerServerEvent("hardcap:playerActivated")
 
-			return
-		end
-	end
+            return
+        end
+    end
 end)
