@@ -2,10 +2,8 @@ Locales["en"] = {
     -- Armory
     ["armory"] = "armory",
     ["open_armory"] = "press [E] to access the Armory.",
-    ["armory_item"] = "$%s",
     ["confirm"] = "Confirm",
     -- Vehicles
-    ["vehicle_menu"] = "vehicle",
     ["vehicle_blocked"] = "all available spawn points are currently blocked!",
     ["garage_prompt"] = "press [E] to access the Vehicle Actions.",
     ["garage_title"] = "vehicle Actions",
@@ -45,7 +43,6 @@ Locales["en"] = {
     ["drag"] = "escort",
     ["put_in_vehicle"] = "put in Vehicle",
     ["out_the_vehicle"] = "drag out from vehicle",
-    ["billing"] = "billing",
     ["license_check"] = "manage license",
     ["no_players_nearby"] = "there is no player(s) nearby!",
     ["being_searched"] = "you are being searched by the Ammu",
@@ -73,13 +70,6 @@ Locales["en"] = {
     ["got_confiscated_account"] = "$%s (%s) was confiscated by %s",
     ["you_confiscated_weapon"] = "you confiscated %s from %s with ~o~%s bullets",
     ["got_confiscated_weapon"] = "your %s with ~o~%s bullets was confiscated by %s",
-    ["traffic_offense"] = "traffic Offense",
-    ["minor_offense"] = "minor Offense",
-    ["average_offense"] = "average Offense",
-    ["major_offense"] = "major Offense",
-    ["fine_total"] = "fine: %s",
-    ["fine_enter_amount"] = "Enter the amount of the fine",
-    ["fine_enter_text"] = "Enter the reason for the fine",
     ["invalid_amount"] = "Error: Amount was not a number or invalid",
     -- Vehicle Info Menu
     ["plate"] = "plate: %s",
