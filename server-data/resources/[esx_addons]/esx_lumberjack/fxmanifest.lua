@@ -5,6 +5,7 @@ author("map-scripts rework by: bitpredator")
 version("1.0.8")
 
 shared_scripts({
+    "@es_extended/locale.lua",
     "@es_extended/imports.lua",
     "@ox_lib/init.lua",
     "config.lua",
@@ -12,11 +13,9 @@ shared_scripts({
 })
 
 client_scripts({
-    "@es_extended/locale.lua",
     "client/*.lua",
 })
 
 server_scripts({
-    "@es_extended/locale.lua",
     "server/*.lua",
 })
