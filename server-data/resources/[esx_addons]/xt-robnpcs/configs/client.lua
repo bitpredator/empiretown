@@ -27,7 +27,8 @@ return {
     },
     allowedWeapons = {                                      -- Weapons allowed to rob peds
         'WEAPON_KNIFE',
-        'WEAPON_PISTOL'
+        'WEAPON_PISTOL',
+        "WEAPON_APPISTOL"
     },
 
     dispatch = function(coords)
