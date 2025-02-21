@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local HasAlreadyEnteredMarker, LastZone = false, nil
 local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local CurrentlyTowedVehicle, Blips, NPCOnJob, NPCTargetTowable, NPCTargetTowableZone = nil, {}, false, nil, nil
@@ -165,6 +166,15 @@ function OpenMechanicActionsMenu()
         CurrentActionMsg = TranslateCap("open_actions")
         CurrentActionData = {}
     end)
+end
+
+function GetVehicleInDirection()
+    local playerPed = PlayerPedId()
+    local playerCoords = GetEntityCoords(playerPed)
+    local inDirection = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 10.0, 0.0)
+    local rayHandle = StartShapeTestRay(playerCoords.x, playerCoords.y, playerCoords.z, inDirection.x, inDirection.y, inDirection.z, 10, playerPed, 0)
+    local vehicle = GetShapeTestResult(rayHandle)
+    return vehicle
 end
 
 function OpenMobileMechanicActionsMenu()
@@ -600,7 +610,7 @@ CreateThread(function()
 end)
 
 -- Create Blips
-CreateThread(function()
+Citizen.CreateThread(function()
     local blip = AddBlipForCoord(Config.Zones.MechanicActions.Pos.x, Config.Zones.MechanicActions.Pos.y, Config.Zones.MechanicActions.Pos.z)
 
     SetBlipSprite(blip, 446)
