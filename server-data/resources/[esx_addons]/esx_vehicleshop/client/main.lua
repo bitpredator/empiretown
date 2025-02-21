@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local HasAlreadyEnteredMarker, IsInShopMenu = false, false
 local CurrentAction, CurrentActionMsg, LastZone, currentDisplayVehicle, CurrentVehicleData
 local CurrentActionData, Vehicles, Categories = {}, {}, {}
@@ -134,7 +135,7 @@ function OpenShopMenu()
 
     FreezeEntityPosition(playerPed, true)
     SetEntityVisible(PlayerPedId(), true, true)
-    SetEntityCoords(playerPed, Config.Zones.ShopInside.Pos)
+    SetEntityCoords(playerPed, Config.Zones.ShopInside.Pos.x, Config.Zones.ShopInside.Pos.y, Config.Zones.ShopInside.Pos.z, false, false, false, true)
 
     local vehiclesByCategory = {}
     local elements = {}
@@ -214,7 +215,7 @@ function OpenShopMenu()
                             local playerPed = PlayerPedId()
                             FreezeEntityPosition(playerPed, false)
                             SetEntityVisible(PlayerPedId(), true, true)
-                            SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos)
+                            SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos.x, Config.Zones.ShopEntering.Pos.y, Config.Zones.ShopEntering.Pos.z, false, false, false, true)
 
                             menu2.close()
                             menu.close()
@@ -256,7 +257,7 @@ function OpenShopMenu()
 
         FreezeEntityPosition(playerPed, false)
         SetEntityVisible(PlayerPedId(), true, true)
-        SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos)
+        SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos.x, Config.Zones.ShopEntering.Pos.y, Config.Zones.ShopEntering.Pos.z, false, false, false, true)
 
         IsInShopMenu = false
     end, function(data)
@@ -275,14 +276,22 @@ function OpenShopMenu()
     end)
 
     DeleteDisplayVehicleInsideShop()
-    WaitForVehicleToLoad(firstVehicleData.model)
+    if firstVehicleData and firstVehicleData.model then
+        WaitForVehicleToLoad(firstVehicleData.model)
+    else
+        print("[^3ERROR^7] firstVehicleData or firstVehicleData.model is nil")
+    end
 
-    ESX.Game.SpawnLocalVehicle(firstVehicleData.model, Config.Zones.ShopInside.Pos, Config.Zones.ShopInside.Heading, function(vehicle)
-        currentDisplayVehicle = vehicle
-        TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
-        FreezeEntityPosition(vehicle, true)
-        SetModelAsNoLongerNeeded(firstVehicleData.model)
-    end)
+    if firstVehicleData and firstVehicleData.model then
+        ESX.Game.SpawnLocalVehicle(firstVehicleData.model, Config.Zones.ShopInside.Pos, Config.Zones.ShopInside.Heading, function(vehicle)
+            currentDisplayVehicle = vehicle
+            TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
+            FreezeEntityPosition(vehicle, true)
+            SetModelAsNoLongerNeeded(firstVehicleData.model)
+        end)
+    else
+        print("[^3ERROR^7] firstVehicleData or firstVehicleData.model is nil")
+    end
 end
 
 function WaitForVehicleToLoad(modelHash)
@@ -725,7 +734,7 @@ AddEventHandler("onResourceStop", function(resource)
 
             FreezeEntityPosition(playerPed, false)
             SetEntityVisible(PlayerPedId(), true, true)
-            SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos)
+            SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos.x, Config.Zones.ShopEntering.Pos.y, Config.Zones.ShopEntering.Pos.z, false, false, false, true)
         end
 
         DeleteDisplayVehicleInsideShop()
@@ -735,7 +744,7 @@ end)
 -- Create Blips
 CreateThread(function()
     if Config.Blip.show then
-        local blip = AddBlipForCoord(Config.Zones.ShopEntering.Pos)
+        local blip = AddBlipForCoord(Config.Zones.ShopEntering.Pos.x, Config.Zones.ShopEntering.Pos.y, Config.Zones.ShopEntering.Pos.z)
 
         SetBlipSprite(blip, Config.Blip.Sprite)
         SetBlipDisplay(blip, Config.Blip.Display)
@@ -753,7 +762,7 @@ CreateThread(function()
     while true do
         Wait(0)
         local playerCoords = GetEntityCoords(PlayerPedId())
-        local isInMarker, letSleep, currentZone = false, true
+        local isInMarker, letSleep, currentZone = false, true, nil
 
         for k, v in pairs(Config.Zones) do
             local distance = #(playerCoords - v.Pos)
@@ -762,7 +771,7 @@ CreateThread(function()
                 letSleep = false
 
                 if v.Type ~= -1 then
-                    DrawMarker(v.Type, v.Pos, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y, v.Size.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, nil, nil, false)
+                    DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Size.x, v.Size.y, v.Size.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
                 end
 
                 if distance < v.Size.x then
