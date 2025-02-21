@@ -1,3 +1,6 @@
+---@diagnostic disable: undefined-global
+
+ESX = exports["es_extended"]:getSharedObject()
 local Jobs = {}
 local RegisteredSocieties = {}
 
@@ -11,18 +14,19 @@ end
 
 AddEventHandler("onResourceStart", function(resourceName)
     if resourceName == GetCurrentResourceName() then
-        local result = MySQL.query.await("SELECT * FROM jobs")
+        MySQL.Async.fetchAll("SELECT * FROM jobs", {}, function(result)
+            for i = 1, #result, 1 do
+                Jobs[result[i].name] = Jobs[result[i].name] or {}
+                Jobs[result[i].name] = result[i]
+                Jobs[result[i].name].grades = {}
+            end
 
-        for i = 1, #result, 1 do
-            Jobs[result[i].name] = result[i]
-            Jobs[result[i].name].grades = {}
-        end
+            local result2 = MySQL.query.await("SELECT * FROM job_grades")
 
-        local result2 = MySQL.query.await("SELECT * FROM job_grades")
-
-        for i = 1, #result2, 1 do
-            Jobs[result2[i].job_name].grades[tostring(result2[i].grade)] = result2[i]
-        end
+            for i = 1, #result2, 1 do
+                Jobs[result2[i].job_name].grades[tostring(result2[i].grade)] = result2[i]
+            end
+        end)
     end
 end)
 
@@ -60,7 +64,11 @@ end)
 
 RegisterServerEvent("bpt_society:checkSocietyBalance")
 AddEventHandler("bpt_society:checkSocietyBalance", function(society)
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = ESX and ESX.GetPlayerFromId(source)
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(source))
+        return
+    end
     local society = GetSociety(society)
 
     if xPlayer.job.name ~= society.name then
@@ -69,7 +77,11 @@ AddEventHandler("bpt_society:checkSocietyBalance", function(society)
     end
 
     TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
-        TriggerClientEvent("esx:showNotification", xPlayer.source, TranslateCap("check_balance", ESX.Math.GroupDigits(account.money)))
+        if ESX and ESX.Math then
+            TriggerClientEvent("esx:showNotification", xPlayer.source, TranslateCap("check_balance", ESX.Math.GroupDigits(account.money)))
+        else
+            print("[^3WARNING^7] ESX or ESX.Math is nil!")
+        end
     end)
 end)
 
@@ -81,14 +93,26 @@ AddEventHandler("bpt_society:withdrawMoney", function(societyName, amount)
         print(("[^3WARNING^7] Player ^5%s^7 attempted to withdraw from non-existing society - ^5%s^7!"):format(source, societyName))
         return
     end
-    local xPlayer = ESX.GetPlayerFromId(source)
-    amount = ESX.Math.Round(tonumber(amount))
+    local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(source)
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(source))
+        return
+    end
+    amount = ESX and ESX.Math and ESX.Math.Round(tonumber(amount))
+    if not amount then
+        xPlayer.showNotification(TranslateCap("invalid_amount"))
+        return
+    end
     if xPlayer.job.name == society.name then
         TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
             if amount > 0 and account.money >= amount then
                 account.removeMoney(amount)
                 xPlayer.addMoney(amount, "Society Withdraw")
-                xPlayer.showNotification(TranslateCap("have_withdrawn", ESX.Math.GroupDigits(amount)))
+                if ESX and ESX.Math then
+                    xPlayer.showNotification(TranslateCap("have_withdrawn", ESX.Math.GroupDigits(amount)))
+                else
+                    print("[^3WARNING^7] ESX or ESX.Math is nil!")
+                end
             else
                 xPlayer.showNotification(TranslateCap("invalid_amount"))
             end
@@ -101,13 +125,23 @@ end)
 RegisterServerEvent("bpt_society:depositMoney")
 AddEventHandler("bpt_society:depositMoney", function(societyName, amount)
     local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(source)
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(source))
+        return
+    end
     local society = GetSociety(societyName)
     if not society then
         print(("[^3WARNING^7] Player ^5%s^7 attempted to deposit to non-existing society - ^5%s^7!"):format(source, societyName))
         return
     end
-    amount = ESX.Math.Round(tonumber(amount))
+    if ESX and ESX.Math then
+        amount = ESX.Math.Round(tonumber(amount))
+    else
+        print("[^3WARNING^7] ESX or ESX.Math is nil!")
+        xPlayer.showNotification(TranslateCap("invalid_amount"))
+        return
+    end
 
     if xPlayer.job.name == society.name then
         if amount > 0 and xPlayer.getMoney() >= amount then
@@ -127,12 +161,34 @@ end)
 RegisterServerEvent("bpt_society:washMoney")
 AddEventHandler("bpt_society:washMoney", function(society, amount)
     local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(source)
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(source))
+        return
+    end
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(source))
+        return
+    end
     local account = xPlayer.getAccount("black_money")
-    amount = ESX.Math.Round(tonumber(amount))
+    amount = tonumber(amount)
+    amount = ESX and ESX.Math and ESX.Math.Round(amount)
+    if not amount then
+        xPlayer.showNotification(TranslateCap("invalid_amount"))
+        return
+    end
+    xPlayer.showNotification(TranslateCap("invalid_amount"))
+    xPlayer.showNotification(TranslateCap("you_have", ESX and ESX.Math and ESX.Math.GroupDigits(amount)))
+    if ESX and ESX.Math then
+        amount = ESX.Math.Round(amount)
+    else
+        print("[^3WARNING^7] ESX or ESX.Math is nil!")
+        xPlayer.showNotification(TranslateCap("invalid_amount"))
+        return
+    end
 
     if xPlayer.job.name == society then
-        if amount and amount > 0 and account.money >= amount then
+        if amount > 0 and account.money >= amount then
             xPlayer.removeAccountMoney("black_money", amount, "Washing")
 
             MySQL.insert("INSERT INTO society_moneywash (identifier, society, amount) VALUES (?, ?, ?)", { xPlayer.identifier, society, amount }, function()
@@ -149,7 +205,11 @@ end)
 RegisterServerEvent("bpt_society:putVehicleInGarage")
 AddEventHandler("bpt_society:putVehicleInGarage", function(societyName, vehicle)
     local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(source)
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(source))
+        return
+    end
     local society = GetSociety(societyName)
     if not society then
         print(("[^3WARNING^7] Player ^5%s^7 attempted to put vehicle in non-existing society garage - ^5%s^7!"):format(source, societyName))
@@ -165,7 +225,11 @@ end)
 RegisterServerEvent("bpt_society:removeVehicleFromGarage")
 AddEventHandler("bpt_society:removeVehicleFromGarage", function(societyName, vehicle)
     local source = source
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(source)
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(source))
+        return
+    end
     local society = GetSociety(societyName)
     if not society then
         print(("[^3WARNING^7] Player ^5%s^7 attempted to remove vehicle from non-existing society garage - ^5%s^7!"):format(source, societyName))
@@ -185,25 +249,30 @@ AddEventHandler("bpt_society:removeVehicleFromGarage", function(societyName, veh
     end)
 end)
 
-ESX.RegisterServerCallback("bpt_society:getSocietyMoney", function(source, cb, societyName)
-    local society = GetSociety(societyName)
-    if not society then
-        print(("[^3WARNING^7] Player ^5%s^7 attempted to get money from non-existing society - ^5%s^7!"):format(source, societyName))
-        return
-    end
-    if society then
+if ESX then
+    ESX.RegisterServerCallback("bpt_society:getSocietyMoney", function(source, cb, societyName)
+        local society = GetSociety(societyName)
+        if not society then
+            print(("[^3WARNING^7] Player ^5%s^7 attempted to get money from non-existing society - ^5%s^7!"):format(source, societyName))
+            cb(0)
+            return
+        end
         TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
-            cb(account.money)
+            if account then
+                cb(account.money)
+            else
+                cb(0)
+            end
         end)
-    else
-        cb(0)
-    end
-end)
+    end)
+else
+    print("[^3WARNING^7] ESX is nil!")
+end
 
 ESX.RegisterServerCallback("bpt_society:getEmployees", function(_, cb, society)
     local employees = {}
 
-    local xPlayers = ESX.GetExtendedPlayers("job", society)
+    local xPlayers = ESX and ESX.GetExtendedPlayers and ESX.GetExtendedPlayers("job", society) or {}
     for i = 1, #xPlayers do
         local xPlayer = xPlayers[i]
 
@@ -285,9 +354,20 @@ ESX.RegisterServerCallback("bpt_society:getJob", function(_, cb, society)
 end)
 
 ESX.RegisterServerCallback("bpt_society:setJob", function(source, cb, identifier, job, grade, type)
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(source)
+    if not xPlayer or not xPlayer.job then
+        print(("[^3WARNING^7] Player ^5%s^7 or job not found!"):format(source))
+        cb()
+        return
+    end
+
     local isBoss = xPlayer.job.grade_name == "boss"
-    local xTarget = ESX.GetPlayerFromIdentifier(identifier)
+    local xTarget = ESX and ESX.GetPlayerFromIdentifier and ESX.GetPlayerFromIdentifier(identifier)
+    if not xTarget then
+        print(("[^3WARNING^7] Target Player ^5%s^7 not found!"):format(identifier))
+        cb()
+        return
+    end
 
     if isBoss then
         if xTarget then
@@ -317,15 +397,24 @@ ESX.RegisterServerCallback("bpt_society:setJob", function(source, cb, identifier
 end)
 
 ESX.RegisterServerCallback("bpt_society:setJobSalary", function(source, cb, job, grade, salary)
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(source)
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(source))
+        cb()
+        return
+    end
 
     if xPlayer.job.name == job and xPlayer.job.grade_name == "boss" then
         if salary <= Config.MaxSalary then
             MySQL.update("UPDATE job_grades SET salary = ? WHERE job_name = ? AND grade = ?", { salary, job, grade }, function()
                 Jobs[job].grades[tostring(grade)].salary = salary
-                ESX.RefreshJobs()
+                if ESX and ESX.RefreshJobs then
+                    ESX.RefreshJobs()
+                else
+                    print("[^3WARNING^7] ESX or ESX.RefreshJobs is nil!")
+                end
                 Wait(1)
-                local xPlayers = ESX.GetExtendedPlayers("job", job)
+                local xPlayers = ESX and ESX.GetExtendedPlayers and ESX.GetExtendedPlayers("job", job) or {}
                 for _, xTarget in pairs(xPlayers) do
                     if xTarget.job.grade == grade then
                         xTarget.setJob(job, grade)
@@ -344,14 +433,23 @@ ESX.RegisterServerCallback("bpt_society:setJobSalary", function(source, cb, job,
 end)
 
 ESX.RegisterServerCallback("bpt_society:setJobLabel", function(source, cb, job, grade, label)
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(source)
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(source))
+        cb()
+        return
+    end
 
     if xPlayer.job.name == job and xPlayer.job.grade_name == "boss" then
         MySQL.update("UPDATE job_grades SET label = ? WHERE job_name = ? AND grade = ?", { label, job, grade }, function()
             Jobs[job].grades[tostring(grade)].label = label
-            ESX.RefreshJobs()
+            if ESX and ESX.RefreshJobs then
+                ESX.RefreshJobs()
+            else
+                print("[^3WARNING^7] ESX or ESX.RefreshJobs is nil!")
+            end
             Wait(1)
-            local xPlayers = ESX.GetExtendedPlayers("job", job)
+            local xPlayers = ESX and ESX.GetExtendedPlayers and ESX.GetExtendedPlayers("job", job) or {}
             for _, xTarget in pairs(xPlayers) do
                 if xTarget.job.grade == grade then
                     xTarget.setJob(job, grade)
@@ -370,7 +468,7 @@ ESX.RegisterServerCallback("bpt_society:getOnlinePlayers", function(_, cb)
     if getOnlinePlayers == false and next(onlinePlayers) == nil then -- Prevent multiple xPlayer loops from running in quick succession
         getOnlinePlayers, onlinePlayers = true, {}
 
-        local xPlayers = ESX.GetExtendedPlayers()
+        local xPlayers = ESX and ESX.GetExtendedPlayers and ESX.GetExtendedPlayers() or {}
         for i = 1, #xPlayers do
             local xPlayer = xPlayers[i]
             table.insert(onlinePlayers, {
@@ -409,7 +507,11 @@ ESX.RegisterServerCallback("bpt_society:isBoss", function(source, cb, job)
 end)
 
 function IsPlayerBoss(playerId, job)
-    local xPlayer = ESX.GetPlayerFromId(playerId)
+    local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(playerId)
+    if not xPlayer then
+        print(("[^3WARNING^7] Player ^5%s^7 not found!"):format(playerId))
+        return false
+    end
 
     if xPlayer.job.name == job and xPlayer.job.grade_name == "boss" then
         return true
@@ -423,7 +525,7 @@ function WashMoneyCRON()
     MySQL.query("SELECT * FROM society_moneywash", function(result)
         for i = 1, #result, 1 do
             local society = GetSociety(result[i].society)
-            local xPlayer = ESX.GetPlayerFromIdentifier(result[i].identifier)
+            local xPlayer = ESX and ESX.GetPlayerFromId and ESX.GetPlayerFromId(result[i].identifier)
 
             -- add society money
             TriggerEvent("bpt_addonaccount:getSharedAccount", society.account, function(account)
@@ -432,7 +534,9 @@ function WashMoneyCRON()
 
             -- send notification if player is online
             if xPlayer then
-                xPlayer.showNotification(TranslateCap("you_have_laundered", ESX.Math.GroupDigits(result[i].amount)))
+                if ESX and ESX.Math then
+                    xPlayer.showNotification(TranslateCap("you_have_laundered", ESX.Math.GroupDigits(result[i].amount)))
+                end
             end
         end
         MySQL.update("DELETE FROM society_moneywash")

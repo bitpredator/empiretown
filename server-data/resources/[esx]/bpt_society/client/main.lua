@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 RegisterNetEvent("esx:setJob")
 AddEventHandler("esx:setJob", function(job)
     ESX.PlayerData.job = job
@@ -152,7 +153,7 @@ function OpenBossMenu(society, _, options)
                         ESX.CloseContext()
                     end
                 elseif element.value == "wash_money" then
-                    local elements = {
+                    local washElements = {
                         {
                             unselectable = true,
                             icon = "fas fa-wallet",
@@ -172,7 +173,7 @@ function OpenBossMenu(society, _, options)
                         { icon = "fas fa-check", title = "Confirm", value = "confirm3" },
                         { icon = "fas fa-arrow-left", title = "Return", value = "return" },
                     }
-                    ESX.RefreshContext(elements)
+                    ESX.RefreshContext(washElements)
                 elseif element.value == "confirm3" then
                     local amount = tonumber(menu.eles[2].inputValue)
                     if amount == nil then
