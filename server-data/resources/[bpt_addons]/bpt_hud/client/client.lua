@@ -155,7 +155,7 @@ local function loadHudMisc()
 end
 
 if Config.ESX then
-    AddEventHandler("esx_status:onTick", function(data)
+    AddEventHandler("bpt_status:onTick", function(data)
         local hunger, thirst
         for i = 1, #data do
             if data[i].name == "thirst" then
@@ -237,8 +237,8 @@ local function loadUserInfo()
         end)
     elseif Config.ESX and Config.DisplayUserInfo then
         local society_money
-        RegisterNetEvent("esx_addonaccount:setMoney")
-        AddEventHandler("esx_addonaccount:setMoney", function(society, money)
+        RegisterNetEvent("bpt_addonaccount:setMoney")
+        AddEventHandler("bpt_addonaccount:setMoney", function(society, money)
             if ESX.PlayerData.job and ESX.PlayerData.job.grade_name == "boss" and "society_" .. ESX.PlayerData.job.name == society then
                 society_money = money
             end
