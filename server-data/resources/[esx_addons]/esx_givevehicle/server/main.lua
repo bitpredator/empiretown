@@ -144,7 +144,7 @@ AddEventHandler("esx_giveownedcar:setVehicle", function(vehicleProps, playerID, 
         ["@owner"] = xPlayer.identifier,
         ["@plate"] = vehicleProps.plate,
         ["@vehicle"] = json.encode(vehicleProps),
-        ["@stored"] = 1,
+        ["@stored"] = 0,
         ["type"] = vehicleType,
     }, function()
         if Config.ReceiveMsg then
