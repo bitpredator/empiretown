@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 ESX = exports["es_extended"]:getSharedObject()
 
 RegisterCommand("lockvehicle", function()
@@ -109,7 +110,7 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    local blip = AddBlipForCoord(centralPos)
+    local blip = AddBlipForCoord(centralPos.x, centralPos.y, centralPos.z)
 
     SetBlipSprite(blip, 186)
     SetBlipDisplay(blip, 4)
