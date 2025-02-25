@@ -759,7 +759,7 @@ Config = {
             coords = vector3(83.156044, -1960.259277, 18.041016),
             jobs = { "ballas" },
             blip = false,
-            recipes = { "cigarette_paper", "marijuana" },
+            recipes = { "cigarette_paper", "marijuana", "diamond_tip" },
             radius = 1.0,
         },
         {
