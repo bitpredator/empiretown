@@ -4,7 +4,7 @@ game("gta5")
 
 description("Adds a Hunger & Thrist system")
 lua54("yes")
-version("1.0.2")
+version("1.0.8")
 
 shared_script("@es_extended/imports.lua")
 

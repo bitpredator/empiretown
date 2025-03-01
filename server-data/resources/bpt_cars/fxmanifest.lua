@@ -3,7 +3,7 @@ game("gta5")
 description("bpt_cars - pack addon car")
 author("bitpredator")
 lua54("yes")
-version("1.0.2")
+version("1.0.8")
 
 files({
     -- bmw440
@@ -52,6 +52,28 @@ files({
     "data/stockade4/handling.meta",
     "data/stockade4/vehicles.meta",
     "data/stockade4/carvariations.meta",
+
+    -- KTM690
+    "data/KTM690/handling.meta",
+    "data/KTM690/vehicles.meta",
+    "data/KTM690/carcols.meta",
+    "data/KTM690/carvariations.meta",
+    "data/KTM690/dlctext.meta",
+
+    -- 69 charger
+    "data/charger/handling.meta",
+    "data/charger/vehicles.meta",
+    "data/charger/carcols.meta",
+    "data/charger/carvariations.meta",
+    "data/charger/dlctext.meta",
+
+    -- gxa45
+    "data/gxa45/handling.meta",
+    "data/gxa45/vehicles.meta",
+    "data/gxa45/carcols.meta",
+    "data/gxa45/carvariations.meta",
+    "data/gxa45/dlctext.meta",
+
 })
 
 -- bmw440
@@ -100,6 +122,27 @@ data_file("DLCTEXT_FILE")("data/Ford-Mustang-mgt/dlctext.meta")
 data_file("HANDLING_FILE")("data/stockade4/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/stockade4/vehicles.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/stockade4/carvariations.meta")
+
+-- KTM690
+data_file("HANDLING_FILE")("data/KTM690/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/KTM690/vehicles.meta")
+data_file("CARCOLS_FILE")("data/KTM690/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/KTM690/carvariations.meta")
+data_file("DLCTEXT_FILE")("data/KTM690/dlctext.meta")
+
+-- charger 69
+data_file("HANDLING_FILE")("data/charger/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/charger/vehicles.meta")
+data_file("CARCOLS_FILE")("data/charger/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/charger/carvariations.meta")
+data_file("DLCTEXT_FILE")("data/charger/dlctext.meta")
+
+-- gxa45
+data_file("HANDLING_FILE")("data/gxa45/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/gxa45/vehicles.meta")
+data_file("CARCOLS_FILE")("data/gxa45/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/gxa45/carvariations.meta")
+data_file("DLCTEXT_FILE")("data/gxa45/dlctext.meta")
 
 client_script({
     "vehicle_names.lua",

@@ -17,7 +17,6 @@ Locales["en"] = {
     ["repair_tools"] = "repair Tools",
     ["body_work_tools"] = "bodywork Tools",
     ["repair_kit"] = "repair Kit",
-    ["billing"] = "billing",
     ["hijack"] = "hijack",
     ["repair"] = "repair",
     ["clean"] = "clean",

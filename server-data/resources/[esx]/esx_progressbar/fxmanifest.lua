@@ -3,7 +3,7 @@ fx_version("adamant")
 game("gta5")
 author("bitpredator")
 lua54("yes")
-version("1.0.2")
+version("1.0.8")
 description("Progressbar")
 
 client_scripts({ "Progress.lua" })

@@ -1007,7 +1007,7 @@ function IncurCooldown(ms)
 end
 
 function Notify(message, color) -- However you want your notifications to be shown, you can switch it up here.
-    ESX.ShowNotification(message, color)
+    ESX.ShowNotification(message, color, false, 1)
 end
 
 function IsMpPed(ped)

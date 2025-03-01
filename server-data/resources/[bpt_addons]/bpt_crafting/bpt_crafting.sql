@@ -58,7 +58,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('diamond', 'Diamond'),
 	('marijuana_extract', 'Marijuana extract'),
 	('medikit', 'Medikit'),
-	('salmon_fillet', 'Salmon Fillet'),
 	('armour', 'armour'),
 	('WEAPON_FLASHLIGHT', 'WEAPON FLASHLIGHT'),
 	('contract', 'Contract'),
@@ -67,5 +66,9 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('ammo-shotgun', 'ammo shotgun'),
 	('salmon', 'Salmon'),
 	('fry_oil', 'Fry oil'),
-	('grilled_salmon', 'grilled salmon')
+	('grilled_salmon', 'grilled salmon'),
+	('WEAPON_PISTOL_MK2', 'WEAPON PISTOL MK2'),
+	('at_skin_luxe', 'Tint Gold'),
+	('grilled_trout', 'Grilled trout'),
+	('trout', 'Trout')
 ;

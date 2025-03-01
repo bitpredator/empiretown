@@ -3,26 +3,19 @@ local speedBuffer = {}
 local velBuffer = {}
 local beltOn = false
 local wasInCar = false
-local notifIn = false
-local notifOut = false
 
-function drawUI(x, y, width, height, scale, text, r, g, b, a, center)
+function DrawUI(x, y, width, height, scale, text, r, g, b, a, center)
     SetTextFont(4)
-    SetTextProportional(0)
+    SetTextProportional(false)
     SetTextScale(scale, scale)
     SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0, 255)
+    SetTextDropShadow()
     SetTextEdge(1, 0, 0, 0, 255)
     SetTextDropShadow()
     SetTextCentre(center)
-    --SetTextOutline()
     SetTextEntry("STRING")
     AddTextComponentString(text)
     DrawText(x - width / 2, y - height / 2 + 0.005)
-end
-
-local function drawRect(x, y, width, height, color)
-    DrawRect(x, y, width, height, color.r, color.g, color.b, color.a)
 end
 
 function IsCar(veh)
@@ -43,23 +36,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1500)
         local ped = GetPlayerPed(-1)
-        local car = GetVehiclePedIsIn(ped)
-
-        if IsPedSittingInAnyVehicle(ped) then
-            if not notifIn then
-                TriggerEvent("pNotify:SendNotification", {
-                    text = "<b style='color:#7b9ee2'>Premi</b> <b style='color:#1e90ff'>B</b> <b style='color:#7b9ee2'>per allacciare la cintura</b>",
-                    type = "success",
-                    queue = "global",
-                    timeout = 4000,
-                    layout = "bottomcenter",
-                    close = "gta_effects_fade_out",
-                })
-                notifIn = true
-            end
-        else
-            notifIn = false
-        end
+        local car = GetVehiclePedIsIn(ped, false)
 
         if car ~= 0 then
             local speed = GetEntitySpeed(car)
@@ -77,7 +54,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
 
         local ped = GetPlayerPed(-1)
-        local car = GetVehiclePedIsIn(ped)
+        local car = GetVehiclePedIsIn(ped, false)
 
         if car ~= 0 and (wasInCar or IsCar(car)) then
             wasInCar = true
@@ -89,7 +66,7 @@ Citizen.CreateThread(function()
             end
 
             if beltOn then
-                DisableControlAction(0, 75)
+                DisableControlAction(0, 75, true)
             end
 
             speedBuffer[2] = speedBuffer[1]
@@ -98,10 +75,10 @@ Citizen.CreateThread(function()
             if speedBuffer[2] ~= nil and not beltOn and GetEntitySpeedVector(car, true).y > 1.0 and speedBuffer[1] > 19.25 and (speedBuffer[2] - speedBuffer[1]) > (speedBuffer[1] * 0.255) then
                 local co = GetEntityCoords(ped)
                 local fw = Fwv(ped)
-                SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
+                SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true, false)
                 SetEntityVelocity(ped, velBuffer[2].x, velBuffer[2].y, velBuffer[2].z)
                 Citizen.Wait(1)
-                SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
+                SetPedToRagdoll(ped, 1000, 1000, 0, false, false, false)
             end
 
             velBuffer[2] = velBuffer[1]
@@ -113,8 +90,7 @@ Citizen.CreateThread(function()
                 if beltOn then
                     ProgressBar("ALLACCIAMENTO CINTURA IN CORSO...", 30)
                     Wait(3750)
-
-                    TriggerEvent("pNotify:SendNotification", { text = "Cintura Allacciata", type = "success", timeout = 1400, layout = "centerLeft" })
+                    TriggerEvent("ESX:Notify", "info", 3000, "Cintura Allacciata")
 
                     SendNUIMessage({
                         displayWindow = "false",
@@ -122,7 +98,7 @@ Citizen.CreateThread(function()
                     isUiOpen = true
                 else
                     ProgressBar("SLACCIAMENTO CINTURA IN CORSO...", 30)
-                    TriggerEvent("pNotify:SendNotification", { text = "Cintura Slacciata", type = "error", timeout = 1400, layout = "centerLeft" })
+                    TriggerEvent("ESX:Notify", "info", 3000, "Cintura Slacciata")
 
                     SendNUIMessage({
                         displayWindow = "true",
@@ -175,7 +151,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         if progress_bar then
             DrawRect(0.50, 0.90, 0.20, 0.05, 0, 0, 0, 100)
-            drawUI(0.910, 1.375, 1.0, 1.0, 0.55, progress_bar_text, 255, 255, 255, 255, false)
+            DrawUI(0.910, 1.375, 1.0, 1.0, 0.55, progress_bar_text, 255, 255, 255, 255, false)
             if progress_time > 0 then
                 DrawRect(0.50, 0.90, 0.20 - progress_time, 0.05, 75, 156, 237, 225)
             elseif progress_time < 1 and progress_bar then

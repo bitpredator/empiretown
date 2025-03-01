@@ -4,7 +4,7 @@ lua54("yes")
 
 author("wasabirobby rework by bitpredator")
 description("Wasabi fork of fivem-appearance rework by bitpredator")
-version("1.0.2")
+version("1.0.8")
 
 files({
 	"web/dist/index.html",

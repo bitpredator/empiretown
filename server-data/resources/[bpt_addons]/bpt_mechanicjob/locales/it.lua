@@ -17,7 +17,6 @@ Locales["it"] = {
     ["repair_tools"] = "riparazione strumenti",
     ["body_work_tools"] = "strumenti carrozzeria",
     ["repair_kit"] = "kit di riparazione",
-    ["billing"] = "fattura",
     ["hijack"] = "scassinare",
     ["repair"] = "riparazione",
     ["clean"] = "pulito",

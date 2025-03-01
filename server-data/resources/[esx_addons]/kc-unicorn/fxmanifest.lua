@@ -5,7 +5,7 @@ author("Clementinise")
 name("^6KC Unicorn Script")
 description("Bring life & interactions to the Unicorn Club")
 github("https://github.com/clementinise/kc-unicorn")
-version("1.0.2")
+version("1.0.8")
 
 shared_scripts({
     "@es_extended/imports.lua",

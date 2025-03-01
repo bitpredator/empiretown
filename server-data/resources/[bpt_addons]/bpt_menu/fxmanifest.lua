@@ -5,7 +5,7 @@ lua54("yes")
 
 author("bitpredator")
 description("Roleplay personal menu supporting ESX")
-version("1.0.2")
+version("1.0.8")
 
 shared_scripts({
     "locale.lua",

@@ -4,7 +4,7 @@ game("gta5")
 
 description("A banking system that adds interactable banks and ATMs")
 lua54("yes")
-version("1.0.2")
+version("1.0.8")
 
 shared_scripts({
     "@es_extended/imports.lua",

@@ -95,17 +95,6 @@ local function SetupVehicleMenu()
             VehicleMenu.items[#VehicleMenu.items + 1] = Config.VehicleExtras
         end
 
-        if not IsVehicleOnAllWheels(Vehicle) then
-            VehicleMenu.items[#VehicleMenu.items + 1] = {
-                id = "vehicle-flip",
-                title = "Flip Vehicle",
-                icon = "car-burst",
-                type = "client",
-                event = "esx-radialmenu:flipVehicle",
-                shouldClose = true,
-            }
-        end
-
         if IsPedInAnyVehicle(PlayerPedId(), false) then
             local seatIndex = #VehicleMenu.items + 1
             VehicleMenu.items[seatIndex] = deepcopy(Config.VehicleSeats)
@@ -208,7 +197,7 @@ local function setRadialState(bool, sendMessage, delay)
     if Config.UseWhilstWalking then
         if bool then
             SetupRadialMenu()
-            PlaySoundFrontend(-1, "NAV", "HUD_AMMO_SHOP_SOUNDSET", 1)
+            PlaySoundFrontend(-1, "NAV", "HUD_AMMO_SHOP_SOUNDSET", true)
             controlToggle(true)
         else
             controlToggle(false)
@@ -240,14 +229,17 @@ local function setRadialState(bool, sendMessage, delay)
     inRadialMenu = bool
 end
 
--- Command
-
+-- Commands
 RegisterCommand("radialmenu", function()
-    if ((IsDowned() and IsPoliceOrEMS()) or not IsDowned()) and not LocalPlayer.state.handcuffed and not IsPauseMenuActive() and not inRadialMenu then
-        setRadialState(true, true)
-        SetCursorLocation(0.5, 0.5)
+    if not IsPauseMenuActive() then
+        if not inRadialMenu then
+            setRadialState(true, true)
+            SetCursorLocation(0.5, 0.5)
+        else
+            setRadialState(false, true)
+        end
     end
-end)
+end, false)
 
 RegisterKeyMapping("radialmenu", TranslateCap("command_description"), "keyboard", Config.Keybind)
 
@@ -308,16 +300,16 @@ RegisterNetEvent("esx-radialmenu:client:setExtra", function(data)
     local replace = string:gsub("extra", "")
     local extra = tonumber(replace)
     local ped = PlayerPedId()
-    local veh = GetVehiclePedIsIn(ped)
+    local veh = GetVehiclePedIsIn(ped, false)
     if veh ~= nil then
         if GetPedInVehicleSeat(veh, -1) == ped then
             SetVehicleAutoRepairDisabled(veh, true) -- Forces Auto Repair off when Toggling Extra [GTA 5 Niche Issue]
             if DoesExtraExist(veh, extra) then
                 if IsVehicleExtraTurnedOn(veh, extra) then
-                    SetVehicleExtra(veh, extra, 1)
+                    SetVehicleExtra(veh, extra, true)
                     ESX.ShowNotification(TranslateCap("extra_deactivated", { extra = extra }), "error", 2500)
                 else
-                    SetVehicleExtra(veh, extra, 0)
+                    SetVehicleExtra(veh, extra, false)
                     ESX.ShowNotification(TranslateCap("extra_activated", { extra = extra }), "success", 2500)
                 end
             else
@@ -330,7 +322,7 @@ RegisterNetEvent("esx-radialmenu:client:setExtra", function(data)
 end)
 
 RegisterNetEvent("esx-radialmenu:trunk:client:Door", function(plate, door, open)
-    local veh = GetVehiclePedIsIn(PlayerPedId())
+    local veh = GetVehiclePedIsIn(PlayerPedId(), false)
     if veh ~= 0 then
         local pl = GetVehicleNumberPlateText(veh)
         if pl == plate then
@@ -344,9 +336,11 @@ RegisterNetEvent("esx-radialmenu:trunk:client:Door", function(plate, door, open)
 end)
 
 RegisterNetEvent("esx-radialmenu:client:ChangeSeat", function(data)
-    local Veh = GetVehiclePedIsIn(PlayerPedId())
+    local PlayerPedId = PlayerPedId()
+    local Veh = GetVehiclePedIsIn(PlayerPedId, false)
     local IsSeatFree = IsVehicleSeatFree(Veh, data.id)
     local speed = GetEntitySpeed(Veh)
+    local HasHarnass = (PlayerPedId) and IsPedInAnyVehicle(PlayerPedId, false)
     if not HasHarnass then
         local kmh = speed * 3.6
         if IsSeatFree then

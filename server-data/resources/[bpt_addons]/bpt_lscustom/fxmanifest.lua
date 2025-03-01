@@ -5,7 +5,7 @@ game("gta5")
 author("bitpredator")
 description("Allows Players to use LS Customs to customise their cars")
 lua54("yes")
-version("1.0.2")
+version("1.0.8")
 
 shared_script("@es_extended/imports.lua")
 

@@ -1,24 +1,24 @@
-fx_version 'cerulean'
-games {'gta5'}
+fx_version("cerulean")
+games({ "gta5" })
 
-author 'stuxxy'
-version '1.0.1'
+author("stuxxy")
+version("1.0.8")
 
-lua54 'yes'
+lua54("yes")
 
-shared_scripts {
-	'@ox_lib/init.lua',
-	'shared/config.lua',
-}
+shared_scripts({
+    "@ox_lib/init.lua",
+    "shared/config.lua",
+})
 
-client_scripts {
-	'client/main.lua'
-}
+client_scripts({
+    "client/main.lua",
+})
 
-server_scripts {
-	'server/main.lua'
-}
+server_scripts({
+    "server/main.lua",
+})
 
-escrow_ignore {
-	'**/*.lua'
-}
+escrow_ignore({
+    "**/*.lua",
+})

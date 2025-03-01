@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local HasAlreadyEnteredMarker, LastZone = false, nil
 local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local CurrentlyTowedVehicle, Blips, NPCOnJob, NPCTargetTowable, NPCTargetTowableZone = nil, {}, false, nil, nil
@@ -100,7 +101,7 @@ function OpenMechanicActionsMenu()
             else
                 local elements2 = {
                     { unselectable = true, icon = "fas fa-car", title = TranslateCap("service_vehicle") },
-                    { icon = "fas fa-truck", title = TranslateCap("flat_bed"), value = "flatbed" },
+                    { icon = "fas fa-truck", title = TranslateCap("flat_bed"), value = "flatbed3" },
                     { icon = "fas fa-truck", title = TranslateCap("tow_truck"), value = "towtruck2" },
                 }
 
@@ -167,10 +168,18 @@ function OpenMechanicActionsMenu()
     end)
 end
 
+function GetVehicleInDirection()
+    local playerPed = PlayerPedId()
+    local playerCoords = GetEntityCoords(playerPed)
+    local inDirection = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 10.0, 0.0)
+    local rayHandle = StartShapeTestRay(playerCoords.x, playerCoords.y, playerCoords.z, inDirection.x, inDirection.y, inDirection.z, 10, playerPed, 0)
+    local vehicle = GetShapeTestResult(rayHandle)
+    return vehicle
+end
+
 function OpenMobileMechanicActionsMenu()
     local elements = {
         { unselectable = true, icon = "fas fa-gear", title = TranslateCap("mechanic") },
-        { icon = "fas fa-gear", title = TranslateCap("billing"), value = "billing" },
         { icon = "fas fa-gear", title = TranslateCap("hijack"), value = "hijack_vehicle" },
         { icon = "fas fa-gear", title = TranslateCap("repair"), value = "fix_vehicle" },
         { icon = "fas fa-gear", title = TranslateCap("clean"), value = "clean_vehicle" },
@@ -183,29 +192,7 @@ function OpenMobileMechanicActionsMenu()
             return
         end
 
-        if element.value == "billing" then
-            local elements2 = {
-                { unselectable = true, icon = "fas fa-scroll", title = element.title },
-                { title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 10000000, inputPlaceholder = "Amount to bill.." },
-                { icon = "fas fa-check-double", title = "Confirm", value = "confirm" },
-            }
-
-            ESX.OpenContext("right", elements2, function(menu2)
-                local amount = tonumber(menu2.eles[2].inputValue)
-
-                if amount == nil or amount < 0 then
-                    ESX.ShowNotification(TranslateCap("amount_invalid"), "error")
-                else
-                    local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-                    if closestPlayer == -1 or closestDistance > 3.0 then
-                        ESX.ShowNotification(TranslateCap("no_players_nearby"), "error")
-                    else
-                        ESX.CloseContext()
-                        TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_mechanic", TranslateCap("mechanic"), amount)
-                    end
-                end
-            end)
-        elseif element.value == "hijack_vehicle" then
+        if element.value == "hijack_vehicle" then
             local playerPed = PlayerPedId()
             local vehicle = ESX.Game.GetVehicleInDirection()
             local _ = GetEntityCoords(playerPed)
@@ -310,7 +297,7 @@ function OpenMobileMechanicActionsMenu()
             local playerPed = PlayerPedId()
             local vehicle = GetVehiclePedIsIn(playerPed, true)
 
-            local towmodel = `flatbed`
+            local towmodel = `flatbed3`
             local isVehicleTow = IsVehicleModel(vehicle, towmodel)
 
             if isVehicleTow then
@@ -623,7 +610,7 @@ CreateThread(function()
 end)
 
 -- Create Blips
-CreateThread(function()
+Citizen.CreateThread(function()
     local blip = AddBlipForCoord(Config.Zones.MechanicActions.Pos.x, Config.Zones.MechanicActions.Pos.y, Config.Zones.MechanicActions.Pos.z)
 
     SetBlipSprite(blip, 446)
@@ -706,7 +693,7 @@ CreateThread(function()
                     else
                         local entityModel = GetEntityModel(CurrentActionData.vehicle)
 
-                        if entityModel == `flatbed` or entityModel == `towtruck2` or entityModel == `slamvan3` then
+                        if entityModel == `flatbed3` or entityModel == `towtruck2` or entityModel == `slamvan3` then
                             TriggerServerEvent("esx_service:disableService", "mechanic")
                         end
                     end
@@ -738,7 +725,7 @@ RegisterCommand("mechanicjob", function()
                 ESX.ShowNotification(TranslateCap("wait_five"), "error")
             end
         else
-            if IsPedInAnyVehicle(playerPed, false) and IsVehicleModel(GetVehiclePedIsIn(playerPed, false), `flatbed`) then
+            if IsPedInAnyVehicle(playerPed, false) and IsVehicleModel(GetVehiclePedIsIn(playerPed, false), `flatbed3`) then
                 StartNPCJob()
             else
                 ESX.ShowNotification(TranslateCap("must_in_flatbed"), "error")

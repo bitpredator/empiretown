@@ -60,11 +60,6 @@ Config = {
             Image = "baker",
             Jobs = { "baker" },
         },
-        ["fisherman"] = {
-            Label = "fisherman",
-            Image = "fisherman",
-            Jobs = { "unicorn" },
-        },
         ["ammunation"] = {
             Label = "Munizioni",
             Image = "ammu",
@@ -554,6 +549,22 @@ Config = {
             },
         },
 
+        ["at_skin_luxe"] = {
+            Level = 0,
+            Category = "accessory",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["gold"] = 1,
+                ["hammer"] = 1,
+            },
+        },
+
         ["bread"] = {
             Level = 0,
             Category = "baker",
@@ -600,13 +611,13 @@ Config = {
             },
         },
 
-        ["salmon_fillet"] = {
+        ["grilled_salmon"] = {
             Level = 0,
-            Category = "fisherman",
+            Category = "unicorn",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
-            Amount = 2,
+            Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
             Time = 60,
@@ -616,18 +627,19 @@ Config = {
             },
         },
 
-        ["grilled_salmon"] = {
+        ["grilled_trout"] = {
             Level = 0,
-            Category = "fisherman",
+            Category = "unicorn",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
-            Amount = 2,
+            Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
             Time = 60,
             Ingredients = {
-                ["salmon_fillet"] = 1,
+                ["trout"] = 1,
+                ["WEAPON_KNIFE"] = 1,
             },
         },
 
@@ -658,6 +670,25 @@ Config = {
             Time = 30,
             Ingredients = {
                 ["recycled_paper"] = 2,
+            },
+        },
+
+        ["WEAPON_PISTOL_MK2"] = {
+            Level = 10,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 180,
+            Ingredients = {
+                ["copper"] = 1,
+                ["iron"] = 3,
+                ["wood"] = 1,
+                ["steel"] = 5,
+                ["hammer"] = 1,
             },
         },
     },
@@ -712,6 +743,8 @@ Config = {
                 "WEAPON_FLASHLIGHT",
                 "at_suppressor_light",
                 "WEAPON_COMBATSHOTGUN",
+                "WEAPON_PISTOL_MK2",
+                "at_skin_luxe",
             },
             radius = 1.0,
         },
@@ -719,15 +752,14 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "fries", "salmon_fillet", "grilled_salmon" },
-            --  "bread_deer",
+            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout" },
             radius = 1.0,
         },
         {
             coords = vector3(83.156044, -1960.259277, 18.041016),
             jobs = { "ballas" },
             blip = false,
-            recipes = { "cigarette_paper", "marijuana" },
+            recipes = { "cigarette_paper", "marijuana", "diamond_tip" },
             radius = 1.0,
         },
         {

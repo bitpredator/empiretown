@@ -47,8 +47,6 @@ Locales["it"] = {
     ["deposit_amount"] = "Importo del deposito",
     ["money_withdraw"] = "Importo ritirato",
     ["fast_travel"] = "premi [E] per viaggiare velocemente.",
-    ["pharmacy_menu_title"] = "Farmacia",
-    ["pharmacy_take"] = 'Prendi <span style="color:blue;">%s</span>',
     ["medikit"] = "Medikit",
     ["bandage"] = "Benda",
     ["max_item"] = "Hai già abbastanza oggetti.",
@@ -82,8 +80,4 @@ Locales["it"] = {
     -- Blip
     ["blip_hospital"] = "Ospedale",
     ["blip_dead"] = "Giocatore morente",
-    -- billing
-    ["billing"] = "Fattura",
-    ["invoice_amount"] = "Importo della fattura",
-    ["no_players_near"] = "Nessun cittadino nelle vicinanze",
 }

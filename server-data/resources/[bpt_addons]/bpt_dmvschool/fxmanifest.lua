@@ -4,7 +4,7 @@ game("gta5")
 
 description("A DMV School for players to get their drivers license")
 
-version("1.0.2")
+version("1.0.8")
 
 lua54("yes")
 

@@ -24,4 +24,4 @@ You should have received a copy of the GNU General Public License with this prog
 ### 📌 License
 
 EMPIRETOWN - FRAMEWORK FOR FIVEM
-Copyright (C) 2022-2024 bitpredator
+Copyright (C) 2022-2025 bitpredator

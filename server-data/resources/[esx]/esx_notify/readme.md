@@ -55,7 +55,7 @@ ESX.ShowNotification("I i ~r~love~s~ donuts", "success", 3000)
 
 esx_notify- Notify!
 
-Copyright (C) 2023-2024
+Copyright (C) 2023-2025
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 

@@ -2,12 +2,12 @@ local bagEquipped, bagObj
 local hash = `p_michael_backpack_s`
 local ox_inventory = exports.ox_inventory
 local ped = cache.ped
-local justConnect = true
+local justConnect = nil
 
 local function PutOnBag()
     local x, y, z = table.unpack(GetOffsetFromEntityInWorldCoords(ped,0.0,3.0,0.5))
     lib.requestModel(hash, 100)
-    bagObj = CreateObjectNoOffset(hash, x, y, z, true, false)
+    bagObj = CreateObjectNoOffset(hash, x, y, z, true, false, false)
     AttachEntityToEntity(bagObj, ped, GetPedBoneIndex(ped, 24818), 0.07, -0.11, -0.05, 0.0, 90.0, 175.0, true, true, false, true, 1, true)
     bagEquipped = true
 end

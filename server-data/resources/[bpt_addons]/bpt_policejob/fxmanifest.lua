@@ -4,7 +4,7 @@ game("gta5")
 
 description("Allows Players to RP as Police Officers (cars, outfits, handcuffing etc)")
 lua54("yes")
-version("1.0.3")
+version("1.0.8")
 
 shared_script("@es_extended/imports.lua")
 
@@ -25,6 +25,5 @@ client_scripts({
 
 dependencies({
 	"es_extended",
-	"bpt_billing",
 	"esx_vehicleshop",
 })

@@ -127,7 +127,7 @@ function DrawText3D(xyz, text)
     SetTextEntry("STRING")
     SetTextCentre(true)
     AddTextComponentString(text)
-    SetDrawOrigin(xyz, false)
+    EndTextCommandDisplayText(xyz, 0)
     DrawText(0.0, 0.0)
     DrawRect(0.0, 0.0115 * lines, 0.017 + factor, 0.028 * lines, 0, 0, 0, 75)
     ClearDrawOrigin()
@@ -138,7 +138,7 @@ function AdvancedDrawText3D(xyz, text)
     BeginTextCommandDisplayHelp(GetCurrentResourceName())
     EndTextCommandDisplayHelp(2, false, false, -1)
 
-    SetFloatingHelpTextWorldPosition(true, xyz)
+    SetFloatingHelpTextWorldPosition(1, xyz, 0, 0)
     SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0)
 end
 
@@ -255,7 +255,7 @@ function PlayerFunc(xyz, heading, camheading, xyz2, wait)
 
     SetFollowPedCamViewMode(4)
 
-    SetEntityCoords(Cache.Player, xyz)
+    SetEntityCoords(Cache.Player, xyz, 0, 0, false, false, false, false)
     FreezeEntityPosition(Cache.Player, true)
     SetEntityHeading(Cache.Player, heading)
     TaskPlayAnim(Cache.Player, Dict, Anim, 8.0, -8.0, -1, 0, 0, false, false, false)
@@ -272,10 +272,10 @@ function PlayerFunc(xyz, heading, camheading, xyz2, wait)
     PlayerSitted = false
 
     if not Cache.lapStop then
-        SetEntityCoords(Cache.Player, xyz2)
+        SetEntityCoords(Cache.Player, xyz2, 0, 0, false, false, false, false)
         Citizen.Wait(200)
         SetFollowPedCamViewMode(PreviousCamViewMode)
-        TaskGoToCoordAnyMeans(Cache.Player, 117.48, -1294.82, 28.43, 1.0, 0, 0, 786603, 1.0)
+        TaskGoToCoordAnyMeans(Cache.Player, 117.48, -1294.82, 28.43, 1.0, 0, false, 786603, 1.0)
         Citizen.Wait(wait)
     end
 end
@@ -283,7 +283,7 @@ end
 function StripperFunc(ped, heading, heading2, heading3, xyz, xyz2, xyz3, xyz4, wait)
     SetEntityHeading(ped, heading)
     FreezeEntityPosition(ped, true)
-    TaskGoToCoordAnyMeans(Cache.Player, xyz, 1.0, 0, 0, 786603, 1.0)
+    TaskGoToCoordAnyMeans(Cache.Player, xyz, 1.0, 0, 0, 786603, true, 0xbf800000, 0)
     Citizen.Wait(wait)
 
     Repeatcount = -13
@@ -303,10 +303,10 @@ function StripperFunc(ped, heading, heading2, heading3, xyz, xyz2, xyz3, xyz4, w
     until PlayerSitted or Cache.lapStop
 
     FreezeEntityPosition(ped, false)
-    TaskGoToCoordAnyMeans(ped, xyz2, 174.93, 0, 0, 0, 0xbf800000)
+    TaskGoToCoordAnyMeans(ped, xyz2, 174.93, 0, 0, 0, false, 0, 0)
     Citizen.Wait(1000)
 
-    TaskGoToCoordAnyMeans(ped, xyz3, 174.93, 0, 0, 0, 0xbf800000)
+    TaskGoToCoordAnyMeans(ped, xyz3, 174.93, 0, 0, 0, false, 0, 0)
     Citizen.Wait(2100)
 
     FreezeEntityPosition(ped, true)
@@ -315,7 +315,7 @@ function StripperFunc(ped, heading, heading2, heading3, xyz, xyz2, xyz3, xyz4, w
     StripperAnim()
 
     if not lapStop then
-        TaskGoToCoordAnyMeans(ped, xyz4, 174.93, 0, 0, 0, 0xbf800000)
+        TaskGoToCoordAnyMeans(ped, xyz4, 174.93, 0, 0, 0, false, 0, 0)
         Wait(2000)
 
         TaskPlayAnim(ped, LoadDict("mini@strip_club@idles@stripper", true), "stripper_idle_02", 8.0, -8.0, -1, 0, 0, false, false, false)
@@ -364,7 +364,7 @@ AddEventHandler("kc-unicorn:lapdance", function(PlayerMoney, PlayerBirthdate, To
     Date = {}
     Cache.lapStop = false
     Cache.InLapdance = true
-    PreviousCamViewMode = GetFollowPedCamViewMode(Cache.Player)
+    PreviousCamViewMode = GetFollowPedCamViewMode()
 
     if Config.Framework == "QBCore" then
         Index = 1
@@ -440,13 +440,13 @@ AddEventHandler("kc-unicorn:lapdance", function(PlayerMoney, PlayerBirthdate, To
     Cache.SpawnPed = SpawnObject
     FreezeEntityPosition(Cache.SpawnPed, true)
 
-    SetPedComponentVariation(Cache.SpawnPed, 1, Config.Strippers[Stripper].Drawables.Head) -- Head
-    SetPedComponentVariation(Cache.SpawnPed, 2, Config.Strippers[Stripper].Drawables.Hair, Config.Strippers[Stripper].Textures.HairTex) -- Hair
-    SetPedComponentVariation(Cache.SpawnPed, 3, Config.Strippers[Stripper].Drawables.Torso) -- Torso
-    SetPedComponentVariation(Cache.SpawnPed, 4, Config.Strippers[Stripper].Drawables.Shoes, Config.Strippers[Stripper].Textures.ShoesTex) -- Shoes
-    SetPedComponentVariation(Cache.SpawnPed, 6, Config.Strippers[Stripper].Drawables.Underwear, Config.Strippers[Stripper].Textures.UnderwearTex) -- Underwear
-    SetPedComponentVariation(Cache.SpawnPed, 10, 0) -- Decals ??
-    SetPedComponentVariation(Cache.SpawnPed, 11, Config.Strippers[Stripper].Drawables.Torso2) -- Auxiliary parts for torso
+    SetPedComponentVariation(Cache.SpawnPed, 1, Config.Strippers[Stripper].Drawables.Head, 0, 0) -- Head
+    SetPedComponentVariation(Cache.SpawnPed, 2, Config.Strippers[Stripper].Drawables.Hair, Config.Strippers[Stripper].Textures.HairText, 0) -- Hair
+    SetPedComponentVariation(Cache.SpawnPed, 3, Config.Strippers[Stripper].Drawables.Torso, 0,0) -- Torso
+    SetPedComponentVariation(Cache.SpawnPed, 4, Config.Strippers[Stripper].Drawables.Shoes, Config.Strippers[Stripper].Textures.ShoesTex, 0) -- Shoes
+    SetPedComponentVariation(Cache.SpawnPed, 5, Config.Strippers[Stripper].Drawables.Underwear, Config.Strippers[Stripper].Textures.UnderwearTex, 0) -- Underwear
+    SetPedComponentVariation(Cache.SpawnPed, 6, 0, 0, 0) -- Decals ??
+    SetPedComponentVariation(Cache.SpawnPed, 7, Config.Strippers[Stripper].Drawables.Torso2, 0, 0) -- Auxiliary parts for torso
 
     if Year >= Config.NudityAge + 1 then
         Underage = false
@@ -766,8 +766,7 @@ function LeanStart(PlyHeading)
 end
 
 RegisterNetEvent("kc-unicorn:poledancescene")
-AddEventHandler("kc-unicorn:poledancescene",
-function(ped, number)
+AddEventHandler("kc-unicorn:poledancescene", function(ped, number)
     PedPole = NetworkGetEntityFromNetworkId(ped)
     local scene = NetworkCreateSynchronisedScene(vector3(112.65, -1286.74, 28.5), vector3(0.0, 0.0, 0.0), 2, false, false, 1065353216, 0, 1.3)
     NetworkAddPedToSynchronisedScene(PedPole, scene, "mini@strip_club@pole_dance@pole_dance" .. number, "pd_dance_0" .. number, 1.5, -4.0, 1, 1, 1148846080, 0)

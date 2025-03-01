@@ -2,7 +2,7 @@ fx_version("adamant")
 game("gta5")
 author("bitpredator")
 description("Handles the overall status system for Hunger, Thrist and others")
-version("1.0.2")
+version("1.0.8")
 lua54("yes")
 
 shared_script("@es_extended/imports.lua")

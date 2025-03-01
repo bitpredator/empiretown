@@ -28,7 +28,7 @@ const tableauQuestion = [
 	},
 
 	{
-		question: 'Prima di ogni cambio si corsia devi:',
+		question: 'Prima di ogni cambio di corsia devi:',
 		propositionA: 'Controllare gli specchietti',
 		propositionB: 'Controllare i punti ciechi',
 		propositionC: 'Segnalare le tue intenzioni',

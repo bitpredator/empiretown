@@ -186,7 +186,7 @@ end
 
 -- Handlers --
 lib.onCache('weapon', function(newWeapon)
-    if not newWeapon or not isAllowedWeapon(newWeapon) or isBlacklistedJob(config.blacklistedJobs) then return end
+    if not newWeapon or not isAllowedWeapon(newWeapon) or IsBlacklistedJob(config.blacklistedJobs) then return end
 
     aimAtPedsLoop(newWeapon)
 end)

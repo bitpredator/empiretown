@@ -1,6 +1,8 @@
-local CurrentAction, CurrentActionMsg, CurrentActionData, billing = nil, "", {}, {}
+---@diagnostic disable: undefined-global
+
+local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local HasAlreadyEnteredMarker, LastHospital, LastPart, LastPartNum
-local IsBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
+local isBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
 IsInShopMenu = false
 
 RegisterNetEvent("esx:playerLoaded")
@@ -49,11 +51,10 @@ function OpenMobileAmbulanceActionsMenu()
                 { icon = "fas fa-bandage", title = TranslateCap("ems_menu_big"), value = "big" },
                 { icon = "fas fa-car", title = TranslateCap("ems_menu_putincar"), value = "put_in_vehicle" },
                 { icon = "fas fa-syringe", title = TranslateCap("ems_menu_search"), value = "search" },
-                { icon = "fas fa-syringe", title = TranslateCap("billing"), value = "billing" },
             }
 
             ESX.OpenContext("right", elements2, function(menu2, element2)
-                if IsBusy then
+                if isBusy then
                     return
                 end
                 local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
@@ -64,7 +65,7 @@ function OpenMobileAmbulanceActionsMenu()
                     ESX.ShowNotification(TranslateCap("no_players"))
                 else
                     if element2.value == "revive" then
-                        RevivePlayer(closestPlayer)
+                        revivePlayer(closestPlayer)
                     elseif element2.value == "small" then
                         ESX.TriggerServerCallback("bpt_ambulancejob:getItemAmount", function(quantity)
                             if quantity > 0 then
@@ -74,7 +75,7 @@ function OpenMobileAmbulanceActionsMenu()
                                 if health > 0 then
                                     local playerPed = PlayerPedId()
 
-                                    IsBusy = true
+                                    isBusy = true
                                     ESX.ShowNotification(TranslateCap("heal_inprogress"))
                                     TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true)
                                     Wait(10000)
@@ -83,7 +84,7 @@ function OpenMobileAmbulanceActionsMenu()
                                     TriggerServerEvent("bpt_ambulancejob:removeItem", "bandage")
                                     TriggerServerEvent("bpt_ambulancejob:heal", GetPlayerServerId(closestPlayer), "small")
                                     ESX.ShowNotification(TranslateCap("heal_complete", GetPlayerName(closestPlayer)))
-                                    IsBusy = false
+                                    isBusy = false
                                 else
                                     ESX.ShowNotification(TranslateCap("player_not_conscious"))
                                 end
@@ -100,7 +101,7 @@ function OpenMobileAmbulanceActionsMenu()
                                 if health > 0 then
                                     local playerPed = PlayerPedId()
 
-                                    IsBusy = true
+                                    isBusy = true
                                     ESX.ShowNotification(TranslateCap("heal_inprogress"))
                                     TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true)
                                     Wait(10000)
@@ -109,7 +110,7 @@ function OpenMobileAmbulanceActionsMenu()
                                     TriggerServerEvent("bpt_ambulancejob:removeItem", "medikit")
                                     TriggerServerEvent("bpt_ambulancejob:heal", GetPlayerServerId(closestPlayer), "big")
                                     ESX.ShowNotification(TranslateCap("heal_complete", GetPlayerName(closestPlayer)))
-                                    IsBusy = false
+                                    isBusy = false
                                 else
                                     ESX.ShowNotification(TranslateCap("player_not_conscious"))
                                 end
@@ -126,32 +127,8 @@ function OpenMobileAmbulanceActionsMenu()
     end)
 end
 
--- billing
-if billing == "billing" then
-    ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "billing", {
-        title = TranslateCap("invoice_amount"),
-    }, function(data, menu)
-        local amount = tonumber(data.value)
-        if amount == nil then
-            ESX.ShowNotification(TranslateCap("amount_invalid"))
-        else
-            menu.close()
-            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-            if closestPlayer == -1 or closestDistance > 3.0 then
-                ESX.ShowNotification(TranslateCap("no_players_near"))
-            else
-                TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ambulance", "Ambulance", amount)
-                ESX.ShowNotification(TranslateCap("billing_sent"))
-            end
-        end
-    end, function(_, menu)
-        menu.close()
-    end)
-end
--- end billing
-
 function RevivePlayer(closestPlayer)
-    IsBusy = true
+    isBusy = true
 
     ESX.TriggerServerCallback("bpt_ambulancejob:getItemAmount", function(quantity)
         if quantity > 0 then
@@ -179,26 +156,8 @@ function RevivePlayer(closestPlayer)
         else
             ESX.ShowNotification(TranslateCap("not_enough_medikit"))
         end
-        IsBusy = false
+        isBusy = false
     end, "medikit")
-end
-
-function FastTravel(coords, heading)
-    local playerPed = PlayerPedId()
-
-    DoScreenFadeOut(800)
-
-    while not IsScreenFadedOut() do
-        Wait(500)
-    end
-
-    ESX.Game.Teleport(playerPed, coords, function()
-        DoScreenFadeIn(800)
-
-        if heading then
-            SetEntityHeading(playerPed, heading)
-        end
-    end)
 end
 
 -- Draw markers & Marker logic
@@ -279,7 +238,6 @@ end)
 AddEventHandler("bpt_ambulancejob:hasEnteredMarker", function(hospital, part, partNum)
     if part == "AmbulanceActions" then
         CurrentAction = part
-        CurrentActionMsg = TranslateCap("actions_prompt")
         CurrentActionData = {}
     elseif part == "Vehicles" then
         CurrentAction = part
@@ -295,7 +253,7 @@ AddEventHandler("bpt_ambulancejob:hasEnteredMarker", function(hospital, part, pa
 end)
 
 AddEventHandler("bpt_ambulancejob:hasExitedMarker", function(hospital, part, partNum)
-    if not IsInShopMenu then
+    if not isInShopMenu then
         ESX.CloseContext()
     end
     ESX.HideUI()
@@ -328,11 +286,11 @@ CreateThread(function()
     end
 end)
 
-RegisterCommand("ambulance", function(src)
+RegisterCommand("ambulance", function()
     if ESX.PlayerData.job and ESX.PlayerData.job.name == "ambulance" and not ESX.PlayerData.dead then
         OpenMobileAmbulanceActionsMenu()
     end
-end)
+end, false)
 
 RegisterKeyMapping("ambulance", "Open Ambulance Actions Menu", "keyboard", "F6")
 

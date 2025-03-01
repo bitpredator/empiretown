@@ -74,46 +74,6 @@ function OpenballasActionsMenu()
     end)
 end
 
-function OpenMobileBallasActionsMenu()
-    local elements = {
-        { unselectable = true, icon = "fas fa-ballas", title = TranslateCap("ballas") },
-        { icon = "fas fa-scroll", title = TranslateCap("billing"), value = "billing" },
-    }
-
-    ESX.OpenContext("right", elements, function(_, element)
-        if element.value == "billing" then
-            local elements2 = {
-                { unselectable = true, icon = "fas fa-ballas", title = element.title },
-                {
-                    title = TranslateCap("amount"),
-                    input = true,
-                    inputType = "number",
-                    inputMin = 1,
-                    inputMax = 10000000,
-                    inputPlaceholder = TranslateCap("bill_amount"),
-                },
-                { icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
-            }
-
-            ESX.OpenContext("right", elements2, function(menu2)
-                local amount = tonumber(menu2.eles[2].inputValue)
-                if amount == nil then
-                    ESX.ShowNotification(TranslateCap("amount_invalid"))
-                else
-                    ESX.CloseContext()
-                    local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-                    if closestPlayer == -1 or closestDistance > 3.0 then
-                        ESX.ShowNotification(TranslateCap("no_players_near"))
-                    else
-                        TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ballas", "Ballas", amount)
-                        ESX.ShowNotification(TranslateCap("billing_sent"))
-                    end
-                end
-            end)
-        end
-    end)
-end
-
 AddEventHandler("bpt_ballasjob:hasEnteredMarker", function(zone)
     if zone == "BallasActions" then
         CurrentAction = "ballas_actions_menu"

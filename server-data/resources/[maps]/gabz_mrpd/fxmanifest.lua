@@ -3,7 +3,7 @@ game("gta5")
 
 author("GABZ")
 description("MRPD Police Map ")
-version("1.0.2")
+version("1.0.8")
 
 this_is_a_map("yes")
 

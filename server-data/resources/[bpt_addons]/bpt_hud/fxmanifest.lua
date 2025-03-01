@@ -1,19 +1,22 @@
 fx_version("adamant")
-
 game("gta5")
 author("bitpredator")
 description("bitpredator HUD")
-version("1.0.2")
+version("1.0.8")
+ui_page("web/build/index.html")
 
-ui_page("html/ui.html")
-
-shared_script("@es_extended/imports.lua")
-
-files({
-    "html/*.js",
-})
+shared_script("shared/config.lua")
 
 client_scripts({
     "client/*.lua",
-    "config.lua",
+})
+
+server_scripts({
+    -- "@vrp/lib/utils.lua", -- Enable if you are using vRP
+    "server/*.lua",
+})
+
+files({
+    "web/build/index.html",
+    "web/build/**/*",
 })

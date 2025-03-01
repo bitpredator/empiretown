@@ -2,7 +2,7 @@ if GetResourceState('es_extended') ~= 'started' then return end
 
 local ESX = exports["es_extended"]:getSharedObject()
 
-function isBlacklistedJob(jobs)
+function IsBlacklistedJob(jobs)
     local Player = ESX.GetPlayerData()
     if type(jobs) == 'table' then
         for x = 1, #jobs do

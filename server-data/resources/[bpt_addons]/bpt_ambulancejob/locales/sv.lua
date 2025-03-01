@@ -47,8 +47,6 @@ Locales["sv"] = {
     ["deposit_amount"] = "Sätt in summa",
     ["money_withdraw"] = "Ta ut summa",
     ["fast_travel"] = "Tryck [E] för att teleportera.",
-    ["pharmacy_menu_title"] = "Apotek",
-    ["pharmacy_take"] = 'Ta <span style="color:blue;">%s</span>',
     ["medikit"] = "Första hjälpen",
     ["bandage"] = "Bandage",
     ["max_item"] = "Du bär redan tillräckligt.",

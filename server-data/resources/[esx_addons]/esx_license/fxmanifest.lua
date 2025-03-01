@@ -4,7 +4,7 @@ game("gta5")
 
 description("ESX License")
 lua54("yes")
-version("1.0.2")
+version("1.0.8")
 
 server_scripts({
     "@es_extended/imports.lua",

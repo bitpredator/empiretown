@@ -3,19 +3,6 @@
 function getRandomSongNumber() {
 	return random = Math.floor(Math.random() * 3) + 1;
 }
-// Function for getting random number between 1 and 3 for song choose
-
-// Function for setting a random song
-function setNewSong() {
-	if (random == 1) {
-		document.getElementById('loading').src = 'song/christmas1.mp3';
-	}
-	else if (random == 2) {
-		document.getElementById('loading').src = 'song/christmas2.mp3';
-	}
-
-}
-// Function for setting a random song
 
 // Function for random song select on page loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -40,48 +27,6 @@ window.addEventListener('keyup', function(e) {
 		vid.volume = Math.max(vid.volume - 0.025, 0);
 	};
 });
-// Function for lower or higher up sound in background, its working function in script but its not noted in text//
-
-const mutetext = document.getElementById('text');
-
-window.addEventListener('keyup', function(event) {
-	// eslint-disable-next-line no-inline-comments
-	if (event.which == 37) { // ArrowLEFT
-		if (document.getElementById('loading').src.endsWith('christmas2.mp3')) {
-			document.getElementById('loading').src = 'song/christmas1.mp3';
-
-		}
-		else if (document.getElementById('loading').src.endsWith('christmas1.mp3')) {
-			document.getElementById('loading').src = 'song/song3.mp3';
-
-		}
-		else if (document.getElementById('loading').src.endsWith('song3.mp3')) {
-			document.getElementById('loading').src = 'song/christmas2.mp3';
-		}
-		document.getElementById('loading').play();
-		mutetext.innerHTML = 'MUTE';
-	}
-
-	// eslint-disable-next-line no-inline-comments
-	if (event.which == 39) { // ArrowRIGHT
-		if (document.getElementById('loading').src.endsWith('christmas2.mp3')) {
-			document.getElementById('loading').src = 'song/song3.mp3';
-
-		}
-		else if (document.getElementById('loading').src.endsWith('song3.mp3')) {
-			document.getElementById('loading').src = 'song/christmas1.mp3';
-
-		}
-		else if (document.getElementById('loading').src.endsWith('christmas1.mp3')) {
-			document.getElementById('loading').src = 'song/christmas2.mp3';
-
-		}
-		document.getElementById('loading').play();
-		mutetext.innerHTML = 'MUTE';
-	}
-
-});
-
 
 // Function for pause and play music in background//
 const audio = document.querySelector('audio');

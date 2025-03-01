@@ -4,7 +4,7 @@ game("gta5")
 
 description("Used for storing Data, such as society inventories")
 
-version("1.0.2")
+version("1.0.8")
 
 lua54("yes")
 

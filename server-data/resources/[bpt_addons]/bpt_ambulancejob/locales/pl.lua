@@ -47,8 +47,6 @@ Locales["pl"] = {
     ["deposit_amount"] = "kwota depozytu",
     ["money_withdraw"] = "wycofana kwota",
     ["fast_travel"] = "naciśnij na [E] do szybkiej podróży.",
-    ["pharmacy_menu_title"] = "apteka",
-    ["pharmacy_take"] = 'weź <span style="color:blue;">%s</span>',
     ["medikit"] = "apteczka",
     ["bandage"] = "bandaż",
     ["max_item"] = "już masz na sobie dość.",

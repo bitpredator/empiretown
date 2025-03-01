@@ -2,7 +2,7 @@ fx_version("cerulean")
 game("gta5")
 author("bitpredator")
 description("bpt_teleport")
-version("1.0.2")
+version("1.0.8")
 
 shared_script("@es_extended/imports.lua")
 

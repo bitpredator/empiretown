@@ -1,7 +1,7 @@
 fx_version("adamant")
 game("gta5")
 description("bpt_deliveries")
-version("1.0.2")
+version("1.0.8")
 
 client_scripts({
     "@es_extended/locale.lua",

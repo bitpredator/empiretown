@@ -82,7 +82,7 @@ end
 
 local function getOffStretcher()
     local ped = PlayerPedId()
-    local coords = GetOffsetFromEntityInWorldCoords(stretcherObject, 0.85, 0.0, 0)
+    local coords = GetOffsetFromEntityInWorldCoords(ped, 0.85, 0.0, 0)
     ClearPedTasks(ped)
     DetachEntity(ped, false, true)
     SetEntityCoords(ped, coords.x, coords.y, coords.z)
@@ -118,7 +118,7 @@ local function attachToStretcher()
 end
 
 local function detachStretcher()
-    DetachEntity(stretcherObject, false, true)
+DetachEntity(PlayerPedId(), false, true)
     ClearPedTasksImmediately(PlayerPedId())
     isAttached = false
 end
@@ -178,10 +178,10 @@ RegisterNetEvent("esx-radialmenu:client:RemoveStretcherFromArea", function(playe
         if stretcherObject then
             if stretcherObject == bObject then
                 if #(pos - playerPos) < 10 then
-                    if IsEntityPlayingAnim(ped, "anim@heists@box_carry@", "idle", false) then
+                    if IsEntityPlayingAnim(ped, "anim@heists@box_carry@", "idle", 0) then
                         detachStretcher()
                     end
-                    if IsEntityPlayingAnim(ped, "anim@gangops@morgue@table@", "ko_front", false) then
+                    if IsEntityPlayingAnim(ped, "anim@gangops@morgue@table@", "ko_front", 0) then
                         local coords = GetOffsetFromEntityInWorldCoords(ped, 0.85, 0.0, 0)
                         ClearPedTasks(ped)
                         DetachEntity(ped, false, true)
@@ -219,7 +219,7 @@ RegisterNetEvent("esx-radialmenu:client:Result", function(isBusy, type)
     local inBedAnims = "ko_front"
     if type == "lay" then
         if not isBusy then
-            NetworkRequestControlOfEntity(stretcherObject)
+            NetworkRequestControlOfEntity(ped)
             loadAnim(inBedDicts)
             TaskPlayAnim(ped, inBedDicts, inBedAnims, 8.0, 8.0, -1, 69, 1, false, false, false)
             AttachEntityToEntity(ped, stretcherObject, 0, 0, 0.0, 1.6, 0.0, 0.0, 360.0, 0.0, false, false, false, false, 2)

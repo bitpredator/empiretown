@@ -72,7 +72,7 @@ CreateThread(function()
             if count_bagpacks > 0 then
                 local slot = nil
 
-                for i, k in pairs(playerItems) do
+                for _, k in pairs(playerItems) do
                     if k.name == "backpack" then
                         slot = k.slot
                         break
@@ -84,7 +84,7 @@ CreateThread(function()
                     local dontRemove = slot
                     Citizen.Wait(1000)
 
-                    for i, k in pairs(ox_inventory:GetInventoryItems(inventoryId)) do
+                    for _, k in pairs(ox_inventory:GetInventoryItems(inventoryId)) do
                         if k.name == "backpack" and dontRemove ~= nil and k.slot ~= dontRemove then
                             local success = ox_inventory:RemoveItem(inventoryId, "backpack", 1, nil, k.slot)
                             if success then

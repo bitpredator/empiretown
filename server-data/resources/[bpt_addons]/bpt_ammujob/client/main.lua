@@ -19,7 +19,7 @@ function OpenArmoryMenu(station)
         return ESX.CloseContext()
     end
 
-    ESX.OpenContext("right", elements, function(menu)
+    ESX.OpenContext("right", function(menu)
         CurrentAction = "menu_armory"
         CurrentActionMsg = TranslateCap("open_armory")
         CurrentActionData = { station = station }
@@ -44,7 +44,6 @@ function OpenAmmuActionsMenu()
                 { icon = "fas fa-idkyet", title = TranslateCap("drag"), value = "drag" },
                 { icon = "fas fa-idkyet", title = TranslateCap("put_in_vehicle"), value = "put_in_vehicle" },
                 { icon = "fas fa-idkyet", title = TranslateCap("out_the_vehicle"), value = "out_the_vehicle" },
-                { icon = "fas fa-idkyet", title = TranslateCap("billing"), value = "billing" },
                 { icon = "fas fa-idkyet", title = TranslateCap("weapon"), value = "weapon" },
             }
 
@@ -76,8 +75,6 @@ function OpenAmmuActionsMenu()
                         TriggerServerEvent("bpt_ammujob:putInVehicle", GetPlayerServerId(closestPlayer))
                     elseif action == "out_the_vehicle" then
                         TriggerServerEvent("bpt_ammujob:OutVehicle", GetPlayerServerId(closestPlayer))
-                    elseif action == "billing" then
-                        OpenFineMenu(closestPlayer)
                     elseif action == "weapon" then
                         TriggerServerEvent("esx_license:addLicense", GetPlayerServerId(closestPlayer), "weapon")
                         ESX.ShowNotification(TranslateCap("released_gun_licence"))
@@ -187,101 +184,9 @@ function OpenBodySearchMenu(player)
     end, GetPlayerServerId(player))
 end
 
-function OpenFineMenu(player)
-    if Config.EnableFinePresets then
-        local elements = {
-            { unselectable = true, icon = "fas fa-scroll", title = TranslateCap("billing") },
-            { icon = "fas fa-scroll", title = TranslateCap("traffic_offense"), value = 0 },
-            { icon = "fas fa-scroll", title = TranslateCap("minor_offense"), value = 1 },
-            { icon = "fas fa-scroll", title = TranslateCap("average_offense"), value = 2 },
-            { icon = "fas fa-scroll", title = TranslateCap("major_offense"), value = 3 },
-        }
-
-        ESX.OpenContext("right", elements, function(_, element)
-            local data = { current = element }
-            OpenFineCategoryMenu(player, data.current.value)
-        end)
-    else
-        ESX.CloseContext()
-        ESX.CloseContext()
-        OpenFineTextInput(player)
-    end
-end
-
-local fineList = {}
-function OpenFineCategoryMenu(player, category)
-    if not fineList[category] then
-        local p = promise.new()
-
-        ESX.TriggerServerCallback("bpt_ammujob:getFineList", function(fines)
-            p:resolve(fines)
-        end, category)
-
-        fineList[category] = Citizen.Await(p)
-    end
-
-    local elements = {
-        { unselectable = true, icon = "fas fa-scroll", title = TranslateCap("billing") },
-    }
-
-    for _, fine in ipairs(fineList[category]) do
-        elements[#elements + 1] = {
-            icon = "fas fa-scroll",
-            title = ('%s <span style="color:green;">%s</span>'):format(fine.label, TranslateCap("armory_item", ESX.Math.GroupDigits(fine.amount))),
-            value = fine.id,
-            amount = fine.amount,
-            fineLabel = fine.label,
-        }
-    end
-
-    ESX.OpenContext("right", elements, function(menu, element)
-        local data = { current = element }
-        if Config.EnablePlayerManagement then
-            TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(player), "society_ammu", TranslateCap("fine_total", data.current.fineLabel), data.current.amount)
-        else
-            TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(player), "", TranslateCap("fine_total", data.current.fineLabel), data.current.amount)
-        end
-
-        ESX.SetTimeout(300, function()
-            OpenFineCategoryMenu(player, category)
-        end)
-    end)
-end
-
-function OpenFineTextInput(player)
-    Citizen.CreateThread(function()
-        local amount = 0
-        local reason = ""
-        AddTextEntry("FMMC_KEY_TIP1", TranslateCap("fine_enter_amount"))
-        Citizen.Wait(0)
-        DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP1", "", "", "", "", "", 30)
-        while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
-            Citizen.Wait(0)
-        end
-        if UpdateOnscreenKeyboard() ~= 2 then
-            amount = tonumber(GetOnscreenKeyboardResult())
-            if amount == nil or amount <= 0 then
-                ESX.ShowNotification(TranslateCap("invalid_amount"))
-                return
-            end
-        end
-        AddTextEntry("FMMC_KEY_TIP1", TranslateCap("fine_enter_text"))
-        Citizen.Wait(0)
-        DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP1", "", "", "", "", "", 120)
-        while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
-            Citizen.Wait(0)
-        end
-        if UpdateOnscreenKeyboard() ~= 2 then
-            reason = GetOnscreenKeyboardResult()
-        end
-        Citizen.Wait(500)
-        TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(player), "society_ammu", reason, amount)
-        OpenAmmuActionsMenu()
-    end)
-end
-
 function ShowPlayerLicense(player)
     ESX.TriggerServerCallback("bpt_ammujob:getOtherPlayerData", function(playerData)
+        local elements = {}
         if playerData.licenses then
             for i = 1, #playerData.licenses, 1 do
                 if playerData.licenses[i].label and playerData.licenses[i].type then
@@ -293,6 +198,9 @@ function ShowPlayerLicense(player)
                 end
             end
         end
+        ESX.OpenContext("right", elements, nil, function(menu)
+            OpenAmmuActionsMenu()
+        end)
     end, GetPlayerServerId(player))
 end
 
@@ -437,7 +345,7 @@ AddEventHandler("bpt_ammujob:hasEnteredEntityZone", function(entity)
         local _ = GetEntityCoords(playerPed)
 
         if IsPedInAnyVehicle(playerPed, false) then
-            local vehicle = GetVehiclePedIsIn(playerPed)
+            local vehicle = GetVehiclePedIsIn(playerPed, false)
 
             for i = 0, 7, 1 do
                 SetVehicleTyreBurst(vehicle, i, true, 1000)
@@ -463,7 +371,7 @@ AddEventHandler("bpt_ammujob:handcuff", function()
             Wait(100)
         end
 
-        TaskPlayAnim(playerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+        TaskPlayAnim(playerPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, false, false, false)
         RemoveAnimDict("mp_arresting")
 
         SetEnableHandcuffs(playerPed, true)
@@ -653,8 +561,7 @@ end)
 -- Create blips
 CreateThread(function()
     for _, v in pairs(Config.Ammu) do
-        local blip = AddBlipForCoord(v.Blip.Coords)
-
+        local blip = AddBlipForCoord(v.Blip.Coords.x, v.Blip.Coords.y, v.Blip.Coords.z)
         SetBlipSprite(blip, v.Blip.Sprite)
         SetBlipDisplay(blip, v.Blip.Display)
         SetBlipScale(blip, v.Blip.Scale)
@@ -749,9 +656,10 @@ ESX.RegisterInput("ammu:interact", "(BPT AmmuJob) " .. TranslateCap("interaction
         return
     end
 
-    if not ESX.PlayerData.job or (ESX.PlayerData.job and not ESX.PlayerData.job.name == "ammu") then
+    if not ESX.PlayerData.job or (ESX.PlayerData.job and ESX.PlayerData.job.name ~= "ammu") then
         return
     end
+
     if CurrentAction == "menu_armory" then
         if not Config.EnableESXService then
             OpenArmoryMenu(CurrentActionData.station)

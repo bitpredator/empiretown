@@ -41,18 +41,6 @@ return {
         },
     },
 
-    ["panettone"] = {
-        label = "panettone",
-        weight = 220,
-        client = {
-            status = { hunger = 40000 },
-            anim = "eating",
-            prop = "burger",
-            usetime = 2500,
-            notification = "Stai mangiando una fetta di panettone",
-        },
-    },
-
     ["fries"] = {
         label = "patatine fritte",
         weight = 220,
@@ -61,7 +49,7 @@ return {
             anim = "eating",
             prop = "burger",
             usetime = 2500,
-            notification = "Stai mangiano delle patatine fritte",
+            notification = "Stai mangiando delle patatine fritte",
         },
     },
 
@@ -69,11 +57,23 @@ return {
         label = "salmone grigliato",
         weight = 140,
         client = {
-            status = { hunger = 40000 },
+            status = { hunger = 50000 },
             anim = "eating",
             prop = "burger",
             usetime = 2500,
-            notification = "Stai mangiano del salmone grigliato",
+            notification = "Stai mangiando del salmone grigliato",
+        },
+    },
+
+    ["grilled_trout"] = {
+        label = "trota grigliata",
+        weight = 140,
+        client = {
+            status = { hunger = 60000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiando della trota grigliata",
         },
     },
 
@@ -619,13 +619,6 @@ return {
         },
     },
 
-    ["salmon_fillet"] = {
-        label = "filetto di salmone",
-        weight = 220,
-        stack = true,
-        consume = 1,
-    },
-
     ["medikit"] = {
         label = "Medikit",
         weight = 120,
@@ -803,5 +796,13 @@ return {
         label = "Contratto",
         weight = 3,
         stack = true,
+    },
+
+    ["fattura"] = {
+        label = "fattura",
+        weight = 1,
+        stack = false,
+        close = true,
+        description = "Fattura da pagare",
     },
 }

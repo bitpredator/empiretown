@@ -1,0 +1,174 @@
+[
+    {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.5",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Loading Queue System",
+                            "color": "Accent",
+                            "weight": "Bolder",
+                            "size": "ExtraLarge"
+                        },
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "Queue",
+                                            "wrap": true,
+                                            "size": "Medium"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Column",
+                                    "width": "stretch"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Time in Queeu",
+                            "wrap": true,
+                            "size": "Default",
+                            "fontType": "Default",
+                            "weight": "Lighter"
+                        }
+                    ],
+                    "width": "stretch"
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "Welcome To Empiretown Server",
+                                            "wrap": true,
+                                            "horizontalAlignment": "Right",
+                                            "size": "ExtraLarge",
+                                            "weight": "Bolder"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "test",
+                                            "wrap": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "text": "Points",
+                                            "wrap": true,
+                                            "horizontalAlignment": "Right",
+                                            "fontType": "Default",
+                                            "weight": "Lighter"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "ColumnSet"
+                        },
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "ActionSet",
+                                            "horizontalAlignment": "Center",
+                                            "actions": [
+                                                {
+                                                    "type": "Action.OpenUrl",
+                                                    "title": "Web Site",
+                                                    "id": "website",
+                                                    "url": "https://bitpredator.github.io/bptdevelopment/"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "ActionSet",
+                                            "horizontalAlignment": "Center",
+                                            "actions": [
+                                                {
+                                                    "type": "Action.OpenUrl",
+                                                    "title": "Discord",
+                                                    "url": "https://discord.gg/ksGfNvDEfq"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Column",
+                                    "width": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "ActionSet",
+                                            "horizontalAlignment": "Center",
+                                            "actions": [
+                                                {
+                                                    "type": "Action.OpenUrl",
+                                                    "title": "Rules",
+                                                    "id": "rules",
+                                                    "url": "https://discord.gg/ksGfNvDEfq"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "separator": true,
+                            "spacing": "Medium"
+                        }
+                    ],
+                    "width": "stretch"
+                }
+            ]
+        }
+    ]
+}
+]
