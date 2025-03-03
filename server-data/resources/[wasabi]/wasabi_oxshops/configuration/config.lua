@@ -4,7 +4,7 @@ Config.Shops = {
         label = "Farmacia Ospedaliera",
         blip = {
             enabled = true,
-            coords = vec3(362.492310, -1381.938477, 32.413940),
+            coords = vec3(309.296692, -560.993408, 43.282104),
             sprite = 61,
             color = 8,
             scale = 0.7,
@@ -13,12 +13,12 @@ Config.Shops = {
         locations = {
             stash = {
                 string = "[E] - Deposito vendita",
-                coords = vec3(362.492310, -1381.938477, 32.413940),
+                coords = vec3(309.296692, -560.993408, 43.282104),
                 range = 3.0,
             },
             shop = {
                 string = "[E] - Punto di acquisto",
-                coords = vec3(358.971436, -1391.380249, 32.413940),
+                coords = vec3(308.861542, -592.496704, 43.282104),
                 range = 4.0,
             },
         },

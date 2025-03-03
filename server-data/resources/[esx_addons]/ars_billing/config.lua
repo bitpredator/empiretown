@@ -22,8 +22,6 @@ Config.AllowedJobs = {
 Config.UseForcePay = true
 
 Config.FocePayJobs = {
-    "police",
-    "ambulance"
 }
 
 Config.Lang = {
