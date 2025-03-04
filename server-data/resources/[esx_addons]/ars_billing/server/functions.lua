@@ -18,7 +18,7 @@ function payBill(source, method, data)
                         society = data.metadata.society })
             end
 
-            TriggerEvent('esx_addonaccount:getSharedAccount', "society_" .. data.metadata.society, function(account)
+            TriggerEvent('bpt_addonaccount:getSharedAccount', "society_" .. data.metadata.society, function(account)
                 account.addMoney(data.metadata.amount)
             end)
 
@@ -40,7 +40,7 @@ function payBill(source, method, data)
                     { status = Config.Lang.paid, amount = data.metadata.amount, date = data.metadata.date,
                         society = data.metadata.society, paidon = os.date("%x %X") })
             end
-            TriggerEvent('esx_addonaccount:getSharedAccount', "society_" .. data.metadata.society, function(account)
+            TriggerEvent('bpt_addonaccount:getSharedAccount', "society_" .. data.metadata.society, function(account)
                 account.addMoney(data.metadata.amount)
             end)
 
@@ -103,7 +103,7 @@ function forcedPay(target, amount, society)
 
     xTarget.removeAccountMoney("bank", amount)
 
-    TriggerEvent('esx_addonaccount:getSharedAccount', "society_" .. society, function(account)
+    TriggerEvent('bpt_addonaccount:getSharedAccount', "society_" .. society, function(account)
         account.addMoney(amount)
     end)
 end
