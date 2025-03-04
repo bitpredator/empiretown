@@ -36,51 +36,41 @@ Config.EarlyRespawnFine = true
 Config.EarlyRespawnFineAmount = 5000
 
 Config.OxInventory = ESX.GetConfig().OxInventory
-Config.RespawnPoints = {
-    { coords = vector3(341.0, -1397.3, 32.5), heading = 48.5 },
-}
+Config.RespawnPoint = { coords = vector3(341.0, -1397.3, 32.5), heading = 48.5 }
 
 Config.Hospitals = {
 
     CentralLosSantos = {
 
         Blip = {
-            coords = vector3(338.716492, -1394.439575, 32.498169),
+            coords = vector3(292.05, -582.39, 43.18),
             sprite = 61,
             scale = 1.2,
             color = 2,
         },
 
         AmbulanceActions = {
-            vector3(346.589020, -1428.435181, 31.936279),
+            vector3(301.925293, -598.549438, 42.282104),
         },
 
         Vehicles = {
             {
-                Spawner = vector3(390.356049, -1436.822021, 29.431519),
-                InsideShop = vector3(393.784607, -1442.624146, 29.397827),
+                Spawner = vector3(338.123077, -575.947266, 28.791260),
+                InsideShop = vector3(320.756042, -548.004395, 28.740601),
                 Marker = { type = 36, x = 1.0, y = 1.0, z = 1.0, r = 100, g = 50, b = 200, a = 100, rotate = true },
                 SpawnPoints = {
-                    { coords = vector3(402.989014, -1426.417603, 29.448364), heading = 227.6, radius = 4.0 },
+                    { coords = vector3(328.021973, -576.553833, 28.791260), heading = 227.6, radius = 4.0 },
                 },
             },
         },
 
         Helicopters = {
             {
-                Spawner = vector3(299.419769, -1454.004395, 46.500366),
-                InsideShop = vector3(299.419769, -1454.004395, 46.500366),
+                Spawner = vector3(352.04, -588.39, 74.16),
+                InsideShop = vector3(352.04, -588.39, 74.16),
                 Marker = { type = 34, x = 1.5, y = 1.5, z = 1.5, r = 100, g = 150, b = 150, a = 100, rotate = true },
                 SpawnPoints = {
-                    { coords = vector3(299.419769, -1454.004395, 46.500366), heading = 142.7, radius = 10.0 },
-                },
-            },
-            {
-                Spawner = vector3(313.120880, -1465.661499, 46.500366),
-                InsideShop = vector3(313.120880, -1465.661499, 46.500366),
-                Marker = { type = 34, x = 1.5, y = 1.5, z = 1.5, r = 100, g = 150, b = 150, a = 100, rotate = true },
-                SpawnPoints = {
-                    { coords = vector3(313.120880, -1465.661499, 46.500366), heading = 142.7, radius = 10.0 },
+                    { coords = vector3(352.04, -588.39, 74.16), heading = 142.7, radius = 10.0 },
                 },
             },
         },

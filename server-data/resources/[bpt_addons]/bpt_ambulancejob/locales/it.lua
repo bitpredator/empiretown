@@ -46,7 +46,6 @@ Locales["it"] = {
     ["actions_prompt"] = "Premi [E] per accedere alle opzioni dell'Ambulanza.",
     ["deposit_amount"] = "Importo del deposito",
     ["money_withdraw"] = "Importo ritirato",
-    ["fast_travel"] = "premi [E] per viaggiare velocemente.",
     ["medikit"] = "Medikit",
     ["bandage"] = "Benda",
     ["max_item"] = "Hai già abbastanza oggetti.",

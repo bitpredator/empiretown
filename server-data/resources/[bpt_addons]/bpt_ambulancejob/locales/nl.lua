@@ -46,7 +46,6 @@ Locales["nl"] = {
     ["actions_prompt"] = "Druk op [E] om de Ambulance Acties te bekijken.",
     ["deposit_amount"] = "Bedrag om te storten",
     ["money_withdraw"] = "Bedrag om op te nemen",
-    ["fast_travel"] = "Druk op [E] om snel te reizen.",
     ["medikit"] = "Spoedkoffer",
     ["bandage"] = "Verbanddoos",
     ["max_item"] = "Je kan dit niet dragen.",
