@@ -46,7 +46,6 @@ Locales["en"] = {
     ["actions_prompt"] = "Press [E] access the Ambulance Actions.",
     ["deposit_amount"] = "Deposit Amount",
     ["money_withdraw"] = "Amount withdrawn",
-    ["fast_travel"] = "press [E] to fast travel.",
     ["medikit"] = "Medikit",
     ["bandage"] = "Bandage",
     ["max_item"] = "You are already carrying enough.",

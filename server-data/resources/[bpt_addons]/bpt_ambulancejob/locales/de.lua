@@ -46,7 +46,6 @@ Locales["de"] = {
     ["actions_prompt"] = "Drücke [E] Um auf die Rettungsdienst Aktionen zuzugreifen!",
     ["deposit_amount"] = "Anzahl einzahlen",
     ["money_withdraw"] = "Anzahl auszahlen",
-    ["fast_travel"] = "Drücke [E] zum Schnellreisen.",
     ["medikit"] = "Verbandskasten",
     ["bandage"] = "Verband",
     ["max_item"] = "Du trägst bereits genug.",

@@ -48,7 +48,6 @@ Locales["es"] = {
     ["actions_prompt"] = "Presiona [E] acceder al Acciones de ambulancia.",
     ["deposit_amount"] = "Cantidad de fianza depositada",
     ["money_withdraw"] = "Cantidad de fianza retirada",
-    ["fast_travel"] = "Presiona [E] para viajar rápido.",
     ["medikit"] = "Kit médico",
     ["bandage"] = "Vendas",
     ["max_item"] = "Ya has ocupado el máximo número de items disponibles.",
