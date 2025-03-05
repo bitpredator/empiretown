@@ -1,53 +1,65 @@
+---@diagnostic disable: undefined-global
 Config = {}
+
 Config.DrawDistance = 10.0 -- How close do you need to be for the markers to be drawn (in GTA units).
-Config.EnablePlayerManagement = true -- Enable society managing.
-Config.EnableSocietyOwnedVehicles = false
-Config.Locale = "it"
+Config.MarkerType = { Import = 21, BossActions = 22, Vehicles = 36 }
+Config.MarkerSize = { x = 1.5, y = 1.5, z = 0.5 }
+Config.MarkerColor = { r = 50, g = 50, b = 204 }
+Config.EnablePlayerManagement = true -- Enable if you want society managing.
+Config.EnableImportManagement = false
+Config.EnableESXIdentity = true -- Enable if you're using esx_identity.
+Config.EnableESXOptionalneeds = false -- Enable if you're using esx_optionalneeds
+Config.EnableLicenses = true -- Enable if you're using esx_license.
+Config.EnableHandcuffTimer = true -- Enable handcuff timer? will unrestrain player after the time ends.
+Config.HandcuffTimer = 10 * 60000 -- 10 minutes.
+Config.EnableFinePresets = false -- Set to false to use a custom input fields for fines
+Config.Locale = GetConvar("esx:locale", "it")
 Config.OxInventory = ESX.GetConfig().OxInventory
 
-Config.AuthorizedVehicles = {
-	{ model = "rumpo3", label = "Rumpo" },
+Config.Import = {
+
+    IMPORT = {
+
+        Blip = {
+            Coords = vector3(1006.799988, -2404.127441, 30.122314),
+            Sprite = 478,
+            Display = 4,
+            Scale = 1.0,
+            Colour = 21,
+        },
+
+        Import = {
+            vector3(1006.799988, -2404.127441, 30.122314),
+        },
+
+        Vehicles = {
+            {
+                Spawner = vector3(1021.912109, -2372.043945, 30.526733),
+                InsideShop = vector3(1012.720886, -2341.279053, 30.493042),
+                SpawnPoints = {
+                    { coords = vector3(1015.740662, -2366.624268, 31.593042), heading = 90.0, radius = 6.0 },
+                },
+            },
+        },
+
+        BossActions = {
+            vector3( 1006.799988, -2404.127441, 30.122314),
+        },
+    },
 }
 
-Config.Zones = {
+Config.AuthorizedVehicles = {
+    car = {
+        apprentice = {},
 
-	VehicleSpawner = {
-		Pos = { x = 1021.912109, y = -2372.043945, z = 30.526733 },
-		Size = { x = 0.6, y = 0.6, z = 0.6 },
-		Color = { r = 204, g = 204, b = 0 },
-		Type = 36,
-		Rotate = true,
-	},
+        gunsmith = {},
 
-	VehicleSpawnPoint = {
-		Pos = { x = 1015.740662, y = -2366.624268, z = 31.593042 },
-		Size = { x = 1.5, y = 1.5, z = 1.0 },
-		Type = -1,
-		Rotate = false,
-		Heading = 225.0,
-	},
+        importchief = {},
 
-	VehicleDeleter = {
-		Pos = { x = 1015.740662, y = -2366.624268, z = 29.493042 },
-		Size = { x = 3.0, y = 3.0, z = 0.25 },
-		Color = { r = 255, g = 0, b = 0 },
-		Type = 1,
-		Rotate = false,
-	},
+        deputydirector = {},
 
-	ImportActions = {
-		Pos = { x = 1006.799988, y = -2404.127441, z = 30.122314 },
-		Size = { x = 0.6, y = 0.6, z = 0.6 },
-		Color = { r = 204, g = 204, b = 0 },
-		Type = 20,
-		Rotate = true,
-	},
-
-	Cloakroom = {
-		Pos = { x = 1011.837341, y = -2390.004395, z = 30.122314 },
-		Size = { x = 0.6, y = 0.6, z = 0.6 },
-		Color = { r = 204, g = 204, b = 0 },
-		Type = 21,
-		Rotate = true,
-	},
+        boss = {
+            { model = "rumpo3", price = 15000 },
+        },
+    },
 }
