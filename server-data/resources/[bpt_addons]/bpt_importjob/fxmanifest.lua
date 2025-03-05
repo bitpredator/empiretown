@@ -2,24 +2,22 @@ fx_version("adamant")
 
 game("gta5")
 
-description("bpt_importjob")
+description("bpt_importjob RP server")
 lua54("yes")
 version("1.0.8")
 
-shared_script("@es_extended/imports.lua")
-
-client_scripts({
-	"@es_extended/locale.lua",
-	"locales/*.lua",
-	"config.lua",
-	"client/main.lua",
+shared_script({
+    "@es_extended/imports.lua",
+    "@es_extended/locale.lua",
+    "config.lua",
+    "locales/*.lua",
 })
 
 server_scripts({
-	"@es_extended/locale.lua",
-	"locales/*.lua",
-	"config.lua",
-	"server/main.lua",
+    "@oxmysql/lib/MySQL.lua",
+    "server/*.lua",
 })
 
-dependency("es_extended")
+client_scripts({
+    "client/*.lua",
+})
