@@ -14,7 +14,7 @@ return {
         label = "Personal locker",
         owner = true,
         slots = 70,
-        weight = 70000,
+        weight = 200000,
         groups = shared.police,
     },
 
@@ -33,7 +33,7 @@ return {
         label = "Deposito Aziendale",
         owner = false,
         slots = 70,
-        weight = 70000,
+        weight = 200000,
         groups = { ["ambulance"] = 0 },
     },
 
@@ -52,7 +52,7 @@ return {
         label = "Storage",
         owner = false,
         slots = 70,
-        weight = 70000,
+        weight = 200000,
         groups = { ["unicorn"] = 0 },
     },
 
@@ -71,7 +71,7 @@ return {
         label = "Storage",
         owner = false,
         slots = 70,
-        weight = 70000,
+        weight = 200000,
         groups = { ["import"] = 0 },
     },
 }
