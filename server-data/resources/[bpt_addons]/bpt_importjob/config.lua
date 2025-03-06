@@ -12,7 +12,6 @@ Config.EnableESXOptionalneeds = false -- Enable if you're using esx_optionalneed
 Config.EnableLicenses = true -- Enable if you're using esx_license.
 Config.EnableHandcuffTimer = true -- Enable handcuff timer? will unrestrain player after the time ends.
 Config.HandcuffTimer = 10 * 60000 -- 10 minutes.
-Config.EnableFinePresets = false -- Set to false to use a custom input fields for fines
 Config.Locale = GetConvar("esx:locale", "it")
 Config.OxInventory = ESX.GetConfig().OxInventory
 
@@ -28,7 +27,7 @@ Config.Import = {
             Colour = 21,
         },
 
-        Import = {
+        BossActions = {
             vector3(1006.799988, -2404.127441, 30.122314),
         },
 
@@ -42,9 +41,9 @@ Config.Import = {
             },
         },
 
-        BossActions = {
-            vector3(1006.799988, -2404.127441, 30.122314),
-        },
+        --        Import = {
+        --            vector3(1001.630798, -2403.217529, 30.172852),
+        --        },
     },
 }
 
