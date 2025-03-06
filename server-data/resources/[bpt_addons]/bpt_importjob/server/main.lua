@@ -196,19 +196,6 @@ ESX.RegisterServerCallback("bpt_importjob:getOtherPlayerData", function(source, 
     end
 end)
 
-local fineList = {}
-ESX.RegisterServerCallback("bpt_importjob:getFineList", function(source, cb, category)
-    if not fineList[category] then
-        MySQL.query("SELECT * FROM fine_types WHERE category = ?", { category }, function(fines)
-            fineList[category] = fines
-
-            cb(fines)
-        end)
-    else
-        cb(fineList[category])
-    end
-end)
-
 ESX.RegisterServerCallback("bpt_importjob:getVehicleInfos", function(source, cb, plate)
     local retrivedInfo = {
         plate = plate,

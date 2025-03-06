@@ -161,26 +161,6 @@ function OpenBodySearchMenu(player)
     end, GetPlayerServerId(player))
 end
 
-function ShowPlayerLicense(player)
-    ESX.TriggerServerCallback("bpt_importjob:getOtherPlayerData", function(playerData)
-        local elements = {}
-        if playerData.licenses then
-            for i = 1, #playerData.licenses, 1 do
-                if playerData.licenses[i].label and playerData.licenses[i].type then
-                    elements[#elements + 1] = {
-                        icon = "fas fa-scroll",
-                        title = playerData.licenses[i].label,
-                        type = playerData.licenses[i].type,
-                    }
-                end
-            end
-        end
-        ESX.OpenContext("right", elements, nil, function(menu)
-            OpenImportActionsMenu()
-        end)
-    end, GetPlayerServerId(player))
-end
-
 function OpenGetStocksMenu()
     ESX.TriggerServerCallback("bpt_importjob:getStockItems", function(items)
         local elements = {
@@ -563,7 +543,7 @@ CreateThread(function()
             local currentStation, currentPart, currentPartNum
 
             for k, v in pairs(Config.Import) do
-                for i = 1, #v.Import, 1 do
+                --[[for i = 1, #v.Import, 1 do
                     local distance = #(playerCoords - v.Import[i])
 
                     if distance < Config.DrawDistance then
@@ -574,7 +554,7 @@ CreateThread(function()
                             isInMarker, currentStation, currentPart, currentPartNum = true, k, "Import", i
                         end
                     end
-                end
+                end]]--
 
                 for i = 1, #v.Vehicles, 1 do
                     local distance = #(playerCoords - v.Vehicles[i].Spawner)
