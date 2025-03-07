@@ -91,7 +91,7 @@ return {
 
     ["cola"] = {
         label = "eCola",
-        weight = 70,
+        weight = 60,
         client = {
             status = { thirst = 200000 },
             anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
@@ -157,7 +157,7 @@ return {
 
     ["trash_can"] = {
         label = "lattina usata",
-        weight = 100,
+        weight = 50,
         stack = true,
         close = false,
         consume = 0,
