@@ -238,7 +238,7 @@ Config = {
             Level = 0,
             Category = "tools",
             isGun = false,
-            Jobs = { "import" },
+            Jobs = { "import", "ammu" },
             JobGrades = {},
             Amount = 4,
             SuccessRate = 100,
@@ -498,6 +498,24 @@ Config = {
             },
         },
 
+        ["at_flashlight"] = {
+            Level = 10,
+            Category = "accessory",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["diamond"] = 1,
+                ["copper"] = 1,
+                ["hammer"] = 1,
+                ["recycled_plastic"] = 1,
+            },
+        },
+
         ["at_suppressor_light"] = {
             Level = 10,
             Category = "accessory",
@@ -745,6 +763,8 @@ Config = {
                 "WEAPON_COMBATSHOTGUN",
                 "WEAPON_PISTOL_MK2",
                 "at_skin_luxe",
+                "at_flashlight",
+                "hammer"
             },
             radius = 1.0,
         },

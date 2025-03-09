@@ -68,6 +68,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('grilled_salmon', 'salmone grigliato'),
 	('WEAPON_PISTOL_MK2', 'Pistola MK2'),
 	('at_skin_luxe', 'Skin oro'),
-	('grilled_trout', 'Trota grigliata')
-	('trout', 'Trota')
+	('grilled_trout', 'Trota grigliata'),
+	('trout', 'Trota'),
+	('at_flashlight', 'Torcia per arma'),
 ;
