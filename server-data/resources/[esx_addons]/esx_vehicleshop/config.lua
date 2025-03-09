@@ -1,4 +1,3 @@
----@diagnostic disable: undefined-global
 Config = {}
 Config.DrawDistance = 10
 Config.MarkerColor = { r = 120, g = 120, b = 240 }
