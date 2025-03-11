@@ -74,6 +74,14 @@ files({
     "data/gxa45/carvariations.meta",
     "data/gxa45/dlctext.meta",
 
+    -- f_wide296
+    "data/f_wide296/handling.meta",
+    "data/f_wide296/vehicles.meta",
+    "data/f_wide296/carcols.meta",
+    "data/f_wide296/carvariations.meta",
+    "data/f_wide296/dlctext.meta",
+    "data/f_wide296/vehiclelayouts.meta",
+
 })
 
 -- bmw440
@@ -143,6 +151,14 @@ data_file("VEHICLE_METADATA_FILE")("data/gxa45/vehicles.meta")
 data_file("CARCOLS_FILE")("data/gxa45/carcols.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/gxa45/carvariations.meta")
 data_file("DLCTEXT_FILE")("data/gxa45/dlctext.meta")
+
+-- f_wide296
+data_file("HANDLING_FILE")("data/f_wide296/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/f_wide296/vehicles.meta")
+data_file("CARCOLS_FILE")("data/f_wide296/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/f_wide296/carvariations.meta")
+data_file("DLCTEXT_FILE")("data/f_wide296/dlctext.meta")
+data_file("VEHICLE_LAYOUTS_FILE")("data/f_wide296/vehiclelayouts.meta")
 
 client_script({
     "vehicle_names.lua",
