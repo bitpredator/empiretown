@@ -33,7 +33,7 @@ return {
         label = "Burger",
         weight = 220,
         client = {
-            status = { hunger = 31000 },
+            status = { hunger = 33000 },
             anim = "eating",
             prop = "burger",
             usetime = 2500,
@@ -45,7 +45,7 @@ return {
         label = "patatine fritte",
         weight = 220,
         client = {
-            status = { hunger = 40000 },
+            status = { hunger = 400000 },
             anim = "eating",
             prop = "burger",
             usetime = 2500,
@@ -57,11 +57,23 @@ return {
         label = "salmone grigliato",
         weight = 140,
         client = {
-            status = { hunger = 50000 },
+            status = { hunger = 500000 },
             anim = "eating",
             prop = "burger",
             usetime = 2500,
             notification = "Stai mangiando del salmone grigliato",
+        },
+    },
+
+    ["tuna_sandwich"] = {
+        label = "panino al tonno",
+        weight = 140,
+        client = {
+            status = { hunger = 500000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiando un panino al tonno",
         },
     },
 

@@ -645,6 +645,23 @@ Config = {
             },
         },
 
+        ["tuna_sandwich"] = {
+            Level = 0,
+            Category = "unicorn",
+            isGun = false,
+            Jobs = { "unicorn" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["tuna"] = 1,
+                ["WEAPON_KNIFE"] = 1,
+                ["bread"] = 1,
+            },
+        },
+
         ["grilled_trout"] = {
             Level = 0,
             Category = "unicorn",
@@ -654,7 +671,7 @@ Config = {
             Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
-            Time = 60,
+            Time = 30,
             Ingredients = {
                 ["trout"] = 1,
                 ["WEAPON_KNIFE"] = 1,
@@ -763,7 +780,7 @@ Config = {
                 "WEAPON_PISTOL_MK2",
                 "at_skin_luxe",
                 "at_flashlight",
-                "hammer"
+                "hammer",
             },
             radius = 1.0,
         },
@@ -771,7 +788,7 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout" },
+            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout", "tuna_sandwich" },
             radius = 1.0,
         },
         {
@@ -785,7 +802,7 @@ Config = {
             coords = vector3(-32.782417, -1118.254883, 32.565552),
             jobs = { "cardealer" },
             blip = false,
-            recipes = { "marijuana", "diamond_tip", "contract", },
+            recipes = { "marijuana", "diamond_tip", "contract" },
             radius = 1.0,
         },
         {
