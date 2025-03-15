@@ -1,18 +1,28 @@
----@diagnostic disable: undefined-global
-
+-- Get the ESX object
 ESX = exports["es_extended"]:getSharedObject()
-function SetCraftingLevel(identifier, level)
-    MySQL.Async.execute("UPDATE `users` SET `crafting_level`= @xp WHERE `identifier` = @identifier", { ["@xp"] = level, ["@identifier"] = identifier }, function() end)
+
+-- Crafting level management functions
+local function SetCraftingLevel(identifier, level)
+    MySQL.Async.execute("UPDATE users SET crafting_level = @xp WHERE identifier = @identifier", {
+        ["@xp"] = level,
+        ["@identifier"] = identifier,
+    })
 end
 
-function GetCraftingLevel(identifier)
-    return tonumber(MySQL.Sync.fetchScalar("SELECT `crafting_level` FROM users WHERE identifier = @identifier ", { ["@identifier"] = identifier }))
+local function GetCraftingLevel(identifier)
+    return tonumber(MySQL.Sync.fetchScalar("SELECT crafting_level FROM users WHERE identifier = @identifier", {
+        ["@identifier"] = identifier,
+    })) or 0
 end
 
-function GiveCraftingLevel(identifier, level)
-    MySQL.Async.execute("UPDATE `users` SET `crafting_level`= `crafting_level` + @xp WHERE `identifier` = @identifier", { ["@xp"] = level, ["@identifier"] = identifier }, function() end)
+local function GiveCraftingLevel(identifier, level)
+    MySQL.Async.execute("UPDATE users SET crafting_level = crafting_level + @xp WHERE identifier = @identifier", {
+        ["@xp"] = level,
+        ["@identifier"] = identifier,
+    })
 end
 
+-- Events for managing the crafting experience
 RegisterServerEvent("bpt_crafting:setExperiance")
 AddEventHandler("bpt_crafting:setExperiance", function(identifier, xp)
     SetCraftingLevel(identifier, xp)
@@ -23,64 +33,39 @@ AddEventHandler("bpt_crafting:giveExperiance", function(identifier, xp)
     GiveCraftingLevel(identifier, xp)
 end)
 
-function Craft(src, item, retrying)
+-- Crafting function
+local function Craft(src, item, retrying)
     local xPlayer = ESX.GetPlayerFromId(src)
-    local cancraft = true
+    if not xPlayer then
+        return
+    end
 
-    local count = Config.Recipes[item].Amount
+    local recipe = Config.Recipes[item]
+    if not recipe then
+        return
+    end
+
+    local canCraft = true
+    local count = recipe.Amount
 
     if not retrying then
-        for k, v in pairs(Config.Recipes[item].Ingredients) do
+        for k, v in pairs(recipe.Ingredients) do
             if xPlayer.getInventoryItem(k).count < v then
-                cancraft = false
+                canCraft = false
+                break
             end
         end
     end
 
-    if Config.Recipes[item].isGun then
-        if cancraft then
-            for k, v in pairs(Config.Recipes[item].Ingredients) do
-                if not Config.PermanentItems[k] then
-                    xPlayer.removeInventoryItem(k, v)
-                end
+    if canCraft then
+        for k, v in pairs(recipe.Ingredients) do
+            if not Config.PermanentItems[k] then
+                xPlayer.removeInventoryItem(k, v)
             end
-
-            TriggerClientEvent("bpt_crafting:craftStart", src, item, count)
-        else
-            TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("not_enough_ingredients"))
         end
+        TriggerClientEvent("bpt_crafting:craftStart", src, item, count)
     else
-        if Config.UseLimitSystem then
-            local xItem = xPlayer.getInventoryItem(item)
-
-            if xItem.count + count <= xItem.limit then
-                if cancraft then
-                    for k, v in pairs(Config.Recipes[item].Ingredients) do
-                        xPlayer.removeInventoryItem(k, v)
-                    end
-
-                    TriggerClientEvent("bpt_crafting:craftStart", src, item, count)
-                else
-                    TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("not_enough_ingredients"))
-                end
-            else
-                TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("you_cant_hold_item"))
-            end
-        else
-            if xPlayer.canCarryItem(item, count) then
-                if cancraft then
-                    for k, v in pairs(Config.Recipes[item].Ingredients) do
-                        xPlayer.removeInventoryItem(k, v)
-                    end
-
-                    TriggerClientEvent("bpt_crafting:craftStart", src, item, count)
-                else
-                    TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("not_enough_ingredients"))
-                end
-            else
-                TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("you_cant_hold_item"))
-            end
-        end
+        TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("not_enough_ingredients"))
     end
 end
 
@@ -88,35 +73,31 @@ RegisterServerEvent("bpt_crafting:itemCrafted")
 AddEventHandler("bpt_crafting:itemCrafted", function(item, count)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
+    if not xPlayer then
+        return
+    end
 
-    if Config.Recipes[item].SuccessRate > math.random(0, Config.Recipes[item].SuccessRate) then
+    local recipe = Config.Recipes[item]
+    if not recipe then
+        return
+    end
+
+    if math.random(0, 100) <= recipe.SuccessRate then
         if Config.UseLimitSystem then
             local xItem = xPlayer.getInventoryItem(item)
-
             if xItem.count + count <= xItem.limit then
-                if Config.Recipes[item].isGun then
-                    xPlayer.addWeapon(item, 0)
-                else
-                    xPlayer.addInventoryItem(item, count)
-                end
+                xPlayer.addInventoryItem(item, count)
                 TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("item_crafted"))
                 GiveCraftingLevel(xPlayer.identifier, Config.ExperiancePerCraft)
             else
-                TriggerEvent("bpt_crafting:craft", item)
                 TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("inv_limit_exceed"))
             end
+        elseif xPlayer.canCarryItem(item, count) then
+            xPlayer.addInventoryItem(item, count)
+            TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("item_crafted"))
+            GiveCraftingLevel(xPlayer.identifier, Config.ExperiancePerCraft)
         else
-            if xPlayer.canCarryItem(item, count) then
-                if Config.Recipes[item].isGun then
-                    xPlayer.addWeapon(item, 0)
-                else
-                    xPlayer.addInventoryItem(item, count)
-                end
-                TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("item_crafted"))
-                GiveCraftingLevel(xPlayer.identifier, Config.ExperiancePerCraft)
-            else
-                TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("inv_limit_exceed"))
-            end
+            TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("inv_limit_exceed"))
         end
     else
         TriggerClientEvent("bpt_crafting:sendMessage", src, TranslateCap("crafting_failed"))
@@ -125,24 +106,23 @@ end)
 
 RegisterServerEvent("bpt_crafting:craft")
 AddEventHandler("bpt_crafting:craft", function(item, retrying)
-    local src = source
-    Craft(src, item, retrying)
+    Craft(source, item, retrying)
 end)
 
+-- Callbacks to get data
 ESX.RegisterServerCallback("bpt_crafting:getXP", function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
-
-    cb(GetCraftingLevel(xPlayer.identifier))
+    if xPlayer then
+        cb(GetCraftingLevel(xPlayer.identifier))
+    end
 end)
 
 ESX.RegisterServerCallback("bpt_crafting:getItemNames", function(_, cb)
     local names = {}
-
-    MySQL.Async.fetchAll("SELECT * FROM bpt_items WHERE 1", {}, function(info)
-        for _, v in ipairs(info) do
+    MySQL.Async.fetchAll("SELECT name, label FROM bpt_items", {}, function(results)
+        for _, v in ipairs(results) do
             names[v.name] = v.label
         end
-
         cb(names)
     end)
 end)

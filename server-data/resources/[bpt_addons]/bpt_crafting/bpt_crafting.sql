@@ -72,4 +72,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('grilled_trout', 'Grilled trout'),
 	('trout', 'Trout'),
 	('at_flashlight', 'Flashlight'),
+	('tuna_sandwich', 'Tuna sandwich'),
+	('tuna', 'Tuna'),
 ;
