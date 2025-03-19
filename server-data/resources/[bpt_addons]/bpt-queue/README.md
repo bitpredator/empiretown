@@ -1,6 +1,4 @@
-# Snipe Queue System
-
-Made by Snipe and Cadburry (https://github.com/cadburry6969)
+# BPT Queue System
 
 # Features:
 - Priority Queue based on discord roles
@@ -10,8 +8,8 @@ Made by Snipe and Cadburry (https://github.com/cadburry6969)
 
 # Installation
 
-- Download the script. Make sure its named `snipe-queue`
-- Ensure the script in your server.cfg `ensure snipe-queue`
+- Download the script. Make sure its named `bpt-queue`
+- Ensure the script in your server.cfg `ensure bpt-queue`
 - Configure the script. Check the `config.lua` and change it to your liking.
 - Add your discord bot token and server id in `config_discord.lua`
 - Add your discord role ids along with the points system in `config_discord.lua`
@@ -21,7 +19,7 @@ Made by Snipe and Cadburry (https://github.com/cadburry6969)
 
 - If you want to get the number of people in queue in any of your other script you can use the following exports:
 ```lua
-exports['snipe-queue']:getQueueCount()
+exports['bpt-queue']:getQueueCount()
 ```
 
 # FAQ's

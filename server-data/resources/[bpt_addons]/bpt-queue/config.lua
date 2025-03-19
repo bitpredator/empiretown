@@ -4,10 +4,10 @@ Config = Config or {}
 Config.Debug = false
 
 -- this is the identifier which is required to join server
-Config.RequiredIdentifiers = { 'license', 'discord' }
+Config.RequiredIdentifiers = { "license", "discord" }
 
 -- this identifier will be used to perform actions / store data
-Config.Identifier = 'discord'
+Config.Identifier = "discord"
 
 -- disables hardcap, should keep this true
 Config.DisableHardCap = true
@@ -15,7 +15,7 @@ Config.DisableHardCap = true
 -- this makes person wait before even they initialize connection to prevent exploits
 Config.AntiSpam = {
     enabled = true,
-    time = 10 * 1000 -- 10 secs
+    time = 10 * 1000, -- 10 secs
 }
 
 -- timeout connection when they cross below time while they try connnecting
@@ -28,5 +28,5 @@ Config.JoinDelay = 3 * 60 * 1000 -- 3 mins (miliseconds)
 Config.ReconnectPrio = {
     enabled = true,
     points = 1000, -- this gets added to existing points
-    time = 5 -- 5 mins
+    time = 5, -- 5 mins
 }
