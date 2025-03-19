@@ -327,7 +327,7 @@ CreateThread(function()
         end
         for pos, data in ipairs(connectinglist) do
             local endpoint = GetPlayerEndpoint(data.source)
-            if not endpoint or data.cTime() >= Config.Timeout then
+            if not endpoint or data.cTime >= Config.Timeout then
                 removeFromConnecting(data.id)
                 DebugPrint(string.format("%s has been timed out while connecting to server", data.id))
             end
