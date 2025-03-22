@@ -747,7 +747,7 @@ Config = {
             radius = 1.0,
         },
         {
-            coords = vector3(365.432983, -1384.470337, 32.413940),
+            coords = vector3(311.406586, -564.962646, 43.28210),
             jobs = { "ambulance" },
             blip = false,
             recipes = { "bandage", "marijuana", "marijuana_extract", "medikit" },
