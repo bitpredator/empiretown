@@ -57,11 +57,11 @@ function OpenVehicleSpawnerMenu(type, hospital, part, partNum)
                             local vehicleName = GetLabelText(GetDisplayNameFromVehicleModel(props.model))
                             local label = ('%s - <span style="color:darkgoldenrod;">%s</span>: '):format(vehicleName, props.plate)
 
-                            if v.stored == 1 or v.stored == true then
-                                label = label .. ('<span style="color:green;">%s</span>'):format(TranslateCap("garage_stored"))
-                            elseif v.stored == 0 or v.stored == false then
-                                label = label .. ('<span style="color:darkred;">%s</span>'):format(TranslateCap("garage_notstored"))
-                            end
+							if v.stored == 1 or v.stored == true then
+								label = label .. ('<span style="color:green;">%s</span>'):format(TranslateCap('garage_stored'))
+							elseif v.stored == 0 or v.stored == false then
+								label = label .. ('<span style="color:darkred;">%s</span>'):format(TranslateCap('garage_notstored'))
+							end
 
                             garage[#garage + 1] = {
                                 icon = "fas fa-car",
@@ -139,7 +139,7 @@ function StoreNearbyVehicle(playerCoords)
                 AddTextComponentSubstringPlayerName(TranslateCap("garage_storing"))
                 EndTextCommandBusyspinnerOn(4)
 
-                while isBusy do
+                while IsBusy do
                     Wait(100)
                 end
 
@@ -233,7 +233,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 
                         DeleteSpawnedVehicles()
                         FreezeEntityPosition(playerPed, false)
-                        SetEntityVisible(PlayerPedId(), false, false)
+                        SetEntityVisible(PlayerPedId(), true, true)
 
                         ESX.Game.Teleport(playerPed, restoreCoords)
                     elseif element3.value == "buy" then
@@ -250,7 +250,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
                                 ESX.CloseContext()
                                 DeleteSpawnedVehicles()
                                 FreezeEntityPosition(playerPed, false)
-                                SetEntityVisible(PlayerPedId(), false, false)
+                                SetEntityVisible(PlayerPedId(), true, true)
 
                                 ESX.Game.Teleport(playerPed, restoreCoords)
                             else
@@ -265,7 +265,7 @@ function OpenShopMenu(elements, restoreCoords, shopCoords)
 
                     DeleteSpawnedVehicles()
                     FreezeEntityPosition(playerPed, false)
-                    SetEntityVisible(PlayerPedId(), true, false)
+                    SetEntityVisible(PlayerPedId(), true, true)
 
                     ESX.Game.Teleport(playerPed, restoreCoords)
                 end)
@@ -278,7 +278,7 @@ CreateThread(function()
     while true do
         Sleep = 1500
 
-        if isInShopMenu then
+        if IsInShopMenu then
             Sleep = 0
             DisableControlAction(0, 75, true) -- Disable exit vehicle
             DisableControlAction(27, 75, true) -- Disable exit vehicle
