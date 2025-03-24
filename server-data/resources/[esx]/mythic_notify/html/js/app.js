@@ -4,10 +4,16 @@ window.addEventListener('message', function(event) {
 	ShowNotif(event.data);
 });
 
+function sanitizeHTML(str) {
+	const temp = document.createElement('div');
+	temp.textContent = str;
+	return temp.innerHTML;
+}
+
 function CreateNotification(data) {
 	const $notification = $(document.createElement('div'));
 	$notification.addClass('notification').addClass(data.type);
-	$notification.html(data.text);
+	$notification.html(sanitizeHTML(data.text));
 	$notification.fadeIn();
 	if (data.style !== undefined) {
 		Object.keys(data.style).forEach(function(css) {
@@ -21,7 +27,7 @@ function CreateNotification(data) {
 function UpdateNotification(data) {
 	const $notification = $(notifs[data.id]);
 	$notification.addClass('notification').addClass(data.type);
-	$notification.html(data.text);
+	$notification.html(sanitizeHTML(data.text));
 
 	if (data.style !== undefined) {
 		Object.keys(data.style).forEach(function(css) {
