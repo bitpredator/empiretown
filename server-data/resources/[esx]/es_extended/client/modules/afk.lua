@@ -1,32 +1,33 @@
--- AFK Kick Time Limit (in seconds)
-SecondsUntilKick = 600
-KickWarning = true
-local PlayerPed, PrevPos, CurrentPos  = nil, nil, nil
-local Time = SecondsUntilKick
+local SecondsUntilKick = 600 -- Tempo in secondi prima del kick
+local KickWarningTime = math.ceil(SecondsUntilKick / 4) -- Momento dell'avviso
+local TimeLeft = SecondsUntilKick
+local PrevPos = nil
 
 Citizen.CreateThread(function()
     while true do
-        Wait(1000)
+        Citizen.Wait(1000) -- Controllo ogni secondo
 
-        PlayerPed = GetPlayerPed(-1)
-        if PlayerPed then
-            CurrentPos = GetEntityCoords(PlayerPed, true)
+        local playerPed = PlayerPedId()
+        if DoesEntityExist(playerPed) then
+            local currentPos = GetEntityCoords(playerPed, true)
 
-            if CurrentPos == PrevPos then
-                if Time > 0 then
-                    if KickWarning and Time == math.ceil(SecondsUntilKick / 4) then
-                        TriggerEvent("chatMessage", "ATTENZIONE", { 255, 0, 0 }, "^1📐Sarai Espulso per inattività 'tra  " .. Time .. " secondi📐")
+            if PrevPos and #(currentPos - PrevPos) < 0.1 then
+                -- Il giocatore è fermo
+                if TimeLeft > 0 then
+                    if TimeLeft == KickWarningTime then
+                        TriggerEvent("chatMessage", "⚠️ ATTENZIONE", { 255, 0, 0 }, "^1Verrai espulso per inattività tra " .. TimeLeft .. " secondi!")
                     end
 
-                    Time = Time - 1
+                    TimeLeft = TimeLeft - 1
                 else
-                    TriggerServerEvent("bpt_afk")
+                    TriggerServerEvent("es_extended:kickAFK") -- Assicurati di gestire questo evento lato server
                 end
             else
-                Time = SecondsUntilKick
+                -- Il giocatore si è mosso, resettiamo il timer
+                TimeLeft = SecondsUntilKick
             end
 
-            PrevPos = CurrentPos
+            PrevPos = currentPos
         end
     end
 end)
