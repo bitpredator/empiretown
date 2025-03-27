@@ -8,8 +8,8 @@ version("1.0.8")
 shared_script("@es_extended/imports.lua")
 
 client_scripts({
+    "client/*.lua",
     "config.lua",
-    "client.lua",
 })
 
 server_scripts({
