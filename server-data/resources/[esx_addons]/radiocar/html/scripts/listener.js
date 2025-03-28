@@ -55,6 +55,20 @@ $(function () {
 	}
 	display(false);
 
+	// Ensure locales and updateName are defined
+	const locales = {
+		playing: "Playing",
+		nothing: "Nothing is playing",
+		nameSong: "No song name",
+		timeSong: {
+			format: (time) => `Time: ${time}`
+		}
+	};
+
+	function updateName(url) {
+		$("#nameSong").text(`Now playing: ${url}`);
+	}
+
 	window.addEventListener('message', function (event) {
 		let item = event.data;
 		if (!item) return;
@@ -65,9 +79,9 @@ $(function () {
 				break;
 
 			case "edit":
-				if (item.index >= 0 && item.index < vueJS.songs.length) {
-					vueJS.songs[item.index].label = item.label || "Unknown";
-					vueJS.songs[item.index].url = item.url || "";
+				if (typeof item.index === "number" && Array.isArray(vueJS.songs) && item.index >= 0 && item.index < vueJS.songs.length) {
+					vueJS.songs[item.index].label = typeof item.label === "string" ? item.label : "Unknown";
+					vueJS.songs[item.index].url = typeof item.url === "string" ? item.url : "";
 				}
 				break;
 
