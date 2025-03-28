@@ -82,13 +82,17 @@ $(function () {
 				break;
 
 			case "timeSong":
-				let leftTime = (item.timeSong + "").toHHMMSS();
-				$("#timeSong").text(locales.timeSong.format(leftTime));
+				if (item.timeSong && typeof item.timeSong === "number") {
+					let leftTime = (item.timeSong + "").toHHMMSS();
+					$("#timeSong").text(locales.timeSong.format(leftTime));
+				}
 				break;
 
 			case "update":
-				$("#status").text(locales.playing);
-				updateName(item.url);
+				if (item.url) {
+					$("#status").text(locales.playing);
+					updateName(item.url);
+				}
 				break;
 
 			case "reset":
@@ -98,11 +102,15 @@ $(function () {
 				break;
 
 			case "timeWorld":
-				$("#time").text(item.timeWorld);
+				if (item.timeWorld) {
+					$("#time").text(item.timeWorld);
+				}
 				break;
 
 			case "volume":
-				$("#volume").text((item.volume * 100).toFixed(0) + "% ");
+				if (item.volume && typeof item.volume === "number") {
+					$("#volume").text((item.volume * 100).toFixed(0) + "% ");
+				}
 				break;
 		}
 	});
