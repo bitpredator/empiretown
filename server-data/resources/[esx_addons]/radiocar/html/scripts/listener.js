@@ -1,128 +1,130 @@
-var currentIndex = null;
+let currentIndex = null;
 
-var vueJS = new Vue({
+const vueJS = new Vue({
 	el: '#musicList',
-	data: 
-	{
+	data: {
 		songs: [],
 	},
-	
+
 	methods: {
 		showIndex: function (index) {
+			if (index < 0 || index >= this.songs.length) return; // Prevenzione errori
 			currentIndex = index;
 			$("#musicList").hide();
 			$("#playCustom").hide();
 			$("#editSong").show();
-		},	
-		
+		},
+
 		playMusic: function (index) {
-			var url = this.songs[index].url
+			if (index < 0 || index >= this.songs.length) return;
+			let url = this.songs[index].url.trim();
+			if (!url) return; // Prevenzione attacchi con dati vuoti
+
 			updateName(url);
 			$("#status").text(locales.playing);
-			$.post('https://radiocar/play', JSON.stringify({
-				url: url,
-			}));
+			$.post('https://radiocar/play', JSON.stringify({ url }));
 		}
 	}
-}) 
+});
 
-function editSong(){
-	vueJS.songs[currentIndex].label = $("#AddName").val();
-	vueJS.songs[currentIndex].url = $("#AddUrl").val();
+function editSong() {
+	if (currentIndex === null || currentIndex < 0 || currentIndex >= vueJS.songs.length) return;
+
+	let newLabel = $("#AddName").val().trim();
+	let newUrl = $("#AddUrl").val().trim();
+
+	if (!newLabel || !newUrl) return; // Prevenzione di valori vuoti
+
+	vueJS.songs[currentIndex].label = newLabel;
+	vueJS.songs[currentIndex].url = newUrl;
+
 	$("#musicList").show();
 	$("#playCustom").hide();
 	$("#editSong").hide();
 
 	$.post('https://radiocar/editSong', JSON.stringify({
 		index: currentIndex,
-		label: $("#AddName").val(),
-		url: $("#AddUrl").val(),
+		label: newLabel,
+		url: newUrl,
 	}));
 }
 
-$(function(){
-    function display(bool) {
-        if (bool) {
-            $("#body").show();		
-        } else { 
-            $("#body").hide();
-        }
-    }
-    display(false);
+$(function () {
+	function display(bool) {
+		bool ? $("#body").show() : $("#body").hide();
+	}
+	display(false);
 
-	window.addEventListener('message', function(event) {
-		var item = event.data;
-		if (item.type === "ui"){
-			display(item.status);
+	window.addEventListener('message', function (event) {
+		let item = event.data;
+		if (!item) return;
+
+		switch (item.type) {
+			case "ui":
+				display(item.status);
+				break;
+
+			case "edit":
+				if (item.index >= 0 && item.index < vueJS.songs.length) {
+					vueJS.songs[item.index].label = item.label || "Unknown";
+					vueJS.songs[item.index].url = item.url || "";
+				}
+				break;
+
+			case "clear":
+				vueJS.songs = [];
+				break;
+
+			case "add":
+				if (item.label && item.url) {
+					vueJS.songs.push({ label: item.label, url: item.url });
+				}
+				break;
+
+			case "timeSong":
+				let leftTime = (item.timeSong + "").toHHMMSS();
+				$("#timeSong").text(locales.timeSong.format(leftTime));
+				break;
+
+			case "update":
+				$("#status").text(locales.playing);
+				updateName(item.url);
+				break;
+
+			case "reset":
+				$("#status").text(locales.nothing);
+				$("#nameSong").text(locales.nameSong);
+				$("#timeSong").text(locales.timeSong.format("00:00:00"));
+				break;
+
+			case "timeWorld":
+				$("#time").text(item.timeWorld);
+				break;
+
+			case "volume":
+				$("#volume").text((item.volume * 100).toFixed(0) + "% ");
+				break;
 		}
-
-        if (item.type === "edit"){
-            vueJS.songs[item.index].label = item.label;
-            vueJS.songs[item.index].url = item.url;
-        }
-
-		if (item.type === "clear"){
-            vueJS.songs = []
-        }
-
-
-        if (item.type === "add"){
-			vueJS.songs.push({
-				label: item.label,
-				url: item.url,
-			});
-        }
-		
-		if (item.type === "timeSong"){
-			var leftTime = (item.timeSong + "").toHHMMSS();
-
-			$("#timeSong").text(locales.timeSong.format(leftTime))
-		}
-
-        if (item.type === "update"){
-            $("#status").text(locales.playing);
-            updateName(item.url);
-        }
-
-        if (item.type === "reset"){
-            $("#status").text(locales.nothing);
-            $("#nameSong").text(locales.nameSong);
-            $("#timeSong").text(locales.timeSong.format("00:00:00"))
-        }
-		
-		if (item.type === "timeWorld"){
-			$("#time").text(item.timeWorld)
-		}
-		
-		if (item.type === "volume"){
-			$("#volume").text((item.volume * 100).toFixed(0) + "% ")
-		}		
-	})
-
+	});
 });
 
-$(document).keyup(function(e) {
+$(document).keyup(function (e) {
 	if (e.key === "Escape") {
 		$.post('https://radiocar/exit', JSON.stringify({}));
-    }
+	}
 });
 
 String.prototype.toHHMMSS = function () {
-    var sec_num = parseInt(this, 10); // don't forget the second param
-    var hours   = Math.floor(sec_num / 3600);
-    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+	let sec_num = parseInt(this, 10);
+	let hours = Math.floor(sec_num / 3600);
+	let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+	let seconds = sec_num - (hours * 3600) - (minutes * 60);
 
-    if (hours   < 10) {hours   = "0"+hours;}
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    return hours+':'+minutes+':'+seconds;
-}
+	return [hours, minutes, seconds].map(v => (v < 10 ? "0" : "") + v).join(":");
+};
 
 if (!String.prototype.format) {
-  String.prototype.format = function(...args) {
-    return this.replace(/(\{\d+\})/g, function(a) {
-      return args[+(a.substr(1, a.length - 2)) || 0];
-    });
-  };
+	String.prototype.format = function (...args) {
+		return this.replace(/(\{\d+\})/g, (a) => args[+(a.slice(1, -1)) || 0]);
+	};
 }
