@@ -52,7 +52,7 @@ function editString(string){
     final = final.replace(".ac3", " ");
     final = final.replace(".aif", " ");
     final = final.replace(".ogg", " ");
-    final = final.replace("%20", " ");
+    final = final.replace(/%20/g, " ");
     final = final.replace("-", " ");
 
     return final;
