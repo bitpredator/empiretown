@@ -6,7 +6,6 @@ version("1.0.8")
 
 name("ars_billing")
 author("Arius Development")
-repository("https://github.com/Arius-Development/ars_billing")
 description("A simple script for realistic billing")
 
 client_scripts({
