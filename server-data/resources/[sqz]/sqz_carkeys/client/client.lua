@@ -3,6 +3,28 @@ ESX = exports["es_extended"]:getSharedObject()
 
 local lastLockStatus = nil
 
+-- Function to draw 3D text in the game world
+function Draw3DText(x, y, z, text)
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+    local px, py, pz = table.unpack(GetEntityCoords(PlayerPedId()))
+    local dist = Vdist(px, py, pz, x, y, z)
+
+    if onScreen then
+        SetTextScale(0.35, 0.35)
+        SetTextFont(0)
+        SetTextProportional(1)
+        SetTextColour(255, 255, 255, 215)
+        SetTextEntry("STRING")
+        SetTextCentre(true)
+        AddTextComponentString(text)
+        DrawText(_x, _y)
+
+        local factor = (dist / 30)
+        DrawRect(_x, _y + 0.015, 0.15 * factor, 0.03, 0, 0, 0, 68)
+    end
+end
+
+-- Command to lock or unlock the vehicle
 RegisterCommand("lockvehicle", function()
     local vehicle, dist = ESX.Game.GetClosestVehicle()
 
@@ -15,11 +37,13 @@ RegisterCommand("lockvehicle", function()
     end
 end)
 
+-- Mapping the button to lock the vehicle
 RegisterKeyMapping("lockvehicle", TranslateCap("lock_vehicle"), "keyboard", "f10")
 
+-- Event for changing the vehicle lock status
 RegisterNetEvent("carlock:CarLockedEffect", function(netId, lockStatus)
     if lastLockStatus ~= lockStatus then
-        lastLockStatus = lockStatus  -- Previene notifiche duplicate
+        lastLockStatus = lockStatus -- Prevents duplicate notifications
 
         local vehicle = NetToVeh(netId)
         if DoesEntityExist(vehicle) then
@@ -61,6 +85,7 @@ RegisterNetEvent("carlock:CarLockedEffect", function(netId, lockStatus)
     end
 end)
 
+-- Command to give keys to another player
 RegisterCommand("givekeys", function()
     local closestP, closestD = ESX.Game.GetClosestPlayer()
     local vehicle, dist = ESX.Game.GetClosestVehicle()
@@ -70,7 +95,10 @@ RegisterCommand("givekeys", function()
     end
 end)
 
+-- Central position for changing blocks
 local centralPos = vector3(-25.94, -624.51, 35.5)
+
+-- Main thread to handle interaction with block change
 CreateThread(function()
     while true do
         Wait(0)
@@ -96,6 +124,7 @@ CreateThread(function()
     end
 end)
 
+-- Thread to create blip on map
 CreateThread(function()
     local blip = AddBlipForCoord(centralPos.x, centralPos.y, centralPos.z)
 
