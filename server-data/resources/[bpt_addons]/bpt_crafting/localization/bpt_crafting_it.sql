@@ -73,4 +73,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('at_flashlight', 'Torcia per arma'),
 	('tuna_sandwich', 'Sandwich di tonno'),
 	('tuna', 'Tonno'),
+	('appledrink', 'Drink alla mela'),
+	('apple', 'Mele')
 ;
