@@ -1,4 +1,5 @@
 ESX = exports["es_extended"]:getSharedObject()
+
 local speedLimit = 60.0 -- Velocità limite in mph
 local fineAmount = 200.0 -- Importo della multa
 
@@ -10,8 +11,8 @@ local showBar = false -- Variabile per mostrare/nascondere la barra di avviso
 
 -- Lista di lavori esenti da multe (polizia, ospedale, ecc.)
 local exemptJobs = {
-    "police",   -- Polizia
-    "ambulance" -- Ospedale
+    "police", -- Polizia
+    "ambulance", -- Ospedale
 }
 
 Citizen.CreateThread(function()
@@ -54,9 +55,20 @@ Citizen.CreateThread(function()
                             -- Se il giocatore è esente, non fare nulla
                             print("Giocatore esente da multa: " .. playerJob)
                         end
+
+                        if speed > speedLimit then
+                            -- Aggiungi un print per verificare che l'evento venga inviato
+                            print("Multa: Velocità superiore al limite, invio multa al server")
+                            local playerId = GetPlayerServerId(PlayerId())
+                            local playerName = GetPlayerName(PlayerId())
+                            TriggerServerEvent("autovelox:recordFine", playerId, playerName, fineAmount, "Superato il limite di velocità", "Posizione: " .. playerPos.x .. ", " .. playerPos.y .. ", " .. playerPos.z)
+                        end
                     end
                 end
             end
+        else
+            -- Se il giocatore non è in un veicolo, nascondiamo la barra
+            showBar = false
         end
     end
 end)

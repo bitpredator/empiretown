@@ -6,7 +6,9 @@ lua54("yes")
 
 description("Sistema Autovelox per FiveM con ESX")
 
-shared_script("@es_extended/imports.lua")
+shared_script({
+    "@es_extended/imports.lua",
+})
 
 server_scripts({
     "@es_extended/locale.lua",
@@ -20,4 +22,7 @@ client_scripts({
     "client/main.lua",
 })
 
-dependency("es_extended")
+dependency({
+    "oxmysql", 
+    "es_extended"
+})
