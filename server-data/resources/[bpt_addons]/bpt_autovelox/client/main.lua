@@ -1,6 +1,10 @@
 local speedLimit = 60.0 -- Velocità limite in mph
 local fineAmount = 200.0 -- Importo della multa
-local speedCameras
+
+local speedCameras = {
+    { x = 264.356049, y = -618.171448, z = 42.254272 }, -- Autovelox Ospedale
+}
+
 local showBar = false -- Variabile per mostrare/nascondere la barra di avviso
 
 Citizen.CreateThread(function()
@@ -30,7 +34,6 @@ Citizen.CreateThread(function()
                         if speed > speedLimit then
                             -- Aggiungi un print per verificare che l'evento venga inviato
                             print("Multa: Velocità superiore al limite, invio multa al server")
-
                             local playerId = GetPlayerServerId(PlayerId())
                             local playerName = GetPlayerName(PlayerId())
                             TriggerServerEvent("autovelox:recordFine", playerId, playerName, fineAmount, "Superato il limite di velocità", "Posizione: " .. playerPos.x .. ", " .. playerPos.y .. ", " .. playerPos.z)

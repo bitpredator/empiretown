@@ -1,18 +1,20 @@
 fx_version("bodacious")
 game("gta5")
 author("bitpredator")
-version("1.0.0")
-lua54 "yes"
+version("1.0.8")
+lua54("yes")
 
 description("Sistema Autovelox per FiveM con ESX")
 
 server_scripts({
     "@es_extended/locale.lua",
+    "oxmysql/lib/MySQL.lua",
     "server/main.lua",
 })
 
 client_scripts({
     "@es_extended/locale.lua",
+    "oxmysql/lib/MySQL.lua",
     "client/main.lua",
 })
 
