@@ -265,12 +265,17 @@ Locales["it"] = {
     ["fuel_tank"] = "serbatoio carburante",
     ["windows"] = "finestrini",
     ["stickers"] = "Livrea",
-
     -- Xenon Colors
     ["mintgreen"] = "Verde Menta",
     ["goldenshower"] = "Pioggia Dorata",
     ["ponypink"] = "Rosa Pony",
     ["hotpink"] = "Rosa Shocking",
     ["blacklight"] = "Luce Scura",
-    ["ls_custom"] = "CENTRO MODIFICHE"
+    ["ls_custom"] = "CENTRO MODIFICHE",
+    ["bennys"] = "Bennys",
+    ["bennysv2"] = "Bennys v2",
+    ["rally"] = "Rally",
+    ["dragster"] = "Dragster",
+    ["street"] = "Street",
+    ["motorcycle2"] = "Motorcycle Back",
 }

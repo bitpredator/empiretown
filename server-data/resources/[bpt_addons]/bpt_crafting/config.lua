@@ -283,6 +283,23 @@ Config = {
             },
         },
 
+        ["appledrink"] = {
+            Level = 0,
+            Category = "unicorn",
+            isGun = false,
+            Jobs = { "unicorn" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 20,
+            Ingredients = {
+                ["ice"] = 1,
+                ["apple"] = 1,
+                ["WEAPON_KNIFE"] = 1,
+            },
+        },
+
         ["fries"] = {
             Level = 0,
             Category = "unicorn",
@@ -788,7 +805,7 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout", "tuna_sandwich" },
+            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout", "tuna_sandwich", "appledrink" },
             radius = 1.0,
         },
         {
