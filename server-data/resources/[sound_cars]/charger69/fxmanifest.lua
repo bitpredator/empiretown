@@ -1,13 +1,13 @@
-fx_version 'adamant'
+fx_version("adamant")
 
-game 'gta5'
+game("gta5")
 
-files {
-  'audioconfig/*.dat151.rel',
-  'audioconfig/*.dat54.rel',
-  'sfx/**/*.awc'
-}
+files({
+    "audioconfig/*.dat151.rel",
+    "audioconfig/*.dat54.rel",
+    "sfx/**/*.awc",
+})
 
-data_file 'AUDIO_GAMEDATA' 'audioconfig/strchrgrgen2_game.dat'
-data_file 'AUDIO_SOUNDDATA' 'audioconfig/strchrgrgen2_sounds.dat'
-data_file 'AUDIO_WAVEPACK' 'sfx/dlc_strchrgrgen2'
+data_file("AUDIO_GAMEDATA")("audioconfig/strchrgrgen2_game.dat")
+data_file("AUDIO_SOUNDDATA")("audioconfig/strchrgrgen2_sounds.dat")
+data_file("AUDIO_WAVEPACK")("sfx/dlc_strchrgrgen2")
