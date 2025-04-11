@@ -3,7 +3,7 @@ game("gta5")
 description("bpt_cars - pack addon car")
 author("bitpredator")
 lua54("yes")
-version("1.0.8")
+version("1.0.9")
 
 files({
     -- bmw440
@@ -81,6 +81,27 @@ files({
     "data/f_wide296/carvariations.meta",
     "data/f_wide296/dlctext.meta",
     "data/f_wide296/vehiclelayouts.meta",
+
+    -- audi-rsq8m
+    "data/audi-rsq8m/handling.meta",
+    "data/audi-rsq8m/vehicles.meta",
+    "data/audi-rsq8m/carvariations.meta",
+    "data/audi-rsq8m/dlctext.meta",
+    "data/audi-rsq8m/carcols.meta",
+
+    -- st3
+    "data/st3/handling.meta",
+    "data/st3/vehicles.meta",
+    "data/st3/carcols.meta",
+    "data/st3/carvariations.meta",
+    "data/st3/dlctext.meta",
+
+    -- porsche911turbos
+    "data/porsche911turbos/handling.meta",
+    "data/porsche911turbos/vehicles.meta",
+    "data/porsche911turbos/carcols.meta",
+    "data/porsche911turbos/carvariations.meta",
+    "data/porsche911turbos/dlctext.meta",
 
 })
 
@@ -160,6 +181,26 @@ data_file("VEHICLE_VARIATION_FILE")("data/f_wide296/carvariations.meta")
 data_file("DLCTEXT_FILE")("data/f_wide296/dlctext.meta")
 data_file("VEHICLE_LAYOUTS_FILE")("data/f_wide296/vehiclelayouts.meta")
 
+-- audi-rsq8m
+data_file("HANDLING_FILE")("data/audi-rsq8m/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/audi-rsq8m/vehicles.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/audi-rsq8m/carvariations.meta")
+data_file("DLCTEXT_FILE")("data/audi-rsq8m/dlctext.meta")
+data_file("CARCOLS_FILE")("data/audi-rsq8m/carcols.meta")
+
+-- st3
+data_file("HANDLING_FILE")("data/st3/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/st3/vehicles.meta")
+data_file("CARCOLS_FILE")("data/st3/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/st3/carvariations.meta")
+data_file("DLCTEXT_FILE")("data/st3/dlctext.meta")
+
+-- porsche911turbos
+data_file("HANDLING_FILE")("data/porsche911turbos/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/porsche911turbos/vehicles.meta")
+data_file("CARCOLS_FILE")("data/porsche911turbos/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/porsche911turbos/carvariations.meta")
+data_file("DLCTEXT_FILE")("data/porsche911turbos/dlctext.meta")
 client_script({
     "vehicle_names.lua",
 })

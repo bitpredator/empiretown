@@ -14,7 +14,7 @@
       <animConvRoofDictName>null</animConvRoofDictName>
       <animConvRoofName>null</animConvRoofName>
       <animConvRoofWindowsAffected />
-      <ptfxAssetName>null</ptfxAssetName>
+      <ptfxAssetName>KTM</ptfxAssetName>
       <audioNameHash>ktm1290r</audioNameHash>
       <layout>LAYOUT_BIKE_DIRT</layout>
       <coverBoundOffsets>BIKE_COVER_OFFSET_INFO</coverBoundOffsets>
