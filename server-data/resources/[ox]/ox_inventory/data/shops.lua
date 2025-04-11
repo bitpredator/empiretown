@@ -55,7 +55,6 @@ return {
             { name = "ice", price = 5 },
             { name = "fry_oil", price = 60 },
             { name = "almonds", price = 10 },
-            { name = "bread", price = 10 },
         },
         locations = {
             vec3(132.408798, -1286.439575, 29.263062),

@@ -12,6 +12,7 @@ Config.rocks = { -- Items obtained from mining
     { item = "steel", label = "Steel", difficulty = { "easy" } },
     { item = "gold", label = "Gold", difficulty = { "easy" } },
     { item = "gunpowder", label = "polvere da sparo", difficulty = { "easy" } },
+    { item = "stone", label = "Pietra", difficulty = { "easy" } },
 }
 
 Config.miningAreas = {
