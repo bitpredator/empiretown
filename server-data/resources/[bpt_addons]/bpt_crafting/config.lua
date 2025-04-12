@@ -218,6 +218,25 @@ Config = {
             },
         },
 
+        ["diamond_hammer"] = {
+            Level = 0,
+            Category = "tools",
+            isGun = false,
+            Jobs = { "import" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["diamond"] = 1,
+                ["iron"] = 1,
+                ["steel"] = 1,
+                ["wood"] = 1,
+            },
+        },
+
+
         ["paper"] = {
             Level = 0,
             Category = "manufacturing",
@@ -567,6 +586,25 @@ Config = {
             },
         },
 
+        ["WEAPON_SNIPERRIFLE"] = {
+            Level = 10,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 180,
+            Ingredients = {
+                ["copper"] = 1,
+                ["iron"] = 3,
+                ["wood"] = 1,
+                ["steel"] = 5,
+                ["hammer"] = 1,
+            },
+        },
+
         ["armour"] = {
             Level = 10,
             Category = "accessory",
@@ -602,31 +640,33 @@ Config = {
 
         ["bread"] = {
             Level = 0,
-            Category = "baker",
+            Category = "unicorn",
             isGun = false,
-            Jobs = { "baker" },
+            Jobs = { "unicorn" },
             JobGrades = {},
             Amount = 5,
             SuccessRate = 100,
             requireBlueprint = false,
-            Time = 200,
+            Time = 120,
             Ingredients = {
-                ["flour"] = 1,
+                ["flour"] = 4,
+                ["water"] = 1,
             },
         },
 
         ["flour"] = {
             Level = 0,
-            Category = "baker",
+            Category = "manufacturing",
             isGun = false,
-            Jobs = { "baker" },
+            Jobs = { "import" },
             JobGrades = {},
             Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
-            Time = 120,
+            Time = 50,
             Ingredients = {
                 ["grain"] = 10,
+                ["stone_mortar"] = 1,
             },
         },
 
@@ -710,11 +750,27 @@ Config = {
             },
         },
 
+        ["stone_mortar"] = {
+            Level = 0,
+            Category = "manufacturing",
+            isGun = false,
+            Jobs = { "import" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["stone"] = 4,
+                ["diamond_hammer"] = 1,
+            },
+        },
+
         ["contract"] = {
             Level = 0,
             Category = "manufacturing",
             isGun = false,
-            Jobs = { "contract" },
+            Jobs = { "import" },
             JobGrades = {},
             Amount = 1,
             SuccessRate = 100,
@@ -760,6 +816,10 @@ Config = {
                 "recycled_plastic",
                 "iron",
                 "diamond_tip",
+                "diamond_hammer",
+                "stone_mortar",
+                "contract",
+                "flour",
             },
             radius = 1.0,
         },
@@ -798,6 +858,7 @@ Config = {
                 "at_skin_luxe",
                 "at_flashlight",
                 "hammer",
+                "WEAPON_SNIPERRIFLE",
             },
             radius = 1.0,
         },
@@ -805,7 +866,7 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout", "tuna_sandwich", "appledrink" },
+            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout", "tuna_sandwich", "appledrink", "bread" },
             radius = 1.0,
         },
         {
