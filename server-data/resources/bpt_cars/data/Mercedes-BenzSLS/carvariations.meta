@@ -2,16 +2,6 @@
 
 <CVehicleModelInfoVariation>
   <variationData> 
-
-
-
-
-
-
-
-
-
-
     <Item>
       <modelName>slsamg</modelName>
       <colors>
@@ -44,15 +34,5 @@
       <lightSettings value="999" />
       <sirenSettings value="0" />
     </Item>
-
-
-
-
-
-
-
-
-
-
   </variationData>
 </CVehicleModelInfoVariation>

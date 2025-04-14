@@ -10,11 +10,11 @@
       <gameName>MUSTANG</gameName>
       <vehicleMakeName>FORD</vehicleMakeName>
       <expressionDictName>null</expressionDictName>
-      <expressionName>null</expressionName>
+      <expressionName>Ford Mustang</expressionName>
       <animConvRoofDictName>null</animConvRoofDictName>
       <animConvRoofName>null</animConvRoofName>
       <animConvRoofWindowsAffected />
-      <ptfxAssetName>null</ptfxAssetName>
+      <ptfxAssetName>FordMustang</ptfxAssetName>
       <audioNameHash>tamustanggt50</audioNameHash>
       <layout>LAYOUT_LOW_INFERNUS</layout>
       <coverBoundOffsets>ZENTORNO_COVER_OFFSET_INFO</coverBoundOffsets>

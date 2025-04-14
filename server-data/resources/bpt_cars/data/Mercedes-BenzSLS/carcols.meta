@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CVehicleModelInfoVarGlobal> 
-
-
-
-
-
-
-
-
-
   <Kits>
     <Item>
       <kitName>172_slsamg_modkit</kitName>
@@ -636,14 +627,4 @@
       <name>slsamg</name>
     </Item>
     </Lights>
-
-
-
-
-
-
-
-
-
-
 </CVehicleModelInfoVarGlobal>
