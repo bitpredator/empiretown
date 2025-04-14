@@ -264,7 +264,8 @@ Config = {
             requireBlueprint = false,
             Time = 30,
             Ingredients = {
-                ["iron"] = 2,
+                ["steel"] = 1,
+                ["iron"] = 1,
                 ["wood"] = 1,
             },
         },
@@ -667,6 +668,7 @@ Config = {
             Ingredients = {
                 ["grain"] = 10,
                 ["stone_mortar"] = 1,
+                ["recycled_plastic"] = 1,
             },
         },
 
