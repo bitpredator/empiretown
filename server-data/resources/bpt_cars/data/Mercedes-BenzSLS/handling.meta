@@ -2,16 +2,6 @@
 
 <CHandlingDataMgr>
   <HandlingData>
-
-
-
-
-
-
-
-
-
-
     <Item type="CHandlingData">
       <handlingName>slsamg</handlingName>
        <fMass value="1350.000000" />
@@ -72,15 +62,5 @@
   </HandlingData>
 </CHandlingDataMgr>
     </Item>
-
-
-
-
-
-
-
-
-
-
   </HandlingData>
 </CHandlingDataMgr>

@@ -14,7 +14,7 @@
       <animConvRoofDictName>null</animConvRoofDictName>
       <animConvRoofName>null</animConvRoofName>
       <animConvRoofWindowsAffected />
-      <ptfxAssetName>null</ptfxAssetName>
+      <ptfxAssetName>SLS AMG</ptfxAssetName>
       <audioNameHash>lg116slsamg</audioNameHash>
       <layout>LAYOUT_LOW</layout>
       <coverBoundOffsets>DOMINATOR_COVER_OFFSET_INFO</coverBoundOffsets>
@@ -112,25 +112,11 @@
         <Item>STD_DOMINATOR_FRONT_RIGHT</Item>
       </firstPersonDrivebyData>
     </Item>
-
-
-
-
-
-
-
-
-
-
   </InitDatas>
   <txdRelationships>
     <Item>
       <parent>vehicles_dom_interior</parent>
       <child>slsamg</child>
-    </Item>
-
-
-
-	
+    </Item>	
   </txdRelationships>
 </CVehicleModelInfo__InitDataList>
