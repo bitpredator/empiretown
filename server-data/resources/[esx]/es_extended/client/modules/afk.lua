@@ -15,7 +15,7 @@ Citizen.CreateThread(function()
                 -- Il giocatore è fermo
                 if TimeLeft > 0 then
                     if TimeLeft == KickWarningTime then
-                        TriggerEvent("chatMessage", "⚠️ ATTENZIONE", { 255, 0, 0 }, "^1Verrai espulso per inattività tra " .. TimeLeft .. " secondi!")
+                        TriggerEvent("chatMessage", "⚠️ ATTENZIONE", {255, 0, 0}, "^1Verrai espulso per inattività tra " .. TimeLeft .. " secondi!")
                     end
 
                     TimeLeft = TimeLeft - 1
