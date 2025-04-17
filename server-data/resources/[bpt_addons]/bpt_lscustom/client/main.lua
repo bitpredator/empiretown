@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local Vehicles, myCar = {}, {}
 local lsMenuIsShowed, HintDisplayed, isInLSMarker = false, false, false
 local gameBuild = GetGameBuildNumber()
@@ -626,7 +627,7 @@ CreateThread(function()
 			local coords = GetEntityCoords(playerPed)
 			local currentZone, zone, lastZone
 
-			if (ESX.PlayerData.job and ESX.PlayerData.job.name == "mechanic") or not Config.IsMechanicJobOnly then
+			if (ESX.PlayerData.job and ESX.PlayerData.job.name == "bennys") or not Config.IsBennysJobOnly then
 				for k, v in pairs(Config.Zones) do
 					if #(coords - v.Pos) < Config.DrawDistance then
 						Near = true

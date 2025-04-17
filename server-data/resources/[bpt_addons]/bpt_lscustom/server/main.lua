@@ -45,10 +45,10 @@ RegisterNetEvent("bpt_lscustom:buyMod", function(price)
 		return print("^3[WARNING]^0 The player could'nt be found.")
 	end
 
-	if Config.IsMechanicJobOnly then
+	if Config.IsBennysJobOnly then
 		local societyAccount
 
-		TriggerEvent("bpt_addonaccount:getSharedAccount", "society_mechanic", function(account)
+		TriggerEvent("bpt_addonaccount:getSharedAccount", "society_bennys", function(account)
 			societyAccount = account
 		end)
 
