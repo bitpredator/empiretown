@@ -1,4 +1,4 @@
-VehicleBlacklist = {
+[
     "rhino",
     "barracks",
     "barracks2",
@@ -53,5 +53,5 @@ VehicleBlacklist = {
     "scarab3",
     "sasquatch",
     "sasquatch2",
-    "sasquatch3",
-}
+    "sasquatch3"
+]

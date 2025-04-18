@@ -17,3 +17,9 @@ server_scripts {
 shared_scripts {
     'config.lua'
 }
+
+files {
+    'server/blacklist/*.json',
+}
+
+lua54 'yes'
