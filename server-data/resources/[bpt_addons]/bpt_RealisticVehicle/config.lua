@@ -1,4 +1,5 @@
 -- CONFIGURAZIONE
+---@diagnostic disable-next-line: lowercase-global
 cfg = {
     -- DANNO & DEFORMAZIONE VEICOLI
     deformationMultiplier = 0.5, -- Ridotto per evitare deformazioni estreme. Range consigliato: 0.0 - 10.0 (-1 per non toccare)
