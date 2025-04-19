@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local HasAlreadyEnteredMarker, OnJob, IsNearCustomer, CustomerIsEnteringVehicle, CustomerEnteredVehicle, CurrentActionData = false, false, false, false, false, {}
 local CurrentCustomer, CurrentCustomerBlip, DestinationBlip, targetCoords, LastZone, CurrentAction, CurrentActionMsg
 
@@ -22,7 +23,7 @@ function DrawSub(msg, time)
     ClearPrints()
     BeginTextCommandPrint("STRING")
     AddTextComponentSubstringPlayerName(msg)
-    EndTextCommandPrint(time, 1)
+    EndTextCommandPrint(time, true)
 end
 
 function ShowLoadingPromt(msg, time, type)
@@ -234,7 +235,7 @@ function OpenTaxiActionsMenu()
         CurrentAction = "taxi_actions_menu"
         CurrentActionMsg = TranslateCap("press_to_open")
         CurrentActionData = {}
-    end)
+    end, { wash = false })
 end
 
 function OpenMobileTaxiActionsMenu()
