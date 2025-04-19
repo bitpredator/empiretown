@@ -686,8 +686,9 @@ ESX.RegisterInput("ammu:interact", "(BPT AmmuJob) " .. TranslateCap("interaction
             CurrentAction = "menu_boss_actions"
             CurrentActionMsg = TranslateCap("open_bossmenu")
             CurrentActionData = {}
-        end)
-    elseif CurrentAction == "remove_entity" then
+        end, { wash = false })
+    end
+    if CurrentAction == "remove_entity" then
         DeleteEntity(CurrentActionData.entity)
     end
 
