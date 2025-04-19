@@ -157,9 +157,13 @@ function OpenMechanicActionsMenu()
         elseif element.value == "get_stock" then
             OpenGetStocksMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("bpt_society:openBossMenu", "mechanic", function()
+            TriggerEvent("bpt_society:openBossMenu", "mechanic", function(data, menu)
                 ESX.CloseContext()
-            end)
+
+                CurrentAction = "menu_boss_actions"
+                CurrentActionMsg = TranslateCap("open_bossmenu")
+                CurrentActionData = {}
+            end, { wash = false })
         end
     end, function()
         CurrentAction = "mechanic_actions_menu"
