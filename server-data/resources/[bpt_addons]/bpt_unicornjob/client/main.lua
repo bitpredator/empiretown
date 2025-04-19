@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local HasAlreadyEnteredMarker
 local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local LastZone
@@ -23,7 +24,7 @@ function DrawSub(msg, time)
     ClearPrints()
     BeginTextCommandPrint("STRING")
     AddTextComponentSubstringPlayerName(msg)
-    EndTextCommandPrint(time, 1)
+    EndTextCommandPrint(time, true)
 end
 
 function ShowLoadingPromt(msg, time, type)
@@ -197,7 +198,7 @@ function OpenUnicornActionsMenu()
         CurrentAction = "unicorn_actions_menu"
         CurrentActionMsg = TranslateCap("press_to_open")
         CurrentActionData = {}
-    end)
+    end, { wash = false })
 end
 
 function OpenMobileUnicornActionsMenu()

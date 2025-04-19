@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local HasAlreadyEnteredMarker, IsInShopMenu = false, false
 local CurrentAction, CurrentActionMsg, LastZone, currentDisplayVehicle, CurrentVehicleData
 local CurrentActionData, Vehicles, Categories = {}, {}, {}
@@ -489,7 +490,7 @@ function OpenBossActionsMenu()
     ESX.UI.Menu.CloseAll()
     TriggerEvent("esx_society:openBossMenu", "cardealer", function(data, menu)
         menu.close()
-    end)
+    end, { wash = false })
 end
 
 RegisterNetEvent("esx_vehicleshop:createBill")
