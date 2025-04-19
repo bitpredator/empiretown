@@ -543,18 +543,6 @@ CreateThread(function()
             local currentStation, currentPart, currentPartNum
 
             for k, v in pairs(Config.Import) do
-                --[[for i = 1, #v.Import, 1 do
-                    local distance = #(playerCoords - v.Import[i])
-
-                    if distance < Config.DrawDistance then
-                        DrawMarker(Config.MarkerType.Import, v.Import[i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-                        Sleep = 0
-
-                        if distance < Config.MarkerSize.x then
-                            isInMarker, currentStation, currentPart, currentPartNum = true, k, "Import", i
-                        end
-                    end
-                end]]--
 
                 for i = 1, #v.Vehicles, 1 do
                     local distance = #(playerCoords - v.Vehicles[i].Spawner)
@@ -635,8 +623,9 @@ ESX.RegisterInput("import:interact", "(BPT ImportJob) " .. TranslateCap("interac
             CurrentAction = "menu_boss_actions"
             CurrentActionMsg = TranslateCap("open_bossmenu")
             CurrentActionData = {}
-        end)
-    elseif CurrentAction == "remove_entity" then
+        end, { wash = false })
+    end
+    if CurrentAction == "remove_entity" then
         DeleteEntity(CurrentActionData.entity)
     end
 

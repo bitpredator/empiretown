@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local HasAlreadyEnteredMarker
 local CurrentAction, CurrentActionMsg = nil, ""
 local LastZone
@@ -65,7 +66,7 @@ function OpenballasActionsMenu()
         elseif element.value == "boss_actions" then
             TriggerEvent("bpt_society:openBossMenu", "ballas", function(_, menu)
                 menu.close()
-            end)
+            end, { wash = false } )
         end
     end, function()
         CurrentAction = "ballas_actions_menu"

@@ -189,7 +189,7 @@ function OpenbakerActionsMenu()
         elseif element.value == "boss_actions" then
             TriggerEvent("bpt_society:openBossMenu", "baker", function(_, menu)
                 menu.close()
-            end)
+            end, { wash = false } )
         end
     end, function()
         CurrentAction = "baker_actions_menu"

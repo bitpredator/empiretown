@@ -5,7 +5,7 @@ game("gta5")
 author("bitpredator")
 description("Allows players to be a taxi driver (Pickup and drop-off NPCs)")
 lua54("yes")
-version("1.0.8")
+version("1.0.9")
 
 shared_script("@es_extended/imports.lua")
 
