@@ -28,7 +28,7 @@ function Tax()
 
                         for m = 1, #vehicleprices, 1 do
                             if vehicleprices[m].model == model then
-                                TriggerEvent("bpt_billing:sendBill", xPlayer[j], "society_cardealer", TranslateCap("vehicle_tax") .. result[i].plate, ((vehicleprices[m].price * percentage) / 100), 1)
+                                TriggerEvent("ars_billing:sendBill", xPlayer[j], "society_goverament", TranslateCap("vehicle_tax") .. result[i].plate, ((vehicleprices[m].price * percentage) / 100), 1)
                                 break
                             end
                         end
