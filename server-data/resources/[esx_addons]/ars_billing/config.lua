@@ -19,6 +19,7 @@ Config.AllowedJobs = {
     "unicorn",
     "police",
     "ambulance",
+    "bennys"
 }
 
 Config.UseForcePay = true
