@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 Config = {}
 
 Config.DrawDistance = 10.0 -- How close do you need to be for the markers to be drawn (in GTA units).
@@ -72,40 +73,6 @@ Config.PoliceStations = {
         BossActions = {
             vector3(462.052734, -985.582397, 30.712036),
         },
-    },
-}
-
-Config.AuthorizedWeapons = {
-    recruit = {
-        { weapon = "WEAPON_STUNGUN", price = 1500 },
-        { weapon = "WEAPON_FLASHLIGHT", price = 80 },
-    },
-
-    officer = {
-        { weapon = "WEAPON_ADVANCEDRIFLE", components = { 0, 6000, 1000, 4000, 8000, nil }, price = 50000 },
-        { weapon = "WEAPON_STUNGUN", price = 500 },
-        { weapon = "WEAPON_FLASHLIGHT", price = 0 },
-    },
-
-    sergeant = {
-        { weapon = "WEAPON_ADVANCEDRIFLE", components = { 0, 6000, 1000, 4000, 8000, nil }, price = 50000 },
-        { weapon = "WEAPON_PUMPSHOTGUN", components = { 2000, 6000, nil }, price = 70000 },
-        { weapon = "WEAPON_STUNGUN", price = 500 },
-        { weapon = "WEAPON_FLASHLIGHT", price = 0 },
-    },
-
-    lieutenant = {
-        { weapon = "WEAPON_ADVANCEDRIFLE", components = { 0, 6000, 1000, 4000, 8000, nil }, price = 50000 },
-        { weapon = "WEAPON_PUMPSHOTGUN", components = { 2000, 6000, nil }, price = 70000 },
-        { weapon = "WEAPON_STUNGUN", price = 500 },
-        { weapon = "WEAPON_FLASHLIGHT", price = 0 },
-    },
-
-    boss = {
-        { weapon = "WEAPON_ADVANCEDRIFLE", components = { 0, 6000, 1000, 4000, 8000, nil }, price = 50000 },
-        { weapon = "WEAPON_PUMPSHOTGUN", components = { 2000, 6000, nil }, price = 70000 },
-        { weapon = "WEAPON_STUNGUN", price = 500 },
-        { weapon = "WEAPON_FLASHLIGHT", price = 0 },
     },
 }
 

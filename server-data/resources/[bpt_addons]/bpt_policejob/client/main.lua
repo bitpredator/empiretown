@@ -41,7 +41,6 @@ function OpenCloakroomMenu()
         { unselectable = true, icon = "fas fa-shirt", title = TranslateCap("cloakroom") },
         { icon = "fas fa-shirt", title = TranslateCap("citizen_wear"), value = "citizen_wear" },
         { icon = "fas fa-shirt", title = TranslateCap("bullet_wear"), uniform = "bullet_wear" },
-        { icon = "fas fa-shirt", title = TranslateCap("gilet_wear"), uniform = "gilet_wear" },
         { icon = "fas fa-shirt", title = TranslateCap("police_wear"), uniform = grade },
     }
 
@@ -169,43 +168,6 @@ function OpenCloakroomMenu()
     end)
 end
 
-function OpenArmoryMenu(station)
-    local elements
-    if Config.OxInventory then
-        exports.ox_inventory:openInventory("stash", { id = "society_police", owner = station })
-        return ESX.CloseContext()
-    else
-        elements = {
-            { unselectable = true, icon = "fas fa-gun", title = TranslateCap("armory") },
-            { icon = "fas fa-gun", title = TranslateCap("buy_weapons"), value = "buy_weapons" },
-        }
-
-        if Config.EnableArmoryManagement then
-            table.insert(elements, { icon = "fas fa-gun", title = TranslateCap("get_weapon"), value = "get_weapon" })
-            table.insert(elements, { icon = "fas fa-gun", title = TranslateCap("put_weapon"), value = "put_weapon" })
-            table.insert(elements, { icon = "fas fa-box", title = TranslateCap("remove_object"), value = "get_stock" })
-            table.insert(elements, { icon = "fas fa-box", title = TranslateCap("deposit_object"), value = "put_stock" })
-        end
-    end
-
-    ESX.OpenContext("right", elements, function(menu, element)
-        local data = { current = element }
-        if data.current.value == "get_weapon" then
-            OpenGetWeaponMenu()
-        elseif data.current.value == "put_weapon" then
-            OpenPutWeaponMenu()
-        elseif data.current.value == "put_stock" then
-            OpenPutStocksMenu()
-        elseif data.current.value == "get_stock" then
-            OpenGetStocksMenu()
-        end
-    end, function(menu)
-        CurrentAction = "menu_armory"
-        CurrentActionMsg = TranslateCap("open_armory")
-        CurrentActionData = { station = station }
-    end)
-end
-
 function OpenPoliceActionsMenu()
     local elements = {
         { unselectable = true, icon = "fas fa-police", title = TranslateCap("menu_title") },
@@ -226,7 +188,6 @@ function OpenPoliceActionsMenu()
                 { icon = "fas fa-idkyet", title = TranslateCap("drag"), value = "drag" },
                 { icon = "fas fa-idkyet", title = TranslateCap("put_in_vehicle"), value = "put_in_vehicle" },
                 { icon = "fas fa-idkyet", title = TranslateCap("out_the_vehicle"), value = "out_the_vehicle" },
-                { icon = "fas fa-idkyet", title = TranslateCap("weapon"), value = "weapon" },
                 { icon = "fas fa-object", title = TranslateCap("jail_menu"), value = "jail_menu" },
             }
 
@@ -258,10 +219,6 @@ function OpenPoliceActionsMenu()
                         TriggerServerEvent("bpt_policejob:putInVehicle", GetPlayerServerId(closestPlayer))
                     elseif action == "out_the_vehicle" then
                         TriggerServerEvent("bpt_policejob:OutVehicle", GetPlayerServerId(closestPlayer))
-                    elseif action == "weapon" then
-                        TriggerServerEvent("esx_license:addLicense", GetPlayerServerId(closestPlayer), "weapon")
-                        ESX.ShowNotification(TranslateCap("released_gun_licence"))
-                        TriggerServerEvent("bpt_policejob:message", GetPlayerServerId(closestDistance), TranslateCap("received_firearms_license"))
                     elseif action == "license" then
                         ShowPlayerLicense(closestPlayer)
                     elseif action == "unpaid_bills" then
@@ -1141,7 +1098,7 @@ CreateThread(function()
         local closestEntity = nil
 
         for i = 1, #trackedEntities, 1 do
-            local object = GetClosestObjectOfType(playerCoords, 3.0, trackedEntities[i], false, false, false)
+            local object = GetClosestObjectOfType(playerCoords.x, playerCoords.y, playerCoords.z, 3.0, trackedEntities[i], false, false, false)
 
             if DoesEntityExist(object) then
                 Sleep = 500

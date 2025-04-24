@@ -3,7 +3,6 @@ Locales["en"] = {
     ["cloakroom"] = "locker room",
     ["citizen_wear"] = "civilian Outfit",
     ["police_wear"] = "police Outfit",
-    ["gilet_wear"] = "orange reflective jacket",
     ["bullet_wear"] = "bulletproof vest",
     ["no_outfit"] = "there's no uniform that fits you!",
     ["open_cloackroom"] = "press [E] to change clothes.",
@@ -153,6 +152,4 @@ Locales["en"] = {
     ["quick_actions"] = "Quick Actions",
     -- Other
     ["society_police"] = "Police",
-    ["received_firearms_license"] = "You have received your firearms license",
-    ["released_gun_licence"] = "you have issued your gun licence",
 }

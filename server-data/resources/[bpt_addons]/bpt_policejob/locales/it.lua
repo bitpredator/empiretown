@@ -3,7 +3,6 @@ Locales["it"] = {
     ["cloakroom"] = "spogliatoio",
     ["citizen_wear"] = "Vestito civile",
     ["police_wear"] = "Divisa polizia",
-    ["gilet_wear"] = "Giubbotto riflettente arancione",
     ["bullet_wear"] = "Giubbotto antiproiettile",
     ["no_outfit"] = "Non c'è una divisa adatta a te!",
     ["open_cloackroom"] = "Premi [E] per cambiarti.",
@@ -150,8 +149,5 @@ Locales["it"] = {
     ["quick_actions"] = "Azioni rapide",
     -- Altro
     ["society_police"] = "Polizia",
-    ["weapon"] = "Porto D'armi",
-    ["received_firearms_license"] = "Hai ricevuto il porto d'armi",
-    ["released_gun_licence"] = "Hai rilasciato il porto d'armi",
     ["jail_menu"] = "Menu Carcere",
 }
