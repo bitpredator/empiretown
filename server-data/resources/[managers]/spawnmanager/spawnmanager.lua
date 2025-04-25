@@ -6,9 +6,9 @@ local autoSpawnEnabled = false
 local autoSpawnCallback
 
 -- support for mapmanager maps
-AddEventHandler('getMapDirectives', function(add)
+AddEventHandler("getMapDirectives", function(add)
     -- call the remote callback
-    add('spawnpoint', function(state, model)
+    add("spawnpoint", function(state, model)
         -- return another callback to pass coordinates and so on (as such syntax would be [spawnpoint 'model' { options/coords }])
         return function(opts)
             local x, y, z, heading
@@ -33,20 +33,22 @@ AddEventHandler('getMapDirectives', function(add)
                 heading = opts.heading and (opts.heading + 0.01) or 0
 
                 -- add the spawnpoint
-                addSpawnPoint({
-                    x = x, y = y, z = z,
+                AddSpawnPoint({
+                    x = x,
+                    y = y,
+                    z = z,
                     heading = heading,
-                    model = model
+                    model = model,
                 })
 
                 -- recalculate the model for storage
                 if not tonumber(model) then
-                    model = GetHashKey(model, _r)
+                    model = GetHashKey(model)
                 end
 
                 -- store the spawn data in the state so we can erase it later on
-                state.add('xyz', { x, y, z })
-                state.add('model', model)
+                state.add("xyz", { x, y, z })
+                state.add("model", model)
             end)
 
             if not s then
@@ -67,9 +69,8 @@ AddEventHandler('getMapDirectives', function(add)
     end)
 end)
 
-
 -- loads a set of spawn points from a JSON string
-function loadSpawns(spawnString)
+function LoadSpawns(spawnString)
     -- decode the JSON string
     local data = json.decode(spawnString)
 
@@ -81,13 +82,13 @@ function loadSpawns(spawnString)
     -- loop through the spawns
     for i, spawn in ipairs(data.spawns) do
         -- and add it to the list (validating as we go)
-        addSpawnPoint(spawn)
+        AddSpawnPoint(spawn)
     end
 end
 
 local spawnNum = 1
 
-function addSpawnPoint(spawn)
+function AddSpawnPoint(spawn)
     -- validate the spawn (position)
     if not tonumber(spawn.x) or not tonumber(spawn.y) or not tonumber(spawn.z) then
         error("invalid spawn position")
@@ -130,7 +131,7 @@ function addSpawnPoint(spawn)
 end
 
 -- removes a spawn point
-function removeSpawnPoint(spawn)
+function RemoveSpawnPoint(spawn)
     for i = 1, #spawnPoints do
         if spawnPoints[i].idx == spawn then
             table.remove(spawnPoints, i)
@@ -140,12 +141,12 @@ function removeSpawnPoint(spawn)
 end
 
 -- changes the auto-spawn flag
-function setAutoSpawn(enabled)
+function SetAutoSpawn(enabled)
     autoSpawnEnabled = enabled
 end
 
 -- sets a callback to execute instead of 'native' spawning when trying to auto-spawn
-function setAutoSpawnCallback(cb)
+function SetAutoSpawnCallback(cb)
     autoSpawnCallback = cb
     autoSpawnEnabled = true
 end
@@ -153,7 +154,7 @@ end
 -- function as existing in original R* scripts
 local function freezePlayer(id, freeze)
     local player = id
-    SetPlayerControl(player, not freeze, false)
+    SetPlayerControl(player, not freeze, 0)
 
     local ped = GetPlayerPed(player)
 
@@ -174,7 +175,7 @@ local function freezePlayer(id, freeze)
             SetEntityVisible(PlayerPedId(), true, true)
         end
 
-        SetEntityCollision(ped, false)
+        SetEntityCollision(ped, false, true)  -- Add a third argument to specify the type of collision
         FreezeEntityPosition(ped, true)
         --SetCharNeverTargetted(ped, true)
         SetPlayerInvincible(player, true)
@@ -186,15 +187,15 @@ local function freezePlayer(id, freeze)
     end
 end
 
-function loadScene(x, y, z)
-	if not NewLoadSceneStart then
-		return
-	end
+function LoadScene(x, y, z)
+    if not NewLoadSceneStart then
+        return
+    end
 
     NewLoadSceneStart(x, y, z, 0.0, 0.0, 0.0, 20.0, 0)
 
     while IsNewLoadSceneActive() do
-        networkTimer = GetNetworkTimer()
+        NetworkTimer = GetNetworkTimer()
 
         NetworkUpdateLoadScene()
     end
@@ -204,7 +205,7 @@ end
 local spawnLock = false
 
 -- spawns the current player at a certain spawn point index (or a random one, for that matter)
-function spawnPlayer(spawnIdx, cb)
+function SpawnPlayer(spawnIdx, cb)
     if spawnLock then
         return
     end
@@ -220,7 +221,7 @@ function spawnPlayer(spawnIdx, cb)
         -- get the spawn from the array
         local spawn
 
-        if type(spawnIdx) == 'table' then
+        if type(spawnIdx) == "table" then
             spawn = spawnIdx
 
             -- prevent errors when passing spawn table
@@ -269,10 +270,10 @@ function spawnPlayer(spawnIdx, cb)
 
             -- release the player model
             SetModelAsNoLongerNeeded(spawn.model)
-            
+
             -- RDR3 player model bits
             if N_0x283978a15512b2fe then
-				N_0x283978a15512b2fe(PlayerPedId(), true)
+                N_0x283978a15512b2fe(PlayerPedId(), true)
             end
         end
 
@@ -283,19 +284,19 @@ function spawnPlayer(spawnIdx, cb)
         local ped = PlayerPedId()
 
         -- V requires setting coords as well
-        SetEntityCoordsNoOffset(ped, spawn.x, spawn.y, spawn.z, false, false, false, true)
+        SetEntityCoordsNoOffset(ped, spawn.x, spawn.y, spawn.z, false, false, false)
 
-        NetworkResurrectLocalPlayer(spawn.x, spawn.y, spawn.z, spawn.heading, true, true, false)
+        NetworkResurrectLocalPlayer(spawn.x, spawn.y, spawn.z, spawn.heading, 1, true)
 
         -- gamelogic-style cleanup stuff
         ClearPedTasksImmediately(ped)
         --SetEntityHealth(ped, 300) -- TODO: allow configuration of this?
-        RemoveAllPedWeapons(ped) -- TODO: make configurable (V behavior?)
+        RemoveAllPedWeapons(ped, true) -- TODO: make configurable (V behavior?)
         ClearPlayerWantedLevel(PlayerId())
 
         local time = GetGameTimer()
 
-        while (not HasCollisionLoadedAroundEntity(ped) and (GetGameTimer() - time) < 5000) do
+        while not HasCollisionLoadedAroundEntity(ped) and (GetGameTimer() - time) < 5000 do
             Wait(0)
         end
 
@@ -312,7 +313,7 @@ function spawnPlayer(spawnIdx, cb)
         -- and unfreeze the player
         freezePlayer(PlayerId(), false)
 
-        TriggerEvent('playerSpawned', spawn)
+        TriggerEvent("playerSpawned", spawn)
 
         if cb then
             cb(spawn)
@@ -341,7 +342,7 @@ CreateThread(function()
                         if autoSpawnCallback then
                             autoSpawnCallback()
                         else
-                            spawnPlayer()
+                            SpawnPlayer()
                         end
 
                         respawnForced = false
@@ -360,15 +361,15 @@ CreateThread(function()
     end
 end)
 
-function forceRespawn()
+function ForceRespawn()
     spawnLock = false
     respawnForced = true
 end
 
-exports('spawnPlayer', spawnPlayer)
-exports('addSpawnPoint', addSpawnPoint)
-exports('removeSpawnPoint', removeSpawnPoint)
-exports('loadSpawns', loadSpawns)
-exports('setAutoSpawn', setAutoSpawn)
-exports('setAutoSpawnCallback', setAutoSpawnCallback)
-exports('forceRespawn', forceRespawn)
+exports("spawnPlayer", SpawnPlayer)
+exports("addSpawnPoint", AddSpawnPoint)
+exports("removeSpawnPoint", RemoveSpawnPoint)
+exports("loadSpawns", LoadSpawns)
+exports("setAutoSpawn", SetAutoSpawn)
+exports("setAutoSpawnCallback", SetAutoSpawnCallback)
+exports("forceRespawn", ForceRespawn)
