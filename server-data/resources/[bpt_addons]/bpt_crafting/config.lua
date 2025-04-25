@@ -801,6 +801,23 @@ Config = {
                 ["hammer"] = 1,
             },
         },
+
+        ["WEAPON_STUNGUN"] = {
+            Level = 0,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["copper"] = 1,
+                ["steel"] = 5,
+                ["hammer"] = 1,
+            },
+        },
     },
 
     Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
@@ -861,6 +878,7 @@ Config = {
                 "at_flashlight",
                 "hammer",
                 "WEAPON_SNIPERRIFLE",
+                "WEAPON_STUNGUN",
             },
             radius = 1.0,
         },

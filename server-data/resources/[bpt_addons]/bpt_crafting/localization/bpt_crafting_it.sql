@@ -77,6 +77,7 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('apple', 'Mele')
 	('diamond_hammer', 'Martello di diamante'),
 	('stone_mortar', 'Mortaio di pietra'),
-	('stone', 'Pietra')
-	('WEAPON_SNIPERRIFLE', 'SNIPERRIFLE')
+	('stone', 'Pietra'),
+	('WEAPON_SNIPERRIFLE', 'SNIPERRIFLE'),
+	('WEAPON_STUNGUN', 'Teazer')
 ;
