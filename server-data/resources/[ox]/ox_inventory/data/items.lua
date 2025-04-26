@@ -105,11 +105,23 @@ return {
         label = "eCola",
         weight = 60,
         client = {
-            status = { thirst = 200000 },
+            status = { thirst = 250000 },
             anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
             prop = { model = `prop_ecola_can`, pos = vec3(0.01, 0.01, 0.06), rot = vec3(5.0, 5.0, -180.5) },
             usetime = 2500,
             notification = "You quenched your thirst with cola",
+        },
+    },
+
+    ["appledrink"] = {
+        label = "AppleDrink",
+        weight = 50,
+        client = {
+            status = { thirst = 300000 },
+            anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
+            prop = { model = `prop_ecola_can`, pos = vec3(0.01, 0.01, 0.06), rot = vec3(5.0, 5.0, -180.5) },
+            usetime = 2500,
+            notification = "Stai usando un drink alla mela",
         },
     },
 
@@ -580,14 +592,13 @@ return {
 
     ["bread"] = {
         label = "panino vuoto",
-        weight = 40,
+        weight = 20,
         stack = true,
-        consume = 0,
     },
 
     ["flour"] = {
         label = "farina",
-        weight = 20,
+        weight = 10,
         stack = true,
     },
 
@@ -751,15 +762,22 @@ return {
     },
 
     ["stone"] = {
-        label = "Stone",
-        weight = 1,
+        label = "Pietra",
+        weight = 150,
         stack = true,
         close = true,
     },
 
-    ["washed_stone"] = {
-        label = "Washed stone",
-        weight = 1,
+    ["diamond_hammer"] = {
+        label = "Martello in diamante",
+        weight = 70,
+        stack = true,
+        close = true,
+    },
+
+    ["stone_mortar"] = {
+        label = "Mortaio in pietra",
+        weight = 45,
         stack = true,
         close = true,
     },
