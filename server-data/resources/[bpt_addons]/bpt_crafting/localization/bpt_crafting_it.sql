@@ -80,5 +80,5 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('stone', 'Pietra'),
 	('WEAPON_SNIPERRIFLE', 'SNIPERRIFLE'),
 	('WEAPON_STUNGUN', 'Teazer'),
-	('KNIFE_kictcen', 'coltello da cucina')
+	('kitchen_knife', 'coltello da cucina')
 ;
