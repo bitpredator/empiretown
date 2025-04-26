@@ -819,7 +819,7 @@ Config = {
             },
         },
         
-        ["KNIFE_kictcen"] = {
+        ["kitchen_knife"] = {
             Level = 0,
             Category = "tools",
             isGun = false,
