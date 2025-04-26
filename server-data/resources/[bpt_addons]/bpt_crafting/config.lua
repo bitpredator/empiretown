@@ -857,7 +857,7 @@ Config = {
                 "stone_mortar",
                 "contract",
                 "flour",
-                "KNIFE_kictcen",
+                "kitchen_knife",
             },
             radius = 1.0,
         },
