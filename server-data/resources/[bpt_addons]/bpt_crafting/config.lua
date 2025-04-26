@@ -281,7 +281,8 @@ Config = {
             requireBlueprint = false,
             Time = 40,
             Ingredients = {
-                ["ironsheet"] = 2,
+                ["diamond"] = 1,
+                ["ironsheet"] = 1,
                 ["hammer"] = 1,
             },
         },
@@ -818,6 +819,24 @@ Config = {
                 ["hammer"] = 1,
             },
         },
+        
+        ["KNIFE_kictcen"] = {
+            Level = 0,
+            Category = "tools",
+            isGun = false,
+            Jobs = { "import" },
+            JobGrades = {},
+            Amount = 4,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["recycled_plastic"] = 1,
+                ["iron"] = 1,
+                ["steel"] = 1,
+                ["hammer"] = 1,
+            },
+        },
     },
 
     Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
@@ -839,6 +858,7 @@ Config = {
                 "stone_mortar",
                 "contract",
                 "flour",
+                "KNIFE_kictcen",
             },
             radius = 1.0,
         },
