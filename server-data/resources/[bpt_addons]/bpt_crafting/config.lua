@@ -236,7 +236,6 @@ Config = {
             },
         },
 
-
         ["paper"] = {
             Level = 0,
             Category = "manufacturing",

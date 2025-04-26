@@ -818,7 +818,7 @@ return {
         description = "Fattura da pagare",
     },
 
-    ["coltello_da_cucina"] = {
+    ["KNIFE_kitcen"] = {   
         label = "Coltello da cucina",
         weight = 100,
         stack = true,
