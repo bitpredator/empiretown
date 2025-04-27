@@ -195,7 +195,7 @@ Config = {
             Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
-            Time = 60,
+            Time = 30,
             Ingredients = {
                 ["diamond"] = 1,
                 ["hammer"] = 1,
@@ -235,7 +235,6 @@ Config = {
                 ["wood"] = 1,
             },
         },
-
 
         ["paper"] = {
             Level = 0,
@@ -281,7 +280,8 @@ Config = {
             requireBlueprint = false,
             Time = 40,
             Ingredients = {
-                ["ironsheet"] = 2,
+                ["diamond"] = 1,
+                ["ironsheet"] = 1,
                 ["hammer"] = 1,
             },
         },
@@ -316,7 +316,7 @@ Config = {
             Ingredients = {
                 ["ice"] = 1,
                 ["apple"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
             },
         },
 
@@ -333,7 +333,7 @@ Config = {
             Ingredients = {
                 ["potato"] = 1,
                 ["fry_oil"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
             },
         },
 
@@ -700,7 +700,7 @@ Config = {
             Time = 60,
             Ingredients = {
                 ["salmon"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
             },
         },
 
@@ -716,7 +716,7 @@ Config = {
             Time = 30,
             Ingredients = {
                 ["tuna"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
                 ["bread"] = 1,
             },
         },
@@ -733,7 +733,7 @@ Config = {
             Time = 30,
             Ingredients = {
                 ["trout"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
             },
         },
 
@@ -818,6 +818,24 @@ Config = {
                 ["hammer"] = 1,
             },
         },
+
+        ["kitchen_knife"] = {
+            Level = 0,
+            Category = "tools",
+            isGun = false,
+            Jobs = { "import" },
+            JobGrades = {},
+            Amount = 4,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["recycled_plastic"] = 1,
+                ["iron"] = 1,
+                ["steel"] = 1,
+                ["hammer"] = 1,
+            },
+        },
     },
 
     Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
@@ -839,6 +857,7 @@ Config = {
                 "stone_mortar",
                 "contract",
                 "flour",
+                "kitchen_knife",
             },
             radius = 1.0,
         },
