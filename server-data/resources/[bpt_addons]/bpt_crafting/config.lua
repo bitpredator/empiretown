@@ -195,7 +195,7 @@ Config = {
             Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
-            Time = 60,
+            Time = 30,
             Ingredients = {
                 ["diamond"] = 1,
                 ["hammer"] = 1,
@@ -316,7 +316,7 @@ Config = {
             Ingredients = {
                 ["ice"] = 1,
                 ["apple"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
             },
         },
 
@@ -333,7 +333,7 @@ Config = {
             Ingredients = {
                 ["potato"] = 1,
                 ["fry_oil"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
             },
         },
 
@@ -700,7 +700,7 @@ Config = {
             Time = 60,
             Ingredients = {
                 ["salmon"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
             },
         },
 
@@ -716,7 +716,7 @@ Config = {
             Time = 30,
             Ingredients = {
                 ["tuna"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
                 ["bread"] = 1,
             },
         },
@@ -733,7 +733,7 @@ Config = {
             Time = 30,
             Ingredients = {
                 ["trout"] = 1,
-                ["WEAPON_KNIFE"] = 1,
+                ["kitchen_knife"] = 1,
             },
         },
 
