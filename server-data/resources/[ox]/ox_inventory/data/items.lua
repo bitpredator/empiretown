@@ -835,4 +835,12 @@ return {
         close = true,
         description = "Fattura da pagare",
     },
+
+    ["kitchen_knife"] = {
+        label = "Coltello da cucina",
+        weight = 100,
+        consume = 1,
+        stack = true,
+        description = "Coltello da cucina",
+    },
 }
