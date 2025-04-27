@@ -818,7 +818,7 @@ Config = {
                 ["hammer"] = 1,
             },
         },
-        
+
         ["kitchen_knife"] = {
             Level = 0,
             Category = "tools",
