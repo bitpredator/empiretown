@@ -819,6 +819,25 @@ Config = {
             },
         },
 
+        ["WEAPON_TECPISTOL"] = {
+            Level = 10,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 180,
+            Ingredients = {
+                ["copper"] = 1,
+                ["iron"] = 3,
+                ["wood"] = 1,
+                ["steel"] = 5,
+                ["hammer"] = 1,
+            },
+        },
+
         ["kitchen_knife"] = {
             Level = 0,
             Category = "tools",
@@ -898,6 +917,7 @@ Config = {
                 "hammer",
                 "WEAPON_SNIPERRIFLE",
                 "WEAPON_STUNGUN",
+                "WEAPON_TECPISTOL",
             },
             radius = 1.0,
         },
