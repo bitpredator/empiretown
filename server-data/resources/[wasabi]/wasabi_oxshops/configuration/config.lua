@@ -47,28 +47,4 @@ Config.Shops = {
             },
         },
     },
-
-    ["import"] = {
-        label = "Import Shop",
-        blip = {
-            enabled = true,
-            coords = vec3(1016.149475, -2405.261475, 30.122314),
-            sprite = 61,
-            color = 8,
-            scale = 0.7,
-            string = "import",
-        },
-        locations = {
-            stash = {
-                string = "[E] - Access Inventory",
-                coords = vec3(1016.149475, -2405.261475, 30.122314),
-                range = 3.0,
-            },
-            shop = {
-                string = "[E] - Access Shop",
-                coords = vec3(1020.830750, -2393.644043, 30.122314),
-                range = 4.0,
-            },
-        },
-    },
 }
