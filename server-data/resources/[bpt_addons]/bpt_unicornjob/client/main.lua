@@ -192,13 +192,13 @@ function OpenUnicornActionsMenu()
         elseif element.value == "boss_actions" then
             TriggerEvent("bpt_society:openBossMenu", "unicorn", function(_, menu)
                 menu.close()
-            end)
+            end, { wash = false })
         end
     end, function()
         CurrentAction = "unicorn_actions_menu"
         CurrentActionMsg = TranslateCap("press_to_open")
         CurrentActionData = {}
-    end, { wash = false })
+    end)
 end
 
 function OpenMobileUnicornActionsMenu()
@@ -307,8 +307,8 @@ CreateThread(function()
         local sleep = 1500
         if ESX.PlayerData.job and ESX.PlayerData.job.name == "unicorn" then
             local coords = GetEntityCoords(PlayerPedId())
-            local isInMarker, currentZone = false
-            local inVeh = IsPedInAnyVehicle(PlayerPedId())
+            local isInMarker, currentZone = false, nil
+            local inVeh = IsPedInAnyVehicle(PlayerPedId(), false)
 
             for k, v in pairs(Config.Zones) do
                 local zonePos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
