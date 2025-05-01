@@ -45,20 +45,30 @@ Config = {
             Image = "ammu",
             Jobs = { "ammu" },
         },
-        ["unicorn"] = {
-            Label = "Unicorn",
-            Image = "unicorn",
+        ["grilled"] = {
+            Label = "grigliati",
+            Image = "grilled",
+            Jobs = { "unicorn" },
+        },
+        ["fried"] = {
+            Label = "Fritti",
+            Image = "fried",
+            Jobs = { "unicorn" },
+        },
+        ["sandwiches"] = {
+            Label = "Panini",
+            Image = "sandwiches",
+            Jobs = { "unicorn" },
+        },
+        ["drinks"] = {
+            Label = "drinks",
+            Image = "drinks",
             Jobs = { "unicorn" },
         },
         ["ballas"] = {
             Label = "Ballas",
             Image = "ballas",
             Jobs = { "ballas" },
-        },
-        ["baker"] = {
-            Label = "Baker",
-            Image = "baker",
-            Jobs = { "baker" },
         },
         ["ammunation"] = {
             Label = "Munizioni",
@@ -288,7 +298,7 @@ Config = {
 
         ["almondmilk"] = {
             Level = 0,
-            Category = "unicorn",
+            Category = "drinks",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
@@ -305,7 +315,7 @@ Config = {
 
         ["appledrink"] = {
             Level = 0,
-            Category = "unicorn",
+            Category = "drinks",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
@@ -322,7 +332,7 @@ Config = {
 
         ["fries"] = {
             Level = 0,
-            Category = "unicorn",
+            Category = "fried",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
@@ -641,7 +651,7 @@ Config = {
 
         ["bread"] = {
             Level = 0,
-            Category = "unicorn",
+            Category = "sandwiches",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
@@ -690,7 +700,7 @@ Config = {
 
         ["grilled_salmon"] = {
             Level = 0,
-            Category = "unicorn",
+            Category = "grilled",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
@@ -706,7 +716,7 @@ Config = {
 
         ["tuna_sandwich"] = {
             Level = 0,
-            Category = "unicorn",
+            Category = "sandwiches",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
@@ -723,7 +733,7 @@ Config = {
 
         ["grilled_trout"] = {
             Level = 0,
-            Category = "unicorn",
+            Category = "grilled",
             isGun = false,
             Jobs = { "unicorn" },
             JobGrades = {},
@@ -940,13 +950,6 @@ Config = {
             jobs = { "cardealer" },
             blip = false,
             recipes = { "marijuana", "diamond_tip", "contract" },
-            radius = 1.0,
-        },
-        {
-            coords = vector3(2342.202148, 3144.817627, 48.202148),
-            jobs = { "baker" },
-            blip = false,
-            recipes = { "flour", "bread" },
             radius = 1.0,
         },
     },
