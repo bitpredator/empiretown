@@ -29,32 +29,3 @@ CreateThread(function()
         end
     end
 end)
-
--- Unicorn
-CreateThread(function()
-    while true do
-        Wait(0)
-        local playerCoords = GetEntityCoords(PlayerPedId(), true)
-        if GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, 132.608, -1293.978, 28.269, true) <= 3.0 then
-            ESX.ShowHelpNotification(TranslateCap("press_to_enter"))
-            if IsControlPressed(0, 51) then
-                DoScreenFadeOut(1000)
-                Wait(1500)
-                SetEntityCoords(PlayerPedId(), 126.742, -1278.386, 28.569, false, false, false, true)
-                Wait(1000)
-                DoScreenFadeIn(1000)
-            end
-        end
-        -- import exit
-        if GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, 132.540665, -1290.329712, 29.263062, true) <= 3.0 then
-            ESX.ShowHelpNotification(TranslateCap("press_to_exit"))
-            if IsControlPressed(0, 51) then
-                DoScreenFadeOut(1000)
-                Wait(1500)
-                SetEntityCoords(PlayerPedId(), 132.527481, -1294.153809, 29.263062, false, false, false, true)
-                Wait(1000)
-                DoScreenFadeIn(1000)
-            end
-        end
-    end
-end)
