@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local Keys = {
     ["ESC"] = 322,
     ["F1"] = 288,
@@ -87,7 +88,7 @@ CreateThread(function()
 
     for _, v in ipairs(Config.Workbenches) do
         if v.blip then
-            local blip = AddBlipForCoord(v.coords)
+            local blip = AddBlipForCoord(v.coords[1], v.coords[2], v.coords[3])
 
             SetBlipScale(blip, 0.8)
             SetBlipAsShortRange(blip, true)
