@@ -51,9 +51,7 @@ function OpenBennysActionsMenu()
                     local data2 = { current = element2 }
                     local action = data2.current.value
 
-                    if action == "identity_card" then
-                        OpenIdentityCardMenu(closestPlayer)
-                    elseif action == "search" then
+                    if action == "search" then
                         OpenBodySearchMenu(closestPlayer)
                     elseif action == "handcuff" then
                         TriggerServerEvent("esx_cuffanimation:startArrest", GetPlayerServerId(closestPlayer))
@@ -74,29 +72,6 @@ function OpenBennysActionsMenu()
             end)
         end
     end)
-end
-
-function OpenIdentityCardMenu(player)
-    ESX.TriggerServerCallback("bpt_bennysjob:getOtherPlayerData", function(data)
-        local elements = {
-            { icon = "fas fa-user", title = TranslateCap("name", data.name) },
-            { icon = "fas fa-user", title = TranslateCap("job", ("%s - %s"):format(data.job, data.grade)) },
-        }
-
-        if Config.EnableESXIdentity then
-            elements[#elements + 1] = { icon = "fas fa-user", title = TranslateCap("sex", TranslateCap(data.sex)) }
-            elements[#elements + 1] = { icon = "fas fa-user", title = TranslateCap("sex", TranslateCap(data.sex)) }
-            elements[#elements + 1] = { icon = "fas fa-user", title = TranslateCap("height", data.height) }
-        end
-
-        if Config.EnableESXOptionalneeds and data.drunk then
-            elements[#elements + 1] = { title = TranslateCap("bac", data.drunk) }
-        end
-
-        ESX.OpenContext("right", elements, nil, function(menu)
-            OpenBennysActionsMenu()
-        end)
-    end, GetPlayerServerId(player))
 end
 
 function OpenBodySearchMenu(player)
@@ -553,7 +528,8 @@ CreateThread(function()
                             isInMarker, currentStation, currentPart, currentPartNum = true, k, "Bennys", i
                         end
                     end
-                end]]--
+                end]]
+                --
 
                 for i = 1, #v.Vehicles, 1 do
                     local distance = #(playerCoords - v.Vehicles[i].Spawner)
@@ -634,8 +610,8 @@ ESX.RegisterInput("bennys:interact", "(BPT BennysJob) " .. TranslateCap("interac
             CurrentAction = "menu_boss_actions"
             CurrentActionMsg = TranslateCap("open_bossmenu")
             CurrentActionData = {}
-        end, {wash = false } )
-        end
+        end, { wash = false })
+    end
     if CurrentAction == "remove_entity" then
         DeleteEntity(CurrentActionData.entity)
     end
