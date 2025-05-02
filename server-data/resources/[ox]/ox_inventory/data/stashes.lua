@@ -74,4 +74,23 @@ return {
         weight = 200000,
         groups = { ["import"] = 0 },
     },
+
+    {
+        coords = vec3(-195.995605, -1339.819824, 34.890869),
+        target = {
+            loc = vec3(-195.995605, -1339.819824, 34.890869),
+            length = 0.6,
+            width = 1.8,
+            heading = 340,
+            minZ = 43.34,
+            maxZ = 44.74,
+            label = "Storage",
+        },
+        name = "bennyslocker",
+        label = "Storage",
+        owner = false,
+        slots = 70,
+        weight = 200000,
+        groups = { ["bennys"] = 0 },
+    },
 }
