@@ -21,7 +21,7 @@ Config.Bennys = {
 
         Blip = {
             Coords = vector3(-197.920883, -1341.494507, 34.890869),
-            Sprite = 478,
+            Sprite = 72,
             Display = 4,
             Scale = 1.0,
             Colour = 21,
