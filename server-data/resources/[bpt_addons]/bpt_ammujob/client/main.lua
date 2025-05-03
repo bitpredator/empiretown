@@ -590,7 +590,7 @@ CreateThread(function()
                     local distance = #(playerCoords - v.Armories[i])
 
                     if distance < Config.DrawDistance then
-                        DrawMarker(Config.MarkerType.Armories, v.Armories[i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+                        DrawMarker(Config.MarkerType.Armories, v.Armories[i].x, v.Armories[i].y, v.Armories[i].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
                         Sleep = 0
 
                         if distance < Config.MarkerSize.x then
@@ -617,7 +617,7 @@ CreateThread(function()
                         local distance = #(playerCoords - v.BossActions[i])
 
                         if distance < Config.DrawDistance then
-                            DrawMarker(Config.MarkerType.BossActions, v.BossActions[i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+                            DrawMarker(Config.MarkerType.BossActions, v.BossActions[i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, 0, 1, 2, true, 0, false, false, true, true)
                             Sleep = 0
 
                             if distance < Config.MarkerSize.x then
