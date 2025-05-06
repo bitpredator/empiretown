@@ -65,10 +65,10 @@ Config = {
             Image = "drinks",
             Jobs = { "unicorn" },
         },
-        ["ballas"] = {
-            Label = "Ballas",
-            Image = "ballas",
-            Jobs = { "ballas" },
+        ["sigarette"] = {
+            Label = "Sigarette",
+            Image = "cigar",
+            Jobs = { "ballas", "tridente" },
         },
         ["ammunation"] = {
             Label = "Munizioni",
@@ -200,7 +200,7 @@ Config = {
             Level = 0,
             Category = "tools",
             isGun = false,
-            Jobs = { "import", "ballas" },
+            Jobs = { "import", "ballas", "tridente" },
             JobGrades = {},
             Amount = 1,
             SuccessRate = 100,
@@ -365,9 +365,9 @@ Config = {
 
         ["cigarette_paper"] = {
             Level = 0,
-            Category = "ballas",
+            Category = "sigarette",
             isGun = false,
-            Jobs = { "ballas" },
+            Jobs = { "ballas", "tridente" },
             JobGrades = {},
             Amount = 1,
             SuccessRate = 100,
@@ -946,10 +946,10 @@ Config = {
             radius = 1.0,
         },
         {
-            coords = vector3(-32.782417, -1118.254883, 32.565552),
-            jobs = { "cardealer" },
+            coords = vector3(-1870.523071, 2061.705566, 135.433716),
+            jobs = { "tridente" },
             blip = false,
-            recipes = { "marijuana", "diamond_tip", "contract" },
+            recipes = { "hammer", "marijuana", "diamond_tip", "cigarette_paper" },
             radius = 1.0,
         },
     },

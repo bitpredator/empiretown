@@ -2,6 +2,7 @@
 local HasAlreadyEnteredMarker, IsInShopMenu = false, false
 local CurrentAction, CurrentActionMsg, LastZone, currentDisplayVehicle, CurrentVehicleData
 local CurrentActionData, Vehicles, Categories = {}, {}, {}
+ESX = exports["es_extended"]:getSharedObject()
 
 function GetVehicleFromModel(model)
     for i = 1, #Vehicles do
@@ -122,142 +123,169 @@ end
 
 function OpenShopMenu()
     if #Vehicles == 0 then
-        print("[esx_vehicleshop] [^3ERROR^7] No vehicles found")
+        print("[^3ERROR^7] Vehicleshop has ^50^7 vehicles, please add some!")
         return
     end
 
     IsInShopMenu = true
-    ESX.ShowContext("vehicle_shop", {
-        title = TranslateCap("car_dealer"),
-        options = {
-            {
-                title = TranslateCap("categories"),
-                description = TranslateCap("choose_category"),
-                arrow = true,
-                event = "esx_vehicleshop:showCategoryVehicles",
-                args = { categories = Categories, vehicles = Vehicles },
-            },
-        },
-    })
 
-    CreateThread(function()
-        while IsInShopMenu do
-            Wait(0)
-            DisableControlAction(0, 75, true) -- Disable exit vehicle
-            DisableControlAction(27, 75, true) -- Disable exit vehicle
-        end
-    end)
-end
+    StartShopRestriction()
+    ESX.UI.Menu.CloseAll()
 
-RegisterNetEvent("esx_vehicleshop:showCategoryVehicles")
-AddEventHandler("esx_vehicleshop:showCategoryVehicles", function(data)
-    local categoryVehicles = {}
-    local options = {}
+    local playerPed = PlayerPedId()
 
-    for i = 1, #data.categories do
-        local vehicles = {}
-        for k, v in ipairs(data.vehicles) do
-            if data.categories[i].name == v.category then
-                table.insert(vehicles, v)
-            end
-        end
-        if #vehicles > 0 then
-            table.insert(options, {
-                title = data.categories[i].label,
-                description = TranslateCap("press_to_view"),
-                arrow = true,
-                event = "esx_vehicleshop:showVehicleList",
-                args = { vehicles = vehicles },
-            })
+    FreezeEntityPosition(playerPed, true)
+    SetEntityVisible(PlayerPedId(), true, true)
+    SetEntityCoords(playerPed, Config.Zones.ShopInside.Pos)
+
+    local vehiclesByCategory = {}
+    local elements = {}
+    local firstVehicleData = nil
+
+    for i = 1, #Categories, 1 do
+        vehiclesByCategory[Categories[i].name] = {}
+    end
+
+    for i = 1, #Vehicles, 1 do
+        if IsModelInCdimage(joaat(Vehicles[i].model)) then
+            table.insert(vehiclesByCategory[Vehicles[i].category], Vehicles[i])
+        else
+            print(("[^3WARNING^7] Ignoring vehicle ^5%s^7 due to invalid Model"):format(Vehicles[i].model))
         end
     end
 
-    ESX.ShowContext("vehicle_categories", {
-        title = TranslateCap("categories"),
-        options = options,
-    })
-end)
+    for _, v in pairs(vehiclesByCategory) do
+        table.sort(v, function(a, b)
+            return a.name < b.name
+        end)
+    end
 
-RegisterNetEvent("esx_vehicleshop:showVehicleList")
-AddEventHandler("esx_vehicleshop:showVehicleList", function(data)
-    local options = {}
+    for i = 1, #Categories, 1 do
+        local category = Categories[i]
+        local categoryVehicles = vehiclesByCategory[category.name]
+        local options = {}
 
-    for i = 1, #data.vehicles do
-        local vehicle = data.vehicles[i]
-        table.insert(options, {
-            title = vehicle.name,
-            description = TranslateCap("generic_shopitem", ESX.Math.GroupDigits(vehicle.price)),
-            event = "esx_vehicleshop:showVehicleInfo",
-            args = { vehicle = vehicle },
+        for j = 1, #categoryVehicles, 1 do
+            local vehicle = categoryVehicles[j]
+
+            if i == 1 and j == 1 then
+                firstVehicleData = vehicle
+            end
+
+            table.insert(options, ('%s <span style="color:green;">%s</span>'):format(vehicle.name, TranslateCap("generic_shopitem", ESX.Math.GroupDigits(vehicle.price))))
+        end
+
+        table.sort(options)
+
+        table.insert(elements, {
+            name = category.name,
+            label = category.label,
+            value = 0,
+            type = "slider",
+            max = #Categories[i],
+            options = options,
         })
     end
 
-    ESX.ShowContext("vehicle_list", {
-        title = TranslateCap("choose_vehicle"),
-        options = options,
-    })
-end)
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "vehicle_shop", {
+        title = TranslateCap("car_dealer"),
+        align = "top-left",
+        elements = elements,
+    }, function(data, menu)
+        local vehicleData = vehiclesByCategory[data.current.name][data.current.value + 1]
 
-RegisterNetEvent("esx_vehicleshop:showVehicleInfo")
-AddEventHandler("esx_vehicleshop:showVehicleInfo", function(data)
-    local vehicle = data.vehicle
-    ESX.ShowContext("vehicle_info", {
-        title = vehicle.name,
-        options = {
-            {
-                title = TranslateCap("buy_vehicle"),
-                description = TranslateCap("generic_shopitem", ESX.Math.GroupDigits(vehicle.price)),
-                event = "esx_vehicleshop:attemptPurchase",
-                args = { vehicle = vehicle },
+        ESX.UI.Menu.Open("default", GetCurrentResourceName(), "shop_confirm", {
+            title = TranslateCap("buy_vehicle_shop", vehicleData.name, ESX.Math.GroupDigits(vehicleData.price)),
+            align = "top-left",
+            elements = {
+                { label = TranslateCap("no"), value = "no" },
+                { label = TranslateCap("yes"), value = "yes" },
             },
-        },
-    })
-end)
+        }, function(data2, menu2)
+            if data2.current.value == "yes" then
+                if Config.EnablePlayerManagement then
+                    ESX.TriggerServerCallback("esx_vehicleshop:buyCarDealerVehicle", function(success)
+                        if success then
+                            IsInShopMenu = false
+                            DeleteDisplayVehicleInsideShop()
 
-RegisterNetEvent("esx_vehicleshop:attemptPurchase")
-AddEventHandler("esx_vehicleshop:attemptPurchase", function(data)
-    local vehicle = data.vehicle
-    if Config.EnablePlayerManagement then
-        ESX.TriggerServerCallback("esx_vehicleshop:buyCarDealerVehicle", function(success)
-            if success then
-                IsInShopMenu = false
-                DeleteDisplayVehicleInsideShop()
+                            CurrentAction = "shop_menu"
+                            CurrentActionMsg = TranslateCap("shop_menu")
+                            CurrentActionData = {}
 
-                CurrentAction = "shop_menu"
-                CurrentActionMsg = TranslateCap("shop_menu")
-                CurrentActionData = {}
+                            local playerPed = PlayerPedId()
+                            FreezeEntityPosition(playerPed, false)
+                            SetEntityVisible(PlayerPedId(), true, true)
+                            SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos)
 
-                local playerPed = PlayerPedId()
-                FreezeEntityPosition(playerPed, false)
-                SetEntityVisible(playerPed, true, true)
-                SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos)
+                            menu2.close()
+                            menu.close()
+                            ESX.ShowNotification(TranslateCap("vehicle_purchased"))
+                        else
+                            ESX.ShowNotification(TranslateCap("broke_company"))
+                        end
+                    end, vehicleData.model)
+                else
+                    local generatedPlate = GeneratePlate()
 
-                ESX.ShowNotification(TranslateCap("vehicle_purchased"))
+                    ESX.TriggerServerCallback("esx_vehicleshop:buyVehicle", function(success)
+                        if success then
+                            IsInShopMenu = false
+                            menu2.close()
+                            menu.close()
+                            DeleteDisplayVehicleInsideShop()
+                            FreezeEntityPosition(playerPed, false)
+                            SetEntityVisible(PlayerPedId(), true, true)
+                        else
+                            ESX.ShowNotification(TranslateCap("not_enough_money"))
+                        end
+                    end, vehicleData.model, generatedPlate)
+                end
             else
-                ESX.ShowNotification(TranslateCap("broke_company"))
+                menu2.close()
             end
-        end, vehicle.model)
-    else
-        local generatedPlate = GeneratePlate()
-        ESX.TriggerServerCallback("esx_vehicleshop:buyVehicle", function(success)
-            if success then
-                IsInShopMenu = false
-                DeleteDisplayVehicleInsideShop()
+        end, function(_, menu2)
+            menu2.close()
+        end)
+    end, function(_, menu)
+        menu.close()
+        DeleteDisplayVehicleInsideShop()
+        local playerPed = PlayerPedId()
 
-                ESX.Game.SpawnVehicle(vehicle.model, Config.Zones.ShopOutside.Pos, Config.Zones.ShopOutside.Heading, function(vehicle)
-                    TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
-                    SetVehicleNumberPlateText(vehicle, generatedPlate)
-                    FreezeEntityPosition(PlayerPedId(), false)
-                    SetEntityVisible(PlayerPedId(), true, true)
-                end)
+        CurrentAction = "shop_menu"
+        CurrentActionMsg = TranslateCap("shop_menu")
+        CurrentActionData = {}
 
-                ESX.ShowNotification(TranslateCap("vehicle_purchased"))
-            else
-                ESX.ShowNotification(TranslateCap("not_enough_money"))
-            end
-        end, vehicle.model, generatedPlate)
-    end
-end)
+        FreezeEntityPosition(playerPed, false)
+        SetEntityVisible(PlayerPedId(), true, true)
+        SetEntityCoords(playerPed, Config.Zones.ShopEntering.Pos)
+
+        IsInShopMenu = false
+    end, function(data)
+        local vehicleData = vehiclesByCategory[data.current.name][data.current.value + 1]
+        local playerPed = PlayerPedId()
+
+        DeleteDisplayVehicleInsideShop()
+        WaitForVehicleToLoad(vehicleData.model)
+
+        ESX.Game.SpawnLocalVehicle(vehicleData.model, Config.Zones.ShopInside.Pos, Config.Zones.ShopInside.Heading, function(vehicle)
+            currentDisplayVehicle = vehicle
+            TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
+            FreezeEntityPosition(vehicle, true)
+            SetModelAsNoLongerNeeded(vehicleData.model)
+        end)
+    end)
+
+    DeleteDisplayVehicleInsideShop()
+    WaitForVehicleToLoad(firstVehicleData.model)
+
+    ESX.Game.SpawnLocalVehicle(firstVehicleData.model, Config.Zones.ShopInside.Pos, Config.Zones.ShopInside.Heading, function(vehicle)
+        currentDisplayVehicle = vehicle
+        TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
+        FreezeEntityPosition(vehicle, true)
+        SetModelAsNoLongerNeeded(firstVehicleData.model)
+    end)
+end
 
 function WaitForVehicleToLoad(modelHash)
     modelHash = (type(modelHash) == "number" and modelHash or joaat(modelHash))
@@ -279,248 +307,255 @@ function WaitForVehicleToLoad(modelHash)
 end
 
 function OpenResellerMenu()
-    ESX.ShowContext("reseller", {
+    ESX.UI.Menu.CloseAll()
+
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "reseller", {
         title = TranslateCap("car_dealer"),
-        options = {
-            {
-                title = TranslateCap("buy_vehicle"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "buy_vehicle" },
-            },
-            {
-                title = TranslateCap("pop_vehicle"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "pop_vehicle" },
-            },
-            {
-                title = TranslateCap("depop_vehicle"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "depop_vehicle" },
-            },
-            {
-                title = TranslateCap("return_provider"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "return_provider" },
-            },
-            {
-                title = TranslateCap("create_bill"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "create_bill" },
-            },
-            {
-                title = TranslateCap("get_rented_vehicles"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "get_rented_vehicles" },
-            },
-            {
-                title = TranslateCap("set_vehicle_owner_sell"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "set_vehicle_owner_sell" },
-            },
-            {
-                title = TranslateCap("set_vehicle_owner_rent"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "set_vehicle_owner_rent" },
-            },
-            {
-                title = TranslateCap("deposit_stock"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "put_stock" },
-            },
-            {
-                title = TranslateCap("take_stock"),
-                event = "esx_vehicleshop:resellerAction",
-                args = { action = "get_stock" },
-            },
+        align = "top-left",
+        elements = {
+            { label = TranslateCap("buy_vehicle"), value = "buy_vehicle" },
+            { label = TranslateCap("pop_vehicle"), value = "pop_vehicle" },
+            { label = TranslateCap("depop_vehicle"), value = "depop_vehicle" },
+            { label = TranslateCap("return_provider"), value = "return_provider" },
+            { label = TranslateCap("get_rented_vehicles"), value = "get_rented_vehicles" },
+            { label = TranslateCap("set_vehicle_owner_sell"), value = "set_vehicle_owner_sell" },
+            { label = TranslateCap("set_vehicle_owner_rent"), value = "set_vehicle_owner_rent" },
+            { label = TranslateCap("deposit_stock"), value = "put_stock" },
+            { label = TranslateCap("take_stock"), value = "get_stock" },
         },
-    })
+    }, function(data)
+        local action = data.current.value
 
-    CurrentAction = "reseller_menu"
-    CurrentActionMsg = TranslateCap("shop_menu")
-    CurrentActionData = {}
+        if Config.OxInventory and (action == "put_stock" or action == "get_stock") then
+            exports.ox_inventory:openInventory("stash", "society_cardealer")
+        elseif action == "buy_vehicle" then
+            OpenShopMenu()
+        elseif action == "put_stock" then
+            OpenPutStocksMenu()
+        elseif action == "get_stock" then
+            OpenGetStocksMenu()
+        elseif action == "pop_vehicle" then
+            OpenPopVehicleMenu()
+        elseif action == "depop_vehicle" then
+            if currentDisplayVehicle then
+                DeleteDisplayVehicleInsideShop()
+            else
+                ESX.ShowNotification(TranslateCap("no_current_vehicle"))
+            end
+        elseif action == "return_provider" then
+            ReturnVehicleProvider()
+        elseif action == "create_bill" then
+            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+
+            if closestPlayer ~= -1 and closestDistance < 3 then
+                ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "set_vehicle_owner_sell_amount", {
+                    title = TranslateCap("invoice_amount"),
+                }, function(data2, menu2)
+                    local amount = tonumber(data2.value)
+
+                    if amount == nil then
+                        ESX.ShowNotification(TranslateCap("invalid_amount"))
+                    else
+                        menu2.close()
+                        local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+
+                        if closestPlayer == -1 or closestDistance > 3.0 then
+                            ESX.ShowNotification(TranslateCap("no_players"))
+                        else
+                            TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_cardealer", TranslateCap("car_dealer"), tonumber(data2.value))
+                        end
+                    end
+                end, function(data2, menu2)
+                    menu2.close()
+                end)
+            else
+                ESX.ShowNotification(TranslateCap("no_players"))
+            end
+        elseif action == "get_rented_vehicles" then
+            OpenRentedVehiclesMenu()
+        elseif action == "set_vehicle_owner_sell" then
+            if currentDisplayVehicle then
+                local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+
+                if closestPlayer ~= -1 and closestDistance < 3 then
+                    local newPlate = GeneratePlate()
+                    local vehicleProps = ESX.Game.GetVehicleProperties(currentDisplayVehicle)
+                    vehicleProps.plate = newPlate
+                    SetVehicleNumberPlateText(currentDisplayVehicle, newPlate)
+                    TriggerServerEvent("esx_vehicleshop:setVehicleOwnedPlayerId", GetPlayerServerId(closestPlayer), vehicleProps, CurrentVehicleData.model, CurrentVehicleData.name)
+                    currentDisplayVehicle = nil
+                else
+                    ESX.ShowNotification(TranslateCap("no_players"))
+                end
+            else
+                ESX.ShowNotification(TranslateCap("no_current_vehicle"))
+            end
+        elseif action == "set_vehicle_owner_rent" then
+            if currentDisplayVehicle then
+                local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+
+                if closestPlayer ~= -1 and closestDistance < 3 then
+                    ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "set_vehicle_owner_rent_amount", {
+                        title = TranslateCap("rental_amount"),
+                    }, function(data2, menu2)
+                        local amount = tonumber(data2.value)
+
+                        if not amount then
+                            ESX.ShowNotification(TranslateCap("invalid_amount"))
+                        else
+                            menu2.close()
+                            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+
+                            if closestPlayer ~= -1 and closestDistance < 3 then
+                                local newPlate = "RENT" .. string.upper(ESX.GetRandomString(4))
+                                local model = CurrentVehicleData.model
+                                SetVehicleNumberPlateText(currentDisplayVehicle, newPlate)
+                                TriggerServerEvent("esx_vehicleshop:rentVehicle", model, newPlate, amount, GetPlayerServerId(closestPlayer))
+                                currentDisplayVehicle = nil
+                            else
+                                ESX.ShowNotification(TranslateCap("no_players"))
+                            end
+                        end
+                    end, function(_, menu2)
+                        menu2.close()
+                    end)
+                else
+                    ESX.ShowNotification(TranslateCap("no_players"))
+                end
+            else
+                ESX.ShowNotification(TranslateCap("no_current_vehicle"))
+            end
+        end
+    end, function(_, menu)
+        menu.close()
+
+        CurrentAction = "reseller_menu"
+        CurrentActionMsg = TranslateCap("shop_menu")
+        CurrentActionData = {}
+    end)
 end
-
-RegisterNetEvent("esx_vehicleshop:resellerAction")
-AddEventHandler("esx_vehicleshop:resellerAction", function(data)
-    local action = data.action
-
-    if Config.OxInventory and (action == "put_stock" or action == "get_stock") then
-        exports.ox_inventory:openInventory("stash", "society_cardealer")
-    elseif action == "buy_vehicle" then
-        OpenShopMenu()
-    elseif action == "put_stock" then
-        OpenPutStocksMenu()
-    elseif action == "get_stock" then
-        OpenGetStocksMenu()
-    elseif action == "pop_vehicle" then
-        OpenPopVehicleMenu()
-    elseif action == "depop_vehicle" then
-        if currentDisplayVehicle then
-            DeleteDisplayVehicleInsideShop()
-        else
-            ESX.ShowNotification(TranslateCap("no_current_vehicle"))
-        end
-    elseif action == "return_provider" then
-        ReturnVehicleProvider()
-    elseif action == "create_bill" then
-        local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
-        if closestPlayer ~= -1 and closestDistance < 3 then
-            ESX.ShowContext("create_bill", {
-                title = TranslateCap("invoice_amount"),
-                options = {
-                    {
-                        title = TranslateCap("amount"),
-                        input = true,
-                        inputType = "number",
-                        event = "esx_vehicleshop:createBill",
-                        args = { playerId = GetPlayerServerId(closestPlayer) },
-                    },
-                },
-            })
-        else
-            ESX.ShowNotification(TranslateCap("no_players"))
-        end
-    elseif action == "get_rented_vehicles" then
-        OpenRentedVehiclesMenu()
-    elseif action == "set_vehicle_owner_sell" then
-        if currentDisplayVehicle then
-            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
-            if closestPlayer ~= -1 and closestDistance < 3 then
-                local newPlate = GeneratePlate()
-                local vehicleProps = ESX.Game.GetVehicleProperties(currentDisplayVehicle)
-                vehicleProps.plate = newPlate
-                SetVehicleNumberPlateText(currentDisplayVehicle, newPlate)
-                TriggerServerEvent("esx_vehicleshop:setVehicleOwnedPlayerId", GetPlayerServerId(closestPlayer), vehicleProps, CurrentVehicleData.model, CurrentVehicleData.name)
-                currentDisplayVehicle = nil
-            else
-                ESX.ShowNotification(TranslateCap("no_players"))
-            end
-        else
-            ESX.ShowNotification(TranslateCap("no_current_vehicle"))
-        end
-    elseif action == "set_vehicle_owner_rent" then
-        if currentDisplayVehicle then
-            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
-            if closestPlayer ~= -1 and closestDistance < 3 then
-                ESX.ShowContext("rent_amount", {
-                    title = TranslateCap("rental_amount"),
-                    options = {
-                        {
-                            title = TranslateCap("amount"),
-                            input = true,
-                            inputType = "number",
-                            event = "esx_vehicleshop:rentVehicle",
-                            args = { playerId = GetPlayerServerId(closestPlayer) },
-                        },
-                    },
-                })
-            else
-                ESX.ShowNotification(TranslateCap("no_players"))
-            end
-        else
-            ESX.ShowNotification(TranslateCap("no_current_vehicle"))
-        end
-    end
-end)
 
 function OpenPopVehicleMenu()
     ESX.TriggerServerCallback("esx_vehicleshop:getCommercialVehicles", function(vehicles)
-        local options = {}
+        local elements = {}
 
         for _, v in ipairs(vehicles) do
             local vehicleLabel = GetVehicleFromModel(v.vehicle).name
 
-            table.insert(options, {
-                title = vehicleLabel,
-                description = TranslateCap("generic_shopitem", ESX.Math.GroupDigits(v.price)),
-                event = "esx_vehicleshop:popVehicle",
-                args = { vehicle = v.vehicle },
+            table.insert(elements, {
+                label = ('%s [MSRP <span style="color:green;">%s</span>]'):format(vehicleLabel, TranslateCap("generic_shopitem", ESX.Math.GroupDigits(v.price))),
+                value = v.vehicle,
             })
         end
 
-        ESX.ShowContext("commercial_vehicles", {
+        ESX.UI.Menu.Open("default", GetCurrentResourceName(), "commercial_vehicles", {
             title = TranslateCap("vehicle_dealer"),
-            options = options,
-        })
+            align = "top-left",
+            elements = elements,
+        }, function(data, menu)
+            local model = data.current.value
+            DeleteDisplayVehicleInsideShop()
+
+            ESX.Game.SpawnVehicle(model, Config.Zones.ShopInside.Pos, Config.Zones.ShopInside.Heading, function(vehicle)
+                currentDisplayVehicle = vehicle
+
+                for i = 1, #Vehicles, 1 do
+                    if model == Vehicles[i].model then
+                        CurrentVehicleData = Vehicles[i]
+                        break
+                    end
+                end
+            end)
+        end, function(_, menu)
+            menu.close()
+        end)
     end)
 end
 
-RegisterNetEvent("esx_vehicleshop:popVehicle")
-AddEventHandler("esx_vehicleshop:popVehicle", function(data)
-    local model = data.vehicle
-    DeleteDisplayVehicleInsideShop()
-
-    ESX.Game.SpawnVehicle(model, Config.Zones.ShopInside.Pos, Config.Zones.ShopInside.Heading, function(vehicle)
-        currentDisplayVehicle = vehicle
-
-        for i = 1, #Vehicles, 1 do
-            if model == Vehicles[i].model then
-                CurrentVehicleData = Vehicles[i]
-                break
-            end
-        end
-    end)
-end)
-
 function OpenRentedVehiclesMenu()
     ESX.TriggerServerCallback("esx_vehicleshop:getRentedVehicles", function(vehicles)
-        local options = {}
+        local elements = {}
 
         for _, v in ipairs(vehicles) do
             local vehicleLabel = GetVehicleFromModel(v.name).name
 
-            table.insert(options, {
-                title = v.playerName,
-                description = string.format("%s - %s", vehicleLabel, v.plate),
-                disabled = true,
+            table.insert(elements, {
+                label = ('%s: %s - <span style="color:orange;">%s</span>'):format(v.playerName, vehicleLabel, v.plate),
+                value = v.name,
             })
         end
 
-        ESX.ShowContext("rented_vehicles", {
-            title = TranslateCap("rent_vehicle"),
-            options = options,
-        })
+        ESX.UI.Menu.Open(
+            "default",
+            GetCurrentResourceName(),
+            "rented_vehicles",
+            {
+                title = TranslateCap("rent_vehicle"),
+                align = "top-left",
+                elements = elements,
+            },
+            nil,
+            function(_, menu)
+                menu.close()
+            end
+        )
     end)
 end
 
 function OpenBossActionsMenu()
     ESX.UI.Menu.CloseAll()
-    TriggerEvent("esx_society:openBossMenu", "cardealer", function(data, menu)
+
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "reseller", {
+        title = TranslateCap("dealer_boss"),
+        align = "top-left",
+        elements = {
+            { label = TranslateCap("boss_actions"), value = "boss_actions" },
+            { label = TranslateCap("boss_sold"), value = "sold_vehicles" },
+        },
+    }, function(data)
+        if data.current.value == "boss_actions" then
+            TriggerEvent("bpt_society:openBossMenu", "cardealer", function(_, menu2)
+                menu2.close()
+            end, { wash = false })
+        elseif data.current.value == "sold_vehicles" then
+            ESX.TriggerServerCallback("esx_vehicleshop:getSoldVehicles", function(customers)
+                local elements = {
+                    head = {
+                        TranslateCap("customer_client"),
+                        TranslateCap("customer_model"),
+                        TranslateCap("customer_plate"),
+                        TranslateCap("customer_soldby"),
+                        TranslateCap("customer_date"),
+                    },
+                    rows = {},
+                }
+
+                for i = 1, #customers, 1 do
+                    table.insert(elements.rows, {
+                        data = customers[i],
+                        cols = {
+                            customers[i].client,
+                            customers[i].model,
+                            customers[i].plate,
+                            customers[i].soldby,
+                            customers[i].date,
+                        },
+                    })
+                end
+
+                ESX.UI.Menu.Open("list", GetCurrentResourceName(), "sold_vehicles", elements, function(data2, menu2) end, function(data2, menu2)
+                    menu2.close()
+                end)
+            end)
+        end
+    end, function(_, menu)
         menu.close()
-    end, { wash = false })
+
+        CurrentAction = "boss_actions_menu"
+        CurrentActionMsg = TranslateCap("shop_menu")
+        CurrentActionData = {}
+    end)
 end
-
-RegisterNetEvent("esx_vehicleshop:createBill")
-AddEventHandler("esx_vehicleshop:createBill", function(data)
-    if data.value then
-        local amount = tonumber(data.value)
-        if amount and amount > 0 then
-            TriggerServerEvent("esx_billing:sendBill", data.playerId, "society_cardealer", TranslateCap("car_dealer"), amount)
-        else
-            ESX.ShowNotification(TranslateCap("invalid_amount"))
-        end
-    end
-end)
-
-RegisterNetEvent("esx_vehicleshop:rentVehicle")
-AddEventHandler("esx_vehicleshop:rentVehicle", function(data)
-    if data.value then
-        local amount = tonumber(data.value)
-        if amount and amount > 0 then
-            local vehicleProps = ESX.Game.GetVehicleProperties(currentDisplayVehicle)
-            local newPlate = GeneratePlate()
-            vehicleProps.plate = newPlate
-            SetVehicleNumberPlateText(currentDisplayVehicle, newPlate)
-            TriggerServerEvent("esx_vehicleshop:rentVehicle", data.playerId, vehicleProps, CurrentVehicleData.model, CurrentVehicleData.name, amount)
-            currentDisplayVehicle = nil
-        else
-            ESX.ShowNotification(TranslateCap("invalid_amount"))
-        end
-    end
-end)
 
 function OpenGetStocksMenu()
     ESX.TriggerServerCallback("esx_vehicleshop:getStockItems", function(items)

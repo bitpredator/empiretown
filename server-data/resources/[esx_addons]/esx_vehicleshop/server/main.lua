@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local categories, vehicles = {}, {}
 
 TriggerEvent("bpt_society:registerSociety", "cardealer", TranslateCap("car_dealer"), "society_cardealer", "society_cardealer", "society_cardealer", {
