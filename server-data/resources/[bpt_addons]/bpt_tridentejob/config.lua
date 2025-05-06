@@ -22,14 +22,6 @@ Config.Tridente = {
 
     TRIDENTE = {
 
-        Blip = {
-            Coords = vector3(812.043945, -2145.692383, 29.330444),
-            Sprite = 110,
-            Display = 4,
-            Scale = 1.2,
-            Colour = 17,
-        },
-
         Tridentes = {
             vector3(-1866.263794, 2061.336182, 135.433716),
         },

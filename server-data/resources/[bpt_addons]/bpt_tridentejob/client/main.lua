@@ -44,7 +44,6 @@ function OpenTridenteActionsMenu()
                 { icon = "fas fa-idkyet", title = TranslateCap("drag"), value = "drag" },
                 { icon = "fas fa-idkyet", title = TranslateCap("put_in_vehicle"), value = "put_in_vehicle" },
                 { icon = "fas fa-idkyet", title = TranslateCap("out_the_vehicle"), value = "out_the_vehicle" },
-                { icon = "fas fa-idkyet", title = TranslateCap("weapon"), value = "weapon" },
             }
 
             if Config.EnableLicenses then
@@ -75,11 +74,6 @@ function OpenTridenteActionsMenu()
                         TriggerServerEvent("bpt_tridentejob:putInVehicle", GetPlayerServerId(closestPlayer))
                     elseif action == "out_the_vehicle" then
                         TriggerServerEvent("bpt_tridentejob:OutVehicle", GetPlayerServerId(closestPlayer))
-                    elseif action == "weapon" then
-                        TriggerServerEvent("esx_license:addLicense", GetPlayerServerId(closestPlayer), "weapon")
-                        ESX.ShowNotification(TranslateCap("released_gun_licence"))
-                        TriggerServerEvent("bpt_tridentejob:message", GetPlayerServerId(closestDistance), TranslateCap("received_firearms_license"))
-                    elseif action == "license" then
                         ShowPlayerLicense(closestPlayer)
                     end
                 else
@@ -555,22 +549,6 @@ CreateThread(function()
             end
         end
         Wait(Sleep)
-    end
-end)
-
--- Create blips
-CreateThread(function()
-    for _, v in pairs(Config.Tridente) do
-        local blip = AddBlipForCoord(v.Blip.Coords.x, v.Blip.Coords.y, v.Blip.Coords.z)
-        SetBlipSprite(blip, v.Blip.Sprite)
-        SetBlipDisplay(blip, v.Blip.Display)
-        SetBlipScale(blip, v.Blip.Scale)
-        SetBlipColour(blip, v.Blip.Colour)
-        SetBlipAsShortRange(blip, true)
-
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentSubstringPlayerName(TranslateCap("map_blip"))
-        EndTextCommandSetBlipName(blip)
     end
 end)
 
