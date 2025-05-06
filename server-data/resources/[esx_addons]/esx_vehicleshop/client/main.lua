@@ -516,7 +516,7 @@ function OpenBossActionsMenu()
         if data.current.value == "boss_actions" then
             TriggerEvent("bpt_society:openBossMenu", "cardealer", function(_, menu2)
                 menu2.close()
-            end)
+            end, { wash = false })
         elseif data.current.value == "sold_vehicles" then
             ESX.TriggerServerCallback("esx_vehicleshop:getSoldVehicles", function(customers)
                 local elements = {
