@@ -26,8 +26,6 @@ updates:
       - 'dependencies'
     assignees:  # Add assignees or reviewers
       - 'bitpredator'
-    reviewers:
-      - 'bitpredator'
     commit-message:
       prefix: '[bot]'
     ignore:
