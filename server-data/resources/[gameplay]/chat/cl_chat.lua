@@ -2,6 +2,7 @@ local isRDR = not TerraingridActivate and true or false
 
 local chatInputActive = false
 local chatInputActivating = false
+local chatHidden = true
 local chatLoaded = false
 
 RegisterNetEvent("chatMessage")
@@ -9,8 +10,6 @@ RegisterNetEvent("chat:addTemplate")
 RegisterNetEvent("chat:addMessage")
 RegisterNetEvent("chat:addSuggestion")
 RegisterNetEvent("chat:addSuggestions")
-RegisterNetEvent("chat:addMode")
-RegisterNetEvent("chat:removeMode")
 RegisterNetEvent("chat:removeSuggestion")
 RegisterNetEvent("chat:clear")
 
@@ -44,30 +43,18 @@ AddEventHandler("__cfx_internal:serverPrint", function(msg)
             templateId = "print",
             multiline = true,
             args = { msg },
-            mode = "_global",
         },
     })
 end)
 
--- addMessage
-local addMessage = function(message)
-    if type(message) == "string" then
-        message = {
-            args = { message },
-        }
-    end
-
+AddEventHandler("chat:addMessage", function(message)
     SendNUIMessage({
         type = "ON_MESSAGE",
         message = message,
     })
-end
+end)
 
-exports("addMessage", addMessage)
-AddEventHandler("chat:addMessage", addMessage)
-
--- addSuggestion
-local addSuggestion = function(name, help, params)
+AddEventHandler("chat:addSuggestion", function(name, help, params)
     SendNUIMessage({
         type = "ON_SUGGESTION_ADD",
         suggestion = {
@@ -76,10 +63,7 @@ local addSuggestion = function(name, help, params)
             params = params or nil,
         },
     })
-end
-
-exports("addSuggestion", addSuggestion)
-AddEventHandler("chat:addSuggestion", addSuggestion)
+end)
 
 AddEventHandler("chat:addSuggestions", function(suggestions)
     for _, suggestion in ipairs(suggestions) do
@@ -97,20 +81,6 @@ AddEventHandler("chat:removeSuggestion", function(name)
     })
 end)
 
-AddEventHandler("chat:addMode", function(mode)
-    SendNUIMessage({
-        type = "ON_MODE_ADD",
-        mode = mode,
-    })
-end)
-
-AddEventHandler("chat:removeMode", function(name)
-    SendNUIMessage({
-        type = "ON_MODE_REMOVE",
-        name = name,
-    })
-end)
-
 AddEventHandler("chat:addTemplate", function(id, html)
     SendNUIMessage({
         type = "ON_TEMPLATE_ADD",
@@ -121,7 +91,7 @@ AddEventHandler("chat:addTemplate", function(id, html)
     })
 end)
 
-AddEventHandler("chat:clear", function()
+AddEventHandler("chat:clear", function(name)
     SendNUIMessage({
         type = "ON_CLEAR",
     })
@@ -129,18 +99,17 @@ end)
 
 RegisterNUICallback("chatResult", function(data, cb)
     chatInputActive = false
-    SetNuiFocus(false, false)
+    SetNuiFocus(false)
 
     if not data.canceled then
         local id = PlayerId()
 
         --deprecated
         local r, g, b = 0, 0x99, 255
-
         if data.message:sub(1, 1) == "/" then
             ExecuteCommand(data.message:sub(2))
         else
-            TriggerServerEvent("_chat:messageEntered", GetPlayerName(id), { r, g, b }, data.message, data.mode)
+            TriggerServerEvent("_chat:messageEntered", GetPlayerName(id), { r, g, b }, data.message)
         end
     end
 
@@ -154,7 +123,7 @@ local function refreshCommands()
         local suggestions = {}
 
         for _, command in ipairs(registeredCommands) do
-            if IsAceAllowed(("command.%s"):format(command.name)) and command.name ~= "toggleChat" then
+            if IsAceAllowed(("command.%s"):format(command.name)) then
                 table.insert(suggestions, {
                     name = "/" .. command.name,
                     help = "",
@@ -177,7 +146,7 @@ local function refreshThemes()
 
             if numThemes > 0 then
                 local themeName = GetResourceMetadata(resource, "chat_theme", 0)
-                local themeData = json.decode(GetResourceMetadata(resource, "chat_theme_extra", 0) or "null")
+                local themeData = json.decode(GetResourceMetadata(resource, "chat_theme_extra") or "null")
 
                 if themeName and themeData then
                     themeData.baseUrl = "nui://" .. resource .. "/"
@@ -193,21 +162,21 @@ local function refreshThemes()
     })
 end
 
-AddEventHandler("onClientResourceStart", function()
+AddEventHandler("onClientResourceStart", function(resName)
     Wait(500)
 
     refreshCommands()
     refreshThemes()
 end)
 
-AddEventHandler("onClientResourceStop", function()
+AddEventHandler("onClientResourceStop", function(resName)
     Wait(500)
 
     refreshCommands()
     refreshThemes()
 end)
 
-RegisterNUICallback("loaded", function(_, cb)
+RegisterNUICallback("loaded", function(data, cb)
     TriggerServerEvent("chat:init")
 
     refreshCommands()
@@ -218,42 +187,13 @@ RegisterNUICallback("loaded", function(_, cb)
     cb("ok")
 end)
 
-local CHAT_HIDE_STATES = {
-    SHOW_WHEN_ACTIVE = 0,
-    ALWAYS_SHOW = 1,
-    ALWAYS_HIDE = 2,
-}
+RegisterCommand("hide-hud", function(source, args, rawCommand)
+    shouldBeHidden = true
+end, false --[[this command is not restricted, everyone can use this.]])
 
-local kvpEntry = GetResourceKvpString("hideState")
-local chatHideState = kvpEntry and tonumber(kvpEntry) or CHAT_HIDE_STATES.SHOW_WHEN_ACTIVE
-local isFirstHide = true
-
-if not isRDR then
-    if RegisterKeyMapping then
-        RegisterKeyMapping("toggleChat", "Toggle chat", "keyboard", "l")
-    end
-
-    RegisterCommand("toggleChat", function()
-        if chatHideState == CHAT_HIDE_STATES.SHOW_WHEN_ACTIVE then
-            chatHideState = CHAT_HIDE_STATES.ALWAYS_SHOW
-        elseif chatHideState == CHAT_HIDE_STATES.ALWAYS_SHOW then
-            chatHideState = CHAT_HIDE_STATES.ALWAYS_HIDE
-        elseif chatHideState == CHAT_HIDE_STATES.ALWAYS_HIDE then
-            chatHideState = CHAT_HIDE_STATES.SHOW_WHEN_ACTIVE
-        end
-
-        isFirstHide = false
-
-        SetResourceKvp("hideState", tostring(chatHideState))
-    end, false)
-end
-
-CreateThread(function()
+Citizen.CreateThread(function()
     SetTextChatEnabled(false)
-    SetNuiFocus(false, false)
-
-    local lastChatHideState = -1
-    local origChatHideState = -1
+    SetNuiFocus(false)
 
     while true do
         Wait(0)
@@ -273,37 +213,26 @@ CreateThread(function()
 
         if chatInputActivating then
             if not IsControlPressed(0, isRDR and `INPUT_MP_TEXT_CHAT_ALL` or 245) then
-                SetNuiFocus(true, true)
+                SetNuiFocus(true)
 
                 chatInputActivating = false
             end
         end
 
         if chatLoaded then
-            local forceHide = IsScreenFadedOut() or IsPauseMenuActive()
-            local wasForceHide = false
+            local shouldBeHidden = false
 
-            if chatHideState ~= CHAT_HIDE_STATES.ALWAYS_HIDE then
-                if forceHide then
-                    origChatHideState = chatHideState
-                    chatHideState = CHAT_HIDE_STATES.ALWAYS_HIDE
-                end
-            elseif not forceHide and origChatHideState ~= -1 then
-                chatHideState = origChatHideState
-                origChatHideState = -1
-                wasForceHide = true
+            if IsScreenFadedOut() or IsPauseMenuActive() then
+                shouldBeHidden = true
             end
 
-            if chatHideState ~= lastChatHideState then
-                lastChatHideState = chatHideState
+            if (shouldBeHidden and not chatHidden) or (not shouldBeHidden and chatHidden) then
+                chatHidden = shouldBeHidden
 
                 SendNUIMessage({
                     type = "ON_SCREEN_STATE_CHANGE",
-                    hideState = chatHideState,
-                    fromUserInteraction = not forceHide and not isFirstHide and not wasForceHide,
+                    shouldHide = shouldBeHidden,
                 })
-
-                isFirstHide = false
             end
         end
     end
