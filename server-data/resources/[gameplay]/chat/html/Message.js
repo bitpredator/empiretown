@@ -42,7 +42,7 @@ Vue.component('message', {
 				'r': 'text-decoration: none;font-weight: normal;',
 			};
 
-			const styleRegex = /\^(\_|\*|\=|\~|\/|r)(.*?)(?=$|\^r|<\/em>)/;
+			const styleRegex = /\^(\\_|\*|\\=|\\~|\/|r)(.*?)(?=$|\^r|<\/em>)/;
 			while (s.match(styleRegex)) {
 				s = s.replace(styleRegex, (str, style, inner) => `<em style="${styleDict[style]}">${inner}</em>`);
 			}
