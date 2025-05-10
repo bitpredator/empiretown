@@ -3,7 +3,7 @@ game("gta5")
 
 author("bitpredator")
 description("Advanced weather synchronization system with dynamic effects")
-version("1.0.0")
+version("1.0.9")
 
 server_scripts({
     "server/server.lua",

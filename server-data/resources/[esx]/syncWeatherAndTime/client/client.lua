@@ -57,7 +57,9 @@ AddEventHandler("weatherEffects:startThunder", function()
             Citizen.Wait(math.random(30000, 60000))
             local playerPed = PlayerPedId()
             local coords = GetEntityCoords(playerPed)
-            ForceLightningFlashAtCoords(coords.x + math.random(-100, 100), coords.y + math.random(-100, 100), coords.z + 10.0)
+
+            -- Visual effect and camera vibration to simulate lightning
+            StartScreenEffect("LightningFlash", 0, false)
         end
     end)
 end)
