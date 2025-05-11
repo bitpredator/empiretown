@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 ESX = exports["es_extended"]:getSharedObject()
 
 RegisterNetEvent("esx:playerLoaded", function(xPlayer)
@@ -20,8 +21,15 @@ AddEventHandler("wasabi_oxshops:setProductPrice", function(shop, slot)
     local price
     if not input then
         price = 0
+    else
+        local tonumberResult = tonumber(input[1])
+        if tonumberResult then
+            price = tonumberResult
+        else
+            price = 0
+        end
     end
-    price = tonumber(input[1])
+
     if price < 0 then
         price = 0
     end
