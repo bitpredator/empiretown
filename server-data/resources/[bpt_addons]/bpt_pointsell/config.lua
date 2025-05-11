@@ -5,10 +5,6 @@ Config.Locale = GetConvar("esx:locale", "it")
 Config.DealerItems = {
     emerald = 50,
     diamond = 150,
-    tuna = 300,
-    salmon = 230,
-    trout = 190,
-    anchovy = 100,
 }
 
 Config.GiveBlack = true -- give black money? if disabled it'll give regular cash.
@@ -28,5 +24,5 @@ Config.Marker = {
 -- max amount of Config.DealerItems to sell
 Config.SellMenu = {
     Min = 1,
-    Max = 50,
+    Max = 5000,
 }

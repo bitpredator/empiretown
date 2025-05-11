@@ -109,21 +109,20 @@ AddEventHandler("onResourceStop", function(resource)
 end)
 
 function CreateBlipCircle(coords, text, radius, color, sprite)
-    local blip = AddBlipForRadius(coords, radius)
+    local blip = AddBlipForRadius(coords.x, coords.y, coords.z, radius)
 
     SetBlipHighDetail(blip, true)
     SetBlipColour(blip, 1)
     SetBlipAlpha(blip, 128)
 
     -- create a blip in the middle
-    blip = AddBlipForCoord(coords)
+    blip = AddBlipForCoord(coords.x, coords.y, coords.z)
 
     SetBlipHighDetail(blip, true)
     SetBlipSprite(blip, sprite)
     SetBlipScale(blip, 1.0)
     SetBlipColour(blip, color)
     SetBlipAsShortRange(blip, true)
-
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentSubstringPlayerName(text)
     EndTextCommandSetBlipName(blip)
