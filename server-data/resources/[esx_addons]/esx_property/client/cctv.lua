@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 function CCTV(PropertyID)
     DoScreenFadeOut(500)
     Wait(500)
