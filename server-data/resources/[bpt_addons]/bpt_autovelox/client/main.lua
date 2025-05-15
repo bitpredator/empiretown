@@ -1,103 +1,84 @@
-ESX = exports["es_extended"]:getSharedObject()
+local currentAutovelox = nil
+local blockedVehiclePlates = {}
 
-local speedLimit = 60.0 -- Velocità limite in mph
-local fineAmount = 200.0 -- Importo della multa
-
-local speedCameras = {
-    { x = 264.356049, y = -618.171448, z = 42.254272 }, -- Autovelox Ospedale
-}
-
-local showBar = false -- Variabile per mostrare/nascondere la barra di avviso
-
--- Lista di lavori esenti da multe (polizia, ospedale, ecc.)
-local exemptJobs = {
-    "police", -- Polizia
-    "ambulance", -- Ospedale
-}
+RegisterNetEvent("autovelox:updatePosition")
+AddEventHandler("autovelox:updatePosition", function(data)
+    currentAutovelox = data
+end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(1000)
+        Citizen.Wait(500)
 
-        local playerPed = PlayerPedId()
+        if currentAutovelox then
+            local playerPed = PlayerPedId()
+            local coords = GetEntityCoords(playerPed)
+            local dist = #(coords - vector3(currentAutovelox.x, currentAutovelox.y, currentAutovelox.z))
 
-        -- Verifica se il giocatore è in un veicolo
-        if IsPedInAnyVehicle(playerPed, false) then
-            local vehicle = GetVehiclePedIsIn(playerPed, false)
-            local speed = GetEntitySpeed(vehicle) * 2.23694 -- Convertiamo da m/s a mph
-
-            -- Verifica se il veicolo è in movimento
-            if speed > 0.5 then
-                showBar = false -- Resettiamo lo stato della barra
-
-                for _, camera in ipairs(speedCameras) do
-                    local playerPos = GetEntityCoords(playerPed)
-                    local distance = Vdist(playerPos.x, playerPos.y, playerPos.z, camera.x, camera.y, camera.z)
-
-                    -- Se il giocatore è vicino all'autovelox (distanza inferiore a 50 metri)
-                    if distance < 50.0 then
-                        -- Mostriamo la barra visiva
-                        showBar = true
-
-                        -- Otteniamo il lavoro del giocatore (ESX)
-                        local playerJob = ESX.GetPlayerData().job.name
-
-                        -- Controlliamo se il giocatore è esente (polizia, ospedale, ecc.)
-                        if not isJobExempt(playerJob) then
-                            if speed > speedLimit then
-                                -- Aggiungi un print per verificare che l'evento venga inviato
-                                print("Multa: Velocità superiore al limite, invio multa al server")
-                                local playerId = GetPlayerServerId(PlayerId())
-                                local playerName = GetPlayerName(PlayerId())
-                                TriggerServerEvent("autovelox:recordFine", playerId, playerName, fineAmount, "Superato il limite di velocità", "Posizione: " .. playerPos.x .. ", " .. playerPos.y .. ", " .. playerPos.z)
-                            end
-                        else
-                            -- Se il giocatore è esente, non fare nulla
-                            print("Giocatore esente da multa: " .. playerJob)
-                        end
-
-                        if speed > speedLimit then
-                            -- Aggiungi un print per verificare che l'evento venga inviato
-                            print("Multa: Velocità superiore al limite, invio multa al server")
-                            local playerId = GetPlayerServerId(PlayerId())
-                            local playerName = GetPlayerName(PlayerId())
-                            TriggerServerEvent("autovelox:recordFine", playerId, playerName, fineAmount, "Superato il limite di velocità", "Posizione: " .. playerPos.x .. ", " .. playerPos.y .. ", " .. playerPos.z)
-                        end
+            if dist < 50.0 then
+                if IsPedInAnyVehicle(playerPed, false) then
+                    local veh = GetVehiclePedIsIn(playerPed, false)
+                    local speed = GetEntitySpeed(veh) * 3.6
+                    if speed > currentAutovelox.speedLimit then
+                        local plate = GetVehicleNumberPlateText(veh)
+                        TriggerServerEvent("autovelox:applyFine", math.floor(speed), plate)
+                        Citizen.Wait(30000)
                     end
                 end
             end
-        else
-            -- Se il giocatore non è in un veicolo, nascondiamo la barra
-            showBar = false
         end
     end
 end)
 
--- Funzione per verificare se il lavoro del giocatore è esente da multe
-function isJobExempt(job)
-    for _, exemptJob in ipairs(exemptJobs) do
-        if job == exemptJob then
-            return true
+-- Blocca il veicolo (non utilizzabile)
+RegisterNetEvent("autovelox:blockVehicle")
+AddEventHandler("autovelox:blockVehicle", function(plate)
+    blockedVehiclePlates[plate] = true
+    Citizen.CreateThread(function()
+        while blockedVehiclePlates[plate] do
+            Citizen.Wait(0)
+            local playerPed = PlayerPedId()
+            if IsPedInAnyVehicle(playerPed, false) then
+                local veh = GetVehiclePedIsIn(playerPed, false)
+                local currentPlate = GetVehicleNumberPlateText(veh)
+                if currentPlate == plate then
+                    DisableControlAction(0, 71, true) -- Accelerate
+                    DisableControlAction(0, 72, true) -- Brake
+                    DisableControlAction(0, 75, true) -- Exit vehicle
+                    DisableControlAction(27, 75, true) -- Exit vehicle controller
+                    SetVehicleEngineOn(veh, false, true, true)
+                end
+            end
         end
-    end
-    return false
-end
+    end)
+end)
 
--- Funzione per disegnare la barra di avviso
+-- Sblocca veicolo
+RegisterNetEvent("autovelox:unblockVehicle")
+AddEventHandler("autovelox:unblockVehicle", function(plate)
+    blockedVehiclePlates[plate] = false
+end)
+
+-- Controlla al momento di entrare nel veicolo se è bloccato
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(0)
-
-        if showBar then
-            -- Impostiamo la barra come rossa se il giocatore sta andando troppo veloce
-            DrawRect(0.5, 0.05, 1.0, 0.05, 255, 0, 0, 255) -- Barra rossa per avviso
-            SetTextFont(0)
-            SetTextProportional(true)
-            SetTextScale(0.4, 0.4)
-            SetTextColour(255, 255, 255, 255)
-            SetTextEntry("STRING")
-            AddTextComponentString("🚨 Autovelox nelle vicinanze! 🚨")
-            DrawText(0.5 - 0.2, 0.05 - 0.015)
+        Citizen.Wait(1000)
+        local playerPed = PlayerPedId()
+        if IsPedInAnyVehicle(playerPed, false) then
+            local veh = GetVehiclePedIsIn(playerPed, false)
+            local plate = GetVehicleNumberPlateText(veh)
+            ESX.TriggerServerCallback("autovelox:isVehicleBlocked", function(isBlocked)
+                if isBlocked and not blockedVehiclePlates[plate] then
+                    -- Forza uscita dal veicolo
+                    TaskLeaveVehicle(playerPed, veh, 0)
+                    TriggerEvent("chat:addMessage", { args = { "^1Sistema Multa", "Questo veicolo è pignorato per multe non pagate." } })
+                end
+            end, plate)
         end
     end
+end)
+
+-- Comando per pagare multa
+RegisterCommand("pagaMulta", function()
+    TriggerServerEvent("autovelox:payFineAfter")
 end)

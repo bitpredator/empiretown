@@ -1,7 +1,7 @@
 fx_version("bodacious")
 game("gta5")
 author("bitpredator")
-version("1.0.8")
+version("2.0.0")
 lua54("yes")
 
 description("Sistema Autovelox per FiveM con ESX")
