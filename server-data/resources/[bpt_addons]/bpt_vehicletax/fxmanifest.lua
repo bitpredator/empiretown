@@ -2,7 +2,7 @@ fx_version("adamant")
 game("gta5")
 description("property tax")
 author("bitpredator")
-version("1.0.9")
+version("2.0.0")
 
 shared_script("@es_extended/imports.lua")
 
