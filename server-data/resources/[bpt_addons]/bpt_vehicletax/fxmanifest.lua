@@ -1,14 +1,15 @@
-fx_version("adamant")
+fx_version("cerulean")
 game("gta5")
-description("property tax")
-author("bitpredator")
-version("1.0.9")
 
-shared_script("@es_extended/imports.lua")
+author("Bitpredator")
+description("Automatic taxation system for vehicles")
+version("2.0.0")
 
-server_scripts({
+server_script({
     "@es_extended/locale.lua",
+    "@es_extended/imports.lua",
     "@oxmysql/lib/MySQL.lua",
+    "config.lua",
     "locales/*.lua",
     "server/*.lua",
 })

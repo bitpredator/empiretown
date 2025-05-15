@@ -3,17 +3,45 @@
 
 Copyright (C) 2022-2025 bitpredator
 
-This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
+# Vehicle Tax System for ESX
 
-This program Is distributed In the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty Of MERCHANTABILITY Or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License For more details.
+A fully automated vehicle tax system for ESX framework in FiveM.  
+Players pay daily taxes on their owned vehicles based on vehicle categories.
 
-ATTENTION:
-You are not authorized to change the name of the resource and the resources within it.
+## Features
 
-If you want to contribute you can open a pull request.
+- Automatic daily tax payment deducted from player's bank account.
+- Tax rates configurable per vehicle category in `config.lua`.
+- Taxes collected go directly to the `society_government` account.
+- Retrieves vehicle data directly from the database (`owned_vehicles` table).
+- Multilanguage support for notifications.
+- Efficient periodic checks and tax application on the server side.
 
-You are not authorized to sell this software (this is free project).
+## Installation
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+1. Place the resource in your `resources` folder.
+2. Add it to your `server.cfg`:
+3. Configure `config.lua` to set tax rates, interval, and locale.
+4. Make sure you have `es_extended` and `bpt_addonaccount` (or your addon account system) installed.
 
-You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
+## Configuration
+
+Edit the `config.lua` file to customize:
+
+- Tax rates by vehicle category.
+- Payment interval (default 86400 seconds = 24 hours).
+- Language locale for messages.
+
+## Usage
+
+The system automatically charges players once per day for all owned vehicles.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
+
+## Support
+
+If you find any issues or want to contribute, feel free to open an issue or pull request on GitHub.

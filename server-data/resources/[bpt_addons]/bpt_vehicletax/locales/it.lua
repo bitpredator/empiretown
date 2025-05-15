@@ -1,3 +1,5 @@
+Locales = Locales or {}
 Locales["it"] = {
-    ["vehicle_tax"] = "tassa sui veicoli",
+    ["tax_paid"] = "Hai pagato $%s in tasse veicolari.",
+    ["not_enough_bank"] = "Non hai abbastanza soldi in banca per pagare le tasse!",
 }
