@@ -1,44 +1,75 @@
 ---@diagnostic disable: undefined-global
-local vehicleprices = {}
-local percentage = 1
 ESX = exports["es_extended"]:getSharedObject()
 
-MySQL.ready(function()
-    local result = MySQL.Sync.fetchAll("SELECT * FROM vehicles")
-    for i = 1, #result, 1 do
-        if vehicleprices[(GetHashKey(result[i].model))] == nil then
-            table.insert(vehicleprices, { model = GetHashKey(result[i].model), price = result[i].price })
+RegisterNetEvent("vehicleTaxSystem:submitCategories", function(vehicleList)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if not xPlayer then
+        return
+    end
+
+    local totalTax = 0
+
+    for _, vehicle in pairs(vehicleList) do
+        local tax = Config.VehicleTaxes[vehicle.model] or 50 -- default tax se non definito
+        totalTax = totalTax + tax
+    end
+
+    if xPlayer.getAccount("bank").money >= totalTax then
+        xPlayer.removeAccountMoney("bank", totalTax)
+
+        -- Versa le tasse nella società
+        TriggerEvent("bpt_addonaccount:getSharedAccount", "society_government", function(account)
+            if account then
+                account.addMoney(totalTax)
+            end
+        end)
+
+        TriggerClientEvent("esx:showNotification", source, TranslateCap("tax_paid", totalTax))
+    else
+        TriggerClientEvent("esx:showNotification", source, TranslateCap("not_enough_bank"))
+    end
+end)
+
+-- Timer giornaliero per pagamento automatico
+CreateThread(function()
+    while true do
+        local now = os.date("*t")
+        local secondsToNextHour = 86400 - (now.hour * 3600 + now.min * 60 + now.sec)
+        Wait(secondsToNextHour * 1000)
+
+        if Config.AutoTaxEnabled then
+            TriggerEvent("vehicleTaxSystem:runAutoTax")
         end
     end
 end)
 
-function Tax()
-    local result = MySQL.Sync.fetchAll("SELECT * FROM owned_vehicles")
-    local xPlayers = ESX.GetPlayers()
+RegisterNetEvent("vehicleTaxSystem:runAutoTax", function()
+    local xPlayers = ESX.GetExtendedPlayers()
 
-    for i = 1, #result, 1 do
-        if result[i].job == "" or result[i].job == nil then
-            local sqlplayer = ESX.GetPlayerFromIdentifier(result[i].owner)
+    for _, xPlayer in pairs(xPlayers) do
+        local vehicles = MySQL.query.await("SELECT model FROM owned_vehicles WHERE owner = ?", { xPlayer.identifier })
 
-            if sqlplayer ~= nil then
-                for j = 1, #xPlayers, 1 do
-                    local xPlayer = ESX.GetPlayerFromId(xPlayers[j])
+        local totalTax = 0
+        for _, veh in pairs(vehicles) do
+            local model = json.decode(veh.model).model
+            local tax = Config.VehicleTaxes[model] or 50
+            totalTax = totalTax + tax
+        end
 
-                    if xPlayer.identifier == result[i].owner then
-                        local model = json.decode(result[i].vehicle).model
+        if totalTax > 0 then
+            if xPlayer.getAccount("bank").money >= totalTax then
+                xPlayer.removeAccountMoney("bank", totalTax)
 
-                        for m = 1, #vehicleprices, 1 do
-                            if vehicleprices[m].model == model then
-                                TriggerEvent("ars_billing:sendBill", xPlayer[j], "society_governament", TranslateCap("vehicle_tax") .. result[i].plate, ((vehicleprices[m].price * percentage) / 100), 1)
-                                break
-                            end
-                        end
+                TriggerEvent("bpt_addonaccount:getSharedAccount", "society_government", function(account)
+                    if account then
+                        account.addMoney(totalTax)
                     end
-                end
+                end)
+
+                xPlayer.showNotification(TranslateCap("tax_paid", totalTax))
+            else
+                xPlayer.showNotification(TranslateCap("not_enough_bank"))
             end
         end
     end
-end
-
-TriggerEvent("cron", 24, 0, Tax)
-TriggerEvent("cron:runAt", 18, 6, Tax)
+end)
