@@ -12,17 +12,15 @@ shared_script({
 
 server_scripts({
     "@es_extended/locale.lua",
-    "oxmysql/lib/MySQL.lua",
     "server/main.lua",
 })
 
 client_scripts({
     "@es_extended/locale.lua",
-    "oxmysql/lib/MySQL.lua",
     "client/main.lua",
 })
 
 dependency({
-    "oxmysql", 
-    "es_extended"
+    "oxmysql",
+    "es_extended",
 })

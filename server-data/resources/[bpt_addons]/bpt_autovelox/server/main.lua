@@ -1,7 +1,5 @@
 ESX = exports["es_extended"]:getSharedObject()
 
-local MySQL = exports["mysql-async"]:getMySQL()
-
 local autoveloxPositions = {
     { x = 249.217590, y = -1032.896729, z = 29.296753, speedLimit = 50 },
     { x = 1134.32, y = -982.34, z = 46.42, speedLimit = 70 },
@@ -125,8 +123,13 @@ AddEventHandler("autovelox:payFineAfter", function()
     end
 end)
 
-ESX.RegisterServerCallback("autovelox:isVehicleBlocked", function(source, cb, plate)
-    isVehicleBlocked(plate, function(isBlocked)
-        cb(isBlocked)
+ESX.RegisterServerCallback("autovelox:isVehicleBlocked", function(_, cb, plate)
+    exports.oxmysql:fetch('SELECT blocked_for_fine FROM owned_vehicles WHERE plate = ?', {plate}, function(result)
+        if result[1] and result[1].blocked_for_fine == 1 then
+            cb(true)
+        else
+            cb(false)
+        end
     end)
 end)
+
