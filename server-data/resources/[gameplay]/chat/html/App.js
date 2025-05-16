@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 window.APP = {
 	template: '#app_template',
 	name: 'app',
@@ -31,12 +32,26 @@ window.APP = {
 			}, 1000);
 		});
 		post('http://chat/loaded', JSON.stringify({}));
-		this.listener = window.addEventListener('message', (event) => {
+
+		const allowedMethods = [
+			'ON_OPEN', 'ON_TIME', 'ON_MESSAGE', 'ON_HIDE',
+			'ON_SHOW', 'ON_CLEAR', 'ON_SUGGESTION_ADD',
+			'ON_SUGGESTION_REMOVE', 'ON_TEMPLATE_ADD',
+		];
+
+		this.listener = (event) => {
 			const item = event.data || event.detail;
-			if (this[item.type]) {
+			if (
+				item &&
+				typeof item.type === 'string' &&
+				allowedMethods.includes(item.type) &&
+				typeof this[item.type] === 'function'
+			) {
 				this[item.type](item);
 			}
-		});
+		};
+
+		window.addEventListener('message', this.listener);
 	},
 	watch: {
 		messages() {
@@ -146,11 +161,11 @@ window.APP = {
 				this.moveOldMessageIndex(e.which === 38);
 			}
 			else if (e.which == 33) {
-				var buf = document.getElementsByClassName('chat-messages')[0];
+				const buf = document.getElementsByClassName('chat-messages')[0];
 				buf.scrollTop = buf.scrollTop - 100;
 			}
 			else if (e.which == 34) {
-				var buf = document.getElementsByClassName('chat-messages')[0];
+				const buf = document.getElementsByClassName('chat-messages')[0];
 				buf.scrollTop = buf.scrollTop + 100;
 			}
 		},
