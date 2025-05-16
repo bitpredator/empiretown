@@ -3,7 +3,7 @@ games({ "gta5" })
 
 author("Bitpredator")
 description("fivem loadscreen")
-version("1.0.8")
+version("2.0.0")
 
 loadscreen("index.html")
 loadscreen_manual_shutdown("yes")
@@ -17,4 +17,5 @@ files({
     "script/main.js",
     "song/*",
     "img/*",
+    "video.mp4",
 })
