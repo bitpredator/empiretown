@@ -135,7 +135,6 @@ return {
             scale = 0.8,
         },
         inventory = {
-            { name = "pickaxe", price = 30 },
             { name = "water", price = 100 },
             { name = "burger", price = 70 },
         },
