@@ -401,11 +401,6 @@ return {
         weight = 1,
     },
 
-    ["pickaxe"] = {
-        label = "Piccone",
-        consume = 0,
-    },
-
     ["wood"] = {
         label = "Legna",
         weight = 50,
