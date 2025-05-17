@@ -77,6 +77,18 @@ return {
         },
     },
 
+    ["mixed_fried_fish"] = {
+        label = "pesce fritto misto",
+        weight = 140,
+        client = {
+            status = { hunger = 400000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiando del pesce fritto misto",
+        },
+    },
+
     ["grilled_trout"] = {
         label = "trota grigliata",
         weight = 140,
@@ -399,6 +411,11 @@ return {
         label = "lamiera di ferro",
         stack = true,
         weight = 1,
+    },
+
+    ["pickaxe"] = {
+        label = "Piccone",
+        consume = 0,
     },
 
     ["wood"] = {

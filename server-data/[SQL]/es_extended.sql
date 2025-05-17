@@ -255,7 +255,8 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('WEAPON_PISTOL_MK2', 'WEAPON PISTOL MK2'),
 	('at_skin_luxe', 'Tint Gold'),
 	('grilled_trout', 'Grilled trout'),
-	('trout', 'Trout');
+	('trout', 'Trout'),
+	('mixed_fried_fish', 'Mixed Fried Fish');
 
 -- Dump della struttura di tabella es_extended.cardealer_vehicles
 CREATE TABLE IF NOT EXISTS `cardealer_vehicles` (
