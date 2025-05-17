@@ -24,5 +24,5 @@ Config.Marker = {
 -- max amount of Config.DrugDealerItems to sell
 Config.SellMenu = {
     Min = 1,
-    Max = 50,
+    Max = 100,
 }
