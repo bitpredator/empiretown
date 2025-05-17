@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 function sanitizeURL(url) {
 	try {
-		// Verifica e restituisce l'URL se è valido
 		const parsed = new URL(url);
 		return parsed.href;
 	}
@@ -10,16 +9,28 @@ function sanitizeURL(url) {
 	}
 }
 
+function isYoutubeDomain(hostname) {
+	const allowed = [
+		'youtube.com',
+		'www.youtube.com',
+		'm.youtube.com',
+		'youtu.be',
+	];
+	return allowed.includes(hostname);
+}
+
 function getYoutubeUrlId(url) {
 	try {
 		const parsedUrl = new URL(url);
+		const hostname = parsedUrl.hostname;
 
-		if (parsedUrl.hostname.includes('youtube.com')) {
-			return parsedUrl.searchParams.get('v')?.substring(0, 11) || '';
-		}
+		if (isYoutubeDomain(hostname)) {
+			if (hostname === 'youtu.be') {
+				return parsedUrl.pathname.slice(1, 12);
+			}
 
-		if (parsedUrl.hostname === 'youtu.be') {
-			return parsedUrl.pathname.slice(1, 12);
+			const id = parsedUrl.searchParams.get('v');
+			return id?.substring(0, 11) || '';
 		}
 	}
 	catch (e) {
