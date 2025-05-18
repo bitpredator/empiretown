@@ -347,6 +347,25 @@ Config = {
             },
         },
 
+        ["mixed_fried_fish"] = {
+            Level = 0,
+            Category = "fried",
+            isGun = false,
+            Jobs = { "unicorn" },
+            JobGrades = {},
+            Amount = 5,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["fry_oil"] = 1,
+                ["kitchen_knife"] = 1,
+                ["trout"] = 1,
+                ["salmon"] = 1,
+                ["anchovy"] = 1,
+            },
+        },
+
         ["iron"] = {
             Level = 0,
             Category = "manufacturing",
@@ -707,7 +726,7 @@ Config = {
             Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
-            Time = 60,
+            Time = 45,
             Ingredients = {
                 ["salmon"] = 1,
                 ["kitchen_knife"] = 1,
@@ -740,7 +759,7 @@ Config = {
             Amount = 1,
             SuccessRate = 100,
             requireBlueprint = false,
-            Time = 30,
+            Time = 45,
             Ingredients = {
                 ["trout"] = 1,
                 ["kitchen_knife"] = 1,
@@ -935,7 +954,7 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout", "tuna_sandwich", "appledrink", "bread" },
+            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout", "tuna_sandwich", "appledrink", "bread", "mixed_fried_fish" },
             radius = 1.0,
         },
         {
@@ -949,7 +968,7 @@ Config = {
             coords = vector3(-1870.523071, 2061.705566, 135.433716),
             jobs = { "tridente" },
             blip = false,
-            recipes = { "hammer", "marijuana", "diamond_tip", "cigarette_paper" },
+            recipes = { "hammer", "marijuana", "diamond_tip", "cigarette_paper", "ammo-sniper", "ammo-9", "ammo-shotgun" },
             radius = 1.0,
         },
     },
