@@ -362,7 +362,7 @@ Config = {
                 ["kitchen_knife"] = 1,
                 ["trout"] = 1,
                 ["salmon"] = 1,
-                ["anchovy"] = 1, 
+                ["anchovy"] = 1,
             },
         },
 
@@ -968,7 +968,7 @@ Config = {
             coords = vector3(-1870.523071, 2061.705566, 135.433716),
             jobs = { "tridente" },
             blip = false,
-            recipes = { "hammer", "marijuana", "diamond_tip", "cigarette_paper" },
+            recipes = { "hammer", "marijuana", "diamond_tip", "cigarette_paper", "ammo-sniper", "ammo-9", "ammo-shotgun" },
             radius = 1.0,
         },
     },
