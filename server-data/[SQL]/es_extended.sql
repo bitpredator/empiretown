@@ -194,7 +194,81 @@ CREATE TABLE IF NOT EXISTS `bpt_items` (
   `label` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella es_extended.bpt_items: ~0 rows (circa)
+-- Dump dei dati della tabella es_extended.bpt_items: ~73 rows (circa)
+INSERT INTO `bpt_items` (`name`, `label`) VALUES
+	('bandage', 'bandage'),
+	('cottonforbandages', 'cottonforbandages'),
+	('cotton', 'cotton'),
+	('ironsheet', 'ironsheet'),
+	('steelsheet', 'steelsheet'),
+	('garbage', 'garbage'),
+	('WEAPON_APPISTOL', 'WEAPON APPISTOL'),
+	('iron', 'iron'),
+	('hammer', 'hammer'),
+	('wood', 'Legna'),
+	('fixkit', 'fixkit'),
+	('almondmilk', 'almondmilk'),
+	('ice', 'ice'),
+	('water', 'water'),
+	('almonds', 'almonds'),
+	('chips', 'chips'),
+	('fries', 'fries'),
+	('potato', 'patato'),
+	('trash_can', 'trash can'),
+	('recycled_paper', 'recycled paper'),
+	('paper', 'paper'),
+	('newspaper', 'newspaper'),
+	('trash_burgershot', 'trash burgershot'),
+	('cigarette_paper', 'cigarette paper'),
+	('cigarrette_opium', 'cigarrette opium'),
+	('opium', 'opium'),
+	('copper', 'copper'),
+	('gold', 'gold'),
+	('gunpowder', 'gunpowder'),
+	('ammo-sniper', '7.62 NATO'),
+	('grain', 'grain'),
+	('flour', 'flour'),
+	('bread', 'empty sandwich'),
+	('ammo-9', '9mm'),
+	('WEAPON_KNIFE', 'Knife'),
+	('WEAPON_KNUCKLE', 'KNUCKLE'),
+	('steel', 'steel'),
+	('plastic_bag', 'Plastic bag'),
+	('recycled_plastic', 'Recycled plastic'),
+	('WEAPON_NIGHTSTICK', 'NIGHTSTICK'),
+	('WEAPON_PISTOL', 'Pistol'),
+	('marijuana', 'marijuana'),
+	('cannabis', 'Cannabis'),
+	('diamond_tip', 'Diamond tip'),
+	('diamond', 'Diamond'),
+	('marijuana_extract', 'Marijuana extract'),
+	('medikit', 'Medikit'),
+	('armour', 'armour'),
+	('WEAPON_FLASHLIGHT', 'WEAPON FLASHLIGHT'),
+	('contract', 'Contract'),
+	('at_suppressor_light', 'Suppressor'),
+	('WEAPON_COMBATSHOTGUN', 'WEAPON COMBATSHOTGUN'),
+	('ammo-shotgun', 'ammo shotgun'),
+	('salmon', 'Salmon'),
+	('fry_oil', 'Fry oil'),
+	('grilled_salmon', 'grilled salmon'),
+	('WEAPON_PISTOL_MK2', 'WEAPON PISTOL MK2'),
+	('at_skin_luxe', 'Tint Gold'),
+	('grilled_trout', 'Grilled trout'),
+	('trout', 'Trout'),
+	('at_flashlight', 'Flashlight'),
+	('tuna_sandwich', 'Tuna sandwich'),
+	('tuna', 'Tuna'),
+	('appledrink', 'Appledrink'),
+	('apple', 'Apple'),
+	('diamond_hammer', 'Diamond hammer'),
+	('stone_mortar', 'Stone mortar'),
+	('stone', 'Stone'),
+	('WEAPON_SNIPERRIFLE', 'SNIPERRIFLE'),
+	('WEAPON_STUNGUN', 'STUNGUN'),
+	('kitchen_knife', 'kitchen knife'),
+	('WEAPON_TECPISTOL', 'WEAPON TECPISTOL'),
+	('mixed_fried_fish', 'mixed fried fish');
 
 -- Dump della struttura di tabella es_extended.cardealer_vehicles
 CREATE TABLE IF NOT EXISTS `cardealer_vehicles` (
@@ -1499,7 +1573,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_categories` (
 -- Dump dei dati della tabella es_extended.vehicle_categories: ~11 rows (circa)
 INSERT INTO `vehicle_categories` (`name`, `label`) VALUES
 	('compacts', 'Compacts'),
-	('coupes', 'CoupÃƒÂ©s'),
+	('coupes', 'CoupÃƒÆ’Ã‚Â©s'),
 	('motorcycles', 'Motos'),
 	('muscle', 'Muscle'),
 	('offroad', 'Off Road'),
@@ -1518,8 +1592,10 @@ CREATE TABLE IF NOT EXISTS `vehicle_sold` (
   `plate` varchar(50) NOT NULL,
   `soldby` varchar(50) NOT NULL,
   `date` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`) 
-);
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dump dei dati della tabella es_extended.vehicle_sold: ~0 rows (circa)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
