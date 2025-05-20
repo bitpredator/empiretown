@@ -69,28 +69,22 @@
 	const init_fivem = __esm({
 		'utils/fivem.ts'() {
 			Delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 			uuidv4 = () => {
-				let uuid = '';
-				for (let ii = 0; ii < 32; ii += 1) {
-					switch (ii) {
-					case 8:
-					case 20:
-						uuid += '-';
-						uuid += Math.floor(Math.random() * 16).toString(16);
-						break;
-					case 12:
-						uuid += '-';
-						uuid += '4';
-						break;
-					case 16:
-						uuid += '-';
-						uuid += (Math.random() * 4 | 8).toString(16);
-						break;
-					default:
-						uuid += (Math.random() * 16 | 0).toString(16);
-					}
-				}
-				return uuid;
+				const hex = [...Array(256).keys()].map(n => n.toString(16).padStart(2, '0'));
+				const r = () => Math.floor(Math.random() * 256);
+
+				const b = Array.from({ length: 16 }, r);
+				b[6] = (b[6] & 0x0f) | 0x40; // versione 4
+				b[8] = (b[8] & 0x3f) | 0x80; // variant 10
+
+				return [
+					hex[b[0]] + hex[b[1]] + hex[b[2]] + hex[b[3]],
+					hex[b[4]] + hex[b[5]],
+					hex[b[6]] + hex[b[7]],
+					hex[b[8]] + hex[b[9]],
+					hex[b[10]] + hex[b[11]] + hex[b[12]] + hex[b[13]] + hex[b[14]] + hex[b[15]],
+				].join('-');
 			};
 		},
 	});
