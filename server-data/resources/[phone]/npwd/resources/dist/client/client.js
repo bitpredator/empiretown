@@ -1,7 +1,5 @@
-/* eslint-disable no-redeclare */
 /* eslint-disable no-unused-vars */
 /* eslint-disable require-yield */
-/* eslint-disable no-var */
 /* eslint-disable no-empty-function */
 /* eslint-disable no-inline-comments */
 (() => {
@@ -15,11 +13,11 @@
 	const __propIsEnum = Object.prototype.propertyIsEnumerable;
 	const __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 	const __spreadValues = (a, b) => {
-		for (var prop2 in b || (b = {})) {
+		for (const prop2 in b || (b = {})) {
 			if (__hasOwnProp.call(b, prop2)) {__defNormalProp(a, prop2, b[prop2]);}
 		}
 		if (__getOwnPropSymbols) {
-			for (var prop2 of __getOwnPropSymbols(b)) {
+			for (const prop2 of __getOwnPropSymbols(b)) {
 				if (__propIsEnum.call(b, prop2)) {__defNormalProp(a, prop2, b[prop2]);}
 			}
 		}
@@ -39,7 +37,7 @@
 		}
 		return to;
 	};
-	const __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+	const __toESM = (mod, isNodeMode, target) => (target = mod !== null ? __create(__getProtoOf(mod)) : {}, __copyProps(
 		isNodeMode || !mod || !mod.__esModule ? __defProp(target, 'default', { value: mod, enumerable: true }) : target,
 		mod,
 	));
@@ -61,7 +59,7 @@
 					reject(e);
 				}
 			};
-			var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+			const step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
 			step((generator = generator.apply(__this, __arguments)).next());
 		});
 	};
@@ -291,23 +289,45 @@
 
 	// client/cl_config.ts
 	let config;
+
 	const init_cl_config = __esm({
 		'client/cl_config.ts'() {
 			init_deepMergeObjects();
 			init_config_default();
+
 			config = (() => {
 				const resourceName = GetCurrentResourceName();
-				const config2 = JSON.parse(LoadResourceFile(resourceName, 'config.json'));
-				let phoneAsItem = GetConvar('npwd:phoneAsItem', '');
-				if (phoneAsItem !== '') {
-					phoneAsItem = JSON.parse(phoneAsItem);
-					Object.entries(config2.PhoneAsItem).forEach(([key, value]) => {
-						if (phoneAsItem[key] && typeof value === typeof phoneAsItem[key]) {
-							config2.PhoneAsItem[key] = phoneAsItem[key];
-						}
-					});
+				let parsedConfig = {};
+
+				try {
+					const rawConfig = LoadResourceFile(resourceName, 'config.json');
+					parsedConfig = JSON.parse(rawConfig);
 				}
-				return deepMergeObjects({}, config_default_default, config2);
+				catch (e) {
+					console.warn('[NPWD] Invalid or missing config.json:', e);
+				}
+
+				const phoneAsItem = GetConvar('npwd:phoneAsItem', '');
+				if (phoneAsItem !== '') {
+					try {
+						const parsedPhoneAsItem = JSON.parse(phoneAsItem);
+						if (parsedConfig.PhoneAsItem) {
+							Object.entries(parsedConfig.PhoneAsItem).forEach(([key, value]) => {
+								if (
+									Object.prototype.hasOwnProperty.call(parsedPhoneAsItem, key) &&
+                typeof parsedPhoneAsItem[key] === typeof value
+								) {
+									parsedConfig.PhoneAsItem[key] = parsedPhoneAsItem[key];
+								}
+							});
+						}
+					}
+					catch (e) {
+						console.warn('[NPWD] Invalid npwd:phoneAsItem convar JSON:', e);
+					}
+				}
+
+				return deepMergeObjects({}, config_default_default, parsedConfig);
 			})();
 		},
 	});
@@ -410,7 +430,7 @@
 
 	// client/functions.ts
 	function removePhoneProp() {
-		if (prop != 0) {
+		if (prop !== 0) {
 			DeleteEntity(prop);
 			prop = 0;
 			propCreated = false;
@@ -482,7 +502,7 @@
 					this.onCamera = false;
 				}
 				createAnimationInterval() {
-					this.animationInterval = setInterval(() => __async(this, null, function* () {
+					this.animationInterval = this.animationInterval = setInterval(() => __async(this, null, function* () {
 						const playerPed = PlayerPedId();
 						if (this.onCall) {
 							this.handleCallAnimation(playerPed);
@@ -983,7 +1003,7 @@
 				emit('npwd:disableControlActions', true);
 				yield animationService.closeCamera();
 			}));
-			var handleTakePicture = () => __async(exports, null, function* () {
+			const handleTakePicture = () => __async(exports, null, function* () {
 				ClearHelp(true);
 				yield Delay(0);
 				setTimeout(() => {
@@ -997,7 +1017,7 @@
 				inCameraMode = false;
 				return resp;
 			});
-			var handleCameraExit = () => __async(exports, null, function* () {
+			const handleCameraExit = () => __async(exports, null, function* () {
 				sendCameraEvent('npwd:cameraExited' /* CAMERA_EXITED */);
 				ClearHelp(true);
 				yield animationService.closeCamera();
@@ -1015,13 +1035,13 @@
 	});
 
 	// ../typings/messages.ts
-	var init_messages2 = __esm({
+	const init_messages2 = __esm({
 		'../typings/messages.ts'() {
 		},
 	});
 
 	// client/cl_messages.ts
-	var init_cl_messages = __esm({
+	const init_cl_messages = __esm({
 		'client/cl_messages.ts'() {
 			init_messages2();
 			init_messages();
@@ -1050,14 +1070,14 @@
 	});
 
 	// ../typings/call.ts
-	var init_call = __esm({
+	const init_call = __esm({
 		'../typings/call.ts'() {
 		},
 	});
 
 	// client/sounds/client-sound.class.ts
-	var Sound;
-	var init_client_sound_class = __esm({
+	let Sound;
+	const init_client_sound_class = __esm({
 		'client/sounds/client-sound.class.ts'() {
 			Sound = class {
 				constructor(soundName, soundSetName) {
@@ -1076,8 +1096,8 @@
 	});
 
 	// client/sounds/client-ringtone.class.ts
-	var Ringtone;
-	var init_client_ringtone_class = __esm({
+	let Ringtone;
+	const init_client_ringtone_class = __esm({
 		'client/sounds/client-ringtone.class.ts'() {
 			Ringtone = class {
 				constructor(ringtoneName) {
@@ -1097,8 +1117,8 @@
 	});
 
 	// client/calls/cl_calls.service.ts
-	var exp, CallService, callService;
-	var init_cl_calls_service = __esm({
+	let exp, CallService, callService;
+	const init_cl_calls_service = __esm({
 		'client/calls/cl_calls.service.ts'() {
 			init_cl_main();
 			init_call();
@@ -1225,8 +1245,8 @@
 	});
 
 	// server/utils/miscUtils.ts
-	var onNetTyped, emitNetTyped;
-	var init_miscUtils = __esm({
+	let onNetTyped, emitNetTyped;
+	const init_miscUtils = __esm({
 		'server/utils/miscUtils.ts'() {
 			onNetTyped = (eventName, cb) => onNet(eventName, cb);
 			emitNetTyped = (eventName, data, src) => {
@@ -1239,8 +1259,8 @@
 	});
 
 	// client/calls/cl_calls.controller.ts
-	var initializeCallHandler;
-	var init_cl_calls_controller = __esm({
+	let initializeCallHandler;
+	const init_cl_calls_controller = __esm({
 		'client/calls/cl_calls.controller.ts'() {
 			init_call();
 			init_cl_calls_service();
@@ -1257,15 +1277,15 @@
 					);
 					animationService.startPhoneCall();
 					if (serverRes.status !== 'ok') {
-						return cb == null ? void 0 : cb(serverRes);
+						return cb === null ? void 0 : cb(serverRes);
 					}
 					const { transmitter, isTransmitter, receiver, isUnavailable } = serverRes.data;
 					callService.handleStartCall(transmitter, receiver, isTransmitter, isUnavailable);
-					cb == null ? void 0 : cb(serverRes);
+					cb === null ? void 0 : cb(serverRes);
 				}
 				catch (e) {
 					console.error(e);
-					cb == null ? void 0 : cb({ status: 'error', errorMsg: 'CLIENT_TIMED_OUT' });
+					cb === null ? void 0 : cb({ status: 'error', errorMsg: 'CLIENT_TIMED_OUT' });
 				}
 			});
 			RegisterNuiCB('npwd:beginCall' /* INITIALIZE_CALL */, initializeCallHandler);
@@ -1326,13 +1346,13 @@
 	});
 
 	// ../typings/match.ts
-	var init_match = __esm({
+	const init_match = __esm({
 		'../typings/match.ts'() {
 		},
 	});
 
 	// client/cl_match.ts
-	var init_cl_match = __esm({
+	const init_cl_match = __esm({
 		'client/cl_match.ts'() {
 			init_match();
 			init_messages();
@@ -1353,13 +1373,13 @@
 	});
 
 	// ../typings/darkchat.ts
-	var init_darkchat = __esm({
+	const init_darkchat = __esm({
 		'../typings/darkchat.ts'() {
 		},
 	});
 
 	// client/darkchat-client.ts
-	var init_darkchat_client = __esm({
+	const init_darkchat_client = __esm({
 		'client/darkchat-client.ts'() {
 			init_cl_utils();
 			init_darkchat();
@@ -1389,13 +1409,13 @@
 	});
 
 	// ../typings/audio.ts
-	var init_audio = __esm({
+	const init_audio = __esm({
 		'../typings/audio.ts'() {
 		},
 	});
 
 	// client/client-audio.ts
-	var init_client_audio = __esm({
+	const init_client_audio = __esm({
 		'client/client-audio.ts'() {
 			init_cl_utils();
 			init_audio();
@@ -1404,20 +1424,20 @@
 	});
 
 	// ../typings/notifications.ts
-	var init_notifications = __esm({
+	const init_notifications = __esm({
 		'../typings/notifications.ts'() {
 		},
 	});
 
 	// ../typings/alerts.ts
-	var init_alerts = __esm({
+	const init_alerts = __esm({
 		'../typings/alerts.ts'() {
 		},
 	});
 
 	// client/cl_notifications.ts
-	var NotificationFuncRefs;
-	var init_cl_notifications = __esm({
+	let NotificationFuncRefs;
+	const init_cl_notifications = __esm({
 		'client/cl_notifications.ts'() {
 			init_cl_utils();
 			init_alerts();
@@ -1448,7 +1468,7 @@
 	});
 
 	// client/cl_exports.ts
-	var require_cl_exports = __commonJS({
+	const require_cl_exports = __commonJS({
 		'client/cl_exports.ts'(exports) {
 			init_messages();
 			init_phone();
@@ -1463,7 +1483,7 @@
 			init_call();
 			init_notifications();
 			init_cl_notifications();
-			var exps2 = global.exports;
+			const exps2 = global.exports;
 			exps2('openApp', (app) => {
 				verifyExportArgType('openApp', app, ['string']);
 				sendMessage('PHONE', 'npwd:openApp' /* OPEN_APP */, app);
@@ -1541,7 +1561,7 @@
 	});
 
 	// client/settings/client-settings.ts
-	var init_client_settings = __esm({
+	const init_client_settings = __esm({
 		'client/settings/client-settings.ts'() {
 			init_cl_utils();
 			init_settings();
@@ -1573,8 +1593,8 @@
 	});
 
 	// client/client.ts
-	var import_cl_photo, import_cl_exports, ClUtils;
-	var init_client = __esm({
+	let import_cl_photo, import_cl_exports, ClUtils;
+	const init_client = __esm({
 		'client/client.ts'() {
 			init_cl_utils();
 			init_cl_config();
