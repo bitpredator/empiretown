@@ -1,4 +1,14 @@
 $(window).ready(function() {
+
+	function escapeHtml(unsafe) {
+		return String(unsafe)
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#039;');
+	}
+
 	window.addEventListener('message', function(event) {
 		const data = event.data;
 
@@ -107,13 +117,15 @@ $(window).ready(function() {
         '%';
 
 			html += '<div class=\'vehicle-listing\'>';
-			html += '<div>Model: <strong>' + vehicleData[i].model + '</strong></div>';
-			html += '<div>Plate: <strong>' + vehicleData[i].plate + '</strong></div>';
+			const model = escapeHtml(vehicleData[i].model);
+			html += '<div>Model: <strong>' + model + '</strong></div>';
+			const plate = escapeHtml(vehicleData[i].plate);
+			html += '<div>Plate: <strong>' + plate + '</strong></div>';
 			html +=
         '<div>Condition: <strong>' + vehicleDamagePercent + '</strong></div>';
 			html +=
         '<button data-button=\'spawn\' class=\'vehicle-action unstyled-button\' data-vehprops=\'' +
-        JSON.stringify(vehicleData[i].props) +
+        escapeHtml(JSON.stringify(vehicleData[i].props)) +
         '\'>' +
         locale.action +
         (amount ? ' ($' + amount + ')' : '') +
@@ -142,13 +154,15 @@ $(window).ready(function() {
         '%';
 
 			html += '<div class=\'vehicle-listing\'>';
-			html += '<div>Model: <strong>' + vehicleData[i].model + '</strong></div>';
-			html += '<div>Plate: <strong>' + vehicleData[i].plate + '</strong></div>';
+			const model = escapeHtml(vehicleData[i].model);
+			html += '<div>Model: <strong>' + model + '</strong></div>';
+			const plate = escapeHtml(vehicleData[i].plate);
+			html += '<div>Plate: <strong>' + plate + '</strong></div>';
 			html +=
         '<div>Condition: <strong>' + vehicleDamagePercent + '</strong></div>';
 			html +=
         '<button data-button=\'impounded\' class=\'vehicle-action red unstyled-button\' data-vehprops=\'' +
-        JSON.stringify(vehicleData[i].props) +
+        escapeHtml(JSON.stringify(vehicleData[i].props)) +
         '\'>' +
         locale.impound_action +
         '</button>';
