@@ -18,17 +18,6 @@ return {
         label = "Tessera parcheggio",
     },
 
-    ["gun_table"] = {
-        label = "Gun Table",
-        weight = 10000,
-        stack = false,
-        close = true,
-        description = "Tavolo portatile da sistemare mentre sei in movimento...",
-        client = {
-            event = "alv_repairtable:placeTable",
-        },
-    },
-
     ["burger"] = {
         label = "Burger",
         weight = 220,
@@ -217,14 +206,6 @@ return {
 
     ["cloth"] = {
         label = "stoffa",
-        weight = 1,
-        stack = true,
-        close = false,
-        consume = 0,
-    },
-
-    ["clothes"] = {
-        label = "abiti",
         weight = 1,
         stack = true,
         close = false,
@@ -821,12 +802,6 @@ return {
         label = "Police Badge",
         weight = 250,
         stack = false,
-    },
-
-    ["halloween"] = {
-        label = "Halloween",
-        weight = 00,
-        stack = true,
     },
 
     ["contract"] = {
