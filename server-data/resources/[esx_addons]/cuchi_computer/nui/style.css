@@ -1,0 +1,759 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap');
+
+:root {
+    --main-color:#171730;
+    --lighter-color:#1d1d3d;
+    --darker-color:#0d0d1d;
+    --darkest-color:#0a0a1a;
+    --app-minimize-color:#80bdcf;
+    --app-exit-color:#e75656;
+    --color-transition:background-color 0.8s cubic-bezier(0.01, 1.13, 0.5, 1);
+}
+
+body {
+    display: none;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    background-color: var(--main-color);
+    font-family: 'Ubuntu', sans-serif;
+    color: white;
+    transition: var(--color-transition);
+}
+
+::-webkit-scrollbar {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    width: 5px;
+    height: 5px;
+    scroll-behavior: smooth !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.4);
+    border-radius: 10px;
+}
+    
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+    border-radius: 0px;
+}
+
+::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0);
+}
+
+input::selection {
+    background-color: rgba(255,255,255,0.2);
+    color: black;
+}
+
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#desktop {
+    display: flex;
+    background-color: var(--main-color);
+    height: 95%;
+    transition: var(--color-transition);
+}
+
+#taskbar {
+    position: sticky;
+    z-index: 99999999;
+    background-color: var(--lighter-color);
+    height: 5%;
+    font-weight: 300;
+    color: white;
+    font-size: 16px;
+    transition: var(--color-transition);
+}
+
+.taskbar-icon {
+    width: 50px;
+    height: 50px;
+    background: none;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    transition: background-color ease-in-out .1s;
+}
+
+.taskbar-icon:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.taskbar-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+#taskbar * {
+    margin: 0;
+}
+
+#taskbar #left {
+    top: 50%;
+    height: 5%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+#taskbar #left img {
+    width: 32px;
+    height: 32px;
+}
+
+#taskbar #right {
+    top: 50%;
+    height: 5%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    gap: 5px;
+    right: 0;
+}
+
+.desktop-icon {
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 80px;
+    height: 80px;
+    font-weight: 300;
+    font-size: 12px;
+    color: white;
+    background: none;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    transition: background-color ease-in-out .1s;
+}
+
+.desktop-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.desktop-icon:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+#time {
+    margin-right: 10px;
+    text-align: right;
+}
+
+#loader-container {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#loader {
+    transform: rotate(0deg);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 6px solid rgb(255,255,255,.2);
+    border-top-color: transparent;
+    animation: loader 1s linear infinite;
+}
+
+#loader-text {
+    text-align: center;
+    font-weight: 400;
+    font-size: 24px;
+    color: white;
+}
+  
+@keyframes loader {
+    to {
+      transform: rotate(360deg);
+    }
+}
+
+.application {
+    position: absolute;
+    flex-direction: column;
+    justify-self: stretch;
+    border-radius: 8px;
+    top: 25%;
+    left: 25%;
+    background-color: var(--darker-color);
+    padding: 5px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: var(--color-transition);
+}
+
+.application > h1 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 400;
+    font-size: 18px;
+    color: white;
+    height: 5%;
+    margin: 2px;
+}
+
+.application p {
+    font-weight: 300;
+    font-size: 16px;
+    color: white;
+}
+
+.app-exit {
+    border-radius: 50%;
+    background-color: var(--app-exit-color);
+    outline: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    transition: filter 0.1s ease-in-out;
+}
+
+.app-minimize {
+    border-radius: 50%;
+    background-color: var(--app-minimize-color);
+    outline: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    transition: filter 0.1s ease-in-out;
+}
+
+.app-minimize:hover, .app-exit:hover {
+    filter: brightness(75%);
+}
+
+#console-text {
+    height: inherit;
+    background-color: var(--darkest-color);
+    border-radius: 8px;
+    overflow-y: auto;
+    transition: var(--color-transition);
+}
+
+#console-text p {
+    margin: 2px;
+}
+
+#console-input, #console-input:disabled {
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    font-weight: 300;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    width: 100%;
+}
+
+#console-input:focus {
+    outline: none;
+}
+
+.console-line {
+    display: flex;
+    align-items: flex-start;
+}
+
+.entered-command {
+    overflow-wrap: anywhere;
+}
+
+.app-active {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.msg-box-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.msg-box-btn {
+    background-color: rgba(255,255,255,0.4);
+    color: white;
+    font-weight: 400;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    margin: 4px 2px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.msg-box-btn:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.msg-box-text {
+    margin: 2px;
+}
+
+#lang button {
+    color: white;
+    font-weight: 300;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    background: none;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+}
+
+#lang button:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+#informations-text p {
+    margin: 4px 2px;
+}
+
+.info-label {
+    font-weight: 400;
+}
+
+#market-wrapper {
+    overflow: auto;
+}
+
+#market-container {
+    overflow: auto;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.market-elem {
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    user-select: text;
+    height: 20vh;
+    width: 10vw;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.market-desc {
+    text-align: left;
+    padding: 10px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.market-elem h1 {
+    font-size: 18px;
+    text-align: center;
+}
+
+#market-top {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.market-btn {
+    background-color: rgba(255,255,255,0.4);
+    color: white;
+    font-weight: 400;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    margin: 4px 2px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.market-btn:disabled {
+    color: grey;
+    background-color: rgba(100,100,100,0.8);
+}
+
+.market-btn:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+#market-creation, #market-deletion {
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    max-width: fit-content;
+    padding: 10px;
+    padding-bottom: 6px;
+
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+#market-creation input, #market-deletion input {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 300;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding-left: 4px;
+}
+
+#market-creation input:focus, #market-deletion input:focus {
+    outline: none;
+}
+
+#market-loader, #mail-loader {
+    display: none;
+    margin: auto;
+    transform: rotate(0deg);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 6px solid rgb(255,255,255,.2);
+    border-top-color: transparent;
+    animation: loader 1s linear infinite;
+}
+
+.market-post-id {
+    color: rgba(255,255,255,0.2) !important;
+    font-size: 10px !important;
+}
+
+#themes-container {
+    overflow: auto;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 400px;
+    width: 390px;
+}
+
+.themes-square {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    border: solid 1px rgba(255, 255, 255, 0.1);
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+#mail-wrapper {
+    overflow: auto;
+}
+
+#mail-connection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#mail-connection input,
+#mail-signup input,
+#mail-creator input {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 300;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding-left: 4px;
+}
+
+#mail-connection input:focus,
+#mail-signup input:focus,
+#mail-creator input:focus {
+    outline: none;
+}
+
+#mail-connection-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.mail-connection-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: stretch;
+}
+
+#mail-connection-signin, #mail-signup-signup {
+    background-color: rgba(255,255,255,0.4);
+    color: white;
+    font-weight: 400;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 10px 0px;
+    transition: background-color 0.1s ease-in-out;
+}
+
+#mail-connection-signin:hover, #mail-signup-signup:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+#mail-connection-signup,
+#mail-signup-signin,
+#mail-top button,
+#mail-creator button,
+#mail-reader-answer {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+    font-weight: 400;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px 5px;
+    transition: background-color 0.1s ease-in-out;
+}
+
+#mail-connection-signup:hover,
+#mail-signup-signin:hover,
+#mail-top button:hover,
+#mail-creator button:hover,
+#mail-reader-answer:hover {
+    background-color: rgba(205,205,205,0.1);
+}
+
+#mail-signup {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#mail-signup-preview {
+    display: none;
+    margin: 0;
+}
+
+#mail-signup-preview span {
+    text-decoration: underline;
+}
+
+#mail-signup-error {
+    display: none;
+    margin: 0px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: red;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+#mail-connection-info {
+    display: none;
+    margin: 0px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+#mail-signup-warning {
+    margin: 0px;
+    background-color: rgba(255, 220, 80, 0.2);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+#mail-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    overflow: auto;
+    max-height: 87.5%;
+    gap: 5px;
+}
+
+#mail-container .new {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mail {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 5px 10px;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.mail .separator {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.mail .object {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+#mail-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#mail-top h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+#mail-creator {
+    display: none;
+    margin-top: 10px;
+    overflow: auto;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-height: 100%;
+    gap: 10px;
+}
+
+#mail-creator textarea {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 300;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    padding-left: 4px;
+    resize: none;
+}
+
+#mail-creator textarea:focus {
+    outline: none;
+}
+
+#mail-creator {
+    display: none;
+    margin-top: 10px;
+    overflow: auto;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-height: 100%;
+    gap: 10px;
+}
+
+#mail-reader {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mail-reader-answer {
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+#mail-reader-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.mail-reader-info {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 5px 10px;
+}
+
+.mail-new {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+.mail-reader-text {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    user-select: text;
+}
+
+.mail-reader-date {
+    color: rgba(255, 255, 255, 0.4);
+    text-align: right;
+    user-select: none;
+}
+
+#mail-refresh:disabled {
+    opacity: 0.4;
+}
+
+#addresses-container {
+    overflow: auto;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 400px;
+    width: 390px;
+}
+
+#addresses-description {
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 0;
+    max-width: fit-content;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.addresses-info {
+    margin: 10px;
+    flex-basis: 100%;
+    text-align: center;
+    user-select: all;
+}
+
+::selection {
+    background: rgba(255, 255, 255, 0.4);
+}
