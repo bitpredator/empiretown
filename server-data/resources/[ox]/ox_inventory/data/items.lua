@@ -528,7 +528,7 @@ return {
 
     ["cigarette_paper"] = {
         label = "cartina per sigarette",
-        weight = 100,
+        weight = 1,
         stack = true,
     },
 
