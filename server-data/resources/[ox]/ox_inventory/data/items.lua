@@ -825,4 +825,20 @@ return {
         stack = true,
         description = "Coltello da cucina",
     },
+
+    ["weed_seed"] = {
+        label = "Seed",
+        weight = 1,
+        stack = true,
+        close = true,
+        description = "Seme di Marijuana",
+    },
+
+    ["weed_pooch"] = {
+        label = "Marijuana",
+        weight = 4,
+        stack = true,
+        close = true,
+        description = "Foglia di Marijuana",
+    },
 }
