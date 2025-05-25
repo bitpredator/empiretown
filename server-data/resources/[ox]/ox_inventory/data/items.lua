@@ -435,18 +435,6 @@ return {
         stack = true,
     },
 
-    ["cannabis"] = {
-        label = "cannabis",
-        weight = 70,
-        stack = true,
-    },
-
-    ["marijuana"] = {
-        label = "marijuana",
-        weight = 75,
-        stack = true,
-    },
-
     ["apple"] = {
         label = "Mele",
         weight = 20,
