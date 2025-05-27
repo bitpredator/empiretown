@@ -810,6 +810,7 @@ Config = {
             Ingredients = {
                 ["weed_pooch"] = 2,
                 ["diamond_tip"] = 1,
+                ["recycled_plastic"] = 1,
             },
         },
 
