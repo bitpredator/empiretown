@@ -1,19 +1,42 @@
-<h1 align='center'>bpt_pointsell</a></h1>
-<p align='center'><a href='https://discord.gg/ksGfNvDEfq'>Discord</a>
+# 🔥 Illegal Item Selling System (FiveM - ESX + ox_target + ox_lib)
 
-Copyright (C) 2022-2025 bitpredator
+This script allows players to sell specific illegal items (e.g., `weed`, `emerald`) to a PED using `ox_target`. It includes a payment system in `black_money`, with a dynamic bonus based on the number of online police players.
 
-This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
+## 💡 Features
 
-This program Is distributed In the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty Of MERCHANTABILITY Or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License For more details.
+- 🔫 Sell items to a specific PED using ox_target
+- 💰 Receive payment in black_money
+- 📈 Bonus calculated based on active police presence
+- 📦 Fully configurable item list and base prices
+- 🧠 Uses ESX, ox_target, and ox_lib (for notifications, dialogs, etc.)
 
-ATTENTION:
-You are not authorized to change the name of the resource and the resources within it.
+## 📂 File Structure
 
-If you want to contribute you can open a pull request.
+- `client.lua`: Handles PED creation and interaction
+- `server.lua`: Handles item validation, payment, and bonus logic
+- `shared/config.lua`: Configuration for item prices and police jobs
+- `fxmanifest.lua`: Dependency management and resource metadata
 
-You are not authorized to sell this software (this is free project).
+## ⚙️ Requirements
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+- [es_extended](https://github.com/esx-framework/es_extended)
+- [ox_target](https://github.com/overextended/ox_target)
+- [ox_lib](https://github.com/overextended/ox_lib)
 
-You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
+## 🚀 Installation
+
+1. Clone or download this repository
+2. Place it in your `resources/[local]` folder
+3. Add `ensure your_resource_name` to your `server.cfg`
+4. Adjust item names and prices in `shared/config.lua` to fit your server's economy
+
+## 🛠️ Configuration Example
+
+```lua
+Config.SellItems = {
+    weed = {price = 250},
+    emerald = {price = 500}
+}
+
+Config.PoliceJobs = {'police', 'sheriff'}
+Config.PoliceBonusPerUnit = 0.10 -- 10% extra per online police officer

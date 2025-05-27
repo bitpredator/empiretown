@@ -1,5 +1,5 @@
-local config = require 'configs.server'
-local shared = require 'configs.shared'
+local config = require("configs.server")
+local shared = require("configs.shared")
 local globalState = GlobalState
 
 globalState.copCount = globalState?.copCount or 0
@@ -15,7 +15,7 @@ end
 -- Checks if Player is Police --
 local function hasPoliceJob(src, jobs)
     local pJob = getPlayerJob(src)
-    if type(jobs) == 'table' then
+    if type(jobs) == "table" then
         for x = 1, #jobs do
             if jobs[x] == pJob then
                 return true
@@ -38,7 +38,7 @@ local function receiveCashChance(src)
             callback = true
         end
     else
-        lib.notify(src, { title = 'No Cash!', description = 'They didn\'t have any cash!', type = 'error' })
+        lib.notify(src, { title = "No Cash!", description = "They didn't have any cash!", type = "error" })
         callback = true
     end
 
@@ -63,17 +63,19 @@ local function receiveItemsChance(src)
 end
 
 -- Get Paid (or not) & Set State --
-lib.callback.register('xt-robnpcs:server:robNPC', function(source, netID)
+lib.callback.register("xt-robnpcs:server:robNPC", function(source, netID)
     local src = source
     local dist = distanceCheck(source, netID)
     local callback = false
-    if not dist then return callback end
+    if not dist then
+        return callback
+    end
 
     local entity = NetworkGetEntityFromNetworkId(netID)
     local state = Entity(entity).state
 
     if state then
-        state:set('robbed', src, true)
+        state:set("robbed", src, true)
         local payChance = math.random(config.payOutChance.min, config.payOutChance.max)
         local randomChance = math.random(100)
         if receiveCashChance(src) then
@@ -86,9 +88,13 @@ lib.callback.register('xt-robnpcs:server:robNPC', function(source, netID)
 end)
 
 -- Constantly Update Cop Count --
-AddEventHandler('onResourceStart', function(resource)
-    if resource ~= GetCurrentResourceName() then return end
-    if shared.requiredCops == 0 then return end
+AddEventHandler("onResourceStart", function(resource)
+    if resource ~= GetCurrentResourceName() then
+        return
+    end
+    if shared.requiredCops == 0 then
+        return
+    end
 
     ---@diagnostic disable-next-line: undefined-global
     SetInterval(function()

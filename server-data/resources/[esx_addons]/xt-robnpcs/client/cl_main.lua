@@ -1,8 +1,8 @@
-local config = require 'configs.client'
-local shared = require 'configs.shared'
+local config = require("configs.client")
+local shared = require("configs.shared")
 local globalState = GlobalState
-local target = GetResourceState('qb-target') == 'started' and 'qb' or 'ox'
-local targetExport = (target == 'qb') and exports['qb-target'] or exports.ox_target
+local target = GetResourceState("qb-target") == "started" and "qb" or "ox"
+local targetExport = (target == "qb") and exports["qb-target"] or exports.ox_target
 
 targetLocal = nil
 isRobbing = false
@@ -18,15 +18,15 @@ local function pedGetUp(entity)
         return
     end
 
-    if target == 'qb' then
-        targetExport:RemoveTargetEntity(entity, 'Rob Citizen')
+    if target == "qb" then
+        targetExport:RemoveTargetEntity(entity, "Rob Citizen")
     else
-        targetExport:removeLocalEntity(entity, 'rob_local')
+        targetExport:removeLocalEntity(entity, "rob_local")
     end
 
     FreezeEntityPosition(entity, false)
-    lib.requestAnimDict('random@shop_robbery')
-    TaskPlayAnim(entity, 'random@shop_robbery', 'kneel_getup_p', 2.0, 2.0, 2500, 9, 0, false, false, false)
+    lib.requestAnimDict("random@shop_robbery")
+    TaskPlayAnim(entity, "random@shop_robbery", "kneel_getup_p", 2.0, 2.0, 2500, 9, 0, false, false, false)
     Wait(2500)
 
     if not cache.ped then
@@ -44,17 +44,19 @@ end
 
 -- Handle Robbing Local --
 local function robLocal(entity)
-    if lib.progressCircle({
-        label = 'Running Pockets...',
-        duration = (config.robLength * 1000),
-        position = 'bottom',
-        useWhileDead = false,
-        canCancel = false,
-        disable = { car = true, move = true },
-        anim = { dict = 'random@shop_robbery', clip = 'robbery_action_b' },
-    }) then
+    if
+        lib.progressCircle({
+            label = "Running Pockets...",
+            duration = (config.robLength * 1000),
+            position = "bottom",
+            useWhileDead = false,
+            canCancel = false,
+            disable = { car = true, move = true },
+            anim = { dict = "random@shop_robbery", clip = "robbery_action_b" },
+        })
+    then
         local netID = NetworkGetNetworkIdFromEntity(entity)
-        local robbed = lib.callback.await('xt-robnpcs:server:robNPC', false, netID)
+        local robbed = lib.callback.await("xt-robnpcs:server:robNPC", false, netID)
         if robbed then
             pedGetUp(entity)
         end
@@ -68,46 +70,45 @@ local function addInteraction(entity)
 
         exports.interact:AddEntityInteraction({
             netId = netId,
-            id = 'robLocal',
+            id = "robLocal",
             distance = 4.0,
             interactDst = 2.0,
             ignoreLos = false,
             options = {
                 {
-                    label = 'Rob Citizen',
+                    label = "Rob Citizen",
                     action = function(_, coords, args)
                         robLocal(entity)
                     end,
                 },
-            }
+            },
         })
     else
-
-        if target == 'qb' then
+        if target == "qb" then
             targetExport:AddTargetEntity(entity, {
                 options = {
                     {
                         type = "client",
-                        icon = 'fas fa-gun',
-                        label = 'Rob Citizen',
+                        icon = "fas fa-gun",
+                        label = "Rob Citizen",
                         action = function(entity)
                             robLocal(entity)
                         end,
-                    }
+                    },
                 },
                 distance = 2.0,
             })
         else
             targetExport:addLocalEntity(entity, {
                 {
-                    label = 'Rob Citizen',
-                    name = 'rob_local',
-                    icon = 'fas fa-gun',
+                    label = "Rob Citizen",
+                    name = "rob_local",
+                    icon = "fas fa-gun",
                     distance = 2.0,
                     onSelect = function(data)
                         robLocal(entity)
                     end,
-                }
+                },
             })
         end
     end
@@ -129,7 +130,7 @@ local function handlePedInteraction(pedEntity)
     if fightOrFlee(targetLocal) then
         isRobbing = false
         targetLocal = nil
-        Entity(pedEntity).state:set('robbed', true, false)
+        Entity(pedEntity).state:set("robbed", true, false)
         return
     end
 
@@ -185,19 +186,27 @@ local function aimAtPedsLoop(newWeapon)
 end
 
 -- Handlers --
-lib.onCache('weapon', function(newWeapon)
-    if not newWeapon or not isAllowedWeapon(newWeapon) or IsBlacklistedJob(config.blacklistedJobs) then return end
+lib.onCache("weapon", function(newWeapon)
+    if not newWeapon or not isAllowedWeapon(newWeapon) or IsBlacklistedJob(config.blacklistedJobs) then
+        return
+    end
 
     aimAtPedsLoop(newWeapon)
 end)
 
-AddEventHandler('xt-robnpcs:client:onUnload', function()
-    if not targetLocal then return end
+AddEventHandler("xt-robnpcs:client:onUnload", function()
+    if not targetLocal then
+        return
+    end
     pedGetUp(targetLocal)
 end)
 
-AddEventHandler('onResourceStop', function(resource)
-    if resource ~= GetCurrentResourceName() then return end
-    if not targetLocal then return end
+AddEventHandler("onResourceStop", function(resource)
+    if resource ~= GetCurrentResourceName() then
+        return
+    end
+    if not targetLocal then
+        return
+    end
     pedGetUp(targetLocal)
 end)

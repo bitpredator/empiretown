@@ -12,9 +12,8 @@ return {
         max = 90,
     },
     lootableItems = { -- Items player can loot
-        { item = "cannabis", min = 1, max = 1 },
-        { item = "marijuana", min = 1, max = 1 },
         { item = "bandage", min = 1, max = 1 },
+        { item = "weed_seed", min = 1, max = 1 },
     },
     policeJobs = {
         "police",
