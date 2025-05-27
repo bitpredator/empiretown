@@ -829,4 +829,12 @@ return {
         close = true,
         description = "Foglia di Marijuana",
     },
+
+    ["weed"] = {
+        label = "bustina di marijuana",
+        weight = 4,
+        stack = true,
+        close = true,
+        description = "sacchetto di marijuana",
+    },
 }
