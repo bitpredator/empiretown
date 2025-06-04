@@ -305,6 +305,12 @@ function RemoveItemsAfterRPDeath()
         ESX.TriggerServerCallback("bpt_ambulancejob:removeItemsAfterRPDeath", function()
             local ClosestHospital = GetClosestRespawnPoint()
 
+            if not ClosestHospital then
+                ESX.ShowNotification("Nessun punto di respawn configurato! Contatta un amministratore.")
+                print("ERRORE: Nessun punto di respawn trovato in Config.RespawnPoints")
+                return
+            end
+
             ESX.SetPlayerData("loadout", {})
 
             DoScreenFadeOut(800)
