@@ -46,6 +46,7 @@ Locales["nl"] = {
     ["actions_prompt"] = "Druk op [E] om de Ambulance Acties te bekijken.",
     ["deposit_amount"] = "Bedrag om te storten",
     ["money_withdraw"] = "Bedrag om op te nemen",
+    ["fast_travel"] = "Druk op [E] om snel te reizen.",
     ["unconscious_found"] = "[DISPATCH]: Er is een bewusteloos persoon gemeld.",
     ["medikit"] = "Spoedkoffer",
     ["bandage"] = "Verbanddoos",

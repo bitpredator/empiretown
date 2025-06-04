@@ -1,9 +1,7 @@
----@diagnostic disable: undefined-global
-
 local CurrentAction, CurrentActionMsg, CurrentActionData = nil, "", {}
 local HasAlreadyEnteredMarker, LastHospital, LastPart, LastPartNum
-local IsBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
-IsInShopMenu = false
+local isBusy, deadPlayers, deadPlayerBlips, isOnDuty = false, {}, {}, false
+isInShopMenu = false
 
 RegisterNetEvent("esx:playerLoaded")
 AddEventHandler("esx:playerLoaded", function(xPlayer)
@@ -29,7 +27,7 @@ function OpenAmbulanceActionsMenu()
         if element.value == "cloakroom" then
             OpenCloakroomMenu()
         elseif element.value == "boss_actions" then
-            TriggerEvent("bpt_society:openBossMenu", "ambulance", function()
+            TriggerEvent("bpt_society:openBossMenu", "ambulance", function(data, menu)
                 menu.close()
             end, { wash = false })
         end
@@ -50,11 +48,11 @@ function OpenMobileAmbulanceActionsMenu()
                 { icon = "fas fa-bandage", title = TranslateCap("ems_menu_small"), value = "small" },
                 { icon = "fas fa-bandage", title = TranslateCap("ems_menu_big"), value = "big" },
                 { icon = "fas fa-car", title = TranslateCap("ems_menu_putincar"), value = "put_in_vehicle" },
-                { icon = "fas fa-search", title = TranslateCap("ems_menu_search"), value = "search" },
+                { icon = "fas fa-syringe", title = TranslateCap("ems_menu_search"), value = "search" },
             }
 
             ESX.OpenContext("right", elements2, function(menu2, element2)
-                if IsBusy then
+                if isBusy then
                     return
                 end
                 local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
@@ -65,7 +63,7 @@ function OpenMobileAmbulanceActionsMenu()
                     ESX.ShowNotification(TranslateCap("no_players"))
                 else
                     if element2.value == "revive" then
-                        RevivePlayer(closestPlayer)
+                        revivePlayer(closestPlayer)
                     elseif element2.value == "small" then
                         ESX.TriggerServerCallback("bpt_ambulancejob:getItemAmount", function(quantity)
                             if quantity > 0 then
@@ -75,7 +73,7 @@ function OpenMobileAmbulanceActionsMenu()
                                 if health > 0 then
                                     local playerPed = PlayerPedId()
 
-                                    IsBusy = true
+                                    isBusy = true
                                     ESX.ShowNotification(TranslateCap("heal_inprogress"))
                                     TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true)
                                     Wait(10000)
@@ -84,7 +82,7 @@ function OpenMobileAmbulanceActionsMenu()
                                     TriggerServerEvent("bpt_ambulancejob:removeItem", "bandage")
                                     TriggerServerEvent("bpt_ambulancejob:heal", GetPlayerServerId(closestPlayer), "small")
                                     ESX.ShowNotification(TranslateCap("heal_complete", GetPlayerName(closestPlayer)))
-                                    IsBusy = false
+                                    isBusy = false
                                 else
                                     ESX.ShowNotification(TranslateCap("player_not_conscious"))
                                 end
@@ -101,7 +99,7 @@ function OpenMobileAmbulanceActionsMenu()
                                 if health > 0 then
                                     local playerPed = PlayerPedId()
 
-                                    IsBusy = true
+                                    isBusy = true
                                     ESX.ShowNotification(TranslateCap("heal_inprogress"))
                                     TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_TEND_TO_DEAD", 0, true)
                                     Wait(10000)
@@ -110,7 +108,7 @@ function OpenMobileAmbulanceActionsMenu()
                                     TriggerServerEvent("bpt_ambulancejob:removeItem", "medikit")
                                     TriggerServerEvent("bpt_ambulancejob:heal", GetPlayerServerId(closestPlayer), "big")
                                     ESX.ShowNotification(TranslateCap("heal_complete", GetPlayerName(closestPlayer)))
-                                    IsBusy = false
+                                    isBusy = false
                                 else
                                     ESX.ShowNotification(TranslateCap("player_not_conscious"))
                                 end
@@ -127,19 +125,19 @@ function OpenMobileAmbulanceActionsMenu()
     end)
 end
 
-function RevivePlayer(closestPlayer)
-    IsBusy = true
+function revivePlayer(closestPlayer)
+    isBusy = true
 
     ESX.TriggerServerCallback("bpt_ambulancejob:getItemAmount", function(quantity)
         if quantity > 0 then
             local closestPlayerPed = GetPlayerPed(closestPlayer)
 
-            if IsPedDeadOrDying(closestPlayerPed, true) then
+            if IsPedDeadOrDying(closestPlayerPed, 1) then
                 local playerPed = PlayerPedId()
                 local lib, anim = "mini@cpr@char_a@cpr_str", "cpr_pumpchest"
                 ESX.ShowNotification(TranslateCap("revive_inprogress"))
 
-                for _ = 1, 15 do
+                for i = 1, 15 do
                     Wait(900)
 
                     ESX.Streaming.RequestAnimDict(lib, function()
@@ -156,8 +154,26 @@ function RevivePlayer(closestPlayer)
         else
             ESX.ShowNotification(TranslateCap("not_enough_medikit"))
         end
-        IsBusy = false
+        isBusy = false
     end, "medikit")
+end
+
+function FastTravel(coords, heading)
+    local playerPed = PlayerPedId()
+
+    DoScreenFadeOut(800)
+
+    while not IsScreenFadedOut() do
+        Wait(500)
+    end
+
+    ESX.Game.Teleport(playerPed, coords, function()
+        DoScreenFadeIn(800)
+
+        if heading then
+            SetEntityHeading(playerPed, heading)
+        end
+    end)
 end
 
 -- Draw markers & Marker logic
@@ -212,6 +228,20 @@ CreateThread(function()
                         end
                     end
                 end
+
+                -- Fast Travels (Prompt)
+                for k, v in ipairs(hospital.FastTravelsPrompt) do
+                    local distance = #(playerCoords - v.From)
+
+                    if distance < Config.DrawDistance then
+                        sleep = 0
+                        DrawMarker(v.Marker.type, v.From, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
+
+                        if distance < v.Marker.x then
+                            isInMarker, currentHospital, currentPart, currentPartNum = true, hospitalNum, "FastTravelsPrompt", k
+                        end
+                    end
+                end
             end
 
             -- Logic for exiting & entering markers
@@ -248,13 +278,19 @@ AddEventHandler("bpt_ambulancejob:hasEnteredMarker", function(hospital, part, pa
         CurrentAction = part
         CurrentActionMsg = TranslateCap("helicopter_prompt")
         CurrentActionData = { hospital = hospital, partNum = partNum }
+    elseif part == "FastTravelsPrompt" then
+        local travelItem = Config.Hospitals[hospital][part][partNum]
+
+        CurrentAction = part
+        CurrentActionMsg = travelItem.Prompt
+        CurrentActionData = { to = travelItem.To.coords, heading = travelItem.To.heading }
     end
 
     ESX.TextUI(CurrentActionMsg)
 end)
 
 AddEventHandler("bpt_ambulancejob:hasExitedMarker", function(hospital, part, partNum)
-    if not IsInShopMenu then
+    if not isInShopMenu then
         ESX.CloseContext()
     end
     ESX.HideUI()
@@ -276,12 +312,31 @@ CreateThread(function()
                     OpenVehicleSpawnerMenu("car", CurrentActionData.hospital, CurrentAction, CurrentActionData.partNum)
                 elseif CurrentAction == "Helicopters" then
                     OpenVehicleSpawnerMenu("helicopter", CurrentActionData.hospital, CurrentAction, CurrentActionData.partNum)
+                elseif CurrentAction == "FastTravelsPrompt" then
+                    FastTravel(CurrentActionData.to, CurrentActionData.heading)
                 end
 
                 CurrentAction = nil
             end
         end
-        GetEntityCoords(PlayerPedId())
+
+        local playerCoords, letSleep = GetEntityCoords(PlayerPedId()), true
+
+        for hospitalNum, hospital in pairs(Config.Hospitals) do
+            -- Fast Travels
+            for k, v in ipairs(hospital.FastTravels) do
+                local distance = #(playerCoords - v.From)
+
+                if distance < Config.DrawDistance then
+                    sleep = 0
+                    DrawMarker(v.Marker.type, v.From, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Marker.x, v.Marker.y, v.Marker.z, v.Marker.r, v.Marker.g, v.Marker.b, v.Marker.a, false, false, 2, v.Marker.rotate, nil, nil, false)
+
+                    if distance < v.Marker.x then
+                        FastTravel(v.To.coords, v.To.heading)
+                    end
+                end
+            end
+        end
         Wait(sleep)
     end
 end)
@@ -346,8 +401,7 @@ function OpenCloakroomMenu()
                 end
 
                 isOnDuty = true
-                local _deadPlayers = deadPlayers
-                ESX.TriggerServerCallback("bpt_ambulancejob:getDeadPlayers", function()
+                ESX.TriggerServerCallback("bpt_ambulancejob:getDeadPlayers", function(_deadPlayers)
                     TriggerEvent("bpt_ambulancejob:setDeadPlayers", _deadPlayers)
                 end)
                 if Config.Debug then
@@ -416,7 +470,9 @@ AddEventHandler("bpt_ambulancejob:PlayerNotDead", function(Player)
 end)
 
 RegisterNetEvent("bpt_ambulancejob:setDeadPlayers")
-AddEventHandler("bpt_ambulancejob:setDeadPlayers", function()
+AddEventHandler("bpt_ambulancejob:setDeadPlayers", function(_deadPlayers)
+    deadPlayers = _deadPlayers
+
     if isOnDuty then
         for playerId, v in pairs(deadPlayerBlips) do
             RemoveBlip(v)

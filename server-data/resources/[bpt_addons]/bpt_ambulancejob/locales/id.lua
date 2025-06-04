@@ -46,6 +46,7 @@ Locales["id"] = {
     ["actions_prompt"] = "Tekan [E] untuk mengakses aksi Ambulans.",
     ["deposit_amount"] = "Jumlah Deposit",
     ["money_withdraw"] = "Jumlah Penarikan",
+    ["fast_travel"] = "Tekan [E] untuk fast travel.",
     ["medikit"] = "Obat-obatan",
     ["bandage"] = "Perban",
     ["max_item"] = "Anda sudah cukup membawa.",

@@ -46,6 +46,7 @@ Locales["hu"] = {
     ["actions_prompt"] = "Nyomd meg az [E] gombot a panel megnyitásához.",
     ["deposit_amount"] = "Összeg betétele",
     ["money_withdraw"] = "Összeg kivétele",
+    ["fast_travel"] = "Nyomd meg az [E] gombot a lift használatához",
     ["medikit"] = "Elsősegély készlet",
     ["bandage"] = "Kötszer",
     ["max_item"] = "Nem fér már el nálad!",

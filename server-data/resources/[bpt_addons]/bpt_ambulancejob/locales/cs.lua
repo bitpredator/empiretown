@@ -46,6 +46,7 @@ Locales["cs"] = {
     ["actions_prompt"] = "press [E] access the Ambulance Actions.",
     ["deposit_amount"] = "částka vkladu",
     ["money_withdraw"] = "částka výběru",
+    ["fast_travel"] = "stiskněte [E] k rychlému odcestování.",
     ["medikit"] = "lékarnička",
     ["bandage"] = "obvaz",
     ["max_item"] = "již nesete dostatek věcí.",
