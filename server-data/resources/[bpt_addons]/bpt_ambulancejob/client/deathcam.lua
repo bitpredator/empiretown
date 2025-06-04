@@ -2,7 +2,7 @@ function GetShapeTestResultSync(shape)
     local handle, hit, coords, normal, entity
     repeat
         handle, hit, coords, normal, entity = GetShapeTestResult(shape)
-    until handle ~= 1 or Wait(0)
+    until handle ~= 1 or Wait()
     return hit, coords, normal, entity
 end
 
@@ -14,15 +14,15 @@ local zoom = Config.zoom
 local playerPed
 
 function StartDeathCam()
-    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 0, 0, 0, 0, 0, 0, GetGameplayCamFov(), true, 1)
+    camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 0, 0, 0, 0, 0, 0, GetGameplayCamFov(), 1)
     RenderScriptCams(true, true, 1000, true, false)
 
     playerPed = PlayerPedId()
 end
 
 function EndDeathCam()
-    RenderScriptCams(false, false, 0, false, false)
-    DestroyCam(camera, false)
+    RenderScriptCams(0)
+    camera = DestroyCam(camera)
 end
 
 function ProcessCamControls()
@@ -34,7 +34,7 @@ function ProcessCamControls()
     end
 
     local coords = ProcessNewPosition(playerCoords)
-    SetCamCoord(camera, coords.x, coords.y, coords.z)
+    SetCamCoord(camera, coords)
     PointCamAtCoord(camera, playerCoords.x, playerCoords.y, playerCoords.z)
 end
 
@@ -48,6 +48,6 @@ function ProcessNewPosition(playerCoords)
     end
     local normal = vector3(math.sin(y) * math.cos(x), math.sin(y) * math.sin(x), math.cos(y))
     local pos = playerCoords + normal * camera_radius
-    local hit, coords = GetShapeTestResultSync(StartShapeTestLosProbe(playerCoords, 0, -1, playerPed, 7, playerPed, 0, 7, 0))
+    local hit, coords = GetShapeTestResultSync(StartShapeTestLosProbe(playerCoords, pos, -1, playerPed))
     return (hit == 1 and playerCoords + normal * (#(playerCoords - coords) - 1)) or pos
 end

@@ -46,6 +46,7 @@ Locales["sl"] = {
     ["actions_prompt"] = "Pritisnite [E] Da odprete UKC Menu.",
     ["deposit_amount"] = "Položite Denar",
     ["money_withdraw"] = "Dvignite Denar",
+    ["fast_travel"] = "Pritisnite [E] za hitro potovanje.",
     ["medikit"] = "Prva Pomoč",
     ["bandage"] = "Bandaža",
     ["max_item"] = "Vi že nosite dovolj!.",

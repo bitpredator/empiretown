@@ -46,6 +46,7 @@ Locales["fi"] = {
     ["actions_prompt"] = "Paina [E] päästäksesi Ambulanssitoimintoihin.",
     ["deposit_amount"] = "Talletettava summa",
     ["money_withdraw"] = "Nostettava summa",
+    ["fast_travel"] = "Paina [E] liikkuaksesi nopeasti kerrosten välillä",
     ["medikit"] = "Ensiapupakkauksia",
     ["bandage"] = "Sideharsoja",
     ["max_item"] = "Sinulla on jo tarpeeksi mukana",

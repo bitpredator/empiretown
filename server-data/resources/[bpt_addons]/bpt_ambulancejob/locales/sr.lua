@@ -46,6 +46,7 @@ Locales["sr"] = {
     ["actions_prompt"] = "Pritisni [E] da otvoriš meni",
     ["deposit_amount"] = "Iznos depozita",
     ["money_withdraw"] = "Iznos podignut",
+    ["fast_travel"] = "Pritisni [E] za brzo putovanje.",
     ["medikit"] = "Medikit",
     ["bandage"] = "Zavoji",
     ["max_item"] = "Već nosiš dovoljno",

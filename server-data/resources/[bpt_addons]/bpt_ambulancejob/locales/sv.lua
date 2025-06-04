@@ -46,6 +46,7 @@ Locales["sv"] = {
     ["actions_prompt"] = "Tryck [E] för att öppna menyn.",
     ["deposit_amount"] = "Sätt in summa",
     ["money_withdraw"] = "Ta ut summa",
+    ["fast_travel"] = "Tryck [E] för att teleportera.",
     ["medikit"] = "Första hjälpen",
     ["bandage"] = "Bandage",
     ["max_item"] = "Du bär redan tillräckligt.",
