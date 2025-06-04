@@ -341,11 +341,11 @@ CreateThread(function()
     end
 end)
 
-RegisterCommand("ambulance", function(src)
+RegisterCommand("ambulance", function()
     if ESX.PlayerData.job and ESX.PlayerData.job.name == "ambulance" and not ESX.PlayerData.dead then
         OpenMobileAmbulanceActionsMenu()
     end
-end)
+end, false)
 
 RegisterKeyMapping("ambulance", "Open Ambulance Actions Menu", "keyboard", "F6")
 
