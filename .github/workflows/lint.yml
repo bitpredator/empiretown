@@ -1,21 +1,36 @@
 name: Lint
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request_target:
+    branches: [ "*" ]
+
+permissions:
+  contents: read
+
 jobs:
   lint:
-    name: Lint Resource
+    name: Lint Lua Resource
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Lint
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Run Lua Linter
         uses: iLLeniumStudios/fivem-lua-lint-action@v2
         with:
           capture: "junit.xml"
           args: "-t --formatter JUnit"
-          extra_libs: mysql+ox_lib
-      - name: Generate Lint Report
+          extra_libs: mysql
+
+      - name: Publish Lint Report
         if: always()
-        uses: mikepenz/action-junit-report@v5
+        uses: mikepenz/action-junit-report@v3
         with:
           report_paths: "**/junit.xml"
-          check_name: Linting Report
+          check_name: "Lua Lint Report"
           fail_on_failure: false
