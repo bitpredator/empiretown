@@ -1,48 +1,39 @@
-local materialiRari = {
-    {item = "emerald", percent = 2},
-    {item = "diamond", percent = 3},
-    {item = "gold", percent = 5},
-    {item = "steel", percent = 10},
-    {item = "iron", percent = 15},
-    {item = "copper", percent = 20},
-    {item = "gunpowder", percent = 10}
-}
+---@diagnostic disable: undefined-global
+local ESX = exports["es_extended"]:getSharedObject()
 
-RegisterServerEvent("fonderia:startLavorazione", function()
+RegisterServerEvent("bpt_refinery:startProcessing", function()
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
-    if not xPlayer then return end
-
-    local identifier = xPlayer.identifier
-
-    -- Controllo se ha già una lavorazione attiva
-    local existing = MySQL.query.await("SELECT * FROM refinery_jobs WHERE identifier = ?", {identifier})
-    if #existing > 0 then
-        TriggerClientEvent("ox_lib:notify", src, {type = "error", description = "Hai già una lavorazione attiva!"})
+    if not xPlayer then
         return
     end
 
-    -- Controlli item e soldi
+    local identifier = xPlayer.identifier
+    local existing = MySQL.query.await("SELECT * FROM refinery_jobs WHERE identifier = ?", { identifier })
+
+    if #existing > 5 then
+        TriggerClientEvent("ox_lib:notify", src, { type = "error", description = TranslateCap("already_processing") })
+        return
+    end
+
     if xPlayer.getInventoryItem("stone").count < 30 then
-        TriggerClientEvent("ox_lib:notify", src, {type = "error", description = "Ti servono almeno 30 pietre"})
+        TriggerClientEvent("ox_lib:notify", src, { type = "error", description = TranslateCap("not_enough_stone") })
         return
     end
 
     if xPlayer.getAccount("bank").money < 100 then
-        TriggerClientEvent("ox_lib:notify", src, {type = "error", description = "Non hai abbastanza soldi in banca"})
+        TriggerClientEvent("ox_lib:notify", src, { type = "error", description = TranslateCap("not_enough_money") })
         return
     end
 
-    -- Rimozione item e soldi
     xPlayer.removeInventoryItem("stone", 30)
     xPlayer.removeAccountMoney("bank", 100)
 
-    -- Selezione dei materiali (fino a 3)
-    local totalItems = math.random(1, 3)
+    local totalItems = math.random(15, 30)
     local rewardItems = {}
 
     for i = 1, totalItems do
-        for _, mat in ipairs(materialiRari) do
+        for _, mat in ipairs(Config.RefineryRewards) do
             if math.random(100) <= mat.percent then
                 table.insert(rewardItems, mat.item)
                 break
@@ -50,43 +41,41 @@ RegisterServerEvent("fonderia:startLavorazione", function()
         end
     end
 
-    -- Salvataggio nel database
-    local ready_time = os.date("%Y-%m-%d %H:%M:%S", os.time() + 86400) -- 24h
+    local ready_time = os.date("%Y-%m-%d %H:%M:%S", os.time() + 86400)
 
     for _, item in ipairs(rewardItems) do
         MySQL.insert.await("INSERT INTO refinery_jobs (identifier, item, amount, ready_time) VALUES (?, ?, ?, ?)", {
-            identifier, item, 1, ready_time
+            identifier,
+            item,
+            1,
+            ready_time,
         })
     end
 
-    TriggerClientEvent("ox_lib:notify", src, {type = "success", description = "Hai avviato la lavorazione, torna tra 24 ore"})
+    TriggerClientEvent("ox_lib:notify", src, { type = "success", description = TranslateCap("processing_started") })
 end)
 
-RegisterServerEvent("fonderia:ritiraMateriali", function()
+RegisterServerEvent("bpt_refinery:collectMaterials", function()
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
-    if not xPlayer then return end
-
-    local identifier = xPlayer.identifier
-    local now = os.date("%Y-%m-%d %H:%M:%S")
-
-    local jobs = MySQL.query.await("SELECT * FROM refinery_jobs WHERE identifier = ? AND ready_time <= ?", {
-        identifier, now
-    })
-
-    if #jobs == 0 then
-        TriggerClientEvent("ox_lib:notify", src, {type = "error", description = "Nessun materiale pronto da ritirare"})
+    if not xPlayer then
         return
     end
 
-    for _, job in pairs(jobs) do
+    local identifier = xPlayer.identifier
+    local now = os.date("%Y-%m-%d %H:%M:%S")
+    local jobs = MySQL.query.await("SELECT * FROM refinery_jobs WHERE identifier = ? AND ready_time <= ?", { identifier, now })
+
+    if #jobs == 0 then
+        TriggerClientEvent("ox_lib:notify", src, { type = "error", description = TranslateCap("no_items_ready") })
+        return
+    end
+
+    for _, job in ipairs(jobs) do
         xPlayer.addInventoryItem(job.item, job.amount)
     end
 
-    -- Pulizia database
-    MySQL.query.await("DELETE FROM refinery_jobs WHERE identifier = ? AND ready_time <= ?", {
-        identifier, now
-    })
+    MySQL.query.await("DELETE FROM refinery_jobs WHERE identifier = ? AND ready_time <= ?", { identifier, now })
 
-    TriggerClientEvent("ox_lib:notify", src, {type = "success", description = "Hai ritirato i materiali lavorati!"})
+    TriggerClientEvent("ox_lib:notify", src, { type = "success", description = TranslateCap("items_collected") })
 end)
