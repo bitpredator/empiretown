@@ -1,12 +1,15 @@
 fx_version("cerulean")
 game("gta5")
 
-author("bitpredator")
-description("Sistema di Fonderia - EmpireTown")
-version("2.0.0")
+author("BPTNetwork")
+description("Use the smelter to get rare materials from stone")
+version("1.0.0")
 
 shared_script({
     "@es_extended/imports.lua",
+    "@es_extended/locale.lua",
+    "locales/*.lua",
+    "config.lua",
     "@ox_lib/init.lua",
 })
 
@@ -16,7 +19,7 @@ server_scripts({
 })
 
 client_scripts({
-    "client./*lua",
+    "client/*lua",
 })
 
 lua54("yes")

@@ -1,45 +1,50 @@
-local pedCoords = vec3(1076.650513, -1984.813232, 31.032227) -- Cambia con le tue coordinate
-local pedHeading = 180.0
+---@diagnostic disable: undefined-global
 
 CreateThread(function()
-    RequestModel("s_m_m_snowcop_01")
-    while not HasModelLoaded("s_m_m_snowcop_01") do
+    local pedModel = Config.NPC.model
+    local pedCoords = Config.NPC.coords
+    local pedHeading = Config.NPC.heading
+
+    RequestModel(pedModel)
+    while not HasModelLoaded(pedModel) do
         Wait(0)
     end
 
-    local ped = CreatePed(0, "s_m_m_snowcop_01", pedCoords.x, pedCoords.y, pedCoords.z - 1.0, pedHeading, false, true)
+    local ped = CreatePed(0, pedModel, pedCoords.x, pedCoords.y, pedCoords.z - 1.0, pedHeading, false, true)
     FreezeEntityPosition(ped, true)
     SetEntityInvincible(ped, true)
     SetBlockingOfNonTemporaryEvents(ped, true)
 
     exports.ox_target:addLocalEntity(ped, {
         {
-            name = "startFonderia",
+            name = "startFoundry",
             icon = "fas fa-fire",
-            label = "Avvia lavorazione pietra",
+            label = TranslateCap("label_start"),
             onSelect = function()
-                TriggerServerEvent("fonderia:startLavorazione")
+                TriggerServerEvent("bpt_refinery:startProcessing")
             end,
         },
         {
-            name = "ritiraFonderia",
+            name = "withdrawFoundry",
             icon = "fas fa-box",
-            label = "Ritira materiali lavorati",
+            label = TranslateCap("label_collect"),
             onSelect = function()
-                TriggerServerEvent("fonderia:ritiraMateriali")
+                TriggerServerEvent("bpt_refinery:collectMaterials")
             end,
         },
     })
 end)
 
 CreateThread(function()
-    local blip = AddBlipForCoord(1076.650513, -1984.813232, 31.032227)
+    local pedCoords = Config.NPC.coords
+
+    local blip = AddBlipForCoord(pedCoords.x, pedCoords.y, pedCoords.z)
     SetBlipSprite(blip, 365)
     SetBlipDisplay(blip, 4)
     SetBlipScale(blip, 0.8)
     SetBlipColour(blip, 5)
     SetBlipAsShortRange(blip, true)
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString("Fonderia")
+    AddTextComponentString(TranslateCap("blip_name"))
     EndTextCommandSetBlipName(blip)
 end)
