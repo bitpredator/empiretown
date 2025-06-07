@@ -3,7 +3,7 @@ game("gta5")
 description("bpt_cars - pack addon car")
 author("bitpredator")
 lua54("yes")
-version("1.0.9")
+version("2.0.0")
 
 files({
     -- bmw440
@@ -77,7 +77,6 @@ files({
     -- f_wide296
     "data/f_wide296/handling.meta",
     "data/f_wide296/vehicles.meta",
-    "data/f_wide296/carcols.meta",
     "data/f_wide296/carvariations.meta",
     "data/f_wide296/dlctext.meta",
     "data/f_wide296/vehiclelayouts.meta",
@@ -101,8 +100,11 @@ files({
     "data/porsche911turbos/vehicles.meta",
     "data/porsche911turbos/carcols.meta",
     "data/porsche911turbos/carvariations.meta",
-    "data/porsche911turbos/dlctext.meta",
 
+    -- pininfarina
+    "data/25pininfarina/handling.meta",
+    "data/25pininfarina/vehicles.meta",
+    "data/25pininfarina/carvariations.meta",
 })
 
 -- bmw440
@@ -176,7 +178,6 @@ data_file("DLCTEXT_FILE")("data/gxa45/dlctext.meta")
 -- f_wide296
 data_file("HANDLING_FILE")("data/f_wide296/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/f_wide296/vehicles.meta")
-data_file("CARCOLS_FILE")("data/f_wide296/carcols.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/f_wide296/carvariations.meta")
 data_file("DLCTEXT_FILE")("data/f_wide296/dlctext.meta")
 data_file("VEHICLE_LAYOUTS_FILE")("data/f_wide296/vehiclelayouts.meta")
@@ -200,7 +201,12 @@ data_file("HANDLING_FILE")("data/porsche911turbos/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/porsche911turbos/vehicles.meta")
 data_file("CARCOLS_FILE")("data/porsche911turbos/carcols.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/porsche911turbos/carvariations.meta")
-data_file("DLCTEXT_FILE")("data/porsche911turbos/dlctext.meta")
+
+-- 25pininfarina
+data_file("HANDLING_FILE")("data/25pininfarina/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/25pininfarina/vehicles.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/25pininfarina/carvariations.meta")
+
 client_script({
     "vehicle_names.lua",
 })
