@@ -459,14 +459,14 @@ return {
         stack = true,
     },
 
-    ["fishingrod"] = {
+    ["fishing_rod"] = {
         label = "canna da pesca",
         weight = 100,
         stack = true,
     },
 
-    ["fishbait"] = {
-        label = "esca per pesci",
+    ["bait"] = {
+        label = "esca",
         weight = 3,
         stack = true,
     },
