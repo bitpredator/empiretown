@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cuchi Computer</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="loader-container">
+            <div id="loader"></div>
+            <p id="loader-text"></p>
+        </div>
+        <div id="container">
+            <div id="desktop">
+
+            </div>
+            <div id="taskbar">
+                <div id="left">
+                    <button id="exit" class="taskbar-icon">
+                        <img src="assets/images/exit.png">
+                    </button>
+                </div>
+                <div id="right">
+                    <div id="lang">
+                        <button id="locale-selection">English</button>
+                    </div>
+                    <div id="time">
+                        <p id="hours"></p>
+                        <p id="date"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../locales/main.js" type="text/javascript"></script>
+        <script src="../locales/ui/en.js" type="text/javascript"></script>
+        <script src="../locales/ui/fr.js" type="text/javascript"></script>
+        <script src="../locales/ui/es.js" type="text/javascript"></script>
+        <script src="../locales/ui/da.js" type="text/javascript"></script>
+        <script src="../locales/ui/de.js" type="text/javascript"></script>
+        <script src="../locales/ui/it.js" type="text/javascript"></script>
+        <script src="scripts/configs/applications.js" type="text/javascript"></script>
+        <script src="scripts/configs/commands.js" type="text/javascript"></script>
+        <script src="scripts/script.js" type="text/javascript"></script>
+    </body>
+</html>

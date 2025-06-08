@@ -46,6 +46,7 @@ Locales["fr"] = {
     ["actions_prompt"] = "appuyez sur [E] accédez aux Actions d'Ambulance.",
     ["deposit_amount"] = "montant du dépôt",
     ["money_withdraw"] = "montant du retrait",
+    ["fast_travel"] = "appuyez sur [E] pour vous déplacer rapidement.",
     ["medikit"] = "kit de soin",
     ["bandage"] = "bandage",
     ["max_item"] = "vous en portez déjà assez sur vous.",

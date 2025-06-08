@@ -109,43 +109,9 @@ Config = {
             Time = 30,
             Ingredients = {
                 ["recycled_plastic"] = 2,
-                ["marijuana"] = 5,
+                ["weed"] = 1,
                 ["bandage"] = 1,
                 ["cottonforbandages"] = 2,
-                ["marijuana_extract"] = 2,
-            },
-        },
-
-        ["marijuana_extract"] = {
-            Level = 0,
-            Category = "drugs",
-            isGun = false,
-            Jobs = { "ambulance" },
-            JobGrades = {},
-            Amount = 1,
-            SuccessRate = 100,
-            requireBlueprint = false,
-            Time = 30,
-            Ingredients = {
-                ["marijuana"] = 2,
-                ["diamond_tip"] = 1,
-                ["bandage"] = 1,
-            },
-        },
-
-        ["marijuana"] = {
-            Level = 0,
-            Category = "drugs",
-            isGun = false,
-            Jobs = { "ambulance" },
-            JobGrades = {},
-            Amount = 1,
-            SuccessRate = 100,
-            requireBlueprint = false,
-            Time = 20,
-            Ingredients = {
-                ["cannabis"] = 2,
-                ["diamond_tip"] = 1,
             },
         },
 
@@ -511,6 +477,25 @@ Config = {
             },
         },
 
+        ["ammo-rifle"] = {
+            Level = 10,
+            Category = "ammunation",
+            isGun = false,
+            Jobs = { "ammu", "tridente" },
+            JobGrades = { "4", "4" },
+            Amount = 10,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["copper"] = 1,
+                ["iron"] = 1,
+                ["gunpowder"] = 1,
+                ["gold"] = 1,
+                ["hammer"] = 1,
+            },
+        },
+
         ["WEAPON_KNIFE"] = {
             Level = 10,
             Category = "accessory",
@@ -812,6 +797,23 @@ Config = {
             },
         },
 
+        ["weed"] = {
+            Level = 0,
+            Category = "drugs",
+            isGun = false,
+            Jobs = { "tridente", "ballas" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["weed_pooch"] = 2,
+                ["diamond_tip"] = 1,
+                ["recycled_plastic"] = 1,
+            },
+        },
+
         ["WEAPON_PISTOL_MK2"] = {
             Level = 10,
             Category = "ammu",
@@ -849,6 +851,25 @@ Config = {
         },
 
         ["WEAPON_TECPISTOL"] = {
+            Level = 10,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 180,
+            Ingredients = {
+                ["copper"] = 1,
+                ["iron"] = 3,
+                ["wood"] = 1,
+                ["steel"] = 5,
+                ["hammer"] = 1,
+            },
+        },
+
+        ["WEAPON_CARBINERIFLE"] = {
             Level = 10,
             Category = "ammu",
             isGun = false,
@@ -913,7 +934,7 @@ Config = {
             coords = vector3(311.406586, -564.962646, 43.28210),
             jobs = { "ambulance" },
             blip = false,
-            recipes = { "bandage", "marijuana", "marijuana_extract", "medikit" },
+            recipes = { "bandage", "medikit" },
             radius = 1.0,
         },
         {
@@ -947,6 +968,8 @@ Config = {
                 "WEAPON_SNIPERRIFLE",
                 "WEAPON_STUNGUN",
                 "WEAPON_TECPISTOL",
+                "WEAPON_CARBINERIFLE",
+                "ammo-rifle",
             },
             radius = 1.0,
         },
@@ -961,14 +984,14 @@ Config = {
             coords = vector3(83.156044, -1960.259277, 18.041016),
             jobs = { "ballas" },
             blip = false,
-            recipes = { "cigarette_paper", "marijuana", "diamond_tip" },
+            recipes = { "cigarette_paper", "diamond_tip", "weed" },
             radius = 1.0,
         },
         {
             coords = vector3(-1870.523071, 2061.705566, 135.433716),
             jobs = { "tridente" },
             blip = false,
-            recipes = { "hammer", "marijuana", "diamond_tip", "cigarette_paper", "ammo-sniper", "ammo-9", "ammo-shotgun" },
+            recipes = { "hammer", "diamond_tip", "cigarette_paper", "ammo-sniper", "ammo-9", "ammo-shotgun", "weed" },
             radius = 1.0,
         },
     },

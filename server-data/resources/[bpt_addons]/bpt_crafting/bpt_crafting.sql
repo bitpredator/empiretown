@@ -52,11 +52,8 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('recycled_plastic', 'Recycled plastic'),
 	('WEAPON_NIGHTSTICK', 'NIGHTSTICK'),
 	('WEAPON_PISTOL', 'Pistol'),
-	('marijuana', 'marijuana'),
-	('cannabis', 'Cannabis'),
 	('diamond_tip', 'Diamond tip'),
 	('diamond', 'Diamond'),
-	('marijuana_extract', 'Marijuana extract'),
 	('medikit', 'Medikit'),
 	('armour', 'armour'),
 	('WEAPON_FLASHLIGHT', 'WEAPON FLASHLIGHT'),
@@ -84,4 +81,8 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('kitchen_knife', 'kitchen knife'),
 	('WEAPON_TECPISTOL', 'WEAPON TECPISTOL'),
 	('mixed_fried_fish', 'mixed fried fish'),
+	('WEAPON_CARBINERIFLE', 'WEAPON CARBINERIFLE'),
+	('ammo-rifle', 'ammo rifle'),
+	('weed', 'weed'),
+	('weed_pooch', 'weed_pooch')
 ;

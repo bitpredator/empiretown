@@ -47717,7 +47717,6 @@ This error is most likely caused by incorrect values in the config.json file.
 var { identifierColumn, phoneNumberColumn } = config.database;
 var requiredDbColumns = [identifierColumn, phoneNumberColumn];
 var frameworkDependencies = {
-  ["es_extended"]: ["esx-npwd"],
   ["qb-core"]: ["qb-npwd"]
 };
 

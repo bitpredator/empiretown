@@ -1,4 +1,9 @@
+/* eslint-disable no-unused-vars */
 let LOADED = true;
+function escapeHtml(text) {
+	return $('<div>').text(text).html();
+}
+
 class Components {
 	static allComponents = [];
 	static generateAllComponents(generatedData, generateType = 'bank') {
@@ -90,16 +95,18 @@ class Components {
 
 	static generateTransactionContainer(formData) {
 		$(formData.elementID).empty();
-		return $(formData.elementID).html(`<h3>${formData.title}</h3>
-		<p>${formData.description}</p>
-		<div id="graph-container">
-			<canvas id="smallGraph" width="400" height="400"></canvas>
-		</div>
-		<div id="buttons-container">
-			<button class="accept-button" id="more_history">${formData.moreHistoryText}</button>
-			<button class="accept-button" id="more_graph">${formData.moreGraphText}</button>
-		</div>
-		<div id="transactions-container"></div>`);
+		return $(formData.elementID).append(`
+			<h3>${escapeHtml(formData.title)}</h3>
+			<p>${formData.description}</p>
+			<div id="graph-container">
+				<canvas id="smallGraph" width="400" height="400"></canvas>
+			</div>
+			<div id="buttons-container">
+				<button class="accept-button" id="more_history">${formData.moreHistoryText}</button>
+				<button class="accept-button" id="more_graph">${formData.moreGraphText}</button>
+			</div>
+			<div id="transactions-container"></div>
+		`);
 	}
 
 	static generatePincodeContainer(formData) {
@@ -519,23 +526,20 @@ class Pincode {
 }
 
 let timeZone = '';
+
 class Utils {
 	static dateFormat(date) {
-		if (typeof date == 'number') {
-			// eslint-disable-next-line no-var
-			var newDate = new Date(date);
-		}
-		else {
-			// eslint-disable-next-line no-var, no-redeclare
-			var newDate = date;
-		}
-		return newDate
-			.toLocaleString([Utils.getTimeZone()], {
-				weekday: 'long',
-				hour: '2-digit',
-				minute: '2-digit',
-			})
-			.capitalize();
+		const newDate = typeof date === 'number' ? new Date(date) : date;
+		const localized = newDate.toLocaleString([Utils.getTimeZone()], {
+			weekday: 'long',
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+		return Utils.capitalize(localized);
+	}
+
+	static capitalize(text) {
+		return text.charAt(0).toUpperCase() + text.slice(1);
 	}
 
 	static setCardData(value) {
@@ -545,17 +549,19 @@ class Utils {
 	}
 
 	static getCardData() {
-		return JSON.parse(localStorage.getItem('CARD_DATA'));
+		try {
+			return JSON.parse(localStorage.getItem('CARD_DATA')) || {};
+		}
+		catch (e) {
+			return {};
+		}
 	}
 
 	static genMonth() {
-		const date = new Date();
-		const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-		const rNum = Math.floor(Math.random() * arr.length);
-		let year = date.getFullYear().toString();
-		year = year.substr(2, year.length);
-		year = parseInt(parseInt(year) + 2);
-		return parseInt(rNum + 1) + '/' + year;
+		const month = Math.floor(Math.random() * 12) + 1;
+		const year = new Date().getFullYear() + 2;
+		const shortYear = year.toString().slice(2);
+		return `${month}/${shortYear}`;
 	}
 
 	static genCardNumber() {
@@ -564,7 +570,7 @@ class Utils {
 		for (let i = 0; i < 16; i++) {
 			const rnum = Math.floor(Math.random() * char.length);
 			genNum += char.substring(rnum, rnum + 1);
-			if ((i + 1) % 4 == 0) {
+			if ((i + 1) % 4 === 0 && i < 15) {
 				genNum += ' ';
 			}
 		}
@@ -675,12 +681,7 @@ class GlobalStore {
 	}
 }
 
-Object.defineProperty(String.prototype, 'capitalize', {
-	value: function() {
-		return this.charAt(0).toUpperCase() + this.slice(1);
-	},
-	enumerable: false,
-});
+// Removed insecure prototype modification
 
 $(document).ready(function() {
 	let formData;
@@ -762,7 +763,7 @@ $(document).ready(function() {
 	$(document).on('click', '.pincode-numbers div:nth-child(12)', function() {
 		$.post(
 			'https://bpt_banking/checkPincode',
-			JSON.stringify(pincode.getPincode()),
+			JSON.stringify({ pincode: pincode.getPincode() }),
 		).then((response) => {
 			if (response.success) {
 				Components.loader('#pincode-container', 'show');
@@ -776,7 +777,9 @@ $(document).ready(function() {
 		});
 	});
 
-	window.addEventListener('message', ({ data }) => {
+	window.addEventListener('message', (event) => {
+		const data = event.data;
+		if (typeof data !== 'object') return;
 		const languageText = language.getStoredData();
 		if (data.showMenu) {
 			const datas = data.datas;

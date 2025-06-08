@@ -1,14 +1,14 @@
-local config = require 'configs.client'
-local target = GetResourceState('qb-target') == 'started' and 'qb' or 'ox'
-local targetExport = (target == 'qb') and exports['qb-target'] or exports.ox_target
+local config = require("configs.client")
+local target = GetResourceState("qb-target") == "started" and "qb" or "ox"
+local targetExport = (target == "qb") and exports["qb-target"] or exports.ox_target
 
 -- Forces Ped Into Surrended Animation --
 function forceSurrenderAnimation(entity)
     CreateThread(function()
-        lib.requestAnimDict('random@shop_robbery')
+        lib.requestAnimDict("random@shop_robbery")
         while isRobbing do
-            if not IsEntityPlayingAnim(entity, 'random@shop_robbery', 'kneel_loop_p', 3) then
-                TaskPlayAnim(entity, 'random@shop_robbery', 'kneel_loop_p', 50.0, 8.0, -1, 1, 1.0, false, false, false)
+            if not IsEntityPlayingAnim(entity, "random@shop_robbery", "kneel_loop_p", 3) then
+                TaskPlayAnim(entity, "random@shop_robbery", "kneel_loop_p", 50.0, 8.0, -1, 1, 1.0, false, false, false)
             end
             Wait(200)
         end
@@ -37,12 +37,12 @@ end
 function removeInteraction(entity)
     if config.useInteract then
         local netId = NetworkGetNetworkIdFromEntity(entity)
-        exports.interact:RemoveEntityInteraction(netId, 'robLocal')
+        exports.interact:RemoveEntityInteraction(netId, "robLocal")
     else
-        if target == 'qb' then
-            targetExport:RemoveTargetEntity(entity, 'Rob Citizen')
+        if target == "qb" then
+            targetExport:RemoveTargetEntity(entity, "Rob Citizen")
         else
-            targetExport:removeLocalEntity(entity, 'rob_local')
+            targetExport:removeLocalEntity(entity, "rob_local")
         end
     end
 end
@@ -54,12 +54,12 @@ function attackingPed(entity)
     end
 
     SetPedFleeAttributes(entity, 0, false)
-    SetPedCombatAttributes(entity, 46, true)       -- BF_CanFightArmedPedsWhenNotArmed
-    SetPedCombatAttributes(entity, 17, false)       -- BF_AlwaysFlee
-    SetPedCombatAttributes(entity, 5, true)        -- BF_AlwaysFight
-    SetPedCombatAttributes(entity, 58, true)       -- BF_DisableFleeFromCombat
+    SetPedCombatAttributes(entity, 46, true) -- BF_CanFightArmedPedsWhenNotArmed
+    SetPedCombatAttributes(entity, 17, false) -- BF_AlwaysFlee
+    SetPedCombatAttributes(entity, 5, true) -- BF_AlwaysFight
+    SetPedCombatAttributes(entity, 58, true) -- BF_DisableFleeFromCombat
     SetPedCombatRange(entity, 3)
-    SetPedRelationshipGroupHash(entity, joaat('HATES_PLAYER'))
+    SetPedRelationshipGroupHash(entity, joaat("HATES_PLAYER"))
     TaskCombatHatedTargetsAroundPed(entity, 50, 0)
 
     local weaponChance = math.random(config.chancePedIsArmedWhileFighting.min, config.chancePedIsArmedWhileFighting.max)
@@ -69,7 +69,7 @@ function attackingPed(entity)
     end
 
     TaskCombatHatedTargetsAroundPed(entity, 50, 0)
-    lib.notify({ title = 'Fight Back!', description = 'They didn\'t like that!', type = 'error' })
+    lib.notify({ title = "Fight Back!", description = "They didn't like that!", type = "error" })
 end
 
 -- Ped Chooses to Flee --
@@ -96,7 +96,7 @@ function fightOrFlee(entity)
 
     if randomChance <= fleeChance then
         pedFlees(entity)
-        lib.notify({ title = 'They ran away!', type = 'error'})
+        lib.notify({ title = "They ran away!", type = "error" })
         return true
     end
 

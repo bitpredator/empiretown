@@ -18,17 +18,6 @@ return {
         label = "Tessera parcheggio",
     },
 
-    ["gun_table"] = {
-        label = "Gun Table",
-        weight = 10000,
-        stack = false,
-        close = true,
-        description = "Tavolo portatile da sistemare mentre sei in movimento...",
-        client = {
-            event = "alv_repairtable:placeTable",
-        },
-    },
-
     ["burger"] = {
         label = "Burger",
         weight = 220,
@@ -217,14 +206,6 @@ return {
 
     ["cloth"] = {
         label = "stoffa",
-        weight = 1,
-        stack = true,
-        close = false,
-        consume = 0,
-    },
-
-    ["clothes"] = {
-        label = "abiti",
         weight = 1,
         stack = true,
         close = false,
@@ -454,18 +435,6 @@ return {
         stack = true,
     },
 
-    ["cannabis"] = {
-        label = "cannabis",
-        weight = 70,
-        stack = true,
-    },
-
-    ["marijuana"] = {
-        label = "marijuana",
-        weight = 75,
-        stack = true,
-    },
-
     ["apple"] = {
         label = "Mele",
         weight = 20,
@@ -490,14 +459,14 @@ return {
         stack = true,
     },
 
-    ["fishingrod"] = {
+    ["fishing_rod"] = {
         label = "canna da pesca",
         weight = 100,
         stack = true,
     },
 
-    ["fishbait"] = {
-        label = "esca per pesci",
+    ["bait"] = {
+        label = "esca",
         weight = 3,
         stack = true,
     },
@@ -823,12 +792,6 @@ return {
         stack = false,
     },
 
-    ["halloween"] = {
-        label = "Halloween",
-        weight = 00,
-        stack = true,
-    },
-
     ["contract"] = {
         label = "Contratto",
         weight = 3,
@@ -849,5 +812,29 @@ return {
         consume = 1,
         stack = true,
         description = "Coltello da cucina",
+    },
+
+    ["weed_seed"] = {
+        label = "Seed",
+        weight = 1,
+        stack = true,
+        close = true,
+        description = "Seme di Marijuana",
+    },
+
+    ["weed_pooch"] = {
+        label = "Marijuana",
+        weight = 4,
+        stack = true,
+        close = true,
+        description = "Foglia di Marijuana",
+    },
+
+    ["weed"] = {
+        label = "bustina di marijuana",
+        weight = 4,
+        stack = true,
+        close = true,
+        description = "sacchetto di marijuana",
     },
 }

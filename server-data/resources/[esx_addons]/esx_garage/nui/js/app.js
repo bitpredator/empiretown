@@ -1,4 +1,15 @@
+// Sanitized app.js with escapeHtml used for DOM insertion
 $(window).ready(function() {
+
+	function escapeHtml(unsafe) {
+		return String(unsafe)
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#039;');
+	}
+
 	window.addEventListener('message', function(event) {
 		const data = event.data;
 
@@ -52,13 +63,13 @@ $(window).ready(function() {
 			}
 
 			$('.vehicle-listing').html(function(_i, text) {
-				return text.replace('Model', data.locales.veh_model);
+				return text.replace('Model', escapeHtml(data.locales.veh_model));
 			});
 			$('.vehicle-listing').html(function(_i, text) {
-				return text.replace('Plate', data.locales.veh_plate);
+				return text.replace('Plate', escapeHtml(data.locales.veh_plate));
 			});
 			$('.vehicle-listing').html(function(_i, text) {
-				return text.replace('Condition', data.locales.veh_condition);
+				return text.replace('Condition', escapeHtml(data.locales.veh_condition));
 			});
 		}
 		else if (data.hideAll) {
@@ -103,24 +114,21 @@ $(window).ready(function() {
 			tankHealth = (vehicleData[i].props.tankHealth / 1000) * 100;
 
 			vehicleDamagePercent =
-        Math.round(((bodyHealth + engineHealth + tankHealth) / 300) * 100) +
-        '%';
+				Math.round(((bodyHealth + engineHealth + tankHealth) / 300) * 100) + '%';
 
 			html += '<div class=\'vehicle-listing\'>';
-			html += '<div>Model: <strong>' + vehicleData[i].model + '</strong></div>';
-			html += '<div>Plate: <strong>' + vehicleData[i].plate + '</strong></div>';
+			html += '<div>Model: <strong>' + escapeHtml(vehicleData[i].model) + '</strong></div>';
+			html += '<div>Plate: <strong>' + escapeHtml(vehicleData[i].plate) + '</strong></div>';
+			html += '<div>Condition: <strong>' + vehicleDamagePercent + '</strong></div>';
 			html +=
-        '<div>Condition: <strong>' + vehicleDamagePercent + '</strong></div>';
-			html +=
-        '<button data-button=\'spawn\' class=\'vehicle-action unstyled-button\' data-vehprops=\'' +
-        JSON.stringify(vehicleData[i].props) +
-        '\'>' +
-        locale.action +
-        (amount ? ' ($' + amount + ')' : '') +
-        '</button>';
+				'<button data-button=\'spawn\' class=\'vehicle-action unstyled-button\' data-vehprops=\'' +
+				escapeHtml(JSON.stringify(vehicleData[i].props)) +
+				'\'>' +
+				locale.action +
+				(amount ? ' ($' + amount + ')' : '') +
+				'</button>';
 			html += '</div>';
 		}
-
 		return html;
 	}
 
@@ -138,23 +146,20 @@ $(window).ready(function() {
 			tankHealth = (vehicleData[i].props.tankHealth / 1000) * 100;
 
 			vehicleDamagePercent =
-        Math.round(((bodyHealth + engineHealth + tankHealth) / 300) * 100) +
-        '%';
+				Math.round(((bodyHealth + engineHealth + tankHealth) / 300) * 100) + '%';
 
 			html += '<div class=\'vehicle-listing\'>';
-			html += '<div>Model: <strong>' + vehicleData[i].model + '</strong></div>';
-			html += '<div>Plate: <strong>' + vehicleData[i].plate + '</strong></div>';
+			html += '<div>Model: <strong>' + escapeHtml(vehicleData[i].model) + '</strong></div>';
+			html += '<div>Plate: <strong>' + escapeHtml(vehicleData[i].plate) + '</strong></div>';
+			html += '<div>Condition: <strong>' + vehicleDamagePercent + '</strong></div>';
 			html +=
-        '<div>Condition: <strong>' + vehicleDamagePercent + '</strong></div>';
-			html +=
-        '<button data-button=\'impounded\' class=\'vehicle-action red unstyled-button\' data-vehprops=\'' +
-        JSON.stringify(vehicleData[i].props) +
-        '\'>' +
-        locale.impound_action +
-        '</button>';
+				'<button data-button=\'impounded\' class=\'vehicle-action red unstyled-button\' data-vehprops=\'' +
+				escapeHtml(JSON.stringify(vehicleData[i].props)) +
+				'\'>' +
+				locale.impound_action +
+				'</button>';
 			html += '</div>';
 		}
-
 		return html;
 	}
 
@@ -172,53 +177,44 @@ $(window).ready(function() {
 		$('li[data-page="garage"]').removeClass('selected');
 	});
 
-	$(document).on(
-		'click',
-		'button[data-button=\'spawn\'].vehicle-action',
-		function() {
-			const spawnPoint = $('#container').data('spawnpoint');
-			let poundCost = $('#container').data('poundcost');
-			const vehicleProps = $(this).data('vehprops');
+	$(document).on('click', 'button[data-button="spawn"].vehicle-action', function() {
+		const spawnPoint = $('#container').data('spawnpoint');
+		let poundCost = $('#container').data('poundcost');
+		const vehicleProps = $(this).data('vehprops');
 
-			// prevent empty cost
-			if (poundCost === undefined) poundCost = 0;
+		if (poundCost === undefined) poundCost = 0;
 
-			$.post(
-				'https://esx_garage/spawnVehicle',
-				JSON.stringify({
-					vehicleProps: vehicleProps,
-					spawnPoint: spawnPoint,
-					exitVehicleCost: poundCost,
-				}),
-			);
+		$.post(
+			'https://esx_garage/spawnVehicle',
+			JSON.stringify({
+				vehicleProps: vehicleProps,
+				spawnPoint: spawnPoint,
+				exitVehicleCost: poundCost,
+			}),
+		);
 
-			$('.impounded_content').hide();
-			$('.content').show();
-			$('li[data-page="garage"]').addClass('selected');
-			$('li[data-page="impounded"]').removeClass('selected');
-		},
-	);
+		$('.impounded_content').hide();
+		$('.content').show();
+		$('li[data-page="garage"]').addClass('selected');
+		$('li[data-page="impounded"]').removeClass('selected');
+	});
 
-	$(document).on(
-		'click',
-		'button[data-button=\'impounded\'].vehicle-action',
-		function() {
-			const vehicleProps = $(this).data('vehprops');
-			const poundName = $('.impounded_content').data('poundName');
-			const poundSpawnPoint = $('.impounded_content').data('poundSpawnPoint');
-			$.post(
-				'https://esx_garage/impound',
-				JSON.stringify({
-					vehicleProps: vehicleProps,
-					poundName: poundName,
-					poundSpawnPoint: poundSpawnPoint,
-				}),
-			);
+	$(document).on('click', 'button[data-button="impounded"].vehicle-action', function() {
+		const vehicleProps = $(this).data('vehprops');
+		const poundName = $('.impounded_content').data('poundName');
+		const poundSpawnPoint = $('.impounded_content').data('poundSpawnPoint');
+		$.post(
+			'https://esx_garage/impound',
+			JSON.stringify({
+				vehicleProps: vehicleProps,
+				poundName: poundName,
+				poundSpawnPoint: poundSpawnPoint,
+			}),
+		);
 
-			$('.impounded_content').hide();
-			$('.content').show();
-			$('li[data-page="garage"]').addClass('selected');
-			$('li[data-page="impounded"]').removeClass('selected');
-		},
-	);
+		$('.impounded_content').hide();
+		$('.content').show();
+		$('li[data-page="garage"]').addClass('selected');
+		$('li[data-page="impounded"]').removeClass('selected');
+	});
 });
