@@ -11,8 +11,8 @@ return {
             { name = "burger", price = 10 },
             { name = "water", price = 10 },
             { name = "cola", price = 10 },
-            { name = "fishingrod", price = 100 },
-            { name = "fishbait", price = 80 },
+            { name = "fishing_rod", price = 100 },
+            { name = "bait", price = 80 },
         },
         locations = {
             vec3(25.7, -1347.3, 29.49),
@@ -73,6 +73,8 @@ return {
             `prop_vend_fridge01`,
             `prop_vend_water_01`,
             `prop_vend_soda_01`,
+            `prop_vend_snak_01`,
+            `prop_vend_soda_03`,
         },
     },
 
