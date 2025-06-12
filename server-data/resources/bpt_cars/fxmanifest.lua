@@ -105,6 +105,12 @@ files({
     "data/25pininfarina/handling.meta",
     "data/25pininfarina/vehicles.meta",
     "data/25pininfarina/carvariations.meta",
+
+    -- ford raptor
+    "data/velociraptor/handling.meta",
+    "data/velociraptor/vehicles.meta",
+    "data/velociraptor/carcols.meta",
+    "data/velociraptor/carvariations.meta",
 })
 
 -- bmw440
@@ -206,6 +212,12 @@ data_file("VEHICLE_VARIATION_FILE")("data/porsche911turbos/carvariations.meta")
 data_file("HANDLING_FILE")("data/25pininfarina/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/25pininfarina/vehicles.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/25pininfarina/carvariations.meta")
+
+-- ford raptor
+data_file("HANDLING_FILE")("data/velociraptor/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/velociraptor/vehicles.meta")
+data_file("CARCOLS_FILE")("data/velociraptor/carcols.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/velociraptor/carvariations.meta")
 
 client_script({
     "vehicle_names.lua",
