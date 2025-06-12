@@ -10,7 +10,7 @@ AddEventHandler("esx_garage:closemenu", function()
     menuIsShowed = false
     vehiclesList, vehiclesImpoundedList = {}, {}
 
-    SetNuiFocus(false)
+    SetNuiFocus(false, false)
     SendNUIMessage({
         hideAll = true,
     })
