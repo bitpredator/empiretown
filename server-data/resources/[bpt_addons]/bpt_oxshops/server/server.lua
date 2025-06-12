@@ -21,11 +21,16 @@ CreateThread(function()
         if items and next(items) then
             for _, item in pairs(items) do
                 if item.name then
+                    local price = 0
+                    if item.metadata and item.metadata.shopData and item.metadata.shopData.price then
+                        price = item.metadata.shopData.price
+                    end
+
                     stashItems[#stashItems + 1] = {
                         name = item.name,
                         metadata = item.metadata,
                         count = item.count,
-                        price = item.metadata?.shopData?.price or 0,
+                        price = price,
                     }
                 end
             end
@@ -48,7 +53,7 @@ CreateThread(function()
 
         createHooks[shopName] = exports.ox_inventory:registerHook("createItem", function(payload)
             local metadata = payload.metadata
-            if metadata?.shopData then
+            if metadata and metadata.shopData then
                 local shop = metadata.shopData.shop
                 local price = metadata.shopData.price
                 exports.ox_inventory:RemoveItem(shop, payload.item.name, payload.count)
@@ -71,7 +76,7 @@ RegisterServerEvent("bpt_oxshops:refreshShop", function(shop)
 
     if items and next(items) then
         for _, item in pairs(items) do
-            if item.name and item.metadata?.shopData then
+            if item.name and item.metadata and item.metadata.shopData then
                 stashItems[#stashItems + 1] = {
                     name = item.name,
                     metadata = item.metadata,
@@ -91,36 +96,6 @@ RegisterServerEvent("bpt_oxshops:refreshShop", function(shop)
 end)
 
 RegisterServerEvent("bpt_oxshops:setData", function(shop, slot, price)
-    local item = exports.ox_inventory:GetSlot(shop, slot)
-    if not item then
-        return
-    end
-
-    item.metadata = item.metadata or {}
-    item.metadata.shopData = {
-        shop = shop,
-        price = price,
-    }
-
-    exports.ox_inventory:SetMetadata(shop, slot, item.metadata)
-    TriggerEvent("bpt_oxshops:refreshShop", shop)
-end)
-
-AddEventHandler("onResourceStop", function(resource)
-    if resource ~= GetCurrentResourceName() then
-        return
-    end
-
-    for _, hook in pairs(swapHooks) do
-        exports.ox_inventory:removeHooks(hook)
-    end
-    for _, hook in pairs(createHooks) do
-        exports.ox_inventory:removeHooks(hook)
-    end
-end)
-
-RegisterServerEvent("bpt_oxshops:setData")
-AddEventHandler("bpt_oxshops:setData", function(shop, slot, price)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
 
@@ -149,3 +124,15 @@ AddEventHandler("bpt_oxshops:setData", function(shop, slot, price)
     TriggerEvent("bpt_oxshops:refreshShop", shop)
 end)
 
+AddEventHandler("onResourceStop", function(resource)
+    if resource ~= GetCurrentResourceName() then
+        return
+    end
+
+    for _, hook in pairs(swapHooks) do
+        exports.ox_inventory:removeHooks(hook)
+    end
+    for _, hook in pairs(createHooks) do
+        exports.ox_inventory:removeHooks(hook)
+    end
+end)
