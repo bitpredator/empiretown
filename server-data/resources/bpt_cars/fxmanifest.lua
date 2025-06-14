@@ -24,11 +24,6 @@ files({
     "data/SkylineGT-R/carcols.meta",
     "data/SkylineGT-R/carvariations.meta",
 
-    -- mads14
-    "data/mads14/handling.meta",
-    "data/mads14/vehicles.meta",
-    "data/mads14/carvariations.meta",
-
     -- Tmax500
     "data/Tmax500/handling.meta",
     "data/Tmax500/vehicles.meta",
@@ -53,13 +48,6 @@ files({
     "data/stockade4/vehicles.meta",
     "data/stockade4/carvariations.meta",
 
-    -- KTM690
-    "data/KTM690/handling.meta",
-    "data/KTM690/vehicles.meta",
-    "data/KTM690/carcols.meta",
-    "data/KTM690/carvariations.meta",
-    "data/KTM690/dlctext.meta",
-
     -- 69 charger
     "data/charger/handling.meta",
     "data/charger/vehicles.meta",
@@ -80,13 +68,6 @@ files({
     "data/f_wide296/carvariations.meta",
     "data/f_wide296/dlctext.meta",
     "data/f_wide296/vehiclelayouts.meta",
-
-    -- audi-rsq8m
-    "data/audi-rsq8m/handling.meta",
-    "data/audi-rsq8m/vehicles.meta",
-    "data/audi-rsq8m/carvariations.meta",
-    "data/audi-rsq8m/dlctext.meta",
-    "data/audi-rsq8m/carcols.meta",
 
     -- st3
     "data/st3/handling.meta",
@@ -125,11 +106,6 @@ data_file("VEHICLE_METADATA_FILE")("data/SkylineGT-R/vehicles.meta")
 data_file("CARCOLS_FILE")("data/SkylineGT-R/carcols.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/SkylineGT-R/carvariations.meta")
 
--- mads14
-data_file("HANDLING_FILE")("data/mads14/handling.meta")
-data_file("VEHICLE_METADATA_FILE")("data/mads14/vehicles.meta")
-data_file("VEHICLE_VARIATION_FILE")("data/mads14/carvariations.meta")
-
 -- Tmax500
 data_file("HANDLING_FILE")("data/Tmax500/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/Tmax500/vehicles.meta")
@@ -154,13 +130,6 @@ data_file("HANDLING_FILE")("data/stockade4/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/stockade4/vehicles.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/stockade4/carvariations.meta")
 
--- KTM690
-data_file("HANDLING_FILE")("data/KTM690/handling.meta")
-data_file("VEHICLE_METADATA_FILE")("data/KTM690/vehicles.meta")
-data_file("CARCOLS_FILE")("data/KTM690/carcols.meta")
-data_file("VEHICLE_VARIATION_FILE")("data/KTM690/carvariations.meta")
-data_file("DLCTEXT_FILE")("data/KTM690/dlctext.meta")
-
 -- charger 69
 data_file("HANDLING_FILE")("data/charger/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/charger/vehicles.meta")
@@ -181,13 +150,6 @@ data_file("VEHICLE_METADATA_FILE")("data/f_wide296/vehicles.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/f_wide296/carvariations.meta")
 data_file("DLCTEXT_FILE")("data/f_wide296/dlctext.meta")
 data_file("VEHICLE_LAYOUTS_FILE")("data/f_wide296/vehiclelayouts.meta")
-
--- audi-rsq8m
-data_file("HANDLING_FILE")("data/audi-rsq8m/handling.meta")
-data_file("VEHICLE_METADATA_FILE")("data/audi-rsq8m/vehicles.meta")
-data_file("VEHICLE_VARIATION_FILE")("data/audi-rsq8m/carvariations.meta")
-data_file("DLCTEXT_FILE")("data/audi-rsq8m/dlctext.meta")
-data_file("CARCOLS_FILE")("data/audi-rsq8m/carcols.meta")
 
 -- st3
 data_file("HANDLING_FILE")("data/st3/handling.meta")
