@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleModelInfo__InitDataList>
+  <initDatas>
+    <Item>
+      <modelName>blista2</modelName>
+      <txdName>blista2</txdName>
+      <handlingId>BLISTA2</handlingId>
+      <gameName>BLISTA2</gameName>
+      <vehicleMakeName>FIAT</vehicleMakeName>
+      <expressionDictName>null</expressionDictName>
+      <animConvRoofDictName>null</animConvRoofDictName>
+      <animConvRoofRaisedName>null</animConvRoofRaisedName>
+      <animConvRoofLoweredName>null</animConvRoofLoweredName>
+      <animConvRoofRaiseAnimName>null</animConvRoofRaiseAnimName>
+      <animConvRoofLowerAnimName>null</animConvRoofLowerAnimName>
+      <ptfxAssetName>null</ptfxAssetName>
+      <audioNameHash>BLISTA</audioNameHash>
+      <layout>LAYOUT_STANDARD</layout>
+      <coverBoundOffsets>BLISTA</coverBoundOffsets>
+      <aiHandling>SPORTS_CAR</aiHandling>
+      <hash>blista2</hash>
+      <vehicleClass>VC_COMPACT</vehicleClass>
+      <wheelType>0</wheelType>
+      <maxNumberOfPassengers>3</maxNumberOfPassengers>
+      <doorsWithCollisionWhenClosed>
+        <Item>FRONT_LEFT</Item>
+        <Item>FRONT_RIGHT</Item>
+        <Item>REAR_LEFT</Item>
+        <Item>REAR_RIGHT</Item>
+        <Item>BONNET</Item>
+        <Item>BOOT</Item>
+      </doorsWithCollisionWhenClosed>
+    </Item>
+  </initDatas>
+</CVehicleModelInfo__InitDataList>

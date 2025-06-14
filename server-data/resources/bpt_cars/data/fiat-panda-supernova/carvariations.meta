@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleModelInfoVariation>
+  <variationData>
+    <Item>
+      <modelName>blista2</modelName>
+      <colors>
+        <Item>0</Item>
+        <Item>111</Item>
+        <Item>28</Item>
+        <Item>88</Item>
+        <Item>120</Item>
+        <Item>1</Item>
+      </colors>
+      <kits>
+        <Item>0_default_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges />
+      <plateOptions>
+        <Item>0</Item>
+        <Item>1</Item>
+        <Item>2</Item>
+        <Item>3</Item>
+        <Item>4</Item>
+      </plateOptions>
+      <lightSettings value="0" />
+    </Item>
+  </variationData>
+</CVehicleModelInfoVariation>

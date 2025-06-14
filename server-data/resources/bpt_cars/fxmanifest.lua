@@ -86,6 +86,13 @@ files({
     "data/25pininfarina/handling.meta",
     "data/25pininfarina/vehicles.meta",
     "data/25pininfarina/carvariations.meta",
+
+    -- fiat-panda-supernova
+    "data/fiat-panda-supernova/vehicles.meta",
+    "data/fiat-panda-supernova/carvariations.meta",
+    "data/fiat-panda-supernova/carcols.meta",
+    "data/fiat-panda-supernova/handling.meta",
+    "data/fiat-panda-supernova/vehiclelayouts.meta",
 })
 
 -- bmw440
@@ -168,6 +175,13 @@ data_file("VEHICLE_VARIATION_FILE")("data/porsche911turbos/carvariations.meta")
 data_file("HANDLING_FILE")("data/25pininfarina/handling.meta")
 data_file("VEHICLE_METADATA_FILE")("data/25pininfarina/vehicles.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/25pininfarina/carvariations.meta")
+
+-- fiat-panda-supernova
+data_file("HANDLING_FILE")("data/fiat-panda-supernova/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/fiat-panda-supernova/vehicles.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/fiat-panda-supernova/carvariations.meta")
+data_file("VEHICLE_LAYOUTS_FILE")("data/fiat-panda-supernova/vehiclelayouts.meta")
+dat_file("VEHICLE_VARIATION_FILE")("data/fiat-panda-supernova/carvariations.meta")
 
 client_script({
     "vehicle_names.lua",

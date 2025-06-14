@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleLayoutDefInitDataList>
+  <VehicleLayoutDefInitDatas>
+    <Item>
+      <Name>LAYOUT_STANDARD</Name>
+      <Seats>
+        <Item>
+          <SeatInfo>
+            <SeatID>SEAT_FRONT_LEFT</SeatID>
+          </SeatInfo>
+        </Item>
+        <Item>
+          <SeatInfo>
+            <SeatID>SEAT_FRONT_RIGHT</SeatID>
+          </SeatInfo>
+        </Item>
+        <Item>
+          <SeatInfo>
+            <SeatID>SEAT_REAR_LEFT</SeatID>
+          </SeatInfo>
+        </Item>
+        <Item>
+          <SeatInfo>
+            <SeatID>SEAT_REAR_RIGHT</SeatID>
+          </SeatInfo>
+        </Item>
+      </Seats>
+    </Item>
+  </VehicleLayoutDefInitDatas>
+</CVehicleLayoutDefInitDataList>

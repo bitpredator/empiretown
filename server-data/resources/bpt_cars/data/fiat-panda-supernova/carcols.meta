@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CVehicleModelInfo__Colours>
+  <InitDatas>
+    <Item>
+      <modelName>blista2</modelName>
+      <indices>
+        <Color>1</Color>
+        <Color>3</Color>
+        <Color>5</Color>
+        <Color>7</Color>
+        <Color>111</Color>
+        <Color>120</Color>
+      </indices>
+    </Item>
+  </InitDatas>
+</CVehicleModelInfo__Colours>
