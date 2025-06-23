@@ -75,6 +75,11 @@ Config = {
             Image = "ammu",
             Jobs = { "ammu" },
         },
+        ["dessert"] = {
+            Label = "Dessert",
+            Image = "dessert",
+            Jobs = { "unicorn" },
+        },
     },
 
     PermanentItems = { -- Items that dont get removed when crafting
@@ -293,6 +298,22 @@ Config = {
                 ["ice"] = 1,
                 ["apple"] = 1,
                 ["kitchen_knife"] = 1,
+            },
+        },
+
+        ["cupcake"] = {
+            Level = 0,
+            Category = "dessert",
+            isGun = false,
+            Jobs = { "unicorn" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 20,
+            Ingredients = {
+                ["water"] = 1,
+                ["flour"] = 1,
             },
         },
 
@@ -977,7 +998,7 @@ Config = {
             coords = vector3(129.217590, -1283.802246, 29.263062),
             jobs = { "unicorn" },
             blip = false,
-            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout", "tuna_sandwich", "appledrink", "bread", "mixed_fried_fish" },
+            recipes = { "almondmilk", "fries", "grilled_salmon", "grilled_trout", "tuna_sandwich", "appledrink", "bread", "mixed_fried_fish", "cupcake" },
             radius = 1.0,
         },
         {

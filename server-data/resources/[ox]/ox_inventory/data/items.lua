@@ -42,6 +42,18 @@ return {
         },
     },
 
+    ["cupcake"] = {
+        label = "cupcake",
+        weight = 100,
+        client = {
+            status = { hunger = 100000 },
+            anim = "eating",
+            prop = "birthday-cake",
+            usetime = 2500,
+            notification = "Stai mangiando un cupcake",
+        },
+    },
+
     ["grilled_salmon"] = {
         label = "salmone grigliato",
         weight = 140,

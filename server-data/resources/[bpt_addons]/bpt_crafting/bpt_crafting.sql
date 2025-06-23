@@ -84,5 +84,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('WEAPON_CARBINERIFLE', 'WEAPON CARBINERIFLE'),
 	('ammo-rifle', 'ammo rifle'),
 	('weed', 'weed'),
-	('weed_pooch', 'weed_pooch')
+	('weed_pooch', 'weed_pooch'),
+	('cupcake', 'cupcake')
 ;
