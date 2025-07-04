@@ -1,4 +1,4 @@
-local PED_MODEL = `s_m_y_cop_01` -- equivalente a 0x5B3BD90D
+local PED_MODEL = `cs_jewelass`
 local PED_COORDS = vector4(383.7626, -826.6813, 28.3, 260.0)
 local CLEAR_AREA_CENTER = vector3(387.1764, -828.0369, 29.3054)
 local CLEAR_RADIUS = 47.0
