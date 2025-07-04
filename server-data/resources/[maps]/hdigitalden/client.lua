@@ -1,26 +1,29 @@
+local PED_MODEL = `s_m_y_cop_01` -- equivalente a 0x5B3BD90D
+local PED_COORDS = vector4(383.7626, -826.6813, 28.3, 260.0)
+local CLEAR_AREA_CENTER = vector3(387.1764, -828.0369, 29.3054)
+local CLEAR_RADIUS = 47.0
+
+-- Rimuove pedoni ogni 1000ms invece che ogni frame (ottimizzazione performance)
 CreateThread(function()
-	while true do
-		ClearAreaOfPeds(387.1764, -828.0369, 29.3054, 46.9588, 5)
-		Wait(0)
-	end
+    while true do
+        ClearAreaOfPeds(CLEAR_AREA_CENTER.x, CLEAR_AREA_CENTER.y, CLEAR_AREA_CENTER.z, CLEAR_RADIUS, 5)
+        Wait(1000)
+    end
 end)
 
-CreateThread(function() -- Examples
-	local ped_info
-	local ped_hash = 0x5B3BD90D -- Ped Hash
-	local ped_coords = { x = 383.762634, y = -826.681335, z = 28.300000, h = 260.0 } -- Ped Coords
+-- Crea il ped una volta sola
+CreateThread(function()
+    RequestModel(PED_MODEL)
+    while not HasModelLoaded(PED_MODEL) do
+        Wait(10)
+    end
 
-	RequestModel(ped_hash)
-	while not HasModelLoaded(ped_hash) do
-		Wait(1)
-	end
-
-	ped_info = CreatePed(1, ped_hash, ped_coords.x, ped_coords.y, ped_coords.z, ped_coords.h, false, true)
-	SetBlockingOfNonTemporaryEvents(ped_info, true) -- Don't Change
-	SetPedDiesWhenInjured(ped_info, false) -- Can Die?
-	SetPedCanPlayAmbientAnims(ped_info, true) -- Don't Change
-	SetPedCanRagdollFromPlayerImpact(ped_info, false) -- Ped Fall Down
-	SetEntityInvincible(ped_info, false) -- Ped Invincible
-	FreezeEntityPosition(ped_info, true) -- Don't Change
-	TaskStartScenarioInPlace(ped_info, "WORLD_HUMAN_COP_IDLES", 0, true) -- Ped Anim
+    local ped = CreatePed(4, PED_MODEL, PED_COORDS.xyz, PED_COORDS.w, false, true)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+    SetPedDiesWhenInjured(ped, false)
+    SetPedCanPlayAmbientAnims(ped, true)
+    SetPedCanRagdollFromPlayerImpact(ped, false)
+    SetEntityInvincible(ped, true)
+    FreezeEntityPosition(ped, true)
+    TaskStartScenarioInPlace(ped, "WORLD_HUMAN_COP_IDLES", 0, true)
 end)
