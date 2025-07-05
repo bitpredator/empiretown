@@ -1,6 +1,6 @@
 local PED_MODEL = `cs_jewelass`
-local PED_COORDS = vector4(383.7626, -826.6813, 28.3, 260.0)
-local CLEAR_AREA_CENTER = vector3(387.1764, -828.0369, 29.3054)
+local PED_COORDS = vector4(-505.160431, 282.923065, 82.283569, 28.346457)
+local CLEAR_AREA_CENTER = vector3(-505.160431, 282.923065, 83.283569)
 local CLEAR_RADIUS = 47.0
 
 -- Rimuove pedoni ogni 1000ms invece che ogni frame (ottimizzazione performance)
