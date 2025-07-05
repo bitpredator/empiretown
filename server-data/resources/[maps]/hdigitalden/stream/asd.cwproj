@@ -1,0 +1,36 @@
+<CodeWalkerProject>
+  <Name>New CodeWalker Project</Name>
+  <Version value="1" />
+  <YmapFilenames>
+    <Item>apa_ss1_12_strm_0.ymap</Item>
+    <Item>moreo_digitalden_milo.ymap</Item>
+  </YmapFilenames>
+  <YtypFilenames>
+    <Item>moreo_digitalden.ytyp</Item>
+  </YtypFilenames>
+  <YbnFilenames>
+    <Item>hi@ss1_12_0.ybn</Item>
+    <Item>moreo_digitalden_col.ybn</Item>
+    <Item>ss1_12_0.ybn</Item>
+  </YbnFilenames>
+  <YndFilenames />
+  <YnvFilenames />
+  <TrainsFilenames />
+  <ScenarioFilenames />
+  <AudioRelFilenames />
+  <YdrFilenames>
+    <Item>moreo_digitalden_light.ydr</Item>
+    <Item>moreo_digitalden_light2.ydr</Item>
+    <Item>moreo_digitalden_maindoor.ydr</Item>
+    <Item>moreo_digitalden_reflect.ydr</Item>
+    <Item>moreo_digitalden_shelfs.ydr</Item>
+    <Item>moreo_digitalden_shell.ydr</Item>
+    <Item>moreo_digitalden_stoneshelf.ydr</Item>
+    <Item>ss1_12_bld3c.ydr</Item>
+    <Item>ss1_12_grnd.ydr</Item>
+    <Item>ss1_12_night.ydr</Item>
+  </YdrFilenames>
+  <YddFilenames />
+  <YftFilenames />
+  <YtdFilenames />
+</CodeWalkerProject>
