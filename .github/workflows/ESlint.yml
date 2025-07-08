@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 16
       - run: npm ci # or yarn install
-      - uses: sibiraj-s/action-eslint@v3
+      - uses: sibiraj-s/action-eslint@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }} # optional
           eslint-args: '--ignore-pattern=.gitignore --quiet'
