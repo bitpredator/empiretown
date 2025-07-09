@@ -11,6 +11,4 @@ files({
     "stream/*.ydr",
     "stream/*.ytd",
     "stream/*.ymf",
-})({ "stream/v_strip3_game.dat151.rel", "stream/v_strip3_mix.dat15.rel" })
-data_file("AUDIO_GAMEDATA")("stream/v_strip3_game.dat")
-data_file("AUDIO_DYNAMIXDATA")("stream/rel/v_strip3_mix.dat")
+})
