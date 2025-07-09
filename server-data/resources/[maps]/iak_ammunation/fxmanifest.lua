@@ -1,7 +1,14 @@
-fx_version "bodacious"
-games { 'rdr3', 'gta5' }
-author 'Iakkoise'
+fx_version("cerulean")
+game("gta5")
 
-this_is_a_map 'yes'
+author("BPTNetwork")
+description("Ammunation map for EmpireTownRP")
+version("2.0.0")
+this_is_a_map("yes")
 
-
+files({
+    "stream/*.yft",
+    "stream/*.ydr",
+    "stream/*.ytd",
+    "stream/*.ymf",
+})
