@@ -1,27 +1,45 @@
-RegisterCommand("alarm_on", function(source, args, rawCommand)
-    local alarmIpl = GetInteriorAtCoordsWithType(1787.004,2593.1984,45.7978,"int_prison_main")
+local ALARM_NAME = "PRISON_ALARMS"
+local PRISON_COORDS = vector3(1787.004, 2593.1984, 45.7978)
+local INTERIOR_TYPE = "int_prison_main"
+local INTERIOR_PROP = "prison_alarm"
 
-    RefreshInterior(alarmIpl)
-    EnableInteriorProp(alarmIpl, "prison_alarm")
+-- Funzione per ottenere l'interno
+local function getPrisonInterior()
+    local interior = GetInteriorAtCoordsWithType(PRISON_COORDS.x, PRISON_COORDS.y, PRISON_COORDS.z, INTERIOR_TYPE)
+    RefreshInterior(interior)
+    return interior
+end
 
-    Citizen.CreateThread(function()
-        while not PrepareAlarm("PRISON_ALARMS") do
-            Citizen.Wait(100)
+-- Funzione per preparare e avviare l'allarme
+local function startPrisonAlarm()
+    CreateThread(function()
+        while not PrepareAlarm(ALARM_NAME) do
+            Wait(100)
         end
-        StartAlarm("PRISON_ALARMS", true)
+        StartAlarm(ALARM_NAME, true)
     end)
-end, false)
+end
 
-RegisterCommand("alarm_off", function(source, args, rawCommand)
-    local alarmIpl = GetInteriorAtCoordsWithType(1787.004,2593.1984,45.7978,"int_prison_main")
-
-    RefreshInterior(alarmIpl)
-    DisableInteriorProp(alarmIpl, "prison_alarm")
-
-    Citizen.CreateThread(function()
-        while not PrepareAlarm("PRISON_ALARMS") do
-            Citizen.Wait(100)
+-- Funzione per fermare l'allarme
+local function stopPrisonAlarm()
+    CreateThread(function()
+        while not PrepareAlarm(ALARM_NAME) do
+            Wait(100)
         end
         StopAllAlarms(true)
     end)
+end
+
+-- Comando per accendere l'allarme
+RegisterCommand("alarm_on", function()
+    local interior = getPrisonInterior()
+    EnableInteriorProp(interior, INTERIOR_PROP)
+    startPrisonAlarm()
+end, false)
+
+-- Comando per spegnere l'allarme
+RegisterCommand("alarm_off", function()
+    local interior = getPrisonInterior()
+    DisableInteriorProp(interior, INTERIOR_PROP)
+    stopPrisonAlarm()
 end, false)
