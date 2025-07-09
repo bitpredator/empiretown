@@ -1,4 +1,14 @@
-fx_version("adamant")
+fx_version("cerulean")
 game("gta5")
+
+author("BPTNetwork")
+description("Bilfirma Map")
+version("2.0.0")
 this_is_a_map("yes")
-version("1.0.9")
+
+files({
+    "stream/*.yft",
+    "stream/*.ydr",
+    "stream/*.ytd",
+    "stream/*.ymf",
+})
