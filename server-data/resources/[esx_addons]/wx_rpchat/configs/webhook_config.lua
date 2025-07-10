@@ -1,5 +1,5 @@
 Webhooks = {
--- Do not touch the key values, only add webhooks
+    -- Do not touch the key values, only add webhooks
     ["looc"] = "",
     ["me"] = "",
     ["do"] = "",
