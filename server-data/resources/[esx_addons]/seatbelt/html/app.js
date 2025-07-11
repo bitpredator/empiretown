@@ -1,26 +1,19 @@
 window.addEventListener('message', function(e) {
-	$('#container').stop(false, true);
-	if (e.data.displayWindow == 'true') {
-		$('#container').css('display', 'flex');
+	const $container = $('#container');
+	const isVisible = e.data.displayWindow === 'true';
 
-		$('#container').animate({
-        	bottom: '25%',
-        	opacity: '1.0',
-        	},
-        	// eslint-disable-next-line no-empty-function
-        	700, function() {},
-		);
+	$container.stop(true, true);
 
+	if (isVisible) {
+		$container
+			.css({ display: 'flex' })
+			.animate({ bottom: '25%', opacity: 1 }, 700);
 	}
 	else {
-    	$('#container').animate({
-        	bottom: '-50%',
-        	opacity: '0.0',
-        	},
-        	700, function() {
-        		$('#container').css('display', 'none');
-
-		});
+		$container.animate(
+			{ bottom: '-50%', opacity: 0 },
+			700,
+			() => $container.css('display', 'none'),
+		);
 	}
 });
-

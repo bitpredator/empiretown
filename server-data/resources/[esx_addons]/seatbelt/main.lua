@@ -1,64 +1,59 @@
 local isUiOpen = false
-local speedBuffer = {}
-local velBuffer = {}
 local beltOn = false
 local wasInCar = false
 
-function DrawUI(x, y, width, height, scale, text, r, g, b, a, center)
-    SetTextFont(4)
-    SetTextProportional(false)
-    SetTextScale(scale, scale)
-    SetTextColour(r, g, b, a)
-    SetTextDropShadow()
-    SetTextEdge(1, 0, 0, 0, 255)
-    SetTextCentre(center)
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x - width / 2, y - height / 2 + 0.005)
+--- Controlla se il veicolo è di tipo compatibile con la cintura
+local function IsEligibleVehicle(veh)
+    local class = GetVehicleClass(veh)
+    return (class >= 0 and class <= 7) or (class >= 9 and class <= 12) or (class >= 17 and class <= 20)
 end
 
-function IsCar(veh)
-    local vc = GetVehicleClass(veh)
-    return (vc >= 0 and vc <= 7) or (vc >= 9 and vc <= 12) or (vc >= 17 and vc <= 20)
+--- Mostra una notifica lato client (usando ESX)
+local function ShowSeatbeltNotification(msg)
+    TriggerEvent("ESX:Notify", "info", 3000, msg)
 end
 
-Citizen.CreateThread(function()
+--- Thread principale
+CreateThread(function()
     while true do
-        Citizen.Wait(0)
-        local ped = GetPlayerPed(-1)
-        local car = GetVehiclePedIsIn(ped, false)
+        Wait(0)
 
-        if car ~= 0 and IsCar(car) then
-            wasInCar = true
-            
-            if isUiOpen == false and not IsPlayerDead(PlayerId()) then
+        local ped = PlayerPedId()
+        local vehicle = GetVehiclePedIsIn(ped, false)
+
+        if vehicle ~= 0 and IsEligibleVehicle(vehicle) then
+            -- Giocatore è dentro un'auto idonea
+            if not isUiOpen and not IsPlayerDead(PlayerId()) then
                 SendNUIMessage({ displayWindow = "true" })
                 isUiOpen = true
             end
 
+            -- Gestione cintura
             if beltOn then
-                DisableControlAction(0, 75, true) -- Disabilita uscita se cintura allacciata
+                DisableControlAction(0, 75, true) -- Disabilita ESCI dal veicolo
             else
-                EnableControlAction(0, 75, true) -- Riabilita uscita se cintura slacciata
+                EnableControlAction(0, 75, true)
             end
 
-            if IsControlJustReleased(0, 29) and GetLastInputMethod(0) and GetEntitySpeed(car) < 10 then
+            -- Premi B per attivare/disattivare la cintura
+            if IsControlJustReleased(0, 29) and GetLastInputMethod(0) and GetEntitySpeed(vehicle) < 10 then
                 beltOn = not beltOn
                 if beltOn then
-                    TriggerEvent("ESX:Notify", "info", 3000, "Cintura Allacciata")
+                    ShowSeatbeltNotification("Cintura allacciata")
                     SendNUIMessage({ displayWindow = "false" })
                 else
-                    TriggerEvent("ESX:Notify", "info", 3000, "Cintura Slacciata")
+                    ShowSeatbeltNotification("Cintura slacciata")
                     SendNUIMessage({ displayWindow = "true" })
-                    EnableControlAction(0, 75, true) -- Riabilita uscita dopo slacciamento
+                    EnableControlAction(0, 75, true)
                 end
             end
+
+            wasInCar = true
         elseif wasInCar then
+            -- Uscito dall'auto
             wasInCar = false
             beltOn = false
-            speedBuffer = {}
-            velBuffer = {}
-            if isUiOpen == true then
+            if isUiOpen then
                 SendNUIMessage({ displayWindow = "false" })
                 isUiOpen = false
             end
