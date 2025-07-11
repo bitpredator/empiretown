@@ -77,60 +77,55 @@ local Keys = {
 }
 
 ESX = exports["es_extended"]:getSharedObject()
+
 local PlayerData = {}
-local arreste = false -- Leave it on False or it will arrest at the start of the script
-local arrested = false -- Leave it False or you will be Arrested at the start of the Script
+local isArresting = false
+local isBeingArrested = false
+local animDict = "mp_arrest_paired"
+local animCop = "cop_p2_back_left"
+local animCrook = "crook_p2_back_left"
 
-local SectionAnimation = "mp_arrest_paired" -- SectionAnimation
-local AnimationCop = "cop_p2_back_left" -- Animation / Cop
-local AnimationCrook = "crook_p2_back_left" -- Animation / Criminal
-local Recentlyarrested = 0 -- Dont Change this
-
-RegisterNetEvent("esx:playerLoaded")
-AddEventHandler("esx:playerLoaded", function(xPlayer)
+-- Player Load
+RegisterNetEvent("esx:playerLoaded", function(xPlayer)
     PlayerData = xPlayer
 end)
 
-RegisterNetEvent("esx:setJob")
-AddEventHandler("esx:setJob", function(job)
+RegisterNetEvent("esx:setJob", function(job)
     PlayerData.job = job
 end)
 
-RegisterNetEvent("esx_cuffanimation:arrested")
-AddEventHandler("esx_cuffanimation:arrested", function(target)
-    arrested = true
+-- When player is being arrested (criminal side)
+RegisterNetEvent("esx_cuffanimation:arrested", function(targetId)
+    isBeingArrested = true
 
-    local playerPed = GetPlayerPed(-1)
-    local targetPed = GetPlayerPed(GetPlayerFromServerId(target))
+    local playerPed = PlayerPedId()
+    local targetPed = GetPlayerPed(GetPlayerFromServerId(targetId))
 
-    RequestAnimDict(SectionAnimation)
-
-    while not HasAnimDictLoaded(SectionAnimation) do
-        Citizen.Wait(10)
+    RequestAnimDict(animDict)
+    while not HasAnimDictLoaded(animDict) do
+        Wait(10)
     end
 
-    AttachEntityToEntity(GetPlayerPed(-1), targetPed, 11816, -0.1, 0.45, 0.0, 0.0, 0.0, 20.0, false, false, false, false, 20, false)
-    TaskPlayAnim(playerPed, SectionAnimation, AnimationCrook, 8.0, -8.0, 5500, 33, 0, false, false, false)
+    AttachEntityToEntity(playerPed, targetPed, 11816, -0.1, 0.45, 0.0, 0.0, 0.0, 20.0, false, false, false, false, 20, false)
+    TaskPlayAnim(playerPed, animDict, animCrook, 8.0, -8.0, 5500, 33, 0, false, false, false)
 
-    Citizen.Wait(950)
-    DetachEntity(GetPlayerPed(-1), true, false)
+    Wait(950)
+    DetachEntity(playerPed, true, false)
 
-    arrested = false
+    isBeingArrested = false
 end)
 
-RegisterNetEvent("esx_cuffanimation:arrest")
-AddEventHandler("esx_cuffanimation:arrest", function()
-    local playerPed = GetPlayerPed(-1)
+-- When player performs the arrest (cop side)
+RegisterNetEvent("esx_cuffanimation:arrest", function()
+    local playerPed = PlayerPedId()
 
-    RequestAnimDict(SectionAnimation)
-
-    while not HasAnimDictLoaded(SectionAnimation) do
-        Citizen.Wait(10)
+    RequestAnimDict(animDict)
+    while not HasAnimDictLoaded(animDict) do
+        Wait(10)
     end
 
-    TaskPlayAnim(playerPed, SectionAnimation, AnimationCop, 8.0, -8.0, 5500, 33, 0, false, false, false)
+    TaskPlayAnim(playerPed, animDict, animCop, 8.0, -8.0, 5500, 33, 0, false, false, false)
 
-    Citizen.Wait(3000)
-
-    arreste = false
+    Wait(3000)
+    isArresting = false
 end)
