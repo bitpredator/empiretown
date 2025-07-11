@@ -1,2 +1,6 @@
 Config = {}
-Config.ArrestDistance = 3.0 -- The Distance between the Cop and the Criminal (3.0 is Recommended)
+
+-- Arrest Settings
+Config.Arrest = {
+    Distance = 3.0, -- Maximum distance (in meters) between officer and suspect for arrest to trigger
+}
