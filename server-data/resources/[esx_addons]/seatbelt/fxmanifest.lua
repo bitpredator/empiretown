@@ -1,8 +1,9 @@
-fx_version("adamant")
+fx_version("cerulean")
 game("gta5")
-author("bitpredator")
-lua54("yes")
-version("1.0.8")
+
+author("BPTNetwork")
+description("Cintura di Sicurezza - BPTNetwork")
+version("2.0.0")
 
 client_script("main.lua")
 
