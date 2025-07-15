@@ -1,46 +1,51 @@
-local curTemplate
+local curTemplate = nil
 local curTags = {}
-
 local activePlayers = {}
 
+--- Funzione principale per il rilevamento degli aggiornamenti
 local function detectUpdates()
-    SetTimeout(500, detectUpdates)
+    SetTimeout(500, detectUpdates) -- Loop continuo ogni mezzo secondo
 
-    local template = GetConvar('playerNames_template', '[{{id}}] {{name}}')
-
-    if curTemplate ~= template then
-        setNameTemplate(-1, template)
-
-        curTemplate = template
+    -- Controlla se il template dei nomi lato client è cambiato
+    local clientTemplate = GetConvar("playerNames_template", "[{{id}}] {{name}}")
+    if curTemplate ~= clientTemplate then
+        setNameTemplate(-1, clientTemplate) -- Aggiorna per tutti
+        curTemplate = clientTemplate
     end
 
-    template = GetConvar('playerNames_svTemplate', '[{{id}}] {{name}}')
+    -- Template lato server
+    local serverTemplate = GetConvar("playerNames_svTemplate", "[{{id}}] {{name}}")
 
-    for v, _ in pairs(activePlayers) do
-        local newTag = formatPlayerNameTag(v, template)
-        if newTag ~= curTags[v] then
-            setName(v, newTag)
-
-            curTags[v] = newTag
+    -- Aggiorna i tag attivi
+    for playerId in pairs(activePlayers) do
+        local newTag = formatPlayerNameTag(playerId, serverTemplate)
+        if newTag ~= curTags[playerId] then
+            setName(playerId, newTag)
+            curTags[playerId] = newTag
         end
     end
 
-    for i, tag in pairs(curTags) do
-        if not activePlayers[i] then
-            curTags[i] = nil -- in case curTags doesnt get cleared when the player left, clear it now.
+    -- Pulisce i tag dei player che non sono più attivi
+    for playerId in pairs(curTags) do
+        if not activePlayers[playerId] then
+            curTags[playerId] = nil
         end
     end
 end
 
-AddEventHandler('playerDropped', function()
-    curTags[source] = nil
-    activePlayers[source] = nil
+--- Rimuove dati quando un giocatore lascia
+AddEventHandler("playerDropped", function()
+    local src = source
+    curTags[src] = nil
+    activePlayers[src] = nil
 end)
 
-RegisterNetEvent('playernames:init')
-AddEventHandler('playernames:init', function()
-    reconfigure(source)
-    activePlayers[source] = true
+--- Inizializza il nome per un nuovo giocatore
+RegisterNetEvent("playernames:init", function()
+    local src = source
+    reconfigure(src) -- Presumibilmente applica la configurazione di visualizzazione
+    activePlayers[src] = true
 end)
 
-detectUpdates()
+-- Avvia il ciclo di aggiornamento
+CreateThread(detectUpdates)
