@@ -1,80 +1,74 @@
 local ids = {}
 
-local function getTriggerFunction(key)
-    return function(id, ...)
-        -- if on the client, it's easy
+-- Funzione factory per creare le funzioni di trigger per client/server
+local function createTriggerFunction(key)
+    return function(playerId, ...)
         if not IsDuplicityVersion() then
-            TriggerEvent('playernames:configure', GetPlayerServerId(id), key, ...)
+            -- Lato client
+            TriggerEvent("playernames:configure", GetPlayerServerId(playerId), key, ...)
         else
-            -- if on the server, save configuration
-            if not ids[id] then
-                ids[id] = {}
-            end
-
-            -- save the setting
-            ids[id][key] = table.pack(...)
-
-            -- broadcast to clients
-            TriggerClientEvent('playernames:configure', -1, id, key, ...)
+            -- Lato server: salva e propaga ai client
+            ids[playerId] = ids[playerId] or {}
+            ids[playerId][key] = table.pack(...)
+            TriggerClientEvent("playernames:configure", -1, playerId, key, ...)
         end
     end
 end
 
+-- Solo lato server
 if IsDuplicityVersion() then
-    function reconfigure(source)
-        for id, data in pairs(ids) do
-            for key, args in pairs(data) do
-                TriggerClientEvent('playernames:configure', source, id, key, table.unpack(args))
+    function reconfigure(targetSource)
+        for id, config in pairs(ids) do
+            for key, args in pairs(config) do
+                TriggerClientEvent("playernames:configure", targetSource, id, key, table.unpack(args))
             end
         end
     end
 
-    AddEventHandler('playerDropped', function()
+    AddEventHandler("playerDropped", function()
         ids[source] = nil
     end)
 end
 
-setComponentColor = getTriggerFunction('setc')
-setComponentAlpha = getTriggerFunction('seta')
-setComponentVisibility = getTriggerFunction('tglc')
-setWantedLevel = getTriggerFunction('setw')
-setHealthBarColor = getTriggerFunction('sehc')
-setNameTemplate = getTriggerFunction('tpl')
-setName = getTriggerFunction('name')
+-- Exported setter functions
+setComponentColor = createTriggerFunction("setc")
+setComponentAlpha = createTriggerFunction("seta")
+setComponentVisibility = createTriggerFunction("tglc")
+setWantedLevel = createTriggerFunction("setw")
+setHealthBarColor = createTriggerFunction("sehc")
+setNameTemplate = createTriggerFunction("tpl")
+setName = createTriggerFunction("name")
 
-if not io then
-    io = { write = nil, open = nil }
-end
+-- Prepara il template renderer
+local template = load(LoadResourceFile(GetCurrentResourceName(), "template/template.lua"))()
 
-local template = load(LoadResourceFile(GetCurrentResourceName(), 'template/template.lua'))()
+-- Funzione per formattare il nome visualizzato
+function formatPlayerNameTag(playerIndex, templateStr)
+    local tagString = ""
 
-function formatPlayerNameTag(i, templateStr)
-    --return ('%s &lt;%d&gt;'):format(GetPlayerName(i), GetPlayerServerId(i))
-    local str = ''
-
+    -- Sovrascrive print temporaneamente per accumulare l'output del template
     template.print = function(txt)
-        str = str .. txt
+        tagString = tagString .. txt
     end
 
+    -- Prepara il contesto per il rendering
     local context = {
-        name = GetPlayerName(i),
-        i = i,
-        global = _G
+        name = GetPlayerName(playerIndex),
+        i = playerIndex,
+        global = _G,
+        id = IsDuplicityVersion() and playerIndex or GetPlayerServerId(playerIndex),
     }
 
-    if IsDuplicityVersion() then
-        context.id = i
-    else
-        context.id = GetPlayerServerId(i)
-    end
-
-    TriggerEvent('playernames:extendContext', i, function(k, v)
-        context[k] = v
+    -- Estende dinamicamente il contesto
+    TriggerEvent("playernames:extendContext", playerIndex, function(key, value)
+        context[key] = value
     end)
 
+    -- Esegue il rendering
     template.render(templateStr, context, nil, true)
 
+    -- Ripristina print originale
     template.print = print
 
-    return str
+    return tagString
 end
