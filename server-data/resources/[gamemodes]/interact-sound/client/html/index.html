@@ -1,23 +1,52 @@
 <!DOCTYPE html>
-<html>
-  <head>
-   <!-- Need to include jQuery! -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js" type="text/javascript"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" type="text/javascript"></script>
-    <script>
-        var audioPlayer = null;
-        // Listen for NUI Messages.
-        window.addEventListener('message', function(event) {
-        // Check for playSound transaction
-        if (event.data.transactionType == "playSound") {
-          if (audioPlayer != null) {
-            audioPlayer.pause();
-          }
-          audioPlayer = new Howl({src: ["./sounds/" + event.data.transactionFile + ".ogg"]});
-          audioPlayer.volume(event.data.transactionVolume);
-          audioPlayer.play();
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>InteractSound UI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Howler.js per la riproduzione audio -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <!-- jQuery (necessario solo se usato altrove) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script>
+    let audioPlayer = null;
+
+    window.addEventListener('message', function (event) {
+      const data = event.data;
+
+      // Verifica che il tipo di transazione sia "playSound"
+      if (data?.transactionType === "playSound") {
+        const soundFile = data.transactionFile;
+        const soundVolume = Math.min(Math.max(parseFloat(data.transactionVolume) || 0.3, 0.1), 1.0); // Range 0.1 - 1.0
+
+        if (!soundFile) {
+          console.warn("No sound file specified.");
+          return;
         }
-      });
-    </script>
-  </head>
+
+        // Stoppa eventuale audio in riproduzione
+        if (audioPlayer instanceof Howl) {
+          audioPlayer.stop();
+        }
+
+        // Crea un nuovo oggetto Howl per riprodurre il suono
+        audioPlayer = new Howl({
+          src: [`./sounds/${soundFile}.ogg`],
+          volume: soundVolume,
+          onloaderror: (id, err) => console.error("Errore caricamento suono:", err),
+          onplayerror: (id, err) => console.error("Errore riproduzione suono:", err)
+        });
+
+        audioPlayer.play();
+      }
+    });
+  </script>
+</head>
+
+<body>
+</body>
+
 </html>
