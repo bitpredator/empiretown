@@ -17,7 +17,9 @@ end
 
 -- Play sound only on local client
 RegisterNetEvent("InteractSound_CL:PlayOnOne", function(soundFile, soundVolume)
-    if not hasPlayerLoaded then return end
+    if not hasPlayerLoaded then
+        return
+    end
 
     SendNUIMessage({
         transactionType = "playSound",
@@ -28,7 +30,9 @@ end)
 
 -- Play sound on all clients
 RegisterNetEvent("InteractSound_CL:PlayOnAll", function(soundFile, soundVolume)
-    if not hasPlayerLoaded then return end
+    if not hasPlayerLoaded then
+        return
+    end
 
     SendNUIMessage({
         transactionType = "playSound",
@@ -39,7 +43,9 @@ end)
 
 -- Play sound only if within specified distance
 RegisterNetEvent("InteractSound_CL:PlayWithinDistance", function(originCoords, maxDistance, soundFile, soundVolume)
-    if not hasPlayerLoaded then return end
+    if not hasPlayerLoaded then
+        return
+    end
 
     local myCoords = GetEntityCoords(PlayerPedId())
     local distance = #(myCoords - originCoords)
