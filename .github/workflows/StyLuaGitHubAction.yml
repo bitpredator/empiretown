@@ -1,23 +1,43 @@
-# Check Lua Formatting
-name: Check Lua Formatting
+name: 🔧 Format Lua with Stylua
+
 on:
-    push:
-      branches: [ main, dev ]
-    pull_request:
-      types: [ labeled ]
+  push:
+    branches: [main]
+    paths:
+      - '**/*.lua'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.lua'
 
 jobs:
-  stylua-check:
-    name: Stylua Check
+  format:
+    name: Format Lua files
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.label.name == 'format_all') }}
+    concurrency:
+      group: stylua-${{ github.head_ref || github.ref }}
+      cancel-in-progress: true
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: JohnnyMorganz/stylua-action@v4
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for auto-commit to work correctly
+
+      - name: 💅 Run Stylua
+        uses: JohnnyMorganz/stylua-action@v4
+        id: stylua
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: v0.18.0
-          # CLI arguments
-          args: --check .
+          version: latest
+          args: .
+
+      - name: 📝 Commit changes if needed
+        if: steps.stylua.outputs.changed == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style(lua): auto-format via stylua"
+          file_pattern: '**/*.lua'
+          push_options: '--force-with-lease'
