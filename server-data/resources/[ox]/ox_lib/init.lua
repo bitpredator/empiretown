@@ -1,17 +1,23 @@
 ---@meta
----ox_lib <https://github.com/overextended/ox_lib>
----Copyright (C) 2021 Linden <https://github.com/thelindat>
----LGPL-3.0-or-later <https://www.gnu.org/licenses/lgpl-3.0.en.html>
+--[[
+    https://github.com/overextended/ox_lib
 
-if not _VERSION:find('5.4') then
-    error('Lua 5.4 must be enabled in the resource manifest!', 2)
+    This file is licensed under LGPL-3.0 or higher <https://www.gnu.org/licenses/lgpl-3.0.en.html>
+
+    Copyright © 2025 Linden <https://github.com/thelindat>
+]]
+
+if not _VERSION:find("5.4") then
+    error("Lua 5.4 must be enabled in the resource manifest!", 2)
 end
 
 local resourceName = GetCurrentResourceName()
-local ox_lib = 'ox_lib'
+local ox_lib = "ox_lib"
 
 -- Some people have decided to load this file as part of ox_lib's fxmanifest?
-if resourceName == ox_lib then return end
+if resourceName == ox_lib then
+    return
+end
 
 if lib and lib.name == ox_lib then
     error(("Cannot load ox_lib more than once.\n\tRemove any duplicate entries from '@%s/fxmanifest.lua'"):format(resourceName))
@@ -19,40 +25,49 @@ end
 
 local export = exports[ox_lib]
 
-if GetResourceState(ox_lib) ~= 'started' then
-    error('^1ox_lib must be started before this resource.^0', 0)
+if GetResourceState(ox_lib) ~= "started" then
+    error("^1ox_lib must be started before this resource.^0", 0)
 end
 
 local status = export.hasLoaded()
 
-if status ~= true then error(status, 2) end
+if status ~= true then
+    error(status, 2)
+end
 
 -- Ignore invalid types during msgpack.pack (e.g. userdata)
-msgpack.setoption('ignore_invalid', true)
+msgpack.setoption("ignore_invalid", true)
 
 -----------------------------------------------------------------------------------------------
 -- Module
 -----------------------------------------------------------------------------------------------
 
 local LoadResourceFile = LoadResourceFile
-local context = IsDuplicityVersion() and 'server' or 'client'
+local context = IsDuplicityVersion() and "server" or "client"
 
 function noop() end
 
 local function loadModule(self, module)
-    local dir = ('imports/%s'):format(module)
-    local chunk = LoadResourceFile(ox_lib, ('%s/%s.lua'):format(dir, context))
-    local shared = LoadResourceFile(ox_lib, ('%s/shared.lua'):format(dir))
+    local dir = ("imports/%s"):format(module)
+    local chunk = LoadResourceFile(ox_lib, ("%s/%s.lua"):format(dir, context))
+    local shared = LoadResourceFile(ox_lib, ("%s/shared.lua"):format(dir))
 
     if shared then
-        chunk = (chunk and ('%s\n%s'):format(shared, chunk)) or shared
+        chunk = (chunk and ("%s\n%s"):format(shared, chunk)) or shared
     end
 
     if chunk then
-        local fn, err = load(chunk, ('@@ox_lib/imports/%s/%s.lua'):format(module, context))
+        local fn, err = load(chunk, ("@@ox_lib/imports/%s/%s.lua"):format(module, context))
 
         if not fn or err then
-            return error(('\n^1Error importing module (%s): %s^0'):format(dir, err), 3)
+            if shared then
+                lib.print.warn(("An error occurred when importing '@ox_lib/imports/%s'.\nThis is likely caused by improperly updating ox_lib.\n%s'"):format(module, err))
+                fn, err = load(shared, ("@@ox_lib/imports/%s/shared.lua"):format(module))
+            end
+
+            if not fn or err then
+                return error(("\n^1Error importing module (%s): %s^0"):format(dir, err), 3)
+            end
         end
 
         local result = fn()
@@ -104,19 +119,19 @@ local intervals = {}
 function SetInterval(callback, interval, ...)
     interval = interval or 0
 
-    if type(interval) ~= 'number' then
-        return error(('Interval must be a number. Received %s'):format(json.encode(interval --[[@as unknown]])))
+    if type(interval) ~= "number" then
+        return error(("Interval must be a number. Received %s"):format(json.encode(interval --[[@as unknown]])))
     end
 
     local cbType = type(callback)
 
-    if cbType == 'number' and intervals[callback] then
+    if cbType == "number" and intervals[callback] then
         intervals[callback] = interval or 0
         return
     end
 
-    if cbType ~= 'function' then
-        return error(('Callback must be a function. Received %s'):format(cbType))
+    if cbType ~= "function" then
+        return error(("Callback must be a function. Received %s"):format(cbType))
     end
 
     local args, id = { ... }
@@ -127,8 +142,12 @@ function SetInterval(callback, interval, ...)
         repeat
             interval = intervals[id]
             Wait(interval)
+
+            if interval < 0 then
+                break
+            end
             callback(table.unpack(args))
-        until interval < 0
+        until false
         intervals[id] = nil
     end)
 
@@ -137,12 +156,12 @@ end
 
 ---@param id number
 function ClearInterval(id)
-    if type(id) ~= 'number' then
-        return error(('Interval id must be a number. Received %s'):format(json.encode(id --[[@as unknown]])))
+    if type(id) ~= "number" then
+        return error(("Interval id must be a number. Received %s"):format(json.encode(id --[[@as unknown]])))
     end
 
     if not intervals[id] then
-        return error(('No interval exists with id %s'):format(id))
+        return error(("No interval exists with id %s"):format(id))
     end
 
     intervals[id] = -1
@@ -171,7 +190,7 @@ local cache = setmetatable({ game = GetGameName(), resource = resourceName }, {
     __index = function(self, key)
         cacheEvents[key] = {}
 
-        AddEventHandler(('ox_lib:cache:%s'):format(key), function(value)
+        AddEventHandler(("ox_lib:cache:%s"):format(key), function(value)
             local oldValue = self[key]
             local events = cacheEvents[key]
 
@@ -195,7 +214,11 @@ local cache = setmetatable({ game = GetGameName(), resource = resourceName }, {
 
             rawset(self, key, value)
 
-            if timeout then SetTimeout(timeout, function() self[key] = nil end) end
+            if timeout then
+                SetTimeout(timeout, function()
+                    self[key] = nil
+                end)
+            end
         end
 
         return value
@@ -214,9 +237,9 @@ _ENV.lib = lib
 _ENV.cache = cache
 _ENV.require = lib.require
 
-local notifyEvent = ('__ox_notify_%s'):format(cache.resource)
+local notifyEvent = ("__ox_notify_%s"):format(cache.resource)
 
-if context == 'client' then
+if context == "client" then
     RegisterNetEvent(notifyEvent, function(data)
         if locale then
             if data.title then
@@ -274,12 +297,14 @@ else
     end
 end
 
-for i = 1, GetNumResourceMetadata(cache.resource, 'ox_lib') do
-    local name = GetResourceMetadata(cache.resource, 'ox_lib', i - 1)
+for i = 1, GetNumResourceMetadata(cache.resource, "ox_lib") do
+    local name = GetResourceMetadata(cache.resource, "ox_lib", i - 1)
 
     if not rawget(lib, name) then
         local module = loadModule(lib, name)
 
-        if type(module) == 'function' then pcall(module) end
+        if type(module) == "function" then
+            pcall(module)
+        end
     end
 end
