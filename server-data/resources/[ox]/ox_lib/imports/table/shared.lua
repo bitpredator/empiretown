@@ -1,3 +1,11 @@
+--[[
+    https://github.com/overextended/ox_lib
+
+    This file is licensed under LGPL-3.0 or higher <https://www.gnu.org/licenses/lgpl-3.0.en.html>
+
+    Copyright © 2025 Linden <https://github.com/thelindat>
+]]
+
 -- Add additional functions to the standard table library
 
 ---@class oxtable : tablelib
@@ -85,7 +93,7 @@ end
 ---@return table
 ---Merges two tables together. Defaults to adding duplicate keys together if they are numbers, otherwise they are overriden.
 local function table_merge(t1, t2, addDuplicateNumbers)
-    addDuplicateNumbers = addDuplicateNumbers ~= nil and addDuplicateNumbers or true
+    addDuplicateNumbers = addDuplicateNumbers == nil or addDuplicateNumbers
     for k, v2 in pairs(t2) do
         local v1 = t1[k]
         local type1 = type(v1)
@@ -103,10 +111,23 @@ local function table_merge(t1, t2, addDuplicateNumbers)
     return t1
 end
 
+---@param tbl table
+---@return table
+---Shuffles the elements of a table randomly using the Fisher-Yates algorithm.
+local function shuffle(tbl)
+    local len = #tbl
+    for i = len, 2, -1 do
+        local j = math.random(i)
+        tbl[i], tbl[j] = tbl[j], tbl[i]
+    end
+    return tbl
+end
+
 table.contains = contains
 table.matches = table_matches
 table.deepclone = table_deepclone
 table.merge = table_merge
+table.shuffle = shuffle
 
 local frozenNewIndex = function(self) error(('cannot set values on a frozen table (%s)'):format(self), 2) end
 local _rawset = rawset

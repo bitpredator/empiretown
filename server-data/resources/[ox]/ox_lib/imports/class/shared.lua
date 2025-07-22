@@ -1,3 +1,11 @@
+--[[
+    https://github.com/overextended/ox_lib
+
+    This file is licensed under LGPL-3.0 or higher <https://www.gnu.org/licenses/lgpl-3.0.en.html>
+
+    Copyright © 2025 Linden <https://github.com/thelindat>
+]]
+
 ---@diagnostic disable: invisible
 local getinfo = debug.getinfo
 
@@ -55,10 +63,8 @@ local function void() return '' end
 ---@return T
 function mixins.new(class, ...)
     local constructor = getConstructor(class)
-
-    local obj = setmetatable({
-        private = {}
-    }, class)
+    local private = {}
+    local obj = setmetatable({ private = private }, class)
 
     if constructor then
         local parent = class
@@ -75,8 +81,8 @@ function mixins.new(class, ...)
 
     rawset(obj, 'super', nil)
 
-    if next(obj.private) then
-        local private = table.clone(obj.private)
+    if private ~= obj.private or next(obj.private) then
+        private = table.clone(obj.private)
 
         table.wipe(obj.private)
         setmetatable(obj.private, {
