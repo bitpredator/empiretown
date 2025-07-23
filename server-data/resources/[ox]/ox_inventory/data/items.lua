@@ -348,6 +348,10 @@ return {
         },
     },
 
+    ["sim"] = {
+        label = "Sim Card",
+    },
+
     ["money"] = {
         label = "Money",
     },
