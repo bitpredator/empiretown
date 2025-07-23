@@ -36,7 +36,7 @@ jobs:
 
       - name: 📝 Commit changes if needed
         if: steps.stylua.outputs.changed == 'true'
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "style(lua): auto-format via stylua"
           file_pattern: '**/*.lua'
