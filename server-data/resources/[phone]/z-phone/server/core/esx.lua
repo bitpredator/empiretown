@@ -1,11 +1,13 @@
-if Config.Core == "ESX" then 
+if Config.Core == "ESX" then
     xCore = {}
     local ESX = exports["es_extended"]:getSharedObject()
     local ox_inventory = exports.ox_inventory
 
     xCore.GetPlayerBySource = function(source)
         local ply = ESX.GetPlayerFromId(source)
-        if not ply then return nil end
+        if not ply then
+            return nil
+        end
 
         return {
             source = ply.source,
@@ -13,27 +15,29 @@ if Config.Core == "ESX" then
             name = ply.getName(),
             job = {
                 name = ply.getJob().name,
-                label = ply.getJob().label
+                label = ply.getJob().label,
             },
             money = {
-                cash = ply.getAccount('money').money,
-                bank = ply.getAccount('bank').money,
+                cash = ply.getAccount("money").money,
+                bank = ply.getAccount("bank").money,
             },
-            removeCash = function (amount)
+            removeCash = function(amount)
                 ply.removeMoney(amount)
             end,
-            removeAccountMoney = function (account, amount, reason)
+            removeAccountMoney = function(account, amount, reason)
                 ply.removeAccountMoney(account, amount)
             end,
-            addAccountMoney = function (account, amount, reason)
+            addAccountMoney = function(account, amount, reason)
                 ply.addAccountMoney(account, amount)
-            end
+            end,
         }
     end
 
     xCore.GetPlayerByIdentifier = function(identifier)
         local ply = ESX.GetPlayerFromIdentifier(identifier)
-        if not ply then return nil end
+        if not ply then
+            return nil
+        end
 
         return {
             source = ply.source,
@@ -41,21 +45,21 @@ if Config.Core == "ESX" then
             name = ply.getName(),
             job = {
                 name = ply.getJob().name,
-                label = ply.getJob().label
+                label = ply.getJob().label,
             },
             money = {
-                cash = ply.getAccount('money').money,
-                bank = ply.getAccount('bank').money,
+                cash = ply.getAccount("money").money,
+                bank = ply.getAccount("bank").money,
             },
-            removeCash = function (amount)
+            removeCash = function(amount)
                 ply.removeMoney(amount)
             end,
-            removeAccountMoney = function (account, amount, reason)
+            removeAccountMoney = function(account, amount, reason)
                 ply.removeAccountMoney(account, amount)
             end,
-            addAccountMoney = function (account, amount, reason)
+            addAccountMoney = function(account, amount, reason)
                 ply.addAccountMoney(account, amount)
-            end
+            end,
         }
     end
 
@@ -67,7 +71,7 @@ if Config.Core == "ESX" then
         -- I DONT KNOW MUCH ABOUT ESX, SORRY
         lib.print.info("TODO ADD MONEY TO YOUR SOCIETY")
     end
-    
+
     xCore.queryPlayerVehicles = function()
         -- state
         -- 1 = Garaged
@@ -160,7 +164,7 @@ if Config.Core == "ESX" then
             select pi.id, pi.amount, pi.label as reason, pi.target as society, pi.amount from billing pi WHERE pi.id = ? and pi.identifier = ? LIMIT 1
         ]]
 
-        return MySQL.single.await(query, {id, citizenid})
+        return MySQL.single.await(query, { id, citizenid })
     end
 
     xCore.deleteBankInvoiceByID = function(id)
