@@ -1,14 +1,11 @@
----@diagnostic disable: undefined-global
-
 if Config.EnableESXService then
     if Config.MaxInService ~= -1 then
         TriggerEvent("esx_service:activateService", "police", Config.MaxInService)
     end
 end
 
-TriggerEvent("bpt_society:registerSociety", "police", TranslateCap("society_police"), "society_police", "society_police", "society_police", {
-    type = "public",
-})
+TriggerEvent("esx_phone:registerNumber", "police", TranslateCap("alert_police"), true, true)
+TriggerEvent("bpt_society:registerSociety", "police", TranslateCap("society_police"), "society_police", "society_police", "society_police", { type = "public" })
 
 RegisterNetEvent("bpt_policejob:confiscatePlayerItem")
 AddEventHandler("bpt_policejob:confiscatePlayerItem", function(target, itemType, itemName, amount)
@@ -202,6 +199,19 @@ ESX.RegisterServerCallback("bpt_policejob:getOtherPlayerData", function(source, 
     end
 end)
 
+local fineList = {}
+ESX.RegisterServerCallback("bpt_policejob:getFineList", function(source, cb, category)
+    if not fineList[category] then
+        MySQL.query("SELECT * FROM fine_types WHERE category = ?", { category }, function(fines)
+            fineList[category] = fines
+
+            cb(fines)
+        end)
+    else
+        cb(fineList[category])
+    end
+end)
+
 ESX.RegisterServerCallback("bpt_policejob:getVehicleInfos", function(source, cb, plate)
     local retrivedInfo = {
         plate = plate,
@@ -298,9 +308,58 @@ ESX.RegisterServerCallback("bpt_policejob:removeArmoryWeapon", function(source, 
     end)
 end)
 
+ESX.RegisterServerCallback("bpt_policejob:buyWeapon", function(source, cb, weaponName, type, componentNum)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local authorizedWeapons, selectedWeapon = Config.AuthorizedWeapons[xPlayer.job.grade_name]
+
+    for k, v in ipairs(authorizedWeapons) do
+        if v.weapon == weaponName then
+            selectedWeapon = v
+            break
+        end
+    end
+
+    if not selectedWeapon then
+        print(("[^3WARNING^7] Player ^5%s^7 Attempted To Buy Invalid Weapon - ^5%s^7!"):format(source, weaponName))
+        cb(false)
+    else
+        -- Weapon
+        if type == 1 then
+            if xPlayer.getMoney() >= selectedWeapon.price then
+                xPlayer.removeMoney(selectedWeapon.price, "Weapon Bought")
+                xPlayer.addWeapon(weaponName, 100)
+
+                cb(true)
+            else
+                cb(false)
+            end
+
+        -- Weapon Component
+        elseif type == 2 then
+            local price = selectedWeapon.components[componentNum]
+            local weaponNum, weapon = ESX.GetWeapon(weaponName)
+            local component = weapon.components[componentNum]
+
+            if component then
+                if xPlayer.getMoney() >= price then
+                    xPlayer.removeMoney(price, "Weapon Component Bought")
+                    xPlayer.addWeaponComponent(weaponName, component.name)
+
+                    cb(true)
+                else
+                    cb(false)
+                end
+            else
+                print(("[^3WARNING^7] Player ^5%s^7 Attempted To Buy Invalid Weapon Component - ^5%s^7!"):format(source, componentNum))
+                cb(false)
+            end
+        end
+    end
+end)
+
 ESX.RegisterServerCallback("bpt_policejob:buyJobVehicle", function(source, cb, vehicleProps, type)
     local xPlayer = ESX.GetPlayerFromId(source)
-    local price = GetPriceFromHash(vehicleProps.model, xPlayer.job.grade_name, type)
+    local price = getPriceFromHash(vehicleProps.model, xPlayer.job.grade_name, type)
 
     -- vehicle model not found
     if price == 0 then
@@ -337,7 +396,7 @@ ESX.RegisterServerCallback("bpt_policejob:storeNearbyVehicle", function(source, 
     end
 end)
 
-function GetPriceFromHash(vehicleHash, jobGrade, type)
+function getPriceFromHash(vehicleHash, jobGrade, type)
     local vehicles = Config.AuthorizedVehicles[type][jobGrade]
 
     for i = 1, #vehicles do
@@ -363,29 +422,8 @@ ESX.RegisterServerCallback("bpt_policejob:getPlayerInventory", function(source, 
     cb({ items = items })
 end)
 
-RegisterNetEvent("bpt_policejob:spawned")
-AddEventHandler("bpt_policejob:spawned", function()
-    local playerId = source
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-
-    if xPlayer and xPlayer.job.name == "police" then
-        Wait(5000)
-        TriggerClientEvent("bpt_policejob:updateBlip", -1)
-    end
-end)
-
-RegisterNetEvent("bpt_policejob:forceBlip")
-AddEventHandler("bpt_policejob:forceBlip", function()
-    for _, xPlayer in pairs(ESX.GetExtendedPlayers("job", "police")) do
-        TriggerClientEvent("bpt_policejob:updateBlip", xPlayer.source)
-    end
-end)
-
-AddEventHandler("onResourceStart", function(resource)
+AddEventHandler("onResourceStop", function(resource)
     if resource == GetCurrentResourceName() then
-        Wait(5000)
-        for _, xPlayer in pairs(ESX.GetExtendedPlayers("job", "police")) do
-            TriggerClientEvent("bpt_policejob:updateBlip", xPlayer.source)
-        end
+        TriggerEvent("esx_phone:removeNumber", "police")
     end
 end)
