@@ -5,7 +5,7 @@ game("gta5")
 description("Adds a way for resources to store items for players")
 lua54("yes")
 
-version("1.0.8")
+version("2.0.0")
 
 server_scripts({
     "@es_extended/imports.lua",

@@ -9,7 +9,7 @@ end
 local camera = nil
 local x, y = 0.0, 0.0
 local camera_radius = 5.0
-local zoom = {min = 2.5, max = 7.5, step = 0.5}
+local zoom = { min = 2.5, max = 7.5, step = 0.5 }
 local playerPed = nil
 local camThreadRunning = false
 
@@ -55,8 +55,12 @@ function ProcessCamControls()
     x -= GetDisabledControlNormal(0, 1)
     y -= GetDisabledControlNormal(0, 2)
 
-    if y < math.rad(15) then y = math.rad(15) end
-    if y > math.rad(90) then y = math.rad(90) end
+    if y < math.rad(15) then
+        y = math.rad(15)
+    end
+    if y > math.rad(90) then
+        y = math.rad(90)
+    end
 
     local normal = vector3(math.sin(y) * math.cos(x), math.sin(y) * math.sin(x), math.cos(y))
     local pos = playerCoords + normal * camera_radius

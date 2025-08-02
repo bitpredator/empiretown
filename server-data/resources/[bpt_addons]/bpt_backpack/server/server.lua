@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local registeredStashes = {}
 local ox_inventory = exports.ox_inventory
 

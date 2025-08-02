@@ -1,4 +1,4 @@
-<h1 align='center'>[ESX] Ambulance Job</a></h1><p align='center'><b><a href='https://discord.esx-framework.org/'>Discord</a> - <a href='https://documentation.esx-framework.org/legacy/installation'>Documentation</a></b></h5>
+<p align='center'><a href='https://discord.gg/Jrm2Z26ad3'>Discord Skull Network Italia</a>
 
 ESX Ambulance Job is an plugin for ESX with features:
 
