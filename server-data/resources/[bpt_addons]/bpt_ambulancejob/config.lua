@@ -36,7 +36,7 @@ Config.EarlyRespawnFineAmount = 5000
 
 Config.OxInventory = ESX.GetConfig().OxInventory
 Config.RespawnPoints = {
-    { coords = vector3(357.217590, -593.538452, 28.774414), heading = 48.5 }
+    { coords = vector3(357.217590, -593.538452, 28.774414), heading = 48.5 },
 }
 
 Config.Hospitals = {
