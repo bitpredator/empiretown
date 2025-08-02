@@ -96,4 +96,11 @@ Locales["it"] = {
     ["weapon"] = "Porto D'armi",
     ["received_firearms_license"] = "Hai ricevuto il porto d'armi",
     ["released_gun_licence"] = "Hai rilasciato il porto d'armi",
+    -- billing
+    ["billing"] = "Fattura",
+    ["billing_amount"] = "Importo della fattura",
+    ["amount_invalid"] = "importo non valido",
+    ["no_amount"] = "hai dimenticato di inserire un importo",
+    ["billing_sent"] = "La fattura ha essere inviata a %s",
+    ["billing_sent_with_amount"] = "La fattura di $%s ha essere inviata a %s",
 }
