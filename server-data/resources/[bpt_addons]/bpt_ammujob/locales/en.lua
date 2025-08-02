@@ -98,4 +98,10 @@ Locales["en"] = {
     ["society_ammu"] = "Ammu",
     ["received_firearms_license"] = "You have received your firearms license",
     ["released_gun_licence"] = "you have issued your gun licence",
+    -- billing
+    ["billing"] = "Billing",
+    ["billing_amount"] = "Amount of the bill",
+    ["amount_invalid"] = "invalid amount",
+    ["no_amount"] = "you did not enter an amount",
+    ["billing_sent"] = "The bill has successfully been sent to %s",
 }
