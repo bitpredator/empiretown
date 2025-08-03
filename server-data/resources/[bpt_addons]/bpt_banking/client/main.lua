@@ -1,5 +1,3 @@
----@diagnostic disable: undefined-global
-ESX = exports["es_extended"]:getSharedObject()
 local BANK = {
     Data = {},
 }
@@ -66,7 +64,7 @@ function BANK:Thread()
         while playerLoaded do
             if next(markerPoints) then
                 for i = 1, #markerPoints do
-                    DrawMarker(20, markerPoints[i].x, markerPoints[i].y, markerPoints[i].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.2, 187, 255, 0, 255, false, true, 2, false, "", "", false)
+                    DrawMarker(20, markerPoints[i].x, markerPoints[i].y, markerPoints[i].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.2, 187, 255, 0, 255, false, true, 2, false, nil, nil, false)
                 end
                 wait = 0
             end

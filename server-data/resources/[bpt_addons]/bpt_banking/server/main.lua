@@ -1,4 +1,3 @@
----@diagnostic disable: undefined-global
 local spawnedPeds, netIdTable = {}, {}
 
 -- get keys utils
@@ -175,7 +174,6 @@ function logTransaction(targetSource, label, key, amount)
         print("ERROR: xPlayer is nil!")
     end
 end
-
 exports("logTransaction", logTransaction)
 
 RegisterServerEvent("bpt_banking:logTransaction")
