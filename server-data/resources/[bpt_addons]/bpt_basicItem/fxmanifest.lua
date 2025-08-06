@@ -3,7 +3,7 @@ game("gta5")
 
 description("fivem basic Item")
 author("bitpredator")
-version("1.0.8")
+version("2.0.0")
 lua54("yes")
 
 shared_scripts({
