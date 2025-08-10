@@ -1,5 +1,5 @@
 <h1 align='center'>bpt_addonaccount</a></h1>
-<p align='center'><a href='https://discord.gg/ksGfNvDEfq'>Discord</a>
+<p align='center'><a href='https://discord.gg/Jrm2Z26ad3'>Discord Skull Network Italia</a>
 
 Copyright (C) 2024-2025 bitpredator
 

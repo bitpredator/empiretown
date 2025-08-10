@@ -4,13 +4,13 @@ game("gta5")
 
 description("Used for storing Data, such as society inventories")
 
-version("1.0.8")
+version("2.0.0")
 
 lua54("yes")
 
 server_scripts({
-	"@es_extended/imports.lua",
-	"@oxmysql/lib/MySQL.lua",
-	"server/classes/datastore.lua",
-	"server/main.lua",
+    "@es_extended/imports.lua",
+    "@oxmysql/lib/MySQL.lua",
+    "server/classes/datastore.lua",
+    "server/main.lua",
 })

@@ -24,7 +24,7 @@ function DrawSub(msg, time)
     ClearPrints()
     BeginTextCommandPrint("STRING")
     AddTextComponentSubstringPlayerName(msg)
-    EndTextCommandPrint(time, 1)
+    EndTextCommandPrint(time, true)
 end
 
 function ShowLoadingPromt(msg, time, type)
@@ -66,7 +66,7 @@ function OpenballasActionsMenu()
         elseif element.value == "boss_actions" then
             TriggerEvent("bpt_society:openBossMenu", "ballas", function(_, menu)
                 menu.close()
-            end, { wash = false } )
+            end, { wash = false })
         end
     end, function()
         CurrentAction = "ballas_actions_menu"
@@ -109,7 +109,7 @@ CreateThread(function()
         local sleep = 1500
         if ESX.PlayerData.job and ESX.PlayerData.job.name == "ballas" then
             local coords = GetEntityCoords(PlayerPedId())
-            local isInMarker, currentZone = false
+            local isInMarker, currentZone = false, nil
 
             for k, v in pairs(Config.Zones) do
                 local zonePos = vector3(v.Pos.x, v.Pos.y, v.Pos.z)
