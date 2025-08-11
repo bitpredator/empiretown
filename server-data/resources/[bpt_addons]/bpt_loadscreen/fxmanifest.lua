@@ -1,21 +1,20 @@
 fx_version("cerulean")
-games({ "gta5" })
+game("gta5")
 
 author("Bitpredator")
-description("fivem loadscreen")
+description("Custom Loadscreen")
 version("2.0.0")
 
 loadscreen("index.html")
 loadscreen_manual_shutdown("yes")
-client_script("client.lua")
-server_script("server.lua")
 loadscreen_cursor("yes")
 
 files({
     "index.html",
-    "css/style.css",
-    "script/main.js",
-    "song/*",
-    "img/*",
+    "style.css",
+    "script.js",
     "video.mp4",
+    "intro.mp3",
 })
+
+client_script("client/*.lua")

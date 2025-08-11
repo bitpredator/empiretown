@@ -1,66 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <!--Custom fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <!--Custom fonts-->
+    <meta charset="UTF-8">
+    <title>FiveM Loadscreen</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="sky noselect">
-    <div class="menu-container">
-        <div class="arrow-up">
-            <img src="img/ARROW_UP.png" width="1.75%">
-            <span class="menu-text">VOLUME UP</span>
-        </div>
-        <div class="arrow-down">
-            <img src="img/ARROW_DOWN.png" width="1.75%">
-            <span class="menu-text">VOLUME DOWN</span>
-        </div>
-        <div class="space">
-            <img src="img/SPACE.png" width="4%">
-            <span class="menu-text" id="text">MUTE</span>
-        </div>
-    </div>
+<body>
 
-    <div class="discord">
-        <a href="https://discord.gg/ksGfNvDEfq" target="_blank" rel="noopener noreferrer" onclick="window.invokeNative('openUrl', 'https://discord.gg/nunBYPBWFF');"><img src="img/Discord.png"></a>
-    </div>
-    <div class="website">
-        <a href="https://bptdevelopment1.statuspage.io/" target="_blank" rel="noopener noreferrer" onclick="window.invokeNative('openUrl', 'https://bptdevelopment1.statuspage.io/');"><img src="img/Site.png"></a>
-    </div>
+<div id="loadscreen-container">
+    <!-- Video di sfondo -->
+    <video id="bg-video" autoplay muted loop playsinline preload="auto">
+        <source src="video.mp4" type="video/mp4">
+        Il tuo browser non supporta il tag video.
+    </video>
 
-    <div id="circleG">
-        <div class="shaded-text">JOINING SERVER</div>
-        <div id="circleG_1" class="circleG"></div>
-        <div id="circleG_2" class="circleG"></div>
-        <div id="circleG_3" class="circleG"></div>
-    </div>
-
-<div class="load">
-    <div class="loader">
-        <div class="stroke"></div>
-        <div class="stroke"></div>
-        <div class="stroke"></div>
+    <!-- Controlli audio -->
+    <div id="controls">
+        <button id="vol-up">🔊 Volume +</button>
+        <button id="vol-down">🔉 Volume -</button>
+        <button id="mute">🔇 Mute</button>
     </div>
 </div>
-    
-    <div class="video-background video-container noselect">
-        <video autoplay loop muted playsinline class="video-background" id="background-video">
-    <source src="video.mp4" type="video/mp4">
-    Il tuo browser non supporta il tag video.
-</video>
-    </div>
 
-    <audio id="loading" src="song/intro.mp3" autoplay="true" hidden="true" loop="true"></audio>
-    <div class="background">
-        <div class="img-center">
-        </div>
-    </div>
+<!-- Audio -->
+<audio id="bg-audio" src="intro.mp3" preload="auto" loop></audio>
 
-    <script src="script/main.js"></script>
-    
+<script src="script.js"></script>
 </body>
 </html>
