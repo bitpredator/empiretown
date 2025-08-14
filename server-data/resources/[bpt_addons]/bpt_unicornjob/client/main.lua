@@ -202,41 +202,39 @@ function OpenUnicornActionsMenu()
 end
 
 function OpenMobileUnicornActionsMenu()
-    local elements = {
-        { unselectable = true, icon = "fas fa-unicorn", title = TranslateCap("unicorn") },
-        { icon = "fas fa-scroll", title = TranslateCap("billing"), value = "billing" },
+    local elements2 = {
+        { unselectable = true, icon = "fas fa-unicorn", title = TranslateCap("unicorn_menu") },
+        {
+            title = TranslateCap("amount"),
+            input = true,
+            inputType = "number",
+            inputMin = 1,
+            inputMax = 10000000,
+            inputPlaceholder = TranslateCap("bill_amount"),
+        },
+        {
+            title = TranslateCap("reason"),
+            input = true,
+            inputType = "text",
+            inputPlaceholder = TranslateCap("reason_placeholder"),
+        },
+        { icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
     }
-
-    ESX.OpenContext("right", elements, function(_, element)
-        if element.value == "billing" then
-            local elements2 = {
-                { unselectable = true, icon = "fas fa-unicorn", title = element.title },
-                {
-                    title = TranslateCap("amount"),
-                    input = true,
-                    inputType = "number",
-                    inputMin = 1,
-                    inputMax = 10000000,
-                    inputPlaceholder = TranslateCap("bill_amount"),
-                },
-                { icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
-            }
-
-            ESX.OpenContext("right", elements2, function(menu2)
-                local amount = tonumber(menu2.eles[2].inputValue)
-                if amount == nil then
-                    ESX.ShowNotification(TranslateCap("amount_invalid"))
-                else
-                    ESX.CloseContext()
-                    local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-                    if closestPlayer == -1 or closestDistance > 3.0 then
-                        ESX.ShowNotification(TranslateCap("no_players_near"))
-                    else
-                        TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "societyTranslateCapnicorn", "Unicorn", amount)
-                        ESX.ShowNotification(TranslateCap("billing_sent"))
-                    end
-                end
-            end)
+    
+    ESX.OpenContext("right", elements2, function(menu2)
+        local amount = tonumber(menu2.eles[2].inputValue)
+        local reason = menu2.eles[3].inputValue
+        if amount == nil or reason == nil or reason == "" then
+            ESX.ShowNotification(TranslateCap("amount_invalid"))
+        else
+            ESX.CloseContext()
+            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+            if closestPlayer == -1 or closestDistance > 3.0 then
+                ESX.ShowNotification(TranslateCap("no_players_near"))
+            else
+                TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(closestPlayer), "society_unicorn", reason, amount)
+                ESX.ShowNotification(TranslateCap("billing_sent"))
+            end
         end
     end)
 end
