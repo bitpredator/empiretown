@@ -184,6 +184,7 @@ end
 function OpenMobileMechanicActionsMenu()
     local elements = {
         { unselectable = true, icon = "fas fa-gear", title = TranslateCap("mechanic") },
+        { icon = "fas fa-gear", title = TranslateCap("billing"), value = "billing" },
         { icon = "fas fa-gear", title = TranslateCap("hijack"), value = "hijack_vehicle" },
         { icon = "fas fa-gear", title = TranslateCap("repair"), value = "fix_vehicle" },
         { icon = "fas fa-gear", title = TranslateCap("clean"), value = "clean_vehicle" },
@@ -196,7 +197,29 @@ function OpenMobileMechanicActionsMenu()
             return
         end
 
-        if element.value == "hijack_vehicle" then
+        if element.value == "billing" then
+            local elements2 = {
+                { unselectable = true, icon = "fas fa-scroll", title = element.title },
+                { title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 10000000, inputPlaceholder = "Amount to bill.." },
+                { icon = "fas fa-check-double", title = "Confirm", value = "confirm" },
+            }
+
+            ESX.OpenContext("right", elements2, function(menu2)
+                local amount = tonumber(menu2.eles[2].inputValue)
+
+                if amount == nil or amount < 0 then
+                    ESX.ShowNotification(TranslateCap("amount_invalid"), "error")
+                else
+                    local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+                    if closestPlayer == -1 or closestDistance > 3.0 then
+                        ESX.ShowNotification(TranslateCap("no_players_nearby"), "error")
+                    else
+                        ESX.CloseContext()
+                        TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_mechanic", TranslateCap("mechanic"), amount)
+                    end
+                end
+            end)
+        elseif element.value == "hijack_vehicle" then
             local playerPed = PlayerPedId()
             local vehicle = ESX.Game.GetVehicleInDirection()
             local _ = GetEntityCoords(playerPed)

@@ -59,4 +59,8 @@ Locales["it"] = {
     ["have_withdrawn"] = "hai prelevato x%s %s",
     ["have_deposited"] = "hai depositato x%s %s",
     ["player_cannot_hold"] = "non hai abbastanza spazio nel tuo inventario!",
+    -- billing
+    ["billing"] = "fattura",
+    ["billing_amount"] = "importo fattura",
+    ["no_vehicle_to_impound"] = "nessun veicolo da sequestrare",
 }
