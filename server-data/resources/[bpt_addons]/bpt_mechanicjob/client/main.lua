@@ -215,7 +215,7 @@ function OpenMobileMechanicActionsMenu()
                         ESX.ShowNotification(TranslateCap("no_players_nearby"), "error")
                     else
                         ESX.CloseContext()
-                        TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(closestPlayer), "society_mechanic", TranslateCap("mechanic"), amount)
+                        TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(closestPlayer), "society_mechanic", TranslateCap("mechanic"), amount)
                     end
                 end
             end)
