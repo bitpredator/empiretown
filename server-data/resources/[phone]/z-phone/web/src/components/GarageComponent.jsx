@@ -25,14 +25,14 @@ const GarageComponent = ({ isShow }) => {
       case 2:
         return (
           <div className="flex space-x-1 bg-red-600 py-0.5 px-2 text-xs text-white rounded items-center">
-            <span>Impound</span>
+            <span>Garage</span>
             <GiPoliceBadge />
           </div>
         );
       case 3:
         return (
           <div className="flex space-x-1 bg-yellow-600 py-0.5 px-2 text-xs text-white rounded items-center">
-            <span>Outside</span>
+            <span>Impound</span>
             <FaRoad />
           </div>
         );

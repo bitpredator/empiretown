@@ -17,11 +17,11 @@ end)
 
 lib.callback.register('z-phone:server:PayInvoice', function(source, body)
     local Player = xCore.GetPlayerBySource(source)
-    if Player == nil then 
+    if Player == nil then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Failed to pay bill"
+            from = "Portafoglio",
+            message = "Pagamento fattura fallito"
         })
         return false
     end
@@ -29,33 +29,33 @@ lib.callback.register('z-phone:server:PayInvoice', function(source, body)
     if Player.money.bank < body.amount then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Balance is not enough"
+            from = "Portafoglio",
+            message = "Saldo insufficiente"
         })
         return false
     end
-    
+
     local citizenid = Player.citizenid
     local invoice = xCore.bankInvoiceByCitizenID(body.id, citizenid)
 
-    if not invoice then 
+    if not invoice then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Failed to pay bill"
+            from = "Portafoglio",
+            message = "Pagamento fattura fallito"
         })
         return false
     end
 
     Player.removeAccountMoney('bank', invoice.amount, invoice.reason)
-    
+
     xCore.AddMoneyBankSociety(invoice.society, invoice.amount, invoice.reason)
     xCore.deleteBankInvoiceByID(invoice.id)
-    
+
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
-        from = "Wallet",
-        message = "Success pay bill"
+        from = "Portafoglio",
+        message = "Fattura pagata con successo"
     })
     return true
 end)
@@ -65,8 +65,8 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
     if Player == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Failed to check receiver!"
+            from = "Portafoglio",
+            message = "Errore nel controllare il destinatario!"
         })
         return {
             isValid = false,
@@ -83,8 +83,8 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
     if not receiverCitizenid then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "IBAN not registered!"
+            from = "Portafoglio",
+            message = "IBAN non registrato!"
         })
         return {
             isValid = false,
@@ -95,8 +95,8 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
     if receiverCitizenid == citizenid then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Cannot transfer to your self!"
+            from = "Portafoglio",
+            message = "Non puoi trasferire a te stesso!"
         })
         return {
             isValid = false,
@@ -108,8 +108,8 @@ lib.callback.register('z-phone:server:TransferCheck', function(source, body)
     if ReceiverPlayer == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Receiver is offline!"
+            from = "Portafoglio",
+            message = "Il destinatario è offline!"
         })
         return {
             isValid = false,
@@ -128,8 +128,8 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     if Player == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Failed to check receiver!"
+            from = "Portafoglio",
+            message = "Errore nel controllare il destinatario!"
         })
         return false
     end
@@ -139,12 +139,12 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     if Player.money.bank < body.total then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Balance is not enough"
+            from = "Portafoglio",
+            message = "Saldo insufficiente"
         })
         return false
     end
-    
+
     local queryGetCitizenByIban = "select citizenid from zp_users where iban = ?"
     local receiverCitizenid = MySQL.scalar.await(queryGetCitizenByIban, {
         body.iban
@@ -153,8 +153,8 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     if not receiverCitizenid then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "IBAN not registered!"
+            from = "Portafoglio",
+            message = "IBAN non registrato!"
         })
         return false
     end
@@ -162,8 +162,8 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     if receiverCitizenid == citizenid then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Cannot transfer to your self!"
+            from = "Portafoglio",
+            message = "Non puoi trasferire a te stesso!"
         })
         return false
     end
@@ -172,47 +172,47 @@ lib.callback.register('z-phone:server:Transfer', function(source, body)
     if ReceiverPlayer == nil then 
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
-            from = "Wallet",
-            message = "Receiver is offline!"
+            from = "Portafoglio",
+            message = "Il destinatario è offline!"
         })
         return false
     end
 
-    local senderReason = string.format("Transfer send: %s - to %s", body.note, body.iban)
-    local receiverReason = string.format("%s - from %s", "Transfer received", body.iban)
+    local senderReason = string.format("Trasferimento inviato: %s - a %s", body.note, body.iban)
+    local receiverReason = string.format("%s - da %s", "Trasferimento ricevuto", body.iban)
     Player.removeAccountMoney('bank', body.total, senderReason)
     ReceiverPlayer.addAccountMoney('bank', body.total, receiverReason)
 
     local content = [[
-We are pleased to inform you that your recent money transfer has been successfully completed. 
+Siamo lieti di informarti che il tuo recente trasferimento di denaro è stato completato con successo. 
 \
-Here are the details of the transaction:
+Dettagli della transazione:
 \
-Total: %s \
+Totale: %s \
 IBAN : %s \
-Note : %s \
+Nota : %s \
 \
-If you have any questions or need further assistance, please don't hesitate to reach out.
-\
-Thank you for choosing our services!
-    ]]
+Se hai domande o hai bisogno di ulteriore assistenza, non esitare a contattarci.
+
+Grazie per aver scelto i nostri servizi!
+]]
     MySQL.Async.insert('INSERT INTO zp_emails (institution, citizenid, subject, content) VALUES (?, ?, ?, ?)', {
         "wallet",
         Player.citizenid,
-        "Successful Money Transfer Confirmation",
+        "Conferma trasferimento denaro riuscito",
         string.format(content, body.total, body.iban, body.note),
     })
 
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
-        from = "Wallet",
-        message = "Successful Money Transfer"
+        from = "Portafoglio",
+        message = "Trasferimento eseguito con successo"
     })
 
     TriggerClientEvent("z-phone:client:sendNotifInternal", ReceiverPlayer.source, {
         type = "Notification",
-        from = "Wallet",
-        message = "Received Money Transfer"
+        from = "Portafoglio",
+        message = "Hai ricevuto un trasferimento"
     })
     return true
 end)
