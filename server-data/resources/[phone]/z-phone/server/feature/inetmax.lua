@@ -1,6 +1,8 @@
-lib.callback.register('z-phone:server:GetInternetData', function(source)
+lib.callback.register("z-phone:server:GetInternetData", function(source)
     local Player = xCore.GetPlayerBySource(source)
-    if Player == nil then return {} end
+    if Player == nil then
+        return {}
+    end
 
     local citizenid = Player.citizenid
     local queryTopupQuery = [[
@@ -14,12 +16,12 @@ lib.callback.register('z-phone:server:GetInternetData', function(source)
 
     local topups = MySQL.query.await(queryTopupQuery, {
         citizenid,
-        "CREDIT"
+        "CREDIT",
     })
 
     local usages = MySQL.query.await(queryTopupQuery, {
         citizenid,
-        "USAGE"
+        "USAGE",
     })
 
     local queryUsageGroup = "SELECT label as app, total FROM zp_inetmax_histories WHERE flag = 'USAGE' and citizenid = ? GROUP BY label"
@@ -30,20 +32,22 @@ lib.callback.register('z-phone:server:GetInternetData', function(source)
     return {
         topup_histories = topups,
         usage_histories = usages,
-        group_usage = usageGroup
+        group_usage = usageGroup,
     }
 end)
 
-lib.callback.register('z-phone:server:TopupInternetData', function(source, body)
+lib.callback.register("z-phone:server:TopupInternetData", function(source, body)
     local Player = xCore.GetPlayerBySource(source)
-    if Player == nil then return 0 end
+    if Player == nil then
+        return 0
+    end
 
-    local citizenid = Player.citizenid    
-    if Player.money.bank < body.total then 
+    local citizenid = Player.citizenid
+    if Player.money.bank < body.total then
         TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
             type = "Notification",
             from = "InetMax",
-            message = "Bank Balance is not enough"
+            message = "Bank Balance is not enough",
         })
         return false
     end
@@ -54,7 +58,7 @@ lib.callback.register('z-phone:server:TopupInternetData', function(source, body)
         citizenid,
         "CREDIT",
         body.label,
-        IncrementBalance
+        IncrementBalance,
     })
 
     local queryIncrementBalance = [[
@@ -63,16 +67,16 @@ lib.callback.register('z-phone:server:TopupInternetData', function(source, body)
 
     MySQL.update.await(queryIncrementBalance, {
         IncrementBalance,
-        citizenid
+        citizenid,
     })
 
-    Player.removeAccountMoney('bank', body.total, "InetMax purchase")
+    Player.removeAccountMoney("bank", body.total, "InetMax purchase")
     xCore.AddMoneyBankSociety(Config.App.InetMax.SocietySeller, body.total, "InetMax purchase")
 
     TriggerClientEvent("z-phone:client:sendNotifInternal", source, {
         type = "Notification",
         from = "InetMax",
-        message = "Purchase Successful"
+        message = "Acquisto riuscito",
     })
 
     local content = [[
@@ -86,13 +90,13 @@ Il tuo pacchetto dati verrà attivato a breve e riceverai un'email con tutti i d
 \
 Grazie per essere un nostro cliente!
     ]]
-    MySQL.Async.insert('INSERT INTO zp_emails (institution, citizenid, subject, content) VALUES (?, ?, ?, ?)', {
+    MySQL.Async.insert("INSERT INTO zp_emails (institution, citizenid, subject, content) VALUES (?, ?, ?, ?)", {
         "inetmax",
         Player.citizenid,
-        "Your Internet Data Package Purchase Confirmation",
+        "Conferma di acquisto del tuo pacchetto dati Internet",
         string.format(content, body.total, Config.App.InetMax.TopupRate.Price, Config.App.InetMax.TopupRate.InKB, "Success"),
     })
-    
+
     return IncrementBalance
 end)
 
@@ -102,7 +106,7 @@ local function UseInternetData(citizenid, app, totalInKB)
         citizenid,
         "USAGE",
         app,
-        totalInKB
+        totalInKB,
     })
 
     local queryUpdateBalance = [[
@@ -110,19 +114,21 @@ local function UseInternetData(citizenid, app, totalInKB)
     ]]
     MySQL.Async.execute(queryUpdateBalance, {
         totalInKB,
-        citizenid
+        citizenid,
     })
 end
 
-RegisterNetEvent('z-phone:server:usage-internet-data', function(app, usageInKB)
+RegisterNetEvent("z-phone:server:usage-internet-data", function(app, usageInKB)
     local src = source
     if Config.App.InetMax.IsUseInetMax then
         local Player = xCore.GetPlayerBySource(src)
-        if Player == nil then return false end
+        if Player == nil then
+            return false
+        end
 
-        local citizenid = Player.citizenid    
+        local citizenid = Player.citizenid
         UseInternetData(citizenid, app, usageInKB)
 
-        TriggerClientEvent("z-phone:client:usage-internet-data", src,  app, usageInKB)
+        TriggerClientEvent("z-phone:client:usage-internet-data", src, app, usageInKB)
     end
 end)
