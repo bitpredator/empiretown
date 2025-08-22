@@ -34,13 +34,13 @@ const MessageComponent = ({ isShow }) => {
   const handleCreateGroup = async () => {
     if (selectedGroupContact.length < 3) {
       setErrorCreateGroup(
-        "Please add at least three contacts to create a group."
+        "Aggiungi almeno tre contatti per creare un gruppo."
       );
       return;
     }
 
     if (groupName == "") {
-      setErrorCreateGroup("Please fill group name.");
+      setErrorCreateGroup("Inserisci un nome per il gruppo.");
       return;
     }
 
@@ -57,6 +57,7 @@ const MessageComponent = ({ isShow }) => {
     setSelectedGroupContact([]);
     setGroupName("");
   };
+
   return (
     <div
       className="relative flex flex-col w-full h-full"
@@ -121,25 +122,25 @@ const MessageComponent = ({ isShow }) => {
                 options={contactGroup}
                 className="text-black text-sm bg-black w-full"
                 classNamePrefix="select"
-                placeholder="Choose contact"
+                placeholder="Scegli contatti"
                 onChange={handleChangeSelectedGroupContact}
                 styles={{
                   menu: (provided) => ({
                     ...provided,
-                    maxHeight: 200, // Set max height
-                    overflowY: "auto", // Enable scrolling
-                    padding: 0, // Remove padding
+                    maxHeight: 200,
+                    overflowY: "auto",
+                    padding: 0,
                   }),
                   option: (provided, state) => ({
                     ...provided,
-                    padding: 4, // Adjust padding for options
+                    padding: 4,
                   }),
                 }}
               />
             </div>
             <input
               type="text"
-              placeholder="Group Name"
+              placeholder="Nome del gruppo"
               className="w-full text-sm text-white flex-1 border border-slate-600 bg-slate-800 focus:outline-none rounded pl-2 pr-1 py-2.5"
               autoComplete="off"
               name="name"
@@ -148,13 +149,9 @@ const MessageComponent = ({ isShow }) => {
               onChange={handleChangeGroupName}
             />
             <span className="text-white text-xs pb-1 pt-1">
-              <strong>Note</strong>: Only saved contacts can be added. The group
-              creator serves as the admin, so please set conditions for the
-              group.
-              {/* Only saved contacts can be added, but other
-              members can also add contacts from their saved list. The group
-              creator serves as the admin, so please set conditions for the
-              group. */}
+              <strong>Nota</strong>: Solo i contatti salvati possono essere
+              aggiunti. Il creatore del gruppo sarà l’amministratore, quindi
+              imposta eventuali condizioni per il gruppo.
             </span>
             {errorCreateGroup != null ? (
               <span className="text-red-500 text-xs">{errorCreateGroup}</span>
@@ -163,7 +160,7 @@ const MessageComponent = ({ isShow }) => {
               className="px-2 py-1 bg-blue-500 rounded font-semibold text-sm text-white"
               onClick={handleCreateGroup}
             >
-              Create Group
+              Crea gruppo
             </button>
           </div>
         </div>
@@ -175,13 +172,12 @@ const MessageComponent = ({ isShow }) => {
           onClick={() => setMenu(MENU_DEFAULT)}
         >
           <MdArrowBackIosNew className="text-lg" />
-          <span className="text-xs">Back</span>
+          <span className="text-xs">Indietro</span>
         </div>
         <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit">
-          Message
+          Messaggi
         </span>
         <div className="flex items-center px-2 text-blue-500">
-          {/* <MdEdit className='text-lg' /> */}
         </div>
       </div>
 
@@ -202,7 +198,7 @@ const MessageComponent = ({ isShow }) => {
               </div>
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Cerca..."
                 className="text-sm w-full text-white flex-1 border border-gray-700 focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
                 autoComplete="off"
                 onKeyUp={(e) => {
