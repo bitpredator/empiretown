@@ -126,10 +126,6 @@ https://discord.com/channels/1012753553418354748/1289265300457525269/12892653004
 ## FORUM
 https://forum.cfx.re/t/open-source-z-phone-release/5272649
 
-## SUPPORT
-
-Thank you for your support! [ko-fi](https://ko-fi.com/alfaben)
-
 ## All Thanks to Our Contributors
 
 <table>
