@@ -77,7 +77,7 @@ if Config.Core == "ESX" then
         -- 1 = Garaged
         -- 2 = Impound
         -- 3 = Outside
-        -- defaukl = Outside
+        -- default = Outside
 
         -- ADJUST QUERY FROM YOUR TABLE VEHICLE
         local query = [[

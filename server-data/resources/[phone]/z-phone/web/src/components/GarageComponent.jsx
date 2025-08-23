@@ -18,33 +18,34 @@ const GarageComponent = ({ isShow }) => {
       case 1:
         return (
           <div className="flex space-x-1 bg-green-600 py-0.5 px-2 text-xs text-white rounded items-center">
-            <span>Garaged</span>
+            <span>In Garage</span>
             <GiHomeGarage />
           </div>
         );
       case 2:
         return (
           <div className="flex space-x-1 bg-red-600 py-0.5 px-2 text-xs text-white rounded items-center">
-            <span>Garage</span>
+            <span>Parcheggiato</span>
             <GiPoliceBadge />
           </div>
         );
       case 3:
         return (
           <div className="flex space-x-1 bg-yellow-600 py-0.5 px-2 text-xs text-white rounded items-center">
-            <span>Impound</span>
+            <span>Fuori</span>
             <FaRoad />
           </div>
         );
       default:
         return (
           <div className="flex space-x-1 bg-yellow-600 py-0.5 px-2 text-xs text-white rounded items-center">
-            <span>Outside</span>
+            <span>Sequestro</span>
             <GiPoliceBadge />
           </div>
         );
     }
   };
+
   return (
     <div
       className="relative flex flex-col w-full h-full"
@@ -52,6 +53,7 @@ const GarageComponent = ({ isShow }) => {
         display: isShow ? "block" : "none",
       }}
     >
+      {/* Modale informazioni veicolo */}
       <div
         className={`no-scrollbar absolute w-full z-30 overflow-auto py-10 ${
           isShowModal ? "visible" : "invisible"
@@ -87,24 +89,21 @@ const GarageComponent = ({ isShow }) => {
                     error.target.src = "./images/noimage.jpg";
                   }}
                 />
-                <div className="flex flex-col justify-center items-center gap-2">
-                  {/* <h4 className="font-semibold">Business Name</h4> */}
-                </div>
                 <div className="flex flex-col gap-1 border-b py-2 text-xs">
                   <span className="flex justify-between">
-                    <span className="text-gray-400">Plate:</span>
+                    <span className="text-gray-400">Targa:</span>
                     <span className="font-bold">{dataModal.plate}</span>
                   </span>
                   <span className="flex justify-between">
-                    <span className="text-gray-400">Model:</span>
+                    <span className="text-gray-400">Modello:</span>
                     <span>{dataModal.name}</span>
                   </span>
                   <span className="flex justify-between">
-                    <span className="text-gray-400">Brand:</span>
+                    <span className="text-gray-400">Marca:</span>
                     <span>{dataModal.brand}</span>
                   </span>
                   <span className="flex justify-between">
-                    <span className="text-gray-400">Category:</span>
+                    <span className="text-gray-400">Categoria:</span>
                     <span>{dataModal.category}</span>
                   </span>
                   <span className="flex justify-between">
@@ -112,13 +111,13 @@ const GarageComponent = ({ isShow }) => {
                     <span>{dataModal.garage}</span>
                   </span>
                   <span className="flex justify-between">
-                    <span className="text-gray-400">State:</span>
+                    <span className="text-gray-400">Stato:</span>
                     <span>{getState(dataModal.state)}</span>
                   </span>
                 </div>
                 <div className="flex flex-col gap-3 pb-2 pt-2 text-xs">
                   <span className="flex justify-between">
-                    <span className="text-gray-400">Purchase:</span>
+                    <span className="text-gray-400">Acquisto:</span>
                     <span>{dataModal.created_at}</span>
                   </span>
                   <div className=" border-b border border-dashed"></div>
@@ -126,7 +125,7 @@ const GarageComponent = ({ isShow }) => {
                     <div>
                       <GiMechanicGarage className="text-sm" />
                     </div>
-                    <span>Powered by Mechanic</span>
+                    <span>Assistenza Meccanico</span>
                   </span>
                 </div>
               </div>
@@ -135,21 +134,22 @@ const GarageComponent = ({ isShow }) => {
         </div>
       </div>
 
+      {/* Header */}
       <div className="absolute top-0 flex w-full justify-between py-3 bg-black pt-8 z-20">
         <div
           className="flex items-center px-2 text-blue-500 cursor-pointer"
           onClick={() => setMenu(MENU_DEFAULT)}
         >
           <MdArrowBackIosNew className="text-lg" />
-          <span className="text-xs">Back</span>
+          <span className="text-xs">Indietro</span>
         </div>
         <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit">
-          Garages
+          Garage
         </span>
-        <div className="flex items-center px-2 text-blue-500">
-          {/* <MdEdit className='text-lg' /> */}
-        </div>
+        <div className="flex items-center px-2 text-blue-500"></div>
       </div>
+
+      {/* Lista garage */}
       {garages == undefined ? (
         <LoadingComponent />
       ) : (
@@ -159,6 +159,7 @@ const GarageComponent = ({ isShow }) => {
             paddingTop: 60,
           }}
         >
+          {/* Barra ricerca */}
           <div className="bg-black flex items-center w-full pb-3 pt-1">
             <div className="w-2"></div>
             <div className="relative w-full">
@@ -167,7 +168,7 @@ const GarageComponent = ({ isShow }) => {
               </div>
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Cerca..."
                 className="text-sm w-full text-white flex-1 border border-gray-700 focus:outline-none rounded-full px-2 py-1 pl-8 bg-[#3B3B3B]"
                 autoComplete="off"
                 onKeyUp={(e) => {
@@ -183,6 +184,7 @@ const GarageComponent = ({ isShow }) => {
             <div className="w-2"></div>
           </div>
 
+          {/* Card veicoli */}
           {garages.map((v, i) => {
             return (
               <div
@@ -196,27 +198,7 @@ const GarageComponent = ({ isShow }) => {
                 <div className="absolute -top-2.5 right-2 z-10">
                   {getState(v.state)}
                 </div>
-                <div
-                  className="absolute bottom-5 right-14 w-20 h-20 bg-white opacity-5 rounded-xl"
-                  style={{
-                    transform: "rotate(40deg)",
-                  }}
-                ></div>
-                <div
-                  className="absolute top-5 left-14 w-20 h-20 bg-white opacity-5 rounded-xl"
-                  style={{
-                    transform: "rotate(40deg)",
-                  }}
-                ></div>
                 <div className="relative pt-4 px-10 flex items-center justify-center">
-                  <div
-                    className="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3"
-                    style={{
-                      background: "radial-gradient(black, transparent 60%)",
-                      transform: "rotate3d(0, 0, 1, 20deg) scale3d(1, 0.6, 1)",
-                      opacity: 0.2,
-                    }}
-                  ></div>
                   <img
                     className="relative object-cover h-20"
                     src={v.image}
@@ -244,4 +226,5 @@ const GarageComponent = ({ isShow }) => {
     </div>
   );
 };
+
 export default GarageComponent;

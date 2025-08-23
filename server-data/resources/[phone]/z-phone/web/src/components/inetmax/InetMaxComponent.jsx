@@ -14,26 +14,26 @@ import axios from "axios";
 import { currencyFormat } from "../../utils/common";
 
 const pastelColors = [
-  "#FF6384", // Soft Red
-  "#36A2EB", // Vivid Blue
-  "#FFCE56", // Sunny Yellow
-  "#4BC0C0", // Turquoise
-  "#9966FF", // Light Purple
-  "#FF9F40", // Orange
-  "#C9CBCF", // Neutral Grey
-  "#8A9B0F", // Olive Green
-  "#E67E22", // Carrot Orange
-  "#3498DB", // Sky Blue
-  "#E74C3C", // Bright Red
-  "#2ECC71", // Green
-  "#9B59B6", // Amethyst
-  "#F39C12", // Bright Yellow
-  "#1ABC9C", // Aqua
-  "#34495E", // Dark Blue
-  "#D35400", // Dark Orange
-  "#27AE60", // Forest Green
-  "#7F8C8D", // Mid Grey
-  "#16A085", // Teal
+  "#FF6384", // Rosso tenue
+  "#36A2EB", // Blu vivace
+  "#FFCE56", // Giallo solare
+  "#4BC0C0", // Turchese
+  "#9966FF", // Viola chiaro
+  "#FF9F40", // Arancione
+  "#C9CBCF", // Grigio neutro
+  "#8A9B0F", // Verde oliva
+  "#E67E22", // Arancione carota
+  "#3498DB", // Azzurro
+  "#E74C3C", // Rosso brillante
+  "#2ECC71", // Verde
+  "#9B59B6", // Ametista
+  "#F39C12", // Giallo acceso
+  "#1ABC9C", // Acqua
+  "#34495E", // Blu scuro
+  "#D35400", // Arancione scuro
+  "#27AE60", // Verde foresta
+  "#7F8C8D", // Grigio medio
+  "#16A085", // Verde acqua
 ];
 
 const ACTIVE_TAB_LIST = {
@@ -41,6 +41,7 @@ const ACTIVE_TAB_LIST = {
   USAGE_HISTORY: "USAGE_HISTORY",
   APP_HISTORY: "APP_HISTORY",
 };
+
 const InetMaxComponent = ({ isShow }) => {
   const {
     resolution,
@@ -52,6 +53,7 @@ const InetMaxComponent = ({ isShow }) => {
     setInetMax,
     setBank,
   } = useContext(MenuContext);
+
   const [subMenu, setSubMenu] = useState("balance");
   const [activeTab, setActiveTab] = useState(ACTIVE_TAB_LIST.TOPUP_HISTORY);
   const [isOpenTopup, setIsOpenTopup] = useState(false);
@@ -63,6 +65,7 @@ const InetMaxComponent = ({ isShow }) => {
     labels: [],
     colors: [],
   });
+
   const getChartOptions = () => {
     return {
       series: chartData.series,
@@ -90,13 +93,11 @@ const InetMaxComponent = ({ isShow }) => {
                 fontSize: "15px",
                 showAlways: true,
                 show: true,
-                label: "Data Usage",
+                label: "Uso dati",
                 color: "#FFFFFF",
                 fontFamily: "Inter, sans-serif",
                 formatter: function (w) {
-                  const sum = w.globals.seriesTotals.reduce((a, b) => {
-                    return a + b;
-                  }, 0);
+                  const sum = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
                   return convertFromKb(sum);
                 },
               },
@@ -116,17 +117,11 @@ const InetMaxComponent = ({ isShow }) => {
         },
       },
       grid: {
-        padding: {
-          top: -2,
-        },
+        padding: { top: -2 },
       },
       labels: chartData.labels,
-      dataLabels: {
-        enabled: false,
-      },
-      legend: {
-        show: false, // Hide the legend
-      },
+      dataLabels: { enabled: false },
+      legend: { show: false }, // Nascondi legenda
       yaxis: {
         labels: {
           formatter: function (value) {
@@ -140,15 +135,12 @@ const InetMaxComponent = ({ isShow }) => {
             return convertFromKb(value);
           },
         },
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
+        axisTicks: { show: false },
+        axisBorder: { show: false },
       },
     };
   };
+
   const [chartOptions, setChartOptions] = useState(getChartOptions());
 
   const handleTopupTotalChange = (e) => {
@@ -170,12 +162,12 @@ const InetMaxComponent = ({ isShow }) => {
     }
   };
 
-  const handleTopupSubmit = async (e) => {
+  const handleTopupSubmit = async () => {
     if (topupTotal < CFG_INETMAX.MIN_TOPUP) {
       setTopupTotalError(
-        "A minimum purchase of " +
+        "È necessario acquistare almeno " +
           CFG_INETMAX.MIN_TOPUP +
-          "GB is required for online orders."
+          "GB per gli ordini online."
       );
       return;
     }
@@ -183,12 +175,12 @@ const InetMaxComponent = ({ isShow }) => {
     let result = 0;
     try {
       const response = await axios.post("/topup-internet-data", {
-        label: "Online purchase",
+        label: "Acquisto online",
         total: topupTotal * CFG_INETMAX.PRICE_PER_GB,
       });
       result = response.data == null ? 0 : response.data;
     } catch (error) {
-      setTopupTotalError("Please try again later!");
+      setTopupTotalError("Riprova più tardi!");
       console.error("error /topup-internet-data", error);
     }
 
@@ -203,9 +195,9 @@ const InetMaxComponent = ({ isShow }) => {
         topup_histories: [
           {
             total: result,
-            created_at: "now",
-            flag: "CREDIT",
-            label: "Online purchase",
+            created_at: "ora",
+            flag: "CREDITO",
+            label: "Acquisto online",
           },
           ...inetMax.topup_histories,
         ],
@@ -216,14 +208,15 @@ const InetMaxComponent = ({ isShow }) => {
         balance: bank.balance - topupTotal,
         histories: [
           {
-            type: "withdraw",
-            label: "InetMax purchase",
+            type: "prelievo",
+            label: "Acquisto InetMax",
             total: topupTotal,
-            created_at: "just now",
+            created_at: "proprio ora",
           },
           ...bank.histories,
         ],
       }));
+
       setTopupTotalError(null);
       setIsOpenTopup(false);
       setTopupTotal(0);
@@ -235,6 +228,7 @@ const InetMaxComponent = ({ isShow }) => {
       setTopupTotalError(null);
     }
   }, [topupTotal]);
+
   useEffect(() => {
     if (chartData?.series?.length > 0) {
       const chart = new ApexCharts(
@@ -243,7 +237,6 @@ const InetMaxComponent = ({ isShow }) => {
       );
       chart.render();
 
-      // Update chart when data changes
       chart.updateSeries(chartData.series);
       chart.updateOptions({
         colors: chartData.colors,
@@ -271,6 +264,7 @@ const InetMaxComponent = ({ isShow }) => {
       });
     }
   }, [inetMax]);
+
   return (
     <div
       className={`${
@@ -297,7 +291,7 @@ const InetMaxComponent = ({ isShow }) => {
                 }}
               >
                 <MdArrowBackIosNew className="text-lg" />
-                <span className="text-xs">Back</span>
+                <span className="text-xs">Indietro</span>
               </div>
               <span className="absolute left-0 right-0 m-auto text-sm text-white w-fit"></span>
               <div className="flex items-center px-2 space-x-2 text-white">
@@ -312,10 +306,11 @@ const InetMaxComponent = ({ isShow }) => {
                 />
               </div>
             </div>
+
             <div className="no-scrollbar flex flex-col w-full h-full overflow-y-auto z-30 pb-5 space-y-3">
               <div className="flex justify-between bg-slate-800 rounded-lg items-center px-3 py-2">
                 <div className="flex flex-col space-x-y-1">
-                  <span className="text-white text-xs">Active Package</span>
+                  <span className="text-white text-xs">Pacchetto attivo</span>
                   <div className="flex flex items-center space-x-1">
                     <LuArrowUpDown className="text-white text-xl" />
                     <span className="text-white font-lg font-semibold">
@@ -333,21 +328,23 @@ const InetMaxComponent = ({ isShow }) => {
                       }}
                     >
                       <MdOutlineShoppingCart className="text-white text-xl" />
-                      <span className="text-white text-sm">Buy</span>
+                      <span className="text-white text-sm">Acquista</span>
                     </button>
                   </div>
                 ) : null}
               </div>
+
               <div className="flex w-full justify-center">
                 <div id="donut-chart"></div>
               </div>
+
               <div className="flex space-x-2 pt-2">
                 <div
                   className="flex flex-col w-full items-center space-y-1 cursor-pointer"
                   onClick={() => setActiveTab(ACTIVE_TAB_LIST.TOPUP_HISTORY)}
                 >
                   <span className="text-sm text-center text-white">
-                    Purchase
+                    Acquisti
                   </span>
                   <span
                     className={`h-0.5 w-14 rounded ${
@@ -361,7 +358,9 @@ const InetMaxComponent = ({ isShow }) => {
                   className="flex flex-col w-full items-center space-y-1 cursor-pointer"
                   onClick={() => setActiveTab(ACTIVE_TAB_LIST.USAGE_HISTORY)}
                 >
-                  <span className="text-sm text-center text-white">Usages</span>
+                  <span className="text-sm text-center text-white">
+                    Utilizzi
+                  </span>
                   <span
                     className={`h-0.5 w-14 rounded ${
                       activeTab == ACTIVE_TAB_LIST.USAGE_HISTORY
@@ -374,7 +373,7 @@ const InetMaxComponent = ({ isShow }) => {
                   className="flex flex-col w-full items-center space-y-1 cursor-pointer"
                   onClick={() => setActiveTab(ACTIVE_TAB_LIST.APP_HISTORY)}
                 >
-                  <span className="text-sm text-center text-white">Apps</span>
+                  <span className="text-sm text-center text-white">App</span>
                   <span
                     className={`h-0.5 w-14 rounded ${
                       activeTab == ACTIVE_TAB_LIST.APP_HISTORY
@@ -386,6 +385,7 @@ const InetMaxComponent = ({ isShow }) => {
               </div>
 
               <div>
+                {/* Storico acquisti */}
                 <div
                   style={{
                     display:
@@ -397,7 +397,7 @@ const InetMaxComponent = ({ isShow }) => {
                   {inetMax?.topup_histories?.length == 0 ? (
                     <div className="flex justify-center w-full">
                       <span className="text-white text-xs">
-                        No purchase histories
+                        Nessun acquisto effettuato
                       </span>
                     </div>
                   ) : null}
@@ -435,6 +435,8 @@ const InetMaxComponent = ({ isShow }) => {
                     </ul>
                   </div>
                 </div>
+
+                {/* Storico utilizzi */}
                 <div
                   style={{
                     display:
@@ -446,7 +448,7 @@ const InetMaxComponent = ({ isShow }) => {
                   {inetMax?.usage_histories?.length == 0 ? (
                     <div className="flex justify-center w-full">
                       <span className="text-white text-xs">
-                        No usage histories
+                        Nessun utilizzo registrato
                       </span>
                     </div>
                   ) : null}
@@ -464,7 +466,7 @@ const InetMaxComponent = ({ isShow }) => {
                                   {v.label}
                                 </p>
                                 <p className="text-xs truncate text-gray-400">
-                                  App usage
+                                  Uso app
                                 </p>
                               </div>
                               <div className="inline-flex items-end text-base font-semibold">
@@ -484,6 +486,8 @@ const InetMaxComponent = ({ isShow }) => {
                     </ul>
                   </div>
                 </div>
+
+                {/* Storico per app */}
                 <div
                   style={{
                     display:
@@ -522,6 +526,7 @@ const InetMaxComponent = ({ isShow }) => {
                 </div>
               </div>
 
+              {/* Modale acquisto */}
               <div
                 style={{
                   display: isOpenTopup ? "block" : "none",
@@ -574,8 +579,8 @@ const InetMaxComponent = ({ isShow }) => {
                       </div>
                     </div>
                     <span className="text-white text-xs pb-1">
-                      Ensure your active balance is sufficient to complete the
-                      purchase.
+                      Assicurati che il tuo saldo attivo sia sufficiente per
+                      completare l’acquisto.
                     </span>
                     {topupTotalError != null ? (
                       <span className="text-red-500 text-xs">
@@ -586,15 +591,18 @@ const InetMaxComponent = ({ isShow }) => {
                       className="px-2 py-1 bg-blue-500 rounded font-semibold text-sm text-white"
                       onClick={handleTopupSubmit}
                     >
-                      Buy now{" "}
+                      Acquista ora{" "}
                       {topupTotalError == null
                         ? "$" +
-                          currencyFormat(topupTotal * CFG_INETMAX.PRICE_PER_GB)
+                          currencyFormat(
+                            topupTotal * CFG_INETMAX.PRICE_PER_GB
+                          )
                         : ""}
                     </button>
                   </div>
                 </div>
               </div>
+              {/* fine modale */}
             </div>
           </div>
         </div>
@@ -602,4 +610,5 @@ const InetMaxComponent = ({ isShow }) => {
     </div>
   );
 };
+
 export default InetMaxComponent;
