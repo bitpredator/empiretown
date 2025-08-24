@@ -1,9 +1,18 @@
---[[ ===================================================== ]]
---
---[[         FiveM Real Parking Script by Akkariin         ]]
---
---[[ ===================================================== ]]
---
+ESX = exports["es_extended"]:getSharedObject()
+local playerLoaded = false
+
+Citizen.CreateThread(function()
+    while not playerLoaded do
+        Citizen.Wait(10)
+        playerLoaded = ESX.IsPlayerLoaded()
+    end
+
+    PlayerData = ESX.GetPlayerData()
+
+    ESX.TriggerServerCallback("esx_realparking:getPlayerIdentifier", function(identifier)
+        PlayerIdentifier = identifier
+    end)
+end)
 
 -- Arrays
 PlayerData = {}
@@ -11,7 +20,6 @@ LocalVehicles = {}
 GlobalVehicles = {}
 
 -- Variables
-ESX = nil
 CurrentFee = nil
 LastPlate = nil
 PlayerIdentifier = nil
@@ -32,7 +40,7 @@ end)
 RegisterNetEvent("esx_realparking:addVehicle")
 AddEventHandler("esx_realparking:addVehicle", function(vehicle, owner)
     if owner == GetPlayerServerId(PlayerId()) then
-        DeleteEntity(GetVehiclePedIsIn(GetPlayerPed(-1), false))
+        DeleteEntity(GetVehiclePedIsIn(PlayerPedId(), false))
     end
     SpawnVehicle(vehicle)
 end)
@@ -56,7 +64,7 @@ end
 -- Get the stored vehicle player is in
 
 function GetPedInStoredCar(ped)
-    local tempVeh = GetVehiclePedIsIn(ped)
+    local tempVeh = GetVehiclePedIsIn(ped, false)
     local findVeh = false
     for i = 1, #LocalVehicles do
         if LocalVehicles[i] ~= nil and LocalVehicles[i].entity == tempVeh then
@@ -112,9 +120,9 @@ function SpawnVehicles(vehicles)
                 location = vehicles[i].vehicle.location,
             })
             if LastPlate ~= nil and vehicles[i].plate == LastPlate then
-                TaskWarpPedIntoVehicle(GetPlayerPed(-1), tempVeh, -1)
+                TaskWarpPedIntoVehicle(PlayerPedId(), tempVeh, -1)
                 Wait(500)
-                TaskLeaveVehicle(GetPlayerPed(-1), tempVeh)
+                TaskLeaveVehicle(PlayerPedId(), tempVeh, 0)
                 LastPlate = nil
             end
             Wait(300)
@@ -168,9 +176,9 @@ function SpawnVehicle(vehicleData)
             location = vehicleData.vehicle.location,
         })
         if LastPlate ~= nil and vehicleData.plate == LastPlate then
-            TaskWarpPedIntoVehicle(GetPlayerPed(-1), tempVeh, -1)
+            TaskWarpPedIntoVehicle(PlayerPedId(), tempVeh, -1)
             Wait(500)
-            TaskLeaveVehicle(GetPlayerPed(-1), tempVeh)
+            TaskLeaveVehicle(PlayerPedId(), tempVeh, 0)
             LastPlate = nil
         end
         -- Clean memory
@@ -192,7 +200,7 @@ function DriveVehicle(vehicle)
     SetVehicleEngineHealth(tempVeh, vehicle.health.engine)
     SetVehicleBodyHealth(tempVeh, vehicle.health.body)
     SetVehiclePetrolTankHealth(tempVeh, vehicle.health.tank)
-    TaskWarpPedIntoVehicle(GetPlayerPed(-1), tempVeh, -1)
+    TaskWarpPedIntoVehicle(PlayerPedId(), tempVeh, -1)
     -- Clean memory
     vehicleProps, tempVeh = nil
 end
@@ -243,7 +251,7 @@ function UpdateVehicleStatus()
     for i = 1, #LocalVehicles do
         if type(LocalVehicles[i]) ~= "nil" and type(LocalVehicles[i].entity) ~= "nil" then
             if DoesEntityExist(LocalVehicles[i].entity) and type(LocalVehicles[i].onground) == "nil" then
-                if GetDistanceBetweenCoords(GetEntityCoords(LocalVehicles[i].entity), GetEntityCoords(GetPlayerPed(-1))) < 50.0 then
+                if GetDistanceBetweenCoords(GetEntityCoords(LocalVehicles[i].entity), GetEntityCoords(PlayerPedId())) < 50.0 then
                     SetEntityCoords(LocalVehicles[i].entity, LocalVehicles[i].location.x, LocalVehicles[i].location.y, LocalVehicles[i].location.z)
                     SetVehicleOnGroundProperly(LocalVehicles[i].entity)
                     LocalVehicles[i].onground = true
@@ -313,7 +321,7 @@ end
 function DisplayHelpText(text)
     SetTextComponentFormat("STRING")
     AddTextComponentString(text)
-    DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+    DisplayHelpTextFromStringLabel(0, false, true, -1)
 end
 
 -- Load car model
@@ -329,13 +337,13 @@ end
 
 function Draw3DText(x, y, z, textInput, fontId, scaleX, scaleY)
     local px, py, pz = table.unpack(GetGameplayCamCoords())
-    local dist = GetDistanceBetweenCoords(px, py, pz, x, y, z, 1)
+    local dist = GetDistanceBetweenCoords(px, py, pz, x, y, z, true)
     local scale = (1 / dist) * 20
     local fov = (1 / GetGameplayCamFov()) * 100
     local scale = scale * fov
     SetTextScale(scaleX * scale, scaleY * scale)
     SetTextFont(fontId)
-    SetTextProportional(1)
+    SetTextProportional(true)
     SetTextColour(250, 250, 250, 255)
     SetTextDropshadow(1, 1, 1, 1, 255)
     SetTextEdge(2, 0, 0, 0, 150)
@@ -350,24 +358,6 @@ function Draw3DText(x, y, z, textInput, fontId, scaleX, scaleY)
     px, py, pz, dist, scale, fov, scale = nil
 end
 
--- Main thread
-
-Citizen.CreateThread(function()
-    while ESX == nil do
-        Citizen.Wait(10)
-		ESX = exports["es_extended"]:getSharedObject()
-    end
-    Wait(1000)
-    while not ESX.IsPlayerLoaded() do
-        Citizen.Wait(10)
-    end
-    PlayerData = ESX.GetPlayerData()
-    ESX.TriggerServerCallback("esx_realparking:getPlayerIdentifier", function(callback)
-        PlayerIdentifier = callback
-        Citizen.Wait(500)
-    end)
-end)
-
 -- Check distance
 
 Citizen.CreateThread(function()
@@ -376,7 +366,7 @@ Citizen.CreateThread(function()
     end
     while true do
         Wait(100)
-        local pl = GetEntityCoords(GetPlayerPed(-1))
+        local pl = GetEntityCoords(PlayerPedId())
         local inParking = false
         local crParking = nil
         for k, v in pairs(Config.ParkingLocations) do
@@ -423,40 +413,43 @@ Citizen.CreateThread(function()
 end)
 
 -- Draw text thread
-
 Citizen.CreateThread(function()
     while true do
-        Wait(0)
-        local fd = true
-        local pl = GetEntityCoords(GetPlayerPed(-1))
-        if fd then
-            fd = false
-            for k, v in pairs(Config.ParkingLocations) do
-                if GetDistanceBetweenCoords(pl.x, pl.y, pl.z, v.enter.x, v.enter.y, v.enter.z, true) < 20 then
-                    Draw3DText(v.enter.x, v.enter.y, v.enter.z, v.name, 0, 0.2, 0.2)
-                    Draw3DText(v.enter.x, v.enter.y, v.enter.z - 0.5, string.format(_U("parking_fee", v.fee)), 0, 0.1, 0.1)
-                    fd = true
-                end
+        local waitTime = 500 -- default, riduce l’uso CPU
+        local playerPed = PlayerPedId()
+        local playerCoords = GetEntityCoords(playerPed)
+
+        -- Controllo parcheggi
+        for i = 1, #Config.ParkingLocations do
+            local v = Config.ParkingLocations[i]
+            local dist = #(playerCoords - vector3(v.enter.x, v.enter.y, v.enter.z))
+
+            if dist < 20.0 then
+                Draw3DText(v.enter.x, v.enter.y, v.enter.z, v.name, 0, 0.2, 0.2)
+                Draw3DText(v.enter.x, v.enter.y, v.enter.z - 0.5, string.format(_U("parking_fee", v.fee)), 0, 0.1, 0.1)
+                waitTime = 0 -- aggiorno a frame per frame se vicino
             end
-            for k, v in pairs(LocalVehicles) do
-                if GetDistanceBetweenCoords(pl.x, pl.y, pl.z, v.data.location.x, v.data.location.y, v.data.location.z, true) < 3.0 then
-                    Draw3DText(v.data.location.x, v.data.location.y, v.data.location.z, string.format(_U("owner", v.name)), 0, 0.08, 0.08)
-                    Draw3DText(v.data.location.x, v.data.location.y, v.data.location.z - 0.2, string.format(_U("plate", v.plate)), 0, 0.05, 0.05)
-                    fd = true
-                end
-            end
-        else
-            Wait(100)
         end
-        -- Clean memory
-        pl = nil
+
+        -- Controllo veicoli locali
+        for i = 1, #LocalVehicles do
+            local v = LocalVehicles[i]
+            local dist = #(playerCoords - vector3(v.data.location.x, v.data.location.y, v.data.location.z))
+
+            if dist < 3.0 then
+                Draw3DText(v.data.location.x, v.data.location.y, v.data.location.z, string.format(_U("owner", v.name)), 0, 0.08, 0.08)
+                Draw3DText(v.data.location.x, v.data.location.y, v.data.location.z - 0.2, string.format(_U("plate", v.plate)), 0, 0.05, 0.05)
+                waitTime = 0
+            end
+        end
+
+        Wait(waitTime)
     end
 end)
 
 -- Creating blips
-
 Citizen.CreateThread(function()
-    for k, v in pairs(Config.ParkingLocations) do
+    for _, v in pairs(Config.ParkingLocations) do
         local tempBlip = AddBlipForCoord(v.enter.x, v.enter.y, v.enter.z)
         SetBlipSprite(tempBlip, 523)
         SetBlipColour(tempBlip, 11)
@@ -474,7 +467,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        local pl = GetEntityCoords(GetPlayerPed(-1))
+        local pl = GetEntityCoords(PlayerPedId())
         local inParking = false
         local parkName = nil
         local parkData = nil
@@ -485,8 +478,8 @@ Citizen.CreateThread(function()
                 parkData = v
             end
         end
-        if inParking and IsPedInAnyVehicle(GetPlayerPed(-1)) then
-            local storedVehicle = GetPedInStoredCar(GetPlayerPed(-1))
+        if inParking and IsPedInAnyVehicle(PlayerPedId(),false) then
+            local storedVehicle = GetPedInStoredCar(PlayerPedId())
             if storedVehicle ~= false then
                 DisplayHelpText(string.format(_U("need_parking_fee", storedVehicle.fee)))
             else
@@ -501,7 +494,7 @@ Citizen.CreateThread(function()
                     ESX.TriggerServerCallback("esx_realparking:driveCar", function(callback)
                         if callback.status then
                             DeleteVehicle(storedVehicle.entity)
-                            DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
+                            DeleteVehicle(GetVehiclePedIsIn(PlayerPedId(), false))
                             storedVehicle = nil
                             Wait(500)
                             DriveVehicle(callback.vehData)
@@ -515,7 +508,7 @@ Citizen.CreateThread(function()
                         storedVehicle = nil
                     end, storedVehicle)
                 else
-                    local veh = GetVehiclePedIsIn(GetPlayerPed(-1))
+                    local veh = GetVehiclePedIsIn(PlayerPedId(), false)
                     if veh ~= 0 then
                         local speed = GetEntitySpeed(veh)
                         if speed > 0 then
