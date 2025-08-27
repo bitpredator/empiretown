@@ -1,10 +1,8 @@
 Locales["it"] = {
-    ["no_rod"] = "Ti serve una canna da pesca.",
-    ["no_bait"] = "Ti serve un'esca per pescare.",
-    ["start_fishing"] = "Hai iniziato a pescare...",
-    ["got_fish"] = "Hai pescato: %s!",
-    ["got_trash"] = "Hai pescato un rifiuto...",
-    ["target_label"] = "Inizia a pescare",
-    ["fishing_ocean"] = "Punto di Pesca - Oceano",
-    ["fishing_lake"] = "Punto di Pesca - Lago",
+    fishing_start = "Hai iniziato a pescare...",
+    fishing_nobait = "Non hai esche!",
+    fishing_nowater = "Devi essere vicino all’acqua per pescare.",
+    fishing_catch = "Hai pescato: %s",
+    fishing_fail = "Il pesce è scappato...",
+    fishing_stop = "Hai smesso di pescare.",
 }

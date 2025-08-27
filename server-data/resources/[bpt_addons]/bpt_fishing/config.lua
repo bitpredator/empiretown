@@ -1,50 +1,36 @@
 Config = {}
 
-Config.Locale = "it" -- oppure 'en'
+-- Lingua (it / en)
+Config.Locale = "it"
 
-Config.RequiredItems = {
-    Rod = "fishing_rod",
-    Bait = "bait",
-}
-
-Config.FishList = {
-    { name = "tuna", chance = 10 },
-    { name = "salmon", chance = 15 },
-    { name = "trout", chance = 25 },
-    { name = "anchovy", chance = 30 },
-    { name = "plastic_bag", chance = 20 },
-}
-
-Config.WaterZones = {
-    ["low"] = 0.5,
-    ["medium"] = 0.75,
-    ["high"] = 1.0,
-}
-
+-- Zone di pesca
 Config.FishingZones = {
-    {
-        coords = vector3(-1581.652710, 5201.644043, 3.971436),
-        icon = "fa-solid fa-fish",
-        name = "fishing_ocean",
-    },
-    {
-        coords = vector3(-1587.956055, 5216.571289, 3.988281),
-        icon = "fa-solid fa-water",
-        name = "fishing_ocean",
-    },
-    {
-        coords = vector3(1298.584595, 4215.692383, 33.896729),
-        icon = "fa-solid fa-water",
-        name = "fishing_lake",
-    },
-    {
-        coords = vector3(-285.534058, 6627.336426, 7.139160),
-        icon = "fa-solid fa-fish",
-        name = "fishing_ocean",
-    },
-    {
-        coords = vector3(33.191212, 855.560425, 197.727417),
-        icon = "fa-solid fa-water",
-        name = "fishing_lake",
-    },
+    { coords = vec3(-3306.975830, 1014.184631, -0.021973), radius = 5.0, name = "Spiaggia" },
+    { coords = vec3(-3307.147217, 1035.283569, 0.315063), radius = 5.0, name = "Spiaggia" },
+    { coords = vec3(-3292.984619, 1113.402222, 0.736328), radius = 5.0, name = "Spiaggia" },
+    { coords = vec3(1327.265991, 4283.182617, 30.459351), radius = 5.0, name = "Alamo Sea" },
+}
+
+-- Lista pesci con probabilità
+Config.FishTypes = {
+    { item = "anchovy", label = "Acciuga", chance = 30 },
+    { item = "trout", label = "Trota", chance = 25 },
+    { item = "salmon", label = "Salmone", chance = 20 },
+    { item = "tuna", label = "Tonno", chance = 15 },
+    { item = "plastic_bag", label = "Sacchetto di plastica", chance = 10 },
+}
+
+-- Item richiesti
+Config.BaitItem = "bait"
+Config.RodItem = "fishing_rod"
+
+-- Tempo minimo/massimo di attesa in ms
+Config.MinWait = 5000
+Config.MaxWait = 10000
+
+-- Moltiplicatori probabilità per profondità
+Config.DepthChances = {
+    { depth = 0.5, multiplier = 0.5 },
+    { depth = 2.0, multiplier = 1.0 },
+    { depth = 10.0, multiplier = 1.5 },
 }
