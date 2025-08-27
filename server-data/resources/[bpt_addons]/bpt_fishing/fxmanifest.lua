@@ -1,29 +1,24 @@
 fx_version("cerulean")
 game("gta5")
 
-description("Script di pesca ricreativo - ESX + ox_inventory")
-author("BPTNetwork")
-version("1.0.0")
+author("Bitpredator")
+description("Fishing Script Realistico (ESX + ox_inventory)")
+version("2.0.0")
 
--- File script
-client_scripts({
+lua54("yes")
+
+shared_scripts({
+    "@es_extended/imports.lua",
+    "@es_extended/locale.lua",
+    "@ox_lib/init.lua",
     "config.lua",
+    "locales/*.lua",
+})
+
+client_scripts({
     "client/*.lua",
 })
 
 server_scripts({
-    "@oxmysql/lib/MySQL.lua",
-    "config.lua",
     "server/*.lua",
-})
-
-shared_script({
-    "@es_extended/imports.lua",
-    "@es_extended/locale.lua",
-    "locales/*.lua",
-})
-
-dependencies({
-    "es_extended",
-    "ox_inventory",
 })

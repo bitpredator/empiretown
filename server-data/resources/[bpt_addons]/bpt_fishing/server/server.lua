@@ -1,37 +1,63 @@
-ESX = exports["es_extended"]:getSharedObject()
+RegisterNetEvent("ox_fishing:giveFish", function(waterHeight)
+    local src = source
 
-ESX.RegisterServerCallback("fishing:canFish", function(source, cb)
-    local hasRod = exports.ox_inventory:Search(source, "count", Config.RequiredItems.Rod) > 0
-    local hasBait = exports.ox_inventory:Search(source, "count", Config.RequiredItems.Bait) > 0
-
-    if not hasRod then
-        cb(false, TranslateCap("no_rod"))
-        return
-    elseif not hasBait then
-        cb(false, TranslateCap("no_bait"))
+    -- Check esca
+    if exports.ox_inventory:Search(src, "count", Config.BaitItem) <= 0 then
+        TriggerClientEvent("ox_lib:notify", src, {
+            title = "Pesca",
+            description = TranslateCap("fishing_nobait"),
+            type = "error",
+        })
         return
     end
 
-    cb(true)
-end)
+    -- Check canna
+    if exports.ox_inventory:Search(src, "count", Config.RodItem) <= 0 then
+        TriggerClientEvent("ox_lib:notify", src, {
+            title = "Pesca",
+            description = TranslateCap("fishing_norod"),
+            type = "error",
+        })
+        return
+    end
 
-RegisterNetEvent("fishing:rewardFish", function(zone)
-    local src = source
-    exports.ox_inventory:RemoveItem(src, Config.RequiredItems.Bait, 1)
+    -- Consuma esca
+    exports.ox_inventory:RemoveItem(src, Config.BaitItem, 1)
 
-    local factor = Config.WaterZones[zone] or 1.0
-    local totalChance = math.random(1, 100)
-
-    local accumulated = 0
-    for _, fish in ipairs(Config.FishList) do
-        accumulated = accumulated + (fish.chance * factor)
-        if totalChance <= accumulated then
-            exports.ox_inventory:AddItem(src, fish.name, 1)
-            TriggerClientEvent("esx:showNotification", src, TranslateCap("got_fish", fish.name))
-            return
+    -- Fix valore waterHeight
+    local depth = tonumber(waterHeight) or 1.0
+    local multiplier = 1.0
+    for _, v in ipairs(Config.DepthChances) do
+        if depth <= v.depth then
+            multiplier = v.multiplier
+            break
         end
     end
 
-    exports.ox_inventory:AddItem(src, "plastic_bag", 1)
-    TriggerClientEvent("esx:showNotification", src, TranslateCap("got_trash"))
+    -- Calcolo probabilità
+    local roll = math.random(1, 100)
+    local sum, selectedFish = 0, nil
+    for _, fish in ipairs(Config.FishTypes) do
+        local adjustedChance = math.floor(fish.chance * multiplier)
+        sum = sum + adjustedChance
+        if roll <= sum then
+            selectedFish = fish
+            break
+        end
+    end
+
+    if selectedFish then
+        exports.ox_inventory:AddItem(src, selectedFish.item, 1)
+        TriggerClientEvent("ox_lib:notify", src, {
+            title = "Pesca",
+            description = TranslateCap("fishing_catch", selectedFish.label),
+            type = "success",
+        })
+    else
+        TriggerClientEvent("ox_lib:notify", src, {
+            title = "Pesca",
+            description = TranslateCap("fishing_fail"),
+            type = "error",
+        })
+    end
 end)

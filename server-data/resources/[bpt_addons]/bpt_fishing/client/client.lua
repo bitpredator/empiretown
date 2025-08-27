@@ -1,39 +1,74 @@
-ESX = exports["es_extended"]:getSharedObject()
+local fishing = false
 
-local function notify(msg)
-    ESX.ShowNotification(msg)
-end
+-- Controlla acqua
+local function IsPlayerNearWater()
+    local ped = PlayerPedId()
+    local coords = GetEntityCoords(ped)
+    local hit, waterHeight = TestProbeAgainstWater(coords.x, coords.y, coords.z + 1.0, coords.x, coords.y, coords.z - 5.0)
 
--- Calcola zona d'acqua
-local function getWaterLevelType()
-    local coords = GetEntityCoords(PlayerPedId())
-    local foundWater, waterHeight = GetWaterHeight(coords.x, coords.y, coords.z)
-    if not foundWater then
-        return "low"
-    end
-    if waterHeight > 5.0 then
-        return "high"
-    elseif waterHeight > 1.5 then
-        return "medium"
+    if hit then
+        return true, waterHeight or coords.z
     else
-        return "low"
+        return false, coords.z
     end
 end
 
--- Registra i punti pesca con ox_target
+-- Avvio pesca
+local function StartFishing()
+    if fishing then
+        return
+    end
+    local ped = PlayerPedId()
+
+    -- Check acqua
+    local nearWater, waterHeight = IsPlayerNearWater()
+    if not nearWater then
+        lib.notify({ title = "Pesca", description = TranslateCap("fishing_nowater"), type = "error" })
+        return
+    end
+
+    -- Check canna
+    if exports.ox_inventory:Search("count", Config.RodItem) <= 0 then
+        lib.notify({ title = "Pesca", description = TranslateCap("fishing_norod"), type = "error" })
+        return
+    end
+
+    fishing = true
+    lib.notify({ title = "Pesca", description = TranslateCap("fishing_start"), type = "inform" })
+
+    TaskStartScenarioInPlace(ped, "WORLD_HUMAN_STAND_FISHING", 0, true)
+
+    local waitTime = math.random(Config.MinWait, Config.MaxWait)
+    SetTimeout(waitTime, function()
+        if fishing then
+            ClearPedTasks(ped)
+            fishing = false
+
+            -- Skill check
+            local success = lib.skillCheck({ "easy", "easy", "easy" })
+            if success then
+                TriggerServerEvent("ox_fishing:giveFish", waterHeight)
+            else
+                lib.notify({ title = "Pesca", description = TranslateCap("fishing_fail"), type = "error" })
+            end
+        end
+    end)
+end
+
+-- Inizializza i target zone
 CreateThread(function()
-    for i, zone in ipairs(Config.FishingZones) do
-        exports.ox_target:addBoxZone({
+    for _, zone in pairs(Config.FishingZones) do
+        exports.ox_target:addSphereZone({
             coords = zone.coords,
-            size = vec3(2, 2, 2),
-            rotation = 0.0,
+            radius = zone.radius,
             debug = false,
             options = {
                 {
-                    label = TranslateCap(zone.name), -- Traduzione dinamica
-                    icon = zone.icon or "fa-solid fa-fish",
+                    name = "fishing:" .. zone.name,
+                    label = TranslateCap("fishing_start"),
+                    icon = "fas fa-fish",
                     onSelect = function()
-                        TriggerEvent("fishing:start")
+                        StartFishing()
                     end,
                 },
             },
@@ -41,36 +76,16 @@ CreateThread(function()
     end
 end)
 
--- Evento pesca
-RegisterNetEvent("fishing:start", function()
-    ESX.TriggerServerCallback("fishing:canFish", function(canFish, msg)
-        if not canFish then
-            notify(msg)
-            return
-        end
-
-        notify(TranslateCap("start_fishing"))
-        TaskStartScenarioInPlace(PlayerPedId(), "world_human_stand_fishing", 0, true)
-
-        Wait(8000)
-        ClearPedTasks(PlayerPedId())
-
-        local zone = getWaterLevelType()
-        TriggerServerEvent("fishing:rewardFish", zone)
-    end)
-end)
-
--- Crea i blip sulla mappa per ogni zona di pesca
+-- Aggiunta blip pesca
 CreateThread(function()
-    for i, zone in ipairs(Config.FishingZones) do
-        local blip = AddBlipForCoord(zone.coords)
-        SetBlipSprite(blip, 68) -- Icona del blip (68 = pesce)
-        SetBlipDisplay(blip, 4)
-        SetBlipScale(blip, 0.8)
-        SetBlipColour(blip, 3) -- Colore verde acqua
+    for _, zone in pairs(Config.FishingZones) do
+        local blip = AddBlipForCoord(zone.coords.x, zone.coords.y, zone.coords.z)
+        SetBlipSprite(blip, 68) -- 🐟 icona pesce
+        SetBlipScale(blip, 0.8) -- dimensione
+        SetBlipColour(blip, 3) -- blu
         SetBlipAsShortRange(blip, true)
         BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString(_U(zone.name)) -- Usa la traduzione
+        AddTextComponentString("Zona di pesca")
         EndTextCommandSetBlipName(blip)
     end
 end)
