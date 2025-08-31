@@ -5,10 +5,11 @@ description("EmpireTown - Lavoro da Minatore")
 author("bitpredator")
 version("2.0.0")
 
-dependencies({
-    "ox_target",
-    "ox_inventory",
-    "es_extended",
+lua54("yes")
+
+shared_scripts({
+    "@es_extended/imports.lua",
+    "@ox_lib/init.lua",
 })
 
 client_scripts({
@@ -22,4 +23,9 @@ server_scripts({
     "server/server.lua",
 })
 
-shared_script("@es_extended/imports.lua")
+dependencies({
+    "ox_target",
+    "ox_lib",
+    "ox_inventory",
+    "es_extended",
+})

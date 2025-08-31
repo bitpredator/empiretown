@@ -1,6 +1,6 @@
 local ox_inventory = exports.ox_inventory
 
-RegisterServerEvent('empire_miner:giveItems', function()
+RegisterServerEvent("empire_miner:giveItems", function()
     local src = source
 
     for _, reward in pairs(Config.RewardItems) do
