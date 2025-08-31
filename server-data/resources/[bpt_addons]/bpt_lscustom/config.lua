@@ -1,12 +1,12 @@
 Config = {}
 Config.DrawDistance = 10.0
 Config.Locale = GetConvar("esx:locale", "it")
-Config.IsBennysJobOnly = true
+Config.IsMechanicJobOnly = true
 
 Config.Zones = {
 
     ls1 = {
-        Pos = vector3(-211.793411, -1325.353882, 30.897461),
+        Pos = vector3(-327.415375, -144.408783, 39.002197),
         Name = TranslateCap("blip_name"),
         Hint = TranslateCap("press_custom"),
     },
