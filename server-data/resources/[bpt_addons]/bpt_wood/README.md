@@ -22,4 +22,4 @@ A simple and immersive woodcutting system for FiveM servers using ESX, ox_lib an
 1. Place the resource in your `resources` folder.
 2. Add it to your `server.cfg`:
    ```bash
-   ensure bitpredator_woodcutting
+   ensure bpt_wood
