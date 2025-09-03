@@ -926,6 +926,24 @@ Config = {
                 ["hammer"] = 1,
             },
         },
+
+        ["axe"] = {
+            Level = 0,
+            Category = "tools",
+            isGun = false,
+            Jobs = { "import" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30,
+            Ingredients = {
+                ["recycled_plastic"] = 1,
+                ["iron"] = 1,
+                ["steel"] = 1,
+                ["hammer"] = 1,
+            },
+        },
     },
 
     Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
@@ -948,6 +966,7 @@ Config = {
                 "contract",
                 "flour",
                 "kitchen_knife",
+                "axe",
             },
             radius = 1.0,
         },
