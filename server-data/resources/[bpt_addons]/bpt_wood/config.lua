@@ -4,7 +4,6 @@ Config = {}
 Config.WoodSpots = {
     { coords = vec3(-534.7, 5373.6, 70.5) }, -- foresta Paleto
     { coords = vec3(-527.578003, 5369.604492, 70.662964) }, -- foresta Paleto
-    { coords = vec3(-1600.2, 4736.8, 53.5) }, -- altro punto
 }
 
 -- Item che ricevi
