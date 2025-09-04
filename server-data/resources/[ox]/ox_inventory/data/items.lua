@@ -861,4 +861,11 @@ return {
     close = true,
     description = "sacchetto di marijuana",
   },
+
+  ["laptop"] = {
+    label = "Laptop",
+    weight = 1000,
+    stack = false,
+    description = "Laptop",
+  },
 }

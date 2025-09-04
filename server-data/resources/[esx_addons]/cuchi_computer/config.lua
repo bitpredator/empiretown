@@ -1,7 +1,5 @@
 Config = {}
 
--- JOIN MY DISCORD: https://discord.gg/qvFmwj2a2T
-
 -- Shared
 Config.Framework = "esx" -- esx/qbcore
 Config.FrameworkResourceName = "es_extended" -- the framework resource name (e.g.: "es_extended" or "qb-core")
