@@ -1,49 +1,41 @@
-/*
- * ⚠️ WARNING ⚠️
- * Modifying this code without 
- * proper knowledge can result 
- * in its failure. 
- * 
- * Handle with care to avoid breaking it.
-*/
-
+/* eslint-disable no-unused-vars */
 const Applications = {
-    "code": {
-        usable: false
-    },
-    "console": {
-        usable: true,
-        width: 640,
-        height: 420,
-        appCode: `
+	'code': {
+		usable: false,
+	},
+	'console': {
+		usable: true,
+		width: 640,
+		height: 420,
+		appCode: `
 <div id="app-console" class="application">
     <h1 id="app-console-title"><button id="console-quit" class="app-exit"></button><button id="console-minimize" class="app-minimize"></button>Command Prompt</h1>
     <div id="console-text"></div>
-</div>`
-    },
-    "addresses": {
-        usable: true,
-        appCode: `
+</div>`,
+	},
+	'addresses': {
+		usable: true,
+		appCode: `
 <div id="app-addresses" class="application">
     <h1 id="app-addresses-title"><button id="addresses-quit" class="app-exit"></button><button id="addresses-minimize" class="app-minimize"></button>Addresses</h1>
     <p id="addresses-description">Description .... some warning before accessing address</p>
     <div id="addresses-container">
     </div>
-</div>`
-    },
-    "informations": {
-        usable: true,
-        appCode: `
+</div>`,
+	},
+	'informations': {
+		usable: true,
+		appCode: `
 <div id="app-informations" class="application">
     <h1 id="app-informations-title"><button id="informations-quit" class="app-exit"></button><button id="informations-minimize" class="app-minimize"></button>Informations</h1>
     <div id="informations-text"></div>
-</div>`
-    },
-    "market": {
-        usable: true,
-        width: 800,
-        height: 600,
-        appCode: `
+</div>`,
+	},
+	'market': {
+		usable: true,
+		width: 800,
+		height: 600,
+		appCode: `
 <div id="app-market" class="application">
     <h1 id="app-market-title"><button id="market-quit" class="app-exit"></button><button id="market-minimize" class="app-minimize"></button>Market</h1>
     <div id="market-wrapper">
@@ -74,21 +66,21 @@ const Applications = {
         </div>
         <div id="market-container"></div>
     </div>
-</div>`
-    },
-    "themes": {
-        usable: true,
-        appCode: `
+</div>`,
+	},
+	'themes': {
+		usable: true,
+		appCode: `
 <div id="app-themes" class="application">
     <h1 id="app-themes-title"><button id="themes-quit" class="app-exit"></button><button id="themes-minimize" class="app-minimize"></button>Themes</h1>
     <div id="themes-container"></div>
-</div>`
-    },
-    "mail": {
-        usable: true,
-        width: 800,
-        height: 600,
-        appCode: `
+</div>`,
+	},
+	'mail': {
+		usable: true,
+		width: 800,
+		height: 600,
+		appCode: `
 <div id="app-mail" class="application">
     <h1 id="app-mail-title"><button id="mail-quit" class="app-exit"></button><button id="mail-minimize" class="app-minimize"></button>Mail</h1>
     <div id="mail-connection">
@@ -142,16 +134,16 @@ const Applications = {
             <button id="mail-creator-send">Send</button>
         </div>
     </div>
-</div>`
-    },
-    "addresses-content": {
-        usable: true,
-        hide: true,
-        appCode: `
+</div>`,
+	},
+	'addresses-content': {
+		usable: true,
+		hide: true,
+		appCode: `
 <div id="app-addresses-content" class="application">
     <h1 id="app-addresses-content-title"><button id="addresses-content-quit" class="app-exit"></button><button id="addresses-content-minimize" class="app-minimize"></button><span id="addresses-addresse"></span></h1>
     <div id="addresses-content"></div>
 </div>        
-`
-    }
+`,
+	},
 };
