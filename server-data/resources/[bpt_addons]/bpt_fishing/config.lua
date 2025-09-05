@@ -24,6 +24,10 @@ Config.FishTypes = {
 Config.BaitItem = "bait"
 Config.RodItem = "fishing_rod"
 
+-- Durabilità canna
+Config.RodMaxDurability = 100
+Config.RodDegradePerCatch = 1
+
 -- Tempo minimo/massimo di attesa in ms
 Config.MinWait = 5000
 Config.MaxWait = 10000

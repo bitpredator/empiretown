@@ -475,9 +475,18 @@ return {
   },
 
   ["fishing_rod"] = {
-    label = "canna da pesca",
-    weight = 100,
-    stack = true,
+    label = "Canna da pesca",
+    weight = 1000,
+    stack = false, -- non impilabile
+    close = true,
+    description = "Usata per pescare. Ha una durata limitata.",
+    consume = 0,
+    client = {},
+    server = {},
+    -- metadata di default
+    allowArmed = false,
+    degrade = 0, -- gestito da script, non da ox
+    durability = 100, -- personalizzato
   },
 
   ["bait"] = {
