@@ -480,12 +480,6 @@ return {
     stack = false, -- non impilabile
     close = true,
     description = "Usata per pescare. Ha una durata limitata.",
-    consume = 0,
-    client = {},
-    server = {},
-    -- metadata di default
-    allowArmed = false,
-    degrade = 0, -- gestito da script, non da ox
     durability = 100, -- personalizzato
   },
 
