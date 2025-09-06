@@ -43,14 +43,43 @@ return {
   },
 
   ["cupcake"] = {
-    label = "cupcake",
+    label = "Cupcake",
     weight = 100,
     client = {
       status = { hunger = 100000 },
-      anim = "eating",
-      prop = "birthday-cake",
+      anim = {
+        dict = "mp_player_inteat@burger",
+        clip = "mp_player_int_eat_burger",
+      },
+      prop = {
+        model = "pata_christmasfood8",
+        bone = 60309,
+        pos = vec3(0.0200, 0.0, -0.0100),
+        rot = vec3(9.3608, -90.1809, 66.3689),
+      },
       usetime = 2500,
-      notification = "Stai mangiando un cupcake",
+      notification = "Stai mangiando un cupcake 🎂",
+    },
+  },
+
+  ["apple"] = {
+    label = "Mela",
+    weight = 20,
+    stack = true,
+    client = {
+      status = { hunger = 100000 },
+      anim = {
+        dict = "mp_player_inteat@burger",
+        clip = "mp_player_int_eat_burger",
+      },
+      prop = {
+        model = "sf_prop_sf_apple_01b",
+        bone = 60309,
+        pos = vec3(0.0, 0.0150, -0.0200),
+        rot = vec3(-124.6964, -166.5760, 8.4572),
+      },
+      usetime = 2500,
+      notification = "Stai mangiando una mela 🍎",
     },
   },
 
@@ -450,12 +479,6 @@ return {
     stack = true,
   },
 
-  ["apple"] = {
-    label = "Mele",
-    weight = 20,
-    stack = true,
-  },
-
   ["milk"] = {
     label = "latte",
     weight = 100,
@@ -480,12 +503,6 @@ return {
     stack = false, -- non impilabile
     close = true,
     description = "Usata per pescare. Ha una durata limitata.",
-    consume = 0,
-    client = {},
-    server = {},
-    -- metadata di default
-    allowArmed = false,
-    degrade = 0, -- gestito da script, non da ox
     durability = 100, -- personalizzato
   },
 
