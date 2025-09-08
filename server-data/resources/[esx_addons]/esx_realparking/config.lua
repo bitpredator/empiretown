@@ -14,6 +14,18 @@ Config.debug = false
 
 -- Parking locations
 Config.ParkingLocations = {
+    parking = {
+        x = -2032.338501, -- Central location X, Y, Z of the parking
+        y = -467.789001, -- Y
+        z = 11.368530, -- Z
+        size = 15.0, -- The parking range radius (Horizontal), set to 10000.0 then you can parking anywhere
+        height = 10.0, -- The parking range radius (Vertical)
+        name = "Public Parking", -- The name of the parking (blips)
+        fee = 500, -- How much parking fee per day (Real life time), set 0 or false to disable
+        enter = { x = -2032.338501, y = -467.789001, z = 11.368530 }, -- The entrance of the parking
+        maxcar = 33, -- Max vehicles can save on this parking
+        notify = true, -- Display the "Press E to save" notification, set to false can disable it
+    },
     parking1 = {
         x = -327.73, -- Central location X, Y, Z of the parking
         y = -934.12, -- Y

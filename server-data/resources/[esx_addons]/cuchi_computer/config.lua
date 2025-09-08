@@ -11,7 +11,7 @@ Config.UseItem = "laptop" -- set the item that will be used to display the inter
 
 Config.DataHeists = {
     Enabled = true,
-    DisplayArea = false, -- display area on the map
+    DisplayArea = true, -- display area on the map
     Reward = { 10000, 20000 }, -- random between [1] and [2]
     TypeOfDelay = "each", -- "each": one delay for each area OR "all": one delay for all areas
     Delay = 60, -- in minutes
