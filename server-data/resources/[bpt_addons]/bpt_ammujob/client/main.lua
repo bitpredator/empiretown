@@ -237,9 +237,9 @@ function OpenFineCategoryMenu(player, category)
     ESX.OpenContext("right", elements, function(menu, element)
         local data = { current = element }
         if Config.EnablePlayerManagement then
-            TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(player), "society_ammu", TranslateCap("fine_total", data.current.fineLabel), data.current.amount)
+            TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(player), "society_ammu", TranslateCap("fine_total", data.current.fineLabel), data.current.amount)
         else
-            TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(player), "", TranslateCap("fine_total", data.current.fineLabel), data.current.amount)
+            TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(player), "", TranslateCap("fine_total", data.current.fineLabel), data.current.amount)
         end
 
         ESX.SetTimeout(300, function()
@@ -275,7 +275,7 @@ function OpenFineTextInput(player)
             reason = GetOnscreenKeyboardResult()
         end
         Citizen.Wait(500)
-        TriggerServerEvent("bpt_billing:sendBill", GetPlayerServerId(player), "society_ammu", reason, amount)
+        TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(player), "society_ammu", reason, amount)
         OpenAmmuActionsMenu()
     end)
 end
