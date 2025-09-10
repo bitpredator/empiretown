@@ -25,6 +25,19 @@ CreateThread(function()
     end
 end)
 
+-- 🔧 Carica il profilo al join del giocatore
+CreateThread(function()
+    lib.callback("z-phone:server:GetProfile", false, function(data)
+        if data then
+            Profile = data
+            print("^2[Z-Phone] Profilo caricato correttamente^0")
+        else
+            print("^1[Z-Phone] Nessun profilo trovato!^0")
+        end
+    end)
+end)
+
+
 function GetStreetName()
     local pos = GetEntityCoords(PlayerPedId())
     local s1, s2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)

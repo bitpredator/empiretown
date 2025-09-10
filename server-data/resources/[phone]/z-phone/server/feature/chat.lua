@@ -389,3 +389,27 @@ lib.callback.register('z-phone:server:CreateGroup', function(source, body)
     })
     return conversationid
 end)
+
+-- 🔧 Restituisce il profilo dell'utente
+lib.callback.register('z-phone:server:GetProfile', function(source)
+    local Player = xCore.GetPlayerBySource(source)
+    if not Player then return nil end
+
+    local citizenid = Player.citizenid
+    if not citizenid then return nil end
+
+    local query = [[
+        SELECT
+            citizenid,
+            phone_number,
+            avatar,
+            inetmax_balance,
+            DATE_FORMAT(last_seen, '%d/%m/%Y %H:%i') as last_seen
+        FROM zp_users
+        WHERE citizenid = ?
+        LIMIT 1
+    ]]
+    local result = MySQL.single.await(query, { citizenid })
+
+    return result
+end)
