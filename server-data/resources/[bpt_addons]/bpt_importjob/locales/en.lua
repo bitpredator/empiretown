@@ -92,4 +92,6 @@ Locales["en"] = {
     ["quick_actions"] = "Quick Actions",
     -- Other
     ["society_import"] = "Import",
+    -- billing
+    ["billing"] = "billing",
 }
