@@ -184,11 +184,16 @@ $(window).ready(function() {
 
 		if (poundCost === undefined) poundCost = 0;
 
+		// Passo solo x, y e heading → la Z la calcola il client
 		$.post(
 			'https://esx_garage/spawnVehicle',
 			JSON.stringify({
 				vehicleProps: vehicleProps,
-				spawnPoint: spawnPoint,
+				spawnPoint: {
+					x: spawnPoint.x,
+					y: spawnPoint.y,
+					heading: spawnPoint.heading,
+				},
 				exitVehicleCost: poundCost,
 			}),
 		);

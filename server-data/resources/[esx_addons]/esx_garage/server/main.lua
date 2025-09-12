@@ -2,8 +2,14 @@
 
 RegisterServerEvent("esx_garage:updateOwnedVehicle")
 AddEventHandler("esx_garage:updateOwnedVehicle", function(stored, parking, Impound, data, spawn)
+    if not data or not data.vehicleProps then
+        print("[esx_garage] Error: updateOwnedVehicle called with invalid data")
+        return
+    end
+
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
+
     MySQL.update("UPDATE owned_vehicles SET `stored` = @stored, `parking` = @parking, `pound` = @Impound, `vehicle` = @vehicle WHERE `plate` = @plate AND `owner` = @identifier", {
         ["@identifier"] = xPlayer.identifier,
         ["@vehicle"] = json.encode(data.vehicleProps),
