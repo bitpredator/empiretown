@@ -89,4 +89,7 @@ Locales["it"] = {
     ["quick_actions"] = "Azioni rapide",
     -- Altro
     ["society_import"] = "Import",
+    -- billing
+    ["billing"] = "fattura",
+    ["billing_amount"] = "importo fattura",
 }

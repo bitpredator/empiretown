@@ -40,6 +40,7 @@ function OpenImportActionsMenu()
                 { unselectable = true, icon = "fas fa-user", title = element.title },
                 { icon = "fas fa-idkyet", title = TranslateCap("id_card"), value = "identity_card" },
                 { icon = "fas fa-idkyet", title = TranslateCap("search"), value = "search" },
+                { icon = "fas fa-gear", title = TranslateCap("billing"), value = "billing" },
                 { icon = "fas fa-idkyet", title = TranslateCap("handcuff"), value = "handcuff" },
                 { icon = "fas fa-idkyet", title = TranslateCap("drag"), value = "drag" },
                 { icon = "fas fa-idkyet", title = TranslateCap("put_in_vehicle"), value = "put_in_vehicle" },
@@ -66,6 +67,28 @@ function OpenImportActionsMenu()
                         TriggerServerEvent("bpt_importjob:putInVehicle", GetPlayerServerId(closestPlayer))
                     elseif action == "out_the_vehicle" then
                         TriggerServerEvent("bpt_importjob:OutVehicle", GetPlayerServerId(closestPlayer))
+                    elseif action == "billing" then
+                        local billingElements = {
+                            { unselectable = true, icon = "fas fa-scroll", title = element2.title },
+                            { title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 10000000, inputPlaceholder = "Amount to bill.." },
+                            { icon = "fas fa-check-double", title = "Confirm", value = "confirm" },
+                        }
+
+                        ESX.OpenContext("right", billingElements, function(menu3)
+                            local amount = tonumber(menu3.eles[2].inputValue)
+
+                            if amount == nil or amount < 1 then
+                                ESX.ShowNotification(TranslateCap("amount_invalid"), "error")
+                            else
+                                local billClosestPlayer, billClosestDistance = ESX.Game.GetClosestPlayer()
+                                if billClosestPlayer == -1 or billClosestDistance > 3.0 then
+                                    ESX.ShowNotification(TranslateCap("no_players_nearby"), "error")
+                                else
+                                    ESX.CloseContext()
+                                    TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(billClosestPlayer), "society_import", TranslateCap("import"), amount)
+                                end
+                            end
+                        end)
                     end
                 else
                     ESX.ShowNotification(TranslateCap("no_players_nearby"))
@@ -543,7 +566,6 @@ CreateThread(function()
             local currentStation, currentPart, currentPartNum
 
             for k, v in pairs(Config.Import) do
-
                 for i = 1, #v.Vehicles, 1 do
                     local distance = #(playerCoords - v.Vehicles[i].Spawner)
 
