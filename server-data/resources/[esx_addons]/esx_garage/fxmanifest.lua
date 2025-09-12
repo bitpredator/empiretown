@@ -4,7 +4,7 @@ game("gta5")
 author("ESX-Framework - Rework: Bitpredator")
 description("Allows Players to Store & Retrieve their vehicles")
 
-version("1.0.8")
+version("2.0.0")
 
 lua54("yes")
 

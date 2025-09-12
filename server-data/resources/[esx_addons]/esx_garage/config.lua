@@ -37,12 +37,17 @@ Config.Garages = {
         EntryPoint = {
             x = 394.865936,
             y = -1637.657104,
-            z = 29.279907,
+            z = 29.279907, -- serve per il marker
         },
         Sprite = 357,
         Scale = 0.8,
         Colour = 3,
         ImpoundedName = "LosSantos",
+        SpawnPoint = { -- 👈 aggiunto per coerenza
+            x = 398.5,
+            y = -1642.2,
+            heading = 320.0, -- niente Z
+        },
     },
 }
 
@@ -51,13 +56,12 @@ Config.Impounds = {
         GetOutPoint = {
             x = 400.7,
             y = -1630.5,
-            z = 29.3,
+            z = 29.3, -- serve per il marker
         },
         SpawnPoint = {
             x = 401.9,
             y = -1647.4,
-            z = 30.2,
-            heading = 323.3,
+            heading = 323.3, -- niente Z
         },
         Sprite = 524,
         Scale = 0.8,

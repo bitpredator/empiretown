@@ -26,7 +26,18 @@ RegisterNUICallback("escape", function(data, cb)
 end)
 
 RegisterNUICallback("spawnVehicle", function(data, cb)
-    local spawnCoords = vector3(data.spawnPoint.x, data.spawnPoint.y, data.spawnPoint.z)
+    -- Inizializza con Z molto alta (es. 1000.0) per calcolare il terreno
+    local spawnCoords = vector3(data.spawnPoint.x, data.spawnPoint.y, 1000.0)
+    local foundGround, groundZ = GetGroundZFor_3dCoord(spawnCoords.x, spawnCoords.y, spawnCoords.z, 0.0)
+
+    -- Se troviamo il terreno, aggiorniamo la Z
+    if foundGround then
+        spawnCoords = vector3(spawnCoords.x, spawnCoords.y, groundZ + 1.0) -- offset per evitare clipping
+    else
+        -- fallback se non trova il terreno
+        spawnCoords = vector3(spawnCoords.x, spawnCoords.y, 30.0)
+    end
+
     if thisGarage then
         if ESX.Game.IsSpawnPointClear(spawnCoords, 2.5) then
             thisGarage = nil
@@ -409,6 +420,8 @@ CreateThread(function()
                                     z = v.SpawnPoint.z,
                                     heading = v.SpawnPoint.heading,
                                 }
+
+                                TriggerServerEvent("esx_garage:updateOwnedVehicle", false, nil, nil, data, spawnPoint)
 
                                 SendNUIMessage({
                                     showMenu = true,
