@@ -220,7 +220,7 @@ function OpenMobileUnicornActionsMenu()
         },
         { icon = "fas fa-check-double", title = TranslateCap("confirm"), value = "confirm" },
     }
-    
+
     ESX.OpenContext("right", elements2, function(menu2)
         local amount = tonumber(menu2.eles[2].inputValue)
         local reason = menu2.eles[3].inputValue
@@ -229,7 +229,7 @@ function OpenMobileUnicornActionsMenu()
         else
             ESX.CloseContext()
             local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-            if closestPlayer == -1 or closestDistance > 3.0 then
+            if closestPlayer == -1 or closestDistance > 5.0 then -- aumentata distanza
                 ESX.ShowNotification(TranslateCap("no_players_near"))
             else
                 TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(closestPlayer), "society_unicorn", reason, amount)
