@@ -12,35 +12,48 @@ AddEventHandler("esx_billing:sendBill", function(playerId, society, label, amoun
     local xPlayer = ESX.GetPlayerFromId(src)
     local target = ESX.GetPlayerFromId(playerId)
 
+    if not xPlayer then
+        print(("[Billing] Invalid source player (%s) tried to send a bill"):format(tostring(src)))
+        return
+    end
+
     if not target then
         print(("[Billing] %s tried to send bill to invalid player (%s)"):format(src, tostring(playerId)))
         return
     end
 
-    if amount <= 0 then
-        print(("[Billing] Invalid amount (%s) from %s"):format(amount, src))
+    if not amount or amount <= 0 then
+        print(("[Billing] Invalid amount (%s) from %s"):format(tostring(amount), src))
         return
     end
 
-    TriggerEvent("esx_billing:sendBill", playerId, society, label, amount, xPlayer.identifier)
+    -- usa export invece di rilanciare l’evento
+    exports.esx_billing:sendBill(playerId, society, label, amount, xPlayer.identifier)
 end)
 
 ESX.RegisterServerCallback("bpt_unicornjob:SpawnVehicle", function(source, cb, model, props)
     local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.job.name ~= "unicorn" then
-        print(("[^3WARNING^7] Player ^5%s^7 attempted to Exploit Vehicle Spawing!!"):format(source))
+    if not xPlayer then
+        print(("[^1ERROR^7] Invalid player (%s) tried to spawn a vehicle"):format(tostring(source)))
+        cb(false)
         return
     end
+
+    if xPlayer.job.name ~= "unicorn" then
+        print(("[^3WARNING^7] Player ^5%s^7 attempted to Exploit Vehicle Spawning!!"):format(source))
+        cb(false)
+        return
+    end
+
     local SpawnPoint = vector3(Config.Zones.VehicleSpawnPoint.Pos.x, Config.Zones.VehicleSpawnPoint.Pos.y, Config.Zones.VehicleSpawnPoint.Pos.z)
-    ESX.OneSync.SpawnVehicle(joaat(model), SpawnPoint, Config.Zones.VehicleSpawnPoint.Heading, props, function()
-        local vehicle = NetworkGetEntityFromNetworkId()
-        while GetVehicleNumberPlateText(vehicle) ~= props.plate do
-            Wait(0)
+    ESX.OneSync.SpawnVehicle(joaat(model), SpawnPoint, Config.Zones.VehicleSpawnPoint.Heading, props, function(netId)
+        local vehicle = NetworkGetEntityFromNetworkId(netId)
+        if DoesEntityExist(vehicle) then
+            TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicle, -1)
         end
-        TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicle, -1)
     end)
-    cb()
+    cb(true)
 end)
 
 RegisterNetEvent("bpt_unicornjob:getStockItem")
