@@ -27,7 +27,7 @@ if success then
         Framework.GetPlayers = Framework.Functions.GetPlayers
     end
 else
-    print("^1Error loading the framework.\n-> Check if you entered the good framework value and its resource name in ^7"..GetCurrentResourceName().."/config.lua\nNote that this resource ^1must^7 be started after your framework resource.")
+    print("^1Error loading the framework.\n-> Check if you entered the good framework value and its resource name in ^7" .. GetCurrentResourceName() .. "/config.lua\nNote that this resource ^1must^7 be started after your framework resource.")
 end
 
 math.randomseed(os.time())
@@ -118,7 +118,7 @@ if Config.DataHeists.Enabled then
                         end
                     end
 
-                    local netPath = "//".."breach-temp"..math.random(0, 100000).."/breached/data/dump-"..math.random(0, 100000)
+                    local netPath = "//" .. "breach-temp" .. math.random(0, 100000) .. "/breached/data/dump-" .. math.random(0, 100000)
                     breachPaths[netPath] = heistCoords
 
                     cb(netPath)
@@ -142,9 +142,12 @@ if Config.DataHeists.Enabled then
                     local reward = math.random(Config.DataHeists.Reward[1], Config.DataHeists.Reward[2])
 
                     if Config.Framework == "esx" then
-                        player.addMoney(reward)
+                        -- ESX con ox_inventory: aggiunta item black_money
+                        player.addInventoryItem("black_money", reward)
                     elseif Config.Framework == "qbcore" then
-                        player.Functions.AddMoney("cash", reward)
+                        -- QBCore con ox_inventory: aggiunta item black_money
+                        player.Functions.AddItem("black_money", reward)
+                        TriggerClientEvent("inventory:client:ItemBox", id, Framework.Shared.Items["black_money"], "add")
                     end
 
                     cb(true, reward)
