@@ -99,7 +99,7 @@ CreateThread(function()
         EndTextCommandSetBlipName(blip)
     end
 
-    for k, v in pairs(Config.Impounds) do
+    for _, v in pairs(Config.Impounds) do
         local blip = AddBlipForCoord(v.GetOutPoint.x, v.GetOutPoint.y, v.GetOutPoint.z)
 
         SetBlipSprite(blip, v.Sprite)

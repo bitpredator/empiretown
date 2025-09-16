@@ -89,8 +89,8 @@ $(window).ready(function() {
 		$('li[data-page="impounded"]').removeClass('selected');
 	});
 
-	document.onkeyup = function(data) {
-		if (data.which == 27) {
+	document.addEventListener('keyup', function(event) {
+		if (event.key === 'Escape') {
 			$.post('https://esx_garage/escape', '{}');
 
 			$('.impounded_content').hide();
@@ -98,7 +98,7 @@ $(window).ready(function() {
 			$('li[data-page="garage"]').addClass('selected');
 			$('li[data-page="impounded"]').removeClass('selected');
 		}
-	};
+	});
 
 	function getVehicles(locale, vehicle, amount = null) {
 		let html = '';
