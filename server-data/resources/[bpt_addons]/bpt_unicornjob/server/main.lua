@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+-- Registrazione società
 TriggerEvent("bpt_society:registerSociety", "unicorn", "Unicorn", "society_unicorn", "society_unicorn", "society_unicorn", {
     type = "public",
 })
@@ -6,31 +8,35 @@ if Config.MaxInService ~= -1 then
     TriggerEvent("esx_service:activateService", "unicorn", Config.MaxInService)
 end
 
-RegisterServerEvent("esx_billing:sendBill")
-AddEventHandler("esx_billing:sendBill", function(playerId, society, label, amount)
+-- ======= SAFE BILLING WRAPPER =======
+-- Client -> TriggerServerEvent("bpt_unicornjob:requestBill", targetServerId, "society_unicorn", "Unicorn", amount)
+RegisterServerEvent("bpt_unicornjob:requestBill")
+AddEventHandler("bpt_unicornjob:requestBill", function(targetServerId, society, label, amount)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
-    local target = ESX.GetPlayerFromId(playerId)
+    local target = ESX.GetPlayerFromId(targetServerId)
 
     if not xPlayer then
-        print(("[Billing] Invalid source player (%s) tried to send a bill"):format(tostring(src)))
+        print(("[Billing] Invalid source player (%s) tried to request a bill"):format(tostring(src)))
         return
     end
 
     if not target then
-        print(("[Billing] %s tried to send bill to invalid player (%s)"):format(src, tostring(playerId)))
+        print(("[Billing] %s tried to send bill to invalid player (%s)"):format(src, tostring(targetServerId)))
         return
     end
 
-    if not amount or amount <= 0 then
+    if not amount or tonumber(amount) <= 0 then
         print(("[Billing] Invalid amount (%s) from %s"):format(tostring(amount), src))
         return
     end
 
-    -- usa export invece di rilanciare l’evento
-    exports.esx_billing:sendBill(playerId, society, label, amount, xPlayer.identifier)
+    -- Chiediamo al client mittente di inviare l'evento ufficiale esx_billing (così la 'source' in esx_billing sarà corretta)
+    TriggerClientEvent("bpt_unicornjob:doSendBill", src, targetServerId, society, label, tonumber(amount))
 end)
+-- ======= END BILLING WRAPPER =======
 
+-- Spawn veicolo (sigillato con controlli)
 ESX.RegisterServerCallback("bpt_unicornjob:SpawnVehicle", function(source, cb, model, props)
     local xPlayer = ESX.GetPlayerFromId(source)
 
@@ -56,17 +62,20 @@ ESX.RegisterServerCallback("bpt_unicornjob:SpawnVehicle", function(source, cb, m
     cb(true)
 end)
 
+-- Prelievo stock
 RegisterNetEvent("bpt_unicornjob:getStockItem")
 AddEventHandler("bpt_unicornjob:getStockItem", function(itemName, count)
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local src = source
+    local xPlayer = ESX.GetPlayerFromId(src)
+    if not xPlayer then
+        return
+    end
 
-    if xPlayer.job.name == "unicorn" then
+    if xPlayer.job and xPlayer.job.name == "unicorn" then
         TriggerEvent("bpt_addoninventory:getSharedInventory", "society_unicorn", function(inventory)
             local item = inventory.getItem(itemName)
 
-            -- is there enough in the society?
             if count > 0 and item.count >= count then
-                -- can the player carry the said amount of x item?
                 if xPlayer.canCarryItem(itemName, count) then
                     inventory.removeItem(itemName, count)
                     xPlayer.addInventoryItem(itemName, count)
@@ -79,22 +88,29 @@ AddEventHandler("bpt_unicornjob:getStockItem", function(itemName, count)
             end
         end)
     else
-        print(("[^3WARNING^7] Player ^5%s^7 attempted ^5bpt_unicornjob:getStockItem^7 (cheating)"):format(source))
+        print(("[^3WARNING^7] Player ^5%s^7 attempted ^5bpt_unicornjob:getStockItem^7 (cheating)"):format(src))
     end
 end)
 
+-- Lista stock
 ESX.RegisterServerCallback("bpt_unicornjob:getStockItems", function(_, cb)
     TriggerEvent("bpt_addoninventory:getSharedInventory", "society_unicorn", function(inventory)
         cb(inventory.items)
     end)
 end)
 
+-- Deposito stock
 RegisterNetEvent("bpt_unicornjob:putStockItems")
 AddEventHandler("bpt_unicornjob:putStockItems", function(itemName, count)
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local src = source
+    local xPlayer = ESX.GetPlayerFromId(src)
+    if not xPlayer then
+        return
+    end
+
     local sourceItem = xPlayer.getInventoryItem(itemName)
 
-    if xPlayer.job.name == "unicorn" then
+    if xPlayer.job and xPlayer.job.name == "unicorn" then
         TriggerEvent("bpt_addoninventory:getSharedInventory", "society_unicorn", function(inventory)
             local item = inventory.getItem(itemName)
 
@@ -107,6 +123,6 @@ AddEventHandler("bpt_unicornjob:putStockItems", function(itemName, count)
             end
         end)
     else
-        print(("[^3WARNING^7] Player ^5%s^7 attempted ^5bpt_unicornjob:putStockItems^7 (cheating)"):format(source))
+        print(("[^3WARNING^7] Player ^5%s^7 attempted ^5bpt_unicornjob:putStockItems^7 (cheating)"):format(src))
     end
 end)
