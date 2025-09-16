@@ -40,6 +40,12 @@ function ShowLoadingPromt(msg, time, type)
     end)
 end
 
+RegisterNetEvent("bpt_unicornjob:doSendBill")
+AddEventHandler("bpt_unicornjob:doSendBill", function(targetServerId, society, label, amount)
+    -- questo esegue il TriggerServerEvent ufficiale: esx_billing riceverà la request con la giusta 'source'
+    TriggerServerEvent("esx_billing:sendBill", targetServerId, society, label, amount)
+end)
+
 function OpenCloakroom()
     local elements = {
         { unselectable = true, icon = "fas fa-shirt", title = TranslateCap("cloakroom_menu") },
@@ -232,7 +238,7 @@ function OpenMobileUnicornActionsMenu()
             if closestPlayer == -1 or closestDistance > 5.0 then -- aumentata distanza
                 ESX.ShowNotification(TranslateCap("no_players_near"))
             else
-                TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(closestPlayer), "society_unicorn", reason, amount)
+                TriggerServerEvent("bpt_unicornjob:requestBill", GetPlayerServerId(closestPlayer), "society_unicorn", "Unicorn", amount)
                 ESX.ShowNotification(TranslateCap("billing_sent"))
             end
         end
