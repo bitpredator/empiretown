@@ -1,7 +1,7 @@
 <h1 align='center'>bpt_menu</a></h1>
-<p align='center'><a href='https://discord.gg/ksGfNvDEfq'>Discord</a>
+<p align='center'><a href='https://discord.gg/Jrm2Z26ad3'>Discord Skull Network Italia</a>
 
-Copyright (C) 2022-2024 bitpredator
+Copyright (C) 2022 - 2025 bitpredator
 
 This program is a project for the fivem community, you have legal permission to distribute and / or modify it only if you have forked this repository, if it is not a fork repository, the version will be removed from the DMCA request.
 

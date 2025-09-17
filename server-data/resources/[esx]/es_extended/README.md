@@ -1,10 +1,12 @@
-<h1 align='center'>es_extended</a></h1><p align='center'><b><a href='https://discord.gg/ksGfNvDEfq'>Discord</a> - <a href='https://bitpredator.github.io/bptdevelopment/docs/FiveM/es_extended/'>Documentation</a></b></h5>
+<h1 align='center'>es_extended</a></h1>
+<p align='center'><a href='https://discord.gg/Jrm2Z26ad3'>Discord Skull Network Italia</a> - 
+<a href='https://bitpredator.github.io/bptdevelopment/docs/FiveM/es_extended/'>Documentation</a></b></h5>
 
 ## Legal
 
 es_extended
 
-Copyright (C) 2015-2025
+Copyright (C) 2015 - 2025
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 
