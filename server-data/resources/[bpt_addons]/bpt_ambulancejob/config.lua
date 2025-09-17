@@ -57,7 +57,7 @@ Config.Hospitals = {
         Vehicles = {
             {
                 Spawner = vector3(338.123077, -575.947266, 28.791260),
-                InsideShop = vector3(320.756042, -548.004395, 28.740601),
+                InsideShop = vector3(328.021973, -576.553833, 28.791260),
                 Marker = { type = 36, x = 1.0, y = 1.0, z = 1.0, r = 100, g = 50, b = 200, a = 100, rotate = true },
                 SpawnPoints = {
                     { coords = vector3(328.021973, -576.553833, 28.791260), heading = 227.6, radius = 4.0 },

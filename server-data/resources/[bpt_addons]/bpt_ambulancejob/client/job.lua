@@ -49,6 +49,7 @@ function OpenMobileAmbulanceActionsMenu()
                 { icon = "fas fa-bandage", title = TranslateCap("ems_menu_big"), value = "big" },
                 { icon = "fas fa-car", title = TranslateCap("ems_menu_putincar"), value = "put_in_vehicle" },
                 { icon = "fas fa-syringe", title = TranslateCap("ems_menu_search"), value = "search" },
+                { icon = "fas fa-gear", title = TranslateCap("billing"), value = "billing" },
             }
 
             ESX.OpenContext("right", elements2, function(menu2, element2)
@@ -390,6 +391,28 @@ function OpenCloakroomMenu()
                 deadPlayers = {}
                 if Config.Debug then
                     print("[^2INFO^7] Off Duty")
+                end
+            end)
+        elseif element.value == "billing" then
+            local elements2 = {
+                { unselectable = true, icon = "fas fa-scroll", title = element.title },
+                { title = "Amount", input = true, inputType = "number", inputMin = 1, inputMax = 10000000, inputPlaceholder = "Amount to bill.." },
+                { icon = "fas fa-check-double", title = "Confirm", value = "confirm" },
+            }
+
+            ESX.OpenContext("right", elements2, function(menu2)
+                local amount = tonumber(menu2.eles[2].inputValue)
+
+                if amount == nil or amount < 0 then
+                    ESX.ShowNotification(TranslateCap("amount_invalid"), "error")
+                else
+                    local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+                    if closestPlayer == -1 or closestDistance > 3.0 then
+                        ESX.ShowNotification(TranslateCap("no_players_nearby"), "error")
+                    else
+                        ESX.CloseContext()
+                        TriggerServerEvent("esx_billing:sendBill", GetPlayerServerId(closestPlayer), "society_ambulance", TranslateCap("ambulance"), amount)
+                    end
                 end
             end)
         elseif element.value == "ambulance_wear" then
