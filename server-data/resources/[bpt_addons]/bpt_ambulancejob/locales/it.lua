@@ -80,4 +80,7 @@ Locales["it"] = {
     -- Blip
     ["blip_hospital"] = "Ospedale",
     ["blip_dead"] = "Giocatore morente",
+    -- billing
+    ["billing"] = "fattura",
+    ["billing_amount"] = "importo fattura",
 }
