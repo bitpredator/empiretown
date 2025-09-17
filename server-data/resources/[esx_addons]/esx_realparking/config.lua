@@ -16,8 +16,8 @@ Config.debug = false
 Config.ParkingLocations = {
     parking = {
         x = -2032.338501, -- Central location X, Y, Z of the parking
-        y = -467.789001, -- Y
-        z = 11.368530, -- Z
+        y =  -467.789001, -- Y
+        z =  11.368530, -- Z
         size = 15.0, -- The parking range radius (Horizontal), set to 10000.0 then you can parking anywhere
         height = 10.0, -- The parking range radius (Vertical)
         name = "Public Parking", -- The name of the parking (blips)
@@ -80,10 +80,10 @@ Config.ParkingLocations = {
         z = 57.924561,
         size = 30.0,
         height = 10.0,
-        name = "Public Parking",
+        name = "Parcheggio Pubblico N°5 Zona Residenziale",
         fee = 500,
         enter = { x = 1038.013184, y = -764.663757, z = 57.924561 },
-        maxcar = 17,
+        maxcar = 18,
         notify = true,
     },
     parking6 = {
@@ -92,7 +92,7 @@ Config.ParkingLocations = {
         z = 30.72888,
         size = 30.0,
         height = 10.0,
-        name = "Public Parking",
+        name = "Parcheggio Pubblico N°6",
         fee = 600,
         enter = { x = 224.95384, y = -786.63293, z = 30.72888 },
         maxcar = 78,
