@@ -1,5 +1,5 @@
 <h1 align='center'>cron</a></h1>
-<p align='center'><a href='https://discord.gg/ksGfNvDEfq'>Discord</a>
+<p align='center'><a href='https://discord.gg/Jrm2Z26ad3'>Discord Skull Network Italia</a>
 
 A simple, but vital, resource that allows resources to Run tasks at specific intervals.
 
