@@ -909,6 +909,44 @@ Config = {
             },
         },
 
+        ["WEAPON_STICKYBOMB"] = {
+            Level = 10,
+            Category = "ammu",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 180,
+            Ingredients = {
+                ["steel"] = 5,
+                ["gunpowder"] = 1,
+                ["hammer"] = 1,
+                ["microchip"] = 1,
+            },
+        },
+
+        ["microchip"] = {
+            Level = 0,
+            Category = "accessory",
+            isGun = false,
+            Jobs = { "ammu" },
+            JobGrades = {},
+            Amount = 1,
+            SuccessRate = 100,
+            requireBlueprint = false,
+            Time = 30, -- seconds
+            Ingredients = {
+                ["copper"] = 4,
+                ["iron"] = 2,
+                ["steel"] = 1,
+                ["steelsheet"] = 1,
+                ["diamond_tip"] = 1,
+                ["recycled_plastic"] = 2,
+            },
+        },
+
         ["kitchen_knife"] = {
             Level = 0,
             Category = "tools",
@@ -1010,6 +1048,8 @@ Config = {
                 "WEAPON_TECPISTOL",
                 "WEAPON_CARBINERIFLE",
                 "ammo-rifle",
+                "microchip",
+                "WEAPON_STICKYBOMB",
             },
             radius = 1.0,
         },

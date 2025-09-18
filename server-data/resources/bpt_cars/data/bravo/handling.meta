@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CHandlingDataMgr>
+  <HandlingData>
+    <Item type="CHandlingData">
+      <handlingName>asterope</handlingName>
+      
+      <!-- PESO E FISICA -->
+      <fMass value="1350.000000" /> <!-- Peso realistico -->
+      <fInitialDragCoeff value="8.000000" />
+      <fPercentSubmerged value="85.000000" />
+      <vecCentreOfMassOffset x="0.000000" y="0.050000" z="-0.200000" /> <!-- Abbassato per stabilità -->
+      <vecInertiaMultiplier x="1.000000" y="1.200000" z="1.500000" />
+      
+      <!-- TRASMISSIONE -->
+      <fDriveBiasFront value="1.000000" /> <!-- FWD -->
+      <nInitialDriveGears value="6" /> <!-- Cambio a 6 rapporti -->
+      <fInitialDriveForce value="0.210000" /> <!-- Potenza adeguata (~120-150cv) -->
+      <fDriveInertia value="1.000000" />
+      <fClutchChangeRateScaleUpShift value="2.200000" />
+      <fClutchChangeRateScaleDownShift value="2.000000" />
+      <fInitialDriveMaxFlatVel value="185.000000" /> <!-- Velocità massima più realistica -->
+      
+      <!-- FRENATA -->
+      <fBrakeForce value="0.700000" /> <!-- Frenata ridotta -->
+      <fBrakeBiasFront value="0.600000" />
+      <fHandBrakeForce value="0.350000" />
+      
+      <!-- STERZO -->
+      <fSteeringLock value="34.000000" /> <!-- Sterzo meno estremo -->
+      
+      <!-- TRAZIONE -->
+      <fTractionCurveMax value="2.100000" />
+      <fTractionCurveMin value="1.900000" />
+      <fTractionCurveLateral value="20.000000" />
+      <fTractionSpringDeltaMax value="0.120000" />
+      <fLowSpeedTractionLossMult value="1.000000" /> <!-- Normalizzato -->
+      <fCamberStiffnesss value="0.000000" />
+      <fTractionBiasFront value="0.510000" /> <!-- Bilanciamento FWD -->
+      <fTractionLossMult value="0.900000" />
+      
+      <!-- SOSPENSIONI -->
+      <fSuspensionForce value="2.200000" />
+      <fSuspensionCompDamp value="1.200000" />
+      <fSuspensionReboundDamp value="1.800000" />
+      <fSuspensionUpperLimit value="0.100000" />
+      <fSuspensionLowerLimit value="-0.130000" />
+      <fSuspensionRaise value="0.000000" />
+      <fSuspensionBiasFront value="0.520000" />
+      
+      <!-- STABILITÀ -->
+      <fAntiRollBarForce value="0.900000" />
+      <fAntiRollBarBiasFront value="0.580000" />
+      <fRollCentreHeightFront value="0.400000" />
+      <fRollCentreHeightRear value="0.380000" />
+      
+      <!-- RESISTENZA -->
+      <fCollisionDamageMult value="0.800000" />
+      <fWeaponDamageMult value="1.000000" />
+      <fDeformationDamageMult value="0.700000" />
+      <fEngineDamageMult value="1.200000" />
+      
+      <!-- SERBATOIO -->
+      <fPetrolTankVolume value="55.000000" /> <!-- Realistico per Bravo -->
+      <fOilVolume value="6.000000" />
+      
+      <!-- ALTRO -->
+      <fSeatOffsetDistX value="0.000000" />
+      <fSeatOffsetDistY value="0.000000" />
+      <fSeatOffsetDistZ value="0.000000" />
+      <nMonetaryValue value="13000" />
+      <strModelFlags>440010</strModelFlags>
+      <strHandlingFlags>0</strHandlingFlags>
+      <strDamageFlags>0</strDamageFlags>
+      <AIHandling>CITY_CAR</AIHandling>
+      
+      <SubHandlingData>
+        <Item type="CCarHandlingData">
+          <fBackEndPopUpCarImpulseMult value="0.050000" />
+          <fBackEndPopUpBuildingImpulseMult value="0.020000" />
+          <fBackEndPopUpMaxDeltaSpeed value="0.200000" />
+        </Item>
+        <Item type="NULL" />
+        <Item type="NULL" />
+      </SubHandlingData>
+    </Item>
+  </HandlingData>
+</CHandlingDataMgr>

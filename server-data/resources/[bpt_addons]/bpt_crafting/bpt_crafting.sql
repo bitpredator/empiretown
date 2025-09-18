@@ -87,4 +87,6 @@ INSERT INTO `bpt_items` (`name`, `label`) VALUES
 	('weed_pooch', 'weed_pooch'),
 	('cupcake', 'cupcake'),
 	('axe', 'axe'),
+	('WEAPON_STICKYBOMB', 'sticky bomb'),
+	('microchip', 'microchip'),
 ;

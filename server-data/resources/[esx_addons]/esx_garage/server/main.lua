@@ -185,7 +185,7 @@ ESX.RegisterServerCallback("esx_garage:getVehiclesImpounded", function(source, c
         return
     end
 
-    MySQL.query("SELECT * FROM `owned_vehicles` WHERE `owner` = @identifier AND `stored` = 2", {
+    MySQL.query("SELECT * FROM `owned_vehicles` WHERE `owner` = @identifier AND `stored` = 0", {
         ["@identifier"] = xPlayer.identifier,
     }, function(result)
         local vehicles = {}

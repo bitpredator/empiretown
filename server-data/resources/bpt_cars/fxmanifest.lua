@@ -93,6 +93,13 @@ files({
     "data/fiat-panda-supernova/carcols.meta",
     "data/fiat-panda-supernova/handling.meta",
     "data/fiat-panda-supernova/vehiclelayouts.meta",
+
+    -- fiat bravo
+    "data/bravo/handling.meta",
+    "data/bravo/vehicles.meta",
+    "data/bravo/carcols.meta",
+    "data/bravo/carvariations.meta",
+    "data/bravo/dlctext.meta",
 })
 
 -- bmw440
@@ -182,6 +189,13 @@ data_file("VEHICLE_METADATA_FILE")("data/fiat-panda-supernova/vehicles.meta")
 data_file("VEHICLE_VARIATION_FILE")("data/fiat-panda-supernova/carvariations.meta")
 data_file("VEHICLE_LAYOUTS_FILE")("data/fiat-panda-supernova/vehiclelayouts.meta")
 dat_file("VEHICLE_VARIATION_FILE")("data/fiat-panda-supernova/carvariations.meta")
+
+-- Fiat bravo
+data_file("HANDLING_FILE")("data/bravo/handling.meta")
+data_file("VEHICLE_METADATA_FILE")("data/bravo/vehicles.meta")
+data_file("VEHICLE_VARIATION_FILE")("data/bravo/carvariations.meta")
+data_file("CARCOLS_FILE")("data/bravo/carcols.meta")
+data_file("DLCTEXT_FILE")("data/bravo/dlctext.meta")
 
 client_script({
     "vehicle_names.lua",
