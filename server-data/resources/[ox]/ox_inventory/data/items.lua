@@ -894,4 +894,11 @@ return {
     stack = false,
     description = "Laptop",
   },
+
+  ["microchip"] = {
+    label = "Microchip",
+    weight = 100,
+    stack = true,
+    description = "Microchip",
+  },
 }
