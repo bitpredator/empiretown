@@ -10,7 +10,6 @@ files({
     "html/form.html",
     "html/css.css",
     "html/script.js",
-    "html/jquery-3.4.1.min.js",
     "html/img/*.png",
 })
 

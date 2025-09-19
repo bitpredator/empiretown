@@ -11,386 +11,269 @@ let hidecraft;
 let grade;
 let categories;
 
+// Funzione helper per chiamate NUI compatibili con Fetch
+function nuiPost(event, data = {}) {
+	fetch(`https://bpt_crafting/${event}`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+		body: JSON.stringify(data),
+	}).catch(err => console.error('NUI fetch error:', err));
+}
+
+// Chiudi il menu
 function closeMenu() {
-	$.post('https://bpt_crafting/close', JSON.stringify({}));
-	$('#main').fadeOut(400);
-	timeout = setTimeout(function() {
-		$('#main').html('');
-		$('#main').fadeIn();
+	nuiPost('close');
+	const main = document.getElementById('main');
+	main.style.transition = 'opacity 0.4s';
+	main.style.opacity = '0';
+	timeout = setTimeout(() => {
+		main.innerHTML = '';
+		main.style.opacity = '1';
 	}, 400);
 }
 
+// Apri la lista delle categorie
 function openCategory() {
-	let first = '';
-	let base = '<div class="" id="page"><!-- group -->' +
-    '   <div class="clearfix grpelem scale-up-center" id="pu104-4"><!-- column -->' +
-    '    <div class="clearfix colelem" id="u104-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu104-4"><!-- content -->' +
-    '     <p>Bancone</p>' +
-    '    </div>' +
-    '    <div class="clearfix colelem" id="u139-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu104-4"><!-- content -->' +
+	const main = document.getElementById('main');
+	main.innerHTML = '';
 
-    '    </div>' +
-    '    <div class="colelem" id="u136" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu104-4"><!-- simple frame --></div>' +
-    '    <div class="colelem" id="u107" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu104-4"><!-- simple frame --></div>' +
-
-    '<div id="recepies">';
+	const recepiesContainer = document.createElement('div');
+	recepiesContainer.id = 'recepies';
+	recepiesContainer.style.display = 'flex';
+	recepiesContainer.style.flexWrap = 'wrap';
+	recepiesContainer.style.gap = '10px';
+	recepiesContainer.style.justifyContent = 'center';
+	recepiesContainer.style.overflowY = 'auto';
+	recepiesContainer.style.maxHeight = '80vh';
 
 	for (const [key1, value1] of Object.entries(categories)) {
 		let add = false;
-
 		for (const [key, value] of Object.entries(recipes)) {
-
-			if (value.Category == key1) {
-
-				if (value.Level > level) {
-
-					if (!hidecraft) {
-
-						add = true;
-					}
-
-
-				}
-				else if (value.requireBlueprint && (inventory[key + '_blueprint'] == 0 || inventory[key + '_blueprint'] == null)) {
-					if (!hidecraft) {
-
-						add = true;
-					}
-				}
-				else if (value.Jobs.includes(job) || Object.keys(value.Jobs).length == 0) {
-
-					if (value.JobGrades.includes(grade) || Object.keys(value.JobGrades).length == 0) {
-						add = true;
-					}
-					else if (!hidecraft) {
-
-						add = true;
-					}
-				}
-				else if (!hidecraft) {
-
-					add = true;
-				}
+			if (value.Category === key1) {
+				if (value.Level > level && !hidecraft) add = true;
+				else if (value.requireBlueprint && !inventory[`${key}_blueprint`] && !hidecraft) add = true;
+				else if ((value.Jobs.includes(job) || !value.Jobs.length) && (value.JobGrades.includes(grade) || !value.JobGrades.length)) add = true;
+				else if (!hidecraft) add = true;
 			}
 		}
 
 		if (add) {
-			first = first + '    <div class="clearfix colelem recipe" data-category="' + key1 + '" onclick="openCrafting(this)" id="pu212"><!-- group -->' +
-        '     <div class="gradient grpelem" id="u212" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-        '     <div class="clearfix grpelem" id="u225-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-        '      <p>' + value1.Label + '</p>' +
-        '     </div>' +
-        '     <div class="museBGSize grpelem" id="u264" style="background: url(img/' + value1.Image + '.png) no-repeat center; background-size: 120%; " data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-        '    </div>';
+			const div = document.createElement('div');
+			div.className = 'recipe clearfix colelem';
+			div.dataset.category = key1;
+			div.style.width = '160px';
+			div.style.minHeight = '180px';
+			div.innerHTML = `
+                <div class="gradient grpelem"></div>
+                <div class="clearfix grpelem"><p>${value1.Label}</p></div>
+                <div class="museBGSize grpelem" style="background: url(img/${value1.Image}.png) no-repeat center; background-size: 100%; width:48px; height:48px;"></div>
+            `;
+			div.addEventListener('click', () => openCrafting(div));
+			div.addEventListener('mouseenter', playClickSound);
+			recepiesContainer.appendChild(div);
 		}
 	}
 
-	base = base + first;
-	'   <div class="verticalspacer" data-offset-top="0" data-content-above-spacer="1060" data-content-below-spacer="0" data-sizePolicy="fixed" data-pintopage="page_fixedLeft"></div>' +
-    '   <div class="grpelem" id="u559"><!-- simple frame --></div>' +
-    '  </div>';
-	$('#main').append(base);
+	main.appendChild(recepiesContainer);
 
-	$('.recipe').hover(function() {
-		playClickSound();
-	});
-
-
-	$('#u139-4').text(level + ' LEVEL');
-	setProgress((rawlevel % 100));
-
-
+	const levelDisplay = document.createElement('div');
+	levelDisplay.id = 'levelDisplay';
+	levelDisplay.textContent = `${level} LEVEL`;
+	main.insertBefore(levelDisplay, recepiesContainer);
+	setProgress(rawlevel % 100);
 }
 
-// eslint-disable-next-line no-unused-vars
+// Apri lista crafting di una categoria
 function openCrafting(t) {
+	const main = document.getElementById('main');
+	main.innerHTML = '';
 
-	$('#main').html('');
-
-	let first = '';
-	let second = '';
 	const category = t.dataset.category;
 
-	let base = '<div class="" id="page"><!-- group -->' +
-    '   <div class="clearfix grpelem scale-up-center" id="pu104-4"><!-- column -->' +
-    '    <div class="clearfix colelem" id="u104-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu104-4"><!-- content -->' +
-    '     <p>Bancone</p>' +
-    '    </div>' +
-    '    <div class="clearfix colelem" id="u139-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu104-4"><!-- content -->' +
-
-    '    </div>' +
-    '    <div class="colelem" id="u136" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu104-4"><!-- simple frame --></div>' +
-    '    <div class="colelem" id="u107" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu104-4"><!-- simple frame --></div>' +
-
-    '<div id="recepies">';
+	const recepiesContainer = document.createElement('div');
+	recepiesContainer.id = 'recepies';
+	recepiesContainer.style.display = 'flex';
+	recepiesContainer.style.flexWrap = 'wrap';
+	recepiesContainer.style.gap = '10px';
+	recepiesContainer.style.justifyContent = 'center';
+	recepiesContainer.style.overflowY = 'auto';
+	recepiesContainer.style.maxHeight = '80vh';
 
 	for (const [key, value] of Object.entries(recipes)) {
+		if (value.Category !== category) continue;
 
 		const date = new Date(0);
 		date.setSeconds(value.Time);
-		const timeString = date.toISOString().substr(14, 5);
+		const timeString = date.toISOString().slice(14, 19);
 
-		if (value.Category == category) {
-			if (value.Level > level) {
-				if (!hidecraft) {
-					second = second + '    <div class="clearfix colelem recipe" onclick="inspect(this)" data-item="' + key + '" style="opacity: 0.5;" id="pu212"><!-- group -->' +
-            '     <div class="gradient grpelem" id="u212" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-            '     <div class="clearfix grpelem" id="u225-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-            '      <p>' + String(names[key]).toUpperCase() + '</p>' +
-            '     </div>' +
-            '     <div class="museBGSize grpelem" id="u264" style="background: url(img/' + key + '.png) no-repeat center; background-size: 120%; " data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-            '     <div class="rounded-corners clearfix grpelem" id="u270-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-            '      <p>' + timeString + '</p>' +
-            '     </div>' +
-            '     <div class="rounded-corners clearfix grpelem" id="u413-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-            '      <p>' + value.Level + ' LVL</p>' +
-            '     </div>' +
-            '     <div class="rounded-corners clearfix grpelem" id="u417-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-            '      <p> X' + value.Amount + '</p>' +
-            '     </div>' +
-            '    </div>';
-				}
-			}
-			else if (value.requireBlueprint && (inventory[key + '_blueprint'] == 0 || inventory[key + '_blueprint'] == null)) {
-				if (!hidecraft) {
-					second = second + '    <div class="clearfix colelem recipe" data-item="' + key + '" onclick="inspect(this)" style="opacity: 0.5;" id="pu212"><!-- group -->' +
-              '     <div class="gradient grpelem" id="u212" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-              '     <div class="clearfix grpelem" id="u225-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-              '      <p>' + String(names[key]).toUpperCase() + '</p>' +
-              '     </div>' +
-              '     <div class="museBGSize grpelem" id="u264" style="background: url(img/' + key + '.png) no-repeat center; background-size: 120%; " data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-              '     <div class="rounded-corners clearfix grpelem" id="u270-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-              '      <p>' + timeString + '</p>' +
-              '     </div>' +
-              '     <div class="rounded-corners clearfix grpelem" id="u413-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-              '      <p>' + value.Level + ' LVL</p>' +
-              '     </div>' +
-              '     <div class="rounded-corners clearfix grpelem" id="u417-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-              '      <p> X' + value.Amount + '</p>' +
-              '     </div>' +
-              '    </div>';
-				}
-			}
-			else if (value.Jobs.includes(job) || Object.keys(value.Jobs).length == 0) {
+		const opacity = (value.Level > level || (value.requireBlueprint && !inventory[`${key}_blueprint`]) || (value.JobGrades.length && !value.JobGrades.includes(grade))) && !hidecraft ? 0.5 : 1;
 
-				if (value.JobGrades.includes(grade) || Object.keys(value.JobGrades).length == 0) {
-					first = first + '    <div class="clearfix colelem recipe" data-item="' + key + '" onclick="inspect(this)" id="pu212"><!-- group -->' +
-                '     <div class="gradient grpelem" id="u212" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-                '     <div class="clearfix grpelem" id="u225-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                '      <p>' + String(names[key]).toUpperCase() + '</p>' +
-                '     </div>' +
-                '     <div class="museBGSize grpelem" id="u264" style="background: url(img/' + key + '.png) no-repeat center; background-size: 120%; " data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-                '     <div class="rounded-corners clearfix grpelem" id="u270-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                '      <p>' + timeString + '</p>' +
-                '     </div>' +
-                '     <div class="rounded-corners clearfix grpelem" id="u413-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                '      <p>' + value.Level + ' LVL</p>' +
-                '     </div>' +
-                '     <div class="rounded-corners clearfix grpelem" id="u417-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                '      <p> X' + value.Amount + '</p>' +
-                '     </div>' +
-                '    </div>';
-				}
-				else if (!hidecraft) {
-
-					second = second + '    <div class="clearfix colelem recipe" data-item="' + key + '" onclick="inspect(this)" style="opacity: 0.5;" id="pu212"><!-- group -->' +
-                  '     <div class="gradient grpelem" id="u212" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-                  '     <div class="clearfix grpelem" id="u225-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                  '      <p>' + String(names[key]).toUpperCase() + '</p>' +
-                  '     </div>' +
-                  '     <div class="museBGSize grpelem" id="u264" style="background: url(img/' + key + '.png) no-repeat center; background-size: 120%; " data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-                  '     <div class="rounded-corners clearfix grpelem" id="u270-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                  '      <p>' + timeString + '</p>' +
-                  '     </div>' +
-                  '     <div class="rounded-corners clearfix grpelem" id="u413-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                  '      <p>' + value.Level + ' LVL</p>' +
-                  '     </div>' +
-                  '     <div class="rounded-corners clearfix grpelem" id="u417-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                  '      <p> X' + value.Amount + '</p>' +
-                  '     </div>' +
-                  '    </div>';
-				}
-			}
-			else if (!hidecraft) {
-
-				second = second + '    <div class="clearfix colelem recipe" data-item="' + key + '" onclick="inspect(this)" style="opacity: 0.5;" id="pu212"><!-- group -->' +
-                '     <div class="gradient grpelem" id="u212" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-                '     <div class="clearfix grpelem" id="u225-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                '      <p>' + String(names[key]).toUpperCase() + '</p>' +
-                '     </div>' +
-                '     <div class="museBGSize grpelem" id="u264" style="background: url(img/' + key + '.png) no-repeat center; background-size: 120%; " data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- simple frame --></div>' +
-                '     <div class="rounded-corners clearfix grpelem" id="u270-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                '      <p>' + timeString + '</p>' +
-                '     </div>' +
-                '     <div class="rounded-corners clearfix grpelem" id="u413-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                '      <p>' + value.Level + ' LVL</p>' +
-                '     </div>' +
-                '     <div class="rounded-corners clearfix grpelem" id="u417-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu212"><!-- content -->' +
-                '      <p> X' + value.Amount + '</p>' +
-                '     </div>' +
-                '    </div>';
-			}
-		}
+		const div = document.createElement('div');
+		div.className = 'recipe clearfix colelem';
+		div.dataset.item = key;
+		div.style.opacity = opacity;
+		div.style.width = '160px';
+		div.style.minHeight = '180px';
+		div.innerHTML = `
+            <div class="gradient grpelem"></div>
+            <div class="clearfix grpelem"><p>${String(names[key]).toUpperCase()}</p></div>
+            <div class="museBGSize grpelem" style="background: url(img/${key}.png) no-repeat center; background-size: 100%; width:48px; height:48px;"></div>
+            <div class="rounded-corners clearfix grpelem"><p>${timeString}</p></div>
+            <div class="rounded-corners clearfix grpelem"><p>${value.Level} LVL</p></div>
+            <div class="rounded-corners clearfix grpelem"><p>X${value.Amount}</p></div>
+        `;
+		div.addEventListener('click', () => inspect(div));
+		div.addEventListener('mouseenter', playClickSound);
+		recepiesContainer.appendChild(div);
 	}
 
-	base = base + first + second;
-	'   <div class="verticalspacer" data-offset-top="0" data-content-above-spacer="1060" data-content-below-spacer="0" data-sizePolicy="fixed" data-pintopage="page_fixedLeft"></div>' +
-    '   <div class="grpelem" id="u559"></div>' +
-    '   </div>';
-	$('#main').append(base);
+	main.appendChild(recepiesContainer);
 
-	$('.recipe').hover(function() {
-		playClickSound();
-	});
-
-	$('#u139-4').text(level + ' LEVEL');
-	setProgress((rawlevel % 100));
-
+	const levelDisplay = document.createElement('div');
+	levelDisplay.id = 'levelDisplay';
+	levelDisplay.textContent = `${level} LEVEL`;
+	main.insertBefore(levelDisplay, recepiesContainer);
+	setProgress(rawlevel % 100);
 }
 
-$(document).keyup(function(e) {
-	if (e.keyCode === 27) {
-		closeMenu();
+// Mostra ingredienti e pulsante craft
+function inspect(t) {
+	if (opened === t) return;
+	opened = t;
+
+	const old = document.getElementById('inspectPanel');
+	if (old) old.remove();
+
+	const item = recipes[t.dataset.item];
+	const ingredients = item.Ingredients;
+
+	const panel = document.createElement('div');
+	panel.id = 'inspectPanel';
+	panel.className = 'slide-bottom';
+	panel.style.display = 'flex';
+	panel.style.flexDirection = 'column';
+	panel.style.alignItems = 'center';
+	panel.style.marginTop = '10px';
+
+	const imgDiv = document.createElement('div');
+	imgDiv.className = 'museBGSize';
+	imgDiv.style.background = `url(img/${t.dataset.item}.png) no-repeat center`;
+	imgDiv.style.backgroundSize = '100%';
+	imgDiv.style.width = '48px';
+	imgDiv.style.height = '48px';
+	panel.appendChild(imgDiv);
+
+	const btn = document.createElement('button');
+	btn.className = 'ripple';
+	btn.dataset.item = t.dataset.item;
+	btn.innerHTML = '<p>CRAFT</p>';
+	btn.addEventListener('click', () => craft(btn));
+	panel.appendChild(btn);
+
+	const ingredientsContainer = document.createElement('div');
+	ingredientsContainer.style.display = 'flex';
+	ingredientsContainer.style.flexWrap = 'wrap';
+	ingredientsContainer.style.gap = '5px';
+	ingredientsContainer.style.justifyContent = 'center';
+
+	for (const [key, value] of Object.entries(ingredients)) {
+		const div = document.createElement('div');
+		div.className = 'ingredient';
+		div.style.opacity = inventory[key] >= value ? 1 : 0.5;
+		div.innerHTML = `
+            <div>${names[key]}</div>
+            <div>${value}X</div>
+            <div style="background: url(img/${key}.png) no-repeat center; background-size: 100%; width:32px; height:32px;"></div>
+        `;
+		ingredientsContainer.appendChild(div);
 	}
-});
 
+	panel.appendChild(ingredientsContainer);
+	t.parentNode.appendChild(panel);
+}
+
+// Aggiungi alla coda
 function addToQueue(item, time, id) {
-
+	const el = document.getElementById(id);
 	const date = new Date(0);
 	date.setSeconds(time);
-	const timeString = date.toISOString().substr(14, 5);
+	const timeString = date.toISOString().slice(14, 19);
 
-	if ($('#' + id).length) {
-		$('#' + id).find('#u547-2').text(timeString);
-		if (time == 0) {
-			$('#' + id).fadeOut();
-			setTimeout(function() {
-				$('#' + id).remove();
-			}, 3000);
+	if (el) {
+		const timer = el.querySelector('.timer');
+		if (timer) timer.textContent = timeString;
+
+		if (time === 0) {
+			el.style.transition = 'opacity 0.3s';
+			el.style.opacity = '0';
+			setTimeout(() => el.remove(), 300);
 		}
-
 	}
 	else {
-		const base = '    <div class="slide-left queue" id="' + id + '"><!-- group -->' +
-      '     <div class="gradient grpelem" id="u544" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu544"><!-- simple frame --></div>' +
-      '     <div class="clearfix grpelem" id="u545-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu544"><!-- content -->' +
-      '      <p>' + String(names[item]).toUpperCase() + '</p>' +
-      '     </div>' +
-      '     <div class="museBGSize grpelem" style="background: url(img/' + item + '.png) no-repeat center; background-size: 120%; " id="u546" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu544"><!-- simple frame --></div>' +
-      '     <div class="rounded-corners clearfix grpelem" id="u547-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu544"><!-- content -->' +
-      '      <p id="u547-2">' + timeString + '</p>' +
-      '     </div>' +
-      '    </div>';
-
-		$('#ppu586').append(base);
+		const queue = document.createElement('div');
+		queue.className = 'queue slide-left';
+		queue.id = id;
+		queue.innerHTML = `
+            <div class="gradient"></div>
+            <div><p>${names[item].toUpperCase()}</p></div>
+            <div style="background: url(img/${item}.png) no-repeat center; background-size: 100%; width:32px; height:32px;"></div>
+            <div class="timer"><p>${timeString}</p></div>
+        `;
+		const ppu = document.getElementById('ppu586');
+		if (ppu) ppu.appendChild(queue);
 	}
-
 }
 
+// Craft
 // eslint-disable-next-line no-unused-vars
 function craft(t) {
-	const item = t.dataset.item;
-	$.post('https://bpt_crafting/craft', JSON.stringify({
-		item: item,
-	}));
+	if (t.disabled) return;
+	t.disabled = true;
+
+	fetch('https://bpt_crafting/craft', {
+		method: 'POST',
+		body: JSON.stringify({ item: t.dataset.item }),
+	});
+
+	// riabilita il pulsante dopo 100ms (puoi regolare)
+	setTimeout(() => {
+		t.disabled = false;
+	}, 100);
 }
 
+// Barra progresso
 function setProgress(p) {
+	const el = document.getElementById('u136');
+	if (!el) return;
 	const prog = (398 / 100) * p;
-	$('#u136').animate({
-		width: prog,
-	// eslint-disable-next-line no-empty-function
-	}, 500, function() {});
+	el.style.transition = 'width 0.5s';
+	el.style.width = `${prog}px`;
 }
 
-// eslint-disable-next-line no-unused-vars
-function inspect(t) {
-	if (opened != t) {
-		opened = t;
-		$('#pu386').remove();
-
-		const item = recipes[t.dataset.item];
-		const ingredients = item.Ingredients;
-		const date = new Date(0);
-		date.setSeconds(item.Time);
-		const timeString = date.toISOString().substr(14, 5);
-
-		let base = '   <div class="slide-bottom " id="pu386"><!-- group -->' +
-      '    <div class="gradient grpelem" id="u386" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu386"><!-- simple frame --></div>' +
-      '    <div class="museBGSize grpelem" id="u389" style="background: url(img/' + t.dataset.item + '.png) no-repeat center; background-size: 120%; " data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu386"><!-- simple frame --></div>' +
-
-      '     <button class="ripple" id="u407-4" data-item="' + t.dataset.item + '" onclick="craft(this)" data-sizePolicy="fixed" data-pintopage="page_fixedCenter"><!-- content -->' +
-      '      <p>CRAFT</p>' +
-      '     </button>' +
-
-      '    <div class="clearfix grpelem" id="u457-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu386"><!-- content -->' +
-      '     <p>' + String(names[t.dataset.item]).toUpperCase() + '</p>' +
-      '    </div>' +
-      '    <div class="rounded-corners clearfix grpelem" id="u535-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu386"><!-- content -->' +
-      '     <p>' + timeString + '</p>' +
-      '    </div>' +
-      '    <div class="rounded-corners clearfix grpelem" id="u538-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu386"><!-- content -->' +
-      '     <p>' + item.Level + ' LVL</p>' +
-      '    </div>' +
-      '    <div class="rounded-corners clearfix grpelem" id="u523-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu386"><!-- content -->' +
-      '     <p>X' + item.Amount + '</p>' +
-      '    </div>' +
-      '    <div class="clearfix grpelem" id="u541-4" data-sizePolicy="fixed" data-pintopage="page_fixedCenter" data-leftAdjustmentDoneBy="pu386"><!-- content -->' +
-      '     <p>INGREDIENTS</p>' +
-      '    </div>' +
-
-      '<div id="ingredients">';
-
-		let first = '';
-		let second = '';
-
-		for (const [key, value] of Object.entries(ingredients)) {
-
-			if (inventory[key] >= value) {
-				first = first + '<div class="ingredient" id="' + key + '">' +
-          '<div id="ingredient-text">' + names[key] + '</div>' +
-          '<div id="ingredient-x">' + value + 'X</div>' +
-          '<div id="ingredient-logo" style="background: url(img/' + key + '.png) no-repeat center; background-size: 120%; "></div>' +
-          '</div>';
-			}
-			else {
-				second = second + '<div class="ingredient" id="' + key + '" style="opacity:0.5;">' +
-          '<div id="ingredient-text">' + names[key] + '</div>' +
-          '<div id="ingredient-x">' + value + 'X</div>' +
-          '<div id="ingredient-logo" style="background: url(img/' + key + '.png) no-repeat center; background-size: 120%; "></div>' +
-          '</div>';
-			}
-		}
-		base = base + first + second;
-		$('#page').append(base);
-	}
-}
-
+// Effetto su hover
 function playClickSound() {
 	const audio = document.getElementById('clickaudio');
-	audio.volume = 0.05;
-	audio.play();
+	if (audio) {
+		audio.volume = 0.05;
+		audio.play();
+	}
 }
 
-
-window.addEventListener('message', function(event) {
+// Event listener NUI
+window.addEventListener('message', event => {
 	const edata = event.data;
-	if (edata.type == 'addqueue') {
-		addToQueue(edata.item, edata.time, edata.id);
-	}
-	if (edata.type == 'crafting') {
+	if (edata.type === 'addqueue') addToQueue(edata.item, edata.time, edata.id);
+	if (edata.type === 'crafting') {
 		for (const [key, value] of Object.entries(recipes[edata.item].Ingredients)) {
-			if (inventory[key] >= value) {
-				inventory[key] = inventory[key] - value;
-			}
+			if (inventory[key] >= value) inventory[key] -= value;
 			if (inventory[key] < value) {
-				$(document).find('#' + key).css('opacity', '0.5');
+				const el = document.getElementById(key);
+				if (el) el.style.opacity = '0.5';
 			}
 		}
 	}
-
-	if (edata.type == 'open') {
-		level = (edata.level - (edata.level % 100)) / 100;
+	if (edata.type === 'open') {
+		level = Math.floor(edata.level / 100);
 		rawlevel = edata.level;
 		recipes = edata.recipes;
 		inventory = edata.inventory;
@@ -401,4 +284,8 @@ window.addEventListener('message', function(event) {
 		categories = edata.categories;
 		openCategory();
 	}
+});
+
+document.addEventListener('keyup', e => {
+	if (e.key === 'Escape') closeMenu();
 });

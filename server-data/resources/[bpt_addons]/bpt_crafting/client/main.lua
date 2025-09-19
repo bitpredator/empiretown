@@ -74,6 +74,7 @@ local job = ""
 local grade = 0
 ESX = exports["es_extended"]:getSharedObject()
 
+-- Inizializzazione
 CreateThread(function()
     while ESX.GetPlayerData().job == nil do
         Wait(10)
@@ -86,10 +87,10 @@ CreateThread(function()
         labels = info
     end)
 
+    -- Blip dei workbench
     for _, v in ipairs(Config.Workbenches) do
         if v.blip then
             local blip = AddBlipForCoord(v.coords[1], v.coords[2], v.coords[3])
-
             SetBlipScale(blip, 0.8)
             SetBlipAsShortRange(blip, true)
             BeginTextCommandSetBlipName("STRING")
@@ -107,45 +108,37 @@ end)
 function IsNearWorkbench()
     local ped = PlayerPedId()
     local coords = GetEntityCoords(ped)
-    local near = false
-
     for _, v in ipairs(Config.Workbenches) do
-        local dst = #(coords - v.coords)
-        if dst < v.radius then
-            near = true
+        if #(coords - v.coords) < v.radius then
+            return true
         end
     end
-
-    if near then
-        return true
-    else
-        return false
-    end
+    return false
 end
 
+-- Loop coda crafting
 CreateThread(function()
     while true do
         Wait(1000)
-        if craftingQueue[1] ~= nil then
-            if not Config.CraftingStopWithDistance or (Config.CraftingStopWithDistance and IsNearWorkbench()) then
-                craftingQueue[1].time = craftingQueue[1].time - 1
+        if craftingQueue[1] and (not Config.CraftingStopWithDistance or IsNearWorkbench()) then
+            craftingQueue[1].time = craftingQueue[1].time - 1
 
-                SendNUIMessage({
-                    type = "addqueue",
-                    item = craftingQueue[1].item,
-                    time = craftingQueue[1].time,
-                    id = craftingQueue[1].id,
-                })
+            SendNUIMessage({
+                type = "addqueue",
+                item = craftingQueue[1].item,
+                time = craftingQueue[1].time,
+                id = craftingQueue[1].id,
+            })
 
-                if craftingQueue[1].time == 0 then
-                    TriggerServerEvent("bpt_crafting:itemCrafted", craftingQueue[1].item, craftingQueue[1].count)
-                    table.remove(craftingQueue, 1)
-                end
+            if craftingQueue[1].time <= 0 then
+                TriggerServerEvent("bpt_crafting:itemCrafted", craftingQueue[1].item, craftingQueue[1].count)
+                table.remove(craftingQueue, 1)
             end
         end
     end
 end)
 
+-- Apertura workbench
 function OpenWorkbench(val)
     ESX.TriggerServerCallback("bpt_crafting:getXP", function(xp)
         SetNuiFocus(true, true)
@@ -157,7 +150,6 @@ function OpenWorkbench(val)
         end
 
         local recipes = {}
-
         if #val.recipes > 0 then
             for _, g in ipairs(val.recipes) do
                 recipes[g] = Config.Recipes[g]
@@ -180,6 +172,7 @@ function OpenWorkbench(val)
     end)
 end
 
+-- Loop interazione workbench
 CreateThread(function()
     while true do
         Wait(1)
@@ -191,69 +184,64 @@ CreateThread(function()
             if dst < 10 then
                 DrawText3D(v.coords[1], v.coords[2], v.coords[3] - 0.8, TranslateCap("workbench_hologram"))
             end
-            if dst < 2 then
-                if IsControlJustReleased(0, Keys["E"]) then
-                    local open = false
-                    for _, g in ipairs(v.jobs) do
-                        if g == job then
-                            open = true
-                        end
+            if dst < 2 and IsControlJustReleased(0, Keys["E"]) then
+                local open = false
+                for _, g in ipairs(v.jobs) do
+                    if g == job then
+                        open = true
                     end
-
-                    if open or #v.jobs == 0 then
-                        OpenWorkbench(v)
-                    else
-                        ESX.ShowNotification(TranslateCap("wrong_job"))
-                    end
+                end
+                if open or #v.jobs == 0 then
+                    OpenWorkbench(v)
+                else
+                    ESX.ShowNotification(TranslateCap("wrong_job"))
                 end
             end
         end
     end
 end)
 
+-- Evento crafting
 RegisterNetEvent("bpt_crafting:craftStart")
-AddEventHandler("bpt_crafting:craftStart", function(item, _)
-    local id = math.random(000, 999)
+AddEventHandler("bpt_crafting:craftStart", function(item)
+    local id = math.random(0, 999)
     table.insert(craftingQueue, { time = Config.Recipes[item].Time, item = item, count = 1, id = id })
 
-    SendNUIMessage({
-        type = "crafting",
-        item = item,
-    })
-
-    SendNUIMessage({
-        type = "addqueue",
-        item = item,
-        time = Config.Recipes[item].Time,
-        id = id,
-    })
+    -- Notifica NUI
+    SendNUIMessage({ type = "crafting", item = item })
+    SendNUIMessage({ type = "addqueue", item = item, time = Config.Recipes[item].Time, id = id })
 end)
 
+-- Messaggi dal server
 RegisterNetEvent("bpt_crafting:sendMessage")
 AddEventHandler("bpt_crafting:sendMessage", function(msg)
     ESX.ShowNotification(msg)
 end)
 
-RegisterNUICallback("close", function()
+-- NUI callbacks
+RegisterNUICallback("close", function(data, cb)
     TriggerScreenblurFadeOut(1000)
     SetNuiFocus(false, false)
+    cb("ok")
 end)
 
-RegisterNUICallback("craft", function(data)
-    local item = data["item"]
+RegisterNUICallback("craft", function(data, cb)
+    local item = data.item
     TriggerServerEvent("bpt_crafting:craft", item, false)
+    cb("ok")
 end)
 
+-- Notifiche
 function ESX.ShowNotification(msg)
     exports["mythic_notify"]:SendAlert("inform", msg)
 end
 
+-- DrawText3D
 function DrawText3D(x, y, z, text)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     local px, py, pz = table.unpack(GetGameplayCamCoord())
     local dist = GetDistanceBetweenCoords(px, py, pz, x, y, z, true)
     local scale = ((1 / dist) * 2) * (1 / GetGameplayCamFov()) * 100
-
     if onScreen then
         SetTextColour(255, 255, 255, 255)
         SetTextScale(0.0 * scale, 0.35 * scale)
