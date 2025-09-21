@@ -26,7 +26,7 @@ return {
       anim = "eating",
       prop = "burger",
       usetime = 2500,
-      notification = "You ate a delicious burger",
+      notification = "Stai mangiando un burger",
     },
   },
 
@@ -34,7 +34,7 @@ return {
     label = "patatine fritte",
     weight = 220,
     client = {
-      status = { hunger = 400000 },
+      status = { hunger = 250000 },
       anim = "eating",
       prop = "burger",
       usetime = 2500,
@@ -123,7 +123,7 @@ return {
     label = "trota grigliata",
     weight = 140,
     client = {
-      status = { hunger = 60000 },
+      status = { hunger = 500000 },
       anim = "eating",
       prop = "burger",
       usetime = 2500,
