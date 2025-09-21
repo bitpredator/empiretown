@@ -1,20 +1,5 @@
 /* ================= Contenitore principale ================= */
 .full-screen {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 10px;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-}
-
-/* ================= Main content ================= */
-/* Blocca lo scroll e trascinamento della schermata principale */
-.full-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -32,7 +17,7 @@
     background: transparent;
 }
 
-/* Main container - blocca scroll e barre */
+/* ================= Main content ================= */
 #main {
     width: 100%;
     height: 100%;
@@ -46,7 +31,7 @@
     background: transparent;
 }
 
-/* Queue e altri overlay rimangono scrollabili */
+/* ================= Coda di crafting (overlay) ================= */
 #ppu586 {
     position: fixed;
     bottom: 10px;
@@ -145,13 +130,6 @@ button.ripple:hover {
 }
 
 /* ================= Ingredienti ================= */
-#ingredients {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 5px;
-}
-
 .ingredient {
     width: 80px;
     height: 100px;
@@ -164,21 +142,14 @@ button.ripple:hover {
     justify-content: center;
 }
 
-#ingredient-text {
+.ingredient div {
     color: #fff;
     font-size: 12px;
     text-align: center;
     margin-bottom: 2px;
 }
 
-#ingredient-x {
-    color: #fff;
-    font-size: 12px;
-    text-align: center;
-    margin-bottom: 2px;
-}
-
-#ingredient-logo {
+.ingredient div:last-child {
     width: 50px;
     height: 50px;
     background-size: contain !important;
@@ -209,7 +180,6 @@ button.ripple:hover {
     padding: 5px;
 }
 
-/* Nome e immagine in coda */
 .queue p {
     color: #fff;
     text-align: center;
@@ -237,28 +207,14 @@ button.ripple:hover {
 
 /* ================= Animazioni ================= */
 .scale-up-center {
-    -webkit-animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
     animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-
-@-webkit-keyframes scale-up-center {
-    0% {
-        -webkit-transform: scale(0.5);
-        transform: scale(0.5);
-    }
-    100% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-    }
 }
 
 @keyframes scale-up-center {
     0% {
-        -webkit-transform: scale(0.5);
         transform: scale(0.5);
     }
     100% {
-        -webkit-transform: scale(1);
         transform: scale(1);
     }
 }

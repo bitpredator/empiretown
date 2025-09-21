@@ -6,4 +6,5 @@ Locales["en"] = {
     ["workbench_hologram"] = "[~b~E~w~] Work station",
     ["inv_limit_exceed"] = "Inventory limit exceeded! Remove something before you lose more merchandise",
     ["crafting_failed"] = "You were unable to create the item!",
+    ["maximum_limit"] = "Maximum limit reached!",
 }
