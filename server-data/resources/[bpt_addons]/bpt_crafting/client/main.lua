@@ -204,6 +204,11 @@ end)
 -- Evento crafting
 RegisterNetEvent("bpt_crafting:craftStart")
 AddEventHandler("bpt_crafting:craftStart", function(item)
+    if Config.MaxCraftQueue ~= -1 and #craftingQueue >= Config.MaxCraftQueue then
+        ESX.ShowNotification(TranslateCap("maximum_limit"))
+        return
+    end
+
     local id = math.random(0, 999)
     table.insert(craftingQueue, { time = Config.Recipes[item].Time, item = item, count = 1, id = id })
 

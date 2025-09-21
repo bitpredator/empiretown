@@ -200,6 +200,7 @@ function addToQueue(item, time, id) {
 	const timeString = date.toISOString().slice(14, 19);
 
 	if (el) {
+		// Aggiorna il timer se esiste già
 		const timer = el.querySelector('.timer');
 		if (timer) timer.textContent = timeString;
 
@@ -214,18 +215,24 @@ function addToQueue(item, time, id) {
 		queue.className = 'queue slide-left';
 		queue.id = id;
 		queue.innerHTML = `
-            <div class="gradient"></div>
-            <div><p>${names[item].toUpperCase()}</p></div>
-            <div style="background: url(img/${item}.png) no-repeat center; background-size: 100%; width:32px; height:32px;"></div>
-            <div class="timer"><p>${timeString}</p></div>
-        `;
-		const ppu = document.getElementById('ppu586');
-		if (ppu) ppu.appendChild(queue);
+			<div class="gradient"></div>
+			<div><p>${names[item].toUpperCase()}</p></div>
+			<div style="background: url(img/${item}.png) no-repeat center; background-size: 100%; width:32px; height:32px;"></div>
+			<div class="timer"><p>${timeString}</p></div>
+		`;
+
+		const container = document.getElementById('ppu586');
+		if (container) {
+			// Rendi il contenitore scrollabile se serve
+			container.style.maxHeight = '300px';
+			container.style.overflowY = 'auto';
+
+			container.appendChild(queue);
+		}
 	}
 }
 
 // Craft
-// eslint-disable-next-line no-unused-vars
 function craft(t) {
 	if (t.disabled) return;
 	t.disabled = true;
