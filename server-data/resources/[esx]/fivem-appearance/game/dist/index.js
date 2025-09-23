@@ -458,7 +458,7 @@
 
 	function de() {
 		RegisterNuiCallbackType('appearance_get_locales'), RegisterNuiCallbackType('appearance_get_settings_and_data'), RegisterNuiCallbackType('appearance_set_camera'), RegisterNuiCallbackType('appearance_turn_around'), RegisterNuiCallbackType('appearance_rotate_camera'), RegisterNuiCallbackType('appearance_change_model'), RegisterNuiCallbackType('appearance_change_head_blend'), RegisterNuiCallbackType('appearance_change_face_feature'), RegisterNuiCallbackType('appearance_change_hair'), RegisterNuiCallbackType('appearance_change_head_overlay'), RegisterNuiCallbackType('appearance_change_eye_color'), RegisterNuiCallbackType('appearance_change_component'), RegisterNuiCallbackType('appearance_change_prop'), RegisterNuiCallbackType('appearance_apply_tattoo'), RegisterNuiCallbackType('appearance_preview_tattoo'), RegisterNuiCallbackType('appearance_delete_tattoo'), RegisterNuiCallbackType('appearance_wear_clothes'), RegisterNuiCallbackType('appearance_remove_clothes'), RegisterNuiCallbackType('appearance_save'), RegisterNuiCallbackType('appearance_exit'), on('__cfx_nui:appearance_get_locales', (e, a) => {
-			const o = LoadResourceFile(GetCurrentResourceName(), `locales/${GetConvar('fivem-appearance:locale', 'en')}.json`);
+			const o = LoadResourceFile(GetCurrentResourceName(), `locales/${GetConvar('fivem-appearance:locale', 'it')}.json`);
 			a(o);
 		}), on('__cfx_nui:appearance_get_settings_and_data', (e, a) => {
 			const o = _e(),
