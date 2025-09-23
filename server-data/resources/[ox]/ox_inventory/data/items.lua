@@ -1,904 +1,904 @@
 return {
-  ["bandage"] = {
-    label = "Bandage",
-    weight = 115,
-    client = {
-      anim = { dict = "missheistdockssetup1clipboard@idle_a", clip = "idle_a", flag = 49 },
-      prop = { model = `prop_rolled_sock_02`, pos = vec3(-0.14, -0.14, -0.08), rot = vec3(-50.0, -50.0, 0.0) },
-      disable = { move = true, car = true, combat = true },
-      usetime = 2500,
+    ["bandage"] = {
+        label = "Bandage",
+        weight = 50,
+        client = {
+            anim = { dict = "missheistdockssetup1clipboard@idle_a", clip = "idle_a", flag = 49 },
+            prop = { model = `prop_rolled_sock_02`, pos = vec3(-0.14, -0.14, -0.08), rot = vec3(-50.0, -50.0, 0.0) },
+            disable = { move = true, car = true, combat = true },
+            usetime = 2500,
+        },
     },
-  },
 
-  ["black_money"] = {
-    label = "Dirty Money",
-  },
-
-  ["parkingcard"] = {
-    label = "Tessera parcheggio",
-  },
-
-  ["burger"] = {
-    label = "Burger",
-    weight = 220,
-    client = {
-      status = { hunger = 33000 },
-      anim = "eating",
-      prop = "burger",
-      usetime = 2500,
-      notification = "Stai mangiando un burger",
+    ["black_money"] = {
+        label = "Dirty Money",
     },
-  },
 
-  ["fries"] = {
-    label = "patatine fritte",
-    weight = 220,
-    client = {
-      status = { hunger = 250000 },
-      anim = "eating",
-      prop = "burger",
-      usetime = 2500,
-      notification = "Stai mangiando delle patatine fritte",
+    ["parkingcard"] = {
+        label = "Tessera parcheggio",
     },
-  },
 
-  ["cupcake"] = {
-    label = "Cupcake",
-    weight = 100,
-    client = {
-      status = { hunger = 100000 },
-      anim = {
-        dict = "mp_player_inteat@burger",
-        clip = "mp_player_int_eat_burger",
-      },
-      prop = {
-        model = "pata_christmasfood8",
-        bone = 60309,
-        pos = vec3(0.0200, 0.0, -0.0100),
-        rot = vec3(9.3608, -90.1809, 66.3689),
-      },
-      usetime = 2500,
-      notification = "Stai mangiando un cupcake 🎂",
+    ["burger"] = {
+        label = "Burger",
+        weight = 300,
+        client = {
+            status = { hunger = 33000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiando un burger",
+        },
     },
-  },
 
-  ["apple"] = {
-    label = "Mela",
-    weight = 20,
-    stack = true,
-    client = {
-      status = { hunger = 100000 },
-      anim = {
-        dict = "mp_player_inteat@burger",
-        clip = "mp_player_int_eat_burger",
-      },
-      prop = {
-        model = "sf_prop_sf_apple_01b",
-        bone = 60309,
-        pos = vec3(0.0, 0.0150, -0.0200),
-        rot = vec3(-124.6964, -166.5760, 8.4572),
-      },
-      usetime = 2500,
-      notification = "Stai mangiando una mela 🍎",
+    ["fries"] = {
+        label = "patatine fritte",
+        weight = 200,
+        client = {
+            status = { hunger = 250000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiando delle patatine fritte",
+        },
     },
-  },
 
-  ["grilled_salmon"] = {
-    label = "salmone grigliato",
-    weight = 140,
-    client = {
-      status = { hunger = 500000 },
-      anim = "eating",
-      prop = "burger",
-      usetime = 2500,
-      notification = "Stai mangiando del salmone grigliato",
+    ["cupcake"] = {
+        label = "Cupcake",
+        weight = 120,
+        client = {
+            status = { hunger = 100000 },
+            anim = {
+                dict = "mp_player_inteat@burger",
+                clip = "mp_player_int_eat_burger",
+            },
+            prop = {
+                model = "pata_christmasfood8",
+                bone = 60309,
+                pos = vec3(0.0200, 0.0, -0.0100),
+                rot = vec3(9.3608, -90.1809, 66.3689),
+            },
+            usetime = 2500,
+            notification = "Stai mangiando un cupcake 🎂",
+        },
     },
-  },
 
-  ["tuna_sandwich"] = {
-    label = "panino al tonno",
-    weight = 140,
-    client = {
-      status = { hunger = 500000 },
-      anim = "eating",
-      prop = "burger",
-      usetime = 2500,
-      notification = "Stai mangiando un panino al tonno",
+    ["apple"] = {
+        label = "Mele",
+        weight = 150,
+        stack = true,
+        client = {
+            status = { hunger = 100000 },
+            anim = {
+                dict = "mp_player_inteat@burger",
+                clip = "mp_player_int_eat_burger",
+            },
+            prop = {
+                model = "sf_prop_sf_apple_01b",
+                bone = 60309,
+                pos = vec3(0.0, 0.0150, -0.0200),
+                rot = vec3(-124.6964, -166.5760, 8.4572),
+            },
+            usetime = 2500,
+            notification = "Stai mangiando una mela 🍎",
+        },
     },
-  },
 
-  ["mixed_fried_fish"] = {
-    label = "pesce fritto misto",
-    weight = 140,
-    client = {
-      status = { hunger = 400000 },
-      anim = "eating",
-      prop = "burger",
-      usetime = 2500,
-      notification = "Stai mangiando del pesce fritto misto",
+    ["grilled_salmon"] = {
+        label = "salmone grigliato",
+        weight = 500,
+        client = {
+            status = { hunger = 500000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiando del salmone grigliato",
+        },
     },
-  },
 
-  ["grilled_trout"] = {
-    label = "trota grigliata",
-    weight = 140,
-    client = {
-      status = { hunger = 500000 },
-      anim = "eating",
-      prop = "burger",
-      usetime = 2500,
-      notification = "Stai mangiando della trota grigliata",
+    ["tuna_sandwich"] = {
+        label = "panino al tonno",
+        weight = 300,
+        client = {
+            status = { hunger = 500000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiando un panino al tonno",
+        },
     },
-  },
 
-  ["bread_deer"] = {
-    label = "panino con carne di cervo",
-    weight = 220,
-    client = {
-      status = { hunger = 200000 },
-      anim = "eating",
-      prop = "burger",
-      usetime = 2500,
-      notification = "Hai mangiato un panino con carne di cervo",
+    ["mixed_fried_fish"] = {
+        label = "pesce fritto misto",
+        weight = 450,
+        client = {
+            status = { hunger = 400000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiando del pesce fritto misto",
+        },
     },
-  },
 
-  ["cola"] = {
-    label = "eCola",
-    weight = 60,
-    client = {
-      status = { thirst = 250000 },
-      anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
-      prop = { model = `prop_ecola_can`, pos = vec3(0.01, 0.01, 0.06), rot = vec3(5.0, 5.0, -180.5) },
-      usetime = 2500,
-      notification = "You quenched your thirst with cola",
+    ["grilled_trout"] = {
+        label = "trota grigliata",
+        weight = 450,
+        client = {
+            status = { hunger = 500000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Stai mangiando della trota grigliata",
+        },
     },
-  },
 
-  ["appledrink"] = {
-    label = "AppleDrink",
-    weight = 50,
-    client = {
-      status = { thirst = 300000 },
-      anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
-      prop = { model = `prop_ecola_can`, pos = vec3(0.01, 0.01, 0.06), rot = vec3(5.0, 5.0, -180.5) },
-      usetime = 2500,
-      notification = "Stai usando un drink alla mela",
+    ["bread_deer"] = {
+        label = "panino con carne di cervo",
+        weight = 300,
+        client = {
+            status = { hunger = 200000 },
+            anim = "eating",
+            prop = "burger",
+            usetime = 2500,
+            notification = "Hai mangiato un panino con carne di cervo",
+        },
     },
-  },
 
-  ["parachute"] = {
-    label = "Parachute",
-    weight = 8000,
-    stack = false,
-    client = {
-      anim = { dict = "clothingshirt", clip = "try_shirt_positive_d" },
-      usetime = 1500,
+    ["cola"] = {
+        label = "eCola",
+        weight = 350,
+        client = {
+            status = { thirst = 250000 },
+            anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
+            prop = { model = `prop_ecola_can`, pos = vec3(0.01, 0.01, 0.06), rot = vec3(5.0, 5.0, -180.5) },
+            usetime = 2500,
+            notification = "You quenched your thirst with cola",
+        },
     },
-  },
 
-  ["paper"] = {
-    label = "carta",
-    weight = 100,
-    stack = true,
-    consume = 0,
-  },
-
-  ["fags"] = {
-    label = "pacchetto di sigarette usato",
-    weight = 100,
-    stack = true,
-    consume = 0,
-  },
-
-  ["newspaper"] = {
-    label = "giornale rovinato",
-    weight = 100,
-    stack = true,
-    consume = 0,
-  },
-
-  ["trash_burgershot"] = {
-    label = "scatola di burgershot usata",
-    weight = 100,
-    stack = true,
-    consume = 0,
-  },
-
-  ["paperbag"] = {
-    label = "Paper Bag",
-    weight = 1,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["recycled_paper"] = {
-    label = "carta riciclata",
-    weight = 1,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["trash_can"] = {
-    label = "lattina usata",
-    weight = 50,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["trash_chips"] = {
-    label = "busta di patatine usata",
-    weight = 100,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["cotton"] = {
-    label = "cotone",
-    weight = 1,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["cloth"] = {
-    label = "stoffa",
-    weight = 1,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["cottonforbandages"] = {
-    label = "cotone per bende",
-    weight = 5,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["gold"] = {
-    label = "Oro",
-    weight = 2,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["diamond"] = {
-    label = "Diamante",
-    weight = 2,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["diamond_tip"] = {
-    label = "Punta di diamante",
-    weight = 3,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["emerald"] = {
-    label = "Smeraldo",
-    weight = 3,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["copper"] = {
-    label = "Rame",
-    weight = 2,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["iron"] = {
-    label = "Ferro",
-    weight = 2,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["steel"] = {
-    label = "Acciaio",
-    weight = 5,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["steelsheet"] = {
-    label = "lamiera di acciaio",
-    weight = 60,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["identification"] = {
-    label = "Identification",
-  },
-
-  ["panties"] = {
-    label = "Knickers",
-    weight = 10,
-    consume = 0,
-    client = {
-      status = { thirst = -100000, stress = -25000 },
-      anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
-      prop = { model = `prop_cs_panties_02`, pos = vec3(0.03, 0.0, 0.02), rot = vec3(0.0, -13.5, -1.5) },
-      usetime = 2500,
+    ["appledrink"] = {
+        label = "AppleDrink",
+        weight = 350,
+        client = {
+            status = { thirst = 300000 },
+            anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
+            prop = { model = `prop_ecola_can`, pos = vec3(0.01, 0.01, 0.06), rot = vec3(5.0, 5.0, -180.5) },
+            usetime = 2500,
+            notification = "Stai usando un drink alla mela",
+        },
     },
-  },
 
-  ["lockpick"] = {
-    label = "Lockpick",
-    weight = 160,
-    consume = 0,
-    client = {
-      anim = { dict = "anim@amb@clubhouse@tutorial@bkr_tut_ig3@", clip = "machinic_loop_mechandplayer" },
-      disable = { move = true, car = true, combat = true },
-      usetime = 5000,
-      cancel = true,
+    ["parachute"] = {
+        label = "Parachute",
+        weight = 8000,
+        stack = false,
+        client = {
+            anim = { dict = "clothingshirt", clip = "try_shirt_positive_d" },
+            usetime = 1500,
+        },
     },
-  },
 
-  ["phone"] = {
-    label = "Phone",
-    weight = 190,
-    stack = false,
-    consume = 0,
-    client = {
-      add = function(total)
-        if total > 0 then
-          pcall(function()
-            return exports.npwd:setPhoneDisabled(false)
-          end)
-        end
-      end,
-
-      remove = function(total)
-        if total < 1 then
-          pcall(function()
-            return exports.npwd:setPhoneDisabled(true)
-          end)
-        end
-      end,
+    ["paper"] = {
+        label = "carta",
+        weight = 10,
+        stack = true,
+        consume = 0,
     },
-  },
 
-  ["sim"] = {
-    label = "Sim Card",
-  },
-
-  ["money"] = {
-    label = "Money",
-  },
-
-  ["mustard"] = {
-    label = "Mustard",
-    weight = 500,
-    client = {
-      status = { hunger = 25000, thirst = 25000 },
-      anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
-      prop = { model = `prop_food_mustard`, pos = vec3(0.01, 0.0, -0.07), rot = vec3(1.0, 1.0, -1.5) },
-      usetime = 2500,
-      notification = "You.. drank mustard",
+    ["fags"] = {
+        label = "pacchetto di sigarette usato",
+        weight = 20,
+        stack = true,
+        consume = 0,
     },
-  },
 
-  ["water"] = {
-    label = "Water",
-    weight = 150,
-    client = {
-      status = { thirst = 200000 },
-      anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
-      prop = { model = `prop_ld_flow_bottle`, pos = vec3(0.03, 0.03, 0.02), rot = vec3(0.0, 0.0, -1.5) },
-      usetime = 2500,
-      cancel = true,
-      notification = "You drank some refreshing water",
+    ["newspaper"] = {
+        label = "giornale rovinato",
+        weight = 50,
+        stack = true,
+        consume = 0,
     },
-  },
 
-  ["radio"] = {
-    label = "Radio",
-    weight = 300,
-    stack = false,
-    consume = 0,
-    allowArmed = true,
-  },
-
-  ["armour"] = {
-    label = "Bulletproof Vest",
-    weight = 3000,
-    stack = false,
-    client = {
-      anim = { dict = "clothingshirt", clip = "try_shirt_positive_d" },
-      usetime = 3500,
+    ["trash_burgershot"] = {
+        label = "scatola di burgershot usata",
+        weight = 100,
+        stack = true,
+        consume = 0,
     },
-  },
 
-  ["clothing"] = {
-    label = "Clothing",
-    consume = 0,
-  },
-
-  ["ironsheet"] = {
-    label = "lamiera di ferro",
-    stack = true,
-    weight = 1,
-  },
-
-  ["wood"] = {
-    label = "Legna",
-    weight = 200, -- peso
-    stack = true,
-    close = true,
-  },
-
-  ["choppedwood"] = {
-    label = "legno tagliato",
-    weight = 25,
-    stack = true,
-    close = false,
-    consume = 0,
-  },
-
-  ["hammer"] = {
-    label = "martello",
-    consume = 0,
-    weight = 28,
-  },
-
-  ["fixkit"] = {
-    label = "kit di riparazione",
-    weight = 3,
-    stack = true,
-    close = true,
-  },
-
-  ["almonds"] = {
-    label = "mandorla",
-    weight = 10,
-    stack = true,
-  },
-
-  ["ice"] = {
-    label = "Ghiaccio",
-    weight = 12,
-    stack = true,
-  },
-
-  ["milk"] = {
-    label = "latte",
-    weight = 100,
-    stack = true,
-  },
-
-  ["potato"] = {
-    label = "Patate",
-    weight = 20,
-    stack = true,
-  },
-
-  ["chips"] = {
-    label = "Patatine fritte",
-    weight = 25,
-    stack = true,
-  },
-
-  ["fishing_rod"] = {
-    label = "Canna da pesca",
-    weight = 1000,
-    stack = false, -- non impilabile
-    close = true,
-    description = "Usata per pescare. Ha una durata limitata.",
-    durability = 100, -- personalizzato
-  },
-
-  ["bait"] = {
-    label = "esca",
-    weight = 3,
-    stack = true,
-  },
-
-  ["anchovy"] = {
-    label = "acciuga",
-    weight = 30,
-    stack = true,
-  },
-
-  ["trout"] = {
-    label = "trota",
-    weight = 20,
-    stack = true,
-  },
-
-  ["salmon"] = {
-    label = "salmone",
-    weight = 20,
-    stack = true,
-  },
-
-  ["tuna"] = {
-    label = "tonno",
-    weight = 50,
-    stack = true,
-  },
-
-  ["cigarette_paper"] = {
-    label = "cartina per sigarette",
-    weight = 1,
-    stack = true,
-  },
-
-  ["almondmilk"] = {
-    label = "Latte di mandorla",
-    weight = 80,
-    client = {
-      status = { thirst = 200000 },
-      anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
-      prop = { model = `prop_ld_flow_bottle`, pos = vec3(0.03, 0.03, 0.02), rot = vec3(0.0, 0.0, -1.5) },
-      usetime = 2500,
-      cancel = true,
-      notification = "hai bevuto una bibita fresca",
+    ["paperbag"] = {
+        label = "Paper Bag",
+        weight = 50,
+        stack = true,
+        close = false,
+        consume = 0,
     },
-  },
 
-  ["backpack"] = {
-    label = "Backpack",
-    weight = 200,
-    stack = false,
-    consume = 0,
-    client = {
-      export = "bpt_backpack.openBackpack",
+    ["recycled_paper"] = {
+        label = "carta riciclata",
+        weight = 10,
+        stack = true,
+        close = false,
+        consume = 0,
     },
-  },
 
-  ["boar_meat"] = {
-    label = "carne di cinghiale",
-    weight = 500,
-    stack = true,
-  },
-
-  ["pelt_mtnlion"] = {
-    label = "Pelle di leone di montagna",
-    weight = 400,
-    stack = true,
-  },
-
-  ["deer_meat"] = {
-    label = "carne di cervo",
-    weight = 100,
-    stack = true,
-  },
-
-  ["pelt_coyote"] = {
-    label = "Pelle di coyote",
-    weight = 400,
-    stack = true,
-  },
-
-  ["rabbit_meat"] = {
-    label = "carne di coniglio",
-    weight = 300,
-    stack = true,
-  },
-
-  ["gunpowder"] = {
-    label = "polvere da sparo",
-    weight = 10,
-    stack = true,
-  },
-
-  ["grain"] = {
-    label = "grano",
-    weight = 5,
-    stack = true,
-  },
-
-  ["bread"] = {
-    label = "panino vuoto",
-    weight = 20,
-    stack = true,
-  },
-
-  ["flour"] = {
-    label = "farina",
-    weight = 10,
-    stack = true,
-  },
-
-  ["fry_oil"] = {
-    label = "olio per friggere",
-    weight = 8,
-    stack = true,
-  },
-
-  ["idcard"] = {
-    label = "carta d'identità",
-    weight = 1,
-    stack = false,
-  },
-
-  ["jobcard"] = {
-    label = "documento lavorativo",
-    weight = 1,
-    stack = false,
-  },
-
-  ["dmvcard"] = {
-    label = "patente di guida",
-    weight = 1,
-    stack = false,
-  },
-
-  ["licensecard"] = {
-    label = "porto d'armi",
-    weight = 1,
-    stack = false,
-  },
-
-  ["wallet"] = {
-    label = "portafoglio",
-    weight = 45,
-    stack = false,
-    consume = 0,
-    client = {
-      export = "bpt_wallet.openWallet",
+    ["trash_can"] = {
+        label = "lattina usata",
+        weight = 50,
+        stack = true,
+        close = false,
+        consume = 0,
     },
-  },
 
-  ["medikit"] = {
-    label = "Medikit",
-    weight = 120,
-    stack = true,
-    close = true,
-  },
+    ["trash_chips"] = {
+        label = "busta di patatine usata",
+        weight = 80,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["alive_chicken"] = {
-    label = "Living chicken",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["cotton"] = {
+        label = "cotone",
+        weight = 10,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["blowpipe"] = {
-    label = "Blowtorch",
-    weight = 2,
-    stack = true,
-    close = true,
-  },
+    ["cloth"] = {
+        label = "stoffa",
+        weight = 100,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["carokit"] = {
-    label = "Body Kit",
-    weight = 3,
-    stack = true,
-    close = true,
-  },
+    ["cottonforbandages"] = {
+        label = "cotone per bende",
+        weight = 30,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["carotool"] = {
-    label = "Tools",
-    weight = 2,
-    stack = true,
-    close = true,
-  },
+    ["gold"] = {
+        label = "Oro",
+        weight = 50,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["clothe"] = {
-    label = "Cloth",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["diamond"] = {
+        label = "Diamante",
+        weight = 100,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["cutted_wood"] = {
-    label = "Cut wood",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["diamond_tip"] = {
+        label = "Punta di diamante",
+        weight = 50,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["essence"] = {
-    label = "Gas",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["emerald"] = {
+        label = "Smeraldo",
+        weight = 100,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["fabric"] = {
-    label = "Fabric",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["copper"] = {
+        label = "Rame",
+        weight = 500,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["fish"] = {
-    label = "Fish",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["iron"] = {
+        label = "Ferro",
+        weight = 500,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["fixtool"] = {
-    label = "Repair Tools",
-    weight = 2,
-    stack = true,
-    close = true,
-  },
+    ["steel"] = {
+        label = "Acciaio",
+        weight = 1000,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["gazbottle"] = {
-    label = "Gas Bottle",
-    weight = 2,
-    stack = true,
-    close = true,
-  },
+    ["steelsheet"] = {
+        label = "lamiera di acciaio",
+        weight = 2000,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["packaged_chicken"] = {
-    label = "Chicken fillet",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["identification"] = {
+        label = "Identification",
+    },
 
-  ["packaged_plank"] = {
-    label = "Packaged wood",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["panties"] = {
+        label = "Knickers",
+        weight = 50,
+        consume = 0,
+        client = {
+            status = { thirst = -100000, stress = -25000 },
+            anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
+            prop = { model = `prop_cs_panties_02`, pos = vec3(0.03, 0.0, 0.02), rot = vec3(0.0, -13.5, -1.5) },
+            usetime = 2500,
+        },
+    },
 
-  ["petrol"] = {
-    label = "Oil",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["lockpick"] = {
+        label = "Lockpick",
+        weight = 50,
+        consume = 0,
+        client = {
+            anim = { dict = "anim@amb@clubhouse@tutorial@bkr_tut_ig3@", clip = "machinic_loop_mechandplayer" },
+            disable = { move = true, car = true, combat = true },
+            usetime = 5000,
+            cancel = true,
+        },
+    },
 
-  ["petrol_raffin"] = {
-    label = "Processed oil",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["phone"] = {
+        label = "Phone",
+        weight = 250,
+        stack = false,
+        consume = 0,
+        client = {
+            add = function(total)
+                if total > 0 then
+                    pcall(function()
+                        return exports.npwd:setPhoneDisabled(false)
+                    end)
+                end
+            end,
 
-  ["slaughtered_chicken"] = {
-    label = "Slaughtered chicken",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+            remove = function(total)
+                if total < 1 then
+                    pcall(function()
+                        return exports.npwd:setPhoneDisabled(true)
+                    end)
+                end
+            end,
+        },
+    },
 
-  ["stone"] = {
-    label = "Pietra",
-    weight = 150,
-    stack = true,
-    close = true,
-  },
+    ["sim"] = {
+        label = "Sim Card",
+    },
 
-  ["diamond_hammer"] = {
-    label = "Martello in diamante",
-    weight = 70,
-    stack = true,
-    close = true,
-  },
+    ["money"] = {
+        label = "Money",
+    },
 
-  ["stone_mortar"] = {
-    label = "Mortaio in pietra",
-    weight = 45,
-    stack = true,
-    close = true,
-  },
+    ["mustard"] = {
+        label = "Mustard",
+        weight = 400,
+        client = {
+            status = { hunger = 25000, thirst = 25000 },
+            anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
+            prop = { model = `prop_food_mustard`, pos = vec3(0.01, 0.0, -0.07), rot = vec3(1.0, 1.0, -1.5) },
+            usetime = 2500,
+            notification = "You.. drank mustard",
+        },
+    },
 
-  ["wool"] = {
-    label = "Wool",
-    weight = 1,
-    stack = true,
-    close = true,
-  },
+    ["water"] = {
+        label = "Water",
+        weight = 500,
+        client = {
+            status = { thirst = 200000 },
+            anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
+            prop = { model = `prop_ld_flow_bottle`, pos = vec3(0.03, 0.03, 0.02), rot = vec3(0.0, 0.0, -1.5) },
+            usetime = 2500,
+            cancel = true,
+            notification = "You drank some refreshing water",
+        },
+    },
 
-  ["plastic_bag"] = {
-    label = "Plastica usata",
-    weight = 10,
-    stack = true,
-    close = true,
-  },
+    ["radio"] = {
+        label = "Radio",
+        weight = 800,
+        stack = false,
+        consume = 0,
+        allowArmed = true,
+    },
 
-  ["recycled_plastic"] = {
-    label = "Plastica riciclata",
-    weight = 10,
-    stack = true,
-    close = true,
-  },
+    ["armour"] = {
+        label = "Bulletproof Vest",
+        weight = 9000,
+        stack = false,
+        client = {
+            anim = { dict = "clothingshirt", clip = "try_shirt_positive_d" },
+            usetime = 3500,
+        },
+    },
 
-  ["marijuana_extract"] = {
-    label = "Estratto di marijuana",
-    weight = 10,
-    stack = true,
-    close = true,
-  },
+    ["clothing"] = {
+        label = "Clothing",
+        consume = 0,
+    },
 
-  ["stevo_policebadge"] = {
-    label = "Police Badge",
-    weight = 250,
-    stack = false,
-  },
+    ["ironsheet"] = {
+        label = "lamiera di ferro",
+        stack = true,
+        weight = 1500,
+    },
 
-  ["contract"] = {
-    label = "Contratto",
-    weight = 3,
-    stack = true,
-  },
+    ["wood"] = {
+        label = "Legna",
+        weight = 2000,
+        stack = true,
+        close = true,
+    },
 
-  ["fattura"] = {
-    label = "fattura",
-    weight = 1,
-    stack = false,
-    close = true,
-    description = "Fattura da pagare",
-  },
+    ["choppedwood"] = {
+        label = "legno tagliato",
+        weight = 500,
+        stack = true,
+        close = false,
+        consume = 0,
+    },
 
-  ["kitchen_knife"] = {
-    label = "Coltello da cucina",
-    weight = 100,
-    consume = 1,
-    stack = true,
-    description = "Coltello da cucina",
-  },
+    ["hammer"] = {
+        label = "martello",
+        consume = 0,
+        weight = 1200,
+    },
 
-  ["weed_seed"] = {
-    label = "Seed",
-    weight = 1,
-    stack = true,
-    close = true,
-    description = "Seme di Marijuana",
-  },
+    ["fixkit"] = {
+        label = "kit di riparazione",
+        weight = 300,
+        stack = true,
+        close = true,
+    },
 
-  ["axe"] = {
-    label = "Ascia",
-    weight = 2000,
-    stack = false,
-    close = true,
-    description = "Un’ascia utile per tagliare la legna",
-    consume = 100, -- non si consuma in automatico
-  },
+    ["almonds"] = {
+        label = "mandorla",
+        weight = 20,
+        stack = true,
+    },
 
-  ["weed_pooch"] = {
-    label = "Marijuana",
-    weight = 4,
-    stack = true,
-    close = true,
-    description = "Foglia di Marijuana",
-  },
+    ["ice"] = {
+        label = "Ghiaccio",
+        weight = 500,
+        stack = true,
+    },
 
-  ["weed"] = {
-    label = "bustina di marijuana",
-    weight = 4,
-    stack = true,
-    close = true,
-    description = "sacchetto di marijuana",
-  },
+    ["milk"] = {
+        label = "latte",
+        weight = 1000,
+        stack = true,
+    },
 
-  ["laptop"] = {
-    label = "Laptop",
-    weight = 1000,
-    stack = false,
-    description = "Laptop",
-  },
+    ["potato"] = {
+        label = "Patate",
+        weight = 200,
+        stack = true,
+    },
 
-  ["microchip"] = {
-    label = "Microchip",
-    weight = 100,
-    stack = true,
-    description = "Microchip",
-  },
+    ["chips"] = {
+        label = "Patatine fritte",
+        weight = 150,
+        stack = true,
+    },
+
+    ["fishing_rod"] = {
+        label = "Canna da pesca",
+        weight = 1500,
+        stack = false, -- non impilabile
+        close = true,
+        description = "Usata per pescare. Ha una durata limitata.",
+        durability = 100, -- personalizzato
+    },
+
+    ["bait"] = {
+        label = "esca",
+        weight = 50,
+        stack = true,
+    },
+
+    ["anchovy"] = {
+        label = "acciuga",
+        weight = 150,
+        stack = true,
+    },
+
+    ["trout"] = {
+        label = "trota",
+        weight = 500,
+        stack = true,
+    },
+
+    ["salmon"] = {
+        label = "salmone",
+        weight = 500,
+        stack = true,
+    },
+
+    ["tuna"] = {
+        label = "tonno",
+        weight = 3000,
+        stack = true,
+    },
+
+    ["cigarette_paper"] = {
+        label = "cartina per sigarette",
+        weight = 10,
+        stack = true,
+    },
+
+    ["almondmilk"] = {
+        label = "Latte di mandorla",
+        weight = 500,
+        client = {
+            status = { thirst = 200000 },
+            anim = { dict = "mp_player_intdrink", clip = "loop_bottle" },
+            prop = { model = `prop_ld_flow_bottle`, pos = vec3(0.03, 0.03, 0.02), rot = vec3(0.0, 0.0, -1.5) },
+            usetime = 2500,
+            cancel = true,
+            notification = "hai bevuto una bibita fresca",
+        },
+    },
+
+    ["backpack"] = {
+        label = "Backpack",
+        weight = 1500,
+        stack = false,
+        consume = 0,
+        client = {
+            export = "bpt_backpack.openBackpack",
+        },
+    },
+
+    ["boar_meat"] = {
+        label = "carne di cinghiale",
+        weight = 2500,
+        stack = true,
+    },
+
+    ["pelt_mtnlion"] = {
+        label = "Pelle di leone di montagna",
+        weight = 1500,
+        stack = true,
+    },
+
+    ["deer_meat"] = {
+        label = "carne di cervo",
+        weight = 2000,
+        stack = true,
+    },
+
+    ["pelt_coyote"] = {
+        label = "Pelle di coyote",
+        weight = 1200,
+        stack = true,
+    },
+
+    ["rabbit_meat"] = {
+        label = "carne di coniglio",
+        weight = 1000,
+        stack = true,
+    },
+
+    ["gunpowder"] = {
+        label = "polvere da sparo",
+        weight = 100,
+        stack = true,
+    },
+
+    ["grain"] = {
+        label = "grano",
+        weight = 100,
+        stack = true,
+    },
+
+    ["bread"] = {
+        label = "panino vuoto",
+        weight = 250,
+        stack = true,
+    },
+
+    ["flour"] = {
+        label = "farina",
+        weight = 1000,
+        stack = true,
+    },
+
+    ["fry_oil"] = {
+        label = "olio per friggere",
+        weight = 1000,
+        stack = true,
+    },
+
+    ["idcard"] = {
+        label = "carta d'identità",
+        weight = 10,
+        stack = false,
+    },
+
+    ["jobcard"] = {
+        label = "documento lavorativo",
+        weight = 10,
+        stack = false,
+    },
+
+    ["dmvcard"] = {
+        label = "patente di guida",
+        weight = 10,
+        stack = false,
+    },
+
+    ["licensecard"] = {
+        label = "porto d'armi",
+        weight = 10,
+        stack = false,
+    },
+
+    ["wallet"] = {
+        label = "portafoglio",
+        weight = 100,
+        stack = false,
+        consume = 0,
+        client = {
+            export = "bpt_wallet.openWallet",
+        },
+    },
+
+    ["medikit"] = {
+        label = "Medikit",
+        weight = 1000,
+        stack = true,
+        close = true,
+    },
+
+    ["alive_chicken"] = {
+        label = "Living chicken",
+        weight = 2500,
+        stack = true,
+        close = true,
+    },
+
+    ["blowpipe"] = {
+        label = "Blowtorch",
+        weight = 1000,
+        stack = true,
+        close = true,
+    },
+
+    ["carokit"] = {
+        label = "Body Kit",
+        weight = 3000,
+        stack = true,
+        close = true,
+    },
+
+    ["carotool"] = {
+        label = "Tools",
+        weight = 1500,
+        stack = true,
+        close = true,
+    },
+
+    ["clothe"] = {
+        label = "Cloth",
+        weight = 200,
+        stack = true,
+        close = true,
+    },
+
+    ["cutted_wood"] = {
+        label = "Cut wood",
+        weight = 1000,
+        stack = true,
+        close = true,
+    },
+
+    ["essence"] = {
+        label = "Gas",
+        weight = 1000,
+        stack = true,
+        close = true,
+    },
+
+    ["fabric"] = {
+        label = "Fabric",
+        weight = 200,
+        stack = true,
+        close = true,
+    },
+
+    ["fish"] = {
+        label = "Fish",
+        weight = 500,
+        stack = true,
+        close = true,
+    },
+
+    ["fixtool"] = {
+        label = "Repair Tools",
+        weight = 1500,
+        stack = true,
+        close = true,
+    },
+
+    ["gazbottle"] = {
+        label = "Gas Bottle",
+        weight = 2500,
+        stack = true,
+        close = true,
+    },
+
+    ["packaged_chicken"] = {
+        label = "Chicken fillet",
+        weight = 500,
+        stack = true,
+        close = true,
+    },
+
+    ["packaged_plank"] = {
+        label = "Packaged wood",
+        weight = 2000,
+        stack = true,
+        close = true,
+    },
+
+    ["petrol"] = {
+        label = "Oil",
+        weight = 1000,
+        stack = true,
+        close = true,
+    },
+
+    ["petrol_raffin"] = {
+        label = "Processed oil",
+        weight = 1000,
+        stack = true,
+        close = true,
+    },
+
+    ["slaughtered_chicken"] = {
+        label = "Slaughtered chicken",
+        weight = 1500,
+        stack = true,
+        close = true,
+    },
+
+    ["stone"] = {
+        label = "Pietra",
+        weight = 1500,
+        stack = true,
+        close = true,
+    },
+
+    ["diamond_hammer"] = {
+        label = "Martello in diamante",
+        weight = 2500,
+        stack = true,
+        close = true,
+    },
+
+    ["stone_mortar"] = {
+        label = "Mortaio in pietra",
+        weight = 3000,
+        stack = true,
+        close = true,
+    },
+
+    ["wool"] = {
+        label = "Wool",
+        weight = 200,
+        stack = true,
+        close = true,
+    },
+
+    ["plastic_bag"] = {
+        label = "Plastica usata",
+        weight = 50,
+        stack = true,
+        close = true,
+    },
+
+    ["recycled_plastic"] = {
+        label = "Plastica riciclata",
+        weight = 50,
+        stack = true,
+        close = true,
+    },
+
+    ["marijuana_extract"] = {
+        label = "Estratto di marijuana",
+        weight = 100,
+        stack = true,
+        close = true,
+    },
+
+    ["stevo_policebadge"] = {
+        label = "Police Badge",
+        weight = 250,
+        stack = false,
+    },
+
+    ["contract"] = {
+        label = "Contratto",
+        weight = 50,
+        stack = true,
+    },
+
+    ["fattura"] = {
+        label = "fattura",
+        weight = 10,
+        stack = false,
+        close = true,
+        description = "Fattura da pagare",
+    },
+
+    ["kitchen_knife"] = {
+        label = "Coltello da cucina",
+        weight = 500,
+        consume = 1,
+        stack = true,
+        description = "Coltello da cucina",
+    },
+
+    ["weed_seed"] = {
+        label = "Seed",
+        weight = 10,
+        stack = true,
+        close = true,
+        description = "Seme di Marijuana",
+    },
+
+    ["axe"] = {
+        label = "Ascia",
+        weight = 4500,
+        stack = false,
+        close = true,
+        description = "Un’ascia utile per tagliare la legna",
+        consume = 100, -- non si consuma in automatico
+    },
+
+    ["weed_pooch"] = {
+        label = "Marijuana",
+        weight = 100,
+        stack = true,
+        close = true,
+        description = "Foglia di Marijuana",
+    },
+
+    ["weed"] = {
+        label = "bustina di marijuana",
+        weight = 50,
+        stack = true,
+        close = true,
+        description = "sacchetto di marijuana",
+    },
+
+    ["laptop"] = {
+        label = "Laptop",
+        weight = 2200,
+        stack = false,
+        description = "Laptop",
+    },
+
+    ["microchip"] = {
+        label = "Microchip",
+        weight = 50,
+        stack = true,
+        description = "Microchip",
+    },
 }

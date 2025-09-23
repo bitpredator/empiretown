@@ -1,37 +1,37 @@
 Strings = {
-	-- Text UI strings --
-	clothing_menu = "[E] - Change Clothing",
-	barber_menu = "[E] - Change Hair/Face",
-	tattoo_menu = "[E] - Change Tattoos",
+    -- Text UI strings --
+    clothing_menu = "[E] - Cambia Abbigliamento",
+    barber_menu = "[E] - Cambia Capelli/Viso",
+    tattoo_menu = "[E] - Cambia Tatuaggi",
 
-	-- Notifications --
-	success = "Success",
-	success_desc = "You have successfully paid $%s for a new look!",
+    -- Notifications --
+    success = "Successo",
+    success_desc = "Hai pagato con successo $%s per un nuovo look!",
 
-	no_funds = "Lacking funds",
-	no_funds_desc = "You do not have enough funds in the bank for this",
+    no_funds = "Fondi insufficienti",
+    no_funds_desc = "Non hai abbastanza soldi in banca per questa operazione",
 
-	-- Menus --
+    -- Menus --
 
-	-- Main clothing shop menu
-	clothing_shop_title = "Shop Menu",
-	change_clothing_title = "Change Clothing",
-	change_clothing_desc = "Browse available clothing",
-	browse_outfits_title = "Browse Outfits",
-	browse_outfits_desc = "Browse saved outfits",
-	save_outfit_title = "Save Outfit",
-	save_outfit_info = "Outfit Name",
-	save_outfit_desc = "Save current outfit",
-	delete_outfit_title = "Delete Outfits",
-	delete_outfit_desc = "Delete a saved outfit",
+    -- Main clothing shop menu
+    clothing_shop_title = "Menu Negozio",
+    change_clothing_title = "Cambia Abbigliamento",
+    change_clothing_desc = "Sfoglia l'abbigliamento disponibile",
+    browse_outfits_title = "Sfoglia Outfit",
+    browse_outfits_desc = "Visualizza gli outfit salvati",
+    save_outfit_title = "Salva Outfit",
+    save_outfit_info = "Nome Outfit",
+    save_outfit_desc = "Salva l'outfit attuale",
+    delete_outfit_title = "Elimina Outfit",
+    delete_outfit_desc = "Elimina un outfit salvato",
 
-	-- Browse/Delete outfits & Wardrobe
-	wardrobe_title = "Wardrobe",
-	delete_outfits_title = "Delete Outfits",
-	go_back_title = "< Go Back",
-	go_back_desc = "No Saved Outfits!",
+    -- Browse/Delete outfits & Wardrobe
+    wardrobe_title = "Guardaroba",
+    delete_outfits_title = "Elimina Outfit",
+    go_back_title = "< Torna Indietro",
+    go_back_desc = "Nessun outfit salvato!",
 
-	-- Other
-	skin_command_help = "Change Skin",
-	skin_command_arg_help = "Player ID",
+    -- Other
+    skin_command_help = "Cambia Skin",
+    skin_command_arg_help = "ID Giocatore",
 }
