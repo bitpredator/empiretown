@@ -996,7 +996,7 @@ Config = {
 
     Workbenches = { -- Every workbench location, leave {} for jobs if you want everybody to access
         {
-            coords = vector3(1020.936279, -2404.628662, 30.122314),
+            coords = vector3(892.338440, -1043.591187, 35.244629),
             jobs = { "import" },
             blip = false,
             recipes = {

@@ -57,9 +57,9 @@ return {
     },
 
     {
-        coords = vec3(1001.630798, -2403.217529, 30.172852),
+        coords = vec3(889.134094, -1040.967041, 35.244629),
         target = {
-            loc = vec3(1001.630798, -2403.217529, 30.172852),
+            loc = vec3(889.134094, -1040.967041, 35.244629),
             length = 0.6,
             width = 1.8,
             heading = 340,
@@ -73,24 +73,5 @@ return {
         slots = 70,
         weight = 200000,
         groups = { ["import"] = 0 },
-    },
-
-    {
-        coords = vec3(-195.995605, -1339.819824, 34.890869),
-        target = {
-            loc = vec3(-195.995605, -1339.819824, 34.890869),
-            length = 0.6,
-            width = 1.8,
-            heading = 340,
-            minZ = 43.34,
-            maxZ = 44.74,
-            label = "Storage",
-        },
-        name = "bennyslocker",
-        label = "Storage",
-        owner = false,
-        slots = 70,
-        weight = 200000,
-        groups = { ["bennys"] = 0 },
     },
 }
