@@ -20,7 +20,7 @@ Config.Import = {
     IMPORT = {
 
         Blip = {
-            Coords = vector3(1006.799988, -2404.127441, 30.122314),
+            Coords = vector3(902.505493, -1032.000000, 34.958252),
             Sprite = 478,
             Display = 4,
             Scale = 1.0,
@@ -28,15 +28,15 @@ Config.Import = {
         },
 
         BossActions = {
-            vector3(1006.799988, -2404.127441, 30.122314),
+            vector3(903.520874, -1042.325317, 35.244629),
         },
 
         Vehicles = {
             {
-                Spawner = vector3(1021.912109, -2372.043945, 30.526733),
-                InsideShop = vector3(1012.720886, -2341.279053, 30.493042),
+                Spawner = vector3(901.872559, -1056.079102, 32.818359),
+                InsideShop = vector3(901.872559, -1056.079102, 32.818359),
                 SpawnPoints = {
-                    { coords = vector3(1015.740662, -2366.624268, 31.593042), heading = 90.0, radius = 6.0 },
+                    { coords = vector3(901.872559, -1056.079102, 32.818359), heading = 90.0, radius = 6.0 },
                 },
             },
         },
@@ -49,13 +49,21 @@ Config.Import = {
 
 Config.AuthorizedVehicles = {
     car = {
-        apprentice = {},
+        apprentice = {
+            { model = "rumpo3", price = 15000 },
+        },
 
-        gunsmith = {},
+        gunsmith = {
+            { model = "rumpo3", price = 15000 },
+        },
 
-        importchief = {},
+        importchief = {
+            { model = "rumpo3", price = 15000 },
+        },
 
-        deputydirector = {},
+        deputydirector = {
+            { model = "rumpo3", price = 15000 },
+        },
 
         boss = {
             { model = "rumpo3", price = 15000 },
