@@ -315,6 +315,7 @@ function OpenResellerMenu()
         elements = {
             { label = TranslateCap("buy_vehicle"), value = "buy_vehicle" },
             { label = TranslateCap("pop_vehicle"), value = "pop_vehicle" },
+            { label = TranslateCap("create_bill"), value = "create_bill" },
             { label = TranslateCap("depop_vehicle"), value = "depop_vehicle" },
             { label = TranslateCap("return_provider"), value = "return_provider" },
             { label = TranslateCap("get_rented_vehicles"), value = "get_rented_vehicles" },
