@@ -4,38 +4,17 @@ local CurrentActionData, handcuffTimer, dragStatus, blipsCops = {}, {}, {}, {}
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, hasAlreadyJoined = false, false, false, false
 local LastStation, LastPart, LastPartNum, CurrentAction, CurrentActionMsg
 dragStatus.isDragged, IsInShopMenu = false, false
+local isBusy = false
 
-function CleanPlayer(playerPed)
-    SetPedArmour(playerPed, 0)
-    ClearPedBloodDamage(playerPed)
-    ResetPedVisibleDamage(playerPed)
-    ClearPedLastWeaponDamage(playerPed)
-    ResetPedMovementClipset(playerPed, 0)
-end
-
-function OpenImportMenu(station)
-    if Config.OxInventory then
-        exports.ox_inventory:openInventory("stash", { id = "society_import", owner = station })
-        return ESX.CloseContext()
-    end
-
-    ESX.OpenContext("right", function(menu)
-        CurrentAction = "menu_import"
-        CurrentActionMsg = TranslateCap("open_import")
-        CurrentActionData = { station = station }
-    end)
-end
-
-function OpenImportActionsMenu()
+-- Menu azioni cittadino / quick actions
+local function OpenImportActionsMenu()
     local elements = {
         { unselectable = true, icon = "fas fa-import", title = TranslateCap("menu_title") },
         { icon = "fas fa-user", title = TranslateCap("citizen_interaction"), value = "citizen_interaction" },
     }
 
     ESX.OpenContext("right", elements, function(menu, element)
-        local data = { current = element }
-
-        if data.current.value == "citizen_interaction" then
+        if element.value == "citizen_interaction" then
             local elements2 = {
                 { unselectable = true, icon = "fas fa-user", title = element.title },
                 { icon = "fas fa-idkyet", title = TranslateCap("id_card"), value = "identity_card" },
@@ -43,15 +22,31 @@ function OpenImportActionsMenu()
                 { icon = "fas fa-gear", title = TranslateCap("billing"), value = "billing" },
                 { icon = "fas fa-idkyet", title = TranslateCap("handcuff"), value = "handcuff" },
                 { icon = "fas fa-idkyet", title = TranslateCap("drag"), value = "drag" },
+                { icon = "fas fa-gear", title = TranslateCap("hijack"), value = "hijack_vehicle" },
                 { icon = "fas fa-idkyet", title = TranslateCap("put_in_vehicle"), value = "put_in_vehicle" },
                 { icon = "fas fa-idkyet", title = TranslateCap("out_the_vehicle"), value = "out_the_vehicle" },
             }
 
             ESX.OpenContext("right", elements2, function(menu2, element2)
-                local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-                if closestPlayer ~= -1 and closestDistance <= 3.0 then
-                    local data2 = { current = element2 }
-                    local action = data2.current.value
+                local action = element2.value
+
+                -- Definiamo quali azioni richiedono un giocatore vicino
+                local needsPlayer = {
+                    identity_card = true,
+                    search = true,
+                    handcuff = true,
+                    drag = true,
+                    put_in_vehicle = true,
+                    out_the_vehicle = true,
+                    billing = true,
+                }
+
+                if needsPlayer[action] then
+                    local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+                    if closestPlayer == -1 or closestDistance > 3.0 then
+                        ESX.ShowNotification(TranslateCap("no_players_nearby"))
+                        return
+                    end
 
                     if action == "identity_card" then
                         OpenIdentityCardMenu(closestPlayer)
@@ -75,9 +70,9 @@ function OpenImportActionsMenu()
                         }
 
                         ESX.OpenContext("right", billingElements, function(menu3)
-                            local amount = tonumber(menu3.eles[2].inputValue)
+                            local amount = tonumber(menu3.eles and menu3.eles[2] and menu3.eles[2].inputValue)
 
-                            if amount == nil or amount < 1 then
+                            if not amount or amount < 1 then
                                 ESX.ShowNotification(TranslateCap("amount_invalid"), "error")
                             else
                                 local billClosestPlayer, billClosestDistance = ESX.Game.GetClosestPlayer()
@@ -91,7 +86,31 @@ function OpenImportActionsMenu()
                         end)
                     end
                 else
-                    ESX.ShowNotification(TranslateCap("no_players_nearby"))
+                    -- Azioni che non richiedono un giocatore vicino
+                    if action == "hijack_vehicle" then
+                        local playerPed = PlayerPedId()
+                        local vehicle = ESX.Game.GetVehicleInDirection()
+
+                        if IsPedSittingInAnyVehicle(playerPed) then
+                            ESX.ShowNotification(TranslateCap("inside_vehicle"))
+                            return
+                        end
+
+                        if DoesEntityExist(vehicle) then
+                            isBusy = true
+                            TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_WELDING", 0, true)
+                            CreateThread(function()
+                                Wait(10000)
+                                SetVehicleDoorsLocked(vehicle, 1)
+                                SetVehicleDoorsLockedForAllPlayers(vehicle, false)
+                                ClearPedTasksImmediately(playerPed)
+                                ESX.ShowNotification(TranslateCap("vehicle_unlocked"))
+                                isBusy = false
+                            end)
+                        else
+                            ESX.ShowNotification(TranslateCap("no_vehicle_nearby"))
+                        end
+                    end
                 end
             end, function()
                 OpenImportActionsMenu()
@@ -100,6 +119,7 @@ function OpenImportActionsMenu()
     end)
 end
 
+-- Identity card menu (corretto duplicato "sex" e comportamento)
 function OpenIdentityCardMenu(player)
     ESX.TriggerServerCallback("bpt_importjob:getOtherPlayerData", function(data)
         local elements = {
@@ -109,7 +129,6 @@ function OpenIdentityCardMenu(player)
 
         if Config.EnableESXIdentity then
             elements[#elements + 1] = { icon = "fas fa-user", title = TranslateCap("sex", TranslateCap(data.sex)) }
-            elements[#elements + 1] = { icon = "fas fa-user", title = TranslateCap("sex", TranslateCap(data.sex)) }
             elements[#elements + 1] = { icon = "fas fa-user", title = TranslateCap("height", data.height) }
         end
 
@@ -117,12 +136,13 @@ function OpenIdentityCardMenu(player)
             elements[#elements + 1] = { title = TranslateCap("bac", data.drunk) }
         end
 
-        ESX.OpenContext("right", elements, nil, function(menu)
+        ESX.OpenContext("right", elements, nil, function()
             OpenImportActionsMenu()
         end)
     end, GetPlayerServerId(player))
 end
 
+-- Body search (controllo ox_inventory + costruzione menu)
 function OpenBodySearchMenu(player)
     if Config.OxInventory then
         ESX.CloseContext()
@@ -175,15 +195,16 @@ function OpenBodySearchMenu(player)
         end
 
         ESX.OpenContext("right", elements, function(_, element)
-            data = { current = element }
-            if data.current.value then
-                TriggerServerEvent("bpt_importjob:confiscatePlayerItem", GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
+            local sel = { current = element }
+            if sel.current and sel.current.value then
+                TriggerServerEvent("bpt_importjob:confiscatePlayerItem", GetPlayerServerId(player), sel.current.itemType, sel.current.value, sel.current.amount)
                 OpenBodySearchMenu(player)
             end
         end)
     end, GetPlayerServerId(player))
 end
 
+-- Stocks: prelevare dagli stock
 function OpenGetStocksMenu()
     ESX.TriggerServerCallback("bpt_importjob:getStockItems", function(items)
         local elements = {
@@ -200,6 +221,9 @@ function OpenGetStocksMenu()
 
         ESX.OpenContext("right", elements, function(menu, element)
             local data = { current = element }
+            if not data.current or not data.current.value then
+                return
+            end
             local itemName = data.current.value
 
             local elements2 = {
@@ -216,8 +240,7 @@ function OpenGetStocksMenu()
             }
 
             ESX.OpenContext("right", elements2, function(menu2, element2)
-                local data2 = { value = menu2.eles[2].inputValue }
-                local count = tonumber(data2.value)
+                local count = tonumber(menu2.eles and menu2.eles[2] and menu2.eles[2].inputValue)
 
                 if not count then
                     ESX.ShowNotification(TranslateCap("quantity_invalid"))
@@ -233,6 +256,7 @@ function OpenGetStocksMenu()
     end)
 end
 
+-- Stocks: depositare nello stock
 function OpenPutStocksMenu()
     ESX.TriggerServerCallback("bpt_importjob:getPlayerInventory", function(inventory)
         local elements = {
@@ -254,6 +278,9 @@ function OpenPutStocksMenu()
 
         ESX.OpenContext("right", elements, function(menu, element)
             local data = { current = element }
+            if not data.current or not data.current.value then
+                return
+            end
             local itemName = data.current.value
 
             local elements2 = {
@@ -270,8 +297,7 @@ function OpenPutStocksMenu()
             }
 
             ESX.OpenContext("right", elements2, function(menu2, element2)
-                local data2 = { value = menu2.eles[2].inputValue }
-                local count = tonumber(data2.value)
+                local count = tonumber(menu2.eles and menu2.eles[2] and menu2.eles[2].inputValue)
 
                 if not count then
                     ESX.ShowNotification(TranslateCap("quantity_invalid"))
@@ -287,6 +313,7 @@ function OpenPutStocksMenu()
     end)
 end
 
+-- Marker entered/exited
 AddEventHandler("bpt_importjob:hasEnteredMarker", function(station, part, partNum)
     if part == "Import" then
         CurrentAction = "menu_import"
@@ -311,19 +338,17 @@ AddEventHandler("bpt_importjob:hasExitedMarker", function(station, part, partNum
     CurrentAction = nil
 end)
 
+-- Entity zone (rimuovere prop / burst tyre for stinger)
 AddEventHandler("bpt_importjob:hasEnteredEntityZone", function(entity)
     local playerPed = PlayerPedId()
 
-    if ESX.PlayerData.job and ESX.PlayerData.job.name == "imort" and IsPedOnFoot(playerPed) then
+    if ESX.PlayerData and ESX.PlayerData.job and ESX.PlayerData.job.name == "import" and IsPedOnFoot(playerPed) then
         CurrentAction = "remove_entity"
         CurrentActionMsg = TranslateCap("remove_prop")
         CurrentActionData = { entity = entity }
     end
 
     if GetEntityModel(entity) == `p_ld_stinger_s` then
-        playerPed = PlayerPedId()
-        local _ = GetEntityCoords(playerPed)
-
         if IsPedInAnyVehicle(playerPed, false) then
             local vehicle = GetVehiclePedIsIn(playerPed, false)
 
@@ -340,6 +365,7 @@ AddEventHandler("bpt_importjob:hasExitedEntityZone", function(entity)
     end
 end)
 
+-- Handcuff toggle
 RegisterNetEvent("bpt_importjob:handcuff")
 AddEventHandler("bpt_importjob:handcuff", function()
     isHandcuffed = not isHandcuffed
@@ -356,7 +382,7 @@ AddEventHandler("bpt_importjob:handcuff", function()
 
         SetEnableHandcuffs(playerPed, true)
         DisablePlayerFiring(playerPed, true)
-        SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true) -- unarm player
+        SetCurrentPedWeapon(playerPed, `WEAPON_UNARMED`, true)
         SetPedCanPlayGestureAnims(playerPed, false)
         FreezeEntityPosition(playerPed, true)
         DisplayRadar(false)
@@ -382,6 +408,7 @@ AddEventHandler("bpt_importjob:handcuff", function()
     end
 end)
 
+-- Unrestrain event (forse chiamato da server)
 RegisterNetEvent("bpt_importjob:unrestrain")
 AddEventHandler("bpt_importjob:unrestrain", function()
     if isHandcuffed then
@@ -395,13 +422,13 @@ AddEventHandler("bpt_importjob:unrestrain", function()
         FreezeEntityPosition(playerPed, false)
         DisplayRadar(true)
 
-        -- end timer
         if Config.EnableHandcuffTimer and handcuffTimer.active then
             ESX.ClearTimeout(handcuffTimer.task)
         end
     end
 end)
 
+-- Dragging (toggle)
 RegisterNetEvent("bpt_importjob:drag")
 AddEventHandler("bpt_importjob:drag", function(copId)
     if isHandcuffed then
@@ -410,8 +437,9 @@ AddEventHandler("bpt_importjob:drag", function(copId)
     end
 end)
 
+-- Thread: manage being dragged
 CreateThread(function()
-    local wasDragged
+    local wasDragged = false
 
     while true do
         local Sleep = 1500
@@ -422,7 +450,7 @@ CreateThread(function()
 
             if DoesEntityExist(targetPed) and IsPedOnFoot(targetPed) and not IsPedDeadOrDying(targetPed, true) then
                 if not wasDragged then
-                    AttachEntityToEntity(ESX.PlayerData.ped, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+                    AttachEntityToEntity(PlayerPedId(), targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
                     wasDragged = true
                 else
                     Wait(1000)
@@ -430,24 +458,26 @@ CreateThread(function()
             else
                 wasDragged = false
                 dragStatus.isDragged = false
-                DetachEntity(ESX.PlayerData.ped, true, false)
+                DetachEntity(PlayerPedId(), true, false)
             end
         elseif wasDragged then
             wasDragged = false
-            DetachEntity(ESX.PlayerData.ped, true, false)
+            DetachEntity(PlayerPedId(), true, false)
         end
         Wait(Sleep)
     end
 end)
 
+-- Put in vehicle
 RegisterNetEvent("bpt_importjob:putInVehicle")
 AddEventHandler("bpt_importjob:putInVehicle", function()
     if isHandcuffed then
         local playerPed = PlayerPedId()
         local vehicle, distance = ESX.Game.GetClosestVehicle()
 
-        if vehicle and distance < 5 then
-            local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
+        if vehicle and distance and distance < 5 then
+            local maxSeats = GetVehicleMaxNumberOfPassengers(vehicle) or 0
+            local freeSeat = nil
 
             for i = maxSeats - 1, 0, -1 do
                 if IsVehicleSeatFree(vehicle, i) then
@@ -464,21 +494,17 @@ AddEventHandler("bpt_importjob:putInVehicle", function()
     end
 end)
 
+-- Out of vehicle
 RegisterNetEvent("bpt_importjob:OutVehicle")
 AddEventHandler("bpt_importjob:OutVehicle", function()
-    local GetVehiclePedIsIn = GetVehiclePedIsIn
-    local IsPedSittingInAnyVehicle = IsPedSittingInAnyVehicle
-    local TaskLeaveVehicle = TaskLeaveVehicle
-    if IsPedSittingInAnyVehicle(ESX.PlayerData.ped) then
-        local vehicle = GetVehiclePedIsIn(ESX.PlayerData.ped, false)
-        TaskLeaveVehicle(ESX.PlayerData.ped, vehicle, 64)
+    if IsPedSittingInAnyVehicle(PlayerPedId()) then
+        local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+        TaskLeaveVehicle(PlayerPedId(), vehicle, 64)
     end
 end)
 
--- Handcuff
+-- Handcuff control disabling thread
 CreateThread(function()
-    local DisableControlAction = DisableControlAction
-    local IsEntityPlayingAnim = IsEntityPlayingAnim
     while true do
         local Sleep = 1000
 
@@ -527,9 +553,9 @@ CreateThread(function()
             DisableControlAction(0, 75, true) -- Disable exit vehicle
             DisableControlAction(27, 75, true) -- Disable exit vehicle
 
-            if IsEntityPlayingAnim(ESX.PlayerData.ped, "mp_arresting", "idle", 3) ~= 1 then
+            if IsEntityPlayingAnim(PlayerPedId(), "mp_arresting", "idle", 3) ~= 1 then
                 ESX.Streaming.RequestAnimDict("mp_arresting", function()
-                    TaskPlayAnim(ESX.PlayerData.ped, "mp_arresting", "idle", 8.0, -8, -1, 49, 0.0, false, false, false)
+                    TaskPlayAnim(PlayerPedId(), "mp_arresting", "idle", 8.0, -8, -1, 49, 0.0, false, false, false)
                     RemoveAnimDict("mp_arresting")
                 end)
             end
@@ -538,27 +564,32 @@ CreateThread(function()
     end
 end)
 
--- Create blips
+-- Create blips for import stations defined in Config.Import
 CreateThread(function()
+    if not Config or not Config.Import then
+        return
+    end
     for _, v in pairs(Config.Import) do
-        local blip = AddBlipForCoord(v.Blip.Coords.x, v.Blip.Coords.y, v.Blip.Coords.z)
-        SetBlipSprite(blip, v.Blip.Sprite)
-        SetBlipDisplay(blip, v.Blip.Display)
-        SetBlipScale(blip, v.Blip.Scale)
-        SetBlipColour(blip, v.Blip.Colour)
-        SetBlipAsShortRange(blip, true)
+        if v.Blip and v.Blip.Coords then
+            local blip = AddBlipForCoord(v.Blip.Coords.x, v.Blip.Coords.y, v.Blip.Coords.z)
+            SetBlipSprite(blip, v.Blip.Sprite)
+            SetBlipDisplay(blip, v.Blip.Display)
+            SetBlipScale(blip, v.Blip.Scale)
+            SetBlipColour(blip, v.Blip.Colour)
+            SetBlipAsShortRange(blip, true)
 
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentSubstringPlayerName(TranslateCap("map_blip"))
-        EndTextCommandSetBlipName(blip)
+            BeginTextCommandSetBlipName("STRING")
+            AddTextComponentSubstringPlayerName(TranslateCap("map_blip"))
+            EndTextCommandSetBlipName(blip)
+        end
     end
 end)
 
--- Draw markers and more
+-- Draw markers & manage marker enter/exit
 CreateThread(function()
     while true do
         local Sleep = 1500
-        if ESX.PlayerData.job and ESX.PlayerData.job.name == "import" then
+        if ESX.PlayerData and ESX.PlayerData.job and ESX.PlayerData.job.name == "import" then
             Sleep = 500
             local playerPed = PlayerPedId()
             local playerCoords = GetEntityCoords(playerPed)
@@ -595,7 +626,7 @@ CreateThread(function()
                 end
             end
 
-            if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
+            if isInMarker and (not HasAlreadyEnteredMarker or LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
                 if (LastStation and LastPart and LastPartNum) and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
                     TriggerEvent("bpt_importjob:hasExitedMarker", LastStation, LastPart, LastPartNum)
                     hasExited = true
@@ -618,12 +649,13 @@ CreateThread(function()
     end
 end)
 
+-- Register input E (interact)
 ESX.RegisterInput("import:interact", "(BPT ImportJob) " .. TranslateCap("interaction"), "keyboard", "E", function()
     if not CurrentAction then
         return
     end
 
-    if not ESX.PlayerData.job or (ESX.PlayerData.job and ESX.PlayerData.job.name ~= "import") then
+    if not ESX.PlayerData or (ESX.PlayerData and ESX.PlayerData.job and ESX.PlayerData.job.name ~= "import") then
         return
     end
 
@@ -647,15 +679,17 @@ ESX.RegisterInput("import:interact", "(BPT ImportJob) " .. TranslateCap("interac
             CurrentActionData = {}
         end, { wash = false })
     end
-    if CurrentAction == "remove_entity" then
+
+    if CurrentAction == "remove_entity" and CurrentActionData and CurrentActionData.entity then
         DeleteEntity(CurrentActionData.entity)
     end
 
     CurrentAction = nil
 end)
 
+-- Register quick actions (F6)
 ESX.RegisterInput("import:quickactions", "(BPT ImportJob) " .. TranslateCap("quick_actions"), "keyboard", "F6", function()
-    if not ESX.PlayerData.job or (ESX.PlayerData.job.name ~= "import") or isDead then
+    if not ESX.PlayerData or (ESX.PlayerData.job and ESX.PlayerData.job.name ~= "import") or isDead then
         return
     end
 
@@ -668,6 +702,7 @@ ESX.RegisterInput("import:quickactions", "(BPT ImportJob) " .. TranslateCap("qui
     end
 end)
 
+-- Show CurrentAction help
 CreateThread(function()
     while true do
         local Sleep = 1000
@@ -680,24 +715,7 @@ CreateThread(function()
     end
 end)
 
--- Create blip for colleagues
-function CreateBlip(id)
-    local ped = GetPlayerPed(id)
-    local blip = GetBlipFromEntity(ped)
-
-    if not DoesBlipExist(blip) then -- Add blip and create head display on player
-        blip = AddBlipForEntity(ped)
-        SetBlipSprite(blip, 1)
-        ShowHeadingIndicatorOnBlip(blip, true) -- Player Blip indicator
-        SetBlipRotation(blip, math.ceil(GetEntityHeading(ped))) -- update rotation
-        SetBlipNameToPlayerName(blip, id) -- update blip name
-        SetBlipScale(blip, 0.85) -- set scale
-        SetBlipAsShortRange(blip, true)
-
-        table.insert(blipsCops, blip) -- add blip to array so we can remove it later
-    end
-end
-
+-- Spawn / death handlers
 AddEventHandler("esx:onPlayerSpawn", function(spawn)
     isDead = false
     TriggerEvent("bpt_importjob:unrestrain")
@@ -712,6 +730,7 @@ AddEventHandler("esx:onPlayerDeath", function(data)
     isDead = true
 end)
 
+-- Resource stop cleanup
 AddEventHandler("onResourceStop", function(resource)
     if resource == GetCurrentResourceName() then
         TriggerEvent("bpt_importjob:unrestrain")
@@ -726,7 +745,7 @@ AddEventHandler("onResourceStop", function(resource)
     end
 end)
 
--- handcuff timer, unrestrain the player after an certain amount of time
+-- Handcuff timer
 function StartHandcuffTimer()
     if Config.EnableHandcuffTimer and handcuffTimer.active then
         ESX.ClearTimeout(handcuffTimer.task)
@@ -740,3 +759,45 @@ function StartHandcuffTimer()
         handcuffTimer.active = false
     end)
 end
+
+-- Hijack logic
+RegisterNetEvent("bpt_importjob:onHijack")
+AddEventHandler("bpt_importjob:onHijack", function()
+    local playerPed = PlayerPedId()
+    local coords = GetEntityCoords(playerPed)
+
+    if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 5.0) then
+        local vehicle
+
+        if IsPedInAnyVehicle(playerPed, false) then
+            vehicle = GetVehiclePedIsIn(playerPed, false)
+        else
+            vehicle = ESX.Game.GetClosestVehicle(coords)
+        end
+
+        local chance = math.random(100)
+        local alarm = math.random(100)
+
+        if DoesEntityExist(vehicle) then
+            if alarm <= 33 then
+                SetVehicleAlarm(vehicle, true)
+                StartVehicleAlarm(vehicle)
+            end
+
+            TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_WELDING", 0, true)
+
+            CreateThread(function()
+                Wait(10000)
+                if chance <= 66 then
+                    SetVehicleDoorsLocked(vehicle, 1)
+                    SetVehicleDoorsLockedForAllPlayers(vehicle, false)
+                    ClearPedTasksImmediately(playerPed)
+                    ESX.ShowNotification(TranslateCap("veh_unlocked"))
+                else
+                    ESX.ShowNotification(TranslateCap("hijack_failed"))
+                    ClearPedTasksImmediately(playerPed)
+                end
+            end)
+        end
+    end
+end)
