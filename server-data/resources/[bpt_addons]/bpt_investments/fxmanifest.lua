@@ -4,7 +4,8 @@ game("gta5")
 
 author("bitpredator")
 description("Sistema Investimenti in Borsa per ESX + ox_lib + ox_target")
-version("1.0.9")
+version("2.0.0")
+lua54("yes")
 
 client_scripts({
     "client/*.lua",
@@ -18,7 +19,6 @@ server_scripts({
 shared_scripts({
     "@es_extended/imports.lua",
     "@ox_lib/init.lua",
-    "@ox_target/init.lua",
 })
 
 dependencies({
