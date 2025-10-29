@@ -1,84 +1,73 @@
 $(document).ready(function() {
-	// LUA listener
+
 	window.addEventListener('message', function(event) {
-		if (event.data.action == 'open') {
-			const type = event.data.type;
-			const userData = event.data.array['user'][0];
-			const licenseData = event.data.array['licenses'];
-			const sex = userData.sex;
+		const data = event.data;
 
-			if (type == 'driver' || type == null) {
-				$('img').show();
-				$('#name').css('color', '#282828');
+		if (data.action === 'open') {
+			const type = data.type || 'idcard';
+			const userData = data.array;
+			const licenses = userData.licenses || [];
+			const sex = (userData.sex || 'm').toLowerCase();
 
-				if (sex.toLowerCase() == 'm') {
-					$('img').attr('src', 'assets/images/male.png');
-					$('#sex').text('male');
-				}
-				else {
-					$('img').attr('src', 'assets/images/female.png');
-					$('#sex').text('female');
-				}
-
-				$('#name').text(userData.firstname + ' ' + userData.lastname);
-				$('#dob').text(userData.dateofbirth);
-				$('#height').text(userData.height);
-				$('#signature').text(userData.firstname + ' ' + userData.lastname);
-
-				if (type == 'driver') {
-					if (licenseData != null) {
-						Object.keys(licenseData).forEach(function(key) {
-							// eslint-disable-next-line no-shadow
-							let type = licenseData[key].type;
-
-							if (type == 'drive_bike') {
-								type = 'bike';
-							}
-							else if (type == 'drive_truck') {
-								type = 'truck';
-							}
-							else if (type == 'drive') {
-								type = 'car';
-							}
-
-							if (type == 'bike') {
-								$('#licenses').append('<p>' + 'Bike' + '</p>');
-							}
-							else if (type == 'truck') {
-								$('#licenses').append('<p>' + 'Truck' + '</p>');
-							}
-							else if (type == 'car') {
-								$('#licenses').append('<p>' + 'Car' + '</p>');
-							}
-						});
-					}
-
-					$('#id-card').css('background', 'url(assets/images/license.png)');
-				}
-				else {
-					$('#id-card').css('background', 'url(assets/images/idcard.png)');
-				}
-			}
-			else if (type == 'weapon') {
-				$('img').hide();
+			// Immagine e colore
+			if (type === 'weapon') {
+				$('#photo').hide();
 				$('#name').css('color', '#d9d9d9');
-				$('#name').text(userData.firstname + ' ' + userData.lastname);
-				$('#dob').text(userData.dateofbirth);
-				$('#signature').text(userData.firstname + ' ' + userData.lastname);
-
-				$('#id-card').css('background', 'url(assets/images/firearm.png)');
+			}
+			else {
+				$('#photo').show();
+				$('#name').css('color', '#282828');
+				$('#photo').attr('src', sex === 'm' ? 'assets/images/male.png' : 'assets/images/female.png');
+				$('#sex').text(sex === 'm' ? 'Maschio' : 'Femmina');
 			}
 
-			$('#id-card').show();
-		}
-		else if (event.data.action == 'close') {
-			$('#name').text('');
-			$('#dob').text('');
-			$('#height').text('');
-			$('#signature').text('');
-			$('#sex').text('');
-			$('#id-card').hide();
+			// Campi base
+			$('#name').text(`${userData.firstname || ''} ${userData.lastname || ''}`);
+			$('#dob').text(userData.dateofbirth || '');
+			$('#height').text(userData.height ? `${userData.height} cm` : '');
+			$('#signature').text(`${userData.firstname || ''} ${userData.lastname || ''}`);
+
+			// Licenze
 			$('#licenses').html('');
+			if (type === 'driver' && licenses.length > 0) {
+				licenses.forEach(l => {
+					let label = '';
+					switch (l.type) {
+					case 'drive': label = 'Car'; break;
+					case 'drive_bike': label = 'Bike'; break;
+					case 'drive_truck': label = 'Truck'; break;
+					case 'weapon': label = 'Weapon'; break;
+					default: label = l.type; break;
+					}
+					$('#licenses').append(`<p>${label}</p>`);
+				});
+			}
+
+			// Sfondo carta
+			if (type === 'driver') $('#id-card').css('background', 'url(assets/images/license.png)');
+			else if (type === 'weapon') $('#id-card').css('background', 'url(assets/images/firearm.png)');
+			else $('#id-card').css('background', 'url(assets/images/idcard.png)');
+
+			$('#id-card').fadeIn(200);
+
+		}
+		else if (data.action === 'close') {
+			// Reset completo
+			$('#photo').show().attr('src', 'assets/images/male.png');
+			$('#name, #dob, #height, #signature, #sex').text('');
+			$('#licenses').html('');
+			$('#id-card').fadeOut(150);
+
+			// Chiamata al client per togliere focus
+			fetch(`https://${GetParentResourceName()}/closeNUI`, { method: 'POST' });
+		}
+	});
+
+	// ESC / BACKSPACE chiude la carta
+	document.addEventListener('keyup', function(e) {
+		if (e.key === 'Escape' || e.key === 'Backspace') {
+			$('#id-card').fadeOut(150);
+			fetch(`https://${GetParentResourceName()}/closeNUI`, { method: 'POST' });
 		}
 	});
 });

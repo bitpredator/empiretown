@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
     <head>
         <meta charset="utf-8">
+        <title>ID Card - Skull Network Italia</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="assets/css/materialize.min.css">
         <link rel="stylesheet" href="assets/css/style.css">
@@ -9,19 +10,69 @@
 
     <body>
         <div id="id-card">
-            <img src="assets/images/male.png"/>
+            <img id="photo" src="assets/images/male.png" alt="Foto documento" />
             <p id="name"></p>
+
             <div id="inline">
                 <p id="dob"></p>
                 <p id="sex"></p>
                 <p id="height"></p>
             </div>
-            <div id="licenses"></div>
 
+            <div id="licenses"></div>
             <p id="signature"></p>
         </div>
+
         <script src="assets/js/jquery.js" type="text/javascript"></script>
         <script src="assets/js/materialize.js" type="text/javascript"></script>
-        <script src="assets/js/init.js" type="text/javascript"></script>
+        <script>
+            window.addEventListener('message', function(event) {
+                const data = event.data;
+
+                if (data.action === "open") {
+                    const user = data.array;
+                    const type = data.type || "idcard";
+
+                    // Mostra carta
+                    $("#id-card").fadeIn(200);
+
+                    // Sesso → immagine
+                    if (user.sex && user.sex.toLowerCase() === "m") {
+                        $("#photo").attr("src", "assets/images/male.png");
+                    } else {
+                        $("#photo").attr("src", "assets/images/female.png");
+                    }
+
+                    // Campi base
+                    $("#name").text(`${user.firstname || "N/D"} ${user.lastname || ""}`);
+                    $("#dob").text(`${user.dateofbirth || "N/D"}`);
+                    $("#sex").text(`${user.sex === "m" ? "M" : "F"}`);
+                    $("#height").text(`${user.height || "N/D"}cm`);
+                    $("#signature").text(`${user.firstname || ""} ${user.lastname || ""}`);
+
+                    // Licenze
+                    let licensesText = "";
+                    if (user.licenses && user.licenses.length > 0) {
+                        const types = user.licenses.map(l => l.type);
+                        licensesText = types.join(", ").toUpperCase();
+                    } else {
+                        licensesText = "";
+                    }
+                    $("#licenses").text(licensesText);
+                }
+
+                if (data.action === "close") {
+                    $("#id-card").fadeOut(150);
+                }
+            });
+
+            // ESC o BACKSPACE per chiudere la carta
+            document.addEventListener('keyup', (e) => {
+                if (e.key === "Escape" || e.key === "Backspace") {
+                    $("#id-card").fadeOut(150);
+                    fetch(`https://${GetParentResourceName()}/closeNUI`, { method: 'POST' });
+                }
+            });
+        </script>
     </body>
 </html>

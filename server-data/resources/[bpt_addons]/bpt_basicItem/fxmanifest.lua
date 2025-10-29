@@ -3,7 +3,7 @@ game("gta5")
 
 description("fivem basic Item")
 author("bitpredator")
-version("2.0.0")
+version("2.0.1")
 lua54("yes")
 
 shared_scripts({
@@ -23,4 +23,7 @@ server_scripts({
     "config.lua",
 })
 
-dependency("bpt_idcard")
+dependency({
+    "bpt_idcard",
+    "ox_inventory",
+})

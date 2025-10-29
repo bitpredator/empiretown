@@ -1,16 +1,23 @@
-ESX = exports["es_extended"]:getSharedObject()
+local ESX = exports["es_extended"]:getSharedObject()
 
-ESX.RegisterUsableItem("idcard", function(source)
-    local _source = source
-    TriggerClientEvent("IDCARD:USE", _source)
-end)
+-- Funzione helper per registrare item compatibili ESX + OX
+local function registerUsableCard(itemName, clientEvent)
+    -- Registrazione per OX Inventory (nuovo metodo)
+    TriggerEvent("ox_inventory:registerUsableItem", itemName, function(source)
+        TriggerClientEvent(clientEvent, source)
+    end)
+    print(("[bpt_idcard] ✅ Registrato item '%s' per OX Inventory"):format(itemName))
 
-ESX.RegisterUsableItem("dmvcard", function(source)
-    local _source = source
-    TriggerClientEvent("DMVCARD:USE", _source)
-end)
+    -- Registrazione fallback per ESX
+    if ESX and ESX.RegisterUsableItem then
+        ESX.RegisterUsableItem(itemName, function(source)
+            TriggerClientEvent(clientEvent, source)
+        end)
+        print(("[bpt_idcard] ✅ Registrato item '%s' per ESX"):format(itemName))
+    end
+end
 
-ESX.RegisterUsableItem("licensecard", function(source)
-    local _source = source
-    TriggerClientEvent("weapon:USE", _source)
-end)
+-- 📄 Registrazione carte
+registerUsableCard("idcard", "bpt_idcard:useID")
+registerUsableCard("dmvcard", "bpt_idcard:useDMV")
+registerUsableCard("licensecard", "bpt_idcard:useWeapon")
