@@ -1,6 +1,8 @@
 UIResText = setmetatable({}, UIResText)
 UIResText.__index = UIResText
-UIResText.__call = function() return "Text" end
+UIResText.__call = function()
+    return "Text"
+end
 
 function GetCharacterCount(str)
     local characters = 0
@@ -17,7 +19,7 @@ function GetByteCount(str)
     local bytes = 0
 
     for c in str:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
-        local a,b,c,d = c:byte(1, -1)
+        local a, b, c, d = c:byte(1, -1)
         if a ~= nil then
             bytes = bytes + 1
         end
@@ -61,7 +63,7 @@ function AddLongStringForUtf8(str)
         end
     end
     AddTextComponentSubstringPlayerName(string.sub(str, startIndex, GetCharacterCount(str) - startIndex))
-end 
+end
 
 function AddLongString(str)
     local bytecount = GetByteCount(str)
@@ -85,19 +87,19 @@ function MeasureStringWidth(str, font, scale)
 end
 
 function UIResText.New(Text, X, Y, Scale, R, G, B, A, Font, Alignment, DropShadow, Outline, WordWrap)
-	local _UIResText = {
+    local _UIResText = {
         _Text = tostring(Text) or "",
         X = tonumber(X) or 0,
         Y = tonumber(Y) or 0,
         Scale = tonumber(Scale) or 0,
-        _Colour = {R = tonumber(R) or 255, G = tonumber(G) or 255, B = tonumber(B) or 255, A = tonumber(A) or 255},
+        _Colour = { R = tonumber(R) or 255, G = tonumber(G) or 255, B = tonumber(B) or 255, A = tonumber(A) or 255 },
         Font = tonumber(Font) or 0,
         Alignment = Alignment or nil,
         DropShadow = Dropshadow or nil,
         Outline = Outline or nil,
         WordWrap = tonumber(WordWrap) or 0,
     }
-	return setmetatable(_UIResText, UIResText)
+    return setmetatable(_UIResText, UIResText)
 end
 
 function UIResText:Position(X, Y)
@@ -105,7 +107,7 @@ function UIResText:Position(X, Y)
         self.X = tonumber(X)
         self.Y = tonumber(Y)
     else
-        return {X = self.X, Y = self.Y}
+        return { X = self.X, Y = self.Y }
     end
 end
 
